@@ -1,5 +1,19 @@
 # DuneCity Tornie Edition Release Notes
 
+## 1.0.522 - 2026-07-16
+
+### Tornie campaigns
+
+- Rebalanced all eight campaigns with faction-appropriate enemy units and moderate Super Dune II-style progression.
+- Expanded enemy bases with coherent faction-specific structures where scenarios safely allowed it.
+- Corrected regional opponent assignments and campaign tables for Atreides, Fremen, and Neutral.
+- Kept Barracks for campaign level 2 and used WOR in enemy bases for levels 3 through 9.
+- Unlocked the Sardaukar Light Factory at tech level 2 and the Ordos Siege Tank at tech level 6.
+
+### Custom games
+
+- Fixed invisible custom-game players by limiting loaded, saved, and counted player slots to the visible house rows.
+
 ## Version 1.0.521
 
 - Corrected and synchronized campaign region maps for all eight Houses, including proper faction routing and French map text keys.

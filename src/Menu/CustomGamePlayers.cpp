@@ -190,7 +190,11 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
         gameInitSettings.setMultiplePlayersPerHouse(tmpGameInitSettings.isMultiplePlayersPerHouse());
 
         // adjust numHouses to the actually used houses (which might be smaller than the houses on the map)
-        numHouses = houseInfoListSetup.size();
+        numHouses = static_cast<int>(houseInfoListSetup.size());
+        if(numHouses > NUM_HOUSES) {
+            SDL_Log("CustomGamePlayers: save contains %d houses; limiting lobby to %d.", numHouses, NUM_HOUSES);
+            numHouses = NUM_HOUSES;
+        }
     } else {
         INIFile inimap(gameInitSettings.getFilename());
         extractMapInfo(&inimap);
@@ -1205,7 +1209,7 @@ void CustomGamePlayers::onNext()
     bool bDuplicateHouse = false;
     bool bDuplicateColor = false;
 
-    for(int i=0;i<NUM_HOUSES;i++) {
+    for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
         int currentPlayer1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
@@ -1329,7 +1333,9 @@ void CustomGamePlayers::addAllPlayersToGameInitSettings()
 {
     gameInitSettings.clearHouseInfo();
 
-    for(int i=0;i<NUM_HOUSES;i++) {
+    // Only serialize rows that are visible for this map. Hidden rows must
+    // never become players, even if a stale network selection reaches them.
+    for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
         int houseID = curHouseInfo.houseDropDown.getSelectedEntryIntData();
@@ -1487,11 +1493,17 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
         }
     }
 
-    numHouses = boundHousesOnMap.size();
+    int detectedHouses = static_cast<int>(boundHousesOnMap.size());
     for(int p = 1; p <= NUM_HOUSES; p++) {
         if(pMap->hasSection("Player" + std::to_string(p))) {
-            numHouses++;
+            detectedHouses++;
         }
+    }
+
+    numHouses = detectedHouses;
+    if(numHouses > NUM_HOUSES) {
+        SDL_Log("CustomGamePlayers: map declares %d player sections; limiting lobby to %d.", numHouses, NUM_HOUSES);
+        numHouses = NUM_HOUSES;
     }
 
     mapPropertyPlayers.setText(std::to_string(numHouses));
@@ -1925,11 +1937,13 @@ void CustomGamePlayers::checkPlayerBoxes() {
         int player1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
         int player2 = curHouseInfo.player2DropDown.getSelectedEntryIntData();
 
-        if(player1 != PLAYER_OPEN) {
+        if(player1 != PLAYER_OPEN && player1 != PLAYER_CLOSED) {
             numPlayers++;
         }
 
-        if(gameInitSettings.isMultiplePlayersPerHouse() && player2 != PLAYER_OPEN) {
+        if(gameInitSettings.isMultiplePlayersPerHouse()
+           && player2 != PLAYER_OPEN
+           && player2 != PLAYER_CLOSED) {
             numPlayers++;
         }
 
