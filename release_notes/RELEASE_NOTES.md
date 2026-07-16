@@ -1,5 +1,15 @@
 # DuneCity Tornie Edition Release Notes
 
+## Version 1.0.521
+
+- Corrected and synchronized campaign region maps for all eight Houses, including proper faction routing and French map text keys.
+- Rebalanced Sardaukar mission 1 and diversified Mercenary mission 1 without changing starting credits.
+- Replaced the Mercenary starting Deviator with a Devastator.
+- Corrected House IX special-unit unlock pairs in Tornie ObjectData.
+- Fixed invisible or extra players in custom-game setup and map loading.
+- Updated Sonic Trike and Rocket Trike masks with strict red-only House recoloring while preserving green, brown, gold, and lighting details.
+- Fixed RGBA Rocket Trike mask loading and removed the black-background fallback.
+
 ## Version 1.0.520
 
 - `Unit_Special` scenario entries now choose randomly from every enabled vehicle in the selected House pool when more than one result is available.
@@ -21,7 +31,7 @@
 
 ## Dune Legacy 0.99.5
 
-**Release Date:** December 21, 2025  
+**Release Date:** December 21, 2025
 **Download:** [Windows Installer](https://dunelegacy.sourceforge.net/downloads/)
 
 ---
@@ -162,7 +172,7 @@ The game now automatically handles NAT traversal using hole punching technology.
 - Edit mod display name and version number
 - Shows file paths for manual editing of:
   - `ObjectData.ini` - Unit/structure stats
-  - `QuantBot Config.ini` - AI behavior settings  
+  - `QuantBot Config.ini` - AI behavior settings
   - `GameOptions.ini` - Game rules
 - Automatic file seeding from vanilla templates
 
@@ -289,7 +299,7 @@ mods/
 
 **Rebalanced for Better Progression:**
 - **Easy:** 30% attack force (up from 25%), 2.0x military, 1 harvester/refinery
-- **Medium:** 40% attack force, 2.5x military (up from 2.0x), 2 harvesters/refinery  
+- **Medium:** 40% attack force, 2.5x military (up from 2.0x), 2 harvesters/refinery
 - **Hard:** 60% attack force (up from 50%), 3.0x military (up from 2.5x), 2.5 harvesters/refinery, 2 refineries minimum
 - **Brutal:** 80% attack force (up from 50%), 3.5x military, map-size-based harvester limits, 4 refineries minimum
 
@@ -445,7 +455,7 @@ mods/
   - Units in destroyed Carryalls drop safely instead of dying
   - Ground units survive being crushed
 
-**Why "muaddib"?** 
+**Why "muaddib"?**
 Named after Paul Atreides' Fremen name from the Dune universe - a fitting god-mode reference!
 
 ---

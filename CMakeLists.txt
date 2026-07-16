@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Project name and version
-project(DuneCity VERSION 1.0.520 LANGUAGES C CXX)
+project(DuneCity VERSION 1.0.521 LANGUAGES C CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -35,7 +35,7 @@ else()
     # Check if compiler supports C++17
     include(CheckCXXCompilerFlag)
     check_cxx_compiler_flag("-std=c++17" COMPILER_SUPPORTS_CXX17)
-    
+
     if(COMPILER_SUPPORTS_CXX17)
         set(CMAKE_CXX_STANDARD 17)
     else()
@@ -65,20 +65,20 @@ find_package(CURL REQUIRED)
 if(WIN32)
     # Windows-specific settings
     set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-    
+
     # Check for Visual Studio
     if(MSVC)
         # Set Visual Studio specific options
         set(CMAKE_VS_WINDOWS_TARGET_PLATFORM_VERSION "10.0")
         set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE "x64")
-        
+
         # Runtime library settings
         if(DUNECITY_STATIC_RUNTIME)
             set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
         else()
             set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
         endif()
-        
+
         # Precompiled header settings
         if(DUNECITY_ENABLE_PCH)
             set(PCH_SOURCE "${CMAKE_SOURCE_DIR}/IDE/VC/stdafx.cpp")
@@ -137,7 +137,7 @@ if(NOT APPLE)
         "${CMAKE_BINARY_DIR}/bin/data/"
         COMMENT "Copying data files to bin/data directory"
     )
-    
+
     # Add dependency to ensure data files are copied after main target is built
     add_dependencies(copy_data dunecity)
 endif()
@@ -173,7 +173,7 @@ if(NOT APPLE)
     if(WIN32 AND EXISTS "${VS_OUTPUT_DIR}/config")
         # Config files will be installed from VS output directory to root (see src/CMakeLists.txt)
     else()
-        install(FILES 
+        install(FILES
             config/ObjectData.ini.default
             "config/QuantBot Config.ini.default"
             "config/Dune City.ini"
@@ -245,7 +245,7 @@ if(WIN32)
     set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-Windows-x64")
     set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
     set(CPACK_NSIS_MUI_FINISHPAGE_RUN "dunecity.exe")
-    
+
     # Add checkbox to view release notes on finish page
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
         WriteRegStr HKLM \\\"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\App Paths\\\\dunecity.exe\\\" \\\"\\\" \\\"$INSTDIR\\\\dunecity.exe\\\"
@@ -254,14 +254,14 @@ if(WIN32)
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
         DeleteRegKey HKLM \\\"Software\\\\Microsoft\\\\Windows\\\\CurrentVersion\\\\App Paths\\\\dunecity.exe\\\"
     ")
-    
+
     # Custom NSIS code for release notes checkbox on finish page
     set(CPACK_NSIS_DEFINES "
         !define MUI_FINISHPAGE_SHOWREADME \\\"$INSTDIR\\\\Release_Notes.md\\\"
         !define MUI_FINISHPAGE_SHOWREADME_TEXT \\\"View Release Notes\\\"
         !define MUI_FINISHPAGE_SHOWREADME_NOTCHECKED
     ")
-    
+
     # Create Start Menu shortcuts
     set(CPACK_NSIS_CREATE_ICONS_EXTRA "
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Dune City.lnk\\\" \\\"$INSTDIR\\\\dunecity.exe\\\"
@@ -273,7 +273,7 @@ if(WIN32)
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Release Notes.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Readme.lnk\\\"
     ")
-    
+
     # Add custom target for Windows installer
     add_custom_target(installer
         COMMAND ${CMAKE_COMMAND} -E echo "Cleaning CPack cache and install directory..."
@@ -297,15 +297,15 @@ elseif(APPLE)
     set(CPACK_DMG_FORMAT "UDZO")  # Compressed
     set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-macOS")
     set(MACOSX_BUNDLE_ICON_FILE "dunecity.icns")
-    
+
     # Install README and release notes to DMG root (not inside .app)
     install(FILES README DESTINATION . COMPONENT Runtime)
-    install(FILES "release_notes/RELEASE_NOTES.md" 
-            DESTINATION . 
+    install(FILES "release_notes/RELEASE_NOTES.md"
+            DESTINATION .
             RENAME "Release Notes.md"
             COMPONENT Runtime
             OPTIONAL)
-    
+
     # Optional: Add custom DMG background and layout if files exist
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/dmg_background.png")
         set(CPACK_DMG_BACKGROUND_IMAGE "${CMAKE_CURRENT_SOURCE_DIR}/packaging/dmg_background.png")
@@ -313,7 +313,7 @@ elseif(APPLE)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/DMGSetup.scpt")
         set(CPACK_DMG_DS_STORE_SETUP_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/packaging/DMGSetup.scpt")
     endif()
-    
+
     # Add custom target for DMG creation
     # NOTE: We bypass CPack entirely due to persistent caching issues where old binaries
     # would get packaged even after fresh builds. This manual approach uses hdiutil directly.
@@ -349,7 +349,7 @@ else()
     set(CPACK_RPM_PACKAGE_LICENSE "GPL-2.0+")
     set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
     set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-Linux-x64")
-    
+
     # Add custom target for Linux packages. CMake reserves the target
     # name "package" when CPack is enabled (newer CMake versions error
     # out at configure time), so use "linux-packages" instead. Update
@@ -372,4 +372,4 @@ else()
     )
 endif()
 
-include(CPack) 
+include(CPack)

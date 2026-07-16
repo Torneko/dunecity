@@ -164,6 +164,7 @@ static sdl2::surface_ptr remapIndexedSurfaceToPalette(SDL_Surface* source, const
 static sdl2::surface_ptr convertTruecolorSurfaceToPalette(SDL_Surface* source, const SDL_Palette* targetPalette);
 static void normalizeHouseColorRangesToHarkonnen(SDL_Surface* surface);
 static void normalizeHarkonnenTeamRed(SDL_Surface* surface);
+static void normalizeTrikeHarkonnenTeamRed(SDL_Surface* surface);
 static void normalizeLooseTeamPaintToHarkonnen(SDL_Surface* surface);
 static sdl2::surface_ptr createTintedTerrainSpiceSurface(SDL_Surface* source, SDL_Color thinTint, SDL_Color thickTint);
 static sdl2::surface_ptr createTintedMapEditorIcon(SDL_Surface* source, SDL_Surface* sand, SDL_Color tint);
@@ -1699,6 +1700,15 @@ GFXManager::GFXManager() {
         try {
             if(pFileManager->exists("RocketTrikeMask.png")) {
                 auto rtMask = LoadPNG_RW(pFileManager->openFile("RocketTrikeMask.png").get());
+                if(rtMask
+                   && (rtMask->format->BitsPerPixel != 8 || !rtMask->format->palette)
+                   && ibmPaletteLoaded) {
+                    if(auto converted = convertTruecolorSurfaceToPalette(rtMask.get(), ibmPalette.getSDLPalette())) {
+                        rtMask = std::move(converted);
+                        SDL_Log("GFXManager: Converted RocketTrikeMask.png from RGBA to the indexed game palette");
+                    }
+                }
+
                 if(rtMask && rtMask->format->BitsPerPixel == 8 && rtMask->format->palette) {
                     preserveOpaqueBlackIndex(rtMask.get());
                     normalizeTransparentPaletteIndexes(rtMask.get());
@@ -1716,8 +1726,9 @@ GFXManager::GFXManager() {
                         }
                         normalizeTransparentPaletteIndexes(rtMask.get());
                     }
-                    normalizeHouseColorRangesToHarkonnen(rtMask.get());
-                    normalizeHarkonnenTeamRed(rtMask.get());
+                    // Only pure Harkonnen reds are team-colour pixels.
+                    // Browns, golds, exhaust and lights stay fixed.
+                    normalizeTrikeHarkonnenTeamRed(rtMask.get());
                     objPic[ObjPic_RocketTrike][HOUSE_HARKONNEN][0] = std::move(rtMask);
                     usedPaletteIndexed = true;
                     SDL_Log("GFXManager: Loaded RocketTrikeMask.png (palette-indexed, per-house remap)");
@@ -1735,8 +1746,7 @@ GFXManager::GFXManager() {
                     }
                     if(rtSurf) {
                         normalizeTransparentPaletteIndexes(rtSurf.get());
-                        normalizeHouseColorRangesToHarkonnen(rtSurf.get());
-                        normalizeHarkonnenTeamRed(rtSurf.get());
+                        normalizeTrikeHarkonnenTeamRed(rtSurf.get());
                         objPic[ObjPic_RocketTrike][HOUSE_HARKONNEN][0] = std::move(rtSurf);
                         objPic[ObjPic_RocketTrike][HOUSE_HARKONNEN][1] =
                             scaleSurfaceNearest(objPic[ObjPic_RocketTrike][HOUSE_HARKONNEN][0].get(), 2);
@@ -1775,8 +1785,9 @@ GFXManager::GFXManager() {
                         }
                         normalizeTransparentPaletteIndexes(stMask.get());
                     }
-                    normalizeHouseColorRangesToHarkonnen(stMask.get());
-                    normalizeHarkonnenTeamRed(stMask.get());
+                    // Only pure Harkonnen reds are team-colour pixels.
+                    // The green sonic emitter is fixed artwork and must stay green.
+                    normalizeTrikeHarkonnenTeamRed(stMask.get());
                     objPic[ObjPic_SonicTrike][HOUSE_HARKONNEN][0] = std::move(stMask);
                     usedPaletteIndexed = true;
                     SDL_Log("GFXManager: Loaded SonicTrikeMask.png (palette-indexed, per-house remap)");
@@ -1794,8 +1805,8 @@ GFXManager::GFXManager() {
                     }
                     if(stSurf) {
                         normalizeTransparentPaletteIndexes(stSurf.get());
-                        normalizeHouseColorRangesToHarkonnen(stSurf.get());
-                        normalizeHarkonnenTeamRed(stSurf.get());
+                        // Preserve the green sonic emitter; remap only pure Harkonnen red.
+                        normalizeTrikeHarkonnenTeamRed(stSurf.get());
 
                         objPic[ObjPic_SonicTrike][HOUSE_HARKONNEN][0] = std::move(stSurf);
                         objPic[ObjPic_SonicTrike][HOUSE_HARKONNEN][1] =
@@ -3984,6 +3995,49 @@ static void normalizeHarkonnenTeamRed(SDL_Surface* surface) {
             } else if(brightness >= 150) {
                 shade = 4;
             } else if(brightness >= 120) {
+                shade = 3;
+            }
+            index = static_cast<Uint8>(PALCOLOR_HARKONNEN + shade);
+        }
+    }
+}
+
+static void normalizeTrikeHarkonnenTeamRed(SDL_Surface* surface) {
+    if(!surface || !surface->format || !surface->format->palette || surface->format->BytesPerPixel != 1) {
+        return;
+    }
+
+    SDL_Palette* palette = surface->format->palette;
+    sdl2::surface_lock lock{ surface };
+    for(int y = 0; y < surface->h; y++) {
+        Uint8* pixels = static_cast<Uint8*>(surface->pixels) + y * surface->pitch;
+        for(int x = 0; x < surface->w; x++) {
+            Uint8& index = pixels[x];
+            if(index == PALCOLOR_TRANSPARENT || index >= palette->ncolors) {
+                continue;
+            }
+
+            const SDL_Color color = palette->colors[index];
+            const int r = static_cast<int>(color.r);
+            const int g = static_cast<int>(color.g);
+            const int b = static_cast<int>(color.b);
+
+            // Trike masks use near-pure red for paint. Keep brown, rust,
+            // orange, yellow and the Sonic emitter outside the team ramp.
+            const bool pureRedTeamPaint =
+                r >= 48 && g <= 24 && b <= 24 && r >= g + 32 && r >= b + 32;
+            if(!pureRedTeamPaint) {
+                continue;
+            }
+
+            int shade = 2;
+            if(r >= 210) {
+                shade = 6;
+            } else if(r >= 180) {
+                shade = 5;
+            } else if(r >= 150) {
+                shade = 4;
+            } else if(r >= 120) {
                 shade = 3;
             }
             index = static_cast<Uint8>(PALCOLOR_HARKONNEN + shade);
