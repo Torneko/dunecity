@@ -41,6 +41,18 @@ def write_pak(path: Path, file_order, file_data):
             out.write(file_data[name])
 
 
+def is_campaign_file(name: str) -> bool:
+    upper = name.upper()
+    return upper.endswith(".INI") and (upper.startswith("REGION") or upper.startswith("SCEN"))
+
+
+def add_entry(file_order, file_data, file_path: Path):
+    name = file_path.name
+    if name not in file_data:
+        file_order.append(name)
+    file_data[name] = file_path.read_bytes()
+
+
 def main():
     if len(sys.argv) != 3:
         print("Usage: rebuild_tornie_pak.py <mods/Tornie/data> <output.pak>", file=sys.stderr)
@@ -48,7 +60,7 @@ def main():
 
     data_dir = Path(sys.argv[1])
     output = Path(sys.argv[2])
-    source_pak = data_dir / "Tornie.PAK"
+    campaign_dir = data_dir.parent / "campaign"
 
     # Rebuild from the current loose mod files.  Carrying the previous PAK
     # forward preserves stale entries and duplicates, and those can shadow fixed
@@ -57,14 +69,22 @@ def main():
     file_order = []
 
     for file_path in sorted(data_dir.iterdir(), key=lambda p: p.name.lower()):
-        if not file_path.is_file() or file_path.name.upper() == "TORNIE.PAK":
+        if not file_path.is_file() or file_path.name.upper() == "TORNIE.PAK" or is_campaign_file(file_path.name):
             continue
 
-        file_data[file_path.name] = file_path.read_bytes()
-        file_order.append(file_path.name)
+        add_entry(file_order, file_data, file_path)
+
+    campaign_count = 0
+    if campaign_dir.is_dir():
+        for file_path in sorted(campaign_dir.iterdir(), key=lambda p: p.name.lower()):
+            if not file_path.is_file():
+                continue
+
+            add_entry(file_order, file_data, file_path)
+            campaign_count += 1
 
     write_pak(output, file_order, file_data)
-    print(f"Wrote {output} with {len(file_order)} entries")
+    print(f"Wrote {output} with {len(file_order)} entries ({campaign_count} campaign entries)")
 
 
 if __name__ == "__main__":

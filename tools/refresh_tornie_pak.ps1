@@ -9,6 +9,8 @@ Add-Type -AssemblyName System.Drawing
 
 $dataDir = Join-Path $RepoRoot "data"
 $modDataDir = Join-Path $RepoRoot "mods\Tornie\data"
+$modDir = Split-Path -Parent $modDataDir
+$campaignDir = Join-Path $modDir "campaign"
 $sourcePak = Join-Path $modDataDir "Tornie.PAK"
 
 function Read-Pak {
@@ -87,6 +89,27 @@ function Write-Pak {
     } finally {
         $stream.Dispose()
     }
+}
+
+function Test-CampaignFileName {
+    param([string]$Name)
+
+    $upper = $Name.ToUpperInvariant()
+    return $upper.EndsWith(".INI") -and ($upper.StartsWith("REGION") -or $upper.StartsWith("SCEN"))
+}
+
+function Add-PakEntry {
+    param(
+        [System.Collections.Generic.List[string]]$Order,
+        [hashtable]$Data,
+        [System.IO.FileInfo]$File
+    )
+
+    if(-not $Data.ContainsKey($File.Name)) {
+        $Order.Add($File.Name)
+    }
+
+    $Data[$File.Name] = [System.IO.File]::ReadAllBytes($File.FullName)
 }
 
 function Convert-PalEntry {
@@ -188,7 +211,18 @@ if(-not $palettePak.Data.ContainsKey("IBM.PAL")) {
 }
 $palette = Get-IbmPalette $palettePak.Data
 
+# The engine expects a final eight-direction indexed atlas for ground units.
+# Keep the approved Sonic Trike reference as the runtime mask so it follows
+# the same proven loading path as RocketTrikeMask.png.
+$sonicTrikeReference = Join-Path $RepoRoot "mods\Tornie\source-sprites\vehicles\SonicTrike_reference.png"
+$sonicTrikeMask = Join-Path $modDataDir "SonicTrikeMask.png"
+if(Test-Path -LiteralPath $sonicTrikeReference) {
+    Copy-Item -LiteralPath $sonicTrikeReference -Destination $sonicTrikeMask -Force
+    Write-Host "Refreshed SonicTrikeMask.png"
+}
+
 $spritesToIndex = @(
+    "SonicTrikeMask.png",
     "Worfinery.png",
     "TechCenter.png",
     "Scoutpost.png",
@@ -218,8 +252,17 @@ Get-ChildItem -LiteralPath $modDataDir -File | Sort-Object Name | ForEach-Object
         return
     }
 
-    $fileData[$_.Name] = [System.IO.File]::ReadAllBytes($_.FullName)
-    $fileOrder.Add($_.Name)
+    if(Test-CampaignFileName $_.Name) {
+        return
+    }
+
+    Add-PakEntry $fileOrder $fileData $_
+}
+
+if(Test-Path -LiteralPath $campaignDir) {
+    Get-ChildItem -LiteralPath $campaignDir -File | Sort-Object Name | ForEach-Object {
+        Add-PakEntry $fileOrder $fileData $_
+    }
 }
 
 $tmpPak = Join-Path $modDataDir ".Tornie.PAK.tmp"

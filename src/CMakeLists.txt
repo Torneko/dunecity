@@ -293,6 +293,7 @@ target_sources(dunecity
         units/AmbientAirplane.cpp
         units/AmbientHelicopter.cpp
         units/RocketTrike.cpp
+        units/SonicTrike.cpp
         units/FlameTank.cpp
         units/EliteLauncher.cpp
         units/EliteSiegeTank.cpp

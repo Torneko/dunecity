@@ -26,6 +26,7 @@
 #include <Explosion.h>
 #include <SoundPlayer.h>
 #include <ScreenBorder.h>
+#include <mod/ModManager.h>
 
 #include <players/HumanPlayer.h>
 #include <players/QuantBot.h>
@@ -88,8 +89,10 @@ void RebelHarvester::init()
 
     graphicID = ObjPic_Harvester;
     graphic = pGFXManager->getObjPic(graphicID,getOwner()->getHouseID());
-    gunGraphicID = -1;
-    turretGraphic = {};
+    const bool tornieActive = ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Tornie";
+    gunGraphicID = tornieActive ? ObjPic_HarvestankGunTornie : -1;
+    turretGraphic = tornieActive ? pGFXManager->getObjPic(gunGraphicID, getOwner()->getHouseID()) : zoomable_texture{};
 
     numImagesX = NUM_ANGLES;
     numImagesY = 1;
@@ -119,6 +122,32 @@ void RebelHarvester::blitToScreen()
     SDL_Rect dest = calcSpriteDrawingRect( pUnitGraphic, x, y, numImagesX, 1, HAlign::Center, VAlign::Center);
 
     SDL_RenderCopy(renderer, pUnitGraphic, &source, &dest);
+
+    if(gunGraphicID >= 0 && turretGraphic[currentZoomlevel] != nullptr) {
+        static const Coord harvestankTurretOffset[] = {
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0),
+            Coord(0, 0)
+        };
+
+        SDL_Texture* pTurretGraphic = turretGraphic[currentZoomlevel];
+        SDL_Rect turretSource = calcSpriteSourceRect(pTurretGraphic, drawnAngle, NUM_ANGLES);
+        SDL_Rect turretDest = calcSpriteDrawingRect(
+            pTurretGraphic,
+            screenborder->world2screenX(realX + harvestankTurretOffset[drawnAngle].x),
+            screenborder->world2screenY(realY + harvestankTurretOffset[drawnAngle].y),
+            NUM_ANGLES,
+            1,
+            HAlign::Center,
+            VAlign::Center);
+
+        SDL_RenderCopy(renderer, pTurretGraphic, &turretSource, &turretDest);
+    }
 
     if(isHarvesting() == true) {
 

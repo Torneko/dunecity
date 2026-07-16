@@ -31,7 +31,8 @@ typedef enum {
     Bullet_SmallRocket = 8,
     Bullet_Sonic = 9,
     Bullet_Sandworm = 10,
-    Bullet_Flame = 11             ///< Tornie: launcher-like fire missile with flame area damage
+    Bullet_Flame = 11,            ///< Tornie: launcher-like fire missile with flame area damage
+    Bullet_SonicTrike = 12        ///< Tornie: shorter and weaker Sonic Trike wave
 } BulletID_enum;
 
 typedef enum {
@@ -46,7 +47,9 @@ typedef enum {
     Explosion_ShellLarge = 8,
     Explosion_SmallUnit = 9,
     Explosion_Flames = 10,
-    Explosion_SpiceBloom = 11
+    Explosion_SpiceBloom = 11,
+    Explosion_FlameImpact = 12,       ///< Tornie: damaging ground fire without the destroyed-vehicle opening frames
+    Explosion_FlameImpactVisual = 13 ///< Tornie: visual-only companion flames around the damaging impact
 } ExplosionID_enum;
 
 typedef enum {
@@ -138,7 +141,10 @@ typedef enum {
     Structure_AdvancedWindTrapMK3 = 61, ///< Tornie: Advanced Windtrap 3x2
     Structure_Scoutpost = 62,           ///< Tornie: small power/defense/recon post
 
-    ItemID_LastID = 62,
+    // Appended after every 1.0.517 object ID to preserve save compatibility.
+    Unit_SonicTrike = 63,               ///< Tornie: Rebels-only light sonic vehicle
+
+    ItemID_LastID = 63,
 
     Num_ItemID
 } ItemID_enum;
@@ -185,7 +191,7 @@ typedef enum {
     \param itemID   the ID of the item (e.g. Unit_Harvester)
     \return true if it is an unit, false otherwise
 */
-inline bool isUnit(int itemID) { return (itemID >= Unit_FirstID && itemID <= Unit_LastID) || (itemID >= Unit_AmbientAirplane && itemID <= Unit_ExtLastID) || itemID == Unit_RebelHarvester; }
+inline bool isUnit(int itemID) { return (itemID >= Unit_FirstID && itemID <= Unit_LastID) || (itemID >= Unit_AmbientAirplane && itemID <= Unit_ExtLastID) || itemID == Unit_RebelHarvester || itemID == Unit_SonicTrike; }
 
 /**
     This function determines if the specified itemID is a structure or not.

@@ -180,6 +180,13 @@ void StructureBase::blitToScreen() {
     int index = fogged ? lastVisibleFrame : curAnimFrame;
     int indexX = index % numImagesX;
     int indexY = index / numImagesX;
+
+    // Loading a map or switching mods invalidates GFXManager's texture cache.
+    // Structures keep raw texture pointers, so refresh them before every draw.
+    if(owner != nullptr) {
+        graphic = pGFXManager->getObjPic(graphicID, owner->getHouseID());
+    }
+
     SDL_Texture* structureTexture = graphic[currentZoomlevel];
     if(structureTexture == nullptr) {
         if(isTornieStructureForDiagnostics(itemID)) {

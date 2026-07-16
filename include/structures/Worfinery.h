@@ -19,8 +19,11 @@
 #define WORFINERY_H
 
 #include <structures/BuilderBase.h>
+#include <ObjectPointer.h>
 
 class TrackedUnit;
+class UnitBase;
+class Carryall;
 
 /// Worfinery (Tornie mod) — WOR + Refinery combo that produces Troopers
 /// instead of (or in addition to) Harvesters. Spawns infantry via the
@@ -42,15 +45,26 @@ public:
     ObjectInterface* getInterfaceContainer() override;
 
     bool acceptsHarvesterDropoff() const override { return true; }
-    bool isHarvesterDropoffFree() const override { return true; }
-    int getHarvesterDropoffBookings() const override { return 0; }
-    void bookHarvesterDropoff() override { }
-    void unbookHarvesterDropoff() override { }
-    void startHarvesterDropoffAnimation() override { }
+    bool isHarvesterDropoffFree() const override { return !extractingSpice; }
+    int getHarvesterDropoffBookings() const override { return bookings; }
+    void bookHarvesterDropoff() override { ++bookings; }
+    void unbookHarvesterDropoff() override;
+    void startHarvesterDropoffAnimation() override;
     bool receiveHarvester(TrackedUnit* unit) override;
+    void deployContainedHarvester(Carryall* carryall = nullptr) override;
+    UnitBase* getContainedHarvesterUnit() override { return harvester.getUnitPointer(); }
+    const UnitBase* getContainedHarvesterUnit() const override { return harvester.getUnitPointer(); }
 
 protected:
     void updateStructureSpecificStuff() override;
+
+private:
+    void showIdleFrame();
+    void showUnloadingFrame();
+
+    bool extractingSpice;
+    ObjectPointer harvester;
+    Uint32 bookings;
 };
 
 #endif // WORFINERY_H

@@ -41,6 +41,10 @@ MentatMenu::MentatMenu(int newHouse)
     SDL_Texture *pBackground;
     if(house == HOUSE_INVALID) {
         pBackground = pGFXManager->getUIGraphic(UI_MentatBackgroundBene);
+    } else if(house == HOUSE_ATREIDES
+              && ModManager::instance().isInitialized()
+              && ModManager::instance().getActiveModName() == "Tornie") {
+        pBackground = pGFXManager->getUIGraphic(UI_MentatBackgroundPaul, house);
     } else {
         pBackground = pGFXManager->getUIGraphic(UI_MentatBackground,house);
     }

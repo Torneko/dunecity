@@ -46,7 +46,7 @@ public:
     void save(OutputStream& stream) const;
 
     void createSandRegions();
-    void damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Uint32 bulletID, FixPoint damage, int damageRadius, bool air);
+    void damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Uint32 bulletID, FixPoint damage, int damageRadius, bool air, bool affectTerrain = true);
     static Coord getMapPos(int angle, const Coord& source);
     void removeObjectFromMap(Uint32 objectID);
     void spiceRemoved(const Coord& coord);

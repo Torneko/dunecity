@@ -16,6 +16,8 @@
  */
 
 #include <mod/ModManager.h>
+#include <FileClasses/GFXManager.h>
+#include <FileClasses/TextManager.h>
 #include <misc/fnkdat.h>
 #include <misc/FileSystem.h>
 #include <misc/exceptions.h>
@@ -135,6 +137,13 @@ bool ModManager::setActiveMod(const std::string& name) {
     activeMod = name;
     checksumsDirty = true;
     saveActiveMod();
+    if(pTextManager != nullptr) {
+        pTextManager->loadData();
+    }
+    if(pGFXManager != nullptr) {
+        pGFXManager->invalidateAllSpriteTextures();
+        pGFXManager->reloadModDependentUiGraphics();
+    }
     
     SDL_Log("ModManager: Activated mod '%s'", name.c_str());
     return true;

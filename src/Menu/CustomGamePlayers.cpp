@@ -71,7 +71,7 @@ const char* getCustomColorName(int colorSlot) {
         case HOUSECOLOR_CUSTOM_FUCHSIA:       return "Fuchsia";
         case HOUSECOLOR_CUSTOM_TEAL:          return "Teal";
         case HOUSECOLOR_CUSTOM_BRIGHT_YELLOW: return "Bright Yellow";
-        case HOUSECOLOR_CUSTOM_APPLE_GREEN:   return "Apple Green";
+        case HOUSECOLOR_CUSTOM_APPLE_GREEN:   return "Dark Green";
         case HOUSECOLOR_CUSTOM_LIGHT_PINK:    return "Light Pink";
         default:                              return "Custom";
     }
@@ -196,6 +196,14 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
         extractMapInfo(&inimap);
     }
 
+    // House and color uniqueness is enforced when starting a game. Keep the
+    // lobby consistent with that rule instead of exposing an unusable second
+    // player slot. Loaded multiplayer saves retain their recorded layout.
+    if(gameInitSettings.getGameType() == GameType::CustomGame
+       || gameInitSettings.getGameType() == GameType::CustomMultiplayer) {
+        gameInitSettings.setMultiplePlayersPerHouse(false);
+    }
+
     rightVBox.addWidget(VSpacer::create(10));
     rightVBox.addWidget(&mapPropertiesHBox, 0.01);
     mapPropertiesHBox.addWidget(&mapPropertyNamesVBox, 75);
@@ -245,6 +253,8 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
     }
 
     bool bLoadMultiplayer = (gameInitSettings.getGameType() == GameType::LoadMultiplayer);
+    const bool bBonusHouseColorsAvailable = bLoadMultiplayer
+        || ModManager::instance().getActiveModName() == "Tornie";
 
     buttonHBox.addWidget(Spacer::create(), 0.0625);
 
@@ -332,7 +342,8 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
             curHouseInfo.bonusColorCheckbox.setText(_("Bonus"));
             curHouseInfo.bonusColorCheckbox.setChecked(false);
             addColorDropDownEntries(curHouseInfo.colorDropDown, HOUSE_INVALID, false);
-            curHouseInfo.bonusColorCheckbox.setEnabled(bServer);
+            curHouseInfo.bonusColorCheckbox.setEnabled(bServer && bBonusHouseColorsAvailable);
+            curHouseInfo.bonusColorCheckbox.setVisible(bBonusHouseColorsAvailable);
             curHouseInfo.colorDropDown.setEnabled(bServer);
         }
         curHouseInfo.bonusColorCheckbox.setOnClick(std::bind(&CustomGamePlayers::onBonusColorCheckbox, this, i));
@@ -1200,7 +1211,8 @@ void CustomGamePlayers::onNext()
         int currentPlayer1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
         int currentPlayer2 = curHouseInfo.player2DropDown.getSelectedEntryIntData();
         const bool bPlayer1Active = (currentPlayer1 != PLAYER_OPEN && currentPlayer1 != PLAYER_CLOSED);
-        const bool bPlayer2Active = (currentPlayer2 != PLAYER_OPEN && currentPlayer2 != PLAYER_CLOSED);
+        const bool bPlayer2Active = gameInitSettings.isMultiplePlayersPerHouse()
+            && (currentPlayer2 != PLAYER_OPEN && currentPlayer2 != PLAYER_CLOSED);
 
         if(bPlayer1Active || bPlayer2Active) {
             numUsedHouses++;
@@ -1234,7 +1246,9 @@ void CustomGamePlayers::onNext()
                 int player1 = houseInfo[j].player1DropDown.getSelectedEntryIntData();
                 int player2 = houseInfo[j].player2DropDown.getSelectedEntryIntData();
 
-                if((player1 != PLAYER_OPEN && player1 != PLAYER_CLOSED) || (player2 != PLAYER_OPEN && player2 != PLAYER_CLOSED)) {
+                const bool bPreviousPlayer2Active = gameInitSettings.isMultiplePlayersPerHouse()
+                    && (player2 != PLAYER_OPEN && player2 != PLAYER_CLOSED);
+                if((player1 != PLAYER_OPEN && player1 != PLAYER_CLOSED) || bPreviousPlayer2Active) {
 
                     int team = houseInfo[j].teamDropDown.getSelectedEntryIntData();
                     if(currentTeam == team) {
@@ -1334,7 +1348,9 @@ void CustomGamePlayers::addAllPlayersToGameInitSettings()
 
         bool bAdded = false;
         bAdded |= addPlayerToHouseInfo(newHouseInfo, player1, player1name);
-        bAdded |= addPlayerToHouseInfo(newHouseInfo, player2, player2name);
+        if(gameInitSettings.isMultiplePlayersPerHouse()) {
+            bAdded |= addPlayerToHouseInfo(newHouseInfo, player2, player2name);
+        }
 
         if(bAdded == true) {
             gameInitSettings.addHouseInfo(newHouseInfo);

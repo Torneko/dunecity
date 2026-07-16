@@ -69,11 +69,12 @@ Bullet::Bullet(Uint32 shooterID, Coord* newRealLocation, Coord* newRealDestinati
 
     destination = *newRealDestination;
 
-    if(bulletID == Bullet_Sonic) {
+    if(bulletID == Bullet_Sonic || bulletID == Bullet_SonicTrike) {
         int diffX = destination.x - newRealLocation->x;
         int diffY = destination.y - newRealLocation->y;
 
-        int weaponrange = currentGame->objectData.data[Unit_SonicTank][owner->getHouseID()].weaponrange;
+        const int sourceUnit = (bulletID == Bullet_SonicTrike) ? Unit_SonicTrike : Unit_SonicTank;
+        int weaponrange = currentGame->objectData.data[sourceUnit][owner->getHouseID()].weaponrange;
 
         if((diffX == 0) && (diffY == 0)) {
             diffY = weaponrange*TILESIZE;
@@ -250,11 +251,12 @@ void Bullet::init()
             graphic = pGFXManager->getObjPic(ObjPic_Bullet_SmallRocket, houseID);
         } break;
 
-        case Bullet_Sonic: {
+        case Bullet_Sonic:
+        case Bullet_SonicTrike: {
             damageRadius = (TILESIZE*3)/4;
             speed = 6;  // For Sonic bullets this is only half the actual speed; see Bullet::update()
             numFrames = 1;
-            detonationTimer = 45;
+            detonationTimer = (bulletID == Bullet_SonicTrike) ? 28 : 45;
             graphic = pGFXManager->getObjPic(ObjPic_Bullet_Sonic, HOUSE_HARKONNEN);    // no color remapping
         } break;
 
@@ -320,7 +322,7 @@ void Bullet::blitToScreen() const
 
     SDL_Rect dest = calcSpriteDrawingRect(graphic[currentZoomlevel], screenborder->world2screenX(realX), screenborder->world2screenY(realY), numFrames, 1, HAlign::Center, VAlign::Center);
 
-    if(bulletID == Bullet_Sonic) {
+    if(bulletID == Bullet_Sonic || bulletID == Bullet_SonicTrike) {
         static const int shimmerOffset[]  = { 1, 3, 2, 5, 4, 3, 2, 1 };
 
         SDL_Texture* shimmerTex = pGFXManager->getZoomedObjPic(ObjPic_Bullet_SonicTemp, currentZoomlevel);
@@ -480,19 +482,21 @@ void Bullet::update()
             return;
         }
 
-        if(bulletID == Bullet_Sonic) {
+        if(bulletID == Bullet_Sonic || bulletID == Bullet_SonicTrike) {
 
             if(detonationTimer == 0) {
                 destroy();
                 return;
             }
 
-            FixPoint weaponDamage = currentGame->objectData.data[Unit_SonicTank][owner->getHouseID()].weapondamage;
+            const int sourceUnit = (bulletID == Bullet_SonicTrike) ? Unit_SonicTrike : Unit_SonicTank;
+            const int sonicDuration = (bulletID == Bullet_SonicTrike) ? 28 : 45;
+            FixPoint weaponDamage = currentGame->objectData.data[sourceUnit][owner->getHouseID()].weapondamage;
 
             FixPoint startDamage = (weaponDamage / 4 + 1) / 4.5_fix;
             FixPoint endDamage = ((weaponDamage-9) / 4 + 1) / 4.5_fix;
 
-            FixPoint damageDecrease = - (startDamage-endDamage)/(45 * 2 * speed);
+            FixPoint damageDecrease = - (startDamage-endDamage)/(sonicDuration * 2 * speed);
             FixPoint dist = distanceFrom(source.x, source.y, realX, realY);
 
             FixPoint currentDamage = dist*damageDecrease + startDamage;
@@ -602,13 +606,15 @@ void Bullet::destroy()
         case Bullet_Flame: {
             currentGameMap->damage(shooterID, owner, position, bulletID, damage, damageRadius, false);
             soundPlayer->playSoundAt(Sound_ExplosionSmall, position);
-            currentGame->getExplosionList().push_back(new Explosion(Explosion_Flames, position, houseID));
+            const int persistentDamage = std::max(1, damage / 10);
+            currentGame->getExplosionList().push_back(
+                new Explosion(Explosion_FlameImpact, position, houseID, shooterID, persistentDamage, damageRadius));
 
             for(int i = 0; i < 2; i++) {
                 Coord flamePos = position;
                 flamePos.x += currentGame->randomGen.rand(-TILESIZE/3, TILESIZE/3);
                 flamePos.y += currentGame->randomGen.rand(-TILESIZE/3, TILESIZE/3);
-                currentGame->getExplosionList().push_back(new Explosion(Explosion_Flames, flamePos, houseID));
+                currentGame->getExplosionList().push_back(new Explosion(Explosion_FlameImpactVisual, flamePos, houseID));
             }
         } break;
 
@@ -633,6 +639,7 @@ void Bullet::destroy()
         } break;
 
         case Bullet_Sonic:
+        case Bullet_SonicTrike:
         case Bullet_Sandworm:
         default: {
             // do nothing

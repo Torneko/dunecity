@@ -21,6 +21,7 @@ public:
     ~Scoutpost() override;
 
     bool canAttack(const ObjectBase* object) const override;
+    ObjectInterface* getInterfaceContainer() override;
     void setHealth(FixPoint newHealth) override;
 
     int getProducedPower() const;

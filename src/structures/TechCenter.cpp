@@ -24,6 +24,7 @@
 #include <House.h>
 #include <Game.h>
 #include <Map.h>
+#include <SpecialVehicle.h>
 #include <SoundPlayer.h>
 #include <ScreenBorder.h>
 
@@ -32,33 +33,12 @@
 
 #include <units/HarvesterHelpers.h>
 
+#include <mod/ModManager.h>
+
 #include <algorithm>
 #include <vector>
 
 namespace {
-
-std::vector<int> getTechCenterIxUnitPool(int house) {
-    switch(house) {
-        case HOUSE_HARKONNEN:
-            return { Unit_Devastator, Unit_EliteSiegeTank };
-        case HOUSE_ATREIDES:
-            return { Unit_SonicTank, Unit_EliteSiegeTank };
-        case HOUSE_ORDOS:
-            return { Unit_Deviator, Unit_EliteSiegeTank };
-        case HOUSE_FREMEN:
-            return { Unit_Deviator, Unit_Devastator };
-        case HOUSE_SARDAUKAR:
-            return { Unit_Devastator, Unit_SonicTank };
-        case HOUSE_MERCENARY:
-            return { Unit_Deviator, Unit_SonicTank };
-        case HOUSE_NEUTRAL:
-            return { Unit_Deviator, Unit_EliteLauncher };
-        case HOUSE_REBELS:
-            return { Unit_FlameTank, Unit_SonicTank };
-        default:
-            return {};
-    }
-}
 
 bool isTechCenterSpawnCandidate(int itemID, int house) {
     if(currentGame == nullptr || !isUnit(itemID) || isFlyingUnit(itemID) || isInfantryUnit(itemID) || isHarvesterLikeUnit(itemID)) {
@@ -161,14 +141,11 @@ bool TechCenter::houseHasIxUnlocked() const {
 }
 
 int TechCenter::spawnRandomVehicles(int count) {
-    // Pool of vanilla tank types available to any house. Per Tornie OOB
-    // these are "1-3 random vehicle around what IX unlock" — so a mix
-    // of Tank / SiegeTank / Launcher / Quad. Tornie-specific units
-    // (FlameTank, RocketTrike, Elite*) are deliberately NOT spawned
-    // here because their production is gated separately by their own
-    // tech levels.
+    // Keep Tech Center spawns aligned with Unit_Special scenario entries.
+    const bool tornieActive = ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Tornie";
     std::vector<int> vehiclePool;
-    for(const auto candidate : getTechCenterIxUnitPool(originalHouseID)) {
+    for(const auto candidate : getSpecialVehiclePoolForHouse(originalHouseID, tornieActive)) {
         if(isTechCenterSpawnCandidate(candidate, originalHouseID)) {
             vehiclePool.push_back(candidate);
         }

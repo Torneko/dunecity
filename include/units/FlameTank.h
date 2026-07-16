@@ -20,7 +20,7 @@
 
 #include <units/TrackedUnit.h>
 
-/// Flame Tank (Tornie mod) - fire missile weapon, Heavy Factory TechLevel 9 UpgradeLevel 4.
+/// Flame Tank (Tornie mod) - Rebels Heavy Factory unit unlocked by House IX.
 /// Fires Bullet_Flame: launcher-like projectile with flame impact and area damage.
 /// Anti-infantry focused, no deviation effect, no aircraft damage.
 class FlameTank final : public TrackedUnit

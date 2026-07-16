@@ -46,7 +46,7 @@ void EliteSiegeTank::init() {
 
     graphicID = ObjPic_Siegetank_Base;
     graphic = pGFXManager->getObjPic(graphicID,getOwner()->getHouseID());
-    gunGraphicID = ObjPic_Siegetank_Gun;
+    gunGraphicID = ObjPic_EliteSiegeTankGunTornie;
     turretGraphic = pGFXManager->getObjPic(gunGraphicID,getOwner()->getHouseID());
 
     numImagesX = NUM_ANGLES;

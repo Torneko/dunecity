@@ -130,7 +130,7 @@ ReinforcementsWindow::ReinforcementsWindow(MapEditor* pMapEditor, HOUSETYPE curr
         Unit_Carryall, Unit_Devastator, Unit_Deviator, Unit_Frigate, Unit_Harvester, Unit_RebelHarvester,
         Unit_Soldier, Unit_Launcher, Unit_MCV, Unit_Ornithopter, Unit_Quad, Unit_Saboteur,
         Unit_Sandworm, Unit_SiegeTank, Unit_SonicTank, Unit_Tank, Unit_Trike, Unit_RaiderTrike,
-        Unit_Trooper, Unit_RocketTrike, Unit_FlameTank, Unit_EliteLauncher, Unit_EliteSiegeTank
+        Unit_Trooper, Unit_RocketTrike, Unit_SonicTrike, Unit_FlameTank, Unit_EliteLauncher, Unit_EliteSiegeTank
     };
     for(int itemID : reinforcementUnits) {
         if(itemID == Unit_Carryall || itemID == Unit_Ornithopter || itemID == Unit_Frigate) {

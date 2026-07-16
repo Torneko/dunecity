@@ -2015,7 +2015,6 @@ void Mentat::handleLightFactory(const BuilderBase* pBuilder, MentatBuildContext&
 	if (!pBuilder->isUpgrading()
 		&& (ctx.isCampaign || ctx.isCitySim)
 		&& ctx.money > (ctx.isCitySim ? 500 : 1000)
-		&& ctx.itemCount[Structure_HeavyFactory] == 0
 		&& pBuilder->getProductionQueueSize() < 1
 		&& pBuilder->getBuildListSize() > 0
 		&& ctx.militaryValue < ctx.militaryValueLimit) {
@@ -2025,15 +2024,14 @@ void Mentat::handleLightFactory(const BuilderBase* pBuilder, MentatBuildContext&
 		}
 		else if (!getHouse()->isGroundUnitLimitReached()) {
 			Uint32 itemID = NONE_ID;
-
-			if (pBuilder->isAvailableToBuild(Unit_RaiderTrike)) {
-				itemID = Unit_RaiderTrike;
-			}
-			else if (pBuilder->isAvailableToBuild(Unit_Quad)) {
-				itemID = Unit_Quad;
-			}
-			else if (pBuilder->isAvailableToBuild(Unit_Trike)) {
-				itemID = Unit_Trike;
+			const Uint32 lightVehicles[] = {
+				Unit_SonicTrike, Unit_RocketTrike, Unit_RaiderTrike, Unit_Quad, Unit_Trike
+			};
+			for(const Uint32 candidate : lightVehicles) {
+				if(pBuilder->isAvailableToBuild(candidate)
+				   && (itemID == NONE_ID || ctx.itemCount[candidate] < ctx.itemCount[itemID])) {
+					itemID = candidate;
+				}
 			}
 
 			if (itemID != NONE_ID) {
@@ -2101,6 +2099,9 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
                                    FixPoint launcherPercent, FixPoint ornithopterPercent) {
 	auto& data = currentGame->objectData.data;
 	int houseID = ctx.houseID;
+	const Uint32 harvesterID = pBuilder->isAvailableToBuild(Unit_RebelHarvester)
+		? Unit_RebelHarvester : Unit_Harvester;
+	const int totalHarvesters = ctx.itemCount[Unit_Harvester] + ctx.itemCount[Unit_RebelHarvester];
 
 	auto produceItemWithLogging = [&](Uint32 itemID) {
 		if (ctx.isCampaign && !ctx.supportMode && currentGame) {
@@ -2162,23 +2163,23 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 		}
 		else if (ctx.isCustom
 			&& !ctx.isCitySim
-			&& pBuilder->isAvailableToBuild(Unit_Harvester)
+			&& pBuilder->isAvailableToBuild(harvesterID)
 			&& !getHouse()->isGroundUnitLimitReached()
-			&& ctx.itemCount[Unit_Harvester] < ctx.militaryValue / 1000
-			&& ctx.itemCount[Unit_Harvester] < ctx.harvesterLimit) {
+			&& totalHarvesters < ctx.militaryValue / 1000
+			&& totalHarvesters < ctx.harvesterLimit) {
 			// In case we get given lots of money, it will eventually run out so we need to be prepared
 			// Skip on city sim maps — no spice to harvest
-			produceItemWithLogging(Unit_Harvester);
-			ctx.itemCount[Unit_Harvester]++;
+			produceItemWithLogging(harvesterID);
+			ctx.itemCount[harvesterID]++;
 		}
 		else if (!ctx.isCitySim
-			&& ctx.itemCount[Unit_Harvester] < ctx.harvesterLimit
-			&& pBuilder->isAvailableToBuild(Unit_Harvester)
+			&& totalHarvesters < ctx.harvesterLimit
+			&& pBuilder->isAvailableToBuild(harvesterID)
 			&& !getHouse()->isGroundUnitLimitReached()
 			&& (ctx.money < 2000 || ctx.isCampaign)) {
 			// Skip on city sim — no spice, harvesters are useless
-			produceItemWithLogging(Unit_Harvester);
-			ctx.itemCount[Unit_Harvester]++;
+			produceItemWithLogging(harvesterID);
+			ctx.itemCount[harvesterID]++;
 		}
 		else if ((ctx.money > 500) && (pBuilder->isUpgrading() == false) && (pBuilder->getCurrentUpgradeLevel() < pBuilder->getMaxUpgradeLevel())) {
 			// Upgrade before military — unlocks MCV(1), Launcher(2), SiegeTank(3)
@@ -2194,20 +2195,42 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 			// Limit enemy military units based on difficulty
 
 			// Calculate current value of units
-			int launcherValue = data[Unit_Launcher][houseID].price * ctx.itemCount[Unit_Launcher];
+			int launcherValue = data[Unit_Launcher][houseID].price * ctx.itemCount[Unit_Launcher]
+				+ data[Unit_EliteLauncher][houseID].price * ctx.itemCount[Unit_EliteLauncher];
 			int specialValue = data[Unit_Devastator][houseID].price * ctx.itemCount[Unit_Devastator]
 				+ data[Unit_Deviator][houseID].price * ctx.itemCount[Unit_Deviator]
-				+ data[Unit_SonicTank][houseID].price * ctx.itemCount[Unit_SonicTank];
-			int siegeValue = data[Unit_SiegeTank][houseID].price * ctx.itemCount[Unit_SiegeTank];
+				+ data[Unit_SonicTank][houseID].price * ctx.itemCount[Unit_SonicTank]
+				+ data[Unit_FlameTank][houseID].price * ctx.itemCount[Unit_FlameTank];
+			int siegeValue = data[Unit_SiegeTank][houseID].price * ctx.itemCount[Unit_SiegeTank]
+				+ data[Unit_EliteSiegeTank][houseID].price * ctx.itemCount[Unit_EliteSiegeTank];
 
 
 			/// Use current value and what percentage of military we want to determine
 			/// whether to build an additional unit.
-			if (pBuilder->isAvailableToBuild(Unit_Launcher) && (ctx.militaryValue * launcherPercent > launcherValue)) {
+			if (pBuilder->isAvailableToBuild(Unit_EliteLauncher)
+				&& (!pBuilder->isAvailableToBuild(Unit_Launcher) || ctx.itemCount[Unit_EliteLauncher] <= ctx.itemCount[Unit_Launcher])
+				&& (ctx.militaryValue * launcherPercent > launcherValue)) {
+				produceItemWithLogging(Unit_EliteLauncher);
+				ctx.itemCount[Unit_EliteLauncher]++;
+				ctx.money -= data[Unit_EliteLauncher][houseID].price;
+				ctx.militaryValue += data[Unit_EliteLauncher][houseID].price;
+			}
+			else if (pBuilder->isAvailableToBuild(Unit_Launcher) && (ctx.militaryValue * launcherPercent > launcherValue)) {
 				produceItemWithLogging(Unit_Launcher);
 				ctx.itemCount[Unit_Launcher]++;
 				ctx.money -= data[Unit_Launcher][houseID].price;
 				ctx.militaryValue += data[Unit_Launcher][houseID].price;
+			}
+			else if (pBuilder->isAvailableToBuild(Unit_FlameTank)
+				&& ((!pBuilder->isAvailableToBuild(Unit_Devastator)
+					&& !pBuilder->isAvailableToBuild(Unit_SonicTank)
+					&& !pBuilder->isAvailableToBuild(Unit_Deviator))
+					|| ctx.itemCount[Unit_FlameTank] <= ctx.itemCount[Unit_Devastator] + ctx.itemCount[Unit_SonicTank] + ctx.itemCount[Unit_Deviator])
+				&& (ctx.militaryValue * specialPercent > specialValue)) {
+				produceItemWithLogging(Unit_FlameTank);
+				ctx.itemCount[Unit_FlameTank]++;
+				ctx.money -= data[Unit_FlameTank][houseID].price;
+				ctx.militaryValue += data[Unit_FlameTank][houseID].price;
 			}
 			else if (pBuilder->isAvailableToBuild(Unit_Devastator) && (ctx.militaryValue * specialPercent > specialValue)) {
 				produceItemWithLogging(Unit_Devastator);
@@ -2226,6 +2249,14 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 				ctx.itemCount[Unit_Deviator]++;
 				ctx.money -= data[Unit_Deviator][houseID].price;
 				ctx.militaryValue += data[Unit_Deviator][houseID].price;
+			}
+			else if (pBuilder->isAvailableToBuild(Unit_EliteSiegeTank)
+				&& (!pBuilder->isAvailableToBuild(Unit_SiegeTank) || ctx.itemCount[Unit_EliteSiegeTank] <= ctx.itemCount[Unit_SiegeTank])
+				&& (ctx.militaryValue * siegePercent > siegeValue)) {
+				produceItemWithLogging(Unit_EliteSiegeTank);
+				ctx.itemCount[Unit_EliteSiegeTank]++;
+				ctx.money -= data[Unit_EliteSiegeTank][houseID].price;
+				ctx.militaryValue += data[Unit_EliteSiegeTank][houseID].price;
 			}
 			else if (pBuilder->isAvailableToBuild(Unit_SiegeTank) && (ctx.militaryValue * siegePercent > siegeValue)) {
 				produceItemWithLogging(Unit_SiegeTank);

@@ -26,6 +26,7 @@
 #include <Explosion.h>
 #include <ScreenBorder.h>
 #include <SoundPlayer.h>
+#include <mod/ModManager.h>
 
 Deviator::Deviator(House* newOwner) : TrackedUnit(newOwner)
 {
@@ -46,9 +47,11 @@ void Deviator::init()
 
     usesFullSprite = false;
     graphicID = ObjPic_Tank_Base;
-    gunGraphicID = ObjPic_Launcher_Gun;
+    const bool tornieActive = ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Tornie";
+    gunGraphicID = tornieActive ? ObjPic_DeviatorGunTornie : ObjPic_Launcher_Gun;
     graphic = pGFXManager->getObjPic(graphicID,getOwner()->getHouseID());
-    turretGraphic = pGFXManager->getObjPic(gunGraphicID,getOwner()->getHouseID());
+    turretGraphic = pGFXManager->getObjPic(gunGraphicID, tornieActive ? HOUSE_HARKONNEN : getOwner()->getHouseID());
 
     numImagesX = NUM_ANGLES;
     numImagesY = 1;

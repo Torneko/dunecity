@@ -46,10 +46,10 @@ typedef enum {
     ObjPic_Devastator_Gun,
     ObjPic_Sonictank_Gun,
     ObjPic_Launcher_Gun,
-    ObjPic_DeviatorFull,           ///< Tornie: complete Deviator sprite, base and turret already combined
+    ObjPic_DeviatorGunTornie,      ///< Tornie: green Deviator turret overlay
     ObjPic_RocketTrike,             ///< Tornie: dedicated sprite (data/RocketTrike.png)
-    ObjPic_FlameTank,               ///< Tornie: dedicated sprite (data/FlameTank.png)
-    ObjPic_EliteSiegeTankCustom,    ///< Tornie: dedicated sprite (data/EliteSiegeTank.png)
+    ObjPic_FlameTankGunTornie,      ///< Tornie: fire-coloured launcher turret overlay
+    ObjPic_EliteSiegeTankGunTornie, ///< Tornie: elite Siege Tank turret overlay
     ObjPic_Quad,
     ObjPic_Trike,
     ObjPic_Harvester,
@@ -136,11 +136,15 @@ typedef enum {
     ObjPic_Airport,        ///< DuneCity: Micropolis airport sprite (3x3 footprint)
     ObjPic_Hospital,       ///< DuneCity: Micropolis hospital sprite (2x2, auto-placed on residential)
     ObjPic_Church,         ///< DuneCity: Micropolis church sprite (2x2, auto-placed on residential)
+    ObjPic_SonicTrike,     ///< Tornie: Rebels-only light sonic vehicle
+    ObjPic_EliteLauncherGunTornie, ///< Tornie: elite Launcher turret overlay
+    ObjPic_RebelSonicTankGun,      ///< Tornie: Rebels-only violet Sonic Tank turret
+    ObjPic_HarvestankGunTornie,     ///< Tornie: Harvestank turret overlay
     NUM_OBJPICS
 } ObjPic_enum;
 
 static const std::array<std::string, NUM_OBJPICS> ObjPicNames =  { { "Tank_Base", "Tank_Gun", "Siegetank_Base", "Siegetank_Gun", "Devastator_Base",
-    "Devastator_Gun", "Sonictank_Gun", "Launcher_Gun", "Deviator", "RocketTrike", "FlameTank", "EliteSiegeTankCustom",
+    "Devastator_Gun", "Sonictank_Gun", "Launcher_Gun", "DeviatorGunTornie", "RocketTrike", "FlameTankGunTornie", "EliteSiegeTankGunTornie",
     "Quad", "Trike", "Harvester", "Harvester_Sand", "MCV", "Carryall", "CarryallShadow",
     "Frigate", "FrigateShadow", "Ornithopter", "OrnithopterShadow", "Trooper", "Troopers", "Soldier", "Infantry", "Saboteur", "Sandworm",
     "ConstructionYard", "Windtrap", "AdvancedWindTrap", "AdvancedWindTrap2x3", "AdvancedWindTrap3x2", "Refinery", "Barracks", "WOR", "Radar", "LightFactory", "Silo", "HeavyFactory", "HighTechFactory",
@@ -151,7 +155,8 @@ static const std::array<std::string, NUM_OBJPICS> ObjPicNames =  { { "Tank_Base"
     "DeadInfantry", "DeadAirUnit", "Smoke", "SandwormShimmerMask", "SandwormShimmerTemp", "Terrain", "Terrain_GreenSpice", "Terrain_RedSpice", "DestroyedStructure", "RockDamage",
     "SandDamage", "Terrain_Hidden", "Terrain_HiddenFog", "Terrain_Tracks", "Star", "RebelHarvester", "Worfinery", "TechCenter", "Scoutpost",
     "ZoneResidential", "ZoneCommercial", "ZoneIndustrial", "CityRoad", "NuclearPlant", "PoliceStation",
-    "Stadium", "Airport", "Hospital", "Church" } };
+    "Stadium", "Airport", "Hospital", "Church", "SonicTrike", "EliteLauncherGunTornie", "RebelSonicTankGun",
+    "HarvestankGunTornie" } };
 
 #define GROUNDUNIT_ROW(i) (i+2)|TILE_NORMAL,(i+1)|TILE_NORMAL,i|TILE_NORMAL,(i+1)|TILE_FLIPV,(i+2)|TILE_FLIPV,(i+3)|TILE_FLIPV, (i+4)|TILE_NORMAL,(i+3)|TILE_NORMAL
 #define AIRUNIT_ROW(i) (i+2)|TILE_NORMAL,(i+1)|TILE_NORMAL,i|TILE_NORMAL,(i+1)|TILE_FLIPV,(i+2)|TILE_FLIPV,(i+1)|TILE_ROTATE, i|TILE_FLIPH,(i+1)|TILE_FLIPH
@@ -224,6 +229,8 @@ typedef enum {
     Picture_TechCenter,            ///< Tornie: portrait from TechCenterIcon.png (91x55)
     Picture_Scoutpost,             ///< Tornie: portrait from ScoutpostIcon.png
     Picture_PalaceLightVehicles,   ///< Tornie: Neutral/Rebels Palace Trike/Quad call icon
+    Picture_SonicTrike,            ///< Tornie: portrait from SonicTrikeIcon.png
+    Picture_Harvestank,            ///< Tornie: portrait from HarvestankIcon.png
     NUM_SMALLDETAILPICS
 } SmallDetailPics_Enum;
 
@@ -352,6 +359,7 @@ typedef enum {
     UI_NewMapWindow,
     UI_GameMenu,
     UI_MentatBackground,
+    UI_MentatBackgroundPaul,
     UI_MentatBackgroundBene,
     UI_MentatHouseChoiceInfoQuestion,
     UI_MentatYes,
@@ -485,6 +493,7 @@ typedef enum {
     UI_MapEditor_ZoneIndustrial,    ///< DuneCity: map-editor icon for I zone
     UI_MapEditor_NuclearPlant,      ///< DuneCity: map-editor icon for nuclear plant
     UI_MapEditor_Road,              ///< DuneCity: map-editor icon for road tile
+    UI_MapEditor_SonicTrike,        ///< Tornie: Rebels-only light sonic vehicle
     NUM_UIGRAPHICS
 } UIGraphics_Enum;
 
@@ -593,6 +602,7 @@ public:
     // (objPicTex + objPic, NOT uiGraphic). Re-applied per
     // Tornie's OOB 'ajouter ces fonctions aussi'.
     void invalidateAllSpriteTextures();
+    void reloadModDependentUiGraphics();
 
     SDL_Texture*     getSmallDetailPic(unsigned int id);
     SDL_Texture*     getTinyPicture(unsigned int id);
