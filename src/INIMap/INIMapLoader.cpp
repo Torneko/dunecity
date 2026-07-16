@@ -503,7 +503,27 @@ void INIMapLoader::loadHouses()
                 // skip this house
                 continue;
             }
-            int randomIndex = pGame->randomGen.rand(0, (int) unboundedHouses.size() - 1);
+
+            // Mixed maps may contain fixed [House] sections together with
+            // generic [PlayerN] sections. Prefer an available fixed section;
+            // otherwise generic sections can be exhausted while a fixed
+            // section remains unused, silently dropping the last player.
+            std::vector<int> fixedSectionCandidates;
+            for(int i = 0; i < static_cast<int>(unboundedHouses.size()); i++) {
+                const std::string candidateName = getHouseNameByNumber(unboundedHouses[i]);
+                if(inifile->hasSection(candidateName)) {
+                    fixedSectionCandidates.push_back(i);
+                }
+            }
+
+            int randomIndex;
+            if(fixedSectionCandidates.empty()) {
+                randomIndex = pGame->randomGen.rand(0, static_cast<int>(unboundedHouses.size()) - 1);
+            } else {
+                const int candidateIndex = pGame->randomGen.rand(0, static_cast<int>(fixedSectionCandidates.size()) - 1);
+                randomIndex = fixedSectionCandidates[candidateIndex];
+            }
+
             houseID = unboundedHouses[randomIndex];
             unboundedHouses.erase(unboundedHouses.begin() + randomIndex);
             resolvedHouseInfo.houseID = houseID;
