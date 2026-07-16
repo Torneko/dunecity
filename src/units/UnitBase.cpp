@@ -304,7 +304,17 @@ void UnitBase::blitToScreen() {
     int x = screenborder->world2screenX(realX);
     int y = screenborder->world2screenY(realY);
 
+    // Sprite textures are invalidated when a game or mod is loaded. The Sonic
+    // Trike may already exist at that point (notably on loaded custom maps), so
+    // refresh its cached raw pointers before drawing it.
+    if(getItemID() == Unit_SonicTrike) {
+        graphic = pGFXManager->getObjPic(graphicID, getOwner()->getHouseID());
+    }
+
     SDL_Texture* pUnitGraphic = graphic[currentZoomlevel];
+    if(pUnitGraphic == nullptr) {
+        return;
+    }
     SDL_Rect source = calcSpriteSourceRect(pUnitGraphic, drawnAngle, numImagesX, drawnFrame, numImagesY);
     SDL_Rect dest = calcSpriteDrawingRect( pUnitGraphic, x, y, numImagesX, numImagesY, HAlign::Center, VAlign::Center);
 

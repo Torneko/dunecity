@@ -284,7 +284,8 @@ private:
     HBox                editorModeUnits_HBoxTornie;            ///< Tornie: RocketTrike / FlameTank row
     SymbolButton        editorModeUnits_RocketTrike;
     SymbolButton        editorModeUnits_FlameTank;
-    HBox                editorModeUnits_HBoxTornieElite;       ///< Tornie: EliteLauncher / EliteSiegeTank row
+    HBox                editorModeUnits_HBoxTornieElite;       ///< Tornie: SonicTrike / EliteLauncher / EliteSiegeTank row
+    SymbolButton        editorModeUnits_SonicTrike;
     SymbolButton        editorModeUnits_EliteLauncher;
     SymbolButton        editorModeUnits_EliteSiegeTank;
     HBox                editorModeUnits_HBox4;

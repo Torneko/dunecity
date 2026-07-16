@@ -67,6 +67,11 @@ TextManager::TextManager() {
 TextManager::~TextManager() = default;
 
 void TextManager::loadData() {
+    origDuneText.clear();
+    for(auto& mentatString : mentatStrings) {
+        mentatString.reset();
+    }
+
     addOrigDuneText("TEXTH." + _("LanguageFileExtension"), true);
     addOrigDuneText("TEXTA." + _("LanguageFileExtension"), true);
     addOrigDuneText("TEXTO." + _("LanguageFileExtension"), true);
@@ -612,4 +617,3 @@ const std::string& TextManager::postProcessString(const std::string& unprocessed
 void TextManager::addOrigDuneText(const std::string& filename, bool bDecode) {
     origDuneText[filename] = std::make_unique<IndexedTextFile>(pFileManager->openFile(filename).get(), bDecode);
 }
-

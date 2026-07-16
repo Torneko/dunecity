@@ -125,7 +125,7 @@ void Map::createSandRegions() {
     }
 }
 
-void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Uint32 bulletID, FixPoint damage, int damageRadius, bool air) {
+void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Uint32 bulletID, FixPoint damage, int damageRadius, bool air, bool affectTerrain) {
     const auto location = Coord(realPos.x/TILESIZE, realPos.y/TILESIZE);
 
     std::set<Uint32>    affectedAirUnits;
@@ -249,7 +249,7 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                                     pUnit->deviate(damagerOwner);
                                 }
                             }
-                        } else if(bulletID == Bullet_Sonic) {
+                        } else if(bulletID == Bullet_Sonic || bulletID == Bullet_SonicTrike) {
                             pUnit->handleDamage(lround(damage), damagerID, damagerOwner);
                         } else if(bulletID == Bullet_Flame) {
                             auto scaledDamage = lround(damage) >> (distance/16 + 1);
@@ -282,7 +282,7 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
 
             const auto pTile = currentGameMap->getTile_internal(location.x, location.y);
 
-            if(pTile
+            if(affectTerrain && pTile
                 && ((bulletID == Bullet_Rocket) || (bulletID == Bullet_TurretRocket) || (bulletID == Bullet_SmallRocket) || (bulletID == Bullet_LargeRocket) || (bulletID == Bullet_Flame))
                 && (!pTile->hasAGroundObject() || !pTile->getGroundObject()->isAStructure()) )
             {
@@ -307,14 +307,14 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
             }
 
             // Roads are tile flags, not structures — destroy them on sufficient impact.
-            if (pTile && pTile->isRoad() && damage >= 10) {
+            if (affectTerrain && pTile && pTile->isRoad() && damage >= 10) {
                 pTile->setRoad(false);
                 pTile->setDestroyedStructureTile(Destroyed1x1Structure);
             }
         }
     }
 
-    if ((bulletID != Bullet_Sonic) && (bulletID != Bullet_Sandworm)) {
+    if (affectTerrain && (bulletID != Bullet_Sonic) && (bulletID != Bullet_SonicTrike) && (bulletID != Bullet_Sandworm)) {
         const auto tile = getTile_internal(location.x, location.y);
 
         if (tile && tile->isSpiceBloom()) {

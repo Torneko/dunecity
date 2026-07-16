@@ -31,6 +31,9 @@
 #include <players/HumanPlayer.h>
 #include <GUI/ObjectInterfaces/DefaultObjectInterface.h>
 
+#include <SpecialVehicle.h>
+#include <mod/ModManager.h>
+
 //structures
 #include <structures/Barracks.h>
 #include <structures/ConstructionYard.h>
@@ -82,6 +85,7 @@
 #include <units/AmbientAirplane.h>
 #include <units/AmbientHelicopter.h>
 #include <units/RocketTrike.h>
+#include <units/SonicTrike.h>
 #include <units/FlameTank.h>
 #include <units/EliteLauncher.h>
 #include <units/EliteSiegeTank.h>
@@ -866,24 +870,35 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
         case Unit_AmbientAirplane:          newObject = new AmbientAirplane(Owner); break;
         case Unit_AmbientHelicopter:        newObject = new AmbientHelicopter(Owner); break;
         case Unit_RocketTrike:              newObject = new RocketTrike(Owner); break;
+        case Unit_SonicTrike:               newObject = new SonicTrike(Owner); break;
         case Unit_FlameTank:                newObject = new FlameTank(Owner); break;
         case Unit_EliteLauncher:            newObject = new EliteLauncher(Owner); break;
         case Unit_EliteSiegeTank:           newObject = new EliteSiegeTank(Owner); break;
         case Unit_Special: {
-            switch(Owner->getHouseID()) {
-                case HOUSE_HARKONNEN:       newObject = new Devastator(Owner); break;
-                case HOUSE_ATREIDES:        newObject = new SonicTank(Owner); break;
-                case HOUSE_ORDOS:           newObject = new Deviator(Owner); break;
-                case HOUSE_FREMEN:
-                case HOUSE_SARDAUKAR:
-                case HOUSE_MERCENARY: {
-                    if(currentGame->randomGen.randBool()) {
-                         newObject = new SonicTank(Owner);
-                    } else {
-                        newObject = new Devastator(Owner);
-                    }
-                } break;
-                default:    /* should never be reached */  break;
+            const bool tornieActive = ModManager::instance().isInitialized()
+                && ModManager::instance().getActiveModName() == "Tornie";
+            const auto pool = getSpecialVehiclePoolForHouse(Owner->getHouseID(), tornieActive);
+            std::vector<int> enabledPool;
+            for(const int candidate : pool) {
+                if(currentGame->objectData.data[candidate][Owner->getHouseID()].enabled) {
+                    enabledPool.push_back(candidate);
+                }
+            }
+
+            if(!enabledPool.empty()) {
+                const int selected = enabledPool.size() == 1
+                    ? enabledPool.front()
+                    : enabledPool[currentGame->randomGen.rand(
+                          static_cast<Sint32>(0), static_cast<Sint32>(enabledPool.size() - 1))];
+                switch(selected) {
+                    case Unit_Devastator:      newObject = new Devastator(Owner); break;
+                    case Unit_Deviator:        newObject = new Deviator(Owner); break;
+                    case Unit_SonicTank:       newObject = new SonicTank(Owner); break;
+                    case Unit_FlameTank:       newObject = new FlameTank(Owner); break;
+                    case Unit_EliteLauncher:   newObject = new EliteLauncher(Owner); break;
+                    case Unit_EliteSiegeTank:  newObject = new EliteSiegeTank(Owner); break;
+                    default: break;
+                }
             }
         } break;
 
@@ -960,6 +975,7 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Unit_AmbientAirplane:          newObject = new AmbientAirplane(stream); break;
         case Unit_AmbientHelicopter:        newObject = new AmbientHelicopter(stream); break;
         case Unit_RocketTrike:              newObject = new RocketTrike(stream); break;
+        case Unit_SonicTrike:               newObject = new SonicTrike(stream); break;
         case Unit_FlameTank:                newObject = new FlameTank(stream); break;
         case Unit_EliteLauncher:            newObject = new EliteLauncher(stream); break;
         case Unit_EliteSiegeTank:           newObject = new EliteSiegeTank(stream); break;

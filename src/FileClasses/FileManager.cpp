@@ -50,24 +50,48 @@ bool isTornieModActive() {
     return ModManager::instance().isInitialized() && strToUpper(ModManager::instance().getActiveModName()) == "TORNIE";
 }
 
+bool isPakEnabledForFallbackLookup(const Pakfile& pakFile) {
+    const auto pakName = getBaseFilenameUpper(pakFile.getPakFilename());
+    return pakName != "TORNIE.PAK" || isTornieModActive();
+}
+
+std::vector<std::string> getFilenameCaseVariants(const std::string& filename);
+bool isTinyVocPlaceholder(const std::string& filename, SDL_RWops* rwop);
+
 sdl2::RWops_ptr openFromNamedPak(const std::vector<std::unique_ptr<Pakfile>>& pakFiles, const std::string& filename, const std::string& pakNameUpper) {
     for(const auto& pPakFile : pakFiles) {
         if(getBaseFilenameUpper(pPakFile->getPakFilename()) == pakNameUpper && pPakFile->exists(filename)) {
+            auto rwop = pPakFile->openFile(filename);
+            if(isTinyVocPlaceholder(filename, rwop.get())) {
+                SDL_Log("FileManager: ignoring tiny VOC placeholder '%s' from %s", filename.c_str(), pakNameUpper.c_str());
+                continue;
+            }
+
             SDL_Log("FileManager: using %s for '%s'", pakNameUpper.c_str(), filename.c_str());
-            return pPakFile->openFile(filename);
+            return rwop;
         }
     }
     return nullptr;
 }
 
-sdl2::RWops_ptr openFromPriorityPak(const std::vector<std::unique_ptr<Pakfile>>& pakFiles, const std::string& filename) {
-    if(isTornieModActive()) {
-        if(auto rwop = openFromNamedPak(pakFiles, filename, "TORNIE.PAK")) {
+sdl2::RWops_ptr openFromNamedPakCaseInsensitive(const std::vector<std::unique_ptr<Pakfile>>& pakFiles, const std::string& filename, const std::string& pakNameUpper) {
+    for(const auto& variant : getFilenameCaseVariants(filename)) {
+        if(auto rwop = openFromNamedPak(pakFiles, variant, pakNameUpper)) {
             return rwop;
         }
     }
 
-    if(auto rwop = openFromNamedPak(pakFiles, filename, "EXTRA.PAK")) {
+    return nullptr;
+}
+
+sdl2::RWops_ptr openFromPriorityPak(const std::vector<std::unique_ptr<Pakfile>>& pakFiles, const std::string& filename) {
+    if(isTornieModActive()) {
+        if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "TORNIE.PAK")) {
+            return rwop;
+        }
+    }
+
+    if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
         return rwop;
     }
 
@@ -116,6 +140,18 @@ bool isVanillaCoreCampaignHouse(const char house) {
 
 bool isVanillaAddonCampaignHouse(const char house) {
     return house == 'N' || house == 'R';
+}
+
+std::string getVanillaCampaignPakName(const char house) {
+    if(house == 'A' || house == 'H' || house == 'O') {
+        return "SCENARIO.PAK";
+    }
+
+    if(house == 'F' || house == 'M' || house == 'S') {
+        return "OPENSD2.PAK";
+    }
+
+    return "";
 }
 
 char getCampaignHouseFromFilename(const std::string& filename) {
@@ -290,8 +326,18 @@ sdl2::RWops_ptr FileManager::openFile(const std::string& filename) {
 
     // now try loading from pak file
     for(const auto& pPakFile : pakFiles) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+            continue;
+        }
+
         if(pPakFile->exists(filename)) {
-            return pPakFile->openFile(filename);
+            auto rwop = pPakFile->openFile(filename);
+            if(isTinyVocPlaceholder(filename, rwop.get())) {
+                SDL_Log("FileManager: ignoring tiny VOC placeholder '%s' from %s", filename.c_str(), getBaseFilenameUpper(pPakFile->getPakFilename()).c_str());
+                continue;
+            }
+
+            return rwop;
         }
     }
 
@@ -299,7 +345,9 @@ sdl2::RWops_ptr FileManager::openFile(const std::string& filename) {
 }
 
 sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
-    if(isCampaignFile(filename) && ModManager::instance().isInitialized() && strToUpper(ModManager::instance().getActiveModName()) == "TORNIE") {
+    const bool isTornieCampaign = isCampaignFile(filename) && isTornieModActive();
+
+    if(isTornieCampaign) {
         std::vector<std::string> candidates;
         addCampaignCandidates(candidates, ModManager::instance().getModPath("Tornie") + "/campaign", filename);
 
@@ -316,10 +364,25 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
             }
         }
 
-        SDL_Log("FileManager: Tornie campaign file '%s' was not found in campaign folders; falling back to normal lookup", filename.c_str());
+        if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "TORNIE.PAK")) {
+            SDL_Log("FileManager: using Tornie campaign file '%s' from Tornie.PAK", filename.c_str());
+            return rwop;
+        }
+
+        if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
+            SDL_Log("FileManager: using fallback campaign file '%s' from Extra.PAK while Tornie is active", filename.c_str());
+            return rwop;
+        }
+
+        THROW(io_error, "Cannot find Tornie campaign file '%s' in the Tornie campaign folder, Tornie.PAK, or Extra.PAK!", filename);
     }
 
-    if(isVanillaAddonCampaignFile(filename)) {
+    if(!isTornieCampaign && isVanillaAddonCampaignFile(filename)) {
+        if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
+            SDL_Log("FileManager: using vanilla add-on campaign file '%s' from Extra.PAK", filename.c_str());
+            return rwop;
+        }
+
         std::vector<std::string> candidates;
         for(const auto& searchPath : getSearchPath()) {
             addCampaignCandidates(candidates, searchPath + "/campaign_vanilla", filename);
@@ -335,15 +398,23 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
             }
         }
 
-        SDL_Log("FileManager: vanilla add-on campaign file '%s' was not found in campaign_vanilla; falling back to normal lookup", filename.c_str());
+        THROW(io_error, "Cannot find vanilla add-on campaign file '%s' in Extra.PAK or campaign_vanilla!", filename);
     }
 
-    if(isVanillaCoreCampaignFile(filename)) {
-        try {
-            SDL_Log("FileManager: using vanilla PAK campaign file '%s'", filename.c_str());
-            return openFileFromPak(filename);
-        } catch(const std::exception& e) {
-            SDL_Log("FileManager: vanilla PAK campaign lookup failed for '%s': %s", filename.c_str(), e.what());
+    if(!isTornieCampaign && isVanillaCoreCampaignFile(filename)) {
+        const auto pakName = getVanillaCampaignPakName(getCampaignHouseFromFilename(filename));
+        if(!pakName.empty()) {
+            if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, pakName)) {
+                SDL_Log("FileManager: using vanilla campaign file '%s' from %s", filename.c_str(), pakName.c_str());
+                return rwop;
+            }
+
+            if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
+                SDL_Log("FileManager: using fallback vanilla campaign file '%s' from Extra.PAK", filename.c_str());
+                return rwop;
+            }
+
+            THROW(io_error, "Cannot find vanilla campaign file '%s' in %s or Extra.PAK!", filename, pakName);
         }
     }
 
@@ -351,12 +422,26 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
 }
 sdl2::RWops_ptr FileManager::openFileFromPak(const std::string& filename) {
     for(const auto& pPakFile : pakFiles) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+            continue;
+        }
+
         if(pPakFile->exists(filename)) {
-            return pPakFile->openFile(filename);
+            auto rwop = pPakFile->openFile(filename);
+            if(isTinyVocPlaceholder(filename, rwop.get())) {
+                SDL_Log("FileManager: ignoring tiny VOC placeholder '%s' from %s", filename.c_str(), getBaseFilenameUpper(pPakFile->getPakFilename()).c_str());
+                continue;
+            }
+
+            return rwop;
         }
     }
 
     THROW(io_error, "Cannot find '%s' in loaded PAK files!", filename);
+}
+
+sdl2::RWops_ptr FileManager::openFileFromNamedPak(const std::string& filename, const std::string& pakName) {
+    return openFromNamedPakCaseInsensitive(pakFiles, filename, strToUpper(pakName));
 }
 
 bool FileManager::exists(const std::string& filename) const {
@@ -372,6 +457,10 @@ bool FileManager::exists(const std::string& filename) const {
 
     // now try finding in one pak file
     for(const auto& pPakFile : pakFiles) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+            continue;
+        }
+
         if(pPakFile->exists(filename)) {
             return true;
         }
@@ -382,6 +471,10 @@ bool FileManager::exists(const std::string& filename) const {
 
 bool FileManager::existsInPak(const std::string& filename) const {
     for(const auto& pPakFile : pakFiles) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+            continue;
+        }
+
         if(pPakFile->exists(filename)) {
             return true;
         }

@@ -24,6 +24,8 @@
 #include <misc/format.h>
 #include <misc/exceptions.h>
 
+#include <SpecialVehicle.h>
+
 #include <mod/ModManager.h>
 
 #include <sand.h>
@@ -33,50 +35,70 @@
 #include <vector>
 
 namespace {
-
-std::vector<int> getSpecialVehiclePool(int house) {
-    switch(house) {
-        case HOUSE_HARKONNEN:
-            return { Unit_Devastator, Unit_EliteSiegeTank };
-        case HOUSE_ATREIDES:
-            return { Unit_SonicTank, Unit_EliteSiegeTank };
-        case HOUSE_ORDOS:
-            return { Unit_Deviator, Unit_EliteSiegeTank };
-        case HOUSE_FREMEN:
-            return { Unit_Deviator, Unit_Devastator };
-        case HOUSE_SARDAUKAR:
-            return { Unit_Devastator, Unit_SonicTank };
-        case HOUSE_MERCENARY:
-            return { Unit_Deviator, Unit_SonicTank };
-        case HOUSE_NEUTRAL:
-            return { Unit_Deviator, Unit_EliteLauncher };
-        case HOUSE_REBELS:
-            return { Unit_FlameTank, Unit_SonicTank };
-        default:
-            return {};
-    }
-}
-
-int chooseSpecialVehicle(Game* pGame, int houseID, int& nextIndex) {
+int chooseSpecialVehicle(Game* pGame, int houseID) {
     if(pGame == nullptr || houseID < 0 || houseID >= NUM_HOUSES) {
         return ItemID_Invalid;
     }
 
-    const auto pool = getSpecialVehiclePool(houseID);
-    if(pool.empty()) {
-        return ItemID_Invalid;
-    }
+    const bool tornieActive =
+        ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Tornie";
 
-    for(size_t i = 0; i < pool.size(); i++) {
-        const int poolIndex = (nextIndex + static_cast<int>(i)) % static_cast<int>(pool.size());
-        const int candidate = pool[poolIndex];
-        if(isUnit(candidate) && pGame->objectData.data[candidate][houseID].enabled) {
-            nextIndex = (poolIndex + 1) % static_cast<int>(pool.size());
-            return candidate;
+    const auto pool = getSpecialVehiclePoolForHouse(houseID, tornieActive);
+
+    std::vector<int> enabledPool;
+    enabledPool.reserve(pool.size());
+
+    for(const int candidate : pool) {
+        if(isUnit(candidate)
+           && pGame->objectData.data[candidate][houseID].enabled) {
+            enabledPool.push_back(candidate);
         }
     }
 
-    return ItemID_Invalid;
+    if(enabledPool.empty()) {
+        SDL_Log(
+            "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=0 -> invalid",
+            houseID,
+            tornieActive ? 1 : 0,
+            pool.size()
+        );
+
+        return ItemID_Invalid;
+    }
+
+    if(enabledPool.size() == 1) {
+        SDL_Log(
+            "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=1 selected=%d",
+            houseID,
+            tornieActive ? 1 : 0,
+            pool.size(),
+            enabledPool.front()
+        );
+
+        return enabledPool.front();
+    }
+
+    // Use the game's RNG so the result remains deterministic in
+    // multiplayer games, saved games and replays.
+    const int randomIndex = pGame->randomGen.rand(
+        0,
+        static_cast<int>(enabledPool.size()) - 1
+    );
+
+    const int selected = enabledPool[randomIndex];
+
+    SDL_Log(
+        "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=%zu roll=%d selected=%d",
+        houseID,
+        tornieActive ? 1 : 0,
+        pool.size(),
+        enabledPool.size(),
+        randomIndex,
+        selected
+    );
+
+    return selected;
 }
 
 } // namespace
@@ -472,9 +494,8 @@ void INIMapLoader::loadHouses()
     // now set up all the houses
     resetHouseVisualHouseMapping();
     for(const GameInitSettings::HouseInfo& houseInfo : houseInfoList) {
-        HOUSETYPE houseID;
-
-        pGame->houseInfoListSetup.push_back(houseInfo);
+        GameInitSettings::HouseInfo resolvedHouseInfo = houseInfo;
+        HOUSETYPE houseID = houseInfo.houseID;
 
         if(houseInfo.houseID == HOUSE_INVALID) {
             // random house => select one unbound house
@@ -485,18 +506,14 @@ void INIMapLoader::loadHouses()
             int randomIndex = pGame->randomGen.rand(0, (int) unboundedHouses.size() - 1);
             houseID = unboundedHouses[randomIndex];
             unboundedHouses.erase(unboundedHouses.begin() + randomIndex);
-
-            pGame->houseInfoListSetup.back().houseID = houseID;
-        } else {
-            houseID = houseInfo.houseID;
+            resolvedHouseInfo.houseID = houseID;
         }
 
         int colorOfHouse = houseInfo.colorOfHouse;
         if(!isValidHouseColorSlot(colorOfHouse)) {
             colorOfHouse = houseID;
         }
-        pGame->houseInfoListSetup.back().colorOfHouse = colorOfHouse;
-        setHouseVisualHouse(houseID, colorOfHouse);
+        resolvedHouseInfo.colorOfHouse = colorOfHouse;
 
         std::string houseName = getHouseNameByNumber(houseID);
         convertToLower(houseName);
@@ -512,6 +529,17 @@ void INIMapLoader::loadHouses()
             houseName = playerSectionsOnMap[randomIndex];
             playerSectionsOnMap.erase(playerSectionsOnMap.begin() + randomIndex);
         }
+
+        // Keep only fully resolved entries. A skipped Random entry used to remain
+        // in houseInfoListSetup and could later bind local vision to the wrong slot.
+        pGame->houseInfoListSetup.push_back(resolvedHouseInfo);
+        setHouseVisualHouse(houseID, colorOfHouse);
+        SDL_Log("INIMapLoader: player setup requestedHouse=%d resolvedHouse=%d requestedColor=%d resolvedColor=%d section=%s",
+                static_cast<int>(houseInfo.houseID),
+                static_cast<int>(houseID),
+                houseInfo.colorOfHouse,
+                colorOfHouse,
+                houseName.c_str());
 
         housename2house[houseName] = houseID;
 
@@ -556,11 +584,11 @@ void INIMapLoader::loadHouses()
 
         int quota = inifile->getIntValue(houseName,"Quota",0);
 
-        pGame->house[houseID] = std::make_unique<House>(houseID, startingCredits, maxUnits, maxHarvesters, houseInfo.team, quota);
+        pGame->house[houseID] = std::make_unique<House>(houseID, startingCredits, maxUnits, maxHarvesters, resolvedHouseInfo.team, quota);
         House* pNewHouse = pGame->house[houseID].get();
 
         // add players
-        for(const GameInitSettings::PlayerInfo& playerInfo : houseInfo.playerInfoList) {
+        for(const GameInitSettings::PlayerInfo& playerInfo : resolvedHouseInfo.playerInfoList) {
             const PlayerFactory::PlayerData* pPlayerData = PlayerFactory::getByPlayerClass(playerInfo.playerClass);
             if(pPlayerData == nullptr) {
                 logWarning("Cannot load '" + playerInfo.playerClass + "', using default AI player!");
@@ -628,11 +656,6 @@ void INIMapLoader::loadUnits()
         return;
     }
 
-    int nextSpecialUnitIndex[NUM_HOUSES];
-    for(int i=0;i<NUM_HOUSES;i++) {
-        nextSpecialUnitIndex[i] = 0;
-    }
-
     for(const INIFile::Key& key : inifile->getSection("UNITS")) {
         if(key.getKeyName().find("ID") == 0) {
             std::string HouseStr, UnitStr, health, PosStr, rotation, mode;
@@ -678,7 +701,7 @@ void INIMapLoader::loadUnits()
                 itemID = Unit_Trooper;
                 Num2Place = 3;
             } else if(itemID == Unit_Special) {
-                itemID = chooseSpecialVehicle(pGame, houseID, nextSpecialUnitIndex[houseID]);
+                itemID = chooseSpecialVehicle(pGame, houseID);
                 if(itemID == ItemID_Invalid) {
                     continue;
                 }

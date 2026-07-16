@@ -9,6 +9,8 @@
 
 #include <structures/Scoutpost.h>
 
+#include <GUI/ObjectInterfaces/DefaultObjectInterface.h>
+#include <GUI/ObjectInterfaces/WindTrapInterface.h>
 #include <globals.h>
 
 #include <Bullet.h>
@@ -54,6 +56,14 @@ bool Scoutpost::canAttack(const ObjectBase* object) const {
     return object != nullptr
         && ((object->getOwner()->getTeamID() != owner->getTeamID()) || object->getItemID() == Unit_Sandworm)
         && object->isVisible(getOwner()->getTeamID());
+}
+
+ObjectInterface* Scoutpost::getInterfaceContainer() {
+    if((pLocalHouse == owner) || (debug == true)) {
+        return WindTrapInterface::create(objectID);
+    }
+
+    return DefaultObjectInterface::create(objectID);
 }
 
 void Scoutpost::updateStructureSpecificStuff() {

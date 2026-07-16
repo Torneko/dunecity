@@ -2070,7 +2070,6 @@ void QuantBot::build(int militaryValue) {
 				if (!pBuilder->isUpgrading()
 					&& (gameMode == GameMode::Campaign || (currentGame && currentGame->isCitySimEnabled()))
 					&& money > (currentGame && currentGame->isCitySimEnabled() ? 500 : 1000)
-					&& itemCount[Structure_HeavyFactory] == 0  // Only produce from Light Factory if no Heavy Factory exists
 					&& pBuilder->getProductionQueueSize() < 1
 					&& pBuilder->getBuildListSize() > 0
 					&& militaryValue < militaryValueLimit) {
@@ -2080,15 +2079,14 @@ void QuantBot::build(int militaryValue) {
 					}
 					else if (!getHouse()->isGroundUnitLimitReached()) {
 						Uint32 itemID = NONE_ID;
-
-						if (pBuilder->isAvailableToBuild(Unit_RaiderTrike)) {
-							itemID = Unit_RaiderTrike;
-						}
-						else if (pBuilder->isAvailableToBuild(Unit_Quad)) {
-							itemID = Unit_Quad;
-						}
-						else if (pBuilder->isAvailableToBuild(Unit_Trike)) {
-							itemID = Unit_Trike;
+						const Uint32 lightVehicles[] = {
+							Unit_SonicTrike, Unit_RocketTrike, Unit_RaiderTrike, Unit_Quad, Unit_Trike
+						};
+						for(const Uint32 candidate : lightVehicles) {
+							if(pBuilder->isAvailableToBuild(candidate)
+							   && (itemID == NONE_ID || itemCount[candidate] < itemCount[itemID])) {
+								itemID = candidate;
+							}
 						}
 
 						if (itemID != NONE_ID) {
@@ -2143,6 +2141,9 @@ void QuantBot::build(int militaryValue) {
 				} break;
 
 				case Structure_HeavyFactory: {
+					const Uint32 harvesterID = pBuilder->isAvailableToBuild(Unit_RebelHarvester)
+						? Unit_RebelHarvester : Unit_Harvester;
+					const int totalHarvesters = itemCount[Unit_Harvester] + itemCount[Unit_RebelHarvester];
 					// Log HF status when idle with money (Custom mode diagnostics)
 					if (gameMode == GameMode::Custom && emitStatsLog) {
 						logDebug("HF: upgrading=%d queue=%d buildList=%d upgLv=%d/%d unitLimit=%d money=%d",
@@ -2197,23 +2198,23 @@ void QuantBot::build(int militaryValue) {
 						}
 						else if (gameMode == GameMode::Custom
 							&& !(currentGame && currentGame->isCitySimEnabled())
-							&& pBuilder->isAvailableToBuild(Unit_Harvester)
+							&& pBuilder->isAvailableToBuild(harvesterID)
 							&& !getHouse()->isGroundUnitLimitReached()
-							&& itemCount[Unit_Harvester] < militaryValue / 1000
-							&& itemCount[Unit_Harvester] < harvesterLimit) {
+							&& totalHarvesters < militaryValue / 1000
+							&& totalHarvesters < harvesterLimit) {
 							// In case we get given lots of money, it will eventually run out so we need to be prepared
 							// Skip on city sim maps — no spice to harvest
-							produceItemWithLogging(Unit_Harvester);
-							itemCount[Unit_Harvester]++;
+							produceItemWithLogging(harvesterID);
+							itemCount[harvesterID]++;
 						}
 						else if (!(currentGame && currentGame->isCitySimEnabled())
-							&& itemCount[Unit_Harvester] < harvesterLimit
-							&& pBuilder->isAvailableToBuild(Unit_Harvester)
+							&& totalHarvesters < harvesterLimit
+							&& pBuilder->isAvailableToBuild(harvesterID)
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& (money < 2000 || gameMode == GameMode::Campaign)) {
 							// Skip on city sim — no spice, harvesters are useless
-							produceItemWithLogging(Unit_Harvester);
-							itemCount[Unit_Harvester]++;
+							produceItemWithLogging(harvesterID);
+							itemCount[harvesterID]++;
 						}
 						else if ((money > 500) && (pBuilder->isUpgrading() == false) && (pBuilder->getCurrentUpgradeLevel() < pBuilder->getMaxUpgradeLevel())) {
 							// Upgrade before military — unlocks MCV(1), Launcher(2), SiegeTank(3)
@@ -2229,20 +2230,42 @@ void QuantBot::build(int militaryValue) {
 							// Limit enemy military units based on difficulty
 
 							// Calculate current value of units
-							int launcherValue = data[Unit_Launcher][houseID].price * itemCount[Unit_Launcher];
+							int launcherValue = data[Unit_Launcher][houseID].price * itemCount[Unit_Launcher]
+								+ data[Unit_EliteLauncher][houseID].price * itemCount[Unit_EliteLauncher];
 							int specialValue = data[Unit_Devastator][houseID].price * itemCount[Unit_Devastator]
 								+ data[Unit_Deviator][houseID].price * itemCount[Unit_Deviator]
-								+ data[Unit_SonicTank][houseID].price * itemCount[Unit_SonicTank];
-							int siegeValue = data[Unit_SiegeTank][houseID].price * itemCount[Unit_SiegeTank];
+								+ data[Unit_SonicTank][houseID].price * itemCount[Unit_SonicTank]
+								+ data[Unit_FlameTank][houseID].price * itemCount[Unit_FlameTank];
+							int siegeValue = data[Unit_SiegeTank][houseID].price * itemCount[Unit_SiegeTank]
+								+ data[Unit_EliteSiegeTank][houseID].price * itemCount[Unit_EliteSiegeTank];
 
 
 							/// Use current value and what percentage of military we want to determine
 							/// whether to build an additional unit.
-							if (pBuilder->isAvailableToBuild(Unit_Launcher) && (militaryValue * launcherPercent > launcherValue)) {
+							if (pBuilder->isAvailableToBuild(Unit_EliteLauncher)
+								&& (!pBuilder->isAvailableToBuild(Unit_Launcher) || itemCount[Unit_EliteLauncher] <= itemCount[Unit_Launcher])
+								&& (militaryValue * launcherPercent > launcherValue)) {
+								produceItemWithLogging(Unit_EliteLauncher);
+								itemCount[Unit_EliteLauncher]++;
+								money -= data[Unit_EliteLauncher][houseID].price;
+								militaryValue += data[Unit_EliteLauncher][houseID].price;
+							}
+							else if (pBuilder->isAvailableToBuild(Unit_Launcher) && (militaryValue * launcherPercent > launcherValue)) {
 								produceItemWithLogging(Unit_Launcher);
 								itemCount[Unit_Launcher]++;
 								money -= data[Unit_Launcher][houseID].price;
 								militaryValue += data[Unit_Launcher][houseID].price;
+							}
+							else if (pBuilder->isAvailableToBuild(Unit_FlameTank)
+								&& ((!pBuilder->isAvailableToBuild(Unit_Devastator)
+									&& !pBuilder->isAvailableToBuild(Unit_SonicTank)
+									&& !pBuilder->isAvailableToBuild(Unit_Deviator))
+									|| itemCount[Unit_FlameTank] <= itemCount[Unit_Devastator] + itemCount[Unit_SonicTank] + itemCount[Unit_Deviator])
+								&& (militaryValue * specialPercent > specialValue)) {
+								produceItemWithLogging(Unit_FlameTank);
+								itemCount[Unit_FlameTank]++;
+								money -= data[Unit_FlameTank][houseID].price;
+								militaryValue += data[Unit_FlameTank][houseID].price;
 							}
 							else if (pBuilder->isAvailableToBuild(Unit_Devastator) && (militaryValue * specialPercent > specialValue)) {
 								produceItemWithLogging(Unit_Devastator);
@@ -2261,6 +2284,14 @@ void QuantBot::build(int militaryValue) {
 								itemCount[Unit_Deviator]++;
 								money -= data[Unit_Deviator][houseID].price;
 								militaryValue += data[Unit_Deviator][houseID].price;
+							}
+							else if (pBuilder->isAvailableToBuild(Unit_EliteSiegeTank)
+								&& (!pBuilder->isAvailableToBuild(Unit_SiegeTank) || itemCount[Unit_EliteSiegeTank] <= itemCount[Unit_SiegeTank])
+								&& (militaryValue * siegePercent > siegeValue)) {
+								produceItemWithLogging(Unit_EliteSiegeTank);
+								itemCount[Unit_EliteSiegeTank]++;
+								money -= data[Unit_EliteSiegeTank][houseID].price;
+								militaryValue += data[Unit_EliteSiegeTank][houseID].price;
 							}
 							else if (pBuilder->isAvailableToBuild(Unit_SiegeTank) && (militaryValue * siegePercent > siegeValue)) {
 								produceItemWithLogging(Unit_SiegeTank);

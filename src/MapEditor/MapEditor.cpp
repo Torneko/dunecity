@@ -32,6 +32,8 @@
 #include <misc/format.h>
 #include <misc/DiscordManager.h>
 
+#include <mod/ModManager.h>
+
 #include <globals.h>
 #include <mmath.h>
 #include <sand.h>
@@ -39,7 +41,6 @@
 #include <Tile.h>
 
 #include <config.h>
-
 #include <typeinfo>
 #include <algorithm>
 
@@ -1800,6 +1801,9 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
     }
 
+    const bool tornieActive = ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Tornie";
+
     for(const Unit& unit : units) {
 
         const Coord& position = unit.position;
@@ -1855,19 +1859,30 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
                                                     Coord(0, -12)
                                                 };
 
+        const Coord harvestankTurretOffset[] =   {
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0),
+                                                    Coord(0, 0)
+                                                };
+
         int objectPicBase = 0;
         int framesX = NUM_ANGLES;
         int framesY = 1;
         int objectPicGun = -1;
+        int objectPicGunHouse = unit.house;
         const Coord* gunOffset = nullptr;
-
         switch(unit.itemID) {
             case Unit_Carryall:         objectPicBase = ObjPic_Carryall;        framesY = 2;                                                                    break;
             case Unit_Devastator:       objectPicBase = ObjPic_Devastator_Base; objectPicGun = ObjPic_Devastator_Gun;   gunOffset = devastatorTurretOffset;     break;
-            case Unit_Deviator:         objectPicBase = ObjPic_Tank_Base;       objectPicGun = ObjPic_Launcher_Gun;     gunOffset = launcherTurretOffset;       break;
+            case Unit_Deviator:         objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_DeviatorGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
             case Unit_Frigate:          objectPicBase = ObjPic_Frigate;                                                                                         break;
             case Unit_Harvester:        objectPicBase = ObjPic_Harvester;                                                                                       break;
-            case Unit_RebelHarvester:   objectPicBase = ObjPic_Harvester;                                                                                       break;
+            case Unit_RebelHarvester:   objectPicBase = ObjPic_Harvester;     objectPicGun = tornieActive ? ObjPic_HarvestankGunTornie : -1; gunOffset = harvestankTurretOffset; break;
             case Unit_Soldier:          objectPicBase = ObjPic_Soldier;         framesX = 4;    framesY = 3;                                                    break;
             case Unit_Launcher:         objectPicBase = ObjPic_Tank_Base;       objectPicGun = ObjPic_Launcher_Gun;     gunOffset = launcherTurretOffset;       break;
             case Unit_MCV:              objectPicBase = ObjPic_MCV;                                                                                             break;
@@ -1885,9 +1900,10 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
             case Unit_Infantry:         objectPicBase = ObjPic_Infantry;         framesX = 4;    framesY = 4;                                                   break;
             case Unit_Troopers:         objectPicBase = ObjPic_Troopers;         framesX = 4;    framesY = 4;                                                   break;
             case Unit_RocketTrike:      objectPicBase = ObjPic_RocketTrike;                                                                                       break;
-            case Unit_FlameTank:        objectPicBase = ObjPic_Tank_Base;       objectPicGun = ObjPic_Launcher_Gun;     gunOffset = launcherTurretOffset;       break;
-            case Unit_EliteLauncher:    objectPicBase = ObjPic_Tank_Base;       objectPicGun = ObjPic_Launcher_Gun;     gunOffset = launcherTurretOffset;       break;
-            case Unit_EliteSiegeTank:   objectPicBase = ObjPic_Siegetank_Base;  objectPicGun = ObjPic_Siegetank_Gun;    gunOffset = siegeTankTurretOffset;      break;
+            case Unit_SonicTrike:       objectPicBase = ObjPic_SonicTrike;                                                                                        break;
+            case Unit_FlameTank:        objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_FlameTankGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
+            case Unit_EliteLauncher:    objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_EliteLauncherGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
+            case Unit_EliteSiegeTank:   objectPicBase = ObjPic_Siegetank_Base;  objectPicGun = ObjPic_EliteSiegeTankGunTornie; gunOffset = siegeTankTurretOffset; break;
         }
 
         SDL_Texture* pObjectSprite = pGFXManager->getZoomedObjPic(objectPicBase, unit.house, currentZoomlevel);
@@ -1907,7 +1923,7 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
         SDL_RenderCopy(renderer, pObjectSprite, &source, &drawLocation);
 
         if(objectPicGun >= 0) {
-            SDL_Texture* pGunSprite = pGFXManager->getZoomedObjPic(objectPicGun, unit.house, currentZoomlevel);
+            SDL_Texture* pGunSprite = pGFXManager->getZoomedObjPic(objectPicGun, objectPicGunHouse, currentZoomlevel);
 
             SDL_Rect source2 = calcSpriteSourceRect(pGunSprite, unit.angle, NUM_ANGLES);
             SDL_Rect drawLocation2 = calcSpriteDrawingRect( pGunSprite,
@@ -1920,7 +1936,7 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
         const bool yellowStarMarker = (unit.itemID == Unit_RaiderTrike || unit.itemID == Unit_Special
                                        || unit.itemID == Unit_Deviator);
-        const bool customStarMarker = (unit.itemID == Unit_RocketTrike
+        const bool customStarMarker = (unit.itemID == Unit_RocketTrike || unit.itemID == Unit_SonicTrike
                                        || unit.itemID == Unit_FlameTank || unit.itemID == Unit_EliteLauncher
                                        || unit.itemID == Unit_EliteSiegeTank || unit.itemID == Unit_RebelHarvester);
         if(yellowStarMarker || customStarMarker) {

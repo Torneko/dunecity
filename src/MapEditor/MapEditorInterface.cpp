@@ -701,6 +701,10 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeUnits_RocketTrike.setTooltipText(resolveItemName(Unit_RocketTrike));
     editorModeUnits_RocketTrike.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_RocketTrike));
 
+    editorModeUnits_SonicTrike.setToggleButton(true);
+    editorModeUnits_SonicTrike.setTooltipText(resolveItemName(Unit_SonicTrike));
+    editorModeUnits_SonicTrike.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_SonicTrike));
+
     editorModeUnits_FlameTank.setToggleButton(true);
     editorModeUnits_FlameTank.setTooltipText(resolveItemName(Unit_FlameTank));
     editorModeUnits_FlameTank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_FlameTank));
@@ -812,6 +816,8 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_FlameTank);
 
         editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieElite, 2*D2_TILESIZE);
+        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_SonicTrike);
+        editorModeUnits_HBoxTornieElite.addWidget(HSpacer::create(2));
         editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteLauncher);
         editorModeUnits_HBoxTornieElite.addWidget(HSpacer::create(2));
         editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteSiegeTank);
@@ -1271,6 +1277,7 @@ void MapEditorInterface::onUnitButton(int unitType) {
     editorModeUnits_Raider.setToggleState( (unitType == Unit_RaiderTrike) );
     editorModeUnits_Quad.setToggleState( (unitType == Unit_Quad) );
     editorModeUnits_RocketTrike.setToggleState( (unitType == Unit_RocketTrike) );
+    editorModeUnits_SonicTrike.setToggleState( (unitType == Unit_SonicTrike) );
     editorModeUnits_FlameTank.setToggleState( (unitType == Unit_FlameTank) );
     editorModeUnits_EliteLauncher.setToggleState( (unitType == Unit_EliteLauncher) );
     editorModeUnits_EliteSiegeTank.setToggleState( (unitType == Unit_EliteSiegeTank) );
@@ -1527,6 +1534,7 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeUnits_Raider.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Raider, newHouse));
     editorModeUnits_Quad.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Quad, newHouse));
     editorModeUnits_RocketTrike.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_RocketTrike, newHouse));
+    editorModeUnits_SonicTrike.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_SonicTrike, newHouse));
     editorModeUnits_FlameTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_FlameTank, newHouse));
     editorModeUnits_EliteLauncher.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_EliteLauncher, newHouse));
     editorModeUnits_EliteSiegeTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_EliteSiegeTank, newHouse));
