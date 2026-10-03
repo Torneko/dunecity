@@ -58,3 +58,21 @@ bool ConstructionYard::doPlaceStructure(int x, int y) {
         return false;
     }
 }
+
+void ConstructionYard::updateStructureSpecificStuff() {
+    if(currentGame == nullptr || getOwner() == nullptr || !getOwner()->isAI()
+       || currentGame->techLevel < 9
+       || getOwner()->getNumItems(Structure_LoveFactory) > 0
+       || getProductionQueueSize() > 0
+       || getCurrentProducedItem() != ItemID_Invalid
+       || isUpgrading()
+       || !isAvailableToBuild(Structure_LoveFactory)) {
+        return;
+    }
+
+    const BuildItem* loveFactory = getBuildItem(Structure_LoveFactory);
+    if(loveFactory != nullptr
+       && getOwner()->getCredits() >= static_cast<int>(loveFactory->price) + 1500) {
+        doProduceItem(Structure_LoveFactory);
+    }
+}

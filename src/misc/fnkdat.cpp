@@ -56,6 +56,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "config.h"
 
@@ -236,7 +237,22 @@ int fnkdat(const _TCHAR* target, _TCHAR* buffer, int len, int flags) {
    /* Get the user conf directory using the silly-ass function if it
       is available.
     */
-   if (dwFlags
+   // An explicit per-process user root enables portable and isolated profiles.
+   // When unset, Windows keeps using the normal Roaming folder.
+   const _TCHAR* userDirectoryOverride =
+      (rawflags == FNKDAT_USER) ? _tgetenv(_T("DUNELEGACY_USER_DIR")) : NULL;
+   if (userDirectoryOverride && userDirectoryOverride[0]) {
+      if (_tcslen(userDirectoryOverride) >= static_cast<size_t>(len - 1))
+         return -1;
+
+      FNKDAT_S(_tcsncpy(buffer, userDirectoryOverride, len));
+      const size_t overrideLength = _tcslen(buffer);
+      if (overrideLength > 0
+          && buffer[overrideLength - 1] != _T('\\')
+          && buffer[overrideLength - 1] != _T('/')) {
+         FNKDAT_S(_tcsncat(buffer, _T("\\"), len));
+      }
+   } else if (dwFlags
        && SHGetFolderPath
        && SUCCEEDED(hresult = SHGetFolderPath(
          NULL,
@@ -386,6 +402,11 @@ int fnkdat(const _TCHAR* target, _TCHAR* buffer, int len, int flags) {
 #include <unistd.h>
 #include <cstdlib>
 
+#ifdef __ANDROID__
+#include <SDL_filesystem.h>
+#include <SDL_system.h>
+#endif
+
 #ifdef __APPLE__
 #include <misc/MacFunctions.h>
 #endif
@@ -441,6 +462,22 @@ int fnkdat(const char* target, char* buffer, int len, int flags) {
 #ifdef __APPLE__
       getMacApplicationSupportFolder(buffer, len);
       FNKDAT_S(strncat(buffer, "/Dune Legacy Tornie", len));
+#elif defined(__ANDROID__)
+      const char* androidPath = SDL_AndroidGetExternalStoragePath();
+      if(androidPath == NULL || androidPath[0] == '\0') {
+         androidPath = SDL_AndroidGetInternalStoragePath();
+      }
+
+      if(androidPath != NULL && androidPath[0] != '\0') {
+         FNKDAT_S(strncpy(buffer, androidPath, len));
+      } else {
+         char* prefPath = SDL_GetPrefPath("DuneLegacyTornie", "DuneLegacyTornie");
+         if(prefPath == NULL) {
+            return -1;
+         }
+         FNKDAT_S(strncpy(buffer, prefPath, len));
+         SDL_free(prefPath);
+      }
 #else
       {
          char* xdg_config = getenv("XDG_CONFIG_HOME");
@@ -569,4 +606,3 @@ static int fnkdat_mkdirs(_TCHAR* buffer, int rlevel) {
 }
 
 /* vi: set sw=3 ts=3 tw=78 et sts: */
-

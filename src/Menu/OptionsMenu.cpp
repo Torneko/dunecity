@@ -16,6 +16,7 @@
  */
 
 #include <Menu/OptionsMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 
 #include <globals.h>
 
@@ -80,6 +81,7 @@ OptionsMenu::OptionsMenu() : MenuBase()
 
     gameOptionsHBox.addWidget(Label::create(_("Default Game Options")), 190);
     gameOptionsButton.setText(_("Change..."));
+    MainMenuButtonColor::apply(gameOptionsButton);
     gameOptionsButton.setOnClick(std::bind(&OptionsMenu::onGameOptions, this));
     gameOptionsHBox.addWidget(&gameOptionsButton, 130);
 
@@ -277,6 +279,7 @@ OptionsMenu::OptionsMenu() : MenuBase()
 
     restoreDefaultsHBox.addWidget(Spacer::create(), 0.5);
     restoreDefaultsButton.setText(_("Restore Config Defaults"));
+    MainMenuButtonColor::apply(restoreDefaultsButton);
     restoreDefaultsButton.setOnClick(std::bind(&OptionsMenu::onRestoreDefaults, this));
     restoreDefaultsHBox.addWidget(&restoreDefaultsButton, 320);
     restoreDefaultsHBox.addWidget(Spacer::create(), 0.5);
@@ -287,12 +290,14 @@ OptionsMenu::OptionsMenu() : MenuBase()
     okCancelHBox.addWidget(Spacer::create());
 
     backButton.setText(_("Back"));
+    MainMenuButtonColor::apply(backButton);
     backButton.setOnClick(std::bind(&OptionsMenu::onOptionsCancel, this));
     okCancelHBox.addWidget(&backButton);
 
     okCancelHBox.addWidget(Spacer::create());
 
     acceptButton.setText(_("Accept"));
+    MainMenuButtonColor::apply(acceptButton);
     acceptButton.setVisible(false);
     acceptButton.setOnClick(std::bind(&OptionsMenu::onOptionsOK, this));
     okCancelHBox.addWidget(&acceptButton);
@@ -378,13 +383,13 @@ void OptionsMenu::onOptionsOK() {
     int selectedResolution = resolutionDropDownBox.getSelectedEntryIntData();
     settings.video.physicalWidth = (selectedResolution >= 0) ? availScreenRes[selectedResolution].x : 0;
     settings.video.physicalHeight = (selectedResolution >= 0) ? availScreenRes[selectedResolution].y : 0;
-    
+
     // Validate resolution settings
     if(settings.video.physicalWidth < SCREEN_MIN_WIDTH || settings.video.physicalHeight < SCREEN_MIN_HEIGHT) {
         openWindow(MsgBox::create(_("Invalid resolution selected. Please choose a valid resolution.")));
         return;
     }
-    
+
     int factor = getLogicalToPhysicalResolutionFactor(settings.video.physicalWidth, settings.video.physicalHeight);
     // Prevent division by zero and ensure minimum dimensions
     if(factor <= 0) {
@@ -392,7 +397,7 @@ void OptionsMenu::onOptionsOK() {
     }
     settings.video.width = settings.video.physicalWidth / factor;
     settings.video.height = settings.video.physicalHeight / factor;
-    
+
     // Ensure minimum dimensions
     if(settings.video.width < SCREEN_MIN_WIDTH) settings.video.width = SCREEN_MIN_WIDTH;
     if(settings.video.height < SCREEN_MIN_HEIGHT) settings.video.height = SCREEN_MIN_HEIGHT;
@@ -437,7 +442,7 @@ void OptionsMenu::onGameOptions() {
 void OptionsMenu::onRestoreDefaults() {
     // Restore config files
     if (restoreDefaultConfigs()) {
-        std::string successMessage = 
+        std::string successMessage =
             "Config files restored successfully!\n\n"
             "ObjectData.ini and QuantBot Config.ini have been\n"
             "reset to default values.\n\n"
@@ -446,7 +451,7 @@ void OptionsMenu::onRestoreDefaults() {
         MsgBox* pMsgBox = MsgBox::create(successMessage);
         openWindow(pMsgBox);
     } else {
-        std::string errorMessage = 
+        std::string errorMessage =
             "ERROR: Failed to restore config files!\n\n"
             "Check the log file for details.";
         MsgBox* pMsgBox = MsgBox::create(errorMessage);
@@ -492,6 +497,7 @@ void OptionsMenu::saveConfiguration2File() {
     myINIFile.setBoolValue("Game Options","Rocket-Turrets Need Power",settings.gameOptions.rocketTurretsNeedPower);
     myINIFile.setBoolValue("Game Options","Sandworms Respawn",settings.gameOptions.sandwormsRespawn);
     myINIFile.setBoolValue("Game Options","Killed Sandworms Drop Spice",settings.gameOptions.killedSandwormsDropSpice);
+    myINIFile.setBoolValue("Game Options","Random Spice Blooms",settings.gameOptions.randomSpiceBlooms);
     myINIFile.setBoolValue("Game Options","Manual Carryall Drops",settings.gameOptions.manualCarryallDrops);
     myINIFile.setIntValue("Game Options","Maximum Number of Units Override",settings.gameOptions.maximumNumberOfUnitsOverride);
     myINIFile.setIntValue("Game Options","Maximum Number of Harvesters Override",settings.gameOptions.maximumNumberOfHarvestersOverride);
@@ -521,15 +527,15 @@ void OptionsMenu::determineAvailableScreenResolutions() {
 
     SDL_DisplayMode displayMode;
     int displayIndex = SDL_GetWindowDisplayIndex(window);
-    
+
     // Safety check: ensure display index is valid
     if(displayIndex < 0) {
         SDL_Log("Warning: Invalid display index, using fallback resolutions");
         displayIndex = 0; // Use primary display
     }
-    
+
     int numDisplayModes = SDL_GetNumDisplayModes(displayIndex);
-    
+
     // Safety check: ensure we have display modes
     if(numDisplayModes <= 0) {
         SDL_Log("Warning: No display modes available, using fallback resolutions");
@@ -541,7 +547,7 @@ void OptionsMenu::determineAvailableScreenResolutions() {
         availScreenRes.emplace_back(1920, 1080 );  // 1080p (16:9)
         return;
     }
-    
+
     for(int i = numDisplayModes-1; i >=0; i--) {
         if(SDL_GetDisplayMode(displayIndex, i, &displayMode) == 0) {
             Coord screenRes(displayMode.w, displayMode.h);

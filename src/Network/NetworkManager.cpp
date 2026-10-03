@@ -85,7 +85,7 @@ NetworkManager::~NetworkManager() {
         upnpPortMapped = false;
         upnpMappedPort = 0;
     }
-    
+
     pUPnPManager.reset();
     pMetaServerClient.reset();
     pLANGameFinderAndAnnouncer.reset();
@@ -96,7 +96,7 @@ NetworkManager::~NetworkManager() {
 void NetworkManager::startServer(bool bLANServer, const std::string& serverName, const std::string& playerName, GameInitSettings* pGameInitSettings, int numPlayers, int maxPlayers) {
     // Reset game-in-progress flag for new game
     bGameInProgress = false;
-    
+
     if(bLANServer == true) {
         if(pLANGameFinderAndAnnouncer != nullptr) {
             pLANGameFinderAndAnnouncer->startAnnounce(serverName, host->address.port, pGameInitSettings->getFilename(), numPlayers, maxPlayers);
@@ -114,7 +114,7 @@ void NetworkManager::startServer(bool bLANServer, const std::string& serverName,
                     SDL_Log("NetworkManager: UPnP not available - manual port forwarding may be required");
                 }
             }
-            
+
             // Try to add port mapping if UPnP is available
             // Use 1 hour lease (3600s) instead of permanent - will be renewed if game runs longer
             if (pUPnPManager->isAvailable()) {
@@ -122,18 +122,18 @@ void NetworkManager::startServer(bool bLANServer, const std::string& serverName,
                     upnpPortMapped = true;
                     upnpMappedPort = host->address.port;
                     upnpLeaseStartTime = SDL_GetTicks();
-                    SDL_Log("NetworkManager: UPnP port %d mapped successfully (%d min lease, auto-renews)", 
+                    SDL_Log("NetworkManager: UPnP port %d mapped successfully (%d min lease, auto-renews)",
                             host->address.port, UPNP_LEASE_DURATION / 60);
                 } else {
                     SDL_Log("NetworkManager: UPnP port mapping failed - manual port forwarding may be required");
                 }
             }
         }
-        
+
         if(pMetaServerClient != nullptr) {
             // Get active mod info
             ModInfo activeModInfo = ModManager::instance().getModInfo(ModManager::instance().getActiveModName());
-            
+
             // NAT traversal: Perform STUN query to discover external IP:port
             // SAFETY: STUN only runs here because peerList is empty (pre-connection)
             uint16_t stunPort = 0;
@@ -142,14 +142,14 @@ void NetworkManager::startServer(bool bLANServer, const std::string& serverName,
                 StunClient::StunResult stunResult = StunClient::performStunQuery(host->socket);
                 if (stunResult.success) {
                     stunPort = stunResult.externalPort;
-                    SDL_Log("NetworkManager: STUN discovered external address %s:%d", 
+                    SDL_Log("NetworkManager: STUN discovered external address %s:%d",
                             stunResult.externalIP.c_str(), stunResult.externalPort);
                 } else {
-                    SDL_Log("NetworkManager: STUN query failed: %s (will announce without STUN port)", 
+                    SDL_Log("NetworkManager: STUN query failed: %s (will announce without STUN port)",
                             stunResult.errorMessage.c_str());
                 }
             }
-            
+
             pMetaServerClient->startAnnounce(serverName, host->address.port, pGameInitSettings->getFilename(), numPlayers, maxPlayers,
                                              activeModInfo.name, activeModInfo.version, stunPort);
         }
@@ -190,7 +190,7 @@ void NetworkManager::stopAnnouncing() {
         }
     }
     // NOTE: bIsServer remains TRUE so the host can continue managing the game
-    
+
     // Mark game as in progress - this disables lobby-only features like NAT hole punch polling
     // (which uses blocking HTTP calls that would cause major stutter during gameplay)
     bGameInProgress = true;
@@ -199,7 +199,7 @@ void NetworkManager::stopAnnouncing() {
 
 void NetworkManager::stopServer() {
     stopAnnouncing();
-    
+
     // Remove UPnP port mapping if active
     if (upnpPortMapped && pUPnPManager && upnpMappedPort != 0) {
         if (pUPnPManager->removePortMapping(upnpMappedPort, "UDP")) {
@@ -212,7 +212,7 @@ void NetworkManager::stopServer() {
             SDL_Log("NetworkManager: Warning - failed to remove UPnP port mapping, will retry on exit");
         }
     }
-    
+
     // Fully stop the server (called when leaving a game or menu)
     bIsServer = false;
     bLANServer = false;
@@ -226,7 +226,7 @@ void NetworkManager::sendHolePunchPackets(const std::string& targetIP, uint16_t 
         SDL_Log("NetworkManager::sendHolePunchPackets - No socket available");
         return;
     }
-    
+
     // Resolve target address
     ENetAddress targetAddress;
     if (enet_address_set_host(&targetAddress, targetIP.c_str()) < 0) {
@@ -234,27 +234,27 @@ void NetworkManager::sendHolePunchPackets(const std::string& targetIP, uint16_t 
         return;
     }
     targetAddress.port = targetPort;
-    
+
     // Send punch packets - "DLHP" (Dune Legacy Hole Punch) signature
     const uint8_t punchData[] = {'D', 'L', 'H', 'P'};
-    
+
     SDL_Log("NetworkManager: Sending %d hole punch packets to %s:%d", count, targetIP.c_str(), targetPort);
-    
+
     for (int i = 0; i < count; i++) {
         ENetBuffer sendBuffer;
         sendBuffer.data = const_cast<uint8_t*>(punchData);
         sendBuffer.dataLength = sizeof(punchData);
-        
+
         int sent = enet_socket_send(host->socket, &targetAddress, &sendBuffer, 1);
         if (sent < 0) {
             SDL_Log("NetworkManager::sendHolePunchPackets - Send failed on packet %d", i + 1);
         }
-        
+
         if (i < count - 1 && intervalMs > 0) {
             SDL_Delay(intervalMs);
         }
     }
-    
+
     SDL_Log("NetworkManager: Hole punch packets sent");
 }
 
@@ -263,15 +263,15 @@ uint16_t NetworkManager::performStunQuery() {
         SDL_Log("NetworkManager::performStunQuery - No socket available");
         return 0;
     }
-    
+
     if (!peerList.empty()) {
         SDL_Log("NetworkManager::performStunQuery - Cannot run with active peers");
         return 0;
     }
-    
+
     StunClient::StunResult result = StunClient::performStunQuery(host->socket);
     if (result.success) {
-        SDL_Log("NetworkManager::performStunQuery - External: %s:%d", 
+        SDL_Log("NetworkManager::performStunQuery - External: %s:%d",
                 result.externalIP.c_str(), result.externalPort);
         return result.externalPort;
     } else {
@@ -285,17 +285,17 @@ bool NetworkManager::performStunQueryFull(std::string& outIP, uint16_t& outPort)
         SDL_Log("NetworkManager::performStunQueryFull - No socket available");
         return false;
     }
-    
+
     if (!peerList.empty()) {
         SDL_Log("NetworkManager::performStunQueryFull - Cannot run with active peers");
         return false;
     }
-    
+
     StunClient::StunResult result = StunClient::performStunQuery(host->socket);
     if (result.success) {
         outIP = result.externalIP;
         outPort = result.externalPort;
-        SDL_Log("NetworkManager::performStunQueryFull - External: %s:%d", 
+        SDL_Log("NetworkManager::performStunQueryFull - External: %s:%d",
                 outIP.c_str(), outPort);
         return true;
     } else {
@@ -347,7 +347,7 @@ void NetworkManager::update()
     if(pMetaServerClient != nullptr) {
         pMetaServerClient->update();
     }
-    
+
     // Renew UPnP lease before it expires (5 minutes before expiry)
     if (upnpPortMapped && pUPnPManager && upnpLeaseStartTime != 0) {
         Uint32 elapsed = (SDL_GetTicks() - upnpLeaseStartTime) / 1000;  // seconds
@@ -361,27 +361,27 @@ void NetworkManager::update()
             }
         }
     }
-    
+
     // NAT Hole Punch: Non-blocking state machine for host-side punching
     // Only when hosting an internet game (not LAN) and NOT in an active game
     // CRITICAL: This uses blocking HTTP calls - MUST NOT run during gameplay!
     if (bIsServer && !bLANServer && !bGameInProgress && pMetaServerClient != nullptr) {
         Uint32 now = SDL_GetTicks();
-        
+
         // Step 1: Poll for new punch requests (every 1 second)
         if (now - lastPunchPollTime >= PUNCH_POLL_INTERVAL_MS) {
             lastPunchPollTime = now;
-            
+
             std::vector<std::tuple<std::string, std::string, uint16_t>> punchRequests;
             if (pMetaServerClient->pollPunchRequests(punchRequests) && !punchRequests.empty()) {
                 for (const auto& request : punchRequests) {
                     std::string clientId = std::get<0>(request);
                     std::string clientIP = std::get<1>(request);
                     uint16_t clientPort = std::get<2>(request);
-                    
+
                     SDL_Log("NAT Hole Punch: Received punch request from %s:%d (id: %s)",
                             clientIP.c_str(), clientPort, clientId.c_str());
-                    
+
                     // Signal ready to punch (non-blocking - just HTTP GET)
                     if (pMetaServerClient->signalPunchReady(clientId)) {
                         // Schedule punch for PUNCH_DELAY_MS from now (no blocking!)
@@ -393,18 +393,18 @@ void NetworkManager::update()
                         pending.packetsRemaining = PUNCH_PACKET_COUNT;
                         pending.lastPacketTime = 0;
                         pendingPunches.push_back(pending);
-                        
+
                         SDL_Log("NAT Hole Punch: Scheduled punch to %s:%d in %dms",
                                 clientIP.c_str(), clientPort, PUNCH_DELAY_MS);
                     }
                 }
             }
         }
-        
+
         // Step 2: Process pending punches (send 1 packet per interval, no blocking)
         for (auto it = pendingPunches.begin(); it != pendingPunches.end(); ) {
             PendingPunch& pending = *it;
-            
+
             // Check if it's time to start/continue punching
             if (now >= pending.punchAtTime && pending.packetsRemaining > 0) {
                 // Check if enough time passed since last packet
@@ -414,26 +414,26 @@ void NetworkManager::update()
                         ENetAddress targetAddress;
                         if (enet_address_set_host(&targetAddress, pending.clientIP.c_str()) == 0) {
                             targetAddress.port = pending.clientPort;
-                            
+
                             const uint8_t punchData[] = {'D', 'L', 'H', 'P'};
                             ENetBuffer sendBuffer;
                             sendBuffer.data = const_cast<uint8_t*>(punchData);
                             sendBuffer.dataLength = sizeof(punchData);
-                            
+
                             enet_socket_send(host->socket, &targetAddress, &sendBuffer, 1);
                         }
                     }
-                    
+
                     pending.packetsRemaining--;
                     pending.lastPacketTime = now;
-                    
+
                     if (pending.packetsRemaining == 0) {
                         SDL_Log("NAT Hole Punch: Completed punch to %s:%d",
                                 pending.clientIP.c_str(), pending.clientPort);
                     }
                 }
             }
-            
+
             // Remove completed punches
             if (pending.packetsRemaining <= 0) {
                 it = pendingPunches.erase(it);
@@ -442,7 +442,7 @@ void NetworkManager::update()
             }
         }
     }
-    
+
     // NAT keep-alive: Send periodic reliable ping to prevent NAT mapping timeout
     // Many routers drop UDP NAT mappings after 30-60 seconds of "inactivity"
     // (unreliable packets don't count as activity since they have no ACKs)
@@ -450,11 +450,11 @@ void NetworkManager::update()
         Uint32 now = SDL_GetTicks();
         if (now - lastKeepAliveTime >= KEEPALIVE_INTERVAL_MS) {
             lastKeepAliveTime = now;
-            
+
             ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
             packetStream.writeUint32(NETWORKPACKET_KEEPALIVE);
             packetStream.writeUint32(now);  // Timestamp for debugging
-            
+
             if (bIsServer) {
                 sendPacketToAllConnectedPeers(packetStream);
             } else if (connectPeer != nullptr) {
@@ -499,12 +499,12 @@ void NetworkManager::update()
                         changeEventList.save(packetOStream2);
 
                         sendPacketToPeer(pCurrentPeer, packetOStream2);
-                        
+
                         // Send mod info to newly connected peer for mod sync
                         if(ModManager::instance().isInitialized()) {
                             std::string modName = ModManager::instance().getActiveModName();
                             std::string modChecksum = ModManager::instance().getEffectiveChecksums().combined;
-                            SDL_Log("NetworkManager: Sending mod info to new peer - mod='%s', checksum=%s", 
+                            SDL_Log("NetworkManager: Sending mod info to new peer - mod='%s', checksum=%s",
                                     modName.c_str(), modChecksum.c_str());
                             sendModInfoToPeer(pCurrentPeer, modName, modChecksum);
                         }
@@ -794,12 +794,12 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                 changeEventList.save(packetOStream2);
 
                                 sendPacketToPeer(pCurrentPeer, packetOStream2);
-                                
+
                                 // Send mod info to newly connected peer for mod sync
                                 if(ModManager::instance().isInitialized()) {
                                     std::string modName = ModManager::instance().getActiveModName();
                                     std::string modChecksum = ModManager::instance().getEffectiveChecksums().combined;
-                                    SDL_Log("NetworkManager: Sending mod info to new peer - mod='%s', checksum=%s", 
+                                    SDL_Log("NetworkManager: Sending mod info to new peer - mod='%s', checksum=%s",
                                             modName.c_str(), modChecksum.c_str());
                                     sendModInfoToPeer(pCurrentPeer, modName, modChecksum);
                                 }
@@ -846,23 +846,23 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 ChangeEventList changeEventList(packetStream);
 
                 // Save the received map to the user's maps/multiplayer directory
-                if(gameInitSettings.getGameType() == GameType::CustomMultiplayer && 
+                if(gameInitSettings.getGameType() == GameType::CustomMultiplayer &&
                    !gameInitSettings.getFiledata().empty() &&
                    !gameInitSettings.getFilename().empty()) {
-                    
+
                     try {
                         char tmp[FILENAME_MAX];
                         if(fnkdat("maps/multiplayer/", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) >= 0) {
                             std::string mapDirectory(tmp);
                             std::string mapFilename = gameInitSettings.getFilename();
-                            
+
                             // Ensure the filename has .ini extension
                             if(mapFilename.length() < 4 || mapFilename.substr(mapFilename.length() - 4) != ".ini") {
                                 mapFilename += ".ini";
                             }
-                            
+
                             std::string fullPath = mapDirectory + mapFilename;
-                            
+
                             // Only save if the file doesn't exist yet (avoid overwriting user-modified maps)
                             if(!existsFile(fullPath)) {
                                 if(writeCompleteFile(fullPath, gameInitSettings.getFiledata())) {
@@ -962,13 +962,13 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 std::string gameVersion = packetStream.readString();
                 std::string quantBotHash = packetStream.readString();
                 std::string objectDataHash = packetStream.readString();
-                
+
                 PeerData* peerData = static_cast<PeerData*>(peer->data);
                 if(peerData) {
                     peerData->gameVersion = gameVersion;
                     peerData->quantBotConfigHash = quantBotHash;
                     peerData->objectDataHash = objectDataHash;
-                    
+
                     SDL_Log("========== CONFIG HASH RECEIVED ==========");
                     SDL_Log("From: %s", peerData->name.c_str());
                     SDL_Log("Protocol version: %d", peerProtocolVersion);
@@ -976,12 +976,24 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                     SDL_Log("QuantBot Config.ini hash: %s", quantBotHash.c_str());
                     SDL_Log("ObjectData.ini hash: %s", objectDataHash.c_str());
                     SDL_Log("==========================================");
-                    
+
                     // Get our own version and hashes (local)
                     std::string localVersion = VERSIONSTRING;
                     std::string localQuantBotHash = getQuantBotConfig().getConfigHash();
                     std::string localObjectDataHash = getObjectDataHash();
-                    
+
+                    const bool protocolRejected = rejectIncompatibleNetworkProtocol(
+                        peerProtocolVersion,
+                        [peer](int cause) {
+                            enet_peer_disconnect_later(peer, static_cast<enet_uint32>(cause));
+                        });
+                    if(protocolRejected) {
+                        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                                     "NetworkManager: rejecting incompatible protocol from %s (peer=%u, local=%u)",
+                                     peerData->name.c_str(), peerProtocolVersion, NETWORK_PROTOCOL_VERSION);
+                        break;
+                    }
+
                     if(bIsServer) {
                         // Server: verify client matches server config
                         SDL_Log("========== SERVER CONFIG VERIFICATION ==========");
@@ -994,15 +1006,15 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                 (peerProtocolVersion == NETWORK_PROTOCOL_VERSION) ? "YES" : "NO");
                         SDL_Log("  Peer version: %s (Match: %s)", peerData->gameVersion.c_str(),
                                 (peerData->gameVersion == localVersion) ? "YES" : "NO");
-                        SDL_Log("  Peer QuantBot: %s (Match: %s)", peerData->quantBotConfigHash.c_str(), 
+                        SDL_Log("  Peer QuantBot: %s (Match: %s)", peerData->quantBotConfigHash.c_str(),
                                 (peerData->quantBotConfigHash == localQuantBotHash) ? "YES" : "NO");
                         SDL_Log("  Peer ObjectData: %s (Match: %s)", peerData->objectDataHash.c_str(),
                                 (peerData->objectDataHash == localObjectDataHash) ? "YES" : "NO");
-                        
+
                         // Check if this peer has mismatched configs
                         bool mismatchFound = false;
                         std::string mismatchMessage;
-                        
+
                         if(peerProtocolVersion != NETWORK_PROTOCOL_VERSION) {
                             mismatchFound = true;
                             mismatchMessage += fmt::sprintf("\n- %s has incompatible network protocol version\n  Client: %d\n  Server: %d",
@@ -1027,9 +1039,9 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                                            peerData->name.c_str(), peerData->objectDataHash.c_str(), localObjectDataHash.c_str());
                             SDL_Log("*** MISMATCH: ObjectData.ini differs!");
                         }
-                        
+
                         SDL_Log("================================================");
-                        
+
                         if(mismatchFound) {
                             // Don't abort - mod sync system will handle this
                             // Host already sent MOD_INFO, client will download and sync
@@ -1049,15 +1061,15 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                 (peerProtocolVersion == NETWORK_PROTOCOL_VERSION) ? "YES" : "NO");
                         SDL_Log("  Server version: %s (Match: %s)", peerData->gameVersion.c_str(),
                                 (peerData->gameVersion == localVersion) ? "YES" : "NO");
-                        SDL_Log("  Server QuantBot: %s (Match: %s)", peerData->quantBotConfigHash.c_str(), 
+                        SDL_Log("  Server QuantBot: %s (Match: %s)", peerData->quantBotConfigHash.c_str(),
                                 (peerData->quantBotConfigHash == localQuantBotHash) ? "YES" : "NO");
                         SDL_Log("  Server ObjectData: %s (Match: %s)", peerData->objectDataHash.c_str(),
                                 (peerData->objectDataHash == localObjectDataHash) ? "YES" : "NO");
-                        
+
                         // Check if server has mismatched configs
                         bool mismatchFound = false;
                         std::string mismatchMessage;
-                        
+
                         if(peerProtocolVersion != NETWORK_PROTOCOL_VERSION) {
                             mismatchFound = true;
                             mismatchMessage += fmt::sprintf("\n- Network protocol version differs\n  Your version: %d\n  Server version: %d",
@@ -1082,9 +1094,9 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                                            localObjectDataHash.c_str(), peerData->objectDataHash.c_str());
                             SDL_Log("*** MISMATCH: ObjectData.ini differs!");
                         }
-                        
+
                         SDL_Log("================================================");
-                        
+
                         // ALWAYS send our config back to server for server-side validation
                         // (even if client-side validation failed, server needs to validate too)
                         SDL_Log("Sending client config to server for verification");
@@ -1095,7 +1107,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                         responsePacket.writeString(localQuantBotHash);
                         responsePacket.writeString(localObjectDataHash);
                         sendPacketToHost(responsePacket);
-                        
+
                         if(mismatchFound) {
                             // Don't block connection - mod sync system will handle this
                             // The client will receive MOD_INFO next and download the correct mod
@@ -1189,7 +1201,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 std::string modName = packetStream.readString();
                 std::string modChecksum = packetStream.readString();
 
-                SDL_Log("NetworkManager: Received mod info from host - mod: '%s', checksum: %s", 
+                SDL_Log("NetworkManager: Received mod info from host - mod: '%s', checksum: %s",
                         modName.c_str(), modChecksum.c_str());
 
                 if(pOnReceiveModInfo) {
@@ -1231,8 +1243,8 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
 
                 // Security: Validate totalSize against maximum allowed
                 if(totalSize > MAX_MOD_TRANSFER_SIZE) {
-                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, 
-                        "NetworkManager: Mod transfer size %u exceeds limit %d - aborting", 
+                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
+                        "NetworkManager: Mod transfer size %u exceeds limit %d - aborting",
                         totalSize, MAX_MOD_TRANSFER_SIZE);
                     modTransferState.inProgress = false;
                     if(pOnModDownloadComplete) {
@@ -1253,8 +1265,8 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
 
                 // Security: Validate chunk offset matches expected position (enforce in-order)
                 if(chunkOffset != modTransferState.receivedSize) {
-                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, 
-                        "NetworkManager: Chunk offset mismatch - expected %zu, got %u. Aborting transfer.", 
+                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
+                        "NetworkManager: Chunk offset mismatch - expected %zu, got %u. Aborting transfer.",
                         modTransferState.receivedSize, chunkOffset);
                     modTransferState.inProgress = false;
                     if(pOnModDownloadComplete) {
@@ -1269,7 +1281,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
 
                 // Security: Check that adding this chunk won't exceed totalSize
                 if(modTransferState.receivedSize + chunkData.size() > totalSize) {
-                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, 
+                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION,
                         "NetworkManager: Chunk would exceed total size - aborting");
                     modTransferState.inProgress = false;
                     if(pOnModDownloadComplete) {
@@ -1282,7 +1294,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 modTransferState.modData.append(chunkData);
                 modTransferState.receivedSize += chunkData.size();
 
-                SDL_Log("NetworkManager: Received mod chunk %zu/%zu bytes", 
+                SDL_Log("NetworkManager: Received mod chunk %zu/%zu bytes",
                         modTransferState.receivedSize, modTransferState.totalSize);
 
                 if(pOnModDownloadProgress) {
@@ -1300,7 +1312,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 bool success = packetStream.readBool();
                 std::string message = packetStream.readString();
 
-                SDL_Log("NetworkManager: Mod transfer complete - success: %s, message: %s", 
+                SDL_Log("NetworkManager: Mod transfer complete - success: %s, message: %s",
                         success ? "yes" : "no", message.c_str());
 
                 modTransferState.inProgress = false;
@@ -1350,7 +1362,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                     pOnReceiveModAck(playerName, success, modChecksum);
                 }
             } break;
-            
+
             case NETWORKPACKET_KEEPALIVE: {
                 // NAT keep-alive ping - just receiving it is enough to keep the NAT mapping alive
                 // The reliable packet triggers ACKs which count as bidirectional traffic
@@ -1443,7 +1455,7 @@ void NetworkManager::sendConfigHash(const std::string& quantBotHash, const std::
     SDL_Log("Version: %s", gameVersion.c_str());
     SDL_Log("QuantBot: %s", quantBotHash.c_str());
     SDL_Log("ObjectData: %s", objectDataHash.c_str());
-    
+
     if(bIsServer) {
         // Server sends to all clients
         SDL_Log("Sending to %d client(s)", (int)peerList.size());
@@ -1467,7 +1479,7 @@ void NetworkManager::sendConfigHash(const std::string& quantBotHash, const std::
         packetStream.writeString(objectDataHash);
         sendPacketToHost(packetStream);
     }
-    
+
     SDL_Log("Config sent successfully");
     SDL_Log("==========================================");
 }
@@ -1559,7 +1571,7 @@ void NetworkManager::sendModInfoToPeer(ENetPeer* peer, const std::string& modNam
         return;
     }
 
-    SDL_Log("NetworkManager: Sending mod info to peer - mod: '%s', checksum: %s", 
+    SDL_Log("NetworkManager: Sending mod info to peer - mod: '%s', checksum: %s",
             modName.c_str(), modChecksum.c_str());
 
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
@@ -1577,7 +1589,7 @@ void NetworkManager::sendModInfo(const std::string& modName, const std::string& 
         return;
     }
 
-    SDL_Log("NetworkManager: Broadcasting mod info to all clients - mod: '%s', checksum: %s", 
+    SDL_Log("NetworkManager: Broadcasting mod info to all clients - mod: '%s', checksum: %s",
             modName.c_str(), modChecksum.c_str());
 
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
@@ -1606,22 +1618,22 @@ void NetworkManager::requestModDownload(const std::string& modName) {
 
 void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modName) {
     // Host: Package and send mod files to requesting client
-    
+
     // Get mod path from ModManager
     std::string modPath = ModManager::instance().getModPath(modName);
     std::string modIniPath = modPath + "/mod.ini";
-    
+
     SDL_Log("NetworkManager::sendModFilesToPeer - modName: '%s'", modName.c_str());
     SDL_Log("NetworkManager::sendModFilesToPeer - modPath: '%s'", modPath.c_str());
     SDL_Log("NetworkManager::sendModFilesToPeer - modIniPath: '%s'", modIniPath.c_str());
     SDL_Log("NetworkManager::sendModFilesToPeer - modPath.empty(): %d", modPath.empty() ? 1 : 0);
     SDL_Log("NetworkManager::sendModFilesToPeer - existsFile(modIniPath): %d", existsFile(modIniPath) ? 1 : 0);
-    
+
     // Check if mod exists by looking for mod.ini (modPath is a directory, not a file)
     if(modPath.empty() || !existsFile(modIniPath)) {
-        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Mod '%s' not found at path: %s (mod.ini missing)", 
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Mod '%s' not found at path: %s (mod.ini missing)",
                     modName.c_str(), modPath.c_str());
-        
+
         // Send failure notification
         ENetPacketOStream completePacket(ENET_PACKET_FLAG_RELIABLE);
         completePacket.writeUint32(NETWORKPACKET_MOD_COMPLETE);
@@ -1636,14 +1648,14 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
     // Package mod files into a simple format:
     // [num_files:uint32][file1_name:string][file1_data:string][file2_name:string][file2_data:string]...
     std::string packagedData;
-    
+
     // Write number of files placeholder (we'll update this)
     uint32_t numFiles = 0;
-    
+
     // List of files to include
     std::vector<std::string> filesToInclude = {"ObjectData.ini", "QuantBot Config.ini", "GameOptions.ini", "mod.ini"};
     std::vector<std::pair<std::string, std::string>> fileData;  // name -> content pairs
-    
+
     for(const std::string& filename : filesToInclude) {
         std::string filePath = modPath + "/" + filename;
         if(existsFile(filePath)) {
@@ -1660,7 +1672,7 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
 
     if(numFiles == 0) {
         SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: No files found in mod '%s'", modName.c_str());
-        
+
         ENetPacketOStream completePacket(ENET_PACKET_FLAG_RELIABLE);
         completePacket.writeUint32(NETWORKPACKET_MOD_COMPLETE);
         completePacket.writeBool(false);
@@ -1672,14 +1684,14 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
     // Build the package
     // Format: numFiles (4 bytes) + [nameLen (4 bytes) + name + dataLen (4 bytes) + data] * numFiles
     packagedData.reserve(1024 * 1024);  // Reserve 1MB initially
-    
+
     // Write number of files
     packagedData.append(reinterpret_cast<const char*>(&numFiles), sizeof(numFiles));
-    
+
     for(const auto& [name, content] : fileData) {
         uint32_t nameLen = static_cast<uint32_t>(name.size());
         uint32_t dataLen = static_cast<uint32_t>(content.size());
-        
+
         packagedData.append(reinterpret_cast<const char*>(&nameLen), sizeof(nameLen));
         packagedData.append(name);
         packagedData.append(reinterpret_cast<const char*>(&dataLen), sizeof(dataLen));
@@ -1688,9 +1700,9 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
 
     // Check size limit
     if(packagedData.size() > MAX_MOD_TRANSFER_SIZE) {
-        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Mod '%s' exceeds size limit (%zu > %d)", 
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Mod '%s' exceeds size limit (%zu > %d)",
                     modName.c_str(), packagedData.size(), MAX_MOD_TRANSFER_SIZE);
-        
+
         ENetPacketOStream completePacket(ENET_PACKET_FLAG_RELIABLE);
         completePacket.writeUint32(NETWORKPACKET_MOD_COMPLETE);
         completePacket.writeBool(false);
@@ -1699,26 +1711,26 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
         return;
     }
 
-    SDL_Log("NetworkManager: Sending mod '%s' (%zu bytes total, %u files) in chunks", 
+    SDL_Log("NetworkManager: Sending mod '%s' (%zu bytes total, %u files) in chunks",
             modName.c_str(), packagedData.size(), numFiles);
 
     // Send in chunks
     size_t totalSize = packagedData.size();
     size_t offset = 0;
-    
+
     while(offset < totalSize) {
         size_t chunkSize = std::min(static_cast<size_t>(MOD_CHUNK_SIZE), totalSize - offset);
         std::string chunk = packagedData.substr(offset, chunkSize);
-        
+
         ENetPacketOStream chunkPacket(ENET_PACKET_FLAG_RELIABLE);
         chunkPacket.writeUint32(NETWORKPACKET_MOD_CHUNK);
         chunkPacket.writeString(modName);
         chunkPacket.writeUint32(static_cast<Uint32>(totalSize));
         chunkPacket.writeUint32(static_cast<Uint32>(offset));
         chunkPacket.writeString(chunk);
-        
+
         sendPacketToPeer(peer, chunkPacket);
-        
+
         offset += chunkSize;
     }
 
@@ -1728,7 +1740,7 @@ void NetworkManager::sendModFilesToPeer(ENetPeer* peer, const std::string& modNa
     completePacket.writeBool(true);
     completePacket.writeString("Transfer complete");
     sendPacketToPeer(peer, completePacket);
-    
+
     SDL_Log("NetworkManager: Mod transfer complete for '%s'", modName.c_str());
 }
 
@@ -1739,7 +1751,7 @@ void NetworkManager::sendModAck(bool success, const std::string& modChecksum) {
         return;
     }
 
-    SDL_Log("NetworkManager: Sending mod ACK to host - success: %s, checksum: %s", 
+    SDL_Log("NetworkManager: Sending mod ACK to host - success: %s, checksum: %s",
             success ? "yes" : "no", modChecksum.c_str());
 
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);

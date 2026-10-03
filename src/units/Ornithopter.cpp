@@ -73,13 +73,13 @@ void appendOrnithopterHuntLog(const std::string& message) {
             return std::string();
         }
         std::string directory = configPath.substr(0, slashPos);
-        
+
         // Get parent directory (one level up from config/)
         const std::string::size_type parentSlashPos = directory.find_last_of("/\\");
         if(parentSlashPos != std::string::npos) {
             directory = directory.substr(0, parentSlashPos);
         }
-        
+
         std::string path = directory + "/ornithopter-hunt.log";
 
         std::ofstream clearStream(path, std::ios::trunc);
@@ -145,7 +145,7 @@ void Ornithopter::init() {
     numWeapons = 1;
     bulletType = Bullet_SmallRocket;
 
-    currentMaxSpeed = currentGame->objectData.data[itemID][originalHouseID].maxspeed;
+    currentMaxSpeed = currentGame->objectData.data[itemID][getProductionHouseID()].maxspeed;
 
     static bool loggedInit = false;
     if(!loggedInit) {

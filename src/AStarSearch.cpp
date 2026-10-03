@@ -114,7 +114,7 @@ AStarSearch::PoolUsageStats AStarSearch::getPoolUsageStats() {
 }
 
 AStarSearch::AStarSearch(Map* pMap, UnitBase* pUnit, Coord start, Coord destination) {
-    FixPoint rotationSpeed = 1.0_fix/(currentGame->objectData.data[pUnit->getItemID()][pUnit->getOriginalHouseID()].turnspeed * TILESIZE);
+    FixPoint rotationSpeed = 1.0_fix/(currentGame->objectData.data[pUnit->getItemID()][pUnit->getProductionHouseID()].turnspeed * TILESIZE);
 
     sizeX = pMap->getSizeX();
     sizeY = pMap->getSizeY();

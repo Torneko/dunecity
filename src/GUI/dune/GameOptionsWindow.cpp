@@ -66,6 +66,12 @@ GameOptionsWindow::GameOptionsWindow(SettingsClass::GameOptionsClass& initialGam
     vboxLeft.addWidget(&killedSandwormsDropSpiceCheckbox);
     vboxLeft.addWidget(VSpacer::create(6));
 
+    randomSpiceBloomsCheckbox.setText(_("Random Spice Blooms"));
+    randomSpiceBloomsCheckbox.setTooltipText(_("If checked spice blooms occasionally appear on unoccupied sand."));
+    randomSpiceBloomsCheckbox.setChecked(gameOptions.randomSpiceBlooms);
+    vboxLeft.addWidget(&randomSpiceBloomsCheckbox);
+    vboxLeft.addWidget(VSpacer::create(6));
+
     manualCarryallDropsCheckbox.setText(_("Manual Carryall Drops"));
     manualCarryallDropsCheckbox.setTooltipText(_("If checked player can request carryall to transport units."));
     manualCarryallDropsCheckbox.setChecked(gameOptions.manualCarryallDrops);
@@ -185,6 +191,7 @@ void GameOptionsWindow::onOK() {
     gameOptions.rocketTurretsNeedPower = rocketTurretsNeedPowerCheckbox.isChecked();
     gameOptions.sandwormsRespawn = sandwormsRespawnCheckbox.isChecked();
     gameOptions.killedSandwormsDropSpice = killedSandwormsDropSpiceCheckbox.isChecked();
+    gameOptions.randomSpiceBlooms = randomSpiceBloomsCheckbox.isChecked();
     gameOptions.manualCarryallDrops = manualCarryallDropsCheckbox.isChecked();
     gameOptions.immortalHumanPlayer = immortalHumanPlayerCheckbox.isChecked();
     gameOptions.maximumNumberOfUnitsOverride = maxUnitsOverrideCheckbox.isChecked() ? maxUnitsOverrideTextBox.getValue() : -1;

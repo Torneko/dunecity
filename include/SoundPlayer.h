@@ -106,6 +106,10 @@ private:
     //! volume of sound effects
     int sfxVolume;
 
+    //! Prevent overlapping worm-sign warnings when several worms acquire targets together.
+    bool wormWarningPlayed = false;
+    Uint32 lastWormWarningTick = 0;
+
 };
 
 #endif //SOUNDPLAYER_H

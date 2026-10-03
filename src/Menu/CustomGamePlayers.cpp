@@ -41,11 +41,14 @@
 #include <misc/IMemoryStream.h>
 
 #include <INIMap/INIMapPreviewCreator.h>
+#include <INIMap/MapPlayerSectionUtils.h>
 
 #include <misc/DiscordManager.h>
 
 #include <sand.h>
 #include <globals.h>
+
+#include <exception>
 
 
 #define PLAYER_HUMAN        0
@@ -53,11 +56,26 @@
 #define PLAYER_CLOSED       -2
 
 namespace {
-Uint32 getMenuColorForHouse(int house) {
-    if(house == HOUSE_REBELS) {
-        return COLOR_RGB(58, 58, 62);
-    }
 
+int getCustomGameHouseCount() {
+    return getNumCustomGameHouses();
+}
+
+bool isBonusColorSlot(int colorSlot) {
+    switch(colorSlot) {
+        case HOUSECOLOR_CUSTOM_TEAL:
+        case HOUSECOLOR_CUSTOM_FUCHSIA:
+        case HOUSECOLOR_CUSTOM_LIGHT_PINK:
+        case HOUSECOLOR_CUSTOM_APPLE_GREEN:
+        case HOUSECOLOR_CUSTOM_DARK_VIOLET:
+        case HOUSECOLOR_CUSTOM_BRIGHT_YELLOW:
+            return true;
+        default:
+            return false;
+    }
+}
+
+Uint32 getMenuColorForHouse(int house) {
     if(isValidHouseColorSlot(house)) {
         return getHouseColorRGB(house, 3);
     }
@@ -67,13 +85,14 @@ Uint32 getMenuColorForHouse(int house) {
 
 const char* getCustomColorName(int colorSlot) {
     switch(colorSlot) {
-        case HOUSECOLOR_CUSTOM_DARK_VIOLET:   return "Dark Violet";
-        case HOUSECOLOR_CUSTOM_FUCHSIA:       return "Fuchsia";
-        case HOUSECOLOR_CUSTOM_TEAL:          return "Teal";
-        case HOUSECOLOR_CUSTOM_BRIGHT_YELLOW: return "Bright Yellow";
-        case HOUSECOLOR_CUSTOM_APPLE_GREEN:   return "Dark Green";
-        case HOUSECOLOR_CUSTOM_LIGHT_PINK:    return "Light Pink";
-        default:                              return "Custom";
+        case HOUSECOLOR_CUSTOM_DARK_VIOLET: return "Dark Violet";
+        case HOUSECOLOR_CUSTOM_FUCHSIA:     return "Fuchsia";
+        case HOUSECOLOR_CUSTOM_TEAL:        return "Teal";
+        case HOUSECOLOR_CUSTOM_APPLE_GREEN: return "Dark Grey";
+        case HOUSECOLOR_CUSTOM_LIGHT_PINK:
+            return ModManager::instance().getActiveModName() == "Tornie" ? "Yellow" : "Pink";
+        case HOUSECOLOR_CUSTOM_BRIGHT_YELLOW: return "Brown";
+        default:                            return "Custom";
     }
 }
 
@@ -82,12 +101,22 @@ void addColorDropDownEntries(DropDownBox& colorDropDown, int selectedColor, bool
     colorDropDown.addEntry(_("Original"), HOUSE_INVALID);
 
     if(bonusColors) {
-        for(int h = NUM_HOUSES; h < NUM_HOUSE_COLOR_SLOTS; h++) {
-            colorDropDown.addEntry(getCustomColorName(h), h);
+        constexpr int bonusColorSlots[] = {
+            HOUSECOLOR_CUSTOM_TEAL,
+            HOUSECOLOR_CUSTOM_FUCHSIA,
+            HOUSECOLOR_CUSTOM_LIGHT_PINK,
+            HOUSECOLOR_CUSTOM_APPLE_GREEN,
+            HOUSECOLOR_CUSTOM_DARK_VIOLET,
+            HOUSECOLOR_CUSTOM_BRIGHT_YELLOW
+        };
+        for(const int colorSlot : bonusColorSlots) {
+            colorDropDown.addEntry(getCustomColorName(colorSlot), colorSlot);
         }
     } else {
-        for(int h = 0; h < NUM_HOUSES; h++) {
-            colorDropDown.addEntry(getHouseNameByNumber(static_cast<HOUSETYPE>(h)), h);
+        for(int h = 0; h < getCustomGameHouseCount(); ++h) {
+            colorDropDown.addEntry(
+                getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(h)),
+                getDefaultHouseColorSlot(static_cast<HOUSETYPE>(h)));
         }
     }
 
@@ -102,8 +131,11 @@ void addColorDropDownEntries(DropDownBox& colorDropDown, int selectedColor, bool
 }
 
 int resolveSelectedColorSlot(int selectedColor, int selectedHouse) {
-    if(!isValidHouseColorSlot(selectedColor)) {
-        selectedColor = selectedHouse;
+    if(!isValidHouseColorSlot(selectedColor)
+       && selectedHouse >= 0
+       && selectedHouse < NUM_HOUSES
+       && isCustomGameHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) {
+        selectedColor = getDefaultHouseColorSlot(static_cast<HOUSETYPE>(selectedHouse));
     }
 
     if(isValidHouseColorSlot(selectedColor)) {
@@ -190,22 +222,10 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
         gameInitSettings.setMultiplePlayersPerHouse(tmpGameInitSettings.isMultiplePlayersPerHouse());
 
         // adjust numHouses to the actually used houses (which might be smaller than the houses on the map)
-        numHouses = static_cast<int>(houseInfoListSetup.size());
-        if(numHouses > NUM_HOUSES) {
-            SDL_Log("CustomGamePlayers: save contains %d houses; limiting lobby to %d.", numHouses, NUM_HOUSES);
-            numHouses = NUM_HOUSES;
-        }
+        numHouses = houseInfoListSetup.size();
     } else {
         INIFile inimap(gameInitSettings.getFilename());
         extractMapInfo(&inimap);
-    }
-
-    // House and color uniqueness is enforced when starting a game. Keep the
-    // lobby consistent with that rule instead of exposing an unusable second
-    // player slot. Loaded multiplayer saves retain their recorded layout.
-    if(gameInitSettings.getGameType() == GameType::CustomGame
-       || gameInitSettings.getGameType() == GameType::CustomMultiplayer) {
-        gameInitSettings.setMultiplePlayersPerHouse(false);
     }
 
     rightVBox.addWidget(VSpacer::create(10));
@@ -258,7 +278,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
     bool bLoadMultiplayer = (gameInitSettings.getGameType() == GameType::LoadMultiplayer);
     const bool bBonusHouseColorsAvailable = bLoadMultiplayer
-        || ModManager::instance().getActiveModName() == "Tornie";
+        || ModManager::instance().isTornieContentActive();
 
     buttonHBox.addWidget(Spacer::create(), 0.0625);
 
@@ -279,7 +299,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
     bool thisPlayerPlaced = false;
 
-    for(int i=0;i<NUM_HOUSES;i++) {
+    for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
         // set up header row with Label "House", DropDown for house selection and DropDown for team selection
@@ -321,7 +341,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
             curHouseInfo.teamDropDown.setEnabled(false);
             curHouseInfo.teamDropDown.setOnClickEnabled(false);
         } else {
-            for(int team = 0 ; team < NUM_TEAMS ; team++) {
+            for(int team = 0 ; team < MAX_CUSTOM_GAME_PLAYERS ; team++) {
                 curHouseInfo.teamDropDown.addEntry(_("Team") + " " + std::to_string(team+1), team+1);
             }
             curHouseInfo.teamDropDown.setSelectedItem(slotToTeam[i]);
@@ -337,7 +357,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
                 selectedColor = houseInfoListSetup.at(i).colorOfHouse;
             }
             curHouseInfo.bonusColorCheckbox.setText(_("Bonus"));
-            curHouseInfo.bonusColorCheckbox.setChecked(isCustomHouseColorSlot(selectedColor));
+            curHouseInfo.bonusColorCheckbox.setChecked(isBonusColorSlot(selectedColor));
             addColorDropDownEntries(curHouseInfo.colorDropDown, selectedColor, curHouseInfo.bonusColorCheckbox.isChecked());
             curHouseInfo.bonusColorCheckbox.setEnabled(false);
             curHouseInfo.colorDropDown.setEnabled(false);
@@ -546,7 +566,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
         } else {
             pNetworkManager->setOnStartGame(std::bind(&CustomGamePlayers::onStartGame, this, std::placeholders::_1));
         }
-        
+
         // Update Discord Rich Presence for multiplayer lobby
         updateDiscordLobbyPresence();
     }
@@ -554,10 +574,10 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
 void CustomGamePlayers::updateDiscordLobbyPresence() {
     if(pNetworkManager == nullptr) return;
-    
+
     std::string mapName = getBasename(gameInitSettings.getFilename(), true);
     int maxPlayers = gameInitSettings.isMultiplePlayersPerHouse() ? numHouses*2 : numHouses;
-    
+
     if(bServer) {
         // Count current players from actual connected peers (not dropdown selections)
         // This is accurate even if a slot shows "Human" but no peer is connected
@@ -600,7 +620,7 @@ void CustomGamePlayers::update() {
             startGameTime = 0;
             return;
         }
-        
+
         if(SDL_GetTicks() >= startGameTime) {
             startGameTime = 0;
 
@@ -724,7 +744,7 @@ void CustomGamePlayers::onReceiveChangeEventList(const ChangeEventList& changeEv
 
         pNetworkManager->sendChangeEventList(changeEventList2);
     }
-    
+
     // Update Discord presence when lobby state changes (players join/leave/change slots)
     updateDiscordLobbyPresence();
 }
@@ -733,7 +753,7 @@ ChangeEventList CustomGamePlayers::getChangeEventList()
 {
     ChangeEventList changeEventList;
 
-    for(int i=0;i<NUM_HOUSES;i++) {
+    for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
         int houseID = curHouseInfo.houseDropDown.getSelectedEntryIntData();
@@ -837,16 +857,16 @@ void CustomGamePlayers::onReceiveChatMessage(const std::string& name, const std:
 
 void CustomGamePlayers::onConfigMismatch(const std::string& errorMessage) {
     SDL_Log("CONFIG MISMATCH DETECTED: %s", errorMessage.c_str());
-    
+
     // Set flag to prevent game from starting
     bConfigMismatchDetected = true;
-    
+
     // Cancel game start countdown
     startGameTime = 0;
-    
+
     // Show error dialog
     openWindow(MsgBox::create(errorMessage));
-    
+
     // Also display in chat so all players can see the details
     if(pNetworkManager != nullptr) {
         // Send chat message with mismatch details
@@ -854,7 +874,7 @@ void CustomGamePlayers::onConfigMismatch(const std::string& errorMessage) {
         pNetworkManager->sendChatMessage(errorMessage);
         pNetworkManager->sendChatMessage("*** FIX CONFIG FILES AND TRY AGAIN ***");
     }
-    
+
     // Stay in lobby - players can see the error in chat and fix their configs
     // Re-enable dropdowns so they can adjust settings if needed
     // (Game start was cancelled above)
@@ -866,74 +886,74 @@ void CustomGamePlayers::onReceiveModInfo(const std::string& modName, const std::
         // Server shouldn't receive this
         return;
     }
-    
+
     SDL_Log("CLIENT: Received mod info from host - mod='%s', checksum=%s", modName.c_str(), modChecksum.c_str());
-    
+
     hostModName = modName;
     hostModChecksum = modChecksum;
-    
+
     // Compare with our local mod
     std::string localModName = ModManager::instance().getActiveModName();
     std::string localChecksum = ModManager::instance().getEffectiveChecksums().combined;
-    
+
     SDL_Log("CLIENT: Local mod='%s', checksum=%s", localModName.c_str(), localChecksum.c_str());
-    
+
     if(modChecksum == localChecksum) {
         SDL_Log("CLIENT: Mod checksums match!");
         addInfoMessage("Mod verified: " + modName);
-        
+
         // Send ACK to host - checksums match, ready to start
         if(pNetworkManager != nullptr) {
             pNetworkManager->sendModAck(true, localChecksum);
         }
         return;
     }
-    
+
     // Checksum mismatch - need to sync
     SDL_Log("CLIENT: Mod mismatch! Host uses '%s', we have '%s'", modName.c_str(), localModName.c_str());
-    
+
     // Check if we have the host's mod locally
     if(ModManager::instance().modExists(modName)) {
         SDL_Log("CLIENT: Found mod '%s' locally, attempting to switch to it first", modName.c_str());
-        
+
         // Try switching to the host's mod locally first
         if(ModManager::instance().setActiveMod(modName)) {
             // Recalculate checksums after switching
             ModManager::instance().updateChecksums();
             std::string newChecksum = ModManager::instance().getEffectiveChecksums().combined;
-            
+
             SDL_Log("CLIENT: Switched to local mod '%s', new checksum=%s", modName.c_str(), newChecksum.c_str());
-            
+
             // Update the mod label on screen
             ModInfo activeModInfo = ModManager::instance().getModInfo(modName);
             mapPropertyMod.setText(activeModInfo.displayName);
-            
+
             // Reload effective game options for the new mod
             effectiveGameOptions = ModManager::instance().loadEffectiveGameOptions(settings.gameOptions);
-            
+
             if(newChecksum == modChecksum) {
                 // Local mod matches host - no download needed!
                 SDL_Log("CLIENT: Local mod '%s' matches host after switching!", modName.c_str());
                 addInfoMessage("Switched to mod: " + modName);
-                
+
                 if(pNetworkManager != nullptr) {
                     pNetworkManager->sendModAck(true, newChecksum);
                 }
                 return;
             } else {
                 // Checksums still differ - may need to download host's version
-                SDL_Log("CLIENT: Local mod '%s' checksums still differ (local=%s, host=%s)", 
+                SDL_Log("CLIENT: Local mod '%s' checksums still differ (local=%s, host=%s)",
                         modName.c_str(), newChecksum.c_str(), modChecksum.c_str());
-                
+
                 // Special case: vanilla mod cannot be downloaded/overwritten
                 // If checksums differ, it's likely a game version mismatch
                 if(modName == "vanilla") {
                     SDL_Log("CLIENT: Vanilla mod checksum mismatch - cannot sync (possible version mismatch)");
                     addInfoMessage("Vanilla mod version mismatch with host!");
                     bConfigMismatchDetected = true;
-                    
+
                     openWindow(MsgBox::create(_("Vanilla mod checksum mismatch.\n\nThis usually means different game versions.\nHost: ") + modChecksum + "\nLocal: " + newChecksum));
-                    
+
                     if(pNetworkManager != nullptr) {
                         pNetworkManager->sendModAck(false, "");
                     }
@@ -942,32 +962,32 @@ void CustomGamePlayers::onReceiveModInfo(const std::string& modName, const std::
             }
         }
     }
-    
+
     // Mod doesn't exist locally or switching didn't help - download from host
     // Note: vanilla mod cannot be downloaded (it's seeded locally)
     if(modName == "vanilla") {
         SDL_Log("CLIENT: Cannot download vanilla mod - should be seeded locally!");
         addInfoMessage("Error: vanilla mod not found locally!");
         bConfigMismatchDetected = true;
-        
+
         // Try to seed vanilla now
         if(!ModManager::instance().modExists("vanilla")) {
             SDL_Log("CLIENT: Attempting emergency vanilla reseed");
             ModManager::instance().initialize();  // Will reseed vanilla if missing
         }
-        
+
         openWindow(MsgBox::create(_("Vanilla mod not found or corrupted.\n\nPlease restart the game to reseed the vanilla configuration.")));
-        
+
         if(pNetworkManager != nullptr) {
             pNetworkManager->sendModAck(false, "");
         }
         return;
     }
-    
+
     // Show message and start download
     addInfoMessage("Downloading mod '" + modName + "' from host...");
     bModDownloadInProgress = true;
-    
+
     if(pNetworkManager != nullptr) {
         pNetworkManager->requestModDownload(modName);
     }
@@ -975,41 +995,41 @@ void CustomGamePlayers::onReceiveModInfo(const std::string& modName, const std::
 
 void CustomGamePlayers::onModDownloadComplete(bool success, const std::string& data) {
     bModDownloadInProgress = false;
-    
+
     if(!success) {
         SDL_Log("CLIENT: Mod download failed: %s", data.c_str());
         addInfoMessage("Mod download failed: " + data);
-        
+
         // Show error dialog
         openWindow(MsgBox::create(_("Mod download failed: ") + data + "\n\n" + _("Cannot join game with mismatched mods.")));
-        
+
         // Set mismatch flag to prevent game start
         bConfigMismatchDetected = true;
         return;
     }
-    
+
     SDL_Log("CLIENT: Mod download complete (%zu bytes)", data.size());
-    
+
     // Save the received mod
     if(ModManager::instance().saveReceivedMod(hostModName, data)) {
         SDL_Log("CLIENT: Mod '%s' saved successfully", hostModName.c_str());
-        
+
         // Switch to the new mod
         if(ModManager::instance().setActiveMod(hostModName)) {
             // Reload effective game options
             effectiveGameOptions = ModManager::instance().loadEffectiveGameOptions(settings.gameOptions);
-            
+
             // Recalculate checksums after loading new mod
             ModManager::instance().updateChecksums();
             std::string newChecksum = ModManager::instance().getEffectiveChecksums().combined;
-            
+
             // Update the mod label on screen to show the new mod
             ModInfo activeModInfo = ModManager::instance().getModInfo(hostModName);
             mapPropertyMod.setText(activeModInfo.displayName);
-            
+
             addInfoMessage("Mod '" + hostModName + "' synced successfully!");
             SDL_Log("CLIENT: Switched to mod '%s', new checksum: %s", hostModName.c_str(), newChecksum.c_str());
-            
+
             // Send ACK to host - mod synced, ready to start
             if(pNetworkManager != nullptr) {
                 pNetworkManager->sendModAck(true, newChecksum);
@@ -1018,7 +1038,7 @@ void CustomGamePlayers::onModDownloadComplete(bool success, const std::string& d
             SDL_Log("CLIENT: Failed to switch to mod '%s'", hostModName.c_str());
             addInfoMessage("Failed to activate mod: " + hostModName);
             bConfigMismatchDetected = true;
-            
+
             // Send failure ACK
             if(pNetworkManager != nullptr) {
                 pNetworkManager->sendModAck(false, "");
@@ -1028,7 +1048,7 @@ void CustomGamePlayers::onModDownloadComplete(bool success, const std::string& d
         SDL_Log("CLIENT: Failed to save mod '%s'", hostModName.c_str());
         addInfoMessage("Failed to save mod: " + hostModName);
         bConfigMismatchDetected = true;
-        
+
         // Send failure ACK
         if(pNetworkManager != nullptr) {
             pNetworkManager->sendModAck(false, "");
@@ -1042,44 +1062,44 @@ void CustomGamePlayers::onReceiveModAck(const std::string& playerName, bool succ
         // Client shouldn't receive this
         return;
     }
-    
+
     if(!bWaitingForModAcks) {
         SDL_Log("HOST: Received unexpected mod ACK from '%s' (not waiting for ACKs)", playerName.c_str());
         return;
     }
-    
+
     if(!success) {
         SDL_Log("HOST: Client '%s' failed to sync mod!", playerName.c_str());
         addInfoMessage("Client '" + playerName + "' failed to sync mod!");
-        
+
         // Cancel game start
         bConfigMismatchDetected = true;
         startGameTime = 0;
         bWaitingForModAcks = false;
-        
+
         openWindow(MsgBox::create(_("Client '") + playerName + _("' failed to sync mod.\nGame cannot start.")));
         return;
     }
-    
+
     // Verify checksum matches
     std::string hostChecksum = ModManager::instance().getEffectiveChecksums().combined;
     if(modChecksum != hostChecksum) {
         SDL_Log("HOST: Client '%s' has wrong checksum! Expected: %s, Got: %s",
                 playerName.c_str(), hostChecksum.c_str(), modChecksum.c_str());
         addInfoMessage("Checksum mismatch from '" + playerName + "'!");
-        
+
         // Cancel game start
         bConfigMismatchDetected = true;
         startGameTime = 0;
         bWaitingForModAcks = false;
-        
+
         openWindow(MsgBox::create(_("Client '") + playerName + _("' has mismatched checksums.\nGame cannot start.")));
         return;
     }
-    
+
     SDL_Log("HOST: Client '%s' mod synced OK (checksum: %s)", playerName.c_str(), modChecksum.c_str());
     addInfoMessage("Client '" + playerName + "' ready");
-    
+
     clientsAckedMod.insert(playerName);
     checkAllClientsReady();
 }
@@ -1088,7 +1108,7 @@ void CustomGamePlayers::checkAllClientsReady() {
     if(!bServer || !bWaitingForModAcks) {
         return;
     }
-    
+
     // Get list of all connected remote peers (humans only). AI slots are not peers.
     std::set<std::string> connectedPlayers;
     if (pNetworkManager != nullptr) {
@@ -1098,10 +1118,10 @@ void CustomGamePlayers::checkAllClientsReady() {
             }
         }
     }
-    
+
     SDL_Log("HOST: Checking if all clients ready - ACKed: %zu, Connected: %zu",
             clientsAckedMod.size(), connectedPlayers.size());
-    
+
     // Check if all connected players have ACKed
     bool allReady = true;
     for(const auto& player : connectedPlayers) {
@@ -1110,19 +1130,19 @@ void CustomGamePlayers::checkAllClientsReady() {
             allReady = false;
         }
     }
-    
+
     if(allReady) {
         SDL_Log("HOST: All %zu clients ready! Starting game...", connectedPlayers.size());
         addInfoMessage("All clients synced - starting game!");
         bWaitingForModAcks = false;
-        
+
         // Now actually start the game
         unsigned int timeLeft = 3000;  // 3 seconds countdown
         startGameTime = SDL_GetTicks() + timeLeft;
         pNetworkManager->sendStartGame(timeLeft);
-        
+
         disableAllDropDownBoxes();
-        
+
         // Send Discord presence with game details
         updateDiscordGameStarting();
     }
@@ -1132,43 +1152,43 @@ void CustomGamePlayers::updateDiscordGameStarting() {
     // Build player details string: "Atreides: Player1, Harkonnen: AIBot, ..."
     std::string playerDetails;
     int playerCount = 0;
-    
-    for(int i = 0; i < NUM_HOUSES; i++) {
+
+    for(int i = 0; i < numHouses; i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
-        
+
         int houseID = curHouseInfo.houseDropDown.getSelectedEntryIntData();
         int player1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
         int player2 = curHouseInfo.player2DropDown.getSelectedEntryIntData();
-        
+
         // Skip if no players in this house
-        if((player1 == PLAYER_OPEN || player1 == PLAYER_CLOSED) && 
+        if((player1 == PLAYER_OPEN || player1 == PLAYER_CLOSED) &&
            (player2 == PLAYER_OPEN || player2 == PLAYER_CLOSED)) {
             continue;
         }
-        
+
         // Get house name
         std::string houseName;
         if(houseID == HOUSE_INVALID) {
-            houseName = "Random";
+            houseName = _("Random");
         } else {
-            houseName = getHouseNameByNumber((HOUSETYPE)houseID);
+            houseName = getHouseDisplayNameByNumber((HOUSETYPE)houseID);
         }
-        
+
         // Get player names
         std::vector<std::string> players;
-        
+
         if(player1 != PLAYER_OPEN && player1 != PLAYER_CLOSED) {
             std::string name = curHouseInfo.player1DropDown.getSelectedEntry();
             players.push_back(name);
             playerCount++;
         }
-        
+
         if(player2 != PLAYER_OPEN && player2 != PLAYER_CLOSED) {
             std::string name = curHouseInfo.player2DropDown.getSelectedEntry();
             players.push_back(name);
             playerCount++;
         }
-        
+
         // Build house entry
         if(!players.empty()) {
             if(!playerDetails.empty()) {
@@ -1181,14 +1201,14 @@ void CustomGamePlayers::updateDiscordGameStarting() {
             }
         }
     }
-    
+
     // Get map name and mod name
     std::string mapName = getBasename(gameInitSettings.getFilename(), true);
     std::string modName = ModManager::instance().getActiveModName();
-    
+
     // Update Discord Rich Presence
     DiscordManager::instance().setGameStarting(mapName, modName, playerDetails, playerCount);
-    
+
     // Send game start notification to metaserver (which sends Discord webhook)
     if(pNetworkManager != nullptr) {
         MetaServerClient* metaServer = pNetworkManager->getMetaServerClient();
@@ -1226,7 +1246,7 @@ void CustomGamePlayers::onNext()
             }
 
             const int selectedHouse = curHouseInfo.houseDropDown.getSelectedEntryIntData();
-            if(selectedHouse >= 0 && selectedHouse < NUM_HOUSES) {
+            if(selectedHouse >= 0 && isHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) {
                 if(houseAlreadyUsed[selectedHouse]) {
                     bDuplicateHouse = true;
                 } else {
@@ -1270,7 +1290,8 @@ void CustomGamePlayers::onNext()
     if(numUsedHouses < 2) {
         // No game possible with only 1 house
         openWindow(MsgBox::create(_("At least 2 houses must be controlled\nby a human player or an AI player!")));
-    } else if(bTwoPlayersInSameHouse) {
+    // Archon mode intentionally allows two players to share one house and color.
+    } else if(bTwoPlayersInSameHouse && !gameInitSettings.isMultiplePlayersPerHouse()) {
         openWindow(MsgBox::create(_("Each player must use a different house/color.")));
     } else if(bDuplicateHouse) {
         openWindow(MsgBox::create(_("The same house cannot be used twice.")));
@@ -1289,7 +1310,7 @@ void CustomGamePlayers::onNext()
             QuantBotConfig& config = getQuantBotConfig();
             std::string quantBotHash = config.getConfigHash();
             std::string objectDataHash = getObjectDataHash();
-            
+
             SDL_Log("==================== MULTIPLAYER CONFIG CHECK ====================");
             SDL_Log("Role: %s", pNetworkManager->isServer() ? "SERVER" : "CLIENT");
             SDL_Log("Config file locations:");
@@ -1301,23 +1322,23 @@ void CustomGamePlayers::onNext()
             SDL_Log("  QuantBot Config.ini hash: %s", quantBotHash.c_str());
             SDL_Log("  ObjectData.ini hash:      %s", objectDataHash.c_str());
             SDL_Log("==================================================================");
-            
+
             // Send version and config hashes to all players for verification
             pNetworkManager->sendConfigHash(quantBotHash, objectDataHash, VERSIONSTRING);
-            
+
             // Send mod info for mod sync
             std::string modName = ModManager::instance().getActiveModName();
             std::string modChecksum = ModManager::instance().getEffectiveChecksums().combined;
             SDL_Log("HOST: Sending mod info: mod='%s', checksum=%s", modName.c_str(), modChecksum.c_str());
             pNetworkManager->sendModInfo(modName, modChecksum);
-            
+
             // Wait for all clients to acknowledge mod sync before starting
             // The actual game start will happen in checkAllClientsReady() after all ACKs
             clientsAckedMod.clear();
             bWaitingForModAcks = true;
             addInfoMessage("Waiting for clients to sync mod...");
             SDL_Log("HOST: Waiting for mod ACKs from clients before starting game");
-            
+
             // Don't start game yet - will be started when all clients ACK
             // For single-player or if no other clients, check immediately
             checkAllClientsReady();
@@ -1333,8 +1354,6 @@ void CustomGamePlayers::addAllPlayersToGameInitSettings()
 {
     gameInitSettings.clearHouseInfo();
 
-    // Only serialize rows that are visible for this map. Hidden rows must
-    // never become players, even if a stale network selection reaches them.
     for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
@@ -1390,7 +1409,7 @@ bool CustomGamePlayers::addPlayerToHouseInfo(GameInitSettings::HouseInfo& newHou
                 return false;
             }
 
-            playerName = (houseID == HOUSE_INVALID) ? pPlayerData->getName() : getHouseNameByNumber(houseID);
+            playerName = (houseID == HOUSE_INVALID) ? pPlayerData->getName() : getHouseDisplayNameByNumber(houseID);
             playerClass = pPlayerData->getPlayerClass();
 
         } break;
@@ -1478,7 +1497,8 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
     try {
         INIMapPreviewCreator mapPreviewCreator(pMap);
         pMapSurface = mapPreviewCreator.createMinimapImageOfMap(1, DuneStyle::buttonBorderColor);
-    } catch(...) {
+    } catch(const std::exception& e) {
+        SDL_Log("CustomGamePlayers: Cannot preview map '%s': %s", gameInitSettings.getFilename().c_str(), e.what());
         pMapSurface = sdl2::surface_ptr{ GUIStyle::getInstance().createButtonSurface(130, 130, "Error", true, false) };
         nextButton.setEnabled(false);
     }
@@ -1486,25 +1506,20 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
 
 
     boundHousesOnMap.clear();
-    for(int h = 0; h < NUM_HOUSES; h++) {
+    for(int h = 0; h < getCustomGameHouseCount(); h++) {
         const HOUSETYPE house = static_cast<HOUSETYPE>(h);
         if(pMap->hasSection(getHouseNameByNumber(house))) {
             boundHousesOnMap.push_back(house);
         }
     }
 
-    int detectedHouses = static_cast<int>(boundHousesOnMap.size());
-    for(int p = 1; p <= NUM_HOUSES; p++) {
-        if(pMap->hasSection("Player" + std::to_string(p))) {
-            detectedHouses++;
-        }
-    }
-
-    numHouses = detectedHouses;
-    if(numHouses > NUM_HOUSES) {
-        SDL_Log("CustomGamePlayers: map declares %d player sections; limiting lobby to %d.", numHouses, NUM_HOUSES);
-        numHouses = NUM_HOUSES;
-    }
+    const int boundHouseCount = static_cast<int>(boundHousesOnMap.size());
+    const int numberedPlayerCount = MapPlayerSectionUtils::countNumberedPlayerSections(
+        getCustomGameHouseCount(),
+        [&pMap](int playerNumber) {
+            return pMap->hasSection("Player" + std::to_string(playerNumber));
+        });
+    numHouses = std::min(boundHouseCount + numberedPlayerCount, MAX_CUSTOM_GAME_PLAYERS);
 
     mapPropertyPlayers.setText(std::to_string(numHouses));
 
@@ -1547,7 +1562,7 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
         currentIndex++;
     }
 
-    for(int p = 0; (p < NUM_HOUSES) && (currentIndex < NUM_HOUSES); p++) {
+    for(int p = 0; (p < numHouses) && (currentIndex < numHouses); p++) {
         if(pMap->hasSection("Player" + std::to_string(p+1))) {
             std::string teamName = strToUpper(pMap->getStringValue("Player" + std::to_string(p+1),"Brain","Team " + std::to_string(currentIndex+p+1)));
             teamNames.push_back(teamName);
@@ -1567,7 +1582,7 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
         }
     }
 
-    for(;currentIndex < NUM_HOUSES; currentIndex++) {
+    for(;currentIndex < numHouses; currentIndex++) {
         slotToTeam[currentIndex] = -1;
     }
 }
@@ -1631,7 +1646,7 @@ void CustomGamePlayers::onChangeHousesDropDownBoxes(bool bInteractive, int house
 
         addToHouseDropDown(curHouseInfo.houseDropDown, HOUSE_INVALID);
 
-        for(int h=0;h<NUM_HOUSES;h++) {
+        for(int h=0;h<getCustomGameHouseCount();h++) {
             bool bAddHouse;
 
             bool bCheck;
@@ -1716,7 +1731,7 @@ void CustomGamePlayers::onChangeColorDropDownBoxes(bool bInteractive, int houseI
 }
 
 void CustomGamePlayers::onBonusColorCheckbox(int houseInfoNum) {
-    if(houseInfoNum < 0 || houseInfoNum >= NUM_HOUSES) {
+    if(houseInfoNum < 0 || houseInfoNum >= numHouses) {
         return;
     }
 
@@ -1821,7 +1836,7 @@ void CustomGamePlayers::onPeerDisconnected(const std::string& playername, bool b
         checkPlayerBoxes();
 
         addInfoMessage(playername + " disconnected!");
-        
+
         // Update Discord presence when player count changes
         updateDiscordLobbyPresence();
     }
@@ -1833,10 +1848,10 @@ void CustomGamePlayers::onStartGame(unsigned int timeLeft) {
         SDL_Log("Ignoring STARTGAME packet - config mismatch already detected");
         return;
     }
-    
+
     startGameTime = SDL_GetTicks() + timeLeft;
     disableAllDropDownBoxes();
-    
+
     // Update Discord presence with game starting details (client side)
     updateDiscordGameStarting();
 }
@@ -1937,17 +1952,15 @@ void CustomGamePlayers::checkPlayerBoxes() {
         int player1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
         int player2 = curHouseInfo.player2DropDown.getSelectedEntryIntData();
 
-        if(player1 != PLAYER_OPEN && player1 != PLAYER_CLOSED) {
+        if(player1 != PLAYER_OPEN) {
             numPlayers++;
         }
 
-        if(gameInitSettings.isMultiplePlayersPerHouse()
-           && player2 != PLAYER_OPEN
-           && player2 != PLAYER_CLOSED) {
+        if(gameInitSettings.isMultiplePlayersPerHouse() && player2 != PLAYER_OPEN) {
             numPlayers++;
         }
 
-        if((gameInitSettings.isMultiplePlayersPerHouse() == false) || (player1 == PLAYER_OPEN && player2 == PLAYER_OPEN) || (curHouseInfo.player2DropDown.getNumEntries() == 0)) {
+        if((gameInitSettings.isMultiplePlayersPerHouse() == false) || (curHouseInfo.player2DropDown.getNumEntries() == 0)) {
             curHouseInfo.player2DropDown.setVisible(false);
             curHouseInfo.player2DropDown.setEnabled(false);
             curHouseInfo.player2Label.setVisible(false);
@@ -1992,7 +2005,7 @@ void CustomGamePlayers::addToHouseDropDown(DropDownBox& houseDropDownBox, int ho
         if(house == HOUSE_INVALID) {
             houseDropDownBox.addEntry(_("Random"), HOUSE_INVALID);
         } else {
-            houseDropDownBox.addEntry(getHouseNameByNumber((HOUSETYPE) house), house);
+            houseDropDownBox.addEntry(getHouseDisplayNameByNumber((HOUSETYPE) house), house);
         }
 
         if(bSelect) {
@@ -2012,7 +2025,7 @@ void CustomGamePlayers::addToHouseDropDown(DropDownBox& houseDropDownBox, int ho
 
             int currentItemIndex = (houseDropDownBox.getEntryIntData(0) == HOUSE_INVALID) ? 1 : 0;
 
-            for(int h = 0; h < NUM_HOUSES; h++) {
+            for(int h = 0; h < getCustomGameHouseCount(); h++) {
                 if(currentItemIndex < houseDropDownBox.getNumEntries() && houseDropDownBox.getEntryIntData(currentItemIndex) == h) {
                     if(h == house) {
                         if(bSelect) {
@@ -2024,7 +2037,7 @@ void CustomGamePlayers::addToHouseDropDown(DropDownBox& houseDropDownBox, int ho
                     currentItemIndex++;
                 } else {
                     if(h == house) {
-                        houseDropDownBox.insertEntry(currentItemIndex, getHouseNameByNumber((HOUSETYPE) h), h);
+                        houseDropDownBox.insertEntry(currentItemIndex, getHouseDisplayNameByNumber((HOUSETYPE) h), h);
 
                         if(bSelect) {
                             houseDropDownBox.setSelectedItem(currentItemIndex);
@@ -2054,7 +2067,7 @@ bool CustomGamePlayers::isBoundedHouseOnMap(HOUSETYPE houseID) {
 }
 
 void CustomGamePlayers::disableAllDropDownBoxes() {
-    for(int i=0;i<NUM_HOUSES;i++) {
+    for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
         curHouseInfo.houseDropDown.setEnabled(false);

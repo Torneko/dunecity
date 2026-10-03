@@ -165,7 +165,8 @@ NewMapWindow::NewMapWindow(HOUSETYPE currentHouse) : Window(0,0,0,0), house(curr
 
     centralVBox.addWidget(&basicMapPropertiesHBox);
 
-    greenSpiceCheckbox.setText(_("Green spice"));
+    const bool isJericho = ModManager::instance().getActiveModName() == "Jericho";
+    greenSpiceCheckbox.setText(isJericho ? _("Red spice") : _("Green spice"));
     greenSpiceCheckbox.setTextColor(color);
     greenSpiceCheckbox.setOnClick(std::bind(&NewMapWindow::onMapPropertiesChanged,this));
     tornieSpiceHBox.addWidget(&greenSpiceCheckbox, 120);
@@ -177,7 +178,7 @@ NewMapWindow::NewMapWindow(HOUSETYPE currentHouse) : Window(0,0,0,0), house(curr
 
     tornieSpiceHBox.addWidget(HSpacer::create(18));
 
-    redSpiceCheckbox.setText(_("Red spice"));
+    redSpiceCheckbox.setText(isJericho ? _("Blue spice") : _("Purple spice"));
     redSpiceCheckbox.setTextColor(color);
     redSpiceCheckbox.setOnClick(std::bind(&NewMapWindow::onMapPropertiesChanged,this));
     tornieSpiceHBox.addWidget(&redSpiceCheckbox, 110);
@@ -324,7 +325,7 @@ void NewMapWindow::onMapTypeChanged(int buttonID) {
     rockDigitsTextBox.setVisible( (buttonID == 1) );
     spiceLabel.setVisible( (buttonID == 1) );
     spiceDigitsTextBox.setVisible( (buttonID == 1) );
-    const bool showTornieSpice = (buttonID == 1) && (ModManager::instance().getActiveModName() == "Tornie");
+    const bool showTornieSpice = (buttonID == 1) && (ModManager::instance().isTornieContentActive());
     tornieSpiceHBox.setVisible(showTornieSpice);
     greenSpiceDigitsTextBox.setEnabled(showTornieSpice && greenSpiceCheckbox.isChecked());
     redSpiceDigitsTextBox.setEnabled(showTornieSpice && redSpiceCheckbox.isChecked());
@@ -336,7 +337,7 @@ void NewMapWindow::onMapTypeChanged(int buttonID) {
 }
 
 void NewMapWindow::onMapPropertiesChanged() {
-    const bool showTornieSpice = randomMapRadioButton.isChecked() && (ModManager::instance().getActiveModName() == "Tornie");
+    const bool showTornieSpice = randomMapRadioButton.isChecked() && (ModManager::instance().isTornieContentActive());
     greenSpiceDigitsTextBox.setEnabled(showTornieSpice && greenSpiceCheckbox.isChecked());
     redSpiceDigitsTextBox.setEnabled(showTornieSpice && redSpiceCheckbox.isChecked());
 
@@ -355,7 +356,7 @@ void NewMapWindow::onMapPropertiesChanged() {
         int spice = spiceDigitsTextBox.getValue();
         int greenSpice = greenSpiceCheckbox.isChecked() ? greenSpiceDigitsTextBox.getValue() : 0;
         int redSpice = redSpiceCheckbox.isChecked() ? redSpiceDigitsTextBox.getValue() : 0;
-        if(ModManager::instance().getActiveModName() != "Tornie") {
+        if(!ModManager::instance().isTornieContentActive()) {
             greenSpice = 0;
             redSpice = 0;
         }
@@ -363,7 +364,11 @@ void NewMapWindow::onMapPropertiesChanged() {
         MirrorMode mirrorMode = (MirrorMode) mirrorModeDropDownBox.getSelectedEntryIntData();
 
         mapSeed = INVALID;
-        mapdata = generateRandomMap(sizeX, sizeY, seed, rock, spice, mirrorMode, greenSpice, redSpice);
+        const bool isJericho = ModManager::instance().getActiveModName() == "Jericho";
+        const TERRAINTYPE firstCustomSpice = isJericho ? Terrain_RedSpice : Terrain_GreenSpice;
+        const TERRAINTYPE secondCustomSpice = isJericho ? Terrain_WhiteSpice : Terrain_PaleLilacSpice;
+        mapdata = generateRandomMap(sizeX, sizeY, seed, rock, spice, mirrorMode, greenSpice, redSpice,
+                                    firstCustomSpice, secondCustomSpice);
 
     } else if(seedMapRadioButton.isChecked()) {
         int seed = rngSeedTextBox.getValue();

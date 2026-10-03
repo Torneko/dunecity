@@ -66,8 +66,8 @@ void Saboteur::checkPos()
     InfantryBase::checkPos();
 
     if(active) {
-        bool canBeSeen[NUM_TEAMS];
-        for(int i = 0; i < NUM_TEAMS; i++) {
+        bool canBeSeen[NUM_TEAM_SLOTS];
+        for(int i = 0; i < NUM_TEAM_SLOTS; i++) {
             canBeSeen[i] = false;
         }
 
@@ -79,7 +79,7 @@ void Saboteur::checkPos()
             }
         }
 
-        for(int i = 0; i < NUM_TEAMS; i++) {
+        for(int i = 0; i < NUM_TEAM_SLOTS; i++) {
             setVisible(i, canBeSeen[i]);
         }
 
@@ -92,21 +92,21 @@ bool Saboteur::update() {
     if(active && target.getObjPointer() != nullptr) {
         Coord closestPoint = target.getObjPointer()->getClosestPoint(location);
         FixPoint dist = blockDistance(location, closestPoint);
-        
+
         // Log saboteur state every 50 cycles when close to target
         static int logCounter = 0;
         if(dist <= 3.0_fix && (++logCounter % 50) == 0) {
-            SDL_Log("SABOTEUR at (%d,%d): moving=%d target=%d dist=%.2f attackMode=%d destination=(%d,%d)", 
-                location.x, location.y, moving, target.getObjPointer()->getItemID(), 
+            SDL_Log("SABOTEUR at (%d,%d): moving=%d target=%d dist=%.2f attackMode=%d destination=(%d,%d)",
+                location.x, location.y, moving, target.getObjPointer()->getItemID(),
                 dist.toDouble(), attackMode, destination.x, destination.y);
         }
-        
+
         if(!moving) {
             //check to see if close enough to blow up target
             if(getOwner()->getTeamID() != target.getObjPointer()->getOwner()->getTeamID()) {
                 if(blockDistance(location, closestPoint) <= 1.5_fix) {
                     SDL_Log("SABOTEUR DETONATING! dist=%.2f", dist.toDouble());
-                    
+
                     if(isVisible(getOwner()->getTeamID())) {
                         screenborder->shakeScreen(18);
                     }
@@ -120,7 +120,7 @@ bool Saboteur::update() {
             }
         }
     }
-    
+
     return InfantryBase::update();
 }
 

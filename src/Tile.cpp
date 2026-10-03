@@ -42,13 +42,17 @@ namespace {
 bool isThinSpiceTerrain(int terrainType) noexcept {
     return terrainType == Terrain_Spice
         || terrainType == Terrain_GreenSpice
-        || terrainType == Terrain_RedSpice;
+        || terrainType == Terrain_RedSpice
+        || terrainType == Terrain_PaleLilacSpice
+        || terrainType == Terrain_WhiteSpice;
 }
 
 bool isThickSpiceTerrain(int terrainType) noexcept {
     return terrainType == Terrain_ThickSpice
         || terrainType == Terrain_ThickGreenSpice
-        || terrainType == Terrain_ThickRedSpice;
+        || terrainType == Terrain_ThickRedSpice
+        || terrainType == Terrain_ThickPaleLilacSpice
+        || terrainType == Terrain_ThickWhiteSpice;
 }
 
 bool isSpiceTerrain(int terrainType) noexcept {
@@ -63,6 +67,12 @@ int getThinSpiceTerrain(int terrainType) noexcept {
         case Terrain_RedSpice:
         case Terrain_ThickRedSpice:
         case Terrain_RedSpiceBloom: return Terrain_RedSpice;
+        case Terrain_PaleLilacSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_PaleLilacSpiceBloom: return Terrain_PaleLilacSpice;
+        case Terrain_WhiteSpice:
+        case Terrain_ThickWhiteSpice:
+        case Terrain_WhiteSpiceBloom: return Terrain_WhiteSpice;
         default: return Terrain_Spice;
     }
 }
@@ -75,6 +85,12 @@ int getThickSpiceTerrain(int terrainType) noexcept {
         case Terrain_RedSpice:
         case Terrain_ThickRedSpice:
         case Terrain_RedSpiceBloom: return Terrain_ThickRedSpice;
+        case Terrain_PaleLilacSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_PaleLilacSpiceBloom: return Terrain_ThickPaleLilacSpice;
+        case Terrain_WhiteSpice:
+        case Terrain_ThickWhiteSpice:
+        case Terrain_WhiteSpiceBloom: return Terrain_ThickWhiteSpice;
         default: return Terrain_ThickSpice;
     }
 }
@@ -93,6 +109,14 @@ unsigned int getTerrainObjPic(int terrainType) noexcept {
         case Terrain_ThickRedSpice:
         case Terrain_RedSpiceBloom:
             return ObjPic_Terrain_RedSpice;
+        case Terrain_PaleLilacSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_PaleLilacSpiceBloom:
+            return ObjPic_Terrain_PaleLilacSpice;
+        case Terrain_WhiteSpice:
+        case Terrain_ThickWhiteSpice:
+        case Terrain_WhiteSpiceBloom:
+            return ObjPic_Terrain_WhiteSpice;
         default:
             return ObjPic_Terrain;
     }
@@ -106,6 +130,10 @@ bool shouldDrawTerrainBelowStructure(int itemID) noexcept {
         case Structure_Worfinery:
         case Structure_TechCenter:
         case Structure_Scoutpost:
+        case Structure_Flamepost:
+        case Structure_Chemipost:
+        case Structure_LoveFactory:
+        case Structure_ChaosFactory:
             return true;
 
         default:
@@ -118,7 +146,7 @@ bool shouldDrawTerrainBelowStructure(int itemID) noexcept {
 Tile::Tile() {
     type = Terrain_Sand;
 
-    for (auto i = 0; i < NUM_TEAMS; i++) {
+    for (auto i = 0; i < NUM_HOUSES; i++) {
         explored[i] = currentGame->getGameInitSettings().getGameOptions().startWithExploredMap;
         lastAccess[i] = 0;
     }
@@ -149,11 +177,27 @@ void Tile::load(InputStream& stream) {
     type = stream.readUint32();
 
     stream.readBools(&explored[0], &explored[1], &explored[2], &explored[3], &explored[4], &explored[5], &explored[6], &explored[7]);
+    explored[HOUSE_CUSTOM] = (currentGame && currentGame->getLoadedSavegameVersion() >= 9821)
+        ? stream.readBool()
+        : false;
+    if(currentGame && currentGame->getLoadedSavegameVersion() >= 9823) {
+        explored[HOUSE_WILDSPADE] = stream.readBool();
+        explored[HOUSE_KLESHMERSH] = stream.readBool();
+        explored[HOUSE_THARPIQUE] = stream.readBool();
+    }
 
-    bool bLastAccess[NUM_TEAMS];
+    bool bLastAccess[NUM_HOUSES]{};
     stream.readBools(&bLastAccess[0], &bLastAccess[1], &bLastAccess[2], &bLastAccess[3], &bLastAccess[4], &bLastAccess[5], &bLastAccess[6], &bLastAccess[7]);
+    if(currentGame && currentGame->getLoadedSavegameVersion() >= 9821) {
+        bLastAccess[HOUSE_CUSTOM] = stream.readBool();
+    }
+    if(currentGame && currentGame->getLoadedSavegameVersion() >= 9823) {
+        bLastAccess[HOUSE_WILDSPADE] = stream.readBool();
+        bLastAccess[HOUSE_KLESHMERSH] = stream.readBool();
+        bLastAccess[HOUSE_THARPIQUE] = stream.readBool();
+    }
 
-    for (int i = 0; i < NUM_TEAMS; i++) {
+    for (int i = 0; i < NUM_HOUSES; i++) {
         if (bLastAccess[i] == true) {
             lastAccess[i] = stream.readUint32();
         }
@@ -244,11 +288,19 @@ void Tile::save(OutputStream& stream) const {
     stream.writeUint32(type);
 
     stream.writeBools(explored[0], explored[1], explored[2], explored[3], explored[4], explored[5], explored[6], explored[7]);
+    stream.writeBool(explored[HOUSE_CUSTOM]);
+    stream.writeBool(explored[HOUSE_WILDSPADE]);
+    stream.writeBool(explored[HOUSE_KLESHMERSH]);
+    stream.writeBool(explored[HOUSE_THARPIQUE]);
 
     stream.writeBools((lastAccess[0] != 0), (lastAccess[1] != 0), (lastAccess[2] != 0), (lastAccess[3] != 0), (lastAccess[4] != 0), (lastAccess[5] != 0), (lastAccess[6] != 0), (lastAccess[7] != 0));
-    for (auto lastAccessFromTeam : lastAccess) {
-        if (lastAccessFromTeam != 0) {
-            stream.writeUint32(lastAccessFromTeam);
+    stream.writeBool(lastAccess[HOUSE_CUSTOM] != 0);
+    stream.writeBool(lastAccess[HOUSE_WILDSPADE] != 0);
+    stream.writeBool(lastAccess[HOUSE_KLESHMERSH] != 0);
+    stream.writeBool(lastAccess[HOUSE_THARPIQUE] != 0);
+    for (int i = 0; i < NUM_HOUSES; ++i) {
+        if (lastAccess[i] != 0) {
+            stream.writeUint32(lastAccess[i]);
         }
     }
 
@@ -330,9 +382,9 @@ void Tile::assignAirUnit(Uint32 newObjectID) {
 void Tile::assignNonInfantryGroundObject(Uint32 newObjectID) {
     // Only increment revision if tile transitions from passable to blocked
     bool wasPassable = assignedNonInfantryGroundObjectList.empty();
-    
+
     assignedNonInfantryGroundObjectList.push_back(newObjectID);
-    
+
     if(currentGameMap != nullptr && wasPassable) {
         // Tile just became blocked (0 -> 1 unit) - invalidate paths
         currentGameMap->incrementPathingRevision();
@@ -687,10 +739,10 @@ void Tile::unassignAirUnit(Uint32 objectID) {
 
 void Tile::unassignNonInfantryGroundObject(Uint32 objectID) {
     assignedNonInfantryGroundObjectList.remove(objectID);
-    
+
     // Only increment revision if tile transitions from blocked to passable
     bool isNowPassable = assignedNonInfantryGroundObjectList.empty();
-    
+
     if(currentGameMap != nullptr && isNowPassable) {
         // Tile just became passable (1 -> 0 units) - invalidate paths
         currentGameMap->incrementPathingRevision();
@@ -794,9 +846,11 @@ int Tile::getInfantryTeam() const {
 
 FixPoint Tile::harvestSpice() {
     const auto oldSpice = spice;
+    const bool whiteSpice = isWhiteSpice();
+    const FixPoint extractionAmount = whiteSpice ? (HARVESTSPEED * 0.8_fix) : HARVESTSPEED;
 
-    if ((spice - HARVESTSPEED) >= 0) {
-        spice -= HARVESTSPEED;
+    if ((spice - extractionAmount) >= 0) {
+        spice -= extractionAmount;
     }
     else {
         spice = 0;
@@ -810,7 +864,8 @@ FixPoint Tile::harvestSpice() {
         setType(Terrain_Sand);
     }
 
-    return (oldSpice - spice);
+    const FixPoint harvested = oldSpice - spice;
+    return whiteSpice ? (harvested * 1.125_fix) : harvested;
 }
 
 
@@ -952,6 +1007,10 @@ void Tile::triggerSpiceBloom(House* pTrigger) {
         generatedSpiceTerrain = std::make_pair(Terrain_GreenSpice, Terrain_ThickGreenSpice);
     } else if(bloomType == Terrain_RedSpiceBloom) {
         generatedSpiceTerrain = std::make_pair(Terrain_RedSpice, Terrain_ThickRedSpice);
+    } else if(bloomType == Terrain_PaleLilacSpiceBloom) {
+        generatedSpiceTerrain = std::make_pair(Terrain_PaleLilacSpice, Terrain_ThickPaleLilacSpice);
+    } else if(bloomType == Terrain_WhiteSpiceBloom) {
+        generatedSpiceTerrain = std::make_pair(Terrain_WhiteSpice, Terrain_ThickWhiteSpice);
     } else {
         generatedSpiceTerrain = currentGameMap->chooseGeneratedSpiceTerrain();
     }
@@ -1237,7 +1296,9 @@ int Tile::getTerrainTile() const {
 
     case Terrain_Spice:
     case Terrain_GreenSpice:
-    case Terrain_RedSpice: {
+    case Terrain_RedSpice:
+    case Terrain_PaleLilacSpice:
+    case Terrain_WhiteSpice: {
         // determine which surrounding tiles are spice
         bool up = (currentGameMap->tileExists(location.x, location.y - 1) == false) || isSameSpiceFamily(currentGameMap->getTile(location.x, location.y - 1)->getType(), terrainType);
         bool right = (currentGameMap->tileExists(location.x + 1, location.y) == false) || isSameSpiceFamily(currentGameMap->getTile(location.x + 1, location.y)->getType(), terrainType);
@@ -1249,7 +1310,9 @@ int Tile::getTerrainTile() const {
 
     case Terrain_ThickSpice:
     case Terrain_ThickGreenSpice:
-    case Terrain_ThickRedSpice: {
+    case Terrain_ThickRedSpice:
+    case Terrain_ThickPaleLilacSpice:
+    case Terrain_ThickWhiteSpice: {
         // determine which surrounding tiles are thick spice
         bool up = (currentGameMap->tileExists(location.x, location.y - 1) == false) || (currentGameMap->getTile(location.x, location.y - 1)->getType() == terrainType);
         bool right = (currentGameMap->tileExists(location.x + 1, location.y) == false) || (currentGameMap->getTile(location.x + 1, location.y)->getType() == terrainType);
@@ -1261,7 +1324,9 @@ int Tile::getTerrainTile() const {
 
     case Terrain_SpiceBloom:
     case Terrain_GreenSpiceBloom:
-    case Terrain_RedSpiceBloom: {
+    case Terrain_RedSpiceBloom:
+    case Terrain_PaleLilacSpiceBloom:
+    case Terrain_WhiteSpiceBloom: {
         return TerrainTile_SpiceBloom;
     } break;
 

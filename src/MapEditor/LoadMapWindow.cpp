@@ -35,6 +35,8 @@
 
 #include <globals.h>
 
+#include <exception>
+
 
 LoadMapWindow::LoadMapWindow(Uint32 color) : Window(0,0,0,0), color(color), loadMapSingleplayer(false) {
 
@@ -305,7 +307,8 @@ void LoadMapWindow::onMapListSelectionChange(bool bInteractive)
     try {
         INIMapPreviewCreator mapPreviewCreator(&inimap);
         pMapSurface = mapPreviewCreator.createMinimapImageOfMap(1, DuneStyle::buttonBorderColor);
-    } catch(...) {
+    } catch(const std::exception& e) {
+        SDL_Log("LoadMapWindow: Cannot preview map '%s': %s", mapFilename.c_str(), e.what());
         pMapSurface = sdl2::surface_ptr { GUIStyle::getInstance().createButtonSurface(130, 130, "Error", true, false) };
         loadButton.setEnabled(false);
     }

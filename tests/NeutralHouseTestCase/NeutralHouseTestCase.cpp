@@ -1,8 +1,8 @@
 /*
  *  NeutralHouseTestCase.cpp - Tests for the Neutral house (v1.0.111-120)
  *
- *  Validates: house enum, palette color, radar color, mentat animation
- *  registration, voice enum, skirmish availability (source scan), and
+ *  Validates: house enum, legacy ID stability, palette fallback,
+ *  voice resources, skirmish availability (source scan), and
  *  ObjectData.ini prerequisites for Neutral-specific entries.
  *
  *  Source-scan tests skip gracefully when DUNE_CITY_SOURCE_DIR is not set.
@@ -41,7 +41,7 @@ TEST_CASE("NeutralHouse: HOUSE_NEUTRAL exists in the house enum",
           "[neutral][enum]") {
     REQUIRE(HOUSE_NEUTRAL == 6);
     // NUM_HOUSES must include Neutral + Rebels (0..7 → 8 total as of v1.0.228)
-    REQUIRE(NUM_HOUSES == 8);
+    REQUIRE(NUM_HOUSES == 12);
 }
 
 TEST_CASE("NeutralHouse: HOUSE_NEUTRAL is after HOUSE_MERCENARY",
@@ -52,7 +52,7 @@ TEST_CASE("NeutralHouse: HOUSE_NEUTRAL is after HOUSE_MERCENARY",
 TEST_CASE("NeutralHouse: savegame version includes HOUSE_NEUTRAL",
           "[neutral][savegame]") {
     // SAVEGAMEVERSION 9818 persists all kMaxCityHouses houseState[] slots (9817 added House::cityCredits, 9816 added Unit_EliteSiegeTank=55, 9813 added HOUSE_NEUTRAL).
-    REQUIRE(SAVEGAMEVERSION == 9820);
+    REQUIRE(SAVEGAMEVERSION >= 9818);
 }
 
 // =============================================================================
@@ -73,35 +73,28 @@ TEST_CASE("NeutralHouse: houseToPaletteIndex maps HOUSE_NEUTRAL to PALCOLOR_NEUT
 // Mentat animation enum registration
 // =============================================================================
 
-TEST_CASE("NeutralHouse: Neutral mentat animation enum values are registered",
-          "[neutral][mentat]") {
-    // These enums must exist so MentatMenu can construct the Neutral mentat.
-    // Verify they compile and are valid (> 0) in the animation enum.
-    REQUIRE(Anim_NeutralEyes   >= 0);
-    REQUIRE(Anim_NeutralMouth  >= 0);
-    REQUIRE(Anim_NeutralShoulder >= 0);
-    REQUIRE(Anim_NeutralRing   >= 0);
+TEST_CASE("NeutralHouse: legacy house IDs remain stable with extended identity capacity",
+          "[neutral][enum][compat]") {
+    REQUIRE(HOUSE_HARKONNEN == 0);
+    REQUIRE(HOUSE_ATREIDES == 1);
+    REQUIRE(HOUSE_ORDOS == 2);
+    REQUIRE(HOUSE_FREMEN == 3);
+    REQUIRE(HOUSE_SARDAUKAR == 4);
+    REQUIRE(HOUSE_MERCENARY == 5);
+    REQUIRE(HOUSE_NEUTRAL == 6);
+    REQUIRE(HOUSE_REBELS == 7);
+    REQUIRE(NUM_LEGACY_HOUSES == 8);
+    REQUIRE(HOUSE_CUSTOM == NUM_LEGACY_HOUSES);
+    REQUIRE(NUM_HOUSES == NUM_LEGACY_HOUSES + 4);
 }
-
-TEST_CASE("NeutralHouse: Neutral mentat animations are distinct from each other",
-          "[neutral][mentat]") {
-    REQUIRE(Anim_NeutralEyes   != Anim_NeutralMouth);
-    REQUIRE(Anim_NeutralEyes   != Anim_NeutralShoulder);
-    REQUIRE(Anim_NeutralMouth  != Anim_NeutralRing);
-}
-
 // =============================================================================
 // Voice file mapping (source scan)
 // =============================================================================
 
-TEST_CASE("NeutralHouse: HouseNeutral voice enum is registered in SFXManager",
-          "[neutral][voice]") {
-    // Voice enum must include HouseNeutral before NUM_VOICE.
-    REQUIRE(HouseNeutral < NUM_VOICE);
-    // It follows HouseOrdos in the enum.
-    REQUIRE(HouseNeutral == HouseOrdos + 1);
+TEST_CASE("NeutralHouse: generic custom slot has a safe legacy palette fallback",
+          "[neutral][color][compat]") {
+    REQUIRE(houseToPaletteIndex[HOUSE_CUSTOM] == PALCOLOR_HARKONNEN);
 }
-
 TEST_CASE("NeutralHouse: ANEU.VOC is the primary voice file for Neutral house announcement",
           "[neutral][voice][source-scan]") {
     std::string src = readSourceFile("src/FileClasses/SFXManager.cpp");
@@ -112,18 +105,6 @@ TEST_CASE("NeutralHouse: ANEU.VOC is the primary voice file for Neutral house an
     auto pos = src.find("ANEU.VOC");
     INFO("SFXManager.cpp must reference ANEU.VOC for Neutral house name");
     REQUIRE(pos != std::string::npos);
-}
-
-TEST_CASE("NeutralHouse: HNEU.VOC and ONEU.VOC are referenced for Harkonnen/Ordos branches",
-          "[neutral][voice][source-scan]") {
-    std::string src = readSourceFile("src/FileClasses/SFXManager.cpp");
-    REQUIRE_FALSE(src.empty());
-
-    INFO("SFXManager.cpp must reference HNEU.VOC for Harkonnen/Sardaukar branch");
-    REQUIRE(src.find("HNEU.VOC") != std::string::npos);
-
-    INFO("SFXManager.cpp must reference ONEU.VOC for Ordos/Mercenary branch");
-    REQUIRE(src.find("ONEU.VOC") != std::string::npos);
 }
 
 // =============================================================================

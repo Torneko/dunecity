@@ -16,6 +16,7 @@
  */
 
 #include <Menu/MainMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 
 #include <globals.h>
 
@@ -43,7 +44,7 @@ MainMenu::MainMenu()
 {
     // Update Discord Rich Presence
     DiscordManager::instance().setMainMenu();
-    
+
     // set up window
     SDL_Texture *pBackground = pGFXManager->getUIGraphic(UI_MenuBackground);
     setBackground(pBackground);
@@ -75,6 +76,7 @@ MainMenu::MainMenu()
     windowWidget.addWidget(&MenuButtons,Point((getRendererWidth() - 160)/2,getRendererHeight()/2 + 64),Point(160,128));
 
     singlePlayerButton.setText(_("SINGLE PLAYER"));
+    MainMenuButtonColor::apply(singlePlayerButton);
     singlePlayerButton.setOnClick(std::bind(&MainMenu::onSinglePlayer, this));
     MenuButtons.addWidget(&singlePlayerButton);
     singlePlayerButton.setActive();
@@ -82,6 +84,7 @@ MainMenu::MainMenu()
     MenuButtons.addWidget(VSpacer::create(3));
 
     multiPlayerButton.setText(_("MULTIPLAYER"));
+    MainMenuButtonColor::apply(multiPlayerButton);
     multiPlayerButton.setOnClick(std::bind(&MainMenu::onMultiPlayer, this));
     MenuButtons.addWidget(&multiPlayerButton);
 
@@ -89,36 +92,42 @@ MainMenu::MainMenu()
 
 //    MenuButtons.addWidget(VSpacer::create(16));
     mapEditorButton.setText(_("MAP EDITOR"));
+    MainMenuButtonColor::apply(mapEditorButton);
     mapEditorButton.setOnClick(std::bind(&MainMenu::onMapEditor, this));
     MenuButtons.addWidget(&mapEditorButton);
 
     MenuButtons.addWidget(VSpacer::create(3));
 
     modsButton.setText(_("MODS"));
+    MainMenuButtonColor::apply(modsButton);
     modsButton.setOnClick(std::bind(&MainMenu::onMods, this));
     MenuButtons.addWidget(&modsButton);
 
     MenuButtons.addWidget(VSpacer::create(3));
 
     optionsButton.setText(_("OPTIONS"));
+    MainMenuButtonColor::apply(optionsButton);
     optionsButton.setOnClick(std::bind(&MainMenu::onOptions, this));
     MenuButtons.addWidget(&optionsButton);
 
     MenuButtons.addWidget(VSpacer::create(3));
 
     howToPlayButton.setText(_("HOW TO PLAY"));
+    MainMenuButtonColor::apply(howToPlayButton);
     howToPlayButton.setOnClick(std::bind(&MainMenu::onHowToPlay, this));
     MenuButtons.addWidget(&howToPlayButton);
 
     MenuButtons.addWidget(VSpacer::create(3));
 
     aboutButton.setText(_("ABOUT"));
+    MainMenuButtonColor::apply(aboutButton);
     aboutButton.setOnClick(std::bind(&MainMenu::onAbout, this));
     MenuButtons.addWidget(&aboutButton);
 
     MenuButtons.addWidget(VSpacer::create(3));
 
     quitButton.setText(_("QUIT"));
+    MainMenuButtonColor::apply(quitButton);
     quitButton.setOnClick(std::bind(&MainMenu::onQuit, this));
     MenuButtons.addWidget(&quitButton);
 
@@ -144,6 +153,15 @@ MainMenu::MainMenu()
 
 void MainMenu::refreshModVersionLabel()
 {
+    MainMenuButtonColor::apply(singlePlayerButton);
+    MainMenuButtonColor::apply(multiPlayerButton);
+    MainMenuButtonColor::apply(mapEditorButton);
+    MainMenuButtonColor::apply(modsButton);
+    MainMenuButtonColor::apply(optionsButton);
+    MainMenuButtonColor::apply(howToPlayButton);
+    MainMenuButtonColor::apply(aboutButton);
+    MainMenuButtonColor::apply(quitButton);
+
     std::string activeModName;
     std::string modDisplayName = "Vanilla";
     ModManager& modManager = ModManager::instance();

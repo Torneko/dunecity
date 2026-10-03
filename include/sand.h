@@ -43,6 +43,7 @@ SDL_Texture*    resolveItemPicture(int itemID, HOUSETYPE house = HOUSE_HARKONNEN
 
 HOUSETYPE       getHouseByName(const std::string& name);
 std::string     getHouseNameByNumber(HOUSETYPE house);
+std::string     getHouseDisplayNameByNumber(HOUSETYPE house);
 
 ATTACKMODE      getAttackModeByName(const std::string& name);
 std::string     getAttackModeNameByMode(ATTACKMODE attackMode);

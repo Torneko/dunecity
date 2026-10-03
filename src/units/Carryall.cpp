@@ -34,9 +34,9 @@
 #include <units/HarvesterHelpers.h>
 #include <units/GroundUnit.h>
 
-Carryall::Carryall(House* newOwner) : AirUnit(newOwner)
+Carryall::Carryall(House* newOwner, int unitItemID) : AirUnit(newOwner)
 {
-    Carryall::init();
+    Carryall::init(unitItemID);
 
     setHealth(getMaxHealth());
 
@@ -47,9 +47,9 @@ Carryall::Carryall(House* newOwner) : AirUnit(newOwner)
     respondable = false;
 }
 
-Carryall::Carryall(InputStream& stream) : AirUnit(stream)
+Carryall::Carryall(InputStream& stream, int unitItemID) : AirUnit(stream)
 {
-    Carryall::init();
+    Carryall::init(unitItemID);
 
     pickedUpUnitList = stream.readUint32List();
     if(!pickedUpUnitList.empty()) {
@@ -59,9 +59,9 @@ Carryall::Carryall(InputStream& stream) : AirUnit(stream)
     stream.readBools(&owned, &aDropOfferer, &droppedOffCargo);
 }
 
-void Carryall::init()
+void Carryall::init(int unitItemID)
 {
-    itemID = Unit_Carryall;
+    itemID = unitItemID;
     owner->incrementUnits(itemID);
 
     canAttackStuff = false;
@@ -89,7 +89,7 @@ void Carryall::save(OutputStream& stream) const
 }
 
 bool Carryall::update() {
-    const auto& maxSpeed = currentGame->objectData.data[itemID][originalHouseID].maxspeed;
+    const auto& maxSpeed = currentGame->objectData.data[itemID][getProductionHouseID()].maxspeed;
 
     FixPoint dist = -1;
     const auto pTarget = target.getObjPointer();
@@ -124,7 +124,7 @@ bool Carryall::update() {
         if(aDropOfferer && droppedOffCargo && (hasCargo() == false)
             && ((getRealX() < -TILESIZE) || (getRealX() > (currentGameMap->getSizeX()+1)*TILESIZE)
                 || (getRealY() < -TILESIZE) || (getRealY() > (currentGameMap->getSizeY()+1)*TILESIZE))) {
-            
+
             // CRITICAL: Clear any bookings BEFORE leaving map
             // Harvesters may have booked this delivery carryall while it was flying away
             if(StructureBase* dropoff = getHarvesterDropoff(target.getObjPointer())) {
@@ -145,7 +145,7 @@ bool Carryall::update() {
                     }
                 }
             }
-            
+
             setVisible(VIS_ALL, false);
             destroy();
             return false;
@@ -319,10 +319,10 @@ void Carryall::destroy()
 
     // destroy cargo (unless immortal)
     GameType gameType = currentGame->getGameInitSettings().getGameType();
-    bool immortalityEnabled = (gameType != GameType::CustomMultiplayer 
+    bool immortalityEnabled = (gameType != GameType::CustomMultiplayer
                               && gameType != GameType::LoadMultiplayer
                               && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer);
-    
+
     for(const Uint32& pickedUpUnitID : pickedUpUnitList) {
         UnitBase* pPickedUpUnit = static_cast<UnitBase*>(currentGame->getObjectManager().getObject(pickedUpUnitID));
         if(pPickedUpUnit != nullptr) {
@@ -403,19 +403,19 @@ void Carryall::engageTarget()
     // Similar to Dynasty's Script_Unit_MoveToTarget approach
     static const FixPoint SNAP_RANGE = 2 * TILESIZE;  // Start snapping within 2 tiles
     static const FixPoint SNAP_SPEED = 16;            // Max pixels per update
-    
+
     if (targetDistance < SNAP_RANGE && targetDistance > TILESIZE/10) {
         // Direct position adjustment toward target
         FixPoint dx = realDestination.x - realX;
         FixPoint dy = realDestination.y - realY;
-        
+
         // Clamp movement to max SNAP_SPEED pixels in each direction
         dx = std::max(-SNAP_SPEED, std::min(SNAP_SPEED, dx));
         dy = std::max(-SNAP_SPEED, std::min(SNAP_SPEED, dy));
-        
+
         realX += dx;
         realY += dy;
-        
+
         // Update location if we crossed a tile boundary
         Coord newLocation = Coord(lround(realX)/TILESIZE, lround(realY)/TILESIZE);
         if(newLocation != location) {
@@ -423,7 +423,7 @@ void Carryall::engageTarget()
             assignToMap(newLocation);
             location = newLocation;
         }
-        
+
         // Recalculate distance after snap
         realLocation = Coord(lround(realX), lround(realY));
         targetDistance = distanceFrom(realLocation, realDestination);
@@ -482,11 +482,11 @@ void Carryall::pickupTarget()
             // unit died just in the moment we tried to pick it up => carryall also crushes
             // Check if carryall itself is immortal
             GameType gameType = currentGame->getGameInitSettings().getGameType();
-            bool isImmortal = (gameType != GameType::CustomMultiplayer 
+            bool isImmortal = (gameType != GameType::CustomMultiplayer
                               && gameType != GameType::LoadMultiplayer
                               && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                               && getOwner() == pLocalHouse);
-            
+
             if(!isImmortal) {
                 setHealth(0);
             }
@@ -543,7 +543,7 @@ void Carryall::pickupTarget()
     } else {
         // get unit from structure
         if(getHarvesterDropoff(pTarget) != nullptr) {
-            // get a stored harvester (normal Refinery; Worfinery stores none)
+            // get a harvester stored by a compatible drop-off structure
             getHarvesterDropoff(pTarget)->deployContainedHarvester(this);
         } else if(pTarget->getItemID() == Structure_RepairYard) {
             // get repaired unit

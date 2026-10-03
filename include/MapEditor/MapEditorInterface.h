@@ -170,6 +170,8 @@ private:
     HBox                editorModeTerrain_HBox3;
     HBox                editorModeTerrain_HBox4;
     HBox                editorModeTerrain_HBox5;
+    HBox                editorModeTerrain_HBox6;
+    HBox                editorModeTerrain_HBox7;
 
     SymbolButton        editorModeTerrain_Sand;
     SymbolButton        editorModeTerrain_Dunes;
@@ -182,6 +184,12 @@ private:
     SymbolButton        editorModeTerrain_RedSpice;
     SymbolButton        editorModeTerrain_ThickRedSpice;
     SymbolButton        editorModeTerrain_RedSpiceBloom;
+    SymbolButton        editorModeTerrain_PaleLilacSpice;
+    SymbolButton        editorModeTerrain_ThickPaleLilacSpice;
+    SymbolButton        editorModeTerrain_PaleLilacSpiceBloom;
+    SymbolButton        editorModeTerrain_WhiteSpice;
+    SymbolButton        editorModeTerrain_ThickWhiteSpice;
+    SymbolButton        editorModeTerrain_WhiteSpiceBloom;
     SymbolButton        editorModeTerrain_SpiceBloom;
     SymbolButton        editorModeTerrain_Rock;
     SymbolButton        editorModeTerrain_Mountain;
@@ -219,7 +227,6 @@ private:
     SymbolButton        editorModeStructs_ConstructionYard;
     SymbolButton        editorModeStructs_Windtrap;
     HBox                editorModeStructs_HBoxAdvancedWindTrap;
-    HBox                editorModeStructs_HBoxAdvancedWindTrapMK2;
     HBox                editorModeStructs_HBoxAdvancedWindTrapMK3;
     SymbolButton        editorModeStructs_AdvancedWindTrap;   ///< Tornie: 3x3 high-output power building
     SymbolButton        editorModeStructs_AdvancedWindTrapMK2; ///< Tornie: 2x3 high-output power building
@@ -245,8 +252,13 @@ private:
     SymbolButton        editorModeStructs_Palace;
     HBox                editorModeStructs_HBoxTechCenter;
     SymbolButton        editorModeStructs_TechCenter;   ///< Tornie: Palace-equivalent that spawns vehicles
-    HBox                editorModeStructs_HBoxScoutpost;
+    SymbolButton        editorModeStructs_ChaosFactory; ///< Tornie: random factory
+    VBox                editorModeStructs_VBoxScoutposts;
     SymbolButton        editorModeStructs_Scoutpost;     ///< Tornie: power/defense/recon post
+    SymbolButton        editorModeStructs_Flamepost;     ///< Tornie: flame defense post
+    SymbolButton        editorModeStructs_Chemipost;     ///< Tornie: healing defense post
+    HBox                editorModeStructs_HBoxLoveFactory;
+    SymbolButton        editorModeStructs_LoveFactory;
     bool                tornieContentVisible_ = false;
 
 
@@ -274,6 +286,9 @@ private:
     SymbolButton        editorModeUnits_SonicTrike;
     SymbolButton        editorModeUnits_EliteLauncher;
     SymbolButton        editorModeUnits_EliteSiegeTank;
+    HBox                editorModeUnits_HBoxTornieChemical;
+    SymbolButton        editorModeUnits_ChemicalSiegeTank;
+    SymbolButton        editorModeUnits_ChemicalCarryall;
     HBox                editorModeUnits_HBox4;
     SymbolButton        editorModeUnits_Tank;
     SymbolButton        editorModeUnits_SiegeTank;

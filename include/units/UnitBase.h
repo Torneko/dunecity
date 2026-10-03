@@ -48,6 +48,11 @@ public:
 
     void save(OutputStream& stream) const override;
 
+    // Technology can come from a captured factory; originalHouseID remains
+    // the permanent owner used by unit counts and Deviator allegiance.
+    int getProductionHouseID() const override { return productionHouseID; }
+    virtual void setProductionHouseID(int houseID);
+
     void blitToScreen() override;
 
     ObjectInterface* getInterfaceContainer() override;
@@ -74,6 +79,7 @@ public:
         \param  yPos    the y position on the map
     */
     virtual void handleAttackClick(int xPos, int yPos);
+    virtual void handleHealClick(int xPos, int yPos);
 
     /**
         This method is called when an unit is ordered to move
@@ -222,7 +228,7 @@ public:
     virtual FixPoint getMaxSpeed() const;
 
     void resolvePendingTargetRequest();
-    
+
     struct PathRequestStats {
         bool pathFound = false;
         bool invalidDestination = false;
@@ -302,8 +308,10 @@ protected:
     bool     turreted;               ///< Does this unit have a turret?
     int      numWeapons;             ///< How many weapons do we have?
     int      bulletType;             ///< Type of bullet to shot with
+    int      lastFiredBulletType;    ///< Bullet actually fired, including distance-based weapon changes
 
     // unit state/properties
+    int      productionHouseID = HOUSE_INVALID;
     Coord    guardPoint;             ///< The guard point where to return to after the micro-AI hunted some nearby enemy unit
     Coord    attackPos;              ///< The position to attack
     bool     goingToRepairYard;      ///< Are we currently going to a repair yard?
@@ -333,7 +341,7 @@ protected:
     bool pathRequestQueued = false;
     Coord    cachedPathDestination = Coord::Invalid(); ///< Destination associated with the current cached path
     Uint32   cachedPathRevision = 0;                   ///< Map revision used to validate the cached path
-    
+
     // Stuck detection (transient - not saved)
     FixPoint lastDistanceToDestination = -1;  ///< Distance to destination on last pathfinding attempt
     Uint8    noProgressCount = 0;             ///< Attempts without getting closer

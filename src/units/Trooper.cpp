@@ -21,6 +21,7 @@
 
 #include <FileClasses/GFXManager.h>
 #include <House.h>
+#include <mod/ModManager.h>
 #include <SoundPlayer.h>
 
 Trooper::Trooper(House* newOwner) : InfantryBase(newOwner) {
@@ -38,7 +39,7 @@ void Trooper::init() {
     owner->incrementUnits(itemID);
 
     numWeapons = 1;
-    bulletType = Bullet_SmallRocket;
+    setProductionHouseID(getProductionHouseID());
 
     graphicID = ObjPic_Trooper;
     graphic = pGFXManager->getObjPic(graphicID,getOwner()->getHouseID());
@@ -48,6 +49,13 @@ void Trooper::init() {
 }
 
 Trooper::~Trooper() = default;
+
+void Trooper::setProductionHouseID(int houseID) {
+    UnitBase::setProductionHouseID(houseID);
+    const bool kleshmershTrooper = ModManager::instance().isInitialized()
+        && isHouseFaction(static_cast<HOUSETYPE>(getProductionHouseID()), HOUSE_KLESHMERSH);
+    bulletType = kleshmershTrooper ? Bullet_Flame : Bullet_SmallRocket;
+}
 
 bool Trooper::canAttack(const ObjectBase* object) const {
     if ((object != nullptr)
@@ -62,5 +70,7 @@ bool Trooper::canAttack(const ObjectBase* object) const {
 
 
 void Trooper::playAttackSound() {
-    soundPlayer->playSoundAt(Sound_RocketSmall,location);
+    soundPlayer->playSoundAt(
+        lastFiredBulletType == Bullet_ShellSmall ? Sound_Gun : Sound_RocketSmall,
+        location);
 }

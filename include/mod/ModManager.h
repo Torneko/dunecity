@@ -25,7 +25,7 @@
 
 /**
  * Singleton class for managing game mods.
- * 
+ *
  * Mods are stored in the user config directory under mods/:
  *   mods/
  *     active_mod.txt          - Contains name of active mod
@@ -45,28 +45,42 @@ public:
      * Get the singleton instance.
      */
     static ModManager& instance();
-    
+
     // Prevent copying
     ModManager(const ModManager&) = delete;
     ModManager& operator=(const ModManager&) = delete;
-    
+
     /**
      * Initialize the mod system. Must be called once at startup.
      * Seeds vanilla mod from install defaults if needed.
      */
     void initialize();
-    
+
     /**
      * Check if ModManager has been initialized.
      * \return true if initialize() has been called
      */
     bool isInitialized() const;
-    
+
     /**
      * Get the name of the currently active mod.
      * \return Mod name (e.g., "vanilla")
      */
     std::string getActiveModName() const;
+    bool isTornieContentActive() const {
+        const std::string activeModName = getActiveModName();
+        return activeModName == "Tornie" || activeModName == "TornieLite" || activeModName == "Jericho";
+    }
+
+    bool isTornieLiteActive() const {
+        return getActiveModName() == "TornieLite";
+    }
+    const CustomHouseInfo& getActiveCustomHouseInfo() const;
+    const CustomHouseInfo& getCustomHouseInfo(int house) const;
+    bool isCustomHouseRegistered() const;
+    bool isCustomHouseRegistered(int house) const;
+    const ModMentatInfo& getActiveMentatInfo(int house) const;
+    int getEffectiveMentatIdentity(int house) const;
 
     /**
      * Set the active mod by name.
@@ -74,47 +88,47 @@ public:
      * \return true if mod exists and was activated
      */
     bool setActiveMod(const std::string& name);
-    
+
     /**
      * Check if a mod exists.
      * \param name Mod folder name
      * \return true if mod exists
      */
     bool modExists(const std::string& name) const;
-    
+
     /**
      * List all available mods.
      * \return Vector of ModInfo for each mod
      */
     std::vector<ModInfo> listMods() const;
-    
+
     /**
      * Get info for a specific mod.
      * \param name Mod folder name
      * \return ModInfo (empty if not found)
      */
     ModInfo getModInfo(const std::string& name) const;
-    
+
     // === Path getters for active mod ===
-    
+
     /**
      * Get path to active mod's ObjectData.ini.
      * Falls back to vanilla if mod doesn't have this file.
      */
     std::string getActiveObjectDataPath() const;
-    
+
     /**
      * Get path to active mod's QuantBot Config.ini.
      * Falls back to vanilla if mod doesn't have this file.
      */
     std::string getActiveQuantBotConfigPath() const;
-    
+
     /**
      * Get path to active mod's GameOptions.ini.
      * Falls back to vanilla if mod doesn't have this file.
      */
     std::string getActiveGameOptionsPath() const;
-    
+
     /**
      * Load game options from active mod's GameOptions.ini.
      * \param baseOptions The base options to override (usually settings.gameOptions)
@@ -122,31 +136,31 @@ public:
      */
     SettingsClass::GameOptionsClass loadEffectiveGameOptions(
         const SettingsClass::GameOptionsClass& baseOptions) const;
-    
+
     // === Checksums ===
-    
+
     /**
      * Get checksums for the effective configuration (active mod + fallbacks).
      * \return ModChecksums with hashes for multiplayer verification
      */
     ModChecksums getEffectiveChecksums() const;
-    
+
     /**
      * Recalculate and cache checksums for current state.
      * Call after loading configs.
      */
     void updateChecksums();
-    
+
     /**
      * Set checksums from externally computed values.
      * Use this after loading configs to set in-memory hashes.
      */
-    void setChecksums(const std::string& objectDataHash, 
+    void setChecksums(const std::string& objectDataHash,
                       const std::string& quantBotHash,
                       const std::string& gameOptionsHash);
-    
+
     // === Mod CRUD ===
-    
+
     /**
      * Create a new mod by copying from another mod.
      * \param name New mod folder name
@@ -154,14 +168,14 @@ public:
      * \return true if created successfully
      */
     bool createMod(const std::string& name, const std::string& baseMod = "vanilla");
-    
+
     /**
      * Delete a mod (cannot delete "vanilla").
      * \param name Mod folder name
      * \return true if deleted successfully
      */
     bool deleteMod(const std::string& name);
-    
+
     /**
      * Save a received mod from network transfer.
      * Unpacks the packaged data and creates the mod directory.
@@ -170,9 +184,9 @@ public:
      * \return true if successful
      */
     bool saveReceivedMod(const std::string& modName, const std::string& packagedData);
-    
+
     // === Vanilla seeding ===
-    
+
     /**
      * Seed vanilla mod from install defaults.
      * Called automatically during initialize() if needed.
@@ -187,46 +201,48 @@ public:
 
     // Seed the Tornie mod bundled with Dune Legacy Tornie.
     void seedTornieFromDefaults();
+    void seedBundledTornieModFromDefaults(const std::string& modName);
 
     // Tornie mod reseed check.
     bool tornieNeedsReseed() const;
-    
+    bool bundledTornieModNeedsReseed(const std::string& modName) const;
+
     // === Paths ===
-    
+
     /**
      * Get the base mods directory path.
      */
     std::string getModsBasePath() const;
-    
+
     /**
      * Get path to a specific mod's directory.
      */
     std::string getModPath(const std::string& name) const;
-    
+
     /**
      * Write mod.ini metadata for a mod.
      */
     void writeModInfo(const std::string& modPath, const ModInfo& info) const;
-    
+
 private:
     ModManager();
     ~ModManager();
-    
+
     /**
      * Load active mod name from active_mod.txt.
      */
     void loadActiveMod();
-    
+
     /**
      * Save active mod name to active_mod.txt.
      */
     void saveActiveMod() const;
-    
+
     /**
      * Read mod.ini metadata for a mod.
      */
     ModInfo readModIni(const std::string& modPath) const;
-    
+
     /**
      * Get path to install config defaults directory.
      */
@@ -245,9 +261,12 @@ private:
      * Used to auto-reseed mods when the shipped defaults are updated.
      */
     bool installedObjectDataDiffersFromDefaults(const std::string& modName) const;
-    
+
     std::string modsBasePath;        ///< Base path for mods directory
-    std::string activeMod;           ///< Currently active mod name
+    std::string activeMod;
+    CustomHouseInfo activeCustomHouse;           ///< Active mod's campaign custom house
+    CustomHouseInfo activeGuestCustomHouse;      ///< Guest custom house used only by cross-mod custom games
+    std::vector<ModMentatInfo> activeMentats;     ///< Mentat overrides owned by the active mod
     mutable ModChecksums cachedChecksums;  ///< Cached checksums
     mutable bool checksumsDirty;     ///< Do checksums need recalculation?
     bool initialized;                ///< Has initialize() been called?

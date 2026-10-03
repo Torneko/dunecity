@@ -29,6 +29,7 @@ public:
     virtual ~Trooper();
 
     bool canAttack(const ObjectBase* object) const override;
+    void setProductionHouseID(int houseID) override;
 
     bool hasBumpyMovementOnRock() const override { return true; }
 

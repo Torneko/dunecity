@@ -40,13 +40,13 @@
 
 namespace {
 
-bool isTechCenterSpawnCandidate(int itemID, int house) {
-    if(currentGame == nullptr || !isUnit(itemID) || isFlyingUnit(itemID) || isInfantryUnit(itemID) || isHarvesterLikeUnit(itemID)) {
+bool isEnabledTechCenterVehicle(int itemID, int house) {
+    if(currentGame == nullptr || !isSpecialVehicleSelectionCandidate(itemID)) {
         return false;
     }
 
     const auto& data = currentGame->objectData.data[itemID][house];
-    if(!data.enabled || data.builder == ItemID_Invalid) {
+    if(!data.enabled) {
         return false;
     }
 
@@ -54,7 +54,12 @@ bool isTechCenterSpawnCandidate(int itemID, int house) {
         return false;
     }
 
-    return data.prerequisiteStructuresSet[Structure_IX];
+    return true;
+}
+
+bool isTechCenterSpawnCandidate(int itemID, int house) {
+    return isEnabledTechCenterVehicle(itemID, house)
+        && currentGame->objectData.data[itemID][house].prerequisiteStructuresSet[Structure_IX];
 }
 
 } // namespace
@@ -141,17 +146,45 @@ bool TechCenter::houseHasIxUnlocked() const {
 }
 
 int TechCenter::spawnRandomVehicles(int count) {
-    // Keep Tech Center spawns aligned with Unit_Special scenario entries.
-    const bool tornieActive = ModManager::instance().isInitialized()
-        && ModManager::instance().getActiveModName() == "Tornie";
+    // Keep Tech Center, Unit_Special maps and factory unlocks on the same
+    // active-mod ObjectData table. This prevents Jericho's W/K aliases from
+    // leaking into Tornie's N/R special-vehicle pairs.
+    const bool modInitialized = ModManager::instance().isInitialized();
+    const bool tornieActive = modInitialized && ModManager::instance().isTornieContentActive();
+    const bool jerichoActive = modInitialized
+        && ModManager::instance().getActiveModName() == "Jericho";
+    const bool corruptiqueActive = modInitialized
+        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_CUSTOM);
+    const auto objectDataIxCandidates = discoverHouseSpecialVehicleCandidates([&](int candidate) {
+        const auto& data = currentGame->objectData.data[candidate][originalHouseID];
+        return HouseSpecialVehicleCandidateData{
+            data.enabled,
+            data.builder,
+            data.prerequisiteStructuresSet[Structure_IX]
+        };
+    });
+
+    const auto specialVehiclePool = resolveSpecialVehiclePoolForHouse(
+        originalHouseID, tornieActive, jerichoActive, objectDataIxCandidates, corruptiqueActive);
+    const bool useGenericCustomFallback =
+        (isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_CUSTOM)
+         || isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_THARPIQUE))
+        && objectDataIxCandidates.empty();
     std::vector<int> vehiclePool;
-    for(const auto candidate : getSpecialVehiclePoolForHouse(originalHouseID, tornieActive)) {
-        if(isTechCenterSpawnCandidate(candidate, originalHouseID)) {
+    for(const auto candidate : specialVehiclePool) {
+        const bool candidateEnabled = useGenericCustomFallback
+            ? isEnabledTechCenterVehicle(candidate, originalHouseID)
+            : isTechCenterSpawnCandidate(candidate, originalHouseID);
+        if(candidateEnabled) {
             vehiclePool.push_back(candidate);
         }
     }
 
-    if(vehiclePool.empty()) {
+    const HOUSETYPE factionIdentity = getHouseFactionIdentity(static_cast<HOUSETYPE>(originalHouseID));
+    const bool jerichoNamedHouse = factionIdentity == HOUSE_WILDSPADE
+        || factionIdentity == HOUSE_KLESHMERSH;
+
+    if(vehiclePool.empty() && !jerichoNamedHouse) {
         for(const auto fallback : { Unit_Trike, Unit_Quad }) {
             const auto& data = currentGame->objectData.data[fallback][originalHouseID];
             if(data.enabled && data.builder != ItemID_Invalid) {
@@ -169,7 +202,7 @@ int TechCenter::spawnRandomVehicles(int count) {
         const int idx = currentGame->randomGen.rand(0, static_cast<int>(vehiclePool.size()) - 1);
         const int itemID = vehiclePool[idx];
 
-        UnitBase* newUnit = getOwner()->createUnit(itemID);
+        UnitBase* newUnit = getOwner()->createUnit(itemID, false, getProductionHouseID());
         if(newUnit == nullptr) {
             continue;
         }

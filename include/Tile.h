@@ -400,8 +400,10 @@ public:
         \param  cycle   the cycle this happens (normally the current game cycle)
     */
     void setExplored(int houseID, Uint32 cycle) {
-        lastAccess[houseID] = cycle;
-        explored[houseID] = true;
+        if(houseID >= 0 && houseID < NUM_HOUSES) {
+            lastAccess[houseID] = cycle;
+            explored[houseID] = true;
+        }
     }
 
     void setOwner(int newOwner) noexcept { owner = newOwner; }
@@ -419,7 +421,7 @@ public:
     bool hasSpice() const noexcept { return (spice > 0); }
     bool infantryNotFull() const noexcept { return (assignedInfantryList.size() < NUM_INFANTRY_PER_TILE); }
     bool isConcrete() const noexcept { return (type == Terrain_Slab); }
-    bool isExploredByHouse(int houseID) const { return explored[houseID]; }
+    bool isExploredByHouse(int houseID) const { return houseID >= 0 && houseID < NUM_HOUSES && explored[houseID]; }
     bool isExploredByTeam(int teamID) const;
 
     bool isFoggedByHouse(int houseID) const noexcept;
@@ -429,16 +431,22 @@ public:
 
     bool isSand() const noexcept { return (type == Terrain_Sand); }
     bool isDunes() const noexcept { return (type == Terrain_Dunes); }
-    bool isSpiceBloom() const noexcept { return ((type == Terrain_SpiceBloom) || (type == Terrain_GreenSpiceBloom) || (type == Terrain_RedSpiceBloom)); }
+    bool isSpiceBloom() const noexcept { return ((type == Terrain_SpiceBloom) || (type == Terrain_GreenSpiceBloom) || (type == Terrain_RedSpiceBloom) || (type == Terrain_PaleLilacSpiceBloom) || (type == Terrain_WhiteSpiceBloom)); }
     bool isSpecialBloom() const noexcept { return (type == Terrain_SpecialBloom); }
     bool isGreenSpice() const noexcept { return ((type == Terrain_GreenSpice) || (type == Terrain_ThickGreenSpice) || (type == Terrain_GreenSpiceBloom)); }
     bool isRedSpice() const noexcept { return ((type == Terrain_RedSpice) || (type == Terrain_ThickRedSpice) || (type == Terrain_RedSpiceBloom)); }
+    bool isPaleLilacSpice() const noexcept { return ((type == Terrain_PaleLilacSpice) || (type == Terrain_ThickPaleLilacSpice) || (type == Terrain_PaleLilacSpiceBloom)); }
+    bool isWhiteSpice() const noexcept { return ((type == Terrain_WhiteSpice) || (type == Terrain_ThickWhiteSpice) || (type == Terrain_WhiteSpiceBloom)); }
     bool isSpice() const noexcept { return ((type == Terrain_Spice) || (type == Terrain_ThickSpice)
-                                         || (type == Terrain_GreenSpice) || (type == Terrain_ThickGreenSpice)
-                                         || (type == Terrain_RedSpice) || (type == Terrain_ThickRedSpice)); }
+                                          || (type == Terrain_GreenSpice) || (type == Terrain_ThickGreenSpice)
+                                          || (type == Terrain_RedSpice) || (type == Terrain_ThickRedSpice)
+                                          || (type == Terrain_PaleLilacSpice) || (type == Terrain_ThickPaleLilacSpice)
+                                          || (type == Terrain_WhiteSpice) || (type == Terrain_ThickWhiteSpice)); }
     bool isThickSpice() const noexcept { return ((type == Terrain_ThickSpice)
-                                              || (type == Terrain_ThickGreenSpice)
-                                              || (type == Terrain_ThickRedSpice)); }
+                                               || (type == Terrain_ThickGreenSpice)
+                                               || (type == Terrain_ThickRedSpice)
+                                               || (type == Terrain_ThickPaleLilacSpice)
+                                               || (type == Terrain_ThickWhiteSpice)); }
 
     Uint32 getSandRegion() const noexcept { return sandRegion; }
     int getOwner() const noexcept { return owner; }
@@ -499,8 +507,8 @@ private:
     std::list<Uint32>   assignedUndergroundUnitList;              ///< all underground units on this tile
     std::list<Uint32>   assignedNonInfantryGroundObjectList;      ///< all structures/vehicles on this tile
 
-    Uint32      lastAccess[NUM_TEAMS];    ///< contains for every team when this tile was seen last by this house
-    bool        explored[NUM_TEAMS];      ///< contains for every team if this tile is explored
+    Uint32      lastAccess[NUM_HOUSES];    ///< contains for every team when this tile was seen last by this house
+    bool        explored[NUM_HOUSES];      ///< contains for every team if this tile is explored
 
 
 };

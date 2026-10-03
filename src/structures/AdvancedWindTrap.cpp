@@ -45,14 +45,14 @@ void AdvancedWindTrap::init(Uint32 newItemID) {
     }
 
     graphic = pGFXManager->getObjPic(graphicID, getOwner()->getHouseID());
-    // Tornie advanced windtraps use the compact custom structure sheet:
-    // build site, destroyed, active frame A, active frame B.
-    numImagesX = 4;
-    numImagesY = 1;
+    // Use the same generated energy-animation layout as the vanilla Windtrap.
+    numImagesX = NUM_WINDTRAP_ANIMATIONS_PER_ROW;
+    numImagesY = (2 + NUM_WINDTRAP_ANIMATIONS + NUM_WINDTRAP_ANIMATIONS_PER_ROW - 1)
+        / NUM_WINDTRAP_ANIMATIONS_PER_ROW;
     firstAnimFrame = 2;
-    lastAnimFrame = 3;
-    curAnimFrame = 2;
-    lastVisibleFrame = 2;
+    lastAnimFrame = 2 + NUM_WINDTRAP_ANIMATIONS - 1;
+    curAnimFrame = firstAnimFrame;
+    lastVisibleFrame = firstAnimFrame;
 }
 
 AdvancedWindTrap::~AdvancedWindTrap() = default;
@@ -70,7 +70,7 @@ bool AdvancedWindTrap::update() {
 
     if(bResult) {
         if(justPlacedTimer <= 0 || curAnimFrame != 0) {
-            curAnimFrame = 2 + ((currentGame->getGameCycleCount()/8) % 2);
+            curAnimFrame = 2 + ((currentGame->getGameCycleCount() / 8) % NUM_WINDTRAP_ANIMATIONS);
         }
     }
 

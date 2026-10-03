@@ -54,13 +54,13 @@ ObjectData::ObjectData()
             data[i][h].upgradeLevel = 0;
         }
     }
-    
+
     // Initialize map settings with defaults
     harvesterLimitSmallMap = 5;
     harvesterLimitMediumMap = 10;
     harvesterLimitLargeMap = 15;
     harvesterLimitHugeMap = 40;
-    
+
     unitLimitSmallMap = 25;
     unitLimitMediumMap = 100;
     unitLimitLargeMap = 250;
@@ -73,10 +73,10 @@ void ObjectData::logSettings() const {
     SDL_Log("==================== OBJECTDATA CONFIGURATION ====================");
     SDL_Log("Config path: %s", getObjectDataConfigFilepath().c_str());
     SDL_Log("%s", "");
-    
+
     // Log a sample of key units/structures for each house to keep output manageable
     // Format: ItemName [House]: HP=X Price=X Damage=X Range=X BuildTime=X
-    
+
     const int keyItems[32] = {
         // Units
         Unit_Soldier, Unit_Trooper, Unit_Harvester, Unit_MCV,
@@ -84,7 +84,7 @@ void ObjectData::logSettings() const {
         Unit_Tank, Unit_SiegeTank, Unit_Launcher,
         Unit_Devastator, Unit_SonicTank, Unit_Deviator,
         Unit_Ornithopter, Unit_Carryall,
-        // Structures  
+        // Structures
         Structure_Slab1, Structure_Wall, Structure_ConstructionYard,
         Structure_WindTrap, Structure_Refinery, Structure_Barracks,
         Structure_WOR, Structure_LightFactory, Structure_HeavyFactory,
@@ -92,20 +92,20 @@ void ObjectData::logSettings() const {
         Structure_RepairYard, Structure_StarPort, Structure_Silo,
         Structure_GunTurret, Structure_RocketTurret
     };
-    
+
     SDL_Log("=== KEY UNITS AND STRUCTURES (Atreides) ===");
     for(int i = 0; i < 32; i++) {
         int itemID = keyItems[i];
         if(itemID >= Num_ItemID) continue;
         const ObjectDataStruct& obj = data[itemID][HOUSE_ATREIDES];
         if(!obj.enabled) continue;
-        
+
         SDL_Log("%s: HP=%d Price=%d Dmg=%d Rng=%d Build=%d ViewRng=%d",
             resolveItemName(itemID).c_str(),
-            obj.hitpoints, obj.price, obj.weapondamage, 
+            obj.hitpoints, obj.price, obj.weapondamage,
             obj.weaponrange, obj.buildtime, obj.viewrange);
     }
-    
+
     SDL_Log("%s", "");
     SDL_Log("=== HOUSE-SPECIFIC DIFFERENCES ===");
     // Show where houses differ from Atreides
@@ -114,7 +114,7 @@ void ObjectData::logSettings() const {
         if(itemID >= Num_ItemID) continue;
         const ObjectDataStruct& atreides = data[itemID][HOUSE_ATREIDES];
         if(!atreides.enabled) continue;
-        
+
         bool hasDifference = false;
         for(int h = 1; h < NUM_HOUSES; h++) {
             const ObjectDataStruct& house = data[itemID][h];
@@ -133,7 +133,7 @@ void ObjectData::logSettings() const {
             }
         }
     }
-    
+
     SDL_Log("===============================================================");
 }
 
@@ -143,7 +143,7 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
     std::string userConfigPath = getObjectDataConfigFilepath();
     INIFile* objectDataFile = nullptr;
     std::string loadedFrom;
-    
+
     try {
         if (preferUserConfig && existsFile(userConfigPath)) {
             SDL_Log("Loading ObjectData.ini from user directory: %s", userConfigPath.c_str());
@@ -173,11 +173,11 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
             loadedFrom = filename + " (install directory)";
         }
     }
-    
+
     if (!objectDataFile) {
         THROW(std::runtime_error, "Failed to load ObjectData.ini from any location!");
     }
-    
+
     std::string loadedPath = loadedFrom;
 
     // Load map settings
@@ -186,59 +186,59 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
         harvesterLimitMediumMap = objectDataFile->getIntValue("Map Settings", "HarvesterLimitMediumMap", 10);
         harvesterLimitLargeMap = objectDataFile->getIntValue("Map Settings", "HarvesterLimitLargeMap", 15);
         harvesterLimitHugeMap = objectDataFile->getIntValue("Map Settings", "HarvesterLimitHugeMap", 40);
-        SDL_Log("[ObjectData] Harvester limits: Small=%d, Medium=%d, Large=%d, Huge=%d", 
+        SDL_Log("[ObjectData] Harvester limits: Small=%d, Medium=%d, Large=%d, Huge=%d",
                 harvesterLimitSmallMap, harvesterLimitMediumMap, harvesterLimitLargeMap, harvesterLimitHugeMap);
-        
+
         unitLimitSmallMap = objectDataFile->getIntValue("Map Settings", "UnitLimitSmallMap", 25);
         unitLimitMediumMap = objectDataFile->getIntValue("Map Settings", "UnitLimitMediumMap", 100);
         unitLimitLargeMap = objectDataFile->getIntValue("Map Settings", "UnitLimitLargeMap", 250);
         unitLimitHugeMap = objectDataFile->getIntValue("Map Settings", "UnitLimitHugeMap", 300);
-        SDL_Log("[ObjectData] Unit limits: Small=%d, Medium=%d, Large=%d, Huge=%d", 
+        SDL_Log("[ObjectData] Unit limits: Small=%d, Medium=%d, Large=%d, Huge=%d",
                 unitLimitSmallMap, unitLimitMediumMap, unitLimitLargeMap, unitLimitHugeMap);
     }
 
     // load default structure values
     ObjectDataStruct structureDefaultData[NUM_HOUSES];
     for(int h=0;h<NUM_HOUSES;h++) {
-        structureDefaultData[h].enabled = loadBoolValue(*objectDataFile, "default structure", "Enabled", houseChar[h]);
-        structureDefaultData[h].hitpoints = loadIntValue(*objectDataFile, "default structure", "HitPoints", houseChar[h]);
-        structureDefaultData[h].price = loadIntValue(*objectDataFile, "default structure", "Price", houseChar[h]);
-        structureDefaultData[h].power = loadIntValue(*objectDataFile, "default structure", "Power", houseChar[h]);
-        structureDefaultData[h].viewrange = loadIntValue(*objectDataFile, "default structure", "ViewRange", houseChar[h]);
-        structureDefaultData[h].capacity = loadIntValue(*objectDataFile, "default structure", "Capacity", houseChar[h]);
-        structureDefaultData[h].weapondamage = loadIntValue(*objectDataFile, "default structure", "WeaponDamage", houseChar[h]);
-        structureDefaultData[h].weaponrange = loadIntValue(*objectDataFile, "default structure", "WeaponRange", houseChar[h]);
-        structureDefaultData[h].weaponreloadtime = loadIntValue(*objectDataFile, "default structure", "WeaponReloadTime", houseChar[h]);
-        structureDefaultData[h].maxspeed = loadFixPointValue(*objectDataFile, "default structure", "MaxSpeed", houseChar[h]);
-        structureDefaultData[h].turnspeed = loadFixPointValue(*objectDataFile, "default structure", "TurnSpeed", houseChar[h]);
-        structureDefaultData[h].buildtime = loadIntValue(*objectDataFile, "default structure", "BuildTime", houseChar[h]);
-        structureDefaultData[h].infspawnprop = loadIntValue(*objectDataFile, "default structure", "InfSpawnProp", houseChar[h]);
-        structureDefaultData[h].builder = loadItemID(*objectDataFile, "default structure", "Builder", houseChar[h]);
-        structureDefaultData[h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, "default structure", "Prerequisite", houseChar[h]);
-        structureDefaultData[h].techLevel = loadIntValue(*objectDataFile, "default structure", "TechLevel", houseChar[h], -1);
-        structureDefaultData[h].upgradeLevel = loadIntValue(*objectDataFile, "default structure", "UpgradeLevel", houseChar[h]);
+        structureDefaultData[h].enabled = loadBoolValue(*objectDataFile, "default structure", "Enabled", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].hitpoints = loadIntValue(*objectDataFile, "default structure", "HitPoints", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].price = loadIntValue(*objectDataFile, "default structure", "Price", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].power = loadIntValue(*objectDataFile, "default structure", "Power", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].viewrange = loadIntValue(*objectDataFile, "default structure", "ViewRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].capacity = loadIntValue(*objectDataFile, "default structure", "Capacity", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].weapondamage = loadIntValue(*objectDataFile, "default structure", "WeaponDamage", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].weaponrange = loadIntValue(*objectDataFile, "default structure", "WeaponRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].weaponreloadtime = loadIntValue(*objectDataFile, "default structure", "WeaponReloadTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].maxspeed = loadFixPointValue(*objectDataFile, "default structure", "MaxSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].turnspeed = loadFixPointValue(*objectDataFile, "default structure", "TurnSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].buildtime = loadIntValue(*objectDataFile, "default structure", "BuildTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].infspawnprop = loadIntValue(*objectDataFile, "default structure", "InfSpawnProp", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].builder = loadItemID(*objectDataFile, "default structure", "Builder", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, "default structure", "Prerequisite", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        structureDefaultData[h].techLevel = loadIntValue(*objectDataFile, "default structure", "TechLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), -1);
+        structureDefaultData[h].upgradeLevel = loadIntValue(*objectDataFile, "default structure", "UpgradeLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
     }
 
     // load default unit values
     ObjectDataStruct unitDefaultData[NUM_HOUSES];
     for(int h=0;h<NUM_HOUSES;h++) {
-        unitDefaultData[h].enabled = loadBoolValue(*objectDataFile, "default unit", "Enabled", houseChar[h]);
-        unitDefaultData[h].hitpoints = loadIntValue(*objectDataFile, "default unit", "HitPoints", houseChar[h]);
-        unitDefaultData[h].price = loadIntValue(*objectDataFile, "default unit", "Price", houseChar[h]);
-        unitDefaultData[h].power = loadIntValue(*objectDataFile, "default unit", "Power", houseChar[h]);
-        unitDefaultData[h].viewrange = loadIntValue(*objectDataFile, "default unit", "ViewRange", houseChar[h]);
-        unitDefaultData[h].capacity = loadIntValue(*objectDataFile, "default unit", "Capacity", houseChar[h]);
-        unitDefaultData[h].weapondamage = loadIntValue(*objectDataFile, "default unit", "WeaponDamage", houseChar[h]);
-        unitDefaultData[h].weaponrange = loadIntValue(*objectDataFile, "default unit", "WeaponRange", houseChar[h]);
-        unitDefaultData[h].weaponreloadtime = loadIntValue(*objectDataFile, "default unit", "WeaponReloadTime", houseChar[h]);
-        unitDefaultData[h].maxspeed = loadFixPointValue(*objectDataFile, "default unit", "MaxSpeed", houseChar[h]);
-        unitDefaultData[h].turnspeed = loadFixPointValue(*objectDataFile, "default unit", "TurnSpeed", houseChar[h]);
-        unitDefaultData[h].buildtime = loadIntValue(*objectDataFile, "default unit", "BuildTime", houseChar[h]);
-        unitDefaultData[h].infspawnprop = loadIntValue(*objectDataFile, "default unit", "InfSpawnProp", houseChar[h]);
-        unitDefaultData[h].builder = loadItemID(*objectDataFile, "default structure", "Builder", houseChar[h]);
-        unitDefaultData[h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, "default unit", "Prerequisite", houseChar[h]);
-        unitDefaultData[h].techLevel = loadIntValue(*objectDataFile, "default unit", "TechLevel", houseChar[h], -1);
-        unitDefaultData[h].upgradeLevel = loadIntValue(*objectDataFile, "default unit", "UpgradeLevel", houseChar[h]);
+        unitDefaultData[h].enabled = loadBoolValue(*objectDataFile, "default unit", "Enabled", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].hitpoints = loadIntValue(*objectDataFile, "default unit", "HitPoints", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].price = loadIntValue(*objectDataFile, "default unit", "Price", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].power = loadIntValue(*objectDataFile, "default unit", "Power", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].viewrange = loadIntValue(*objectDataFile, "default unit", "ViewRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].capacity = loadIntValue(*objectDataFile, "default unit", "Capacity", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].weapondamage = loadIntValue(*objectDataFile, "default unit", "WeaponDamage", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].weaponrange = loadIntValue(*objectDataFile, "default unit", "WeaponRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].weaponreloadtime = loadIntValue(*objectDataFile, "default unit", "WeaponReloadTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].maxspeed = loadFixPointValue(*objectDataFile, "default unit", "MaxSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].turnspeed = loadFixPointValue(*objectDataFile, "default unit", "TurnSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].buildtime = loadIntValue(*objectDataFile, "default unit", "BuildTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].infspawnprop = loadIntValue(*objectDataFile, "default unit", "InfSpawnProp", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].builder = loadItemID(*objectDataFile, "default structure", "Builder", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, "default unit", "Prerequisite", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
+        unitDefaultData[h].techLevel = loadIntValue(*objectDataFile, "default unit", "TechLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), -1);
+        unitDefaultData[h].upgradeLevel = loadIntValue(*objectDataFile, "default unit", "UpgradeLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)));
     }
 
     // set default values
@@ -271,29 +271,29 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
 
             ObjectDataStruct& defaultData = isStructure(itemID) ? structureDefaultData[h] : unitDefaultData[h];
 
-            data[itemID][h].enabled = loadBoolValue(*objectDataFile, sectionName, "Enabled", houseChar[h], defaultData.enabled);
-            data[itemID][h].hitpoints = loadIntValue(*objectDataFile, sectionName, "HitPoints", houseChar[h], defaultData.hitpoints);
-            data[itemID][h].price = loadIntValue(*objectDataFile, sectionName, "Price", houseChar[h], defaultData.price);
-            data[itemID][h].power = loadIntValue(*objectDataFile, sectionName, "Power", houseChar[h], defaultData.power);
-            data[itemID][h].viewrange = loadIntValue(*objectDataFile, sectionName, "ViewRange", houseChar[h], defaultData.viewrange);
-            data[itemID][h].capacity = loadIntValue(*objectDataFile, sectionName, "Capacity", houseChar[h], defaultData.capacity);
-            data[itemID][h].weapondamage = loadIntValue(*objectDataFile, sectionName, "WeaponDamage", houseChar[h], defaultData.weapondamage);
-            data[itemID][h].weaponrange = loadIntValue(*objectDataFile, sectionName, "WeaponRange", houseChar[h], defaultData.weaponrange);
-            data[itemID][h].weaponreloadtime = loadIntValue(*objectDataFile, sectionName, "WeaponReloadTime", houseChar[h], defaultData.weaponreloadtime);
-            data[itemID][h].maxspeed = loadFixPointValue(*objectDataFile, sectionName, "MaxSpeed", houseChar[h], defaultData.maxspeed);
-            data[itemID][h].turnspeed = loadFixPointValue(*objectDataFile, sectionName, "TurnSpeed", houseChar[h], defaultData.turnspeed);
-            data[itemID][h].buildtime = loadIntValue(*objectDataFile, sectionName, "BuildTime", houseChar[h], defaultData.buildtime);
-            data[itemID][h].infspawnprop = loadIntValue(*objectDataFile, sectionName, "InfSpawnProp", houseChar[h], defaultData.infspawnprop);
-            data[itemID][h].builder = loadItemID(*objectDataFile, sectionName, "Builder", houseChar[h], defaultData.builder);
-            data[itemID][h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, sectionName, "Prerequisite", houseChar[h], defaultData.prerequisiteStructuresSet);
-            data[itemID][h].techLevel = loadIntValue(*objectDataFile, sectionName, "TechLevel", houseChar[h], defaultData.techLevel);
-            data[itemID][h].upgradeLevel = loadIntValue(*objectDataFile, sectionName, "UpgradeLevel", houseChar[h], defaultData.upgradeLevel);
+            data[itemID][h].enabled = loadBoolValue(*objectDataFile, sectionName, "Enabled", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.enabled);
+            data[itemID][h].hitpoints = loadIntValue(*objectDataFile, sectionName, "HitPoints", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.hitpoints);
+            data[itemID][h].price = loadIntValue(*objectDataFile, sectionName, "Price", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.price);
+            data[itemID][h].power = loadIntValue(*objectDataFile, sectionName, "Power", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.power);
+            data[itemID][h].viewrange = loadIntValue(*objectDataFile, sectionName, "ViewRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.viewrange);
+            data[itemID][h].capacity = loadIntValue(*objectDataFile, sectionName, "Capacity", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.capacity);
+            data[itemID][h].weapondamage = loadIntValue(*objectDataFile, sectionName, "WeaponDamage", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.weapondamage);
+            data[itemID][h].weaponrange = loadIntValue(*objectDataFile, sectionName, "WeaponRange", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.weaponrange);
+            data[itemID][h].weaponreloadtime = loadIntValue(*objectDataFile, sectionName, "WeaponReloadTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.weaponreloadtime);
+            data[itemID][h].maxspeed = loadFixPointValue(*objectDataFile, sectionName, "MaxSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.maxspeed);
+            data[itemID][h].turnspeed = loadFixPointValue(*objectDataFile, sectionName, "TurnSpeed", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.turnspeed);
+            data[itemID][h].buildtime = loadIntValue(*objectDataFile, sectionName, "BuildTime", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.buildtime);
+            data[itemID][h].infspawnprop = loadIntValue(*objectDataFile, sectionName, "InfSpawnProp", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.infspawnprop);
+            data[itemID][h].builder = loadItemID(*objectDataFile, sectionName, "Builder", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.builder);
+            data[itemID][h].prerequisiteStructuresSet = loadPrerequisiteStructuresSet(*objectDataFile, sectionName, "Prerequisite", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.prerequisiteStructuresSet);
+            data[itemID][h].techLevel = loadIntValue(*objectDataFile, sectionName, "TechLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.techLevel);
+            data[itemID][h].upgradeLevel = loadIntValue(*objectDataFile, sectionName, "UpgradeLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.upgradeLevel);
         }
     }
-    
+
     // Clean up
     delete objectDataFile;
-    
+
     SDL_Log("ObjectData loaded from: %s", loadedPath.c_str());
 }
 
@@ -335,8 +335,10 @@ void ObjectData::save(OutputStream& stream) const
     stream.writeSint32(unitLimitHugeMap);
 }
 
-void ObjectData::load(InputStream& stream, int savedItemCount)
+void ObjectData::load(InputStream& stream, int savedItemCount, int savedHouseCount)
 {
+    savedHouseCount = std::max(1, std::min(savedHouseCount, static_cast<int>(NUM_HOUSES)));
+
     // For SAVEGAMEVERSION >= 9811, savedItemCount should be 0 (auto-read).
     if(savedItemCount == 0) {
         savedItemCount = static_cast<int>(stream.readUint32());
@@ -348,7 +350,7 @@ void ObjectData::load(InputStream& stream, int savedItemCount)
     int itemsToSkip = (savedItemCount > Num_ItemID) ? (savedItemCount - Num_ItemID) : 0;
 
     for(int i=0;i<itemsToLoad;i++) {
-        for(int h=0;h<NUM_HOUSES;h++) {
+        for(int h=0;h<savedHouseCount;h++) {
             data[i][h].enabled = stream.readBool();
             data[i][h].hitpoints = stream.readSint32();
             data[i][h].price = stream.readSint32();
@@ -372,7 +374,7 @@ void ObjectData::load(InputStream& stream, int savedItemCount)
     // Items beyond itemsToLoad but within Num_ItemID keep constructor defaults (zeroed/disabled).
     // Items beyond Num_ItemID in the stream must be consumed to keep alignment.
     for(int i=0;i<itemsToSkip;i++) {
-        for(int h=0;h<NUM_HOUSES;h++) {
+        for(int h=0;h<savedHouseCount;h++) {
             stream.readBool();
             stream.readSint32(); stream.readSint32(); stream.readSint32();
             stream.readSint32(); stream.readSint32(); stream.readSint32();
@@ -482,12 +484,12 @@ std::bitset<Structure_LastID + 1> ObjectData::loadPrerequisiteStructuresSet(cons
 std::string ObjectData::getEffectiveHash() const {
     // Build a string from all gameplay-affecting in-memory values
     std::string dataStr;
-    
+
     // Hash all unit/structure data for all houses
     for (int itemID = 0; itemID < Num_ItemID; itemID++) {
         for (int houseID = 0; houseID < NUM_HOUSES; houseID++) {
             const ObjectDataStruct& obj = data[itemID][houseID];
-            
+
             // Add all gameplay-affecting fields
             dataStr += std::to_string(itemID);
             dataStr += std::to_string(houseID);
@@ -510,7 +512,7 @@ std::string ObjectData::getEffectiveHash() const {
             dataStr += std::to_string(obj.upgradeLevel);
         }
     }
-    
+
     // Also hash map settings
     dataStr += std::to_string(harvesterLimitSmallMap);
     dataStr += std::to_string(harvesterLimitMediumMap);
@@ -520,16 +522,16 @@ std::string ObjectData::getEffectiveHash() const {
     dataStr += std::to_string(unitLimitMediumMap);
     dataStr += std::to_string(unitLimitLargeMap);
     dataStr += std::to_string(unitLimitHugeMap);
-    
+
     // FNV-1a hash (consistent across platforms)
     uint64_t hash = 14695981039346656037ULL;
     const uint64_t prime = 1099511628211ULL;
-    
+
     for (char c : dataStr) {
         hash ^= static_cast<uint64_t>(static_cast<unsigned char>(c));
         hash *= prime;
     }
-    
+
     char hashStr[17];
     snprintf(hashStr, sizeof(hashStr), "%016llx", (unsigned long long)hash);
     return std::string(hashStr);

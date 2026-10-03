@@ -19,6 +19,7 @@
 #include <misc/string_util.h>
 #include <misc/exceptions.h>
 #include <misc/SDL2pp.h>
+#include <misc/fnkdat.h>
 
 #include <stdio.h>
 #include <algorithm>
@@ -436,17 +437,17 @@ bool createDir(const std::string& path) {
         SDL_Log("createDir: Failed to convert path to wide string");
         return false;
     }
-    
+
     // Try to create the directory
     if(CreateDirectoryW(wszPath, nullptr)) {
         return true;
     }
-    
+
     DWORD error = GetLastError();
     if(error == ERROR_ALREADY_EXISTS) {
         return true;  // Directory already exists
     }
-    
+
     if(error == ERROR_PATH_NOT_FOUND) {
         // Need to create parent directories
         std::string parentPath = getDirname(path);
@@ -462,7 +463,7 @@ bool createDir(const std::string& path) {
             }
         }
     }
-    
+
     SDL_Log("createDir: Failed to create directory '%s': error %lu", path.c_str(), error);
     return false;
 #else
@@ -470,7 +471,7 @@ bool createDir(const std::string& path) {
     if(mkdir(path.c_str(), 0755) == 0) {
         return true;
     }
-    
+
     if(errno == EEXIST) {
         // Check if it's actually a directory
         struct stat st;
@@ -479,7 +480,7 @@ bool createDir(const std::string& path) {
         }
         return false;  // Exists but not a directory
     }
-    
+
     if(errno == ENOENT) {
         // Parent doesn't exist, create it
         std::string parentPath = getDirname(path);
@@ -495,7 +496,7 @@ bool createDir(const std::string& path) {
             }
         }
     }
-    
+
     SDL_Log("createDir: Failed to create directory '%s': %s", path.c_str(), strerror(errno));
     return false;
 #endif
@@ -508,7 +509,7 @@ bool copyFile(const std::string& src, const std::string& dst) {
         SDL_Log("copyFile: Source file '%s' does not exist or is empty", src.c_str());
         return false;
     }
-    
+
     // Write to destination
     return writeCompleteFile(dst, content);
 }
@@ -517,18 +518,18 @@ bool deleteFile(const std::string& path) {
     if(remove(path.c_str()) == 0) {
         return true;
     }
-    
+
     if(errno == ENOENT) {
         return true;  // Already doesn't exist
     }
-    
+
     SDL_Log("deleteFile: Failed to delete '%s': %s", path.c_str(), strerror(errno));
     return false;
 }
 
 std::list<std::string> getDirectoryList(const std::string& directory) {
     std::list<std::string> dirs;
-    
+
     SDL_Log("getDirectoryList: scanning '%s'", directory.c_str());
 
 #ifdef _WIN32
@@ -547,7 +548,7 @@ std::list<std::string> getDirectoryList(const std::string& directory) {
     _finddata_t fdata;
     std::string searchString = std::string(szPath) + "/*";
     intptr_t hFile = (intptr_t)_findfirst(searchString.c_str(), &fdata);
-    
+
     if(hFile != -1L) {
         do {
             if(fdata.attrib & _A_SUBDIR) {
@@ -577,7 +578,7 @@ std::list<std::string> getDirectoryList(const std::string& directory) {
         if(name == "." || name == "..") {
             continue;
         }
-        
+
         // Check if it's a directory
         std::string fullPath = directory + "/" + name;
         struct stat st;
@@ -599,22 +600,36 @@ std::string getDuneLegacyDataDir() {
 
         std::string dataDir;
 #if defined(__linux__) && !defined(__ANDROID__)
+        // AppImages and relocated FHS installs keep their payload beside bin/.
+        // Prefer that payload so an older system install cannot override it.
         if(char* basePath = SDL_GetBasePath()) {
-            const std::string bundledDataDir = std::string(basePath) + "../share/DuneLegacyTornie/";
+            const std::string relativeDataDir = std::string(basePath) + "../share/DuneLegacyTornie/";
             SDL_free(basePath);
-            if(existsFile(bundledDataDir + "locale/English.en.po")) {
-                dataDir = bundledDataDir;
+            if(existsFile(relativeDataDir + "locale/English.en.po")) {
+                dataDir = relativeDataDir;
+                SDL_Log("Using relocatable Linux data dir: %s", dataDir.c_str());
             }
         }
 #endif
+#ifdef __ANDROID__
+        char androidDataPath[FILENAME_MAX];
+        if(fnkdat(nullptr, androidDataPath, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) == 0
+           && androidDataPath[0] != '\0') {
+            dataDir = androidDataPath;
+            SDL_Log("Using Android app storage as data dir: %s", dataDir.c_str());
+        }
+#endif
+
 #ifdef DUNELEGACY_DATADIR
         // Only use the compile-time install path if it actually exists
         // (i.e. the binary was installed, not run from a build directory)
-        struct stat dirCheck;
-        if (dataDir.empty() && stat(DUNELEGACY_DATADIR, &dirCheck) == 0 && S_ISDIR(dirCheck.st_mode)) {
-            dataDir = DUNELEGACY_DATADIR;
-        } else {
-            SDL_Log("DUNELEGACY_DATADIR '%s' not found, falling through to SDL_GetBasePath()", DUNELEGACY_DATADIR);
+        if(dataDir.empty()) {
+            struct stat dirCheck;
+            if (stat(DUNELEGACY_DATADIR, &dirCheck) == 0 && S_ISDIR(dirCheck.st_mode)) {
+                dataDir = DUNELEGACY_DATADIR;
+            } else {
+                SDL_Log("DUNELEGACY_DATADIR '%s' not found, falling through to SDL_GetBasePath()", DUNELEGACY_DATADIR);
+            }
         }
 #endif
 
@@ -625,7 +640,7 @@ std::string getDuneLegacyDataDir() {
             }
             dataDir = std::string(basePath);
             SDL_free(basePath);
-            
+
 #ifdef __APPLE__
             // On macOS app bundles, SDL_GetBasePath() returns Contents/MacOS/
             // but data files are in Contents/Resources/

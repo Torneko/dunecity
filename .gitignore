@@ -1,10 +1,18 @@
 configure
 Makefile.in
 depcomp
+compile
+test-driver
 autom4te.cache
 bin/
 build/
+__pycache__/
+*.pyc
+build_ci_test/
+compile
+test-driver
 build-*/
+build_ci_test/
 build_release/
 vcpkg/
 dist/
@@ -65,6 +73,7 @@ DuneCity-*-Setup.nsi
 /DuneCity *.exe
 *.exe
 *.dmg
+/releases/android/*.apk
 
 # SourceForge credentials (NEVER commit this!)
 scripts/sourceforge-config.sh
@@ -92,3 +101,4 @@ imported_sprites/micropolis/composites_special/*.broken
 # Local-only scratch / editor files
 tmp/
 *.code-workspace
+/Tornie Files

@@ -16,6 +16,7 @@
  */
 
 #include <Menu/SinglePlayerMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 
 #include <globals.h>
 
@@ -68,6 +69,7 @@ SinglePlayerMenu::SinglePlayerMenu() : MenuBase() {
     windowWidget.addWidget(&menuButtonsVBox,Point((getRendererWidth() - 160)/2,getRendererHeight()/2 + 64),Point(160,111));
 
     campaignButton.setText(_("CAMPAIGN"));
+    MainMenuButtonColor::apply(campaignButton);
     campaignButton.setOnClick(std::bind(&SinglePlayerMenu::onCampaign, this));
     menuButtonsVBox.addWidget(&campaignButton);
     campaignButton.setActive();
@@ -75,30 +77,35 @@ SinglePlayerMenu::SinglePlayerMenu() : MenuBase() {
     menuButtonsVBox.addWidget(VSpacer::create(3));
 
     customButton.setText(_("CUSTOM GAME"));
+    MainMenuButtonColor::apply(customButton);
     customButton.setOnClick(std::bind(&SinglePlayerMenu::onCustom, this));
     menuButtonsVBox.addWidget(&customButton);
 
     menuButtonsVBox.addWidget(VSpacer::create(3));
 
     skirmishButton.setText(_("SKIRMISH"));
+    MainMenuButtonColor::apply(skirmishButton);
     skirmishButton.setOnClick(std::bind(&SinglePlayerMenu::onSkirmish, this));
     menuButtonsVBox.addWidget(&skirmishButton);
 
     menuButtonsVBox.addWidget(VSpacer::create(3));
 
     loadSavegameButton.setText(_("LOAD GAME"));
+    MainMenuButtonColor::apply(loadSavegameButton);
     loadSavegameButton.setOnClick(std::bind(&SinglePlayerMenu::onLoadSavegame, this));
     menuButtonsVBox.addWidget(&loadSavegameButton);
 
     menuButtonsVBox.addWidget(VSpacer::create(3));
 
     loadReplayButton.setText(_("LOAD REPLAY"));
+    MainMenuButtonColor::apply(loadReplayButton);
     loadReplayButton.setOnClick(std::bind(&SinglePlayerMenu::onLoadReplay, this));
     menuButtonsVBox.addWidget(&loadReplayButton);
 
     menuButtonsVBox.addWidget(VSpacer::create(3));
 
     cancelButton.setText(_("BACK"));
+    MainMenuButtonColor::apply(cancelButton);
     cancelButton.setOnClick(std::bind(&SinglePlayerMenu::onCancel, this));
     menuButtonsVBox.addWidget(&cancelButton);
 }
@@ -143,19 +150,22 @@ void SinglePlayerMenu::onCampaign() {
     }
 
     for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
+        if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) {
+            continue;
+        }
         if(houseID == player) {
             GameInitSettings::HouseInfo humanHouseInfo((HOUSETYPE) player, 1);
             humanHouseInfo.addPlayerInfo( GameInitSettings::PlayerInfo(settings.general.playerName, HUMANPLAYERCLASS) );
 
             if(supportSelected && supportPlayerClass != nullptr && *supportPlayerClass != '\0') {
-                std::string allyName = getHouseNameByNumber((HOUSETYPE) houseID) + " " + _("(AI Support)");
+                std::string allyName = getHouseDisplayNameByNumber((HOUSETYPE) houseID) + " " + _("(AI Support)");
                 humanHouseInfo.addPlayerInfo(GameInitSettings::PlayerInfo(allyName, supportPlayerClass));
             }
 
             init.addHouseInfo(humanHouseInfo);
         } else {
             GameInitSettings::HouseInfo aiHouseInfo((HOUSETYPE) houseID, 2);
-            aiHouseInfo.addPlayerInfo( GameInitSettings::PlayerInfo(getHouseNameByNumber( (HOUSETYPE) houseID), enemyAIClass) );
+            aiHouseInfo.addPlayerInfo( GameInitSettings::PlayerInfo(getHouseDisplayNameByNumber( (HOUSETYPE) houseID), enemyAIClass) );
             init.addHouseInfo(aiHouseInfo);
         }
     }

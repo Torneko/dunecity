@@ -488,6 +488,8 @@ Builder(A) = Invalid
 Builder(S) = Invalid
 Builder(M) = Invalid
 Builder(F) = Invalid
+Builder(N) = Invalid
+Builder(R) = Invalid
 Builder(O) = Heavy Factory
 TechLevel = 1
 Prerequisite = House IX
@@ -726,20 +728,3 @@ BuildTime = 56
 InfSpawnProp = 0
 Builder = WOR
 
-[Ambient Airplane]
-Enabled = true
-HitPoints = 100
-Price = 0
-ViewRange = 3
-MaxSpeed = 12.8
-TurnSpeed = 0.099
-InfSpawnProp = 0
-
-[Ambient Helicopter]
-Enabled = true
-HitPoints = 100
-Price = 0
-ViewRange = 3
-MaxSpeed = 9.6
-TurnSpeed = 0.099
-InfSpawnProp = 0

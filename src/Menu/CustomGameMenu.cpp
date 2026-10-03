@@ -42,6 +42,7 @@
 #include <algorithm>
 #include <array>
 #include <cstring>
+#include <exception>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -111,7 +112,7 @@ CustomGameMenu::CustomGameMenu(bool multiplayer, bool LANServer)
 
     leftVBox.addWidget(VSpacer::create(10));
 
-    multiplePlayersPerHouseCheckbox.setText(_("Multiple players per house"));
+    multiplePlayersPerHouseCheckbox.setText(_("Multiple players per house") + " (Archon)");
     optionsHBox.addWidget(&multiplePlayersPerHouseCheckbox);
     optionsHBox.addWidget(Spacer::create());
     gameOptionsButton.setText(_("Game Options..."));
@@ -142,16 +143,16 @@ CustomGameMenu::CustomGameMenu(bool multiplayer, bool LANServer)
     mapPropertyValuesVBox.addWidget(&mapPropertyAuthors);
     mapPropertyNamesVBox.addWidget(Label::create(_("License") + ":"));
     mapPropertyValuesVBox.addWidget(&mapPropertyLicense);
-    
+
     rightVBox.addWidget(VSpacer::create(15));
-    
+
     // Mod selection
     rightVBox.addWidget(&modHBox, 25);
     modLabel.setText(_("Mod:"));
     modHBox.addWidget(&modLabel, 40);
     modHBox.addWidget(HSpacer::create(5));
     modHBox.addWidget(&modDropDown, 130);
-    
+
     // Populate mod dropdown
     availableMods = ModManager::instance().listMods();
     std::string activeModName = ModManager::instance().getActiveModName();
@@ -165,7 +166,7 @@ CustomGameMenu::CustomGameMenu(bool multiplayer, bool LANServer)
     if (!availableMods.empty()) {
         modDropDown.setSelectedItem(activeIndex);
     }
-    
+
     rightVBox.addWidget(Spacer::create());
 
     mainVBox.addWidget(Spacer::create(), 0.05);
@@ -233,7 +234,7 @@ void CustomGameMenu::onChildWindowClose(Window* pChildWindow) {
 
 void CustomGameMenu::onNext()
 {
-    if(mapList.getSelectedIndex() < 0) {
+    if(!nextButton.isEnabled() || mapList.getSelectedIndex() < 0) {
         return;
     }
 
@@ -438,9 +439,10 @@ void CustomGameMenu::onMapListSelectionChange(bool bInteractive)
     try {
         INIMapPreviewCreator mapPreviewCreator(&inimap);
         pMapSurface = mapPreviewCreator.createMinimapImageOfMap(1, DuneStyle::buttonBorderColor);
-    } catch(...) {
+    } catch(const std::exception& e) {
+        SDL_Log("CustomGameMenu: Cannot preview map '%s': %s", mapFilename.c_str(), e.what());
         pMapSurface = sdl2::surface_ptr{ GUIStyle::getInstance().createButtonSurface(130, 130, "Error", true, false) };
-        loadButton.setEnabled(false);
+        nextButton.setEnabled(false);
     }
     minimap.setSurface(std::move(pMapSurface) );
 

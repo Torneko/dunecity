@@ -53,6 +53,11 @@ void AirUnit::init()
 
 AirUnit::~AirUnit() = default;
 
+void AirUnit::setProductionHouseID(int houseID) {
+    UnitBase::setProductionHouseID(houseID);
+    currentMaxSpeed = currentGame->objectData.data[itemID][getProductionHouseID()].maxspeed;
+}
+
 void AirUnit::save(OutputStream& stream) const
 {
     UnitBase::save(stream);
@@ -184,20 +189,20 @@ void AirUnit::turn() {
         }
 
         if(angleLeft <= angleRight) {
-            angle += std::min(currentGame->objectData.data[itemID][originalHouseID].turnspeed, angleLeft);
+            angle += std::min(currentGame->objectData.data[itemID][getProductionHouseID()].turnspeed, angleLeft);
             if(angle >= NUM_ANGLES) {
                 angle -= NUM_ANGLES;
             }
             drawnAngle = lround(angle) % NUM_ANGLES;
         } else {
-            angle -= std::min(currentGame->objectData.data[itemID][originalHouseID].turnspeed, angleRight);
+            angle -= std::min(currentGame->objectData.data[itemID][getProductionHouseID()].turnspeed, angleRight);
             if(angle < 0) {
                 angle += NUM_ANGLES;
             }
             drawnAngle = lround(angle) % NUM_ANGLES;
         }
     } else {
-        angle -= currentGame->objectData.data[itemID][originalHouseID].turnspeed / 8;
+        angle -= currentGame->objectData.data[itemID][getProductionHouseID()].turnspeed / 8;
         if(angle < 0) {
             angle += NUM_ANGLES;
         }

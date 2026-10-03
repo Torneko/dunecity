@@ -16,6 +16,7 @@
  */
 
 #include <Menu/HouseChoiceMenu.h>
+#include <mod/ModManager.h>
 
 #include <globals.h>
 
@@ -36,12 +37,23 @@ const int houseOrder[] = {
     HOUSE_FREMEN,
     HOUSE_SARDAUKAR,
     HOUSE_NEUTRAL,
-    HOUSE_REBELS
+    HOUSE_REBELS,
+    HOUSE_CUSTOM
 };
 
 constexpr int kVisibleHouseButtons = 3;
-constexpr int kHouseChoiceCount = sizeof(houseOrder) / sizeof(houseOrder[0]);
-constexpr int kMaxHouseScrollPos = kHouseChoiceCount - kVisibleHouseButtons;
+int getHouseChoiceCount() {
+    if(ModManager::instance().isTornieLiteActive()) {
+        return 6;
+    }
+
+    const int capacity = sizeof(houseOrder) / sizeof(houseOrder[0]);
+    return isHouseAvailable(HOUSE_CUSTOM) ? capacity : capacity - 1;
+}
+
+int getMaxHouseScrollPos() {
+    return getHouseChoiceCount() - kVisibleHouseButtons;
+}
 
 const char* const kSupportPlayerClasses[] = {
     "",
@@ -116,14 +128,14 @@ HouseChoiceMenu::HouseChoiceMenu() : MenuBase()
     // Position these centered below the arrows (at Y=390)
     int optionsX = 240;  // Centered at 320 (half of 640) - 80 (half of 160)
     int optionsY = 390;
-    
+
     // AI Support label
     Label* supportLabel = Label::create(_("AI support: help you fight"));
     supportLabel->setTextColor(COLOR_WHITE);
     supportLabel->setTextFontSize(12);
     supportLabel->setAlignment(Alignment_HCenter);
     windowWidget.addWidget(supportLabel, Point(optionsX, optionsY - 11), Point(160, 16));
-    
+
     // AI Support dropdown (gap increased by 3 pixels = 29 pixel gap total)
     supportBotDropDown.addEntry(_("AI Support: None"), 0);
     supportBotDropDown.addEntry(_("AI Support: Easy"), 1);
@@ -140,7 +152,7 @@ HouseChoiceMenu::HouseChoiceMenu() : MenuBase()
     enemyAILabel->setTextFontSize(12);
     enemyAILabel->setAlignment(Alignment_HCenter);
     windowWidget.addWidget(enemyAILabel, Point(optionsX, optionsY + 43), Point(160, 16));
-    
+
     // Enemy AI dropdown (gap increased by 3 pixels = 29 pixel gap total)
     enemyAIDropDown.addEntry(_("Enemy AI: Campaign AI"), 0);
     enemyAIDropDown.addEntry(_("Enemy AI: QuantBot Easy"), 1);
@@ -185,17 +197,44 @@ void HouseChoiceMenu::onEnemyAISelectionChanged(bool /*interactive*/) {
 void HouseChoiceMenu::onHouseButton(int button) {
     int selectedHouse = houseOrder[currentHouseChoiceScrollPos+button];
 
-    switch(selectedHouse) {
-        case HOUSE_HARKONNEN:   soundPlayer->playVoice(HouseHarkonnen, selectedHouse);     break;
-        case HOUSE_ATREIDES:    soundPlayer->playVoice(HouseAtreides, selectedHouse);      break;
-        case HOUSE_ORDOS:       soundPlayer->playVoice(HouseOrdos, selectedHouse);         break;
-        case HOUSE_FREMEN:      soundPlayer->playVoice(HouseAtreides, selectedHouse);      break;
-        case HOUSE_SARDAUKAR:   soundPlayer->playVoice(HouseHarkonnen, selectedHouse);     break;
-        case HOUSE_MERCENARY:   soundPlayer->playVoice(HouseOrdos, selectedHouse);         break;
-        case HOUSE_NEUTRAL:     soundPlayer->playVoice(HouseAtreides, selectedHouse);      break;
-        case HOUSE_REBELS:      soundPlayer->playVoice(HouseHarkonnen, selectedHouse);     break;
-        default:                /* no sounds for the other houses avail.*/  break;
-
+    const HOUSETYPE selectedIdentity =
+        getHouseFactionIdentity(static_cast<HOUSETYPE>(selectedHouse));
+    switch(selectedIdentity) {
+        case HOUSE_HARKONNEN:   soundPlayer->playVoice(HouseHarkonnen, selectedHouse); break;
+        case HOUSE_ATREIDES:    soundPlayer->playVoice(HouseAtreides, selectedHouse);  break;
+        case HOUSE_ORDOS:       soundPlayer->playVoice(HouseOrdos, selectedHouse);     break;
+        case HOUSE_FREMEN:      soundPlayer->playVoice(HouseAtreides, selectedHouse);  break;
+        case HOUSE_SARDAUKAR:   soundPlayer->playVoice(HouseHarkonnen, selectedHouse); break;
+        case HOUSE_MERCENARY:   soundPlayer->playVoice(HouseOrdos, selectedHouse);     break;
+        case HOUSE_NEUTRAL:
+        case HOUSE_WILDSPADE:
+            soundPlayer->playVoice(HouseAtreides, selectedHouse);
+            break;
+        case HOUSE_REBELS:
+        case HOUSE_KLESHMERSH:
+            soundPlayer->playVoice(HouseHarkonnen, selectedHouse);
+            break;
+        case HOUSE_CUSTOM:
+        case HOUSE_THARPIQUE: {
+            const HOUSETYPE fallbackHouse =
+                getHouseFallbackHouse(static_cast<HOUSETYPE>(selectedHouse));
+            switch(fallbackHouse) {
+                case HOUSE_ATREIDES:
+                case HOUSE_FREMEN:
+                case HOUSE_NEUTRAL:
+                    soundPlayer->playVoice(HouseAtreides, selectedHouse);
+                    break;
+                case HOUSE_ORDOS:
+                case HOUSE_MERCENARY:
+                    soundPlayer->playVoice(HouseOrdos, selectedHouse);
+                    break;
+                default:
+                    soundPlayer->playVoice(HouseHarkonnen, selectedHouse);
+                    break;
+            }
+        } break;
+        default:
+            break;
     }
 
     int ret = HouseChoiceInfoMenu(selectedHouse).showMenu();
@@ -224,7 +263,7 @@ void HouseChoiceMenu::onHouseLeft()
 
 void HouseChoiceMenu::onHouseRight()
 {
-    if(currentHouseChoiceScrollPos < kMaxHouseScrollPos) {
+    if(currentHouseChoiceScrollPos < getMaxHouseScrollPos()) {
         currentHouseChoiceScrollPos++;
         updateHouseChoice();
     }

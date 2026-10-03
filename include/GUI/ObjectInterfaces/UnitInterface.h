@@ -108,6 +108,13 @@ protected:
         destructButton.setVisible( (itemID == Unit_Devastator) );
         destructButton.setOnClick(std::bind(&UnitInterface::onDestruct, this));
         commandHBox.addWidget(&destructButton);
+        commandHBox.addWidget(HSpacer::create(2));
+
+        healButton.setSymbol(pGFXManager->getUIGraphicSurface(UI_CursorHeal_Zoomlevel0));
+        healButton.setTooltipText(_("Heal an allied unit"));
+        healButton.setToggleButton(true);
+        healButton.setOnClick(std::bind(&UnitInterface::onHeal, this));
+        commandHBox.addWidget(&healButton);
 
         commandHBox.addWidget(HSpacer::create(2));
 
@@ -188,6 +195,9 @@ protected:
 
     void onAttack() {
         currentGame->setCursorMode(Game::CursorMode_Attack);
+    }
+    void onHeal() {
+        currentGame->setCursorMode(Game::CursorMode_Heal);
     }
 
     void onCapture() {
@@ -280,7 +290,9 @@ protected:
 
         moveButton.setToggleState(currentGame->currentCursorMode == Game::CursorMode_Move);
         attackButton.setToggleState(currentGame->currentCursorMode == Game::CursorMode_Attack);
+        healButton.setToggleState(currentGame->currentCursorMode == Game::CursorMode_Heal);
         attackButton.setVisible(pObject->canAttack());
+        healButton.setVisible(pObject->canHeal());
         captureButton.setToggleState(currentGame->currentCursorMode == Game::CursorMode_Capture);
         carryallDropButton.setToggleState(currentGame->currentCursorMode == Game::CursorMode_CarryallDrop);
         carryallDropButton.setVisible(currentGame->getGameInitSettings().getGameOptions().manualCarryallDrops && pObject->getOwner()->hasCarryalls());
@@ -312,6 +324,7 @@ protected:
     SymbolButton    returnButton;
     SymbolButton    deployButton;
     SymbolButton    destructButton;
+    SymbolButton    healButton;
     SymbolButton    sendToRepairButton;
     SymbolButton    carryallDropButton;
 

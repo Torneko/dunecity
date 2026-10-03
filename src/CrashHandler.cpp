@@ -7,12 +7,16 @@
 #include <cstring>
 #include <ctime>
 
-#ifdef _WIN32
+#if defined(_WIN32)
     #include <windows.h>
     #include <dbghelp.h>
     #pragma comment(lib, "dbghelp.lib")
-#else
+    #pragma comment(lib, "shlwapi.lib")
+    #pragma comment(lib, "shell32.lib")
+#elif !defined(__ANDROID__)
     #include <execinfo.h>  // For backtrace (POSIX)
+    #include <unistd.h>
+#else
     #include <unistd.h>
 #endif
 
@@ -40,7 +44,7 @@ static const char* getTimeStamp() {
  */
 static void writeCrashLog(const char* format, ...) {
     if(!crashLogFile) return;
-    
+
     va_list args;
     va_start(args, format);
     vfprintf(crashLogFile, format, args);
@@ -75,11 +79,11 @@ void writeCrashGameState() {
         writeCrashLog("Game state: Not available (game not initialized)\n");
         return;
     }
-    
+
     // Forward declaration - Game.cpp will provide the actual implementation
     // For now, just log that game exists
     writeCrashLog("Game state: Available (ptr=%p)\n", registeredGame);
-    
+
     // TODO: Cast to Game* and extract:
     // - Game mode (campaign, custom, multiplayer)
     // - Game cycle count
@@ -92,7 +96,7 @@ void writeCrashGameState() {
 
 /**
  * Signal handler - called when a crash occurs
- * 
+ *
  * IMPORTANT: This function must be signal-safe:
  * - No malloc/new
  * - No C++ exceptions
@@ -106,7 +110,7 @@ static void signalHandler(int sig) {
         _exit(128 + sig);
     }
     in_handler = 1;
-    
+
     writeCrashLog("\n");
     writeCrashLog("========================================\n");
     writeCrashLog("CRASH DETECTED\n");
@@ -116,49 +120,49 @@ static void signalHandler(int sig) {
     writeCrashLog("Version: %s\n", VERSION);
     writeCrashLog("Platform: %s\n", SDL_GetPlatform());
     writeCrashLog("\n");
-    
+
     // Write game state if available
     writeCrashGameState();
     writeCrashLog("\n");
-    
+
 #ifdef _WIN32
     // Windows: Get stack trace using CaptureStackBackTrace
     writeCrashLog("Stack Trace (Windows):\n");
-    
+
     void* stack[64];
     WORD frames = CaptureStackBackTrace(0, 64, stack, NULL);
-    
+
     HANDLE process = GetCurrentProcess();
     SymInitialize(process, NULL, TRUE);
-    
+
     SYMBOL_INFO* symbol = (SYMBOL_INFO*)calloc(sizeof(SYMBOL_INFO) + 256 * sizeof(char), 1);
     if(symbol) {
         symbol->MaxNameLen = 255;
         symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
-        
+
         for(WORD i = 0; i < frames; i++) {
             DWORD64 address = (DWORD64)(stack[i]);
-            
+
             if(SymFromAddr(process, address, 0, symbol)) {
                 writeCrashLog("  [%d] 0x%016llX %s\n", i, address, symbol->Name);
             } else {
                 writeCrashLog("  [%d] 0x%016llX <unknown>\n", i, address);
             }
         }
-        
+
         free(symbol);
     }
-    
+
     SymCleanup(process);
-    
-#else
+
+#elif !defined(__ANDROID__)
     // POSIX (macOS/Linux): Get stack trace using backtrace
     writeCrashLog("Stack Trace:\n");
-    
+
     void* callstack[128];
     int frames = backtrace(callstack, 128);
     char** symbols = backtrace_symbols(callstack, frames);
-    
+
     if(symbols) {
         for(int i = 0; i < frames; i++) {
             writeCrashLog("  [%d] %s\n", i, symbols[i]);
@@ -167,8 +171,11 @@ static void signalHandler(int sig) {
     } else {
         writeCrashLog("  (Unable to get stack trace)\n");
     }
+#else
+    writeCrashLog("Stack Trace:\n");
+    writeCrashLog("  (Unavailable on Android NDK build)\n");
 #endif
-    
+
     writeCrashLog("\n");
     writeCrashLog("========================================\n");
     writeCrashLog("Crash report saved to:\n");
@@ -179,12 +186,12 @@ static void signalHandler(int sig) {
     writeCrashLog("- Forums: https://forum.dune2k.com/\n");
     writeCrashLog("========================================\n");
     writeCrashLog("\n");
-    
+
     if(crashLogFile) {
         fclose(crashLogFile);
         crashLogFile = nullptr;
     }
-    
+
     // Show message to user
     char message[512];
     snprintf(message, sizeof(message),
@@ -194,14 +201,14 @@ static void signalHandler(int sig) {
         "Please report this bug on GitHub or the forums.\n"
         "Include the crash report to help fix the issue.",
         crashLogPath ? crashLogPath : "Dune Legacy Tornie.log");
-    
+
     SDL_ShowSimpleMessageBox(
         SDL_MESSAGEBOX_ERROR,
         "Dune Legacy Tornie - Fatal Error",
         message,
         nullptr
     );
-    
+
     // Restore default handler and re-raise signal
     // This allows the OS to generate a core dump if enabled
     signal(sig, SIG_DFL);
@@ -216,9 +223,9 @@ void installCrashHandlers(const char* logPath) {
         fprintf(stderr, "Warning: installCrashHandlers called with NULL logPath\n");
         return;
     }
-    
+
     crashLogPath = logPath;
-    
+
     // Open log file for crash reporting (append mode)
     crashLogFile = fopen(logPath, "a");
     if(!crashLogFile) {
@@ -226,20 +233,20 @@ void installCrashHandlers(const char* logPath) {
         fprintf(stderr, "Crash reports will be sent to stderr instead\n");
         crashLogFile = stderr;
     }
-    
+
     // Install handlers for common crash signals
     signal(SIGSEGV, signalHandler);  // Segmentation fault
     signal(SIGABRT, signalHandler);  // Abort
     signal(SIGFPE,  signalHandler);  // Floating point exception
     signal(SIGILL,  signalHandler);  // Illegal instruction
-    
+
 #ifndef _WIN32
     signal(SIGBUS,  signalHandler);  // Bus error (POSIX)
     signal(SIGPIPE, SIG_IGN);        // Ignore broken pipe (POSIX)
 #else
     signal(SIGTERM, signalHandler);  // Termination request (Windows)
 #endif
-    
+
     SDL_Log("Crash handlers installed (log: %s)", logPath);
 }
 

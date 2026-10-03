@@ -4,7 +4,7 @@ Choose a campaign or start a skirmish through **Single Player -> Custom Game**. 
 
 Build your base on rock. A Construction Yard, Wind Traps and a Refinery form the starting economy. Harvesters collect spice, Silos increase storage, and production facilities supply your army. Protect your harvesters, keep enough power for your base, and upgrade your buildings to unlock more technology.
 
-The **Mods** menu switches between the vanilla RTS rules and the bundled **Tornie** mod. Tornie includes custom units, structures and campaigns, with support for the Neutral and Rebels houses. The active mod and game version appear in the main menu.
+The **Mods** menu switches between Vanilla, **Tornie**, **Tornie Lite** and **Jericho**. Tornie Lite provides six campaigns; Tornie and Jericho provide nine. Jericho includes Wildspade, Kleshmersh and Tharpique. The active mod and game version appear in the main menu.
 
 The former urban simulation has been removed. Its two scenario maps are retained in the original source branch; the supplied maps in this edition use RTS units and structures.
 

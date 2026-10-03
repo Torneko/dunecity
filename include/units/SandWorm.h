@@ -72,11 +72,17 @@ public:
             case Terrain_ThickSpice:    return 1.25_fix;
             case Terrain_GreenSpice:    return 1.25_fix;
             case Terrain_ThickGreenSpice: return 1.25_fix;
+            case Terrain_PaleLilacSpice: return 1.25_fix;
+            case Terrain_ThickPaleLilacSpice: return 1.25_fix;
+            case Terrain_WhiteSpice: return 1.25_fix;
+            case Terrain_ThickWhiteSpice: return 1.25_fix;
             case Terrain_RedSpice:      return 1.25_fix;
             case Terrain_ThickRedSpice: return 1.25_fix;
             case Terrain_SpiceBloom:    return 1.25_fix;
             case Terrain_GreenSpiceBloom: return 1.25_fix;
             case Terrain_RedSpiceBloom: return 1.25_fix;
+            case Terrain_PaleLilacSpiceBloom: return 1.25_fix;
+            case Terrain_WhiteSpiceBloom: return 1.25_fix;
             case Terrain_SpecialBloom:  return 1.25_fix;
             default:                    return 1.0_fix;
         }
@@ -95,7 +101,7 @@ private:
     Sint32      kills;                      ///< How many units does this sandworm alreay killed?
     Sint32      attackFrameTimer;           ///< When to show the next attack frame
     Sint32      sleepTimer;                 ///< How long has this sandworm slept?
-    Uint8       warningWormSignPlayedFlags; ///< Was the "Worm Sign" warning played? If yes, the corresponding flag is the for the local house
+    Uint16      warningWormSignPlayedFlags; ///< Was the "Worm Sign" warning played? One bit per supported house.
 
     // drawing information
     Sint32 shimmerOffsetIndex;

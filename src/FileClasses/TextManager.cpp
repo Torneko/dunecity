@@ -16,6 +16,7 @@
  */
 
 #include <FileClasses/TextManager.h>
+#include <mod/ModManager.h>
 
 #include <globals.h>
 
@@ -35,33 +36,39 @@
 #define _(msgid) getLocalized(msgid)
 
 TextManager::TextManager() {
-    const std::vector<std::string> localeDirectories = {
+    const std::vector<std::string> localeDirs = {
         getDuneLegacyDataDir() + "/locale",
-        getDuneLegacyDataDir() + "/data/locale"
+        getDuneLegacyDataDir() + "/data/locale",
     };
 
-    for(const auto& localeDirectory : localeDirectories) {
-        std::list<std::string> languagesList = getFileNamesList(localeDirectory, settings.general.language + ".po", true, FileListOrder_Name_Asc);
+    std::string languageFilename;
+    std::string languageFilepath;
+    for(const std::string& localeDir : localeDirs) {
+        std::list<std::string> languagesList = getFileNamesList(localeDir, settings.general.language + ".po", true, FileListOrder_Name_Asc);
         if(!languagesList.empty()) {
-            std::string filepath = localeDirectory + "/" + languagesList.front();
-            SDL_Log("Loading localization from '%s'...", filepath.c_str());
-            auto rwops = sdl2::RWops_ptr{ SDL_RWFromFile(filepath.c_str(), "r") };
-            localizedString = loadPOFile(rwops.get(), languagesList.front());
-            return;
+            languageFilename = languagesList.front();
+            languageFilepath = localeDir + "/" + languageFilename;
+            break;
         }
     }
 
-    for(const auto& localeDirectory : localeDirectories) {
-        std::string filepath = localeDirectory + "/English.en.po";
-        if(getCaseInsensitiveFilename(filepath)) {
-            SDL_Log("Loading localization from '%s'...", filepath.c_str());
-            auto rwops = sdl2::RWops_ptr{ SDL_RWFromFile(filepath.c_str(), "r") };
-            localizedString = loadPOFile(rwops.get(), "English.en.po");
-            return;
+    if(languageFilepath.empty()) {
+        languageFilename = "English.en.po";
+        for(const std::string& localeDir : localeDirs) {
+            std::string candidate = localeDir + "/" + languageFilename;
+            if(existsFile(candidate)) {
+                languageFilepath = candidate;
+                break;
+            }
+        }
+        if(languageFilepath.empty()) {
+            languageFilepath = localeDirs.front() + "/" + languageFilename;
         }
     }
 
-    THROW(io_error, "Cannot find localization file for language '%s'!", settings.general.language.c_str());
+    SDL_Log("Loading localization from '%s'...", languageFilepath.c_str());
+    auto rwops = sdl2::RWops_ptr{ SDL_RWFromFile(languageFilepath.c_str(), "r") };
+    localizedString = loadPOFile(rwops.get(), languageFilename);
 }
 
 TextManager::~TextManager() = default;
@@ -538,7 +545,9 @@ std::string TextManager::getBriefingText(unsigned int mission, unsigned int text
 std::vector<MentatTextFile::MentatEntry> TextManager::getAllMentatEntries(int house, unsigned int techLevel) const {
     std::vector<MentatTextFile::MentatEntry> mentatEntries;
 
-    switch(house) {
+    const int identity = ModManager::instance().isInitialized()
+        ? ModManager::instance().getEffectiveMentatIdentity(house) : house;
+    switch(identity) {
         case HOUSE_HARKONNEN:
         case HOUSE_SARDAUKAR:
         default: {

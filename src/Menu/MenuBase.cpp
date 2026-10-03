@@ -17,6 +17,10 @@
 
 #include <Menu/MenuBase.h>
 
+#include <GUI/TextButton.h>
+
+#include "MainMenuButtonColor.h"
+
 #include <Network/NetworkManager.h>
 
 #include <FileClasses/LoadSavePNG.h>
@@ -24,11 +28,29 @@
 #include <misc/FileSystem.h>
 #include <misc/draw_util.h>
 #include <misc/DiscordManager.h>
+#include <misc/TouchInput.h>
 
 #include <globals.h>
 
 #include <sand.h>
 #include <main.h>
+
+
+namespace {
+void applyMenuButtonColor(Widget* widget) {
+    if(widget == nullptr) {
+        return;
+    }
+
+    if(auto* textButton = dynamic_cast<TextButton*>(widget)) {
+        MainMenuButtonColor::apply(*textButton);
+    }
+
+    widget->forEachChildWidget([](Widget* child) {
+        applyMenuButtonColor(child);
+    });
+}
+}
 
 
 MenuBase::MenuBase() : Window(0,0,0,0) {
@@ -76,6 +98,9 @@ int MenuBase::showMenu() {
         SDL_RenderPresent(renderer);
 
         while(SDL_PollEvent(&event)) {
+            if(TouchInput::translateTouchEvent(event)) {
+                continue;
+            }
             //check the events
             if(doInput(event) == false) {
                 break;
@@ -90,6 +115,8 @@ int MenuBase::showMenu() {
 }
 
 void MenuBase::draw() {
+    applyMenuButtonColor(this);
+
     SDL_Rect clipRect { getPosition().x, getPosition().y, getSize().x, getSize().y };
     SDL_RenderSetClipRect(renderer, &clipRect);
 

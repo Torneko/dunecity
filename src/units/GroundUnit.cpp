@@ -88,14 +88,14 @@ void GroundUnit::checkPos() {
         if(pTile->isSpiceBloom()) {
             // Trigger the bloom explosion (creates spice)
             pTile->triggerSpiceBloom(getOwner());
-            
+
             // Check if unit should be destroyed by the bloom
             GameType gameType = currentGame->getGameInitSettings().getGameType();
-            bool isImmortal = (gameType != GameType::CustomMultiplayer 
+            bool isImmortal = (gameType != GameType::CustomMultiplayer
                               && gameType != GameType::LoadMultiplayer
                               && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                               && getOwner() == pLocalHouse);
-            
+
             if(!isImmortal) {
                 // Normal behavior: unit is destroyed by spice bloom
                 setHealth(0);
@@ -222,7 +222,7 @@ bool GroundUnit::requestCarryall() {
         doSetAttackMode(CARRYALLREQUESTED);
 
         for(UnitBase* pUnit : unitList) {
-            if ((pUnit->getOwner() == owner) && (pUnit->getItemID() == Unit_Carryall)) {
+            if ((pUnit->getOwner() == owner) && isCarryallUnit(pUnit->getItemID())) {
                 if(!static_cast<Carryall*>(pUnit)->isBooked()) {
                     carryall = static_cast<Carryall*>(pUnit);
                     carryall->setTarget(this);

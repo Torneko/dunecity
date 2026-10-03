@@ -46,6 +46,9 @@ public:
     /// destructor
     virtual ~GameInterface();
 
+    /// Refresh house-colored surfaces after a save switches the active mod.
+    void refreshHouseGraphics();
+
     /**
         Draws this window to screen. This method should be called every frame.
         \param  position    Position to draw the window to. The position of the window is added to this.
@@ -123,6 +126,7 @@ private:
 
     ChatManager         chatManager;            ///< Manages chat manages shown overlayed with the main map
     TextButton          ornithopterSelectButton;///< Button that selects all owned ornithopters
+    TextButton          chemicalCarryallSelectButton;///< Button that selects all owned chemical carryalls
 
     Label               modVersionLabel;        ///< Bottom-right "<active mod>\nv<VERSION>" watermark, mirrors the main menu.
 

@@ -16,6 +16,7 @@
  */
 
 #include <Menu/ModMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 #include <Menu/ModEditorMenu.h>
 
 #include <globals.h>
@@ -34,7 +35,7 @@ ModMenu::ModMenu() : MenuBase(), selectedModIndex(-1) {
 
     setWindowWidget(&windowWidget);
 
-    windowWidget.addWidget(&mainVBox, 
+    windowWidget.addWidget(&mainVBox,
         Point((getRendererWidth() - 560) / 2, (getRendererHeight() - 420) / 2),
         Point(560, 420));
 
@@ -49,50 +50,50 @@ ModMenu::ModMenu() : MenuBase(), selectedModIndex(-1) {
 
     // Left side: Mod list
     contentHBox.addWidget(&modListVBox, 250);
-    
+
     modListLabel.setText(_("Available Mods:"));
     modListVBox.addWidget(&modListLabel);
     modListVBox.addWidget(VSpacer::create(5));
-    
+
     modListBox.setOnSelectionChange(std::bind(&ModMenu::onModListSelectionChange, this, std::placeholders::_1));
     modListVBox.addWidget(&modListBox, 230);
-    
+
     contentHBox.addWidget(HSpacer::create(20));
 
     // Right side: Mod details
     contentHBox.addWidget(&detailsVBox, 270);
-    
+
     detailsLabel.setText(_("Mod Details:"));
     detailsVBox.addWidget(&detailsLabel);
     detailsVBox.addWidget(VSpacer::create(10));
-    
+
     modNameLabel.setText(_("Name: "));
     detailsVBox.addWidget(&modNameLabel);
     detailsVBox.addWidget(VSpacer::create(5));
-    
+
     modAuthorLabel.setText(_("Author: "));
     detailsVBox.addWidget(&modAuthorLabel);
     detailsVBox.addWidget(VSpacer::create(5));
-    
+
     modDescLabel.setText(_("Description: "));
     detailsVBox.addWidget(&modDescLabel);
     detailsVBox.addWidget(VSpacer::create(5));
-    
+
     modModVersionLabel.setText(_("Mod Version: "));
     detailsVBox.addWidget(&modModVersionLabel);
     detailsVBox.addWidget(VSpacer::create(5));
-    
+
     modGameVersionLabel.setText(_("Game Version: "));
     detailsVBox.addWidget(&modGameVersionLabel);
     detailsVBox.addWidget(VSpacer::create(5));
-    
+
     modChecksumLabel.setText(_("Checksum: "));
     detailsVBox.addWidget(&modChecksumLabel);
-    
+
     detailsVBox.addWidget(Spacer::create());
 
     mainVBox.addWidget(VSpacer::create(15));
-    
+
     // New mod creation row
     mainVBox.addWidget(&newModHBox, 25);
     newModLabel.setText(_("New mod name:"));
@@ -102,6 +103,7 @@ ModMenu::ModMenu() : MenuBase(), selectedModIndex(-1) {
     newModHBox.addWidget(&newModNameTextBox, 200);
     newModHBox.addWidget(HSpacer::create(10));
     createButton.setText(_("CREATE"));
+    MainMenuButtonColor::apply(createButton);
     createButton.setOnClick(std::bind(&ModMenu::onCreateNew, this));
     newModHBox.addWidget(&createButton, 80);
     newModHBox.addWidget(Spacer::create());
@@ -110,29 +112,33 @@ ModMenu::ModMenu() : MenuBase(), selectedModIndex(-1) {
 
     // Buttons at bottom
     mainVBox.addWidget(&buttonHBox, 25);
-    
+
     activateButton.setText(_("ACTIVATE"));
+    MainMenuButtonColor::apply(activateButton);
     activateButton.setOnClick(std::bind(&ModMenu::onActivate, this));
     buttonHBox.addWidget(&activateButton, 100);
-    
+
     buttonHBox.addWidget(HSpacer::create(10));
-    
+
     editButton.setText(_("EDIT"));
+    MainMenuButtonColor::apply(editButton);
     editButton.setOnClick(std::bind(&ModMenu::onEdit, this));
     buttonHBox.addWidget(&editButton, 70);
-    
+
     buttonHBox.addWidget(HSpacer::create(10));
-    
+
     deleteButton.setText(_("DELETE"));
+    MainMenuButtonColor::apply(deleteButton);
     deleteButton.setOnClick(std::bind(&ModMenu::onDelete, this));
     buttonHBox.addWidget(&deleteButton, 80);
-    
+
     buttonHBox.addWidget(HSpacer::create(10));
-    
+
     backButton.setText(_("BACK"));
+    MainMenuButtonColor::apply(backButton);
     backButton.setOnClick(std::bind(&ModMenu::onBack, this));
     buttonHBox.addWidget(&backButton, 70);
-    
+
     buttonHBox.addWidget(Spacer::create());
 
     // Load mod list
@@ -145,15 +151,15 @@ void ModMenu::refreshModList() {
     SDL_Log("ModMenu::refreshModList() - starting");
     modListBox.clearAllEntries();
     mods = ModManager::instance().listMods();
-    
+
     SDL_Log("ModMenu::refreshModList() - got %zu mods", mods.size());
-    
+
     std::string activeModName = ModManager::instance().getActiveModName();
     int activeIndex = -1;
-    
+
     for (size_t i = 0; i < mods.size(); i++) {
         std::string displayName = mods[i].displayName;
-        SDL_Log("ModMenu::refreshModList() - mod[%zu]: name='%s', displayName='%s'", 
+        SDL_Log("ModMenu::refreshModList() - mod[%zu]: name='%s', displayName='%s'",
                 i, mods[i].name.c_str(), displayName.c_str());
         if (mods[i].name == activeModName) {
             displayName += " *";  // Mark active mod
@@ -161,7 +167,7 @@ void ModMenu::refreshModList() {
         }
         modListBox.addEntry(displayName);
     }
-    
+
     // If no mods found, show a message
     if (mods.empty()) {
         SDL_Log("ModMenu::refreshModList() - no mods found, showing placeholder");
@@ -177,7 +183,7 @@ void ModMenu::refreshModList() {
             selectedModIndex = 0;
         }
     }
-    
+
     SDL_Log("ModMenu::refreshModList() - done, selectedModIndex=%d", selectedModIndex);
     updateModDetails();
 }
@@ -197,14 +203,14 @@ void ModMenu::updateModDetails() {
         modChecksumLabel.setText(_("Checksum: ") + std::string("-"));
         return;
     }
-    
+
     const ModInfo& mod = mods[selectedModIndex];
     modNameLabel.setText(_("Name: ") + mod.displayName);
     modAuthorLabel.setText(_("Author: ") + mod.author);
     modDescLabel.setText(_("Description: ") + mod.description);
     modModVersionLabel.setText(_("Mod Version: ") + (mod.version.empty() ? std::string("-") : mod.version));
     modGameVersionLabel.setText(_("Game Version: ") + mod.gameVersion);
-    
+
     // Show abbreviated checksum
     std::string checksum = mod.checksums.combined;
     if (checksum.length() > 12) {
@@ -217,12 +223,12 @@ void ModMenu::onActivate() {
     if (selectedModIndex < 0 || selectedModIndex >= static_cast<int>(mods.size())) {
         return;
     }
-    
+
     const ModInfo& mod = mods[selectedModIndex];
     if (ModManager::instance().setActiveMod(mod.name)) {
         // Reload effective game options with new mod
         effectiveGameOptions = ModManager::instance().loadEffectiveGameOptions(settings.gameOptions);
-        
+
         openWindow(MsgBox::create(_("Mod activated: ") + mod.displayName));
         refreshModList();
     } else {
@@ -234,31 +240,31 @@ void ModMenu::onEdit() {
     if (selectedModIndex < 0 || selectedModIndex >= static_cast<int>(mods.size())) {
         return;
     }
-    
+
     const ModInfo& mod = mods[selectedModIndex];
-    
+
     if (mod.name == "vanilla") {
         openWindow(MsgBox::create(_("Cannot edit vanilla mod.\nCreate a new mod first.")));
         return;
     }
-    
+
     // Open the mod editor
     ModEditorMenu modEditor(mod.name);
     modEditor.showMenu();
-    
+
     // Refresh list in case mod was modified
     refreshModList();
 }
 
 void ModMenu::onCreateNew() {
     std::string newName = newModNameTextBox.getText();
-    
+
     // Validate name
     if (newName.empty()) {
         openWindow(MsgBox::create(_("Please enter a mod name.")));
         return;
     }
-    
+
     // Check for invalid characters (keep it simple - alphanumeric, spaces, dashes, underscores)
     for (char c : newName) {
         if (!isalnum(c) && c != ' ' && c != '-' && c != '_') {
@@ -266,19 +272,19 @@ void ModMenu::onCreateNew() {
             return;
         }
     }
-    
+
     if (newName == "vanilla") {
         openWindow(MsgBox::create(_("Cannot use 'vanilla' as mod name.")));
         return;
     }
-    
+
     if (ModManager::instance().modExists(newName)) {
         openWindow(MsgBox::create(_("A mod with that name already exists.")));
         return;
     }
-    
+
     if (ModManager::instance().createMod(newName, "vanilla")) {
-        openWindow(MsgBox::create(_("Created new mod: ") + newName + 
+        openWindow(MsgBox::create(_("Created new mod: ") + newName +
             "\n\n" + _("Edit the files in the mod folder to customize.")));
         newModNameTextBox.setText("");
         refreshModList();
@@ -291,14 +297,14 @@ void ModMenu::onDelete() {
     if (selectedModIndex < 0 || selectedModIndex >= static_cast<int>(mods.size())) {
         return;
     }
-    
+
     const ModInfo& mod = mods[selectedModIndex];
-    
+
     if (mod.name == "vanilla") {
         openWindow(MsgBox::create(_("Cannot delete vanilla mod.")));
         return;
     }
-    
+
     if (ModManager::instance().deleteMod(mod.name)) {
         openWindow(MsgBox::create(_("Deleted mod: ") + mod.displayName));
         refreshModList();

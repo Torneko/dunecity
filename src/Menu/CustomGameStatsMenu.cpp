@@ -103,7 +103,7 @@ CustomGameStatsMenu::CustomGameStatsMenu() : MenuBase()
             Uint32 textcolor = getHouseColorRGB(visualColorSlot, 3);
             Uint32 progresscolor = getHouseColorRGB(visualColorSlot, 1);
 
-            curHouseStat.houseName.setText(_("House") + " " + getHouseNameByNumber((HOUSETYPE) i));
+            curHouseStat.houseName.setText(_("House") + " " + getHouseDisplayNameByNumber((HOUSETYPE) i));
             curHouseStat.houseName.setTextColor(textcolor);
             curHouseStat.houseHBox.addWidget(&curHouseStat.houseName, 145);
             curHouseStat.houseHBox.addWidget(Spacer::create(), 5);
@@ -194,4 +194,3 @@ void CustomGameStatsMenu::onOK()
 {
     quit();
 }
-

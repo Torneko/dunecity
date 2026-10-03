@@ -90,8 +90,44 @@ protected:
         Palace* pPalace = dynamic_cast<Palace*>(pObject);
         if(pPalace != nullptr) {
             int picID;
+            const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(pPalace->getOriginalHouseID());
 
-            switch(pPalace->getOriginalHouseID()) {
+            if(pPalace->usesTornieMainRebelsRandomSpecial()) {
+                if(!pPalace->isSpecialWeaponReady()) {
+                    picID = Picture_PalaceRebelsCharging;
+                } else switch(pPalace->getTornieMainRebelsSpecialWeapon()) {
+                    case Palace::TornieRebelsSpecialWeapon::Missile:
+                        picID = Picture_DeathHand;
+                        break;
+
+                    case Palace::TornieRebelsSpecialWeapon::Fremen:
+                        picID = Picture_Fremen;
+                        break;
+
+                    case Palace::TornieRebelsSpecialWeapon::Saboteur:
+                        picID = Picture_Saboteur;
+                        break;
+
+                    case Palace::TornieRebelsSpecialWeapon::LightVehicles:
+                        picID = Picture_PalaceLightVehicles;
+                        break;
+
+                    case Palace::TornieRebelsSpecialWeapon::Ornithopters:
+                        picID = Picture_Ornithopter;
+                        break;
+
+                    case Palace::TornieRebelsSpecialWeapon::None:
+                    default:
+                        picID = Picture_PalaceRebelsCharging;
+                        break;
+                }
+            } else if(pPalace->usesJerichoOrnithopterStrike()) {
+                picID = Picture_Ornithopter;
+            } else if(pPalace->usesJerichoKleshmershFremenCall()) {
+                picID = Picture_Fremen;
+            } else if(pPalace->usesLightVehicleCall()) {
+                picID = Picture_PalaceLightVehicles;
+            } else switch(getHouseFallbackHouse(originalHouse)) {
                 case HOUSE_HARKONNEN:
                 case HOUSE_SARDAUKAR: {
                     picID = Picture_DeathHand;
@@ -140,7 +176,7 @@ private:
 
         Palace* pPalace = dynamic_cast<Palace*>(pObject);
         if(pPalace != nullptr) {
-            if((pPalace->getOriginalHouseID() == HOUSE_HARKONNEN) || (pPalace->getOriginalHouseID() == HOUSE_SARDAUKAR)) {
+            if(pPalace->usesTargetedSpecialWeapon()) {
                 currentGame->setCursorMode(Game::CursorMode_Attack);
             } else {
                 pPalace->handleSpecialClick();

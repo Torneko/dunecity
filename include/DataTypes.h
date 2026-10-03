@@ -216,7 +216,7 @@ public:
         GameOptionsClass()
          : gameSpeed(GAMESPEED_DEFAULT), concreteRequired(true), structuresDegradeOnConcrete(true), fogOfWar(false),
            startWithExploredMap(false), instantBuild(false), onlyOnePalace(false), rocketTurretsNeedPower(false),
-           sandwormsRespawn(false), killedSandwormsDropSpice(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
+           sandwormsRespawn(false), killedSandwormsDropSpice(false), randomSpiceBlooms(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
            maximumNumberOfHarvestersOverride(-1), immortalHumanPlayer(false)  {
         }
 
@@ -232,6 +232,7 @@ public:
                     && (rocketTurretsNeedPower == goc.rocketTurretsNeedPower)
                     && (sandwormsRespawn == goc.sandwormsRespawn)
                     && (killedSandwormsDropSpice == goc.killedSandwormsDropSpice)
+                    && (randomSpiceBlooms == goc.randomSpiceBlooms)
                     && (manualCarryallDrops == goc.manualCarryallDrops)
                     && (maximumNumberOfUnitsOverride == goc.maximumNumberOfUnitsOverride)
                     && (maximumNumberOfHarvestersOverride == goc.maximumNumberOfHarvestersOverride)
@@ -259,11 +260,12 @@ public:
             optStr += std::to_string(rocketTurretsNeedPower);
             optStr += std::to_string(sandwormsRespawn);
             optStr += std::to_string(killedSandwormsDropSpice);
+            optStr += std::to_string(randomSpiceBlooms);
             optStr += std::to_string(manualCarryallDrops);
             optStr += std::to_string(maximumNumberOfUnitsOverride);
             optStr += std::to_string(maximumNumberOfHarvestersOverride);
             // Note: immortalHumanPlayer is intentionally excluded as it's a per-player setting
-            
+
             // FNV-1a hash
             uint64_t hash = 14695981039346656037ULL;
             const uint64_t prime = 1099511628211ULL;
@@ -271,7 +273,7 @@ public:
                 hash ^= static_cast<uint64_t>(static_cast<unsigned char>(c));
                 hash *= prime;
             }
-            
+
             char hashStr[17];
             snprintf(hashStr, sizeof(hashStr), "%016llx", (unsigned long long)hash);
             return std::string(hashStr);
@@ -287,6 +289,7 @@ public:
         bool        rocketTurretsNeedPower;
         bool        sandwormsRespawn;
         bool        killedSandwormsDropSpice;
+        bool        randomSpiceBlooms;
         bool        manualCarryallDrops;
         int         maximumNumberOfUnitsOverride;
         int         maximumNumberOfHarvestersOverride;
@@ -306,17 +309,36 @@ typedef enum
     HOUSE_MERCENARY =  5,
     HOUSE_NEUTRAL   =  6,
     HOUSE_REBELS    =  7,
+    HOUSE_CUSTOM     = 8,
+    HOUSE_WILDSPADE  = 9,
+    HOUSE_KLESHMERSH = 10,
+    HOUSE_THARPIQUE  = 11,
     NUM_HOUSES
 } HOUSETYPE;
 
-constexpr int HOUSECOLOR_CUSTOM_DARK_VIOLET   = NUM_HOUSES;
-constexpr int HOUSECOLOR_CUSTOM_FUCHSIA       = NUM_HOUSES + 1;
-constexpr int HOUSECOLOR_CUSTOM_TEAL          = NUM_HOUSES + 2;
-constexpr int HOUSECOLOR_CUSTOM_BRIGHT_YELLOW = NUM_HOUSES + 3;
-constexpr int HOUSECOLOR_CUSTOM_APPLE_GREEN   = NUM_HOUSES + 4;
-constexpr int HOUSECOLOR_CUSTOM_LIGHT_PINK    = NUM_HOUSES + 5;
+constexpr int NUM_LEGACY_HOUSES = 8;
+constexpr int NUM_CAMPAIGN_HOUSES = HOUSE_CUSTOM + 1;
+constexpr int MAX_CUSTOM_GAME_PLAYERS = 9;
+constexpr int NUM_BASE_HOUSE_COLOR_SLOTS = NUM_CAMPAIGN_HOUSES;
+
+constexpr int HOUSECOLOR_CUSTOM_DARK_VIOLET   = NUM_BASE_HOUSE_COLOR_SLOTS;
+constexpr int HOUSECOLOR_CUSTOM_FUCHSIA       = NUM_BASE_HOUSE_COLOR_SLOTS + 1;
+constexpr int HOUSECOLOR_CUSTOM_TEAL          = NUM_BASE_HOUSE_COLOR_SLOTS + 2;
+constexpr int HOUSECOLOR_CUSTOM_BRIGHT_YELLOW = NUM_BASE_HOUSE_COLOR_SLOTS + 3;
+constexpr int HOUSECOLOR_CUSTOM_APPLE_GREEN   = NUM_BASE_HOUSE_COLOR_SLOTS + 4;
+constexpr int HOUSECOLOR_CUSTOM_LIGHT_PINK    = NUM_BASE_HOUSE_COLOR_SLOTS + 5;
 constexpr int NUM_CUSTOM_HOUSE_COLORS         = 6;
-constexpr int NUM_HOUSE_COLOR_SLOTS           = NUM_HOUSES + NUM_CUSTOM_HOUSE_COLORS;
+constexpr int HOUSECOLOR_GUEST_1               = NUM_BASE_HOUSE_COLOR_SLOTS + NUM_CUSTOM_HOUSE_COLORS;
+constexpr int HOUSECOLOR_GUEST_2               = HOUSECOLOR_GUEST_1 + 1;
+constexpr int HOUSECOLOR_GUEST_3               = HOUSECOLOR_GUEST_1 + 2;
+
+constexpr int migrateLegacyHouseColorSlot(int colorSlot) noexcept {
+    return (colorSlot >= NUM_LEGACY_HOUSES
+            && colorSlot < NUM_LEGACY_HOUSES + NUM_CUSTOM_HOUSE_COLORS)
+        ? colorSlot + 1
+        : colorSlot;
+}
+constexpr int NUM_HOUSE_COLOR_SLOTS           = HOUSECOLOR_GUEST_3 + 1;
 
 typedef enum {
     RIGHT,

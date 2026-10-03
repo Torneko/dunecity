@@ -16,6 +16,7 @@
  */
 
 #include <MapEditor/MapEditorInterface.h>
+#include <mod/ModManager.h>
 #include <MapEditor/MapEditor.h>
 #include <MapEditor/NewMapWindow.h>
 #include <MapEditor/LoadMapWindow.h>
@@ -60,7 +61,7 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     currentEditStructureID = INVALID;
     currentEditUnitID = INVALID;
 
-    tornieContentVisible_ = (ModManager::instance().getActiveModName() == "Tornie");
+    tornieContentVisible_ = (ModManager::instance().isTornieContentActive());
 
 
     setTransparentBackground(true);
@@ -328,6 +329,34 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeTerrain_RedSpiceBloom.setToggleButton(true);
         editorModeTerrain_RedSpiceBloom.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_RedSpiceBloom));
         editorModeTerrain_HBox5.addWidget(&editorModeTerrain_RedSpiceBloom);
+
+        editorModeTerrain_VBox.addWidget(VSpacer::create(2));
+        editorModeTerrain_VBox.addWidget(&editorModeTerrain_HBox6);
+        editorModeTerrain_PaleLilacSpice.setToggleButton(true);
+        editorModeTerrain_PaleLilacSpice.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_PaleLilacSpice));
+        editorModeTerrain_HBox6.addWidget(&editorModeTerrain_PaleLilacSpice);
+        editorModeTerrain_HBox6.addWidget(HSpacer::create(2));
+        editorModeTerrain_ThickPaleLilacSpice.setToggleButton(true);
+        editorModeTerrain_ThickPaleLilacSpice.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_ThickPaleLilacSpice));
+        editorModeTerrain_HBox6.addWidget(&editorModeTerrain_ThickPaleLilacSpice);
+        editorModeTerrain_HBox6.addWidget(HSpacer::create(2));
+        editorModeTerrain_PaleLilacSpiceBloom.setToggleButton(true);
+        editorModeTerrain_PaleLilacSpiceBloom.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_PaleLilacSpiceBloom));
+        editorModeTerrain_HBox6.addWidget(&editorModeTerrain_PaleLilacSpiceBloom);
+
+        editorModeTerrain_VBox.addWidget(VSpacer::create(2));
+        editorModeTerrain_VBox.addWidget(&editorModeTerrain_HBox7);
+        editorModeTerrain_WhiteSpice.setToggleButton(true);
+        editorModeTerrain_WhiteSpice.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_WhiteSpice));
+        editorModeTerrain_HBox7.addWidget(&editorModeTerrain_WhiteSpice);
+        editorModeTerrain_HBox7.addWidget(HSpacer::create(2));
+        editorModeTerrain_ThickWhiteSpice.setToggleButton(true);
+        editorModeTerrain_ThickWhiteSpice.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_ThickWhiteSpice));
+        editorModeTerrain_HBox7.addWidget(&editorModeTerrain_ThickWhiteSpice);
+        editorModeTerrain_HBox7.addWidget(HSpacer::create(2));
+        editorModeTerrain_WhiteSpiceBloom.setToggleButton(true);
+        editorModeTerrain_WhiteSpiceBloom.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_WhiteSpiceBloom));
+        editorModeTerrain_HBox7.addWidget(&editorModeTerrain_WhiteSpiceBloom);
     }
 
     editorModeTerrain_VBox.addWidget(VSpacer::create(2));
@@ -558,24 +587,57 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeStructs_Scoutpost.setToggleButton(true);
     editorModeStructs_Scoutpost.setTooltipText(resolveItemName(Structure_Scoutpost));
     editorModeStructs_Scoutpost.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Scoutpost));
+    editorModeStructs_Flamepost.setToggleButton(true);
+    editorModeStructs_Flamepost.setTooltipText(resolveItemName(Structure_Flamepost));
+    editorModeStructs_Flamepost.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Flamepost));
+    editorModeStructs_Chemipost.setToggleButton(true);
+    editorModeStructs_Chemipost.setTooltipText(resolveItemName(Structure_Chemipost));
+    editorModeStructs_Chemipost.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Chemipost));
+    editorModeStructs_LoveFactory.setToggleButton(true);
+    editorModeStructs_LoveFactory.setTooltipText(resolveItemName(Structure_LoveFactory));
+    editorModeStructs_LoveFactory.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_LoveFactory));
+    editorModeStructs_ChaosFactory.setToggleButton(true);
+    editorModeStructs_ChaosFactory.setTooltipText(resolveItemName(Structure_ChaosFactory));
+    editorModeStructs_ChaosFactory.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_ChaosFactory));
 
     if(tornieContentVisible_) {
-        // Tornie custom structures: two buttons per row keep the sidebar compact,
-        // and the small Scoutpost is centered by the resized SymbolButton.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrap, 3*D2_TILESIZE + 4);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrap);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrapMK2);
+        // SymbolButton needs five pixels around its native-size preview.
+        const Sint32 threeTileButtonSize = 3*D2_TILESIZE + 5;
+        const Sint32 twoTileButtonSize = 2*D2_TILESIZE + 5;
+        const Sint32 postButtonSize = D2_TILESIZE + 5;
+        const Sint32 postColumnHeight = 3*postButtonSize;
 
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrapMK3, 2*D2_TILESIZE + 4);
+        // Row 1: vertical windtrap, square windtrap, then the post column.
+        // One-pixel gaps keep this row within the 113-pixel scroll viewport.
+        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrap, postColumnHeight);
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrapMK2, twoTileButtonSize);
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(HSpacer::create(1));
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrap, threeTileButtonSize);
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(HSpacer::create(1));
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_VBoxScoutposts, postButtonSize);
+        editorModeStructs_HBoxAdvancedWindTrap.addWidget(Spacer::create());
+
+        // Green at the top, blue in the middle, orange at the bottom.
+        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Scoutpost, postButtonSize);
+        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Chemipost, postButtonSize);
+        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Flamepost, postButtonSize);
+
+        // Row 2: horizontal windtrap and Worfinery.
+        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrapMK3, twoTileButtonSize);
         editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(&editorModeStructs_AdvancedWindTrapMK3);
         editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(HSpacer::create(2));
         editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(&editorModeStructs_Worfinery);
 
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxTechCenter, 2*D2_TILESIZE + 4);
+        // Row 3: Tech Center and Chaos Factory.
+        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxTechCenter, twoTileButtonSize);
         editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_TechCenter);
         editorModeStructs_HBoxTechCenter.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_Scoutpost);
+        editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_ChaosFactory);
+
+        // Row 4: Love Factory alone, aligned with the left edge.
+        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxLoveFactory, threeTileButtonSize);
+        editorModeStructs_HBoxLoveFactory.addWidget(&editorModeStructs_LoveFactory, twoTileButtonSize);
+        editorModeStructs_HBoxLoveFactory.addWidget(Spacer::create());
     }
 
     // setup units mode
@@ -672,6 +734,12 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeUnits_EliteSiegeTank.setToggleButton(true);
     editorModeUnits_EliteSiegeTank.setTooltipText(resolveItemName(Unit_EliteSiegeTank));
     editorModeUnits_EliteSiegeTank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_EliteSiegeTank));
+    editorModeUnits_ChemicalSiegeTank.setToggleButton(true);
+    editorModeUnits_ChemicalSiegeTank.setTooltipText(resolveItemName(Unit_ChemicalSiegeTank));
+    editorModeUnits_ChemicalSiegeTank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_ChemicalSiegeTank));
+    editorModeUnits_ChemicalCarryall.setToggleButton(true);
+    editorModeUnits_ChemicalCarryall.setTooltipText(resolveItemName(Unit_ChemicalCarryall));
+    editorModeUnits_ChemicalCarryall.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_ChemicalCarryall));
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
@@ -777,6 +845,11 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteLauncher);
         editorModeUnits_HBoxTornieElite.addWidget(HSpacer::create(2));
         editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteSiegeTank);
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieChemical, 2*D2_TILESIZE);
+        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalSiegeTank);
+        editorModeUnits_HBoxTornieChemical.addWidget(HSpacer::create(2));
+        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalCarryall);
+        editorModeUnits_HBoxTornieChemical.addWidget(Spacer::create());
     }
 
     editorModeUnits_MainVBox.addWidget(Spacer::create());
@@ -866,7 +939,7 @@ void MapEditorInterface::onHouseChanges() {
     int currentIndex = 0;
     int currentPlayerNum = 1;
     for(const MapEditor::Player& player : pMapEditor->getPlayers()) {
-        std::string entryName = player.bActive ? (player.bAnyHouse ? (_("Player") + " " + std::to_string(currentPlayerNum++)) : player.name) : ("(" + player.name + ")");
+        std::string entryName = player.bActive ? (player.bAnyHouse ? (_("Player") + " " + std::to_string(currentPlayerNum++)) : getHouseDisplayNameByNumber(player.house)) : ("(" + getHouseDisplayNameByNumber(player.house) + ")");
 
         houseDropDownBox.addEntry(entryName, player.house);
 
@@ -1153,6 +1226,12 @@ void MapEditorInterface::onTerrainButton(int terrainType) {
     editorModeTerrain_RedSpice.setToggleState( (terrainType == Terrain_RedSpice) );
     editorModeTerrain_ThickRedSpice.setToggleState( (terrainType == Terrain_ThickRedSpice) );
     editorModeTerrain_RedSpiceBloom.setToggleState( (terrainType == Terrain_RedSpiceBloom) );
+    editorModeTerrain_PaleLilacSpice.setToggleState( (terrainType == Terrain_PaleLilacSpice) );
+    editorModeTerrain_ThickPaleLilacSpice.setToggleState( (terrainType == Terrain_ThickPaleLilacSpice) );
+    editorModeTerrain_PaleLilacSpiceBloom.setToggleState( (terrainType == Terrain_PaleLilacSpiceBloom) );
+    editorModeTerrain_WhiteSpice.setToggleState( (terrainType == Terrain_WhiteSpice) );
+    editorModeTerrain_ThickWhiteSpice.setToggleState( (terrainType == Terrain_ThickWhiteSpice) );
+    editorModeTerrain_WhiteSpiceBloom.setToggleState( (terrainType == Terrain_WhiteSpiceBloom) );
     editorModeTerrain_SpiceBloom.setToggleState( (terrainType == Terrain_SpiceBloom) );
     editorModeTerrain_Rock.setToggleState( (terrainType == Terrain_Rock) );
     editorModeTerrain_Mountain.setToggleState( (terrainType == Terrain_Mountain) );
@@ -1208,6 +1287,10 @@ void MapEditorInterface::onStructButton(int structType) {
     editorModeStructs_Palace.setToggleState( (structType == Structure_Palace) );
     editorModeStructs_TechCenter.setToggleState( (structType == Structure_TechCenter) );
     editorModeStructs_Scoutpost.setToggleState( (structType == Structure_Scoutpost) );
+    editorModeStructs_Flamepost.setToggleState( (structType == Structure_Flamepost) );
+    editorModeStructs_Chemipost.setToggleState( (structType == Structure_Chemipost) );
+    editorModeStructs_LoveFactory.setToggleState( (structType == Structure_LoveFactory) );
+    editorModeStructs_ChaosFactory.setToggleState( (structType == Structure_ChaosFactory) );
 
 
     if(structType >= 0) {
@@ -1232,6 +1315,8 @@ void MapEditorInterface::onUnitButton(int unitType) {
     editorModeUnits_FlameTank.setToggleState( (unitType == Unit_FlameTank) );
     editorModeUnits_EliteLauncher.setToggleState( (unitType == Unit_EliteLauncher) );
     editorModeUnits_EliteSiegeTank.setToggleState( (unitType == Unit_EliteSiegeTank) );
+    editorModeUnits_ChemicalSiegeTank.setToggleState( (unitType == Unit_ChemicalSiegeTank) );
+    editorModeUnits_ChemicalCarryall.setToggleState( (unitType == Unit_ChemicalCarryall) );
     editorModeUnits_Tank.setToggleState( (unitType == Unit_Tank) );
     editorModeUnits_SiegeTank.setToggleState( (unitType == Unit_SiegeTank) );
     editorModeUnits_Launcher.setToggleState( (unitType == Unit_Launcher) );
@@ -1430,6 +1515,30 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeTerrain_RedSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_RedSpice, newHouse));
     editorModeTerrain_ThickRedSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ThickRedSpice, newHouse));
     editorModeTerrain_RedSpiceBloom.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_RedSpiceBloom, newHouse));
+    editorModeTerrain_PaleLilacSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_PaleLilacSpice, newHouse));
+    editorModeTerrain_ThickPaleLilacSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ThickPaleLilacSpice, newHouse));
+    editorModeTerrain_PaleLilacSpiceBloom.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_PaleLilacSpiceBloom, newHouse));
+    editorModeTerrain_WhiteSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_WhiteSpice, newHouse));
+    editorModeTerrain_ThickWhiteSpice.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ThickWhiteSpice, newHouse));
+    editorModeTerrain_WhiteSpiceBloom.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_WhiteSpiceBloom, newHouse));
+
+    const std::string activeMod = ModManager::instance().getActiveModName();
+    const bool useTornieSpice = activeMod == "Tornie" || activeMod == "TornieLite";
+    const bool useJerichoSpice = activeMod == "Jericho";
+    // Hide complete rows as well as their buttons so inactive spice types do
+    // not reserve vertical space and push the active choices out of the panel.
+    editorModeTerrain_HBox4.setVisible(useTornieSpice);
+    editorModeTerrain_HBox5.setVisible(useJerichoSpice);
+    editorModeTerrain_HBox6.setVisible(useTornieSpice);
+    editorModeTerrain_HBox7.setVisible(useJerichoSpice);
+    for(SymbolButton* button : { &editorModeTerrain_GreenSpice, &editorModeTerrain_ThickGreenSpice, &editorModeTerrain_GreenSpiceBloom,
+                                 &editorModeTerrain_PaleLilacSpice, &editorModeTerrain_ThickPaleLilacSpice, &editorModeTerrain_PaleLilacSpiceBloom }) {
+        button->setVisible(useTornieSpice);
+    }
+    for(SymbolButton* button : { &editorModeTerrain_RedSpice, &editorModeTerrain_ThickRedSpice, &editorModeTerrain_RedSpiceBloom,
+                                 &editorModeTerrain_WhiteSpice, &editorModeTerrain_ThickWhiteSpice, &editorModeTerrain_WhiteSpiceBloom }) {
+        button->setVisible(useJerichoSpice);
+    }
     editorModeTerrain_SpiceBloom.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_SpiceBloom, newHouse));
     editorModeTerrain_Rock.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Rock, newHouse));
     editorModeTerrain_Mountain.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Mountain, newHouse));
@@ -1467,6 +1576,14 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeStructs_Palace.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Palace, newHouse));
     editorModeStructs_TechCenter.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_TechCenter, newHouse));
     editorModeStructs_Scoutpost.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Scoutpost, newHouse));
+    editorModeStructs_Scoutpost.setTooltipText(resolveItemName(Structure_Scoutpost));
+    editorModeStructs_Flamepost.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Flamepost, newHouse));
+    editorModeStructs_Flamepost.setTooltipText(resolveItemName(Structure_Flamepost));
+    editorModeStructs_Chemipost.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Chemipost, newHouse));
+    editorModeStructs_Chemipost.setTooltipText(resolveItemName(Structure_Chemipost));
+    editorModeStructs_LoveFactory.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_LoveFactory, newHouse));
+    editorModeStructs_ChaosFactory.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ChaosFactory, newHouse));
+    editorModeStructs_ChaosFactory.setTooltipText(resolveItemName(Structure_ChaosFactory));
 
 
     editorModeUnits_Soldier.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Soldier, newHouse));
@@ -1484,6 +1601,8 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeUnits_FlameTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_FlameTank, newHouse));
     editorModeUnits_EliteLauncher.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_EliteLauncher, newHouse));
     editorModeUnits_EliteSiegeTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_EliteSiegeTank, newHouse));
+    editorModeUnits_ChemicalSiegeTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ChemicalSiegeTank, newHouse));
+    editorModeUnits_ChemicalCarryall.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ChemicalCarryall, newHouse));
     editorModeUnits_Tank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Tank, newHouse));
     editorModeUnits_SiegeTank.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_SiegeTank, newHouse));
     editorModeUnits_Launcher.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Launcher, newHouse));

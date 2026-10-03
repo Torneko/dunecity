@@ -125,7 +125,7 @@ public:
         \return the current game cycle
     */
     Uint32 getGameCycleCount() const { return gameCycleCount; };
-    
+
     /**
         Returns the loaded savegame version (for backward compatibility)
         \return the version of the savegame being loaded, or 0 if not loading
@@ -296,6 +296,7 @@ public:
         Selects all currently active ornithopters owned by the local house.
     */
     void selectAllOrnithopters();
+    void selectAllChemicalCarryalls();
 
     /**
         This method unselects all units/structures in the list aList.
@@ -490,6 +491,7 @@ private:
         \return true if attack is possible
     */
     bool handleSelectedObjectsAttackClick(int xPos, int yPos);
+    bool handleSelectedObjectsHealClick(int xPos, int yPos);
 
     /**
         Performs a move click for the currently selected units/structures.
@@ -543,6 +545,7 @@ public:
     enum {
         CursorMode_Normal,
         CursorMode_Attack,
+        CursorMode_Heal,
         CursorMode_Move,
         CursorMode_Capture,
         CursorMode_CarryallDrop,
@@ -560,7 +563,7 @@ public:
     ObjectData  objectData;         ///< This contains all the unit/structure data
 
     GameState   gameState = GameState::Start;
-    
+
     std::set<Uint8> pausedPlayers;  ///< Set of player IDs that are currently paused
 
     // Running statistics for confidence intervals (Welford's algorithm)
@@ -614,7 +617,7 @@ public:
         int gameCyclesThisFrame = 0;
         int totalGameCycles = 0;
         int frameCount = 0;
-        
+
         // Pathfinding detailed stats
         int pathsProcessedThisCycle = 0;
         int totalPathsProcessedThisFrame = 0;
@@ -623,7 +626,7 @@ public:
         int totalPathsFailed = 0;
         double pathfindingMsThisCycle = 0.0;
         double pathfindingMsThisFrame = 0.0;
-        
+
         // Phase 1: Token/node tracking
         size_t pathTokensThisCycle = 0;
         size_t pathTokensThisFrame = 0;
@@ -645,23 +648,23 @@ public:
         size_t pathReuseMissesWindow = 0;
         size_t totalPathReuseHits = 0;
         size_t totalPathReuseMisses = 0;
-        
+
         // Path invalidation reasons (for debugging)
         size_t pathInvalidDestChanged = 0;
         size_t pathInvalidHuntTooFar = 0;
         size_t pathInvalidBlocked = 0;
-        
+
         // Movement pause reasons (for debugging stuttering)
         uint64_t pauseWaitingForPath = 0;      // Path queued, waiting for result
         uint64_t pauseWaitingForBlocker = 0;   // Waiting for moving unit to clear
         uint64_t pauseRecalcCooldown = 0;      // recalculatePathTimer > 0
         uint64_t pauseTurningToFace = 0;       // Turning to face next waypoint
-        
+
         // Phase 2: Token budget tracking
         int tokenBudgetExhaustedCount = 0;  // How often we hit 20k token limit
         int timeBudgetExceededCount = 0;    // How often time limit hit (should be rare)
         double avgTokensUsedPerCycle = 0.0;  // Running average
-        
+
         // Turret target scan detailed stats
         int turretScansThisFrame = 0;
         int totalTurretScans = 0;
@@ -670,7 +673,7 @@ public:
         double maxTurretScanMs = 0.0;
         double minTurretScanMs = 999999.0;
         int maxTurretScansPerFrame = 0;
-        
+
         // Per-frame accumulators for min/max tracking
         double aiMsThisFrame = 0.0;
         double aiWorstHouseMsThisFrame = 0.0;
@@ -679,7 +682,7 @@ public:
         double structuresMsThisFrame = 0.0;
         double renderingMsThisFrame = 0.0;
         double networkWaitMsThisFrame = 0.0;
-        
+
         // Max values
         double maxAiMs = 0.0;
         double maxUnitsMs = 0.0;
@@ -692,7 +695,7 @@ public:
         int maxGameCyclesPerFrame = 0;
         int maxPathsPerCycle = 0;
         int maxPathsPerFrame = 0;
-        
+
         // Min values
         int minGameCyclesPerFrame = 999999;
         double minAiMs = 999999.0;
@@ -701,7 +704,7 @@ public:
         double minPathfindingMs = 999999.0;
         double minRenderingMs = 999999.0;
         double minNetworkWaitMs = 999999.0;
-        
+
         // Detailed unit timing breakdown
         double unitTargetingMs = 0.0;
         double unitNavigateMs = 0.0;
@@ -714,14 +717,14 @@ public:
         double unitTurnMsThisFrame = 0.0;
         double unitVisibilityMsThisFrame = 0.0;
         int unitCount = 0;
-        
+
         // Simulation timing for CPU load detection (post-vsync)
         double simMsAvg = 0.0;              // Exponential moving average of simulation time per tick
         bool simulationLagging = false;     // Flag: true when simMsAvg exceeds high threshold
     };
 
     FrameTiming frameTiming;
-    
+
     // Rocket Turret vs Ornithopter Statistics
     struct CombatStats {
         // Rocket Turret stats
@@ -736,7 +739,7 @@ public:
         int turretRocketsKillOrni = 0;        // Rockets that killed ornithopter
         int turretRocketsExpired = 0;         // Rockets that expired (timer)
         int turretRocketsProximityDetonated = 0; // Rockets detonated via proximity
-        
+
         // Launcher Unit stats (Rocket Launcher + Deviator)
         int launcherTargetsOrni = 0;          // Launcher acquires ornithopter as target
         int launcherFiresOnOrni = 0;          // Launcher fires at ornithopter
@@ -744,17 +747,17 @@ public:
         int launcherRocketsHitOrni = 0;       // Launcher rockets that damaged ornithopter
         int launcherRocketsKillOrni = 0;      // Launcher rockets that killed ornithopter
         int launcherRocketsExpired = 0;       // Launcher rockets that expired (timer)
-        
+
         Uint32 lastDumpCycle = 0;             // MULTIPLAYER FIX (Issue #8): Cycle-based (was lastDumpTime)
     };
-    
+
     CombatStats combatStats;
-    
+
     inline double getElapsedMs(Uint64 start, Uint64 end) const {
         const Uint64 frequency = SDL_GetPerformanceFrequency();
         return (static_cast<double>(end - start) / static_cast<double>(frequency)) * 1000.0;
     }
-    
+
     void dumpCombatStats();  // Dump combat statistics
     void logPathInstrumentationIfNeeded();
 
@@ -783,7 +786,7 @@ private:
 
     Uint32      skipToGameCycle = 0;            ///< skip to this game cycle
     Uint32      lastPathInstrumentationLogCycle = 0;
-    
+
     Uint32      loadedSavegameVersion = 0;      ///< Version of loaded savegame (for backward compatibility)
 
     bool        takePeriodicalScreenshots = false;      ///< take a screenshot every 10 seconds
@@ -859,25 +862,25 @@ private:
     // MULTIPLAYER FIX (Issue #1, #2): Removed time-based budgets
     // Now using only deterministic budgets:
     static constexpr std::size_t kPathNodeBudget = 2048;
-    
+
     // Phase 1: Budget Negotiation System
     // Start at 15k (middle of range), adapt up or down based on FPS
     size_t negotiatedBudget = 15000;  // Current token budget (adaptive 5k-25k)
     size_t carryOverTokens = 0;       // Unused tokens from previous cycle (SINGLE-PLAYER ONLY - disabled in multiplayer to prevent desync)
-    
+
     static constexpr size_t kMinBudget = 5000;    // Minimum 5k tokens/cycle
     static constexpr size_t kMaxBudget = 25000;   // Maximum 25k tokens/cycle
     static constexpr size_t kHardCap = 30000;     // With carry-over (not used in multiplayer)
     static constexpr size_t kDebtCap = 2000;      // Max carry-over tokens — reduced from 10k to limit burst spikes on large maps
-    
+
     static constexpr int kBudgetCheckInterval = 375;  // Check every 375 cycles (~7.5s at 50Hz)
-    
+
     // Track last budget action to prevent oscillation (deterministic, synced state)
     enum class BudgetAction { NONE, INCREASED, DECREASED };
     BudgetAction lastBudgetAction = BudgetAction::NONE;
-    
+
     int cycleGuardrailTrips = 0;      // Counter for cycle limit hits
-    
+
     void requestLowerBudget(int steps = 1);  // Request budget reduction via network (steps × 500)
 
     // Multiplayer budget negotiation structs
@@ -890,22 +893,22 @@ private:
         Uint32 currentBudget;
         int missedUpdates = 0;
     };
-    
+
     struct PendingBudgetChange {
         size_t newBudget;
         Uint32 applyCycle;
         bool resetCarryOver = true;
     };
-    
+
     // Multiplayer budget negotiation state
     std::vector<PendingBudgetChange> pendingBudgetChanges;
     std::map<Uint32, ClientPerformanceStats> clientStats;  // Host only
-    
+
     // Track previous budget to avoid false DESYNC detection.
     // A client report can legitimately reflect the previous budget if the report cycle is before the change cycle.
     size_t previousNegotiatedBudget = 0;   // Budget before last change
     Uint32 lastBudgetChangeCycle = 0;      // Cycle when budget last changed
-    
+
     // Multiplayer budget negotiation functions
     void checkBudgetAdjustment();
     void sendStatsToHost(float avgFps, float simMsAvg, size_t queueDepth, size_t currentBudget);

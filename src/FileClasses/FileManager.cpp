@@ -47,18 +47,63 @@ std::string getBaseFilenameUpper(const std::string& filepath) {
 }
 
 bool isTornieModActive() {
-    return ModManager::instance().isInitialized() && strToUpper(ModManager::instance().getActiveModName()) == "TORNIE";
+    return ModManager::instance().isInitialized() && ModManager::instance().isTornieContentActive();
 }
 
-bool isPakEnabledForFallbackLookup(const Pakfile& pakFile) {
+bool isVanillaModActive() {
+    const auto& modManager = ModManager::instance();
+    if(!modManager.isInitialized()) {
+        return true;
+    }
+
+    const std::string activeModName = modManager.getActiveModName();
+    return activeModName.empty() || strToUpper(activeModName) == "VANILLA";
+}
+
+bool isCampaignFile(const std::string& filename);
+
+bool shouldSearchExtraPak(const std::string& filename) {
+    return !isVanillaModActive() || isCampaignFile(filename);
+}
+
+std::vector<std::string> getActiveModDataPaths() {
+    if(!ModManager::instance().isInitialized()) {
+        return {};
+    }
+
+    const auto& modManager = ModManager::instance();
+    const std::string activeMod = modManager.getActiveModName();
+    if(activeMod.empty() || strToUpper(activeMod) == "VANILLA") {
+        return {};
+    }
+
+    std::vector<std::string> paths{
+        modManager.getModPath(activeMod) + "/data"
+    };
+    const std::string installRoot = getDuneLegacyDataDir();
+    for(const std::string& relativePrefix : {"", "/..", "/../..", "/../../.."}) {
+        const std::string candidate = installRoot + relativePrefix + "/mods/" + activeMod + "/data";
+        if(std::find(paths.begin(), paths.end(), candidate) == paths.end()) {
+            paths.push_back(candidate);
+        }
+    }
+    return paths;
+}
+
+bool isPakEnabledForFallbackLookup(const Pakfile& pakFile, const std::string& filename) {
     const auto pakName = getBaseFilenameUpper(pakFile.getPakFilename());
-    return pakName != "TORNIE.PAK" || isTornieModActive();
+    return (pakName != "TORNIE.PAK" || isTornieModActive())
+        && (pakName != "EXTRA.PAK" || shouldSearchExtraPak(filename));
 }
 
 std::vector<std::string> getFilenameCaseVariants(const std::string& filename);
 bool isTinyVocPlaceholder(const std::string& filename, SDL_RWops* rwop);
 
 sdl2::RWops_ptr openFromNamedPak(const std::vector<std::unique_ptr<Pakfile>>& pakFiles, const std::string& filename, const std::string& pakNameUpper) {
+    if(pakNameUpper == "EXTRA.PAK" && !shouldSearchExtraPak(filename)) {
+        return nullptr;
+    }
+
     for(const auto& pPakFile : pakFiles) {
         if(getBaseFilenameUpper(pPakFile->getPakFilename()) == pakNameUpper && pPakFile->exists(filename)) {
             auto rwop = pPakFile->openFile(filename);
@@ -228,11 +273,9 @@ FileManager::~FileManager() = default;
 std::vector<std::string> FileManager::getSearchPath() {
     std::vector<std::string> searchPath;
 
-    const auto dataDir = getDuneLegacyDataDir();
+    const std::string dataDir = getDuneLegacyDataDir();
     searchPath.push_back(dataDir);
-    searchPath.push_back(dataDir + "data");
-    searchPath.push_back(dataDir + "data/");
-
+    searchPath.push_back(dataDir + "/data");
     char tmp[FILENAME_MAX];
     fnkdat("data", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT);
     searchPath.push_back(tmp);
@@ -266,7 +309,7 @@ std::vector<std::string> FileManager::getNeededFiles() {
 
     std::string LanguagePakFiles = (pTextManager != nullptr) ? _("LanguagePakFiles") : "";
 
-    if(LanguagePakFiles.empty()) {
+    if(LanguagePakFiles.empty() || LanguagePakFiles == "LanguagePakFiles") {
         LanguagePakFiles = "ENGLISH.PAK,HARK.PAK,ATRE.PAK,ORDOS.PAK";
     }
 
@@ -302,6 +345,21 @@ std::vector<std::string> FileManager::getMissingFiles() {
 sdl2::RWops_ptr FileManager::openFile(const std::string& filename) {
     sdl2::RWops_ptr ret;
 
+    // Active mod assets override the base payload, but assets from inactive
+    // mods are never visible. User-installed mod data is checked first, then
+    // the bundled mod directory beside the executable.
+    for(const auto& modDataPath : getActiveModDataPaths()) {
+        auto modFilename = modDataPath + "/" + filename;
+        if(auto modFile = openExternalFileIfPresent(modFilename)) {
+            if(isTinyVocPlaceholder(filename, modFile.get())) {
+                SDL_Log("FileManager: ignoring tiny active-mod VOC placeholder '%s'", modFilename.c_str());
+                continue;
+            }
+            SDL_Log("FileManager: using active-mod asset '%s'", modFilename.c_str());
+            return modFile;
+        }
+    }
+
     // try loading external file
     for(const auto& searchPath : getSearchPath()) {
         auto externalFilename = searchPath + "/";
@@ -326,7 +384,7 @@ sdl2::RWops_ptr FileManager::openFile(const std::string& filename) {
 
     // now try loading from pak file
     for(const auto& pPakFile : pakFiles) {
-        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile, filename)) {
             continue;
         }
 
@@ -348,12 +406,13 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
     const bool isTornieCampaign = isCampaignFile(filename) && isTornieModActive();
 
     if(isTornieCampaign) {
+        const std::string activeModName = ModManager::instance().getActiveModName();
         std::vector<std::string> candidates;
-        addCampaignCandidates(candidates, ModManager::instance().getModPath("Tornie") + "/campaign", filename);
+        addCampaignCandidates(candidates, ModManager::instance().getModPath(activeModName) + "/campaign", filename);
 
         for(const auto& searchPath : getSearchPath()) {
-            addCampaignCandidates(candidates, searchPath + "/mods/Tornie/campaign", filename);
-            addCampaignCandidates(candidates, searchPath + "/../mods/Tornie/campaign", filename);
+            addCampaignCandidates(candidates, searchPath + "/mods/" + activeModName + "/campaign", filename);
+            addCampaignCandidates(candidates, searchPath + "/../mods/" + activeModName + "/campaign", filename);
         }
 
         for(const auto& candidate : candidates) {
@@ -422,7 +481,7 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
 }
 sdl2::RWops_ptr FileManager::openFileFromPak(const std::string& filename) {
     for(const auto& pPakFile : pakFiles) {
-        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile, filename)) {
             continue;
         }
 
@@ -446,6 +505,13 @@ sdl2::RWops_ptr FileManager::openFileFromNamedPak(const std::string& filename, c
 
 bool FileManager::exists(const std::string& filename) const {
 
+    for(const auto& modDataPath : getActiveModDataPaths()) {
+        auto modFilename = modDataPath + "/" + filename;
+        if(getCaseInsensitiveFilename(modFilename)) {
+            return true;
+        }
+    }
+
     // try finding external file
     for(const std::string& searchPath : getSearchPath()) {
         auto externalFilename = searchPath + "/";
@@ -457,7 +523,7 @@ bool FileManager::exists(const std::string& filename) const {
 
     // now try finding in one pak file
     for(const auto& pPakFile : pakFiles) {
-        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile, filename)) {
             continue;
         }
 
@@ -471,7 +537,7 @@ bool FileManager::exists(const std::string& filename) const {
 
 bool FileManager::existsInPak(const std::string& filename) const {
     for(const auto& pPakFile : pakFiles) {
-        if(!isPakEnabledForFallbackLookup(*pPakFile)) {
+        if(!isPakEnabledForFallbackLookup(*pPakFile, filename)) {
             continue;
         }
 

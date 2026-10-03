@@ -266,6 +266,13 @@ void INIMapEditorLoader::loadMap() {
                         type = Terrain_RedSpiceBloom;
                     } break;
 
+                    case 'l': type = Terrain_PaleLilacSpice; break;
+                    case 'L': type = Terrain_ThickPaleLilacSpice; break;
+                    case 'i': type = Terrain_PaleLilacSpiceBloom; break;
+                    case 'w': type = Terrain_WhiteSpice; break;
+                    case 'W': type = Terrain_ThickWhiteSpice; break;
+                    case 'x': type = Terrain_WhiteSpiceBloom; break;
+
                     case '%': {
                         // Rock
                         type = Terrain_Rock;
@@ -307,6 +314,7 @@ void INIMapEditorLoader::loadMap() {
 void INIMapEditorLoader::loadHouses()
 {
     for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
+        if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
         std::string houseName = getHouseNameByNumber((HOUSETYPE) houseID);
 
         if(inifile->hasSection(houseName)) {
@@ -325,10 +333,11 @@ void INIMapEditorLoader::loadHouses()
         }
     }
 
-    for(int i=1;i<=NUM_HOUSES;i++) {
+    for(int i=1;i<=getNumAvailableHouses();i++) {
         std::string sectionname = "player" + std::to_string(i);
         if(inifile->hasSection(sectionname)) {
             for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
+                if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
                 MapEditor::Player& player = pMapEditor->getPlayers()[houseID];
 
                 if(player.bActive == false) {

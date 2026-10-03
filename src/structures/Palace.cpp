@@ -28,6 +28,7 @@
 #include <SoundPlayer.h>
 
 #include <players/HumanPlayer.h>
+#include <mod/ModManager.h>
 
 #include <units/InfantryBase.h>
 #include <units/UnitBase.h>
@@ -75,6 +76,13 @@ void Palace::init() {
 
 Palace::~Palace() = default;
 
+void Palace::setOriginalHouseID(int houseID) {
+    if(houseID != originalHouseID) {
+        StructureBase::setOriginalHouseID(houseID);
+        specialWeaponTimer = getMaxSpecialWeaponTimer();
+    }
+}
+
 void Palace::save(OutputStream& stream) const {
     StructureBase::save(stream);
     stream.writeSint32(specialWeaponTimer);
@@ -98,12 +106,148 @@ void Palace::handleDeathhandClick(int xPos, int yPos) {
     }
 }
 
+bool Palace::usesTornieMainRebelsCooldown() const {
+    if(!ModManager::instance().isInitialized()) return false;
+    const std::string activeMod = ModManager::instance().getActiveModName();
+
+    const HOUSETYPE faction =
+        getHouseFactionIdentity(static_cast<HOUSETYPE>(originalHouseID));
+    if(activeMod == "vanilla") {
+        return faction == HOUSE_NEUTRAL || faction == HOUSE_REBELS;
+    }
+
+    return (activeMod == "Tornie" || activeMod == "Jericho")
+        && faction == HOUSE_REBELS;
+}
+
+bool Palace::usesTornieMainRebelsRandomSpecial() const {
+    return usesTornieMainRebelsCooldown();
+}
+
+Palace::TornieRebelsSpecialWeapon Palace::getTornieMainRebelsSpecialWeapon() const {
+    if(!usesTornieMainRebelsRandomSpecial() || specialWeaponTimer >= 0) {
+        return TornieRebelsSpecialWeapon::None;
+    }
+
+    const Sint32 encodedWeapon = -specialWeaponTimer;
+    if(encodedWeapon < static_cast<Sint32>(TornieRebelsSpecialWeapon::Missile)
+       || encodedWeapon > static_cast<Sint32>(TornieRebelsSpecialWeapon::Ornithopters)) {
+        return TornieRebelsSpecialWeapon::None;
+    }
+
+    return static_cast<TornieRebelsSpecialWeapon>(encodedWeapon);
+}
+
+bool Palace::usesTargetedSpecialWeapon() const {
+    if(usesTornieMainRebelsRandomSpecial()) {
+        return getTornieMainRebelsSpecialWeapon() == TornieRebelsSpecialWeapon::Missile;
+    }
+
+    const HOUSETYPE palaceHouse = getHouseFallbackHouse(static_cast<HOUSETYPE>(originalHouseID));
+    return palaceHouse == HOUSE_HARKONNEN || palaceHouse == HOUSE_SARDAUKAR;
+}
+
+void Palace::selectTornieMainRebelsSpecialWeapon() {
+    const bool vanillaRandom = ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "vanilla";
+    const TornieRebelsSpecialWeapon lastWeapon = vanillaRandom
+        ? TornieRebelsSpecialWeapon::Saboteur
+        : TornieRebelsSpecialWeapon::Ornithopters;
+    const Sint32 selectedWeapon = currentGame->randomGen.rand(
+        static_cast<Sint32>(TornieRebelsSpecialWeapon::Missile),
+        static_cast<Sint32>(lastWeapon));
+    specialWeaponTimer = -selectedWeapon;
+}
+
+bool Palace::usesJerichoOrnithopterStrike() const {
+    return ModManager::instance().isInitialized()
+        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_WILDSPADE);
+}
+
+bool Palace::usesJerichoKleshmershFremenCall() const {
+    return ModManager::instance().isInitialized()
+        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_KLESHMERSH);
+}
+
+bool Palace::usesLightVehicleCall() const {
+    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(originalHouseID);
+
+    if(isHouseFaction(originalHouse, HOUSE_THARPIQUE)) {
+        return true;
+    }
+    if(usesJerichoKleshmershFremenCall()) {
+        return false;
+    }
+    if(usesJerichoOrnithopterStrike()) {
+        return false;
+    }
+
+    const HOUSETYPE fallbackHouse = getHouseFallbackHouse(originalHouse);
+    return fallbackHouse == HOUSE_NEUTRAL || fallbackHouse == HOUSE_REBELS;
+}
+
 void Palace::doSpecialWeapon() {
     if(!isSpecialWeaponReady()) {
         return;
     }
 
-    switch (originalHouseID) {
+    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(originalHouseID);
+    if(usesTornieMainRebelsRandomSpecial()) {
+        bool activated = false;
+        switch(getTornieMainRebelsSpecialWeapon()) {
+            case TornieRebelsSpecialWeapon::Missile:
+                // The missile is launched through doLaunchDeathhand after selecting a target.
+                return;
+
+            case TornieRebelsSpecialWeapon::Fremen:
+                activated = callFremen();
+                break;
+
+            case TornieRebelsSpecialWeapon::Saboteur:
+                activated = spawnSaboteur();
+                break;
+
+            case TornieRebelsSpecialWeapon::LightVehicles:
+                activated = callLightVehicles();
+                break;
+
+            case TornieRebelsSpecialWeapon::Ornithopters:
+                activated = callOrnithopterStrike();
+                break;
+
+            case TornieRebelsSpecialWeapon::None:
+            default:
+                return;
+        }
+
+        if(activated) {
+            specialWeaponTimer = getMaxSpecialWeaponTimer();
+        }
+        return;
+    }
+
+    if(usesJerichoOrnithopterStrike()) {
+        if(callOrnithopterStrike()) {
+            specialWeaponTimer = getMaxSpecialWeaponTimer();
+        }
+        return;
+    }
+
+    if(usesJerichoKleshmershFremenCall()) {
+        if(callFremen()) {
+            specialWeaponTimer = getMaxSpecialWeaponTimer();
+        }
+        return;
+    }
+
+    if(usesLightVehicleCall()) {
+        if(callLightVehicles()) {
+            specialWeaponTimer = getMaxSpecialWeaponTimer();
+        }
+        return;
+    }
+
+    switch (getHouseFallbackHouse(originalHouse)) {
         case HOUSE_HARKONNEN:
         case HOUSE_SARDAUKAR: {
             // wrong house (see DoLaunchDeathhand)
@@ -143,8 +287,8 @@ void Palace::doLaunchDeathhand(int x, int y) {
         return;
     }
 
-    if((originalHouseID != HOUSE_HARKONNEN) && (originalHouseID != HOUSE_SARDAUKAR)) {
-        // wrong house (see DoSpecialWeapon)
+    if(!usesTargetedSpecialWeapon()) {
+        // This command is valid for Harkonnen/Sardaukar or Tornie's revealed missile.
         return;
     }
 
@@ -156,7 +300,7 @@ void Palace::doLaunchDeathhand(int x, int y) {
     }
     // Convert to pixels (160 Dynasty units = 10 tiles = 320 pixels)
     int radius = scatterDistance * 2;
-    
+
     FixPoint randAngle = 2 * FixPt_PI * currentGame->randomGen.randFixPoint();
     int deathOffX = lround(FixPoint::sin(randAngle) * radius);
     int deathOffY = lround(FixPoint::cos(randAngle) * radius);
@@ -178,31 +322,30 @@ void Palace::doLaunchDeathhand(int x, int y) {
 }
 
 void Palace::updateStructureSpecificStuff() {
+    bool becameReady = false;
+
     if(specialWeaponTimer > 0) {
         --specialWeaponTimer;
-        if(specialWeaponTimer <= 0) {
-            specialWeaponTimer = 0;
+        becameReady = specialWeaponTimer <= 0;
+    } else if(specialWeaponTimer == 0 && usesTornieMainRebelsRandomSpecial()) {
+        // Upgrade an already-ready Palace from an older save to the random Tornie ability.
+        becameReady = true;
+    }
 
-            if(getOwner() == pLocalHouse) {
-                currentGame->addToNewsTicker(_("Palace is ready"));
-            } else if(getOwner()->isAI()) {
+    if(!becameReady) {
+        return;
+    }
 
-                if((originalHouseID == HOUSE_HARKONNEN) || (originalHouseID == HOUSE_SARDAUKAR)) {
-                    // Harkonnen and Sardaukar
+    if(usesTornieMainRebelsRandomSpecial()) {
+        selectTornieMainRebelsSpecialWeapon();
+    } else {
+        specialWeaponTimer = 0;
+    }
 
-                    //old tergetting logic used by default AI
-                    /*
-                    const StructureBase* closestStructure = findClosestTargetStructure();
-                    if(closestStructure) {
-                        Coord temp = closestStructure->getClosestPoint(getLocation());
-                        doLaunchDeathhand(temp.x, temp.y);
-                    }*/
-                } else {
-                    // other houses
-                    doSpecialWeapon();
-                }
-            }
-        }
+    if(getOwner() == pLocalHouse) {
+        currentGame->addToNewsTicker(_("Palace is ready"));
+    } else if(getOwner()->isAI() && !usesTargetedSpecialWeapon()) {
+        doSpecialWeapon();
     }
 }
 
@@ -231,7 +374,7 @@ bool Palace::callFremen() {
                 continue;
             }
 
-            Trooper *pFremen = static_cast<Trooper*>(getOwner()->createUnit(Unit_Trooper));
+            Trooper *pFremen = static_cast<Trooper*>(getOwner()->createUnit(Unit_Trooper, false, getProductionHouseID()));
 
             int i;
             int j;
@@ -270,7 +413,7 @@ bool Palace::callFremen() {
 }
 
 bool Palace::spawnSaboteur() {
-    Saboteur* saboteur = static_cast<Saboteur*>(getOwner()->createUnit(Unit_Saboteur));
+    Saboteur* saboteur = static_cast<Saboteur*>(getOwner()->createUnit(Unit_Saboteur, false, getProductionHouseID()));
     Coord spot = currentGameMap->findDeploySpot(saboteur, getLocation(), currentGame->randomGen, getDestination(), getStructureSize());
 
     saboteur->deploy(spot);
@@ -316,7 +459,7 @@ bool Palace::callLightVehicles() {
     int spawned = 0;
 
     const auto spawnVehicle = [&](int itemID) {
-        UnitBase* newUnit = getOwner()->createUnit(itemID);
+        UnitBase* newUnit = getOwner()->createUnit(itemID, false, getProductionHouseID());
         if(newUnit == nullptr) {
             return;
         }
@@ -352,6 +495,38 @@ bool Palace::callLightVehicles() {
 
     if(spawned <= 0 && getOwner() == pLocalHouse) {
         currentGame->addToNewsTicker(_("Unable to spawn vehicles"));
+    }
+
+    return spawned > 0;
+}
+bool Palace::callOrnithopterStrike() {
+    int spawned = 0;
+
+    for(int i = 0; i < 3; ++i) {
+        UnitBase* ornithopter = getOwner()->createUnit(Unit_Ornithopter, false, getProductionHouseID());
+        if(ornithopter == nullptr) {
+            continue;
+        }
+
+        const Coord deployPos = currentGameMap->findDeploySpot(
+            ornithopter, getLocation(), currentGame->randomGen, getDestination(), getStructureSize());
+        if(!deployPos.isValid()) {
+            delete ornithopter;
+            continue;
+        }
+
+        ornithopter->deploy(deployPos);
+        ornithopter->setGuardPoint(deployPos);
+        ornithopter->doSetAttackMode(HUNT);
+        ++spawned;
+    }
+
+    if(getOwner() == pLocalHouse) {
+        if(spawned == 3) {
+            currentGame->addToNewsTicker(_("Three Ornithopters deployed in hunt mode"));
+        } else {
+            currentGame->addToNewsTicker(_("Unable to deploy all three Ornithopters"));
+        }
     }
 
     return spawned > 0;

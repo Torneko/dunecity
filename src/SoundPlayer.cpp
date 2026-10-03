@@ -53,7 +53,15 @@ SoundPlayer::SoundPlayer() {
 SoundPlayer::~SoundPlayer() = default;
 
 void SoundPlayer::playVoice(Voice_enum id, int houseID) {
-    if(soundOn) {
+    if(soundOn && pSFXManager != nullptr) {
+        constexpr Uint32 wormWarningCooldownMs = 5000;
+        const bool isWormWarning = id == WarningWormSign;
+        const Uint32 currentTick = isWormWarning ? SDL_GetTicks() : 0;
+        if(isWormWarning && wormWarningPlayed
+            && (currentTick - lastWormWarningTick < wormWarningCooldownMs)) {
+            return;
+        }
+
         Mix_Chunk* tmp;
 
         if((tmp = pSFXManager->getVoice(id,houseID)) == nullptr) {
@@ -63,13 +71,17 @@ void SoundPlayer::playVoice(Voice_enum id, int houseID) {
         int channel = Mix_PlayChannel(Mix_GroupAvailable(static_cast<int>(ChannelGroup::Voice)), tmp, 0);
         if(channel != -1) {
             Mix_Volume(channel, sfxVolume);
+            if(isWormWarning) {
+                wormWarningPlayed = true;
+                lastWormWarningTick = currentTick;
+            }
         }
     }
 }
 
 void SoundPlayer::playSoundAt(Sound_enum soundID, const Coord& location)
 {
-    if(soundOn) {
+    if(soundOn && pSFXManager != nullptr) {
         if( !currentGameMap->tileExists(location)
             || !currentGameMap->getTile(location)->isExploredByTeam(pLocalHouse->getTeamID()) ) {
             return;
@@ -134,7 +146,7 @@ void SoundPlayer::playSound(Sound_enum soundID, int volume)
         ChannelGroup::Rocket,               // Sound_RocketSmall
     };
 
-    if(soundOn) {
+    if(soundOn && pSFXManager != nullptr) {
         Mix_Chunk* sound;
 
         if((sound = pSFXManager->getSound(soundID)) == nullptr) {

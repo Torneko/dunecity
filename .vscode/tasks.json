@@ -2,6 +2,35 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Compiler DuneCity (Windows MinGW local)",
+            "type": "process",
+            "command": "C:/msys64/mingw64/bin/cmake.exe",
+            "args": [
+                "--build", "build-test-win", "--target", "dunecity", "--parallel", "2"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "C:/msys64/mingw64/bin;C:/msys64/usr/bin;${env:PATH}"
+                }
+            },
+            "group": "build",
+            "problemMatcher": ["$gcc"],
+            "detail": "Compile le jeu et copie les ressources dans build-test-win/bin."
+        },
+        {
+            "label": "Tester DuneCity (Windows MinGW local)",
+            "type": "process",
+            "command": "${workspaceFolder}/build-test-win/bin/dunecity.exe",
+            "dependsOn": "Compiler DuneCity (Windows MinGW local)",
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}/build-test-win/bin"
+            },
+            "problemMatcher": [],
+            "detail": "Compile puis lance le jeu local avec les dernières corrections."
+        },
+        {
             "label": "🚀 Build + Create Installer (RECOMMENDED)",
             "type": "shell",
             "windows": {
@@ -93,7 +122,7 @@
             "label": "▶️ Run Game",
             "type": "shell",
             "windows": {
-                "command": "Start-Process -FilePath '.\\build\\bin\\Release\\dunelegacy.exe'",
+                "command": "& '.\\build\\bin\\Release\\dunecity.exe'",
                 "options": {
                     "shell": {
                         "executable": "powershell.exe"

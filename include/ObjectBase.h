@@ -139,6 +139,7 @@ public:
     inline void setDestination(const Coord& location) { setDestination(location.x, location.y); }
     inline void setLocation(const Coord& location) { setLocation(location.x, location.y); }
     inline bool canAttack() const { return canAttackStuff; }
+    virtual bool canHeal() const { return false; }
     inline bool hasATarget() const { return (target); }
     inline bool hasObjectID(Uint32 id) const { return (objectID == id); }
     inline bool isActive() const { return active; }
@@ -178,6 +179,7 @@ public:
 
     inline int getOriginalHouseID() const { return originalHouseID; }
     virtual void setOriginalHouseID(int i) { originalHouseID = i; }
+    virtual int getProductionHouseID() const { return originalHouseID; }
     inline House* getOwner() { return owner; }
     inline const House* getOwner() const { return owner; }
 
@@ -185,7 +187,7 @@ public:
     inline SpatialGridHandle& getGridHandle() noexcept { return gridHandle; }
     inline const SpatialGridHandle& getGridHandle() const noexcept { return gridHandle; }
 
-    static ObjectBase* createObject(int itemID, House* Owner, bool byScenario);
+    static ObjectBase* createObject(int itemID, House* Owner, bool byScenario, int productionHouseID = HOUSE_INVALID);
     static ObjectBase* loadObject(InputStream& stream, int itemID, Uint32 objectID);
 
 protected:
@@ -230,7 +232,7 @@ protected:
     ObjectPointer target;            ///< The target to attack or move to
     ATTACKMODE    attackMode;        ///< The attack mode of this unit/structure
 
-    std::bitset<NUM_TEAMS> visible;  ///< To which teams is this unit visible?
+    std::bitset<NUM_TEAM_SLOTS> visible;  ///< To which teams is this unit visible?
 
     // drawing information
     bool     badlyDamaged;           ///< Is the health below 50%?

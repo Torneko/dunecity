@@ -53,7 +53,8 @@ public:
     class HouseInfo {
     public:
         HouseInfo(HOUSETYPE newHouseID, int newTeam)
-         : houseID(newHouseID), colorOfHouse(newHouseID), team(newTeam) {
+         : houseID(newHouseID), colorOfHouse(HOUSE_INVALID), team(newTeam) {
+            // Resolve Original through the active mod; a house ID is not a color slot.
         }
 
         explicit HouseInfo(InputStream& stream) {
@@ -164,6 +165,7 @@ public:
     ~GameInitSettings();
 
     void save(OutputStream& stream) const;
+    void migrateLegacyHouseColorSlots();
 
     inline GameType getGameType() const { return gameType; };
     inline HOUSETYPE getHouseID() const { return houseID; };

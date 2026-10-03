@@ -31,6 +31,9 @@
 #include <players/HumanPlayer.h>
 
 #include <misc/draw_util.h>
+#include <misc/exceptions.h>
+
+#include <stdexcept>
 
 #include <AStarSearch.h>
 
@@ -118,7 +121,7 @@ UnitBase::UnitBase(InputStream& stream) : ObjectBase(stream) {
     }
     cachedPathDestination = resolvePathDestination();
     cachedPathRevision = (currentGameMap != nullptr) ? currentGameMap->getPathingRevision() : 0;
-    
+
     // Stuck detection fields are transient (not saved) - they reset on load
 
     findTargetTimer = stream.readSint32();
@@ -126,6 +129,13 @@ UnitBase::UnitBase(InputStream& stream) : ObjectBase(stream) {
     secondaryWeaponTimer = stream.readSint32();
 
     deviationTimer = stream.readSint32();
+    if(currentGame->getLoadedSavegameVersion() >= 9824) {
+        const Uint32 savedProductionHouseID = stream.readUint32();
+        if(savedProductionHouseID >= NUM_HOUSES) {
+            THROW(std::runtime_error, "Invalid unit production house %u", savedProductionHouseID);
+        }
+        productionHouseID = static_cast<int>(savedProductionHouseID);
+    }
 
     if(findTargetTimer < 0) {
         findTargetTimer = 0;
@@ -136,6 +146,7 @@ UnitBase::UnitBase(InputStream& stream) : ObjectBase(stream) {
 }
 
 void UnitBase::init() {
+    productionHouseID = originalHouseID;
     aUnit = true;
     canAttackStuff = true;
 
@@ -143,6 +154,7 @@ void UnitBase::init() {
     turreted = false;
     numWeapons = 0;
     bulletType = Bullet_DRocket;
+    lastFiredBulletType = Bullet_DRocket;
 
     drawnFrame = 0;
 
@@ -150,6 +162,10 @@ void UnitBase::init() {
     pathRequestQueued = false;
 
     unitList.push_back(this);
+}
+
+void UnitBase::setProductionHouseID(int houseID) {
+    productionHouseID = (houseID >= 0 && houseID < NUM_HOUSES) ? houseID : originalHouseID;
 }
 
 UnitBase::~UnitBase() {
@@ -194,7 +210,7 @@ void UnitBase::save(OutputStream& stream) const {
         stream.writeSint32(coord.x);
         stream.writeSint32(coord.y);
     }
-    
+
     // Stuck detection fields are transient (not saved)
 
     stream.writeSint32(findTargetTimer);
@@ -202,6 +218,7 @@ void UnitBase::save(OutputStream& stream) const {
     stream.writeSint32(secondaryWeaponTimer);
 
     stream.writeSint32(deviationTimer);
+    stream.writeUint32(productionHouseID);
 }
 
 bool UnitBase::attack() {
@@ -223,7 +240,7 @@ bool UnitBase::attack() {
             }
 
             int currentBulletType = bulletType;
-            Sint32 currentWeaponDamage = currentGame->objectData.data[itemID][originalHouseID].weapondamage;
+            Sint32 currentWeaponDamage = currentGame->objectData.data[itemID][getProductionHouseID()].weapondamage;
 
             if(getItemID() == Unit_Trooper && !bAirBullet) {
                 // Troopers change weapon type depending on distance
@@ -233,22 +250,23 @@ bool UnitBase::attack() {
                     currentBulletType = Bullet_ShellSmall;
                     currentWeaponDamage -= currentWeaponDamage/4;
                 }
-            } 
+            }
             // Dynasty: Launchers and Deviators use same rocket type for both ground and air
-            // Air targets get scatter + tracking + immediate detonation (no timer check) 
+            // Air targets get scatter + tracking + immediate detonation (no timer check)
 
             if(primaryWeaponTimer == 0) {
                 // MULTIPLAYER-SAFE: Track launcher unit firing at ornithopters
-                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) && 
+                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) &&
                    pObject && pObject->getItemID() == Unit_Ornithopter) {
                     currentGame->combatStats.launcherFiresOnOrni++;
                     currentGame->combatStats.launcherRocketsSpawned++;
                 }
-                
+
                 bulletList.push_back( new Bullet( objectID, &centerPoint, &targetCenterPoint, currentBulletType, currentWeaponDamage, bAirBullet, pObject) );
                 if(pObject != nullptr) {
                     currentGameMap->viewMap(pObject->getOwner()->getHouseID(), location, 2);
                 }
+                lastFiredBulletType = currentBulletType;
                 playAttackSound();
                 primaryWeaponTimer = getWeaponReloadTime();
 
@@ -268,16 +286,17 @@ bool UnitBase::attack() {
 
             if((numWeapons == 2) && (secondaryWeaponTimer == 0) && (isBadlyDamaged() == false)) {
                 // MULTIPLAYER-SAFE: Track launcher unit secondary weapon firing at ornithopters
-                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) && 
+                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) &&
                    pObject && pObject->getItemID() == Unit_Ornithopter) {
                     currentGame->combatStats.launcherFiresOnOrni++;
                     currentGame->combatStats.launcherRocketsSpawned++;
                 }
-                
+
                 bulletList.push_back( new Bullet( objectID, &centerPoint, &targetCenterPoint, currentBulletType, currentWeaponDamage, bAirBullet, pObject) );
                 if(pObject != nullptr) {
                     currentGameMap->viewMap(pObject->getOwner()->getHouseID(), location, 2);
                 }
+                lastFiredBulletType = currentBulletType;
                 playAttackSound();
                 secondaryWeaponTimer = -1;
 
@@ -317,7 +336,10 @@ void UnitBase::blitToScreen() {
     SDL_Rect source = calcSpriteSourceRect(pUnitGraphic, drawnAngle, numImagesX, drawnFrame, numImagesY);
     SDL_Rect dest = calcSpriteDrawingRect( pUnitGraphic, x, y, numImagesX, numImagesY, HAlign::Center, VAlign::Center);
 
-    SDL_RenderCopy(renderer, pUnitGraphic, &source, &dest);
+    if(!pGFXManager->drawHDObjPic(graphicID, getOwner()->getHouseID(), currentZoomlevel,
+                                  drawnAngle, numImagesX, drawnFrame, numImagesY, x, y)) {
+        SDL_RenderCopy(renderer, pUnitGraphic, &source, &dest);
+    }
 
     if(isBadlyDamaged()) {
         drawSmoke(x, y);
@@ -362,14 +384,14 @@ void UnitBase::deploy(const Coord& newLocation) {
         if(isAGroundUnit() && (getItemID() != Unit_Sandworm)) {
             if(currentGameMap->getTile(location)->isSpiceBloom()) {
                 currentGameMap->getTile(location)->triggerSpiceBloom(getOwner());
-                
+
                 // Check if unit should be destroyed by the bloom
                 GameType gameType = currentGame->getGameInitSettings().getGameType();
-                bool isImmortal = (gameType != GameType::CustomMultiplayer 
+                bool isImmortal = (gameType != GameType::CustomMultiplayer
                                   && gameType != GameType::LoadMultiplayer
                                   && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                                   && getOwner() == pLocalHouse);
-                
+
                 if(!isImmortal) {
                     setHealth(0);
                     setVisible(VIS_ALL, false);
@@ -397,7 +419,7 @@ void UnitBase::destroy() {
 
     if(isVisible()) {
         if(currentGame->randomGen.rand(1,100) <= getInfSpawnProp()) {
-            UnitBase* pNewUnit = currentGame->getHouse(originalHouseID)->createUnit(Unit_Soldier);
+            UnitBase* pNewUnit = currentGame->getHouse(originalHouseID)->createUnit(Unit_Soldier, false, getProductionHouseID());
             pNewUnit->setHealth(pNewUnit->getMaxHealth()/2);
             pNewUnit->deploy(location);
 
@@ -524,7 +546,7 @@ void UnitBase::engageTarget() {
         if(destination != targetLocation) {
             FixPoint movementDistance = blockDistance(destination, targetLocation);
             FixPoint distanceToTarget = blockDistance(location, targetLocation);
-            
+
             if(movementDistance > 1) {
                 // Target moved more than 1 tile
                 if(distanceToTarget > 10) {
@@ -750,7 +772,7 @@ void UnitBase::navigate() {
             if(!pathList.empty() && !isCachedPathStillValid()) {
                 clearPath();
             }
-            
+
             if(location != destination) {
                 if(nextSpotFound == false)  {
 
@@ -796,7 +818,7 @@ void UnitBase::navigate() {
                                 }
                             }
                         }
-                        
+
                         // Static blocker, structure, or out-of-bounds - clear path and reroute
                         clearPath();
                     } else {
@@ -872,6 +894,18 @@ void UnitBase::handleAttackClick(int xPos, int yPos) {
 
 }
 
+void UnitBase::handleHealClick(int xPos, int yPos) {
+    if(respondable && canHeal() && currentGameMap->tileExists(xPos, yPos)
+            && currentGameMap->getTile(xPos, yPos)->hasAnObject()) {
+        ObjectBase* tempTarget = currentGameMap->getTile(xPos, yPos)->getObject();
+        if(tempTarget->isAUnit()
+                && tempTarget->getOwner()->getTeamID() == getOwner()->getTeamID()
+                && tempTarget->getHealth() < tempTarget->getMaxHealth()) {
+            currentGame->getCommandManager().addCommand(
+                Command(pLocalPlayer->getPlayerID(), CMD_UNIT_HEAL, objectID, tempTarget->getObjectID()));
+        }
+    }
+}
 void UnitBase::handleMoveClick(int xPos, int yPos) {
     if(respondable) {
         if(currentGameMap->tileExists(xPos, yPos)) {
@@ -1021,7 +1055,7 @@ void UnitBase::doSetAttackMode(ATTACKMODE newAttackMode) {
             doMove2Pos(location, false);
         }
     }
-    
+
     // When setting HUNT mode, immediately trigger target search
     if(attackMode == HUNT && !target && pendingTargetRequest == TargetRequestKind::None) {
         enqueueTargetRequest(TargetRequestKind::Acquire);
@@ -1050,14 +1084,14 @@ void UnitBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
 
             }
         }
-        
+
         // CRITICAL FIX: AMBUSH units switch to HUNT when damaged (Dynasty behavior, line 1930-1933)
         // This allows them to pursue and counter-attack instead of sitting in their 1-tile view range
         if(damage > 0 && attackMode == AMBUSH && !isHarvesterLikeUnit(getItemID())) {
             doSetAttackMode(HUNT);
             findTargetTimer = 0;  // Allow immediate target search
         }
-        
+
         // Reset target timer when damaged so units can immediately look for their attacker
         // Without this, GUARD units wait up to 2 seconds before noticing they're being shot
         if(damage > 0 && canAttack(pDamager) && (attackMode == GUARD || attackMode == AREAGUARD || attackMode == HUNT)) {
@@ -1069,7 +1103,7 @@ void UnitBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
 bool UnitBase::isInGuardRange(const ObjectBase* pObject) const  {
     int checkRange;
     Coord checkFrom;
-    
+
     switch(attackMode) {
         case GUARD: {
             checkRange = getWeaponRange();
@@ -1115,7 +1149,7 @@ bool UnitBase::isInGuardRange(const ObjectBase* pObject) const  {
 bool UnitBase::isInAttackRange(const ObjectBase* pObject) const {
     int checkRange;
     Coord checkFrom;
-    
+
     switch(attackMode) {
         case GUARD: {
             checkRange = getWeaponRange();
@@ -1279,7 +1313,7 @@ void UnitBase::setPickedUp(UnitBase* newCarrier) {
 }
 
 FixPoint UnitBase::getMaxSpeed() const {
-    return currentGame->objectData.data[itemID][originalHouseID].maxspeed;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].maxspeed;
 }
 
 void UnitBase::setSpeeds() {
@@ -1363,13 +1397,13 @@ void UnitBase::enqueuePathRequest() {
 void UnitBase::targeting() {
     if(findTargetTimer == 0) {
         if(attackMode != STOP && attackMode != CARRYALLREQUESTED) {
-            
+
             // Refresh target if current one is out of weapon range
-            if(target && !attackPos && !forced && 
+            if(target && !attackPos && !forced &&
                (attackMode == GUARD || attackMode == AREAGUARD || attackMode == AMBUSH || attackMode == HUNT)) {
                 if(!isInWeaponRange(target.getObjPointer())) {
                     const ObjectBase* pNewTarget = findTarget();
-                    
+
                     if(pNewTarget != nullptr) {
                         // Saboteurs need forced=true to pathfind onto occupied tiles
                         bool forceAttack = (getItemID() == Unit_Saboteur);
@@ -1378,30 +1412,30 @@ void UnitBase::targeting() {
                     }
                 }
             }
-            
+
             // Acquire new target if we don't have one
             if(!target && !attackPos && !moving && !justStoppedMoving && !forced) {
                 const ObjectBase* pNewTarget = findTarget();
-                
+
                 if(pNewTarget != nullptr) {
                     bool inRange = isInGuardRange(pNewTarget);
-                    
+
                     // Dynasty behavior: AMBUSH units switch to HUNT when they SEE an enemy
                     // Check if enemy is within view range (not just guard/weapon range)
                     if(attackMode == AMBUSH) {
-                        FixPoint distanceToTarget = blockDistance(location*TILESIZE + Coord(TILESIZE/2, TILESIZE/2), 
+                        FixPoint distanceToTarget = blockDistance(location*TILESIZE + Coord(TILESIZE/2, TILESIZE/2),
                                                                    pNewTarget->getCenterPoint());
                         if(distanceToTarget <= getViewRange()*TILESIZE) {
                             doSetAttackMode(HUNT);
                             inRange = true;  // Force acquisition after switching to HUNT
                         }
                     }
-                    
+
                     if(inRange) {
                         // Saboteurs need forced=true to pathfind onto occupied tiles
                         bool forceAttack = (getItemID() == Unit_Saboteur);
                         doAttackObject(pNewTarget, forceAttack);
-                        
+
                         // Sandworms switch to HUNT after acquiring target
                         if(getItemID() == Unit_Sandworm) {
                             doSetAttackMode(HUNT);
@@ -1412,7 +1446,7 @@ void UnitBase::targeting() {
                     setGuardPoint(location);
                     doSetAttackMode(GUARD);
                 }
-                
+
                 // 1 second for normal targeting (balance of performance and responsiveness)
                 // Units reset to 0 when damaged for instant response
                 findTargetTimer = MILLI2CYCLES(1*1000);
@@ -1471,20 +1505,20 @@ void UnitBase::resolvePendingTargetRequest() {
 
             if(pNewTarget != nullptr) {
                 // MULTIPLAYER-SAFE: Track launcher units acquiring ornithopter targets
-                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) && 
+                if((getItemID() == Unit_Launcher || getItemID() == Unit_Deviator) &&
                    pNewTarget->getItemID() == Unit_Ornithopter) {
                     currentGame->combatStats.launcherTargetsOrni++;
                 }
-                
+
                 // In HUNT mode, attack targets regardless of guard range
                 // Exception: Sandworms only hunt within view range
                 // For other modes, only attack if in guard range
                 bool shouldAttack = false;
-                
+
                 if(getItemID() == Unit_Sandworm) {
                     // Sandworms: Only hunt within view range, don't chase across map
                     shouldAttack = isInGuardRange(pNewTarget);
-                    
+
                     // If sandworm is in HUNT mode but target is out of range, switch to AMBUSH
                     // This prevents sandworms from being too aggressive when targets are far away
                     if(!shouldAttack && attackMode == HUNT) {
@@ -1494,7 +1528,7 @@ void UnitBase::resolvePendingTargetRequest() {
                     // Regular units: HUNT attacks anything, other modes need target in range
                     shouldAttack = (attackMode == HUNT || isInGuardRange(pNewTarget));
                 }
-                
+
                 if(shouldAttack) {
                     // Switch from AMBUSH to HUNT when attacking (except sandworms - keep them less aggressive)
                     if(attackMode == AMBUSH && getItemID() != Unit_Sandworm) {
@@ -1545,10 +1579,10 @@ UnitBase::PathRequestStats UnitBase::resolvePendingPathRequest() {
     if(invalidDestination) {
         return stats;
     }
-    
+
     // Simple stuck detection: track if we're making progress toward destination
     const FixPoint currentDistance = blockDistance(location, destination);
-    
+
     // Check on EVERY path attempt (success or failure): did we get closer?
     if(lastDistanceToDestination >= 0) {
         if(currentDistance < lastDistanceToDestination - 0.5_fix) {
@@ -1557,7 +1591,7 @@ UnitBase::PathRequestStats UnitBase::resolvePendingPathRequest() {
         } else {
             // No progress, increment counter
             noProgressCount++;
-            
+
             // After 3 attempts without progress, request carryall (if cooldown expired)
             // Removed (location != oldLocation) requirement - freshly deployed units should also get help
             if(noProgressCount >= 3 && carryallRequestCooldown <= 0) {
@@ -1566,7 +1600,7 @@ UnitBase::PathRequestStats UnitBase::resolvePendingPathRequest() {
                    && !static_cast<GroundUnit*>(this)->hasBookedCarrier()
                    && (currentGame->getGameInitSettings().getGameOptions().manualCarryallDrops || getOwner()->isAI())
                    && currentDistance >= MIN_CARRYALL_LIFT_DISTANCE) {
-                    
+
                     static_cast<GroundUnit*>(this)->requestCarryall();
                     noProgressCount = 0;
                     carryallRequestCooldown = MILLI2CYCLES(2000); // 2 second cooldown (reduced from 5s)
@@ -1574,7 +1608,7 @@ UnitBase::PathRequestStats UnitBase::resolvePendingPathRequest() {
             }
         }
     }
-    
+
     lastDistanceToDestination = currentDistance;
 
     if(!pathFound) {
@@ -1645,7 +1679,7 @@ void UnitBase::turn() {
 }
 
 void UnitBase::turnLeft() {
-    angle += currentGame->objectData.data[itemID][originalHouseID].turnspeed;
+    angle += currentGame->objectData.data[itemID][getProductionHouseID()].turnspeed;
     if(angle >= 7.5_fix) {
         drawnAngle = lround(angle) - NUM_ANGLES;
         angle -= NUM_ANGLES;
@@ -1655,7 +1689,7 @@ void UnitBase::turnLeft() {
 }
 
 void UnitBase::turnRight() {
-    angle -= currentGame->objectData.data[itemID][originalHouseID].turnspeed;
+    angle -= currentGame->objectData.data[itemID][getProductionHouseID()].turnspeed;
     if(angle <= -0.5_fix) {
         drawnAngle = lround(angle) + NUM_ANGLES;
         angle += NUM_ANGLES;
@@ -1686,7 +1720,7 @@ bool UnitBase::update() {
         double targetMs = currentGame->getElapsedMs(targetStart, targetEnd);
         currentGame->frameTiming.unitTargetingMs += targetMs;
         currentGame->frameTiming.unitTargetingMsThisFrame += targetMs;
-        
+
         // Time navigate
         Uint64 navStart = SDL_GetPerformanceCounter();
         navigate();
@@ -1694,7 +1728,7 @@ bool UnitBase::update() {
         double navMs = currentGame->getElapsedMs(navStart, navEnd);
         currentGame->frameTiming.unitNavigateMs += navMs;
         currentGame->frameTiming.unitNavigateMsThisFrame += navMs;
-        
+
         // Time move
         Uint64 moveStart = SDL_GetPerformanceCounter();
         move();
@@ -1702,7 +1736,7 @@ bool UnitBase::update() {
         double moveMs = currentGame->getElapsedMs(moveStart, moveEnd);
         currentGame->frameTiming.unitMoveMs += moveMs;
         currentGame->frameTiming.unitMoveMsThisFrame += moveMs;
-        
+
         if(active) {
             // Time turn
             Uint64 turnStart = SDL_GetPerformanceCounter();
@@ -1711,7 +1745,7 @@ bool UnitBase::update() {
             double turnMs = currentGame->getElapsedMs(turnStart, turnEnd);
             currentGame->frameTiming.unitTurnMs += turnMs;
             currentGame->frameTiming.unitTurnMsThisFrame += turnMs;
-            
+
             // Time updateVisibleUnits
             Uint64 visStart = SDL_GetPerformanceCounter();
             updateVisibleUnits();
@@ -1761,7 +1795,7 @@ void UnitBase::updateVisibleUnits() {
         if(isVisible(pHouse->getTeamID()) && (pHouse->getTeamID() != getOwner()->getTeamID()) && (pHouse != getOwner())) {
             pHouse->informDirectContactWithEnemy();
             getOwner()->informDirectContactWithEnemy();
-            
+
             // TODO: Dynasty behavior (line 3188-3189): AMBUSH units switch to HUNT when spotted by enemy
             // Disabled for now - visibility system triggers too early (units switch even in shroud)
             // Damage-based AMBUSH->HUNT switching in handleDamage() is sufficient
@@ -1773,7 +1807,7 @@ void UnitBase::updateVisibleUnits() {
                 findTargetTimer = 0;  // Allow immediate target search
             }
             */
-            
+
             // ORIGINAL AI: Ground-only contact triggers mutual activation (unit.c:3111-3116)
             // Only ground units (not wingers/carryalls/ornithopters) activate AI
             if(isAGroundUnit() && !isAFlyingUnit()) {
@@ -1829,7 +1863,7 @@ Coord UnitBase::resolvePathDestination() const {
     if(target && target.getObjPointer() != nullptr) {
         const ObjectBase* pTargetObject = target.getObjPointer();
 
-        if(itemID == Unit_Carryall && getHarvesterDropoff(pTargetObject) != nullptr) {
+        if(isCarryallUnit(itemID) && getHarvesterDropoff(pTargetObject) != nullptr) {
             const auto* dropoff = getHarvesterDropoff(pTargetObject);
             return pTargetObject->getLocation() + Coord(dropoff->getStructureSizeX() - 1, 0);
         } else if(itemID == Unit_Frigate && pTargetObject->getItemID() == Structure_StarPort) {
@@ -1869,15 +1903,15 @@ bool UnitBase::isCachedPathStillValid() {
         registerMiss();
         return false;
     }
-    
+
     // HUNT mode optimization: allow path reuse if target moved slightly
     // Only apply tolerance when queue is building up (>= 10) to reduce load
     if(desiredDestination != cachedPathDestination) {
         if(attackMode == HUNT) {
             // Check if queue is building up
-            const bool queueBusy = (currentGame != nullptr) && 
+            const bool queueBusy = (currentGame != nullptr) &&
                                    (currentGame->getPathRequestQueueSize() >= 10);
-            
+
             if(queueBusy) {
                 FixPoint distance = blockDistance(desiredDestination, cachedPathDestination);
                 if(distance < 5) {
@@ -1887,7 +1921,7 @@ bool UnitBase::isCachedPathStillValid() {
                     return true;
                 }
             }
-            
+
             // Queue is healthy or target moved >5 tiles - repath for responsiveness
             if(currentGame != nullptr) {
                 currentGame->frameTiming.pathInvalidHuntTooFar++;
@@ -1897,7 +1931,7 @@ bool UnitBase::isCachedPathStillValid() {
                 currentGame->frameTiming.pathInvalidDestChanged++;
             }
         }
-        
+
         // Not in HUNT or destination changed significantly
         registerMiss();
         return false;

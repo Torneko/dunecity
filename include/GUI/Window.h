@@ -210,6 +210,15 @@ public:
     */
     virtual inline Widget* getWindowWidget() { return pWindowWidget; };
 
+    void forEachChildWidget(const std::function<void(Widget*)>& visitor) const override {
+        if(pWindowWidget != nullptr) {
+            visitor(pWindowWidget);
+        }
+        if(pChildWindow != nullptr) {
+            visitor(pChildWindow);
+        }
+    }
+
     /**
         This method resizes the window.
         \param  newSize the new size of this widget

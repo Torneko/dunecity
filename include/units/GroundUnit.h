@@ -84,11 +84,17 @@ public:
             case Terrain_ThickSpice:    return 1.375_fix;
             case Terrain_GreenSpice:    return 1.375_fix;
             case Terrain_ThickGreenSpice: return 1.375_fix;
+            case Terrain_PaleLilacSpice: return 1.375_fix;
+            case Terrain_ThickPaleLilacSpice: return 1.375_fix;
+            case Terrain_WhiteSpice: return 1.375_fix;
+            case Terrain_ThickWhiteSpice: return 1.375_fix;
             case Terrain_RedSpice:      return 1.375_fix;
             case Terrain_ThickRedSpice: return 1.375_fix;
             case Terrain_SpiceBloom:    return 1.375_fix;
             case Terrain_GreenSpiceBloom: return 1.375_fix;
             case Terrain_RedSpiceBloom: return 1.375_fix;
+            case Terrain_PaleLilacSpiceBloom: return 1.375_fix;
+            case Terrain_WhiteSpiceBloom: return 1.375_fix;
             case Terrain_SpecialBloom:  return 1.375_fix;
             default:                    return 1.0_fix;
         }

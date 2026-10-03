@@ -6,6 +6,11 @@ This repository is intentionally separated from **DuneCity** and **Dune2R**. The
 
 Project repository: https://github.com/Torneko/dunelegacy-tornie
 
+Version **1.0.525** incorporates the corrected **DuneCity Tornie 1.0.524-26**
+source at `80799faba1b66c64887286446f5ed6b0df985226` from
+`Torneko/dunecity-tornie`. Its RTS changes, campaigns and mod assets are retained;
+the standalone identity and removal of city simulation are applied on top.
+
 The supplied maps contain small, reproducible pockets of Tornie red and green spice.
 About 10% of normal spice tiles are replaced, preserving thin/thick terrain, blooms,
 rock, units, buildings and scenario coordinates. Version-2 maps store the new terrain
@@ -31,9 +36,12 @@ The exact set evolves with the project, but the current source includes Tornie a
 
 - Extended house and campaign support.
 - Neutral and Rebels support.
-- Tornie mod loading through `mods/Tornie/`.
+- Selectable Tornie, Tornie Lite and Jericho mods with complete bundled resources.
+- Tornie Lite's six-house campaigns and Jericho's Wildspade, Kleshmersh and Tharpique factions.
 - Custom units including Rocket Trike, Flame Tank, Elite Launcher and Elite Siege Tank.
-- Advanced Windtrap variants, Worfinery, Tech Center and Scoutpost.
+- Advanced Windtrap variants, Worfinery, Tech Center, Scoutpost, Love Factory,
+  Chaos Factory, Flamepost, Chemipost and chemical vehicles from the corrected base.
+- Captured faction technology, French audio fixes and relocatable Linux resources.
 - Custom house palettes, portraits, voices and campaign data.
 - Updated map editor support for Tornie terrain and gameplay content.
 - Multiplayer, save/load and AI work inherited from the Dune Legacy-derived engine.
@@ -84,6 +92,20 @@ config/Dune Legacy.ini
 ```
 
 User configuration is kept separately from old DuneCity configuration directories.
+
+For an isolated Windows profile, set `DUNELEGACY_USER_DIR` to the desired
+profile directory. Linux uses `XDG_CONFIG_HOME` and the `DuneLegacyTornie` subdirectory.
+
+## Validation
+
+Configure with `DUNELEGACY_BUILD_TESTS=ON` and the vcpkg `tests` feature (or an
+installed Catch2 3), then run CTest. `python scripts/check-bundled-mods.py`
+checks the campaign resources, presentation assets and exact payload checksums.
+Test-enabled builds also accept `--verify-mods`: use an isolated profile,
+`SDL_VIDEODRIVER=dummy`, `SDL_AUDIODRIVER=dummy`, `SDL_RENDER_DRIVER=software`,
+and `DUNELEGACY_SMOKE_DIR` pointing to an existing temporary directory.
+This checks repeated mod switches, the opening/final scenarios of every campaign,
+new object creation and save/load. It does not replace manual gameplay or network testing.
 
 ## Original Dune II data
 

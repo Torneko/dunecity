@@ -8,6 +8,7 @@
 #include <catch2/catch_all.hpp>
 
 #include <Network/ENetHelper.h>
+#include <Network/NetworkManager.h>
 #include <Network/ENetPacketOStream.h>
 #include <Network/ENetPacketIStream.h>
 
@@ -18,7 +19,42 @@
 #define TEST_NETWORKPACKET_SENDGAMEINFO         1
 #define TEST_NETWORKPACKET_CLIENTSTATS          13
 #define TEST_NETWORKPACKET_KEEPALIVE            19
-#define TEST_NETWORK_PROTOCOL_VERSION           3
+#define TEST_NETWORK_PROTOCOL_VERSION           4
+
+TEST_CASE("NetworkManager: nine-house state requires protocol 4", "[network][protocol]") {
+    REQUIRE(NETWORK_PROTOCOL_VERSION == 4);
+    REQUIRE(TEST_NETWORK_PROTOCOL_VERSION != 3);
+    REQUIRE(NETWORKDISCONNECT_PROTOCOL_MISMATCH == 5);
+}
+
+TEST_CASE("NetworkManager: current protocol handshake does not disconnect",
+          "[network][protocol][handshake]") {
+    bool disconnectCalled = false;
+    const bool rejected = rejectIncompatibleNetworkProtocol(
+        NETWORK_PROTOCOL_VERSION,
+        [&disconnectCalled](int) {
+            disconnectCalled = true;
+        });
+
+    REQUIRE_FALSE(rejected);
+    REQUIRE_FALSE(disconnectCalled);
+}
+
+TEST_CASE("NetworkManager: mismatched protocol handshake dispatches rejection cause",
+          "[network][protocol][handshake][regression]") {
+    bool disconnectCalled = false;
+    int disconnectCause = -1;
+    const bool rejected = rejectIncompatibleNetworkProtocol(
+        NETWORK_PROTOCOL_VERSION - 1,
+        [&disconnectCalled, &disconnectCause](int cause) {
+            disconnectCalled = true;
+            disconnectCause = cause;
+        });
+
+    REQUIRE(rejected);
+    REQUIRE(disconnectCalled);
+    REQUIRE(disconnectCause == NETWORKDISCONNECT_PROTOCOL_MISMATCH);
+}
 
 // ENet initialization fixture
 struct ENetFixture {
@@ -40,7 +76,7 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Address2String for IPv4", "[netwo
     ENetAddress addr;
     addr.host = 0x0100007F;  // 127.0.0.1 in little-endian
     addr.port = 12345;
-    
+
     REQUIRE(Address2String(addr) == "127.0.0.1");
 }
 
@@ -48,7 +84,7 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Address2String for localhost", "[
     ENetAddress addr;
     enet_address_set_host(&addr, "localhost");
     addr.port = 8080;
-    
+
     REQUIRE(Address2String(addr) == "127.0.0.1");
 }
 
@@ -56,7 +92,7 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Address2String for broadcast", "[
     ENetAddress addr;
     addr.host = ENET_HOST_BROADCAST;
     addr.port = 12345;
-    
+
     REQUIRE(Address2String(addr) == "255.255.255.255");
 }
 
@@ -68,11 +104,11 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream write/read uint32",
     ENetPacketOStream ostream(ENET_PACKET_FLAG_RELIABLE);
     ostream.writeUint32(0x12345678);
     ostream.writeUint32(0xDEADBEEF);
-    
+
     ENetPacket* packet = ostream.getPacket();
     REQUIRE(packet != nullptr);
     REQUIRE(packet->dataLength == 8);
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readUint32() == 0x12345678);
     REQUIRE(istream.readUint32() == 0xDEADBEEF);
@@ -81,10 +117,10 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream write/read uint32",
 TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream write/read string", "[network][packet]") {
     ENetPacketOStream ostream(ENET_PACKET_FLAG_RELIABLE);
     ostream.writeString("Hello, Dune Legacy!");
-    
+
     ENetPacket* packet = ostream.getPacket();
     REQUIRE(packet != nullptr);
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readString() == "Hello, Dune Legacy!");
 }
@@ -98,10 +134,10 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream complex packet", "[
     ostream.writeFloat(0.5f);
     ostream.writeUint32(100);
     ostream.writeUint32(15000);
-    
+
     ENetPacket* packet = ostream.getPacket();
     REQUIRE(packet != nullptr);
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readUint32() == TEST_NETWORKPACKET_CLIENTSTATS);
     REQUIRE(istream.readUint32() == 750);
@@ -115,10 +151,10 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream empty string", "[ne
     ENetPacketOStream ostream(ENET_PACKET_FLAG_RELIABLE);
     ostream.writeString("");
     ostream.writeString("after empty");
-    
+
     ENetPacket* packet = ostream.getPacket();
     REQUIRE(packet != nullptr);
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readString() == "");
     REQUIRE(istream.readString() == "after empty");
@@ -129,9 +165,9 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream bool values", "[net
     ostream.writeBool(true);
     ostream.writeBool(false);
     ostream.writeBool(true);
-    
+
     ENetPacket* packet = ostream.getPacket();
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readBool() == true);
     REQUIRE(istream.readBool() == false);
@@ -144,9 +180,9 @@ TEST_CASE_METHOD(ENetFixture, "NetworkManager: Packet stream various int sizes",
     ostream.writeUint16(0xABCD);
     ostream.writeUint32(0x12345678);
     ostream.writeUint64(0xDEADBEEFCAFEBABE);
-    
+
     ENetPacket* packet = ostream.getPacket();
-    
+
     ENetPacketIStream istream(packet);
     REQUIRE(istream.readUint8() == 0xFF);
     REQUIRE(istream.readUint16() == 0xABCD);

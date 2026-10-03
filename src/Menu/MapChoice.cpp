@@ -44,6 +44,7 @@ MapChoice::MapChoice(int newHouse, unsigned int lastMission, Uint32 oldAlreadyPl
     lastScenario = (lastMission + 1)/3 + 1;
     alreadyPlayedRegions = oldAlreadyPlayedRegions;
     house = newHouse;
+    pGFXManager->invalidateMapChoiceGraphics(house);
 
     // set up window
     SDL_Texture *pBackground = pGFXManager->getUIGraphic(UI_MapChoiceScreen, house);
@@ -209,16 +210,16 @@ void MapChoice::drawSpecificStuff() {
 
         case MAPCHOICESTATE_BLENDING: {
             if(curBlendBlitter == nullptr) {
-                while(  (curHouse2Blit < NUM_HOUSES) &&
-                        (curRegion2Blit >= group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_HOUSES].size())) {
+                while(  (curHouse2Blit < NUM_CAMPAIGN_HOUSES) &&
+                        (curRegion2Blit >= group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_CAMPAIGN_HOUSES].size())) {
                         curRegion2Blit = 0;
                         curHouse2Blit++;
                 }
 
-                if((curHouse2Blit < NUM_HOUSES)&&(curRegion2Blit < group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_HOUSES].size())) {
+                if((curHouse2Blit < NUM_CAMPAIGN_HOUSES)&&(curRegion2Blit < group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_CAMPAIGN_HOUSES].size())) {
                     // there is still some region to blend in
-                    const int pieceNum = (group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_HOUSES])[curRegion2Blit];
-                    sdl2::surface_ptr pPieceSurface = convertSurfaceToDisplayFormat(pGFXManager->getMapChoicePieceSurface(pieceNum,(curHouse2Blit + house) % NUM_HOUSES));
+                    const int pieceNum = (group[lastScenario].newRegion[(curHouse2Blit + house) % NUM_CAMPAIGN_HOUSES])[curRegion2Blit];
+                    sdl2::surface_ptr pPieceSurface = convertSurfaceToDisplayFormat(pGFXManager->getMapChoicePieceSurface(pieceNum,(curHouse2Blit + house) % NUM_CAMPAIGN_HOUSES));
                     SDL_Rect dest = calcDrawingRect(pPieceSurface.get(), piecePosition[pieceNum].x, piecePosition[pieceNum].y);
                     curBlendBlitter = std::make_unique<BlendBlitter>(std::move(pPieceSurface), mapSurface.get(), dest);
                     curRegion2Blit++;
@@ -366,7 +367,7 @@ void MapChoice::createMapSurfaceWithPieces(unsigned int scenario) {
 }
 
 void MapChoice::loadINI() {
-    const std::string filename = fmt::sprintf("REGION%c.INI", houseChar[house]);
+    const std::string filename = fmt::sprintf("REGION%c.INI", getHouseScenarioLetter(static_cast<HOUSETYPE>(house)));
 
     INIFile RegionINI(pFileManager->openCampaignFile(filename).get());
 
@@ -396,7 +397,7 @@ void MapChoice::loadINI() {
         std::string strSection = "GROUP" + std::to_string(i);
 
         // read new regions
-        for(int h = 0; h < NUM_HOUSES; h++) {
+        for(int h = 0; h < NUM_CAMPAIGN_HOUSES; h++) {
             std::string key;
             switch(h) {
                 case HOUSE_HARKONNEN:   key = "HAR"; break;
@@ -407,6 +408,7 @@ void MapChoice::loadINI() {
                 case HOUSE_MERCENARY:   key = "MER"; break;
                 case HOUSE_NEUTRAL:     key = "NEU"; break;
                 case HOUSE_REBELS:      key = "REB"; break;
+                case HOUSE_CUSTOM:      key = getHouseRegionPrefix(HOUSE_CUSTOM); break;
             }
 
             std::string strValue = RegionINI.getStringValue(strSection,key);

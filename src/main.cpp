@@ -58,6 +58,9 @@
 #include <mmath.h>
 
 #include <CutScenes/Intro.h>
+#ifdef DUNELEGACY_RUNTIME_TESTS
+#include "../tests/ModRuntimeSmoke.h"
+#endif
 
 #include <SDL_ttf.h>
 
@@ -167,7 +170,7 @@ void setVideoMode(int displayIndex)
         }
         settings.video.width = settings.video.physicalWidth / factor;
         settings.video.height = settings.video.physicalHeight / factor;
-        
+
         // Ensure minimum dimensions
         if(settings.video.width < 640) settings.video.width = 640;
         if(settings.video.height < 480) settings.video.height = 480;
@@ -193,13 +196,13 @@ void setVideoMode(int displayIndex)
     }
     // Create renderer (VSync set separately for macOS compatibility)
     Uint32 rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE;
-    
+
     renderer = SDL_CreateRenderer(window, -1, rendererFlags);
     if (!renderer) {
         fprintf(stderr, "SDL_CreateRenderer failed: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
-    
+
     // Set VSync after renderer creation (works better on macOS Metal)
     if(settings.video.frameLimit) {
         SDL_RenderSetVSync(renderer, 1);
@@ -303,11 +306,11 @@ std::string getPerformanceLogFilepath()
 std::string getObjectDataConfigFilepath()
 {
     // If ModManager is initialized and a non-vanilla mod is active, use mod path
-    if (ModManager::instance().isInitialized() && 
+    if (ModManager::instance().isInitialized() &&
         ModManager::instance().getActiveModName() != "vanilla") {
         return ModManager::instance().getActiveObjectDataPath();
     }
-    
+
     // Default: user config directory (preserves existing user customizations)
     char tmp[FILENAME_MAX];
     if(fnkdat("config/ObjectData.ini", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) < 0) {
@@ -447,45 +450,45 @@ std::string getDefaultPlayerName() {
 
 bool restoreDefaultConfigs() {
     SDL_Log("========== RESTORING DEFAULT CONFIG FILES ==========");
-    
+
     bool success = true;
-    
+
     // Restore ObjectData.ini
     {
         try {
             std::string userPath = getObjectDataConfigFilepath();
             SDL_Log("Restoring ObjectData.ini to: %s", userPath.c_str());
-            
+
             if (copyTemplateFile("config/ObjectData.ini.default", userPath)) {
-                SDL_Log("  ✓ ObjectData.ini restored successfully");
+                SDL_Log("  âœ“ ObjectData.ini restored successfully");
             } else {
-                SDL_Log("  ✗ Failed to restore ObjectData.ini");
+                SDL_Log("  âœ— Failed to restore ObjectData.ini");
                 success = false;
             }
         } catch (std::exception& e) {
-            SDL_Log("  ✗ Error restoring ObjectData.ini: %s", e.what());
+            SDL_Log("  âœ— Error restoring ObjectData.ini: %s", e.what());
             success = false;
         }
     }
-    
+
     // Restore QuantBot Config.ini
     {
         try {
             std::string userPath = getQuantBotConfigFilepath();
             SDL_Log("Restoring QuantBot Config.ini to: %s", userPath.c_str());
-            
+
             if (copyTemplateFile("config/QuantBot Config.ini.default", userPath)) {
-                SDL_Log("  ✓ QuantBot Config.ini restored successfully");
+                SDL_Log("  âœ“ QuantBot Config.ini restored successfully");
             } else {
-                SDL_Log("  ✗ Failed to restore QuantBot Config.ini");
+                SDL_Log("  âœ— Failed to restore QuantBot Config.ini");
                 success = false;
             }
         } catch (std::exception& e) {
-            SDL_Log("  ✗ Error restoring QuantBot Config.ini: %s", e.what());
+            SDL_Log("  âœ— Error restoring QuantBot Config.ini: %s", e.what());
             success = false;
         }
     }
-    
+
     SDL_Log("====================================================");
     return success;
 }
@@ -508,11 +511,11 @@ void createDefaultConfigFile(const std::string& configfilepath, const std::strin
         if (templateFile) {
             SDL_Log("Copying template from game installation directory...");
             INIFile templateINI(templateFile.get());
-            
+
             // Set user-specific defaults
             templateINI.setStringValue("General", "Player Name", getDefaultPlayerName());
             templateINI.setStringValue("General", "Language", language);
-            
+
             if (templateINI.saveChangesTo(configfilepath)) {
                 SDL_Log("User config file created from template successfully");
                 SDL_Log("  Template location: %s", getConfigTemplateFilepath().c_str());
@@ -628,6 +631,18 @@ void logOutputFunction(void *userdata, int category, SDL_LogPriority priority, c
 }
 
 void showMissingFilesMessageBox() {
+#ifdef __ANDROID__
+    if((SDL_WasInit(SDL_INIT_VIDEO) & SDL_INIT_VIDEO) == 0) {
+        std::string instruction = "Dune Legacy Tornie is missing required data files. Search paths:\n";
+        for(const std::string& searchPath : FileManager::getSearchPath()) {
+            instruction += " " + searchPath + "\n";
+        }
+        SDL_Log("%s", instruction.c_str());
+        fprintf(stderr, "%s\n", instruction.c_str());
+        return;
+    }
+#endif
+
     SDL_ShowCursor(SDL_ENABLE);
 
     std::string instruction = "Dune Legacy Tornie uses the data files from original Dune II. The following files are missing:\n";
@@ -694,11 +709,16 @@ int main(int argc, char *argv[]) {
     SDL_LogSetPriority(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_VERBOSE);
 
     SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
+    SDL_SetHint(SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+#ifdef __ANDROID__
+    SDL_SetHint(SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "1");
+#endif
 
     // v1.0.512: build-stamp log so Stefan can verify the binary on disk
     // actually contains the v1.0.5xx fixes. If this line is missing from
     // the run log, the .exe is stale.
-    SDL_Log("Dune Legacy Tornie v%s — build stamp active", std::string(VERSION).c_str());
+    SDL_Log("Dune Legacy Tornie v%s â€” build stamp active", std::string(VERSION).c_str());
 
     // v1.0.514: install SIGSEGV/SIGABRT/SIGFPE handler so a fatal native
     // crash (nullptr deref, divide by zero, etc.) writes a diagnostic to
@@ -733,7 +753,7 @@ int main(int argc, char *argv[]) {
                 "  Version: %s\n"
                 "  Stack trace not available (would require libunwind).\n"
                 "  Check Dune Legacy.log for the last SDL_Log lines before the\n"
-                "  crash — that is where the actionable diagnostic lives.\n"
+                "  crash â€” that is where the actionable diagnostic lives.\n"
                 "=============================\n",
                 sig, sigName, info->si_code, info->si_addr, VERSION);
             if(n > 0) {
@@ -778,11 +798,15 @@ int main(int argc, char *argv[]) {
             THROW(std::runtime_error, "Cannot initialize fnkdat!");
         }
 
+        bool bVerifyMods = false;
         bool bShowDebugLog = false;
         for(int i=1; i < argc; i++) {
             //check for overiding params
             std::string parameter(argv[i]);
 
+            #ifdef DUNELEGACY_RUNTIME_TESTS
+            if(parameter == "--verify-mods") { bVerifyMods = true; continue; }
+#endif
             if(parameter == "--showlog") {
                 // special parameter which does not overwrite settings
                 bShowDebugLog = true;
@@ -856,7 +880,7 @@ int main(int argc, char *argv[]) {
 
         SDL_Log("Starting Dune Legacy Tornie %s on %s", VERSION, SDL_GetPlatform());
 
-#if defined(__linux__)
+#if defined(__linux__) && !defined(__ANDROID__)
         // Verify that required shared libraries are loadable before proceeding.
         // If the binary was installed without bundled .so files and the system
         // libraries are the wrong version or absent, dlopen catches this and
@@ -877,7 +901,7 @@ int main(int argc, char *argv[]) {
                 }
                 if (!handle) {
                     SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
-                        "Required library missing or incompatible: %s — %s", lib, dlerror());
+                        "Required library missing or incompatible: %s â€” %s", lib, dlerror());
                     allLibsFound = false;
                 } else {
                     dlclose(handle);
@@ -957,7 +981,7 @@ int main(int argc, char *argv[]) {
 
             settings.network.serverPort = myINIFile.getIntValue("Network","ServerPort",DEFAULT_PORT);
             settings.network.metaServer = myINIFile.getStringValue("Network","MetaServer",DEFAULT_METASERVER);
-            
+
             // Migrate old SourceForge metaserver URL to new dunelegacy.com URL
             if(settings.network.metaServer.find("dunelegacy.sourceforge.net") != std::string::npos) {
                 SDL_Log("Migrating old SourceForge metaserver URL to dunelegacy.com...");
@@ -967,10 +991,10 @@ int main(int argc, char *argv[]) {
                 myINIFile.saveChangesTo(configfilepath);
                 SDL_Log("Metaserver URL updated to: %s", settings.network.metaServer.c_str());
             }
-            
+
             // Discord settings
             settings.discord.webhookUrl = myINIFile.getStringValue("Discord","WebhookUrl","");
-            
+
             settings.network.debugNetwork = myINIFile.getBoolValue("Network","Debug Network",false);
 
             settings.ai.campaignAI = myINIFile.getStringValue("AI","Campaign AI",DEFAULTAIPLAYERCLASS);
@@ -985,6 +1009,7 @@ int main(int argc, char *argv[]) {
             settings.gameOptions.rocketTurretsNeedPower = myINIFile.getBoolValue("Game Options","Rocket-Turrets Need Power",false);
             settings.gameOptions.sandwormsRespawn = myINIFile.getBoolValue("Game Options","Sandworms Respawn",false);
             settings.gameOptions.killedSandwormsDropSpice = myINIFile.getBoolValue("Game Options","Killed Sandworms Drop Spice",false);
+            settings.gameOptions.randomSpiceBlooms = myINIFile.getBoolValue("Game Options","Random Spice Blooms",false);
             settings.gameOptions.manualCarryallDrops = myINIFile.getBoolValue("Game Options","Manual Carryall Drops",false);
             settings.gameOptions.maximumNumberOfUnitsOverride = myINIFile.getIntValue("Game Options","Maximum Number of Units Override",0);
             settings.gameOptions.maximumNumberOfHarvestersOverride = myINIFile.getIntValue("Game Options","Maximum Number of Harvesters Override",-1);
@@ -1084,6 +1109,38 @@ int main(int argc, char *argv[]) {
                 myINIFile.saveChangesTo(getConfigFilepath());
             }
 
+#ifdef __ANDROID__
+            if(bFirstInit == true) {
+                SDL_DisplayMode displayMode;
+                SDL_GetDesktopDisplayMode(currentDisplayIndex, &displayMode);
+
+                if(displayMode.w > 0 && displayMode.h > 0 &&
+                   (settings.video.physicalHeight > settings.video.physicalWidth ||
+                    settings.video.physicalWidth != displayMode.w ||
+                    settings.video.physicalHeight != displayMode.h)) {
+                    int factor = getLogicalToPhysicalResolutionFactor(displayMode.w, displayMode.h);
+                    settings.video.physicalWidth = displayMode.w;
+                    settings.video.physicalHeight = displayMode.h;
+                    settings.video.width = std::max(640, displayMode.w / factor);
+                    settings.video.height = std::max(480, displayMode.h / factor);
+                    settings.video.fullscreen = true;
+                    settings.video.preferredZoomLevel = 1;
+
+                    SDL_Log("Android display config updated to %dx%d physical, %dx%d logical",
+                            settings.video.physicalWidth, settings.video.physicalHeight,
+                            settings.video.width, settings.video.height);
+
+                    myINIFile.setIntValue("Video","Width",settings.video.width);
+                    myINIFile.setIntValue("Video","Height",settings.video.height);
+                    myINIFile.setIntValue("Video","Physical Width",settings.video.physicalWidth);
+                    myINIFile.setIntValue("Video","Physical Height",settings.video.physicalHeight);
+                    myINIFile.setBoolValue("Video","Fullscreen",settings.video.fullscreen);
+                    myINIFile.setIntValue("Video","Preferred Zoom Level",settings.video.preferredZoomLevel);
+                    myINIFile.saveChangesTo(getConfigFilepath());
+                }
+            }
+#endif
+
             Scaler::setDefaultScaler(Scaler::getScalerByName(settings.video.scaler));
 
             if(bFirstInit == true) {
@@ -1104,7 +1161,7 @@ int main(int argc, char *argv[]) {
 
             // Initialize effective game options (base settings + mod overrides)
             effectiveGameOptions = ModManager::instance().loadEffectiveGameOptions(settings.gameOptions);
-            SDL_Log("Effective game options initialized (active mod: %s)", 
+            SDL_Log("Effective game options initialized (active mod: %s)",
                     ModManager::instance().getActiveModName().c_str());
 
             // Create user config files if they don't exist
@@ -1125,7 +1182,7 @@ int main(int argc, char *argv[]) {
                 }
             }
 
-            // Check and copy QuantBot Config.ini  
+            // Check and copy QuantBot Config.ini
             {
                 std::string userQuantBotPath = getQuantBotConfigFilepath();
                 if (!existsFile(userQuantBotPath)) {
@@ -1160,10 +1217,10 @@ int main(int argc, char *argv[]) {
 
                 SDL_Log("Setting video mode...");
                 setVideoMode(currentDisplayIndex);
-                
+
                 // Give the renderer time to fully initialize
                 SDL_Delay(100);
-                
+
                 SDL_RendererInfo rendererInfo;
                 SDL_GetRendererInfo(renderer, &rendererInfo);
                 SDL_Log("Renderer: %s (max texture size: %dx%d)", rendererInfo.name, rendererInfo.max_texture_width, rendererInfo.max_texture_height);
@@ -1194,11 +1251,11 @@ int main(int argc, char *argv[]) {
                                     + "\n\nA required data file is probably missing or the bundled PAK is corrupt."
                                     + "\nSee dunelegacy-crash.log next to the executable for the full SDL log.";
                     SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "%s", msg.c_str());
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie — graphics load failed", msg.c_str(), nullptr);
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie â€” graphics load failed", msg.c_str(), nullptr);
                     THROW(std::runtime_error, "%s", msg.c_str());
                 } catch(...) {
                     SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "GFXManager failed to initialize: unknown exception");
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie — graphics load failed",
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie â€” graphics load failed",
                                               "GFXManager threw an unknown exception. See dunelegacy-crash.log.", nullptr);
                     THROW(std::runtime_error, "GFXManager unknown exception");
                 }
@@ -1208,10 +1265,10 @@ int main(int argc, char *argv[]) {
                 } catch(const std::exception& e) {
                     // SFX is non-fatal: log and continue with a null manager so the
                     // game at least shows the menu. Audio will be silent but visible.
-                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "SFXManager failed to initialize: %s — continuing without audio", e.what());
+                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "SFXManager failed to initialize: %s â€” continuing without audio", e.what());
                     pSFXManager = nullptr;
                 } catch(...) {
-                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "SFXManager threw an unknown exception — continuing without audio");
+                    SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "SFXManager threw an unknown exception â€” continuing without audio");
                     pSFXManager = nullptr;
                 }
 #else
@@ -1243,7 +1300,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 // Playing intro
-                if(((bFirstGamestart == true) || (settings.general.playIntro == true)) && (bFirstInit==true)) {
+                if(!bVerifyMods && ((bFirstGamestart == true) || (settings.general.playIntro == true)) && (bFirstInit==true)) {
                     SDL_Log("Playing intro...");
                     Intro().run();
                 }
@@ -1260,7 +1317,13 @@ int main(int argc, char *argv[]) {
                     SDL_Log("Discord webhook configured");
                 }
 
-                SDL_Log("Starting main menu...");
+                #ifdef DUNELEGACY_RUNTIME_TESTS
+                if(bVerifyMods) {
+                    runModRuntimeSmoke();
+                    bExitGame = true;
+                } else
+                #endif
+
                 { // Scope
                     int menuResult = MainMenu().showMenu();
                     if (menuResult == MENU_QUIT_DEFAULT) {
@@ -1328,6 +1391,7 @@ int main(int argc, char *argv[]) {
         }
     } catch(const std::exception& e) {
         std::string message = std::string("An unhandled exception of type \'") + demangleSymbol(typeid(e).name()) + std::string("\' was thrown:\n\n") + e.what() + std::string("\n\nDune Legacy Tornie will now be terminated!");
+        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "%s", message.c_str());
         SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie: Unrecoverable error", message.c_str(), nullptr);
 
         return EXIT_FAILURE;

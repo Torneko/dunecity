@@ -364,7 +364,7 @@ std::string TeamsWindow::getPlayerName(HOUSETYPE house) {
     for(const MapEditor::Player& player : pMapEditor->getPlayers()) {
         if(player.house == house) {
             return player.bAnyHouse ? fmt::sprintf(_("Player %d"), currentPlayerNum)
-                                          : (_("House") + " " + player.name);
+                                          : (_("House") + " " + getHouseDisplayNameByNumber(player.house));
         }
 
         if(player.bActive && player.bAnyHouse) {
@@ -374,4 +374,3 @@ std::string TeamsWindow::getPlayerName(HOUSETYPE house) {
 
     return "";
 }
-

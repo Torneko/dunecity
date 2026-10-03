@@ -11,8 +11,10 @@
 
 #include <catch2/catch_all.hpp>
 #include <data.h>
+#include <DataTypes.h>
 #include <Definitions.h>
 #include <misc/SaveCompat.h>
+#include <mod/ModInfo.h>
 
 // ---------- constant checks ----------
 
@@ -32,9 +34,32 @@ TEST_CASE("Save compat: current Num_ItemID >= legacy",
     REQUIRE(Num_ItemID >= LEGACY_NUM_ITEM_ID_DUNELEGACY);
 }
 
-TEST_CASE("Save compat: SAVEGAMEVERSION is 9811 or higher",
+TEST_CASE("Save compat: SAVEGAMEVERSION includes captured unit technology",
           "[save-compat][regression]") {
-    REQUIRE(SAVEGAMEVERSION >= 9811);
+    REQUIRE(SAVEGAMEVERSION >= 9824);
+}
+
+TEST_CASE("Save compat: extended houses preserve legacy IDs",
+          "[save-compat][regression]") {
+    REQUIRE(NUM_LEGACY_HOUSES == 8);
+    REQUIRE(HOUSE_REBELS == 7);
+    REQUIRE(HOUSE_CUSTOM == 8);
+    REQUIRE(NUM_HOUSES == 12);
+    REQUIRE(NUM_TEAM_SLOTS == 10);
+}
+
+TEST_CASE("Save compat: old visual color slots retain their meaning",
+          "[save-compat][regression]") {
+    REQUIRE(migrateLegacyHouseColorSlot(7) == 7);
+    REQUIRE(migrateLegacyHouseColorSlot(8) == 9);
+    REQUIRE(migrateLegacyHouseColorSlot(13) == 14);
+}
+
+TEST_CASE("Save compat: generic custom house is disabled by default",
+          "[save-compat][regression]") {
+    const CustomHouseInfo info;
+    REQUIRE_FALSE(info.enabled);
+    REQUIRE(info.scenarioLetter == '?');
 }
 
 TEST_CASE("Save compat: former city IDs remain reserved without shifting Tornie items",

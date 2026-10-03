@@ -37,6 +37,19 @@
 
 #define SANDWORM_ATTACKFRAMETIME 10
 
+namespace {
+
+constexpr Uint16 warningWormSignMaskForHouse(int houseID) {
+    return houseID >= 0 && houseID < NUM_HOUSES
+        ? static_cast<Uint16>(1u << static_cast<unsigned int>(houseID))
+        : 0;
+}
+
+static_assert(warningWormSignMaskForHouse(HOUSE_CUSTOM) != 0,
+              "The worm-sign warning mask must represent the custom house");
+
+} // namespace
+
 Sandworm::Sandworm(House* newOwner) : GroundUnit(newOwner) {
 
     Sandworm::init();
@@ -83,7 +96,7 @@ void Sandworm::init() {
     numImagesY = 9;
 
     drawnFrame = INVALID;
-    
+
     // Set to AMBUSH mode to limit pursuit range to view range
     doSetAttackMode(AMBUSH);
 }
@@ -96,7 +109,9 @@ void Sandworm::save(OutputStream& stream) const {
     stream.writeSint32(kills);
     stream.writeSint32(attackFrameTimer);
     stream.writeSint32(sleepTimer);
-    stream.writeUint8(warningWormSignPlayedFlags);
+    // Preserve the legacy one-byte save layout. The ninth-house warning bit is
+    // transient and may be announced once again after loading a saved game.
+    stream.writeUint8(static_cast<Uint8>(warningWormSignPlayedFlags & 0xFFu));
     stream.writeSint32(shimmerOffsetIndex);
     for(int i = 0; i < SANDWORM_SEGMENTS; i++) {
         stream.writeSint32(lastLocs[i].x);
@@ -119,11 +134,11 @@ bool Sandworm::attack() {
             ObjectBase* pTarget = target.getObjPointer();
             if(pTarget) {
                 GameType gameType = currentGame->getGameInitSettings().getGameType();
-                bool targetIsImmortal = (gameType != GameType::CustomMultiplayer 
+                bool targetIsImmortal = (gameType != GameType::CustomMultiplayer
                                         && gameType != GameType::LoadMultiplayer
                                         && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                                         && pTarget->getOwner() == pLocalHouse);
-                
+
                 if(targetIsImmortal) {
                     // Sandworm dies trying to eat an immortal unit (chokes on it)
                     // Skip attack animation and immediately trigger sleep/die
@@ -132,7 +147,7 @@ bool Sandworm::attack() {
                     return false;
                 }
             }
-            
+
             soundPlayer->playSoundAt(Sound_WormAttack, location);
             drawnFrame = 0;
             attackFrameTimer = SANDWORM_ATTACKFRAMETIME;
@@ -237,7 +252,7 @@ void Sandworm::engageTarget() {
                     // In GUARD and AMBUSH modes, stay near guard point (view range)
                     maxDistance = getViewRange();
                 } break;
-                
+
                 case HUNT: {
                     // In HUNT mode, pursue more aggressively but still limited to view range
                     // This allows counter-attacking units that damaged us
@@ -314,10 +329,13 @@ bool Sandworm::sleepOrDie() {
 void Sandworm::setTarget(const ObjectBase* newTarget) {
     GroundUnit::setTarget(newTarget);
 
+    const int localHouseID = pLocalHouse->getHouseID();
+    const Uint16 localHouseMask = warningWormSignMaskForHouse(localHouseID);
     if( (newTarget != nullptr) && (newTarget->getOwner() == pLocalHouse)
-        && ((warningWormSignPlayedFlags & (1 << pLocalHouse->getHouseID())) == 0) ) {
-        soundPlayer->playVoice(WarningWormSign, pLocalHouse->getHouseID());
-        warningWormSignPlayedFlags |= (1 << pLocalHouse->getHouseID());
+        && (localHouseMask != 0)
+        && ((warningWormSignPlayedFlags & localHouseMask) == 0) ) {
+        soundPlayer->playVoice(WarningWormSign, localHouseID);
+        warningWormSignPlayedFlags |= localHouseMask;
     }
 }
 
@@ -326,10 +344,10 @@ void Sandworm::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
     if(damage > 0) {
         doSetAttackMode(HUNT);
     }
-    
+
     // Then call parent to handle counter-attack logic (now that we're in HUNT mode)
     GroundUnit::handleDamage(damage, damagerID, damagerOwner);
-    
+
     // Additionally, if we were damaged, directly attack the damager's location if they're on sand
     if(damage > 0) {
         ObjectBase* pDamager = currentGame->getObjectManager().getObject(damagerID);

@@ -36,14 +36,7 @@
 // - POPPA.VOC
 
 SFXManager::SFXManager() {
-    // load voice and language specific sounds
-    if(settings.general.language == "de") {
-        loadNonEnglishVoice("G");
-    } else if(settings.general.language == "fr") {
-        loadNonEnglishVoice("F");
-    } else {
-        loadEnglishVoice();
-    }
+    reloadVoices();
 
     loadSoundEffects();
 
@@ -55,6 +48,18 @@ SFXManager::SFXManager() {
 }
 
 SFXManager::~SFXManager() = default;
+
+void SFXManager::reloadVoices() {
+    // Reload language-specific voices after an active-mod switch so optional
+    // mod assets cannot leak into another mod.
+    if(settings.general.language == "de") {
+        loadNonEnglishVoice("G");
+    } else if(settings.general.language == "fr") {
+        loadNonEnglishVoice("F");
+    } else {
+        loadEnglishVoice();
+    }
+}
 
 Mix_Chunk* SFXManager::getVoice(Voice_enum id, int house) {
     if(settings.general.language == "de" || settings.general.language == "fr") {
@@ -86,7 +91,8 @@ void SFXManager::loadEnglishVoice() {
     lngVoice.resize(NUM_VOICE*NUM_HOUSES);
 
     const bool tornieVoiceFx = ModManager::instance().isInitialized()
-        && (ModManager::instance().getActiveModName() == "Tornie");
+        && (ModManager::instance().getActiveModName() == "Tornie"
+            || ModManager::instance().getActiveModName() == "Jericho");
 
     // now we can load
     for(auto house = 0; house < NUM_HOUSES; house++) {
@@ -94,7 +100,29 @@ void SFXManager::loadEnglishVoice() {
 
         std::string HouseString;
         const int VoiceNum = house;
-        switch(house) {
+        const HOUSETYPE factionIdentity = getHouseFactionIdentity(static_cast<HOUSETYPE>(house));
+        const HOUSETYPE contentHouse = getHouseFallbackHouse(static_cast<HOUSETYPE>(house));
+        const CustomHouseInfo& customHouse = ModManager::instance().getCustomHouseInfo(house);
+        const bool customHouseActive = ModManager::instance().isCustomHouseRegistered(house);
+        auto loadConfiguredCustomHouseName = [&]() -> sdl2::mix_chunk_ptr {
+            if(!customHouseActive || customHouse.houseNameVoiceAsset.empty()) {
+                return nullptr;
+            }
+
+            try {
+                if(pFileManager->exists(customHouse.houseNameVoiceAsset)) {
+                    return getChunkFromFile(customHouse.houseNameVoiceAsset);
+                }
+                SDL_Log("SFXManager: Custom-house name voice '%s' unavailable; using fallback",
+                        customHouse.houseNameVoiceAsset.c_str());
+            } catch(const std::exception& e) {
+                SDL_Log("SFXManager: Custom-house name voice '%s' failed (%s); using fallback",
+                        customHouse.houseNameVoiceAsset.c_str(), e.what());
+            }
+            return nullptr;
+        };
+
+        switch(contentHouse) {
             case HOUSE_HARKONNEN:
                 HouseString = "H";
                 HouseNameChunk = getChunkFromFile("HHARK.VOC", "HARK.VOC");
@@ -121,14 +149,39 @@ void SFXManager::loadEnglishVoice() {
                 break;
             case HOUSE_NEUTRAL:
                 HouseString = "A";
+                HouseNameChunk = getChunkFromFile("WILDSPADE.VOC", "ANEU.VOC");
+                break;
+            case HOUSE_REBELS:
+                HouseString = "H";
+                HouseNameChunk = getChunkFromFile("KLESHMERSH.VOC", "RREBELS.VOC");
+                break;
+            default:
+                break;
+        }
+
+        switch(factionIdentity) {
+            case HOUSE_NEUTRAL:
+                HouseString = "A";
                 HouseNameChunk = getChunkFromFile("ANEU.VOC", "AATRE.VOC");
                 break;
             case HOUSE_REBELS:
                 HouseString = "H";
                 HouseNameChunk = getChunkFromFile("RREBELS.VOC", "HHARK.VOC");
                 break;
+            case HOUSE_WILDSPADE:
+                HouseString = "A";
+                HouseNameChunk = getChunkFromFile("WILDSPADE.VOC", "ANEU.VOC");
+                break;
+            case HOUSE_KLESHMERSH:
+                HouseString = "H";
+                HouseNameChunk = getChunkFromFile("KLESHMERSH.VOC", "RREBELS.VOC");
+                break;
             default:
                 break;
+        }
+
+        if(auto configuredName = loadConfiguredCustomHouseName()) {
+            HouseNameChunk = std::move(configuredName);
         }
 
         { // Scope
@@ -232,7 +285,7 @@ void SFXManager::loadEnglishVoice() {
         // "House Ordos"
         lngVoice[HouseOrdos*NUM_HOUSES+VoiceNum] = getChunkFromFile("MORDOS.VOC");
 
-        switch(house) {
+        switch(factionIdentity) {
             case HOUSE_FREMEN:
                 lngVoice[HouseAtreides*NUM_HOUSES+VoiceNum] = getChunkFromFile("AFREMEN.VOC", "MATRE.VOC");
                 break;
@@ -248,13 +301,55 @@ void SFXManager::loadEnglishVoice() {
             case HOUSE_REBELS:
                 lngVoice[HouseHarkonnen*NUM_HOUSES+VoiceNum] = getChunkFromFile("RREBELS.VOC", "MHARK.VOC");
                 break;
+            case HOUSE_WILDSPADE:
+                lngVoice[HouseAtreides*NUM_HOUSES+VoiceNum] = getChunkFromFile("WILDSPADE.VOC", "ANEU.VOC");
+                break;
+            case HOUSE_KLESHMERSH:
+                lngVoice[HouseHarkonnen*NUM_HOUSES+VoiceNum] = getChunkFromFile("KLESHMERSH.VOC", "RREBELS.VOC");
+                break;
             default:
                 break;
         }
 
-        if(tornieVoiceFx && (house == HOUSE_SARDAUKAR || house == HOUSE_REBELS || house == HOUSE_NEUTRAL)) {
-            const double playbackRate = (house == HOUSE_SARDAUKAR) ? 0.86 : (house == HOUSE_REBELS ? 0.90 : 1.07);
-            const double gain = (house == HOUSE_SARDAUKAR) ? 1.08 : (house == HOUSE_REBELS ? 1.05 : 0.98);
+        if(auto configuredName = loadConfiguredCustomHouseName()) {
+            Voice_enum houseNameVoice = HouseHarkonnen;
+            switch(contentHouse) {
+                case HOUSE_ATREIDES:
+                case HOUSE_FREMEN:
+                case HOUSE_NEUTRAL:
+                    houseNameVoice = HouseAtreides;
+                    break;
+                case HOUSE_ORDOS:
+                case HOUSE_MERCENARY:
+                    houseNameVoice = HouseOrdos;
+                    break;
+                default:
+                    houseNameVoice = HouseHarkonnen;
+                    break;
+            }
+            lngVoice[houseNameVoice*NUM_HOUSES+VoiceNum] = std::move(configuredName);
+        }
+
+        double playbackRate = 1.0;
+        double gain = 1.0;
+        bool applyVoiceEffect = false;
+        const bool sardaukarVoice = factionIdentity == HOUSE_SARDAUKAR;
+        const bool harkonnenCustomVoice = factionIdentity == HOUSE_REBELS
+                                       || factionIdentity == HOUSE_KLESHMERSH;
+        const bool feminineCustomVoice = factionIdentity == HOUSE_NEUTRAL
+                                      || factionIdentity == HOUSE_WILDSPADE;
+        if(tornieVoiceFx && (sardaukarVoice || harkonnenCustomVoice || feminineCustomVoice)) {
+            playbackRate = sardaukarVoice ? 0.86 : (harkonnenCustomVoice ? 0.90 : 1.07);
+            gain = sardaukarVoice ? 1.08 : (harkonnenCustomVoice ? 1.05 : 0.98);
+            applyVoiceEffect = true;
+        }
+        if(house == HOUSE_CUSTOM && customHouseActive) {
+            playbackRate = customHouse.voicePlaybackRate;
+            gain = customHouse.voiceGain;
+            applyVoiceEffect = playbackRate != 1.0 || gain != 1.0;
+        }
+
+        if(applyVoiceEffect) {
             for(auto voice = 0; voice < NUM_VOICE; ++voice) {
                 const int voiceIndex = voice*NUM_HOUSES + VoiceNum;
                 if(lngVoice[voiceIndex] != nullptr) {
@@ -320,12 +415,18 @@ void SFXManager::loadNonEnglishVoice(const std::string& languagePrefix) {
     lngVoice[BloomLocated] = getChunkFromFile(languagePrefix + "BLOOM.VOC");
 
     // "Warning Wormsign"
+    lngVoice[WarningWormSign] = getChunkFromFile(languagePrefix + "WARNING.VOC");
     if(pFileManager->exists(languagePrefix + "WORMY.VOC")) {
-        auto WarningChunk = getChunkFromFile(languagePrefix + "WARNING.VOC");
-        auto WormSignChunk = getChunkFromFile(languagePrefix + "WORMY.VOC");
-        lngVoice[WarningWormSign] = concat2Chunks(WarningChunk.get(), WormSignChunk.get());
-    } else {
-        lngVoice[WarningWormSign] = getChunkFromFile(languagePrefix + "WARNING.VOC");
+        // Some language packs have only WARNING; a loose dummy WORMY file
+        // can still pass exists() even though FileManager will refuse it.
+        try {
+            auto WormSignChunk = getChunkFromFile(languagePrefix + "WORMY.VOC");
+            lngVoice[WarningWormSign] = concat2Chunks(lngVoice[WarningWormSign].get(), WormSignChunk.get());
+        } catch(const std::runtime_error& e) {
+            SDL_LogWarn(SDL_LOG_CATEGORY_AUDIO,
+                "SFXManager: Optional '%sWORMY.VOC' unavailable; using '%sWARNING.VOC': %s",
+                languagePrefix.c_str(), languagePrefix.c_str(), e.what());
+        }
     }
 
     // "Our base is under attack"

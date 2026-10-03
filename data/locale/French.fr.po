@@ -17,6 +17,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
+msgid "Harkonnen"
+msgstr "Harkonnen"
+
+msgid "Atreides"
+msgstr "Atréides"
+
+msgid "Ordos"
+msgstr "Ordos"
+
+msgid "Fremen"
+msgstr "Fremen"
+
+msgid "Sardaukar"
+msgstr "Sardaukar"
+
+msgid "Mercenary"
+msgstr "Mercenaire"
+
+msgid "Neutral"
+msgstr "Neutre"
+
+msgid "Rebels"
+msgstr "Rebelles"
+
+
 #: include/GUI/ObjectInterfaces/BuilderInterface.h:48
 #: include/GUI/ObjectInterfaces/BuilderInterface.h:54
 msgid "Upgrade"
@@ -2033,12 +2058,10 @@ msgid "to"
 msgstr ""
 
 #: src/Menu/CampaignStatsMenu.cpp:56
-#, c-format
 msgid "@DUNE.ENG|21#Score: %d"
 msgstr "@DUNE.FRE|21"
 
 #: src/Menu/CampaignStatsMenu.cpp:60 src/Menu/CustomGameStatsMenu.cpp:171
-#, c-format
 msgid "@DUNE.ENG|22#Time: %d:%02d"
 msgstr "@DUNE.FRE|22"
 

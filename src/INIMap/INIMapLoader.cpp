@@ -36,70 +36,138 @@
 #include <vector>
 
 namespace {
+
+bool isVanillaModActive() {
+    return ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "vanilla";
+}
+
+bool isTornieMapObject(int itemID) {
+    switch(itemID) {
+        case Unit_RocketTrike:
+        case Unit_SonicTrike:
+        case Unit_FlameTank:
+        case Unit_EliteLauncher:
+        case Unit_EliteSiegeTank:
+        case Unit_ChemicalSiegeTank:
+        case Unit_ChemicalCarryall:
+        case Unit_RebelHarvester:
+        case Structure_AdvancedWindTrap:
+        case Structure_Worfinery:
+        case Structure_AdvancedWindTrapMK2:
+        case Structure_TechCenter:
+        case Structure_AdvancedWindTrapMK3:
+        case Structure_Scoutpost:
+        case Structure_LoveFactory:
+        case Structure_Flamepost:
+        case Structure_ChaosFactory:
+        case Structure_Chemipost:
+            return true;
+        default:
+            return false;
+    }
+}
+
+int normalizeVanillaSpiceTerrain(int terrainType) {
+    const std::string activeMod = ModManager::instance().getActiveModName();
+    if(activeMod == "Tornie" || activeMod == "TornieLite" || activeMod == "Jericho") {
+        return terrainType;
+    }
+
+    switch(terrainType) {
+        case Terrain_GreenSpice:
+        case Terrain_RedSpice:
+        case Terrain_PaleLilacSpice:
+        case Terrain_WhiteSpice:
+            return Terrain_Spice;
+        case Terrain_ThickGreenSpice:
+        case Terrain_ThickRedSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_ThickWhiteSpice:
+            return Terrain_ThickSpice;
+        case Terrain_GreenSpiceBloom:
+        case Terrain_RedSpiceBloom:
+        case Terrain_PaleLilacSpiceBloom:
+        case Terrain_WhiteSpiceBloom:
+            return Terrain_SpiceBloom;
+        default:
+            return terrainType;
+    }
+}
+
+bool isJerichoWildspade(Game* pGame, int houseID) {
+    return pGame != nullptr
+        && houseID == HOUSE_NEUTRAL
+        && ModManager::instance().isInitialized()
+        && ModManager::instance().getActiveModName() == "Jericho";
+}
+
+int replaceJerichoWildspadeUnit(Game* pGame, int houseID, int itemID) {
+    if(houseID < 0 || houseID >= NUM_HOUSES
+            || !isHouseFaction(static_cast<HOUSETYPE>(houseID), HOUSE_WILDSPADE)) {
+        return itemID;
+    }
+
+    if(itemID == Unit_Trike) {
+        return Unit_RaiderTrike;
+    }
+    if(itemID == Unit_Quad) {
+        return Unit_RocketTrike;
+    }
+
+    return itemID;
+}
+
 int chooseSpecialVehicle(Game* pGame, int houseID) {
     if(pGame == nullptr || houseID < 0 || houseID >= NUM_HOUSES) {
         return ItemID_Invalid;
     }
 
-    const bool tornieActive =
-        ModManager::instance().isInitialized()
+    const bool modInitialized = ModManager::instance().isInitialized();
+    const bool tornieActive = modInitialized && ModManager::instance().isTornieContentActive();
+    const bool jerichoActive = modInitialized
+        && ModManager::instance().getActiveModName() == "Jericho";
+    const bool corruptiqueActive = modInitialized
+        && houseID == HOUSE_CUSTOM
         && ModManager::instance().getActiveModName() == "Tornie";
+    const auto objectDataIxCandidates = discoverHouseSpecialVehicleCandidates([&](int candidate) {
+        const auto& data = pGame->objectData.data[candidate][houseID];
+        return HouseSpecialVehicleCandidateData{
+            data.enabled,
+            data.builder,
+            data.prerequisiteStructuresSet[Structure_IX]
+        };
+    });
 
-    const auto pool = getSpecialVehiclePoolForHouse(houseID, tornieActive);
+    const auto pool = resolveSpecialVehiclePoolForHouse(
+        houseID, tornieActive, jerichoActive, objectDataIxCandidates, corruptiqueActive);
 
     std::vector<int> enabledPool;
     enabledPool.reserve(pool.size());
 
     for(const int candidate : pool) {
-        if(isUnit(candidate)
-           && pGame->objectData.data[candidate][houseID].enabled) {
+        if(isSpecialVehicleSelectionCandidate(candidate) && pGame->objectData.data[candidate][houseID].enabled) {
             enabledPool.push_back(candidate);
         }
     }
 
     if(enabledPool.empty()) {
-        SDL_Log(
-            "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=0 -> invalid",
-            houseID,
-            tornieActive ? 1 : 0,
-            pool.size()
-        );
-
         return ItemID_Invalid;
     }
 
+    // Avoid consuming the synchronized game RNG when there is only one
+    // enabled result. This keeps single-entry pools fully deterministic.
     if(enabledPool.size() == 1) {
-        SDL_Log(
-            "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=1 selected=%d",
-            houseID,
-            tornieActive ? 1 : 0,
-            pool.size(),
-            enabledPool.front()
-        );
-
         return enabledPool.front();
     }
 
-    // Use the game's RNG so the result remains deterministic in
-    // multiplayer games, saved games and replays.
-    const int randomIndex = pGame->randomGen.rand(
-        0,
-        static_cast<int>(enabledPool.size()) - 1
-    );
+    // Use the game's synchronized RNG so scenario loading remains identical
+    // for every multiplayer peer and reproducible from the same game state.
+    const Sint32 randomIndex = pGame->randomGen.rand(
+        static_cast<Sint32>(0),
+        static_cast<Sint32>(enabledPool.size() - 1));
 
-    const int selected = enabledPool[randomIndex];
-
-    SDL_Log(
-        "SpecialVehicle: house=%d tornie=%d pool=%zu enabled=%zu roll=%d selected=%d",
-        houseID,
-        tornieActive ? 1 : 0,
-        pool.size(),
-        enabledPool.size(),
-        randomIndex,
-        selected
-    );
-
-    return selected;
+    return enabledPool[static_cast<size_t>(randomIndex)];
 }
 
 } // namespace
@@ -407,6 +475,13 @@ void INIMapLoader::loadMap() {
                         type = Terrain_RedSpiceBloom;
                     } break;
 
+                    case 'l': type = Terrain_PaleLilacSpice; break;
+                    case 'L': type = Terrain_ThickPaleLilacSpice; break;
+                    case 'i': type = Terrain_PaleLilacSpiceBloom; break;
+                    case 'w': type = Terrain_WhiteSpice; break;
+                    case 'W': type = Terrain_ThickWhiteSpice; break;
+                    case 'x': type = Terrain_WhiteSpiceBloom; break;
+
                     case '%': {
                         // Rock
                         type = Terrain_Rock;
@@ -433,7 +508,8 @@ void INIMapLoader::loadMap() {
                     } break;
                 }
 
-                currentGameMap->getTile(x,y)->setType(type);
+                currentGameMap->getTile(x,y)->setType(
+                    normalizeVanillaSpiceTerrain(type));
             }
         }
 
@@ -463,9 +539,9 @@ void INIMapLoader::loadMap() {
                 auto* tile = currentGameMap->getTile(x, y);
                 const auto spiceAmount = tile->getSpice();
                 const char variant = variants[index];
-                tile->setType(variant == 'g' ? Terrain_GreenSpice
+                tile->setType(normalizeVanillaSpiceTerrain(variant == 'g' ? Terrain_GreenSpice
                     : variant == 'G' ? Terrain_ThickGreenSpice
-                    : variant == 'r' ? Terrain_RedSpice : Terrain_ThickRedSpice);
+                    : variant == 'r' ? Terrain_RedSpice : Terrain_ThickRedSpice));
                 tile->setSpice(spiceAmount);
             }
         }
@@ -483,7 +559,7 @@ void INIMapLoader::loadHouses()
 
     // find "player?" sections
     std::vector<std::string> playerSectionsOnMap;
-    for(int i=1;i<=NUM_HOUSES;i++) {
+    for(int i=1;i<=getNumAvailableHouses();i++) {
         std::string sectionname = "player" + std::to_string(i);
         if(inifile->hasSection(sectionname)) {
             playerSectionsOnMap.push_back(sectionname);
@@ -494,6 +570,7 @@ void INIMapLoader::loadHouses()
     std::vector<HOUSETYPE> unboundedHouses;
 
     for(int h=0;h<NUM_HOUSES;h++) {
+        if(!isHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
         bool bFound = false;
         for(const GameInitSettings::HouseInfo& houseInfo : houseInfoList) {
             if(houseInfo.houseID == (HOUSETYPE) h) {
@@ -510,6 +587,7 @@ void INIMapLoader::loadHouses()
 
     // init housename2house mapping with every house section marked as unused
     for(int i=0;i<NUM_HOUSES;i++) {
+        if(!isHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
         std::string houseName = getHouseNameByNumber((HOUSETYPE) i);
         convertToLower(houseName);
 
@@ -525,6 +603,8 @@ void INIMapLoader::loadHouses()
 
     // now set up all the houses
     resetHouseVisualHouseMapping();
+    const GameType gameType = pGame->getGameInitSettings().getGameType();
+    const bool useFactionColors = gameType == GameType::Campaign || gameType == GameType::Skirmish;
     for(const GameInitSettings::HouseInfo& houseInfo : houseInfoList) {
         GameInitSettings::HouseInfo resolvedHouseInfo = houseInfo;
         HOUSETYPE houseID = houseInfo.houseID;
@@ -535,35 +615,15 @@ void INIMapLoader::loadHouses()
                 // skip this house
                 continue;
             }
-
-            // Mixed maps may contain fixed [House] sections together with
-            // generic [PlayerN] sections. Prefer an available fixed section;
-            // otherwise generic sections can be exhausted while a fixed
-            // section remains unused, silently dropping the last player.
-            std::vector<int> fixedSectionCandidates;
-            for(int i = 0; i < static_cast<int>(unboundedHouses.size()); i++) {
-                const std::string candidateName = getHouseNameByNumber(unboundedHouses[i]);
-                if(inifile->hasSection(candidateName)) {
-                    fixedSectionCandidates.push_back(i);
-                }
-            }
-
-            int randomIndex;
-            if(fixedSectionCandidates.empty()) {
-                randomIndex = pGame->randomGen.rand(0, static_cast<int>(unboundedHouses.size()) - 1);
-            } else {
-                const int candidateIndex = pGame->randomGen.rand(0, static_cast<int>(fixedSectionCandidates.size()) - 1);
-                randomIndex = fixedSectionCandidates[candidateIndex];
-            }
-
+            int randomIndex = pGame->randomGen.rand(0, (int) unboundedHouses.size() - 1);
             houseID = unboundedHouses[randomIndex];
             unboundedHouses.erase(unboundedHouses.begin() + randomIndex);
             resolvedHouseInfo.houseID = houseID;
         }
 
         int colorOfHouse = houseInfo.colorOfHouse;
-        if(!isValidHouseColorSlot(colorOfHouse)) {
-            colorOfHouse = houseID;
+        if(useFactionColors || !isValidHouseColorSlot(colorOfHouse)) {
+            colorOfHouse = getDefaultHouseColorSlot(houseID);
         }
         resolvedHouseInfo.colorOfHouse = colorOfHouse;
 
@@ -697,6 +757,17 @@ void INIMapLoader::loadChoam()
             }
         }
     }
+
+    if(isJerichoWildspade(pGame, HOUSE_NEUTRAL) && pGame->house[HOUSE_NEUTRAL] != nullptr) {
+        auto& wildspadeChoam = pGame->house[HOUSE_NEUTRAL]->getChoam();
+
+        if(wildspadeChoam.getNumAvailable(Unit_RaiderTrike) == INVALID) {
+            wildspadeChoam.addItem(Unit_RaiderTrike, 5);
+        }
+        if(wildspadeChoam.getNumAvailable(Unit_RocketTrike) == INVALID) {
+            wildspadeChoam.addItem(Unit_RocketTrike, 5);
+        }
+    }
 }
 
 /**
@@ -759,7 +830,17 @@ void INIMapLoader::loadUnits()
                 }
             }
 
-            if(!pGame->objectData.data[itemID][houseID].enabled) {
+            if(isVanillaModActive() && isTornieMapObject(itemID)) {
+                continue;
+            }
+
+            itemID = replaceJerichoWildspadeUnit(pGame, houseID, itemID);
+
+            // Editor-placed Chemical Carryalls are valid for every faction;
+            // production availability remains controlled separately by the builder rules.
+            const bool editorPlacedChemicalCarryall =
+                itemID == Unit_ChemicalCarryall && !isVanillaModActive();
+            if(!pGame->objectData.data[itemID][houseID].enabled && !editorPlacedChemicalCarryall) {
                 continue;
             }
 
@@ -879,6 +960,10 @@ void INIMapLoader::loadStructures()
                 continue;
             }
 
+            if(isVanillaModActive() && isTornieMapObject(itemID)) {
+                continue;
+            }
+
             if (itemID != 0 && pGame->objectData.data[itemID][houseID].enabled) {
                 ObjectBase* newStructure = getOrCreateHouse(houseID)->placeStructure(NONE_ID, itemID, getXPos(pos), getYPos(pos), true);
                 if(newStructure == nullptr) {
@@ -934,6 +1019,10 @@ void INIMapLoader::loadReinforcements()
             continue;
         }
 
+        if(isVanillaModActive() && isTornieMapObject(static_cast<int>(itemID))) {
+            continue;
+        }
+
         if(itemID == Unit_Infantry) {
             // make three
             itemID = Unit_Soldier;
@@ -943,6 +1032,8 @@ void INIMapLoader::loadReinforcements()
             itemID = Unit_Trooper;
             Num2Drop = 3;
         }
+
+        itemID = replaceJerichoWildspadeUnit(pGame, houseID, itemID);
 
         if(!pGame->objectData.data[itemID][houseID].enabled) {
             continue;

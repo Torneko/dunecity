@@ -55,10 +55,13 @@
 #include <structures/Worfinery.h>
 #include <structures/TechCenter.h>
 #include <structures/Scoutpost.h>
+#include <structures/LoveFactory.h>
+#include <structures/ChaosFactory.h>
 #include <structures/WOR.h>
 
 //units
 #include <units/Carryall.h>
+#include <units/ChemicalCarryall.h>
 #include <units/Devastator.h>
 #include <units/Deviator.h>
 #include <units/Frigate.h>
@@ -82,6 +85,7 @@
 #include <units/FlameTank.h>
 #include <units/EliteLauncher.h>
 #include <units/EliteSiegeTank.h>
+#include <units/ChemicalSiegeTank.h>
 
 #include <array>
 #include <vector>
@@ -158,9 +162,14 @@ ObjectBase::ObjectBase(InputStream& stream) {
     targetFriendly = stream.readBool();
     attackMode = static_cast<ATTACKMODE>(stream.readUint32());
 
-    std::array<bool, NUM_TEAMS> b{};
+    // The packed save field contains 8 bits. Keep the ninth team-array slot
+    // initialized instead of indexing past the old seven-element temporary.
+    std::array<bool, NUM_TEAM_SLOTS> b{};
 
     stream.readBools(&b[0], &b[1], &b[2], &b[3], &b[4], &b[5], &b[6], &b[7]);
+    if(currentGame && currentGame->getLoadedSavegameVersion() >= 9821) {
+        stream.readBools(&b[8], &b[9]);
+    }
 
     for (decltype(visible.size()) i = 0; i < visible.size(); ++i)
         visible[i] = b[i];
@@ -228,6 +237,7 @@ void ObjectBase::save(OutputStream& stream) const {
     stream.writeUint32(attackMode);
 
     stream.writeBools(visible[0], visible[1], visible[2], visible[3], visible[4], visible[5], visible[6], visible[7]);
+    stream.writeBools(visible[8], visible[9]);
 }
 
 
@@ -245,7 +255,7 @@ Coord ObjectBase::getClosestCenterPoint(const Coord& objectLocation) const {
 
 
 int ObjectBase::getMaxHealth() const {
-    return currentGame->objectData.data[itemID][originalHouseID].hitpoints;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].hitpoints;
 }
 
 void ObjectBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
@@ -253,7 +263,7 @@ void ObjectBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner)
     // This applies when ANY human player controls the house (not just AI players)
     if(damage > 0) {
         GameType gameType = currentGame->getGameInitSettings().getGameType();
-        if(gameType != GameType::CustomMultiplayer 
+        if(gameType != GameType::CustomMultiplayer
            && gameType != GameType::LoadMultiplayer
            && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
            && getOwner() == pLocalHouse) {
@@ -262,7 +272,7 @@ void ObjectBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner)
             damage = 0;
         }
     }
-    
+
     if(damage >= 0) {
         FixPoint newHealth = getHealth();
 
@@ -360,14 +370,21 @@ void ObjectBase::setVisible(int teamID, bool status) {
             visible.set();
         else
             visible.reset();
-    } else if ((teamID >= 0) && (teamID < NUM_TEAMS)) {
+    } else if ((teamID >= 0) && (teamID < NUM_TEAM_SLOTS)) {
         visible[teamID] = status;
     }
 }
 
 void ObjectBase::setTarget(const ObjectBase* newTarget) {
     target.pointTo(const_cast<ObjectBase*>(newTarget));
-    targetFriendly = (target && (target.getObjPointer()->getOwner()->getTeamID() == owner->getTeamID()) && (getItemID() != Unit_Sandworm) && (target.getObjPointer()->getItemID() != Unit_Sandworm));
+
+    // ObjectPointer::operator bool() only reports whether an ID is set. Resolve
+    // it once because a target destroyed earlier in the cycle can be stale.
+    const ObjectBase* pTarget = target.getObjPointer();
+    targetFriendly = (pTarget != nullptr)
+                     && (pTarget->getOwner()->getTeamID() == owner->getTeamID())
+                     && (getItemID() != Unit_Sandworm)
+                     && (pTarget->getItemID() != Unit_Sandworm);
 }
 
 void ObjectBase::unassignFromMap(const Coord& location) const {
@@ -392,7 +409,7 @@ bool ObjectBase::isOnScreen() const {
 }
 
 bool ObjectBase::isVisible(int teamID) const {
-    if((teamID >= 0) && (teamID < NUM_TEAMS)) {
+    if((teamID >= 0) && (teamID < NUM_TEAM_SLOTS)) {
         return visible[teamID];
     } else {
         return false;
@@ -419,7 +436,7 @@ namespace {
 
 // 0 = normal, 1 = walls (slightly deprioritized), 2 = carryalls (heavily deprioritized)
 int getTargetDeprioritizationLevel(const ObjectBase& candidate) {
-    if(candidate.getItemID() == Unit_Carryall) return 2;
+    if(isCarryallUnit(candidate.getItemID())) return 2;
     if(candidate.getItemID() == Structure_Wall) return 1;
     return 0;
 }
@@ -752,7 +769,7 @@ const ObjectBase* ObjectBase::findTarget() const {
 
         case AREAGUARD: {
             // Launchers get extended area guard range due to long weapon range
-            checkRange = (getItemID() == Unit_Launcher) ? 12 : 10;
+            checkRange = (getItemID() == Unit_Launcher || getItemID() == Unit_EliteLauncher) ? 12 : 10;
         } break;
 
         case AMBUSH: {
@@ -787,7 +804,7 @@ const ObjectBase* ObjectBase::findTarget() const {
 }
 
 int ObjectBase::getViewRange() const {
-    return currentGame->objectData.data[itemID][originalHouseID].viewrange;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].viewrange;
 }
 
 int ObjectBase::getAreaGuardRange() const {
@@ -795,18 +812,18 @@ int ObjectBase::getAreaGuardRange() const {
 }
 
 int ObjectBase::getWeaponRange() const {
-    return currentGame->objectData.data[itemID][originalHouseID].weaponrange;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].weaponrange;
 }
 
 int ObjectBase::getWeaponReloadTime() const {
-    return currentGame->objectData.data[itemID][originalHouseID].weaponreloadtime;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].weaponreloadtime;
 }
 
 int ObjectBase::getInfSpawnProp() const {
-    return currentGame->objectData.data[itemID][originalHouseID].infspawnprop;
+    return currentGame->objectData.data[itemID][getProductionHouseID()].infspawnprop;
 }
 
-ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) {
+ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario, int productionHouseID) {
 
     ObjectBase* newObject = nullptr;
     switch(itemID) {
@@ -832,9 +849,14 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
         case Structure_Worfinery:           newObject = new Worfinery(Owner); break;
         case Structure_TechCenter:          newObject = new TechCenter(Owner); break;
         case Structure_Scoutpost:           newObject = new Scoutpost(Owner); break;
+        case Structure_Flamepost:           newObject = new Scoutpost(Owner, Structure_Flamepost); break;
+        case Structure_Chemipost:           newObject = new Scoutpost(Owner, Structure_Chemipost); break;
+        case Structure_LoveFactory:         newObject = new LoveFactory(Owner); break;
+        case Structure_ChaosFactory:        newObject = new ChaosFactory(Owner); break;
         case Structure_WOR:                 newObject = new WOR(Owner); break;
 
         case Unit_Carryall:                 newObject = new Carryall(Owner); break;
+        case Unit_ChemicalCarryall:         newObject = new ChemicalCarryall(Owner); break;
         case Unit_Devastator:               newObject = new Devastator(Owner); break;
         case Unit_Deviator:                 newObject = new Deviator(Owner); break;
         case Unit_Frigate:                  newObject = new Frigate(Owner); break;
@@ -858,13 +880,30 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
         case Unit_FlameTank:                newObject = new FlameTank(Owner); break;
         case Unit_EliteLauncher:            newObject = new EliteLauncher(Owner); break;
         case Unit_EliteSiegeTank:           newObject = new EliteSiegeTank(Owner); break;
+        case Unit_ChemicalSiegeTank:        newObject = new ChemicalSiegeTank(Owner); break;
         case Unit_Special: {
-            const bool tornieActive = ModManager::instance().isInitialized()
-                && ModManager::instance().getActiveModName() == "Tornie";
-            const auto pool = getSpecialVehiclePoolForHouse(Owner->getHouseID(), tornieActive);
+            const bool modInitialized = ModManager::instance().isInitialized();
+            const bool tornieActive = modInitialized && ModManager::instance().isTornieContentActive();
+            const bool jerichoActive = modInitialized
+                && ModManager::instance().getActiveModName() == "Jericho";
+            const int houseID = productionHouseID >= 0 && productionHouseID < NUM_HOUSES
+                ? productionHouseID : Owner->getHouseID();
+            const bool corruptiqueActive = modInitialized
+                && isHouseFaction(static_cast<HOUSETYPE>(houseID), HOUSE_CUSTOM);
+            const auto objectDataIxCandidates = discoverHouseSpecialVehicleCandidates([&](int candidate) {
+                const auto& data = currentGame->objectData.data[candidate][houseID];
+                return HouseSpecialVehicleCandidateData{
+                    data.enabled,
+                    data.builder,
+                    data.prerequisiteStructuresSet[Structure_IX]
+                };
+            });
+
+            const auto pool = resolveSpecialVehiclePoolForHouse(
+                houseID, tornieActive, jerichoActive, objectDataIxCandidates, corruptiqueActive);
             std::vector<int> enabledPool;
             for(const int candidate : pool) {
-                if(currentGame->objectData.data[candidate][Owner->getHouseID()].enabled) {
+                if(isSpecialVehicleSelectionCandidate(candidate) && currentGame->objectData.data[candidate][houseID].enabled) {
                     enabledPool.push_back(candidate);
                 }
             }
@@ -881,6 +920,7 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
                     case Unit_FlameTank:       newObject = new FlameTank(Owner); break;
                     case Unit_EliteLauncher:   newObject = new EliteLauncher(Owner); break;
                     case Unit_EliteSiegeTank:  newObject = new EliteSiegeTank(Owner); break;
+                    case Unit_ChemicalSiegeTank: newObject = new ChemicalSiegeTank(Owner); break;
                     default: break;
                 }
             }
@@ -928,9 +968,14 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Structure_Worfinery:           newObject = new Worfinery(stream); break;
         case Structure_TechCenter:          newObject = new TechCenter(stream); break;
         case Structure_Scoutpost:           newObject = new Scoutpost(stream); break;
+        case Structure_Flamepost:           newObject = new Scoutpost(stream, Structure_Flamepost); break;
+        case Structure_Chemipost:           newObject = new Scoutpost(stream, Structure_Chemipost); break;
+        case Structure_LoveFactory:         newObject = new LoveFactory(stream); break;
+        case Structure_ChaosFactory:        newObject = new ChaosFactory(stream); break;
         case Structure_WOR:                 newObject = new WOR(stream); break;
 
         case Unit_Carryall:                 newObject = new Carryall(stream); break;
+        case Unit_ChemicalCarryall:         newObject = new ChemicalCarryall(stream); break;
         case Unit_Devastator:               newObject = new Devastator(stream); break;
         case Unit_Deviator:                 newObject = new Deviator(stream); break;
         case Unit_Frigate:                  newObject = new Frigate(stream); break;
@@ -954,6 +999,7 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Unit_FlameTank:                newObject = new FlameTank(stream); break;
         case Unit_EliteLauncher:            newObject = new EliteLauncher(stream); break;
         case Unit_EliteSiegeTank:           newObject = new EliteSiegeTank(stream); break;
+        case Unit_ChemicalSiegeTank:        newObject = new ChemicalSiegeTank(stream); break;
 
         default:                            newObject = nullptr;
                                             SDL_Log("ObjectBase::loadObject(): %d is no valid ItemID!",itemID);
@@ -973,5 +1019,5 @@ bool ObjectBase::targetInWeaponRange() const {
     Coord coord = (target.getObjPointer())->getClosestPoint(location);
     FixPoint dist = blockDistance(location,coord);
 
-    return ( dist <= currentGame->objectData.data[itemID][originalHouseID].weaponrange);
+    return ( dist <= currentGame->objectData.data[itemID][getProductionHouseID()].weaponrange);
 }

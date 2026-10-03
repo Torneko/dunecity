@@ -18,7 +18,27 @@
 #ifndef MODINFO_H
 #define MODINFO_H
 
+#include <mod/ModMentatConfig.h>
+
 #include <string>
+#include <vector>
+
+/**
+ * Optional registration for the fixed generic ninth-house slot.
+ * Content remains entirely mod-owned.
+ */
+struct CustomHouseInfo {
+    bool enabled = false;
+    std::string displayName;
+    char scenarioLetter = '?';
+    std::string regionPrefix;
+    int paletteIndex = 0;
+    int fallbackHouse = 0;
+    std::string heraldAsset;
+    std::string houseNameVoiceAsset;
+    double voicePlaybackRate = 1.0;
+    double voiceGain = 1.0;
+};
 
 /**
  * Checksums for mod verification in multiplayer.
@@ -28,12 +48,13 @@ struct ModChecksums {
     std::string objectData;      ///< Hash of ObjectData (unit/structure stats)
     std::string quantBotConfig;  ///< Hash of QuantBot AI config
     std::string gameOptions;     ///< Hash of game options/rules
-    std::string combined;        ///< Combined hash of all three
-    
+    std::string customHouse;     ///< Hash of optional CustomHouse.ini registration
+    std::string combined;        ///< Combined hash of all synchronized configuration
+
     bool operator==(const ModChecksums& other) const {
         return combined == other.combined;
     }
-    
+
     bool operator!=(const ModChecksums& other) const {
         return !(*this == other);
     }
@@ -50,7 +71,9 @@ struct ModInfo {
     std::string version;         ///< Mod version (user-defined, e.g., "1.0.0")
     std::string gameVersion;     ///< Game version this mod was created for
     ModChecksums checksums;      ///< Cached checksums
-    
+    CustomHouseInfo customHouse; ///< Optional generic ninth-house registration
+    std::vector<ModMentatInfo> mentats; ///< Optional active-mod Mentat presentations by house ID
+
     bool hasObjectData;          ///< Does this mod have ObjectData.ini?
     bool hasQuantBotConfig;      ///< Does this mod have QuantBot Config.ini?
     bool hasGameOptions;         ///< Does this mod have GameOptions.ini?

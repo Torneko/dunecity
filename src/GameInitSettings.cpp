@@ -96,6 +96,7 @@ GameInitSettings::GameInitSettings(const std::string& savegame, const std::strin
 }
 
 GameInitSettings::GameInitSettings(InputStream& stream) {
+    constexpr Uint32 GAMEINIT_MOD3_MARKER = GAMEINIT_MOD2_MARKER + 1;
     gameType = static_cast<GameType>(stream.readSint8());
     houseID = static_cast<HOUSETYPE>(stream.readSint8());
 
@@ -127,16 +128,16 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
     for(Uint32 i=0;i<numHouseInfo;i++) {
         houseInfoList.push_back(HouseInfo(stream));
     }
-    
+
     // Read mod info (added in version with mod system)
     // Use marker to detect presence for backward compatibility
     try {
         Uint32 modMarker = stream.readUint32();
-        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER) {
+        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER) {
             modName = stream.readString();
             modChecksum = stream.readString();
 
-            if(modMarker == GAMEINIT_MOD2_MARKER) {
+            if(modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER) {
                 Uint32 numHouseColors = stream.readUint32();
                 for(Uint32 i = 0; i < numHouseColors; i++) {
                     const int colorOfHouse = stream.readSint32();
@@ -144,6 +145,10 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
                         houseInfoList[i].colorOfHouse = colorOfHouse;
                     }
                 }
+            }
+
+            if(modMarker == GAMEINIT_MOD3_MARKER) {
+                gameOptions.randomSpiceBlooms = stream.readBool();
             }
         }
     } catch (InputStream::eof&) {
@@ -157,6 +162,7 @@ GameInitSettings::~GameInitSettings() {
 }
 
 void GameInitSettings::save(OutputStream& stream) const {
+    constexpr Uint32 GAMEINIT_MOD3_MARKER = GAMEINIT_MOD2_MARKER + 1;
     stream.writeSint8(static_cast<Sint8>(gameType));
     stream.writeSint8(houseID);
 
@@ -188,9 +194,9 @@ void GameInitSettings::save(OutputStream& stream) const {
     for(const HouseInfo& houseInfo : houseInfoList) {
         houseInfo.save(stream);
     }
-    
+
     // Write mod info with marker for forward compatibility
-    stream.writeUint32(GAMEINIT_MOD2_MARKER);
+    stream.writeUint32(GAMEINIT_MOD3_MARKER);
     stream.writeString(modName);
     stream.writeString(modChecksum);
 
@@ -198,12 +204,19 @@ void GameInitSettings::save(OutputStream& stream) const {
     for(const HouseInfo& houseInfo : houseInfoList) {
         stream.writeSint32(houseInfo.colorOfHouse);
     }
+    stream.writeBool(gameOptions.randomSpiceBlooms);
 }
 
 
 
+void GameInitSettings::migrateLegacyHouseColorSlots() {
+    for(HouseInfo& houseInfo : houseInfoList) {
+        houseInfo.colorOfHouse = migrateLegacyHouseColorSlot(houseInfo.colorOfHouse);
+    }
+}
+
 std::string GameInitSettings::getScenarioFilename(HOUSETYPE newHouse, int mission) {
-    if( (newHouse < 0) || (newHouse >= NUM_HOUSES)) {
+    if((newHouse < 0) || (newHouse >= NUM_HOUSES) || !isHouseAvailable(newHouse)) {
         THROW(std::invalid_argument, "GameInitSettings::getScenarioFilename(): Invalid house id " + std::to_string(newHouse) + ".");
     }
 
@@ -212,7 +225,7 @@ std::string GameInitSettings::getScenarioFilename(HOUSETYPE newHouse, int missio
     }
 
     std::string name = "SCEN?0??.INI";
-    name[4] = houseChar[newHouse];
+    name[4] = getHouseScenarioLetter(newHouse);
 
     name[6] = '0' + (mission / 10);
     name[7] = '0' + (mission % 10);
@@ -251,7 +264,7 @@ void GameInitSettings::checkSaveGame(InputStream& stream) {
 
     // Support backward compatibility: Accept version 9705 (pre-Original AI) and newer
     constexpr Uint32 MINIMUM_SUPPORTED_VERSION = 9705;
-    
+
     if(savegameVersion < MINIMUM_SUPPORTED_VERSION) {
         THROW(std::runtime_error, "Cannot load this savegame,\n because it was created with an older version:\n" + duneVersion);
     }

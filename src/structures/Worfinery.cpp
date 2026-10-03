@@ -32,32 +32,34 @@
 #include <units/Carryall.h>
 #include <units/HarvesterHelpers.h>
 
-namespace {
-const FixPoint MaximumHarvesterExtractionSpeed = 0.625_fix;
-constexpr int WorfineryIdleFrame = 2;
-constexpr int WorfineryUnloadingFrame = 3;
-}
+#define MAXIMUMHARVESTEREXTRACTSPEED (0.625_fix)
 
-Worfinery::Worfinery(House* newOwner)
-    : BuilderBase(newOwner), extractingSpice(false), bookings(0) {
+Worfinery::Worfinery(House* newOwner) : BuilderBase(newOwner) {
     Worfinery::init();
 
     setHealth(getMaxHealth());
 }
 
-Worfinery::Worfinery(InputStream& stream)
-    : BuilderBase(stream), extractingSpice(false), bookings(0) {
+Worfinery::Worfinery(InputStream& stream) : BuilderBase(stream) {
     Worfinery::init();
 
-    extractingSpice = stream.readBool();
-    harvester.load(stream);
-    bookings = stream.readUint32();
+    if(currentGame != nullptr && currentGame->getLoadedSavegameVersion() >= 9822) {
+        extractingSpice = stream.readBool();
+        harvester.load(stream);
+        bookings = stream.readUint32();
+    }
 
     if(extractingSpice) {
-        showUnloadingFrame();
+        drawnAngle = 1;
+        firstAnimFrame = 8;
+        lastAnimFrame = 9;
+        curAnimFrame = 8;
+    } else if(bookings == 0) {
+        stopAnimate();
     } else {
-        showIdleFrame();
+        startAnimate();
     }
+    firstRun = false;
 }
 
 void Worfinery::init() {
@@ -70,10 +72,13 @@ void Worfinery::init() {
     graphicID = ObjPic_Worfinery;
     graphic = pGFXManager->getObjPic(graphicID, getOwner()->getHouseID());
 
-    numImagesX = 4;
+    numImagesX = 10;
     numImagesY = 1;
-    showIdleFrame();
-    lastVisibleFrame = WorfineryIdleFrame;
+    firstAnimFrame = 2;
+    lastAnimFrame = 3;
+    curAnimFrame = 2;
+    lastVisibleFrame = 2;
+    animationCounter = 0;
 }
 
 Worfinery::~Worfinery() {
@@ -86,14 +91,11 @@ Worfinery::~Worfinery() {
 }
 
 bool Worfinery::receiveHarvester(TrackedUnit* unit) {
-    if(unit == nullptr || !isHarvesterLikeUnit(unit->getItemID())) {
+    if(unit == nullptr || !isHarvesterLikeUnit(unit->getItemID()) || extractingSpice) {
         return false;
     }
 
-    extractingSpice = true;
-    harvester.pointTo(unit);
-    drawnAngle = 1;
-    showUnloadingFrame();
+    assignHarvester(unit);
     return true;
 }
 
@@ -120,29 +122,34 @@ void Worfinery::updateStructureSpecificStuff() {
     UnitBase* unit = harvester.getUnitPointer();
     if(unit == nullptr) {
         extractingSpice = false;
-        showIdleFrame();
-        return;
-    }
+        harvester.pointTo(NONE_ID);
+        drawnAngle = 0;
+        if(bookings == 0) {
+            stopAnimate();
+        } else {
+            startAnimate();
+        }
+        return;    }
 
     if(harvesterGetAmountOfSpice(unit) > 0) {
+        FixPoint extractionSpeed = MAXIMUMHARVESTEREXTRACTSPEED;
         int healthScale = floor(5 * getHealth() / getMaxHealth());
         if(healthScale == 0) {
             healthScale = 1;
         }
 
-        const FixPoint extractionSpeed =
-            (MaximumHarvesterExtractionSpeed * healthScale) / 5;
+        extractionSpeed = (extractionSpeed * healthScale) / 5;
         owner->addCredits(harvesterExtractSpice(unit, extractionSpeed), true);
         return;
     }
 
-    auto* groundUnit = static_cast<GroundUnit*>(unit);
-    if(!groundUnit->isAwaitingPickup() && unit->getGuardPoint().isValid()) {
+    GroundUnit* groundHarvester = static_cast<GroundUnit*>(unit);
+    if(!groundHarvester->isAwaitingPickup() && unit->getGuardPoint().isValid()) {
         Carryall* carryall = nullptr;
         if(getOwner()->hasCarryalls()) {
             for(UnitBase* candidate : unitList) {
                 if(candidate->getOwner() == owner && candidate->getItemID() == Unit_Carryall) {
-                    auto* candidateCarryall = static_cast<Carryall*>(candidate);
+                    Carryall* candidateCarryall = static_cast<Carryall*>(candidate);
                     if(!candidateCarryall->isBooked()) {
                         carryall = candidateCarryall;
                         break;
@@ -154,35 +161,82 @@ void Worfinery::updateStructureSpecificStuff() {
         if(carryall != nullptr) {
             carryall->setTarget(this);
             carryall->clearPath();
-            groundUnit->bookCarrier(carryall);
+            groundHarvester->bookCarrier(carryall);
             unit->setTarget(nullptr);
             unit->setDestination(unit->getGuardPoint());
         } else {
-            deployContainedHarvester();
+            deployHarvester();
         }
-    } else if(!groundUnit->hasBookedCarrier()) {
-        deployContainedHarvester();
+    } else if(!groundHarvester->hasBookedCarrier()) {
+        deployHarvester();
     }
+}
+
+void Worfinery::bookHarvesterDropoff() {
+    ++bookings;
+    startAnimate();
+}
+
+void Worfinery::startHarvesterDropoffAnimation() {
+    startAnimate();
 }
 
 void Worfinery::unbookHarvesterDropoff() {
     if(bookings > 0) {
         --bookings;
     }
+
+    if(bookings == 0 && !extractingSpice) {
+        stopAnimate();
+    }
 }
 
-void Worfinery::startHarvesterDropoffAnimation() {
-    showUnloadingFrame();
+void Worfinery::startAnimate() {
+    if(!extractingSpice) {
+        firstAnimFrame = 2;
+        lastAnimFrame = 7;
+        curAnimFrame = 2;
+        justPlacedTimer = 0;
+        animationCounter = 0;
+    }
+}
+
+void Worfinery::stopAnimate() {
+    firstAnimFrame = 2;
+    lastAnimFrame = 3;
+    curAnimFrame = 2;
+}
+void Worfinery::assignHarvester(TrackedUnit* unit) {
+    extractingSpice = true;
+    harvester.pointTo(unit);
+    drawnAngle = 1;
+    firstAnimFrame = 8;
+    lastAnimFrame = 9;
+    curAnimFrame = 8;
 }
 
 void Worfinery::deployContainedHarvester(Carryall* carryall) {
+    deployHarvester(carryall);
+}
+
+void Worfinery::deployHarvester(Carryall* carryall) {
     unbookHarvesterDropoff();
     drawnAngle = 0;
     extractingSpice = false;
 
+    if(bookings == 0) {
+        stopAnimate();
+    } else {
+        startAnimate();
+    }
+    if(firstRun && getOwner() == pLocalHouse) {
+        soundPlayer->playVoice(HarvesterDeployed, getOwner()->getHouseID());
+    }
+    firstRun = false;
+
     UnitBase* unit = harvester.getUnitPointer();
+    harvester.pointTo(NONE_ID);
     if(unit == nullptr) {
-        showIdleFrame();
         return;
     }
 
@@ -191,23 +245,8 @@ void Worfinery::deployContainedHarvester(Carryall* carryall) {
         carryall->setTarget(nullptr);
         carryall->setDestination(unit->getGuardPoint());
     } else {
-        const Coord deployPos = currentGameMap->findDeploySpot(
+        Coord deployPos = currentGameMap->findDeploySpot(
             unit, location, currentGame->randomGen, destination, structureSize);
         unit->deploy(deployPos);
     }
-
-    harvester.pointTo(NONE_ID);
-    showIdleFrame();
-}
-
-void Worfinery::showIdleFrame() {
-    firstAnimFrame = WorfineryIdleFrame;
-    lastAnimFrame = WorfineryIdleFrame;
-    curAnimFrame = WorfineryIdleFrame;
-}
-
-void Worfinery::showUnloadingFrame() {
-    firstAnimFrame = WorfineryUnloadingFrame;
-    lastAnimFrame = WorfineryUnloadingFrame;
-    curAnimFrame = WorfineryUnloadingFrame;
 }

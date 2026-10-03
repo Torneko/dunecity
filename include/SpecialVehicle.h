@@ -11,12 +11,53 @@
 #define SPECIALVEHICLE_H
 
 #include <data.h>
+#include <globals.h>
+
+#include <units/HarvesterHelpers.h>
 
 #include <vector>
 
-inline std::vector<int> getSpecialVehiclePoolForHouse(int house, bool tornieActive) {
+struct HouseSpecialVehicleCandidateData {
+    bool enabled = false;
+    int builder = ItemID_Invalid;
+    bool requiresHouseIx = false;
+};
+
+inline bool isSpecialVehicleSelectionCandidate(int itemID) {
+    return isUnit(itemID)
+        && !isFlyingUnit(itemID)
+        && !isInfantryUnit(itemID)
+        && !isHarvesterLikeUnit(itemID);
+}
+
+inline bool isHouseSpecialVehicleCandidate(
+        int itemID,
+        const HouseSpecialVehicleCandidateData& candidateData) {
+    return candidateData.enabled
+        && isSpecialVehicleSelectionCandidate(itemID)
+        && candidateData.builder != ItemID_Invalid
+        && candidateData.requiresHouseIx;
+}
+
+template<typename CandidateDataProvider>
+inline std::vector<int> discoverHouseSpecialVehicleCandidates(
+        CandidateDataProvider&& candidateDataProvider) {
+    std::vector<int> candidates;
+    for(int itemID = ItemID_FirstID; itemID <= ItemID_LastID; ++itemID) {
+        if(isHouseSpecialVehicleCandidate(itemID, candidateDataProvider(itemID))) {
+            candidates.push_back(itemID);
+        }
+    }
+
+    return candidates;
+}
+
+inline std::vector<int> getSpecialVehicleFallbackPoolForHouse(
+        int house,
+        bool tornieActive,
+        bool jerichoActive) {
     if(tornieActive) {
-        switch(house) {
+        switch(getHouseFactionIdentity(static_cast<HOUSETYPE>(house))) {
             case HOUSE_HARKONNEN:  return { Unit_Devastator, Unit_FlameTank };
             case HOUSE_ATREIDES:   return { Unit_SonicTank, Unit_EliteLauncher };
             case HOUSE_ORDOS:      return { Unit_Deviator, Unit_EliteSiegeTank };
@@ -25,6 +66,10 @@ inline std::vector<int> getSpecialVehiclePoolForHouse(int house, bool tornieActi
             case HOUSE_MERCENARY:  return { Unit_Devastator, Unit_Deviator };
             case HOUSE_NEUTRAL:    return { Unit_EliteLauncher, Unit_EliteSiegeTank };
             case HOUSE_REBELS:     return { Unit_SonicTank, Unit_FlameTank };
+            case HOUSE_CUSTOM:     return { Unit_Devastator, Unit_EliteSiegeTank };
+            case HOUSE_WILDSPADE:  return { Unit_EliteLauncher, Unit_FlameTank };
+            case HOUSE_KLESHMERSH: return { Unit_FlameTank, Unit_EliteSiegeTank };
+            case HOUSE_THARPIQUE:  return { Unit_Deviator, Unit_EliteLauncher };
             default:               return {};
         }
     }
@@ -33,13 +78,31 @@ inline std::vector<int> getSpecialVehiclePoolForHouse(int house, bool tornieActi
         case HOUSE_HARKONNEN:  return { Unit_Devastator };
         case HOUSE_ATREIDES:   return { Unit_SonicTank };
         case HOUSE_ORDOS:      return { Unit_Deviator };
-        case HOUSE_FREMEN:     return { Unit_SonicTank, Unit_Devastator };
-        case HOUSE_SARDAUKAR:  return { Unit_SonicTank, Unit_Devastator };
-        case HOUSE_MERCENARY:  return { Unit_SonicTank, Unit_Devastator };
-        case HOUSE_NEUTRAL:    return { Unit_SonicTank, Unit_Devastator };
-        case HOUSE_REBELS:     return { Unit_SonicTank, Unit_Devastator };
+        case HOUSE_FREMEN:
+        case HOUSE_SARDAUKAR:
+        case HOUSE_MERCENARY:
+        case HOUSE_NEUTRAL:
+        case HOUSE_REBELS:
+        case HOUSE_CUSTOM:     return { Unit_SonicTank, Unit_Devastator };
         default:               return {};
     }
+}
+
+inline std::vector<int> resolveSpecialVehiclePoolForHouse(
+        int house,
+        bool tornieActive,
+        bool jerichoActive,
+        const std::vector<int>& objectDataIxCandidates,
+        bool corruptiqueActive = false) {
+    if(getHouseFactionIdentity(static_cast<HOUSETYPE>(house)) == HOUSE_CUSTOM) {
+        return { Unit_Devastator, Unit_EliteSiegeTank };
+    }
+
+    if(!objectDataIxCandidates.empty()) {
+        return objectDataIxCandidates;
+    }
+
+    return getSpecialVehicleFallbackPoolForHouse(house, tornieActive, jerichoActive);
 }
 
 #endif // SPECIALVEHICLE_H

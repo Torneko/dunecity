@@ -177,14 +177,14 @@ void InfantryBase::checkPos() {
 
         if(currentGameMap->getTile(location)->isSpiceBloom()) {
             currentGameMap->getTile(location)->triggerSpiceBloom(getOwner());
-            
+
             // Check if unit should be destroyed by the bloom
             GameType gameType = currentGame->getGameInitSettings().getGameType();
-            bool isImmortal = (gameType != GameType::CustomMultiplayer 
+            bool isImmortal = (gameType != GameType::CustomMultiplayer
                               && gameType != GameType::LoadMultiplayer
                               && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                               && getOwner() == pLocalHouse);
-            
+
             if(!isImmortal) {
                 setHealth(0);
             }
@@ -218,9 +218,9 @@ void InfantryBase::checkPos() {
                     UnitBase* pContainedUnit = nullptr;
 
                     if(pCapturedStructure->getItemID() == Structure_Silo) {
-                        capturedSpice = currentGame->objectData.data[Structure_Silo][originalHouseID].capacity * (pOwner->getStoredCredits() / pOwner->getCapacity());
+                        capturedSpice = currentGame->objectData.data[Structure_Silo][getProductionHouseID()].capacity * (pOwner->getStoredCredits() / pOwner->getCapacity());
                     } else if(pCapturedStructure->getItemID() == Structure_Refinery) {
-                        capturedSpice = currentGame->objectData.data[Structure_Silo][originalHouseID].capacity * (pOwner->getStoredCredits() / pOwner->getCapacity());
+                        capturedSpice = currentGame->objectData.data[Structure_Silo][getProductionHouseID()].capacity * (pOwner->getStoredCredits() / pOwner->getCapacity());
                         Refinery* pRefinery = static_cast<Refinery*>(pCapturedStructure);
                         if(pRefinery->isFree() == false) {
                             pContainedUnit = pRefinery->getContainedHarvester();
@@ -248,10 +248,10 @@ void InfantryBase::checkPos() {
 
                     // remove all other infantry units capturing this building
                     GameType gameType = currentGame->getGameInitSettings().getGameType();
-                    bool immortalityEnabled = (gameType != GameType::CustomMultiplayer 
+                    bool immortalityEnabled = (gameType != GameType::CustomMultiplayer
                                               && gameType != GameType::LoadMultiplayer
                                               && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer);
-                    
+
                     Coord capturedStructureLocation = pCapturedStructure->getLocation();
                     for(int i = capturedStructureLocation.x; i < capturedStructureLocation.x + pCapturedStructure->getStructureSizeX(); i++) {
                         for(int j = capturedStructureLocation.y; j < capturedStructureLocation.y + pCapturedStructure->getStructureSizeY(); j++) {
@@ -296,7 +296,7 @@ void InfantryBase::checkPos() {
                     }
 
                     if(containedUnitID != NONE_ID) {
-                        UnitBase* pNewUnit = owner->createUnit(containedUnitID);
+                        UnitBase* pNewUnit = owner->createUnit(containedUnitID, false, origHouse);
 
                         pNewUnit->setRespondable(false);
                         pNewUnit->setActive(false);
@@ -327,14 +327,14 @@ void InfantryBase::checkPos() {
                     int damage = lround(std::min(pCapturedStructure->getHealth()/2, getHealth()*2));
                     pCapturedStructure->handleDamage(damage, NONE_ID, getOwner());
                 }
-                
+
                 // Check if engineer/infantry should be destroyed after capture
                 GameType gameType = currentGame->getGameInitSettings().getGameType();
-                bool isImmortal = (gameType != GameType::CustomMultiplayer 
+                bool isImmortal = (gameType != GameType::CustomMultiplayer
                                   && gameType != GameType::LoadMultiplayer
                                   && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                                   && getOwner() == pLocalHouse);
-                
+
                 if(!isImmortal) {
                     // destroy unit indirectly (normal behavior: engineer is consumed)
                     setTarget(nullptr);
@@ -354,11 +354,11 @@ void InfantryBase::checkPos() {
             if(blockDistance(location, closestPoint) <= 0.5_fix) {
                 // Check if infantry should be destroyed (saboteur case)
                 GameType gameType = currentGame->getGameInitSettings().getGameType();
-                bool isImmortal = (gameType != GameType::CustomMultiplayer 
+                bool isImmortal = (gameType != GameType::CustomMultiplayer
                                   && gameType != GameType::LoadMultiplayer
                                   && currentGame->getGameInitSettings().getGameOptions().immortalHumanPlayer
                                   && getOwner() == pLocalHouse);
-                
+
                 if(!isImmortal) {
                     // destroy unit indirectly (saboteur blows up structure)
                     setTarget(nullptr);
@@ -526,7 +526,7 @@ void InfantryBase::setSpeeds() {
         dx -= sx;
         dy -= sy;
 
-        FixPoint scale = currentGame->objectData.data[itemID][originalHouseID].maxspeed/FixPoint::sqrt((dx*dx + dy*dy));
+        FixPoint scale = currentGame->objectData.data[itemID][getProductionHouseID()].maxspeed/FixPoint::sqrt((dx*dx + dy*dy));
         xSpeed = dx*scale;
         ySpeed = dy*scale;
     }

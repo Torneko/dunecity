@@ -406,6 +406,9 @@ public:
         ;
     }
 
+    virtual void forEachChildWidget(const std::function<void(Widget*)>&) const {
+    }
+
     /**
         This method is called if the widget is removed from a container. If
         the widget was created via a named constructor (static create method) then this

@@ -78,6 +78,7 @@ private:
     Checkbox rocketTurretsNeedPowerCheckbox;        ///< If checked rocket turrets are dysfunctional on power shortage
     Checkbox sandwormsRespawnCheckbox;              ///< If checked killed sandworms respawn after some time
     Checkbox killedSandwormsDropSpiceCheckbox;      ///< If checked killed sandworms drop some spice
+    Checkbox randomSpiceBloomsCheckbox;             ///< If checked spice blooms appear occasionally at free sand locations
     Checkbox manualCarryallDropsCheckbox;           ///< If checked player can request carryall to transport units
     Checkbox immortalHumanPlayerCheckbox;           ///< If checked human-controlled units and structures are invulnerable (god mode / cheat)
     HBox            gameSpeedHBox;                  ///< The HBox containing the game speed selection

@@ -5,6 +5,7 @@
  */
 
 #include <Menu/HowToPlayMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 
 #include <globals.h>
 
@@ -30,8 +31,8 @@ static const char* kHowToPlayBody =
     "harvesters. Upgrade buildings to unlock more technology.\n"
     "\n"
     "4) TORNIE MOD\n"
-    "Use MODS to choose the bundled Tornie mod or the vanilla RTS.\n"
-    "Tornie includes custom units and the Neutral and Rebels houses.\n";
+    "Use MODS to choose Vanilla, Tornie, Tornie Lite or Jericho.\n"
+    "The mods include custom units, structures and campaigns.\n";
 
 HowToPlayMenu::HowToPlayMenu() : MenuBase()
 {
@@ -70,6 +71,7 @@ HowToPlayMenu::HowToPlayMenu() : MenuBase()
                            Point(640, 320));
 
     backButton.setText(_("Back"));
+    MainMenuButtonColor::apply(backButton);
     backButton.setOnClick(std::bind(&HowToPlayMenu::onBack, this));
     windowWidget.addWidget(&backButton,
                            Point(getRendererWidth() / 2 - 60,

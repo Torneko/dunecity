@@ -187,6 +187,13 @@ protected:
     void doBuildRandom(const BuilderBase* pBuilder) const;
 
     /**
+        Selects an available Tornie custom unit at a deliberately low frequency.
+        The builder's active ObjectData list remains authoritative, so this
+        works for Tornie, Tornie Lite and Jericho without leaking units between houses.
+    */
+    int chooseLowPriorityCustomUnit(const BuilderBase* pBuilder, int chanceDenominator = 5) const;
+
+    /**
         Send order and wait for delivery to pStarport.
         \param  pStarport  the Starport to send order for
     */

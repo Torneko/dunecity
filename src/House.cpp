@@ -39,6 +39,7 @@
 #include <structures/HarvesterDropoff.h>
 #include <structures/ConstructionYard.h>
 #include <units/Carryall.h>
+#include <mod/ModManager.h>
 
 #include <limits>
 #include <vector>
@@ -57,7 +58,8 @@ House::House(int newHouse, int newCredits, int maxUnits, int maxHarvesters, Uint
 
     storedCredits = 0;
     startingCredits = newCredits;
-    oldCredits = lround(storedCredits+startingCredits);
+    cityCredits = 0;
+    oldCredits = lround(storedCredits+startingCredits+cityCredits);
 
     this->maxUnits = maxUnits;
     this->maxHarvesters = maxHarvesters;
@@ -94,7 +96,12 @@ House::House(InputStream& stream) : choam(this) {
 
     storedCredits = stream.readFixPoint();
     startingCredits = stream.readFixPoint();
-    oldCredits = lround(storedCredits+startingCredits);
+    if (currentGame && currentGame->getLoadedSavegameVersion() >= 9817) {
+        cityCredits = stream.readFixPoint();
+    } else {
+        cityCredits = 0;
+    }
+    oldCredits = lround(storedCredits+startingCredits+cityCredits);
     maxUnits = stream.readSint32();
     maxHarvesters = stream.readSint32();
     quota = stream.readSint32();
@@ -181,6 +188,7 @@ void House::save(OutputStream& stream) const {
 
     stream.writeFixPoint(storedCredits);
     stream.writeFixPoint(startingCredits);
+    stream.writeFixPoint(cityCredits);
     stream.writeSint32(maxUnits);
     stream.writeSint32(maxHarvesters);
     stream.writeSint32(quota);
@@ -261,6 +269,25 @@ void House::addCredits(FixPoint newCredits, bool wasRefined) {
 
 
 
+void House::addCityCredits(FixPoint amount) {
+    cityCredits += amount;
+
+    if(cityCredits < 0) {
+        cityCredits = 0;
+    }
+
+    const FixPoint totalCredits = storedCredits + startingCredits + cityCredits;
+    if(totalCredits > MAX_GAME_CREDITS) {
+        cityCredits -= totalCredits - MAX_GAME_CREDITS;
+        if(cityCredits < 0) {
+            cityCredits = 0;
+        }
+    }
+}
+
+
+
+
 void House::returnCredits(FixPoint newCredits) {
     if(newCredits > 0) {
         FixPoint leftCapacity = capacity - storedCredits;
@@ -280,16 +307,26 @@ FixPoint House::takeCredits(FixPoint amount) {
     FixPoint taken = 0;
 
     if(getCredits() >= 1) {
-        if(storedCredits > amount) {
-            taken = amount;
+        if(cityCredits >= amount) {
+            cityCredits -= amount;
+            return amount;
+        }
+
+        taken = cityCredits;
+        amount -= cityCredits;
+        cityCredits = 0;
+
+        if(storedCredits >= amount) {
+            taken += amount;
             storedCredits -= amount;
         } else {
-            taken = storedCredits;
+            taken += storedCredits;
+            amount -= storedCredits;
             storedCredits = 0;
 
-            if(startingCredits > (amount - taken)) {
-                startingCredits -= (amount - taken);
-                taken = amount;
+            if(startingCredits >= amount) {
+                startingCredits -= amount;
+                taken += amount;
             } else {
                 taken += startingCredits;
                 startingCredits = 0;
@@ -383,7 +420,7 @@ void House::incrementUnits(int itemID) {
 
     if(itemID != Unit_Saboteur
        && itemID != Unit_Frigate
-       && itemID != Unit_Carryall
+       && !isCarryallUnit(itemID)
        && itemID != Unit_MCV
        && itemID != Unit_Harvester
        && itemID != Unit_RebelHarvester
@@ -412,7 +449,7 @@ void House::decrementUnits(int itemID) {
 
     if(itemID != Unit_Saboteur
        && itemID != Unit_Frigate
-       && itemID != Unit_Carryall
+       && !isCarryallUnit(itemID)
        && itemID != Unit_MCV
        && itemID != Unit_Harvester
        && itemID != Unit_RebelHarvester
@@ -482,6 +519,33 @@ void House::decrementStructures(int itemID, const Coord& location) {
 
 
 
+void House::transformStructure(int oldItemID, int newItemID) {
+    if(oldItemID == newItemID || !isStructure(oldItemID) || !isStructure(newItemID)
+       || numItem[oldItemID] <= 0) {
+        return;
+    }
+
+    const auto& oldData = currentGame->objectData.data[oldItemID][houseID];
+    const auto& newData = currentGame->objectData.data[newItemID][houseID];
+
+    numItem[oldItemID]--;
+    numItem[newItemID]++;
+
+    if(oldData.power >= 0) {
+        powerRequirement -= oldData.power;
+    }
+    if(newData.power >= 0) {
+        powerRequirement += newData.power;
+    }
+    capacity += newData.capacity - oldData.capacity;
+
+    if(currentGame->gameState != GameState::Loading) {
+        updateBuildLists();
+    }
+}
+
+
+
 void House::noteDamageLocation(ObjectBase* pObject, int damage, Uint32 damagerID) {
     for(auto& pPlayer : players) {
         pPlayer->onDamage(pObject, damage, damagerID);
@@ -525,7 +589,7 @@ void House::informHasKilled(Uint32 itemID) {
 
         if(itemID != Unit_Saboteur
            && itemID != Unit_Frigate
-           && itemID != Unit_Carryall
+           && !isCarryallUnit(itemID)
            && itemID != Unit_MCV
            && itemID != Unit_Harvester
            && itemID != Unit_Sandworm) {
@@ -568,7 +632,7 @@ void House::win() {
 void House::lose(bool bSilent) {
     if(!bSilent) {
         try {
-            currentGame->addToNewsTicker(fmt::sprintf(_("House '%s' has been defeated."), getHouseNameByNumber( (HOUSETYPE) getHouseID())));
+            currentGame->addToNewsTicker(fmt::sprintf(_("House '%s' has been defeated."), getHouseDisplayNameByNumber( (HOUSETYPE) getHouseID())));
         } catch (std::exception& e) {
             SDL_Log("House::lose(): %s", e.what());
         }
@@ -639,8 +703,9 @@ void House::freeHarvester(int xPos, int yPos) {
         Coord closestPos = currentGameMap->findClosestEdgePoint(
             refinery->getLocation() + Coord(refinery->getStructureSizeX() - 1, 0), Coord(1,1));
 
-        Carryall* carryall = static_cast<Carryall*>(createUnit(Unit_Carryall));
-        Harvester* harvester = static_cast<Harvester*>(createUnit(Unit_Harvester));
+        const int productionHouseID = refinery->getProductionHouseID();
+        Carryall* carryall = static_cast<Carryall*>(createUnit(Unit_Carryall, false, productionHouseID));
+        Harvester* harvester = static_cast<Harvester*>(createUnit(Unit_Harvester, false, productionHouseID));
         harvester->setAmountOfSpice(5);
         carryall->setOwned(false);
         carryall->giveCargo(harvester);
@@ -665,8 +730,15 @@ void House::freeHarvester(int xPos, int yPos) {
 
 
 
-StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int yPos, bool byScenario, bool bForcePlacing) {
+StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int yPos, bool byScenario, bool bForcePlacing, int productionHouseID) {
     if(!currentGameMap->tileExists(xPos,yPos)) {
+        return nullptr;
+    }
+
+    const Coord requestedStructureSize = getStructureSize(itemID);
+    if(requestedStructureSize.x <= 0 || requestedStructureSize.y <= 0
+       || xPos + requestedStructureSize.x > currentGameMap->getSizeX()
+       || yPos + requestedStructureSize.y > currentGameMap->getSizeY()) {
         return nullptr;
     }
 
@@ -738,6 +810,24 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
             if(newStructure == nullptr) {
                 delete newObject;
                 THROW(std::runtime_error, "Cannot create structure with itemID %d!", itemID);
+            }
+
+            if(!byScenario && ModManager::instance().isTornieContentActive()) {
+                const int technologyHouse = pBuilder != nullptr
+                    ? pBuilder->getProductionHouseID() : productionHouseID;
+                if(technologyHouse >= 0 && technologyHouse < NUM_HOUSES
+                   && technologyHouse != newStructure->getOriginalHouseID()) {
+                    newStructure->setOriginalHouseID(technologyHouse);
+                    newStructure->setHealth(newStructure->getMaxHealth());
+                }
+            }
+
+            const int actualSizeX = newStructure->getStructureSizeX();
+            const int actualSizeY = newStructure->getStructureSizeY();
+            if(actualSizeX <= 0 || actualSizeY <= 0
+               || !currentGameMap->tileExists(xPos + actualSizeX - 1, yPos + actualSizeY - 1)) {
+                delete newObject;
+                return nullptr;
             }
 
             if(bForcePlacing == false) {
@@ -815,13 +905,22 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
 
 
 
-UnitBase* House::createUnit(int itemID, bool byScenario) {
-    ObjectBase* newObject = ObjectBase::createObject(itemID,this,byScenario);
+UnitBase* House::createUnit(int itemID, bool byScenario, int productionHouseID) {
+    const bool inheritTechnology = !byScenario && ModManager::instance().isTornieContentActive()
+        && productionHouseID >= 0 && productionHouseID < NUM_HOUSES
+        && productionHouseID != getHouseID();
+    ObjectBase* newObject = ObjectBase::createObject(itemID, this, byScenario,
+        inheritTechnology ? productionHouseID : getHouseID());
     UnitBase* newUnit = dynamic_cast<UnitBase*>(newObject);
 
     if(newUnit == nullptr) {
         delete newObject;
         THROW(std::runtime_error, "Cannot create unit with itemID %d!", itemID);
+    }
+
+    if(inheritTechnology) {
+        newUnit->setProductionHouseID(productionHouseID);
+        newUnit->setHealth(newUnit->getMaxHealth());
     }
 
     return newUnit;

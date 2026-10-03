@@ -44,10 +44,7 @@ public:
     INIMap(GameType gameType, const std::string& mapname, const std::string& mapdata = "") : mapname(mapname) {
 
         if(gameType == GameType::Campaign || gameType == GameType::Skirmish) {
-            // Campaign and campaign-skirmish missions must use the same
-            // mod-aware resolver. In particular, Tornie scenarios stored in
-            // mods/Tornie/campaign must take priority over similarly named
-            // external files in data/ and over the vanilla campaign PAKs.
+            // Campaign and skirmish must load the exact same scenario table.
             inifile = std::make_unique<INIFile>(pFileManager->openCampaignFile(this->mapname).get());
         } else if(gameType == GameType::CustomGame || gameType == GameType::CustomMultiplayer) {
             SDL_RWops* RWops = SDL_RWFromConstMem(mapdata.c_str(), mapdata.size());

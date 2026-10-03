@@ -41,6 +41,7 @@
 #define NETWORKDISCONNECT_TIMEOUT           2
 #define NETWORKDISCONNECT_PLAYER_EXISTS     3
 #define NETWORKDISCONNECT_GAME_FULL         4
+#define NETWORKDISCONNECT_PROTOCOL_MISMATCH 5
 
 #define NETWORKPACKET_UNKNOWN               0
 #define NETWORKPACKET_CONNECT               1
@@ -66,7 +67,19 @@
 // Network protocol version - increment when packet formats change
 // Version 2: Added simMsAvg to NETWORKPACKET_CLIENTSTATS (5 fields instead of 4)
 // Version 3: Added mod transfer packets (MOD_INFO, MOD_REQUEST, MOD_CHUNK, MOD_COMPLETE)
-#define NETWORK_PROTOCOL_VERSION            3
+// Version 4: Fixed nine-house deterministic state and versioned visibility storage
+#define NETWORK_PROTOCOL_VERSION            4
+
+/**
+ * Reject an incompatible config-hash handshake and dispatch its disconnect cause.
+ * Returns true when the peer must be rejected.
+ */
+template<typename DisconnectFunction>
+inline bool rejectIncompatibleNetworkProtocol(Uint32 peerProtocolVersion, DisconnectFunction&& disconnect) {
+    if(peerProtocolVersion == NETWORK_PROTOCOL_VERSION) return false;
+    disconnect(NETWORKDISCONNECT_PROTOCOL_MISMATCH);
+    return true;
+}
 
 // Mod transfer limits
 #define MAX_MOD_TRANSFER_SIZE   (10 * 1024 * 1024)  // 10MB max mod size
@@ -308,7 +321,7 @@ private:
     void sendPacketToHost(ENetPacketOStream& packetStream, int channel = 0);
 
     void sendPacketToPeer(ENetPeer* peer, ENetPacketOStream& packetStream, int channel = 0);
-    
+
     /**
         Package and send mod files to a peer in chunks.
         \param  peer        The peer to send to
@@ -398,11 +411,11 @@ private:
     Uint32                                      upnpLeaseStartTime = 0;
     static constexpr int                        UPNP_LEASE_DURATION = 3600;      // 1 hour lease
     static constexpr int                        UPNP_RENEWAL_MARGIN = 300;       // Renew 5 min before expiry
-    
+
     // NAT keep-alive: send reliable ping every 10 seconds to prevent NAT timeout
     Uint32                                      lastKeepAliveTime = 0;
     static constexpr int                        KEEPALIVE_INTERVAL_MS = 10000;   // 10 seconds
-    
+
     // NAT Hole Punch: Non-blocking state machine for host-side punching
     struct PendingPunch {
         std::string clientId;
@@ -427,7 +440,7 @@ public:
     bool isUPnPPortMapped() const { return upnpPortMapped; }
     std::string getUPnPStatus() const { return pUPnPManager ? pUPnPManager->getStatusString() : "Not initialized"; }
     std::string getExternalIPAddress() const { return pUPnPManager ? pUPnPManager->getExternalIPAddress() : ""; }
-    
+
     /**
      * NAT Hole Punch: Send UDP punch packets to an address to create NAT mappings.
      * @param targetIP   Target IP address
@@ -436,14 +449,14 @@ public:
      * @param intervalMs Interval between packets in ms (default: 50)
      */
     void sendHolePunchPackets(const std::string& targetIP, uint16_t targetPort, int count = 5, int intervalMs = 50);
-    
+
     /**
      * Perform STUN query to discover external IP:port.
      * SAFETY: Only call when no ENet peers exist (peerList empty).
      * @return External port if successful, 0 on failure
      */
     uint16_t performStunQuery();
-    
+
     /**
      * Perform STUN query and return both external IP and port.
      * SAFETY: Only call when no ENet peers exist (peerList empty).
@@ -452,7 +465,7 @@ public:
      * @return true if successful, false on failure
      */
     bool performStunQueryFull(std::string& outIP, uint16_t& outPort);
-    
+
     /**
      * Get the ENet host (for STUN queries)
      */

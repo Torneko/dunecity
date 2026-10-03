@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "mod": {
+    "id": "TornieLite",
+    "displayName": "Tornie Lite",
+    "version": "1.0.524-2",
+    "gameVersion": "1.0.525",
+    "author": "Tornie_Panther"
+  },
+  "source": {
+    "upstream": "VR48/dunecity",
+    "baseCommit": "b94a948e864f08ffff881d0d8db21e9c2830d95e"
+  },
+  "contentRoots": [
+    "campaign",
+    "data",
+    "source-audio",
+    "source-sprites"
+  ],
+  "engineDependencies": [
+    {
+      "name": "generic-mod-scoped-mentat-api",
+      "status": "fork-milestone",
+      "commit": "54d396e2ae9ba70a4ea65edae5a631e1b9523b2d"
+    },
+    {
+      "name": "love-factory-delivery-building",
+      "status": "fork-milestone"
+    }
+  ],
+  "isolation": {
+    "contentOnly": true,
+    "root": "mods/TornieLite",
+    "externalOverrides": [],
+    "switchingAwayRemovesTornieSearchPath": true
+  },
+  "compatibility": {
+    "saveFormatChangedByThisContent": true,
+    "networkProtocolChangedByThisContent": false
+  },
+  "filenameCase": "exact",
+  "checksums": "checksums.sha256",
+  "provenance": "PROVENANCE.md",
+  "changelog": "CHANGELOG.md",
+  "integrationStatus": "independent Tornie Lite 1.0.524-2 integration",
+  "standaloneAdaptation": {
+    "project": "Dune Legacy Tornie",
+    "version": "1.0.525",
+    "baseRelease": "1.0.524-26",
+    "baseCommit": "80799faba1b66c64887286446f5ed6b0df985226",
+    "citySimulationRemoved": true
+  }
+}

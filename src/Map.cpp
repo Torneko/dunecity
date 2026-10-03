@@ -41,6 +41,20 @@ bool isTornieModActive() {
     return ModManager::instance().isInitialized() && ModManager::instance().getActiveModName() == "Tornie";
 }
 
+int applyJerichoKleshmershFireResistance(const ObjectBase* target, Uint32 bulletID, int damage) {
+    if(target == nullptr || damage <= 0 || bulletID != Bullet_Flame) {
+        return damage;
+    }
+
+    const ModManager& modManager = ModManager::instance();
+    if(!modManager.isInitialized() || modManager.getActiveModName() != "Jericho"
+       || target->getProductionHouseID() != HOUSE_REBELS) {
+        return damage;
+    }
+
+    return std::max(1, (damage + 1) / 2);
+}
+
 } // namespace
 
 Map::Map(int xSize, int ySize)
@@ -175,7 +189,7 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                     if(bulletID == Bullet_DRocket) {
                         if((pAirUnit->getItemID() != Unit_Carryall) && (pAirUnit->getItemID() != Unit_Sandworm) && (pAirUnit->getItemID() != Unit_Frigate)) {
                             // try to deviate
-                            if(currentGame->randomGen.randFixPoint() < getDeviateWeakness(static_cast<HOUSETYPE>(pAirUnit->getOriginalHouseID()))) {
+                            if(currentGame->randomGen.randFixPoint() < getDeviateWeakness(static_cast<HOUSETYPE>(pAirUnit->getProductionHouseID()))) {
                                 pAirUnit->deviate(damagerOwner);
                             }
                         }
@@ -192,7 +206,7 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                         }
                         const auto healthBefore = pAirUnit->getHealth();
                         pAirUnit->handleDamage(scaledDamage, damagerID, damagerOwner);
-                        
+
                         // MULTIPLAYER-SAFE: Track rocket hits/kills on ornithopters (after damage)
                         if(pAirUnit->getItemID() == Unit_Ornithopter && healthBefore > 0) {
                             if(bulletID == Bullet_TurretRocket) {
@@ -222,8 +236,8 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                     const auto bottomRightCorner = topLeftCorner + pStructure->getStructureSize()*TILESIZE;
 
                     if(realPos.x >= topLeftCorner.x && realPos.y >= topLeftCorner.y && realPos.x < bottomRightCorner.x && realPos.y < bottomRightCorner.y) {
-                        pStructure->handleDamage(lround(damage), damagerID, damagerOwner);
-
+                        pStructure->handleDamage(applyJerichoKleshmershFireResistance(
+                            pStructure, bulletID, lround(damage)), damagerID, damagerOwner);
                         if( (bulletID == Bullet_LargeRocket || bulletID == Bullet_Rocket || bulletID == Bullet_TurretRocket || bulletID == Bullet_SmallRocket || bulletID == Bullet_Flame)
                             && (pStructure->getHealth() < pStructure->getMaxHealth()/2)) {
                             if(pStructure->getNumSmoke() < 5) {
@@ -241,11 +255,11 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                         // MULTIPLAYER-SAFE: Track rocket hits on ornithopters (before damage)
                         const bool isOrni = (pUnit->getItemID() == Unit_Ornithopter);
                         const FixPoint healthBefore = isOrni ? pUnit->getHealth() : 0;
-                        
+
                         if(bulletID == Bullet_DRocket) {
                             if((pUnit->getItemID() != Unit_Carryall) && (pUnit->getItemID() != Unit_Sandworm) && (pUnit->getItemID() != Unit_Frigate)) {
                                 // try to deviate
-                                if(currentGame->randomGen.randFixPoint() < getDeviateWeakness(static_cast<HOUSETYPE>(pUnit->getOriginalHouseID()))) {
+                                if(currentGame->randomGen.randFixPoint() < getDeviateWeakness(static_cast<HOUSETYPE>(pUnit->getProductionHouseID()))) {
                                     pUnit->deviate(damagerOwner);
                                 }
                             }
@@ -256,12 +270,16 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                             if(pUnit->isInfantry()) {
                                 scaledDamage = std::max<int>(lround(damage), scaledDamage * 2);
                             }
-                            pUnit->handleDamage(scaledDamage, damagerID, damagerOwner);
+                            if(pUnit->getItemID() == Unit_Sandworm) {
+                                scaledDamage = lround(scaledDamage * 1.35);
+                            }
+                            pUnit->handleDamage(applyJerichoKleshmershFireResistance(
+                                pUnit, bulletID, scaledDamage), damagerID, damagerOwner);
                         } else {
                             const auto scaledDamage = lround(damage) >> (distance/16 + 1);
                             pUnit->handleDamage(scaledDamage, damagerID, damagerOwner);
                         }
-                        
+
                         // MULTIPLAYER-SAFE: Track rocket hits/kills on ornithopters (after damage)
                         if(isOrni && healthBefore > 0) {
                             if(bulletID == Bullet_TurretRocket) {
@@ -720,6 +738,10 @@ void Map::spiceRemoved(const Coord& coord) {
                     pTile->setType(Terrain_GreenSpice);
                 } else if(pTile->getType() == Terrain_ThickRedSpice) {
                     pTile->setType(Terrain_RedSpice);
+                } else if(pTile->getType() == Terrain_ThickPaleLilacSpice) {
+                    pTile->setType(Terrain_PaleLilacSpice);
+                } else if(pTile->getType() == Terrain_ThickWhiteSpice) {
+                    pTile->setType(Terrain_WhiteSpice);
                 } else {
                     pTile->setType(Terrain_Spice);
                 }

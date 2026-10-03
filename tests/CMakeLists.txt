@@ -12,6 +12,8 @@ target_sources(dunelegacy_tests
     PRIVATE
         PathBudgetTestCase/PathBudgetTestCase.cpp
         NetworkManagerTestCase/NetworkManagerTestCase.cpp
+        GenericNinthHouseRegressionTestCase/GenericNinthHouseRegressionTestCase.cpp
+        MapChoiceGraphicsCacheTestCase/MapChoiceGraphicsCacheTestCase.cpp
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
         SpiceVariantsTestCase/SpiceVariantsTestCase.cpp

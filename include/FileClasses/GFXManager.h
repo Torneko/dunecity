@@ -50,6 +50,7 @@ typedef enum {
     ObjPic_RocketTrike,             ///< Tornie: dedicated sprite (data/RocketTrike.png)
     ObjPic_FlameTankGunTornie,      ///< Tornie: fire-coloured launcher turret overlay
     ObjPic_EliteSiegeTankGunTornie, ///< Tornie: elite Siege Tank turret overlay
+    ObjPic_ChemicalSiegeTankGunTornie, ///< Tornie: chemical Siege Tank turret overlay
     ObjPic_Quad,
     ObjPic_Trike,
     ObjPic_Harvester,
@@ -115,6 +116,8 @@ typedef enum {
     ObjPic_Terrain,
     ObjPic_Terrain_GreenSpice,
     ObjPic_Terrain_RedSpice,
+    ObjPic_Terrain_PaleLilacSpice,
+    ObjPic_Terrain_WhiteSpice,
     ObjPic_DestroyedStructure,
     ObjPic_RockDamage,
     ObjPic_SandDamage,
@@ -126,25 +129,30 @@ typedef enum {
     ObjPic_Worfinery,             ///< Tornie: WOR + Refinery combo (48x64 = 2 vertical frames at 3x2)
     ObjPic_TechCenter,            ///< Tornie: Tech Center (Palace-equivalent, 48x64 = 2 vertical frames at 3x2)
     ObjPic_Scoutpost,             ///< Tornie: Scoutpost (16x32 = 2 vertical frames at 1x1)
+    ObjPic_LoveFactory,           ///< Tornie: animated Love Factory (2x3, six active frames)
     ObjPic_LegacyReserved01,
     ObjPic_LegacyReserved02,
     ObjPic_LegacyReserved03,
     ObjPic_LegacyReserved04,
-    ObjPic_LegacyReserved05,   ///< reserved legacy slot
-    ObjPic_LegacyReserved06,  ///< reserved legacy slot
-    ObjPic_LegacyReserved07,        ///< reserved legacy slot
-    ObjPic_LegacyReserved08,        ///< reserved legacy slot
-    ObjPic_LegacyReserved09,       ///< reserved legacy slot
-    ObjPic_LegacyReserved10,         ///< reserved legacy slot
+    ObjPic_LegacyReserved05,   ///< Reserved legacy graphics slot
+    ObjPic_LegacyReserved06,  ///< Reserved legacy graphics slot
+    ObjPic_LegacyReserved07,        ///< Reserved legacy graphics slot
+    ObjPic_LegacyReserved08,        ///< Reserved legacy graphics slot
+    ObjPic_LegacyReserved09,       ///< Reserved legacy graphics slot
+    ObjPic_LegacyReserved10,         ///< Reserved legacy graphics slot
     ObjPic_SonicTrike,     ///< Tornie: Rebels-only light sonic vehicle
     ObjPic_EliteLauncherGunTornie, ///< Tornie: elite Launcher turret overlay
     ObjPic_RebelSonicTankGun,      ///< Tornie: Rebels-only violet Sonic Tank turret
     ObjPic_HarvestankGunTornie,     ///< Tornie: Harvestank turret overlay
+    ObjPic_ChemicalCarryall,        ///< Jericho: dedicated 8x2 healing Carryall atlas
+    ObjPic_Flamepost,               ///< Tornie: dedicated Flamepost atlas
+    ObjPic_Chemipost,               ///< Tornie: dedicated healing post atlas
+    ObjPic_ChaosFactory,            ///< Tornie: animated 3x2 Chaos Factory atlas
     NUM_OBJPICS
 } ObjPic_enum;
 
 static const std::array<std::string, NUM_OBJPICS> ObjPicNames =  { { "Tank_Base", "Tank_Gun", "Siegetank_Base", "Siegetank_Gun", "Devastator_Base",
-    "Devastator_Gun", "Sonictank_Gun", "Launcher_Gun", "DeviatorGunTornie", "RocketTrike", "FlameTankGunTornie", "EliteSiegeTankGunTornie",
+    "Devastator_Gun", "Sonictank_Gun", "Launcher_Gun", "DeviatorGunTornie", "RocketTrike", "FlameTankGunTornie", "EliteSiegeTankGunTornie", "ChemicalSiegeTankGunTornie",
     "Quad", "Trike", "Harvester", "Harvester_Sand", "MCV", "Carryall", "CarryallShadow",
     "Frigate", "FrigateShadow", "Ornithopter", "OrnithopterShadow", "Trooper", "Troopers", "Soldier", "Infantry", "Saboteur", "Sandworm",
     "ConstructionYard", "Windtrap", "AdvancedWindTrap", "AdvancedWindTrap2x3", "AdvancedWindTrap3x2", "Refinery", "Barracks", "WOR", "Radar", "LightFactory", "Silo", "HeavyFactory", "HighTechFactory",
@@ -152,11 +160,11 @@ static const std::array<std::string, NUM_OBJPICS> ObjPicNames =  { { "Tank_Base"
     "Bullet_SmallRocket", "Bullet_MediumRocket", "Bullet_LargeRocket", "Bullet_Small", "Bullet_Medium", "Bullet_Large", "Bullet_Sonic",
     "Bullet_SonicTemp", "Hit_Gas", "Hit_ShellSmall", "Hit_ShellMedium", "Hit_ShellLarge", "ExplosionSmall", "ExplosionMedium1",
     "ExplosionMedium2", "ExplosionLarge1", "ExplosionLarge2", "ExplosionSmallUnit", "ExplosionFlames", "ExplosionSpiceBloom",
-    "DeadInfantry", "DeadAirUnit", "Smoke", "SandwormShimmerMask", "SandwormShimmerTemp", "Terrain", "Terrain_GreenSpice", "Terrain_RedSpice", "DestroyedStructure", "RockDamage",
-    "SandDamage", "Terrain_Hidden", "Terrain_HiddenFog", "Terrain_Tracks", "Star", "RebelHarvester", "Worfinery", "TechCenter", "Scoutpost",
+    "DeadInfantry", "DeadAirUnit", "Smoke", "SandwormShimmerMask", "SandwormShimmerTemp", "Terrain", "Terrain_GreenSpice", "Terrain_RedSpice", "Terrain_PaleLilacSpice", "Terrain_WhiteSpice", "DestroyedStructure", "RockDamage",
+    "SandDamage", "Terrain_Hidden", "Terrain_HiddenFog", "Terrain_Tracks", "Star", "RebelHarvester", "Worfinery", "TechCenter", "Scoutpost", "LoveFactory",
     "LegacyReserved01", "LegacyReserved02", "LegacyReserved03", "LegacyReserved04", "LegacyReserved05", "LegacyReserved06",
-    "Stadium", "Airport", "Hospital", "Church", "SonicTrike", "EliteLauncherGunTornie", "RebelSonicTankGun",
-    "HarvestankGunTornie" } };
+    "LegacyReserved07", "LegacyReserved08", "LegacyReserved09", "LegacyReserved10", "SonicTrike", "EliteLauncherGunTornie", "RebelSonicTankGun",
+    "HarvestankGunTornie", "ChemicalCarryall", "Flamepost", "Chemipost", "ChaosFactory" } };
 
 #define GROUNDUNIT_ROW(i) (i+2)|TILE_NORMAL,(i+1)|TILE_NORMAL,i|TILE_NORMAL,(i+1)|TILE_FLIPV,(i+2)|TILE_FLIPV,(i+3)|TILE_FLIPV, (i+4)|TILE_NORMAL,(i+3)|TILE_NORMAL
 #define AIRUNIT_ROW(i) (i+2)|TILE_NORMAL,(i+1)|TILE_NORMAL,i|TILE_NORMAL,(i+1)|TILE_FLIPV,(i+2)|TILE_FLIPV,(i+1)|TILE_ROTATE, i|TILE_FLIPH,(i+1)|TILE_FLIPH
@@ -225,12 +233,19 @@ typedef enum {
     Picture_FlameTank,             ///< Tornie: portrait from FlameTankIcon.png (91x55)
     Picture_EliteLauncher,         ///< Tornie: portrait from EliteLauncherIcon.png (91x55)
     Picture_EliteSiegeTank,        ///< Tornie: portrait from EliteSiegeTankIcon.png (91x55)
+    Picture_ChemicalSiegeTank,     ///< Tornie: portrait from ChemicalSiegeTankIcon.png (91x55)
     Picture_Worfinery,             ///< Tornie: portrait from WorfineryIcon.png (91x55)
     Picture_TechCenter,            ///< Tornie: portrait from TechCenterIcon.png (91x55)
     Picture_Scoutpost,             ///< Tornie: portrait from ScoutpostIcon.png
+    Picture_LoveFactory,          ///< Tornie: portrait from LoveFactoryIcon.png
     Picture_PalaceLightVehicles,   ///< Tornie: Neutral/Rebels Palace Trike/Quad call icon
+    Picture_PalaceRebelsCharging,  ///< Tornie main Rebels: random Palace ability charging icon
     Picture_SonicTrike,            ///< Tornie: portrait from SonicTrikeIcon.png
     Picture_Harvestank,            ///< Tornie: portrait from HarvestankIcon.png
+    Picture_ChemicalCarryall,      ///< Jericho: Chemical Carryall portrait
+    Picture_Flamepost,             ///< Tornie: Flamepost portrait
+    Picture_Chemipost,             ///< Tornie: Chemipost portrait
+    Picture_ChaosFactory,          ///< Tornie: Chaos Factory portrait
     NUM_SMALLDETAILPICS
 } SmallDetailPics_Enum;
 
@@ -290,6 +305,7 @@ typedef enum {
     UI_CursorLeft,
     UI_CursorMove_Zoomlevel0,
     UI_CursorAttack_Zoomlevel0,
+    UI_CursorHeal_Zoomlevel0,
     UI_CursorCapture_Zoomlevel0,
     UI_CursorCarryallDrop_Zoomlevel0,
     UI_SendToRepairIcon,
@@ -359,7 +375,6 @@ typedef enum {
     UI_NewMapWindow,
     UI_GameMenu,
     UI_MentatBackground,
-    UI_MentatBackgroundPaul,
     UI_MentatBackgroundBene,
     UI_MentatHouseChoiceInfoQuestion,
     UI_MentatYes,
@@ -432,6 +447,12 @@ typedef enum {
     UI_MapEditor_RedSpice,
     UI_MapEditor_ThickRedSpice,
     UI_MapEditor_RedSpiceBloom,
+    UI_MapEditor_PaleLilacSpice,
+    UI_MapEditor_ThickPaleLilacSpice,
+    UI_MapEditor_PaleLilacSpiceBloom,
+    UI_MapEditor_WhiteSpice,
+    UI_MapEditor_ThickWhiteSpice,
+    UI_MapEditor_WhiteSpiceBloom,
     UI_MapEditor_SpiceBloom,
     UI_MapEditor_Slab,
     UI_MapEditor_Rock,
@@ -460,6 +481,7 @@ typedef enum {
     UI_MapEditor_Palace,
     UI_MapEditor_TechCenter,               ///< Tornie: Palace-equivalent that spawns vehicles
     UI_MapEditor_Scoutpost,                ///< Tornie: power/defense/recon post
+    UI_MapEditor_LoveFactory,             ///< Tornie: animated 2x3 Love Factory
     UI_MapEditor_Soldier,
     UI_MapEditor_Trooper,
     UI_MapEditor_Harvester,
@@ -480,6 +502,7 @@ typedef enum {
     UI_MapEditor_FlameTank,             ///< Tornie: sonic-line flame weapon
     UI_MapEditor_EliteLauncher,         ///< Tornie: upgraded Launcher
     UI_MapEditor_EliteSiegeTank,        ///< Tornie: upgraded Siege Tank
+    UI_MapEditor_ChemicalSiegeTank,     ///< Tornie: chemical Siege Tank
     UI_MapEditor_Saboteur,
     UI_MapEditor_Sandworm,
     UI_MapEditor_SpecialUnit,
@@ -494,6 +517,10 @@ typedef enum {
     UI_MapEditor_LegacyReserved04,      ///< reserved legacy slot
     UI_MapEditor_LegacyReserved05,              ///< reserved legacy slot
     UI_MapEditor_SonicTrike,        ///< Tornie: Rebels-only light sonic vehicle
+    UI_MapEditor_ChemicalCarryall,  ///< Jericho: healing Carryall with special-unit star
+    UI_MapEditor_Flamepost,         ///< Tornie: dedicated Flamepost
+    UI_MapEditor_Chemipost,         ///< Tornie: dedicated healing post
+    UI_MapEditor_ChaosFactory,      ///< Tornie: 3x2 Chaos Factory
     NUM_UIGRAPHICS
 } UIGraphics_Enum;
 
@@ -506,8 +533,6 @@ typedef enum {
     Anim_AtreidesMouth,
     Anim_AtreidesShoulder,
     Anim_AtreidesBook,
-    Anim_PaulAtreidesEyes,
-    Anim_PaulAtreidesMouth,
     Anim_OrdosEyes,
     Anim_OrdosMouth,
     Anim_OrdosShoulder,
@@ -523,8 +548,6 @@ typedef enum {
     Anim_MercenaryMouth,
     Anim_MercenaryShoulder,
     Anim_MercenaryRing,
-    Anim_ChaniEyes,
-    Anim_ChaniMouth,
     Anim_BeneEyes,
     Anim_BeneMouth,
     Anim_HarkonnenPlanet,
@@ -596,21 +619,30 @@ public:
     SDL_Texture*     getZoomedObjPic(unsigned int id, int house, unsigned int z);
     SDL_Texture*     getZoomedObjPic(unsigned int id, unsigned int z) { return getZoomedObjPic(id, HOUSE_HARKONNEN, z); };
     zoomable_texture getObjPic(unsigned int id, int house=HOUSE_HARKONNEN);
+    bool             drawHDObjPic(unsigned int id, int house, unsigned int z,
+                                  int col, int numCols, int row, int numRows,
+                                  int x, int y);
     bool             hasObjPic(unsigned int id, int house=HOUSE_HARKONNEN, unsigned int z=0) const;
 
     // Invalidate sprite texture cache when runtime assets change
     // (objPicTex + objPic, NOT uiGraphic). Re-applied per
     // Tornie's OOB 'ajouter ces fonctions aussi'.
     void invalidateAllSpriteTextures();
+    void reloadAllObjectGraphicsForActiveMod();
     void reloadModDependentUiGraphics();
+    Animation* getMentatEyesAnimation(int house);
+    Animation* getMentatMouthAnimation(int house);
+    SDL_Texture* getMentatForeground(int house);
 
     SDL_Texture*     getSmallDetailPic(unsigned int id);
+    SDL_Texture*     getSmallDetailPic(unsigned int id, int house);
     SDL_Texture*     getTinyPicture(unsigned int id);
     SDL_Texture*     getUIGraphic(unsigned int id, int house=HOUSE_HARKONNEN);
     SDL_Texture*     getMapChoicePiece(unsigned int num, int house);
 
     SDL_Surface*     getUIGraphicSurface(unsigned int id, int house=HOUSE_HARKONNEN);
     SDL_Surface*     getMapChoicePieceSurface(unsigned int num, int house);
+    void             invalidateMapChoiceGraphics(int house);
 
     SDL_Surface*     getBackgroundSurface() { return pBackgroundSurface.get(); };
 
@@ -629,22 +661,50 @@ private:
 
     sdl2::surface_ptr   generateDoubledObjPic(unsigned int id, int h) const;
     sdl2::surface_ptr   generateTripledObjPic(unsigned int id, int h) const;
+    void                loadCompactObjPicOverrides();
+    bool                loadHDObjPicOverride(unsigned int id);
+    void                loadMentatGraphics();
+    void                loadCustomHouseHerald();
+    void                reloadModDependentObjectGraphics();
+    void                reloadRuntimeModPortraits();
+    void                rebuildModDependentEditorGraphics();
+
+    struct HDObjPicOverride {
+        std::array<sdl2::texture_ptr, NUM_HOUSES> texture;
+        int columns = 1;
+        int rows = 1;
+        int anchorX = -1;
+        int anchorY = -1;
+        int baseWidth = 0;
+        int baseHeight = 0;
+        double scale = 1.0;
+        bool attempted = false;
+        bool loaded = false;
+    };
 
     // 8-bit surfaces kept in main memory for processing as needed, e.g. color remapping
     std::array<std::array<std::array<sdl2::surface_ptr, NUM_ZOOMLEVEL>, NUM_HOUSE_COLOR_SLOTS>, NUM_OBJPICS> objPic;
+    std::array<std::array<sdl2::surface_ptr, NUM_ZOOMLEVEL>, NUM_HOUSE_COLOR_SLOTS> scoutpostBaseGraphics{};
+    std::array<std::array<sdl2::surface_ptr, NUM_ZOOMLEVEL>, NUM_HOUSE_COLOR_SLOTS> chaosFactoryBaseGraphics{};
     std::array<std::array<sdl2::surface_ptr, NUM_HOUSE_COLOR_SLOTS>, NUM_UIGRAPHICS> uiGraphic;
     std::array<std::array<sdl2::surface_ptr, NUM_HOUSE_COLOR_SLOTS>, NUM_MAPCHOICEPIECES> mapChoicePieces;
     std::array<std::unique_ptr<Animation>, NUM_ANIMATION> animation{};
+    std::array<sdl2::surface_ptr, NUM_HOUSE_COLOR_SLOTS> modMentatForeground{};
+    std::array<std::unique_ptr<Animation>, NUM_HOUSE_COLOR_SLOTS> modMentatEyes{};
+    std::array<std::unique_ptr<Animation>, NUM_HOUSE_COLOR_SLOTS> modMentatMouth{};
 
     // 32-bit surfaces
     sdl2::surface_ptr    pBackgroundSurface;
 
     // Textures
     std::array<std::array<std::array<sdl2::texture_ptr, NUM_ZOOMLEVEL>, NUM_HOUSE_COLOR_SLOTS>, NUM_OBJPICS> objPicTex;
+    std::array<HDObjPicOverride, NUM_OBJPICS> hdObjPicOverrides;
     std::array<sdl2::texture_ptr, NUM_SMALLDETAILPICS> smallDetailPicTex;
+    std::array<std::array<sdl2::texture_ptr, NUM_HOUSE_COLOR_SLOTS>, NUM_SMALLDETAILPICS> houseSmallDetailPicTex;
     std::array<sdl2::texture_ptr, NUM_TINYPICTURE> tinyPictureTex;
     std::array<std::array<sdl2::texture_ptr, NUM_HOUSE_COLOR_SLOTS>, NUM_UIGRAPHICS> uiGraphicTex;
     std::array<std::array<sdl2::texture_ptr, NUM_HOUSE_COLOR_SLOTS>, NUM_MAPCHOICEPIECES> mapChoicePiecesTex;
+    std::array<sdl2::texture_ptr, NUM_HOUSE_COLOR_SLOTS> modMentatForegroundTex{};
 };
 
 #endif // GFXMANAGER_H

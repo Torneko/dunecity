@@ -93,7 +93,7 @@ public:
                                count (e.g. LEGACY_NUM_ITEM_ID_9810 for v1.0.7).
         \see save
     */
-    void load(InputStream& stream, int savedItemCount = 0);
+    void load(InputStream& stream, int savedItemCount = 0, int savedHouseCount = NUM_HOUSES);
 
     /**
         Logs all loaded object data to SDL log for debugging.
@@ -134,7 +134,7 @@ public:
     int harvesterLimitMediumMap;     ///< Max harvesters for medium maps (64x64 or smaller)
     int harvesterLimitLargeMap;      ///< Max harvesters for large maps (between 64x64 and 128x128)
     int harvesterLimitHugeMap;       ///< Max harvesters for huge maps (128x128 or larger)
-    
+
     int unitLimitSmallMap;           ///< Max units per house for small maps (32x32 or smaller)
     int unitLimitMediumMap;          ///< Max units per house for medium maps (64x64 or smaller)
     int unitLimitLargeMap;           ///< Max units per house for large maps (between 64x64 and 128x128)

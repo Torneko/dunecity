@@ -17,7 +17,7 @@ configure_file(
 if(APPLE)
     # Create macOS application bundle
     add_executable(dunelegacy MACOSX_BUNDLE)
-    
+
     # Set bundle properties
     set_target_properties(dunelegacy PROPERTIES
         MACOSX_BUNDLE TRUE
@@ -28,15 +28,18 @@ if(APPLE)
         MACOSX_BUNDLE_ICON_FILE "dunelegacy-tornie.icns"
         MACOSX_BUNDLE_GUI_IDENTIFIER "net.torneko.DuneLegacyTornie"
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/IDE/xCode/Info.plist"
-        MACOSX_BUNDLE_COPYRIGHT "© Tornie / Dune Legacy contributors"
+        MACOSX_BUNDLE_COPYRIGHT "Â© Tornie / Dune Legacy contributors"
         XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "net.torneko.DuneLegacyTornie"
     )
-    
+
     # Add icon to bundle
     set_source_files_properties(${CMAKE_SOURCE_DIR}/dunelegacy-tornie.icns PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources"
     )
     target_sources(dunelegacy PRIVATE ${CMAKE_SOURCE_DIR}/dunelegacy-tornie.icns)
+elseif(ANDROID)
+    add_library(dunelegacy SHARED)
+    set_target_properties(dunelegacy PROPERTIES OUTPUT_NAME main)
 else()
     add_executable(dunelegacy)
 endif()
@@ -50,7 +53,7 @@ if(WIN32)
         set_target_properties(dunelegacy PROPERTIES
             VS_DPI_AWARE "PerMonitor"
             WIN32_EXECUTABLE TRUE)
-        
+
         target_link_options(dunelegacy PRIVATE
             $<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>
             $<$<CONFIG:Debug>:/SUBSYSTEM:CONSOLE>
@@ -63,7 +66,7 @@ if(WIN32)
             COPYONLY
         )
         target_sources(dunelegacy PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/dunelegacy-tornie.rc")
-        
+
         # MinGW equivalent for Windows subsystem
         if(CMAKE_BUILD_TYPE STREQUAL "Release")
             target_link_options(dunelegacy PRIVATE -mwindows)
@@ -71,7 +74,7 @@ if(WIN32)
             target_link_options(dunelegacy PRIVATE -mconsole)
         endif()
     endif()
-    
+
     # When using vcpkg, CMake will automatically handle DLL copying
     # Add a post-build message for confirmation
     add_custom_command(TARGET dunelegacy POST_BUILD
@@ -253,6 +256,8 @@ target_sources(dunelegacy
         structures/Worfinery.cpp
         structures/TechCenter.cpp
         structures/Scoutpost.cpp
+        structures/LoveFactory.cpp
+        structures/ChaosFactory.cpp
         structures/WOR.cpp
 
         # Units
@@ -263,6 +268,7 @@ target_sources(dunelegacy
         units/TrackedUnit.cpp
         units/TankBase.cpp
         units/Carryall.cpp
+    units/ChemicalCarryall.cpp
         units/Devastator.cpp
         units/Deviator.cpp
         units/Frigate.cpp
@@ -286,6 +292,7 @@ target_sources(dunelegacy
         units/FlameTank.cpp
         units/EliteLauncher.cpp
         units/EliteSiegeTank.cpp
+        units/ChemicalSiegeTank.cpp
 
         # CutScenes
         CutScenes/CutScene.cpp
@@ -335,6 +342,7 @@ target_sources(dunelegacy
         misc/sound_util.cpp
         misc/string_util.cpp
         misc/Scaler.cpp
+        misc/TouchInput.cpp
 )
 
 # C source files
@@ -458,28 +466,17 @@ target_compile_options(dunelegacy
 
 # Data directory handling
 set(DATA_DIR "${CMAKE_SOURCE_DIR}/data")
-set(TORNIE_MOD_DIR "${CMAKE_SOURCE_DIR}/mods/Tornie")
-set(TORNIE_MOD_REFERENCE_FILES
-    "${TORNIE_MOD_DIR}/mod.ini"
-    "${TORNIE_MOD_DIR}/ObjectData.ini"
-    "${TORNIE_MOD_DIR}/QuantBot Config.ini"
-    "${TORNIE_MOD_DIR}/GameOptions.ini"
-)
+set(MODS_DIR "${CMAKE_SOURCE_DIR}/mods")
 
-function(add_copy_tornie_mod_reference DEST_DIR)
-    if(EXISTS "${TORNIE_MOD_DIR}")
+function(add_copy_mods DEST_DIR)
+    if(EXISTS "${MODS_DIR}")
         add_custom_command(
             TARGET dunelegacy
             POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E make_directory
-                "${DEST_DIR}/mods/Tornie"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                ${TORNIE_MOD_REFERENCE_FILES}
-                "${DEST_DIR}/mods/Tornie/"
             COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${TORNIE_MOD_DIR}/campaign"
-                "${DEST_DIR}/mods/Tornie/campaign"
-            COMMENT "Copying Tornie mod reference files"
+                "${MODS_DIR}"
+                "${DEST_DIR}/mods"
+            COMMENT "Copying selectable mods"
         )
     endif()
 endfunction()
@@ -508,7 +505,7 @@ if(APPLE)
         COMMENT "Copying data and config files into app bundle Resources"
     )
 
-    add_copy_tornie_mod_reference("${BUNDLE_RESOURCES_DIR}")
+    add_copy_mods("${BUNDLE_RESOURCES_DIR}")
 
     # Code sign the app bundle with ad-hoc signature
     # This is required for macOS Gatekeeper to allow the app to run when downloaded
@@ -520,8 +517,12 @@ if(APPLE)
         COMMENT "Code signing app bundle with ad-hoc signature"
     )
 else()
-    # For other platforms, copy to build/data directory
-    set(BUILD_DATA_DIR "${CMAKE_BINARY_DIR}/data")
+    if(WIN32)
+        set(BUILD_RUNTIME_DIR "$<TARGET_FILE_DIR:dunelegacy>")
+    else()
+        set(BUILD_RUNTIME_DIR "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    endif()
+    set(BUILD_DATA_DIR "${BUILD_RUNTIME_DIR}/data")
     add_custom_command(
         TARGET dunelegacy
         POST_BUILD
@@ -538,16 +539,16 @@ else()
     add_custom_command(
         TARGET dunelegacy
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config"
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${BUILD_RUNTIME_DIR}/config"
         COMMAND ${CMAKE_COMMAND} -E copy
             "${CMAKE_SOURCE_DIR}/config/ObjectData.ini.default"
             "${CMAKE_SOURCE_DIR}/config/QuantBot Config.ini.default"
             "${CMAKE_SOURCE_DIR}/config/Dune Legacy.ini"
-            "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/"
+            "${BUILD_RUNTIME_DIR}/config/"
         COMMENT "Copying config template files to build output"
     )
 
-    add_copy_tornie_mod_reference("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    add_copy_mods("${BUILD_RUNTIME_DIR}")
 
 endif()
 
@@ -556,32 +557,47 @@ endif()
 if(WIN32)
     # Windows: install PAK files and data to share/DuneLegacy where game expects them
     # Use data directory which has all PAK files
-    
+
     # Install all PAK files from data directory to root installation directory
     install(
         DIRECTORY ${DATA_DIR}/
         DESTINATION .
         FILES_MATCHING PATTERN "*.PAK"
     )
-    
+
     # Install locale files
     install(
         DIRECTORY ${DATA_DIR}/locale
         DESTINATION .
     )
-    
+
     # Install maps
     install(
         DIRECTORY ${DATA_DIR}/maps
         DESTINATION .
     )
-    
+
     # Install Dune2-Versions.txt
     install(
         FILES "${DATA_DIR}/Dune2-Versions.txt"
         DESTINATION .
     )
-    
+
+    # Neutral's herald is a loose runtime graphic rather than a PAK entry.
+    install(
+        FILES "${DATA_DIR}/HeraldNeu.png"
+        DESTINATION data
+    )
+
+    # Preserve the loose runtime assets included in portable Windows releases.
+    # They are separate from the PAKs and are not covered by the rules above.
+    install(
+        DIRECTORY ${DATA_DIR}/
+        DESTINATION data
+        PATTERN "*.PAK" EXCLUDE
+        PATTERN "*.pak" EXCLUDE
+    )
+
     # Install config files from config directory to root installation directory
     install(
         DIRECTORY ${CMAKE_SOURCE_DIR}/config
@@ -596,23 +612,17 @@ elseif(NOT APPLE)
     )
 endif()
 
-if(EXISTS "${TORNIE_MOD_DIR}")
+if(EXISTS "${MODS_DIR}" AND NOT APPLE)
     if(WIN32)
-        set(TORNIE_INSTALL_BASE ".")
-    elseif(NOT APPLE)
-        set(TORNIE_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+        set(MODS_INSTALL_BASE ".")
+    else()
+        set(MODS_INSTALL_BASE "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
     endif()
 
-    if(WIN32 OR NOT APPLE)
-        install(
-            FILES ${TORNIE_MOD_REFERENCE_FILES}
-            DESTINATION "${TORNIE_INSTALL_BASE}/mods/Tornie"
-        )
-        install(
-            DIRECTORY "${TORNIE_MOD_DIR}/campaign/"
-            DESTINATION "${TORNIE_INSTALL_BASE}/mods/Tornie/campaign"
-        )
-    endif()
+    install(
+        DIRECTORY "${MODS_DIR}/"
+        DESTINATION "${MODS_INSTALL_BASE}/mods"
+    )
 endif()
 
 # Install executable
@@ -694,3 +704,7 @@ endif()
 
 # DUNELEGACY_DATADIR is set at the top of this file (before configure_file)
 # only for Linux. Windows and macOS use SDL_GetBasePath() at runtime.
+
+if(DUNELEGACY_BUILD_TESTS)
+    target_compile_definitions(dunelegacy PRIVATE DUNELEGACY_RUNTIME_TESTS)
+endif()

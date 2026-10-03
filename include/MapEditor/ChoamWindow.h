@@ -80,7 +80,7 @@ private:
         DigitsTextBox   TextBox_Unit2;
     };
 
-    ChoamRow   choamRows[10];
+    ChoamRow   choamRows[11];
 
     HBox        buttonHBox;
 

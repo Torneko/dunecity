@@ -36,7 +36,7 @@ jobs:
             echo "::error::Commit the version bump with 'scripts/bump-version.sh ${TAG_VERSION}' before tagging."
             exit 1
           fi
-          echo "OK — all source files agree on $SOURCE_VERSION, matches tag v${TAG_VERSION}"
+          echo "OK â€” all source files agree on $SOURCE_VERSION, matches tag v${TAG_VERSION}"
 
   test-linux:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
           if grep -RInE 'DuneCity|Dune City|dunecity' \
               src include tests config mods scripts CMakeLists.txt \
               --exclude='ChangeLog' --exclude='*.md' --exclude='*.txt' \
-              --exclude='SaveCompatTestCase.cpp' --exclude='SaveCompat.h'; then
+              --exclude='manifest.json' --exclude='SaveCompatTestCase.cpp' --exclude='SaveCompat.h'; then
             echo "::error::Legacy DuneCity reference found in active project files."
             exit 1
           fi
@@ -68,6 +68,9 @@ jobs:
       - name: Validate supplied spice maps
         run: python3 scripts/add-spice-variants.py --check
 
+      - name: Validate bundled mod payloads
+        run: python3 scripts/check-bundled-mods.py
+
       - name: Configure CMake
         run: cmake -B build -DDUNELEGACY_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 
@@ -79,6 +82,26 @@ jobs:
           DUNELEGACY_SOURCE_DIR=${{ github.workspace }} \
           DUNELEGACY_DATADIR=${{ github.workspace }}/data \
           ./build/bin/dunelegacy_tests
+
+  validate-french-locale:
+    runs-on: ubuntu-latest
+    needs: [verify-version]
+    if: always() && (needs.verify-version.result == 'success' || needs.verify-version.result == 'skipped')
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gettext tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gettext
+
+      - name: Compile French catalog
+        run: msgfmt --check -o /tmp/French.fr.mo data/locale/French.fr.po
+
+      - name: Require explicit French faction labels
+        run: python3 scripts/check-french-locale.py
 
   build-windows:
     runs-on: windows-latest
@@ -98,15 +121,37 @@ jobs:
         # of treating the colon-slash as a literal string. Without the
         # quotes CMake gets the unexpanded path and fails to find the
         # toolchain file.
-        run: cmake -B build "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
+        run: cmake -B build "-DCMAKE_TOOLCHAIN_FILE=$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" -DDUNELEGACY_BUILD_TESTS=ON -DVCPKG_MANIFEST_FEATURES=tests
 
       - name: Build
         run: cmake --build build --config Release --parallel
+
+      - name: Run engine and bundled mod checks
+        run: |
+          ctest --test-dir build -C Release --output-on-failure
+          $env:DUNELEGACY_USER_DIR = Join-Path $env:RUNNER_TEMP "dunelegacy-smoke-profile"
+          New-Item -ItemType Directory -Force -Path $env:DUNELEGACY_USER_DIR | Out-Null
+          $env:DUNELEGACY_SMOKE_DIR = $env:DUNELEGACY_USER_DIR
+          $env:SDL_VIDEODRIVER = "dummy"
+          $env:SDL_AUDIODRIVER = "dummy"
+          $env:SDL_RENDER_DRIVER = "software"
+          $log = Join-Path $env:RUNNER_TEMP "dunelegacy-mod-smoke.log"
+          $process = Start-Process -FilePath "build/bin/Release/dunelegacy.exe" -ArgumentList "--verify-mods", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
+          Get-Content -LiteralPath $log | Select-String "MOD SMOKE|unhandled exception|runtime check:"
+          if ($process.ExitCode -ne 0 -or -not (Select-String -LiteralPath $log -Pattern "MOD SMOKE COMPLETE:")) { throw "Bundled mod runtime checks failed." }
 
       - name: Create Installer Package
         run: |
           cd build
           cmake --install . --prefix install --config Release
+          if (-not (Test-Path -LiteralPath "install/locale/French.fr.po")) {
+            throw "French catalog is missing from the Windows install tree."
+          }
+          foreach ($asset in @("install/data/ANEU.VOC", "install/data/EliteSiegeTank.png")) {
+            if (-not (Test-Path -LiteralPath $asset)) {
+              throw "Required loose Windows runtime asset is missing: $asset"
+            }
+          }
           cpack -G ZIP -C Release
 
       - name: Upload Installer
@@ -116,9 +161,18 @@ jobs:
           path: build/*.zip
 
   build-macos:
-    runs-on: ubuntu-latest
+    # Optional: set the repository variable ENABLE_MACOS_BUILD=true when a
+    # compatible self-hosted runner is online.
+    # Self-hosted on Stefan's MacBook (8-core arm64) with a warm vcpkg binary
+    # cache. GitHub's free hosted macos-14 runner is a 3-core box that took
+    # ~70 min per cold build (and its 60-min cap killed a run); this machine
+    # builds in ~10 min. The DMG is ad-hoc signed, so no signing certs needed.
+    runs-on: [self-hosted, macOS, ARM64]
     needs: [verify-version]
-    if: always() && (needs.verify-version.result == 'success' || needs.verify-version.result == 'skipped')
+    if: always() && vars.ENABLE_MACOS_BUILD == 'true' && (needs.verify-version.result == 'success' || needs.verify-version.result == 'skipped')
+    timeout-minutes: 60
+    env:
+      CMAKE_BUILD_PARALLEL_LEVEL: "8"
     steps:
       - uses: actions/checkout@v4
 
@@ -133,7 +187,8 @@ jobs:
           touch build/DuneLegacyTornie-macOS-SKIP.txt
 
   build-linux:
-    runs-on: ubuntu-latest
+    # Ubuntu 22.04 keeps glibc compatibility with Linux Mint 21 and remains compatible with Mint 22.
+    runs-on: ubuntu-22.04
     needs: [verify-version]
     if: always() && (needs.verify-version.result == 'success' || needs.verify-version.result == 'skipped')
     steps:
@@ -183,7 +238,7 @@ jobs:
         run: cmake -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
-        # Limit to 2 parallel jobs — ubuntu-latest has 4 cores but only 7GB
+        # Limit to 2 parallel jobs â€” ubuntu-latest has 4 cores but only 7GB
         # RAM, and 4 concurrent g++ -O2 processes on large TUs exceed that.
         run: cmake --build build --config Release --parallel 2
 
@@ -191,6 +246,9 @@ jobs:
         run: |
           cd build
           cmake --install . --prefix install --config Release
+          test -f install/share/DuneLegacyTornie/locale/French.fr.po || { echo "::error::French catalog is missing from the Linux install tree."; exit 1; }
+          test -f install/share/DuneLegacyTornie/ANEU.VOC || { echo "::error::ANEU.VOC is missing from the Linux install tree."; exit 1; }
+          test -f install/share/DuneLegacyTornie/EliteSiegeTank.png || { echo "::error::EliteSiegeTank.png is missing from the Linux install tree."; exit 1; }
           cpack -G "DEB;RPM;TGZ" -C Release
 
       - name: Create AppImage
@@ -203,6 +261,7 @@ jobs:
           # Stage the AppDir from the cmake install tree
           cd build
           cmake --install . --prefix AppDir/usr --config Release
+          test -f AppDir/usr/share/DuneLegacyTornie/locale/French.fr.po || { echo "::error::French catalog is missing from the AppImage install tree."; exit 1; }
 
           # Ensure icons and desktop file are in the right AppDir locations
           mkdir -p AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/128x128/apps
@@ -357,9 +416,9 @@ jobs:
   # so creating a release here automatically flips every existing
   # install's "update available" flag the next time they launch.
   release:
-    needs: [verify-version, build-windows]  # macOS skipped on moonbear fork - see build-macos job
-    # Linux is best-effort; Windows is required for release
-    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [verify-version, build-windows, build-linux, build-macos]
+    # Windows is required. Linux and macOS are attached when available.
+    if: always() && startsWith(github.ref, 'refs/tags/v') && needs.verify-version.result == 'success' && needs.build-windows.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -401,6 +460,10 @@ jobs:
             echo "- Windows: \`DuneLegacyTornie-*.zip\`"
             echo "- macOS: \`DuneLegacyTornie-*.dmg\`"
             echo "- Linux: \`.AppImage\` (recommended) / \`.deb\` / \`.rpm\` / \`.tar.gz\`"
+            if compgen -G "dist/macos/*.dmg" > /dev/null; then
+              echo
+              echo "**Running on macOS:** the build is ad-hoc signed, so Gatekeeper blocks it on first launch (\"dunecity.app was blocked to protect your Mac\"). It's not damaged â€” approve it once: **System Settings â†’ Privacy & Security â†’ Open Anyway** (macOS 15/26), or right-click the app â†’ **Open** on macOS 14 and earlier. Details: https://github.com/Torneko/dunelegacy-tornie#building"
+            fi
             echo
             echo "Upgrading from a previous Dune Legacy Tornie install? Your built-in mod INI files are reseeded automatically on first launch."
           } > "$NOTES_FILE"

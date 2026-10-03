@@ -36,6 +36,7 @@
 #include <structures/TurretBase.h>
 #include <structures/Palace.h>
 #include <structures/TechCenter.h>
+#include <structures/Scoutpost.h>
 #include <structures/StarPort.h>
 #include <structures/ConstructionYard.h>
 
@@ -172,7 +173,20 @@ void Command::executeCommand() const {
             pUnit->doAttackObject((int) parameter[1], true);
         } break;
 
-        case CMD_INFANTRY_CAPTURE: {
+                case CMD_UNIT_HEAL: {
+            if(parameter.size() != 2) {
+                THROW(std::invalid_argument, "Command::executeCommand(): CMD_UNIT_HEAL needs 2 Parameters!");
+            }
+            UnitBase* pUnit = dynamic_cast<UnitBase*>(currentGame->getObjectManager().getObject(parameter[0]));
+            ObjectBase* pTarget = currentGame->getObjectManager().getObject(parameter[1]);
+            if(pUnit == nullptr || pTarget == nullptr || !pUnit->canHeal() || !pTarget->isAUnit()
+                    || pTarget->getOwner()->getTeamID() != pUnit->getOwner()->getTeamID()
+                    || pTarget->getHealth() >= pTarget->getMaxHealth()) {
+                return;
+            }
+            pUnit->doAttackObject((int) parameter[1], true);
+        } break;
+case CMD_INFANTRY_CAPTURE: {
             if(parameter.size() != 2) {
                 THROW(std::invalid_argument, "Command::executeCommand(): CMD_INFANTRY_CAPTURE needs 2 Parameters!");
             }
@@ -380,42 +394,64 @@ void Command::executeCommand() const {
             }
             pTechCenter->doSpawnVehicles();
         } break;
-        
+
+        case CMD_SCOUTPOST_UPGRADE: {
+            if(parameter.size() != 1) {
+                THROW(std::invalid_argument, "Command::executeCommand(): CMD_SCOUTPOST_UPGRADE needs 1 Parameter!");
+            }
+            Scoutpost* pScoutpost = dynamic_cast<Scoutpost*>(currentGame->getObjectManager().getObject(parameter[0]));
+            if(pScoutpost == nullptr) {
+                return;
+            }
+            pScoutpost->doUpgradeToFlamepost();
+        } break;
+
+        case CMD_SCOUTPOST_CHEMIPOST_UPGRADE: {
+            if(parameter.size() != 1) {
+                THROW(std::invalid_argument, "Command::executeCommand(): CMD_SCOUTPOST_CHEMIPOST_UPGRADE needs 1 Parameter!");
+            }
+            Scoutpost* pScoutpost = dynamic_cast<Scoutpost*>(currentGame->getObjectManager().getObject(parameter[0]));
+            if(pScoutpost == nullptr) {
+                return;
+            }
+            pScoutpost->doUpgradeToChemipost();
+        } break;
+
         case CMD_PLAYER_PAUSE: {
             if(parameter.size() != 0) {
                 THROW(std::invalid_argument, "Command::executeCommand(): CMD_PLAYER_PAUSE needs 0 Parameters!");
             }
-            
+
             // Mark this player as paused
             currentGame->pausedPlayers.insert(playerID);
-            
+
             // Get player name
             Player* pPlayer = currentGame->getPlayerByID(playerID);
             std::string playerName = pPlayer ? pPlayer->getPlayername() : "Player " + std::to_string((int)playerID);
-            
+
             SDL_Log("Player %s (ID %d) has paused", playerName.c_str(), (int)playerID);
-            
+
             // If it's a remote player, show a message
             Player* pLocalPlayer = currentGame->getPlayerByName(currentGame->getLocalPlayerName());
             if(pLocalPlayer && playerID != pLocalPlayer->getPlayerID()) {
                 currentGame->addToNewsTicker(playerName + " is paused");
             }
         } break;
-        
+
         case CMD_PLAYER_RESUME: {
             if(parameter.size() != 0) {
                 THROW(std::invalid_argument, "Command::executeCommand(): CMD_PLAYER_RESUME needs 0 Parameters!");
             }
-            
+
             // Remove this player from paused set
             currentGame->pausedPlayers.erase(playerID);
-            
+
             // Get player name
             Player* pPlayer = currentGame->getPlayerByID(playerID);
             std::string playerName = pPlayer ? pPlayer->getPlayername() : "Player " + std::to_string((int)playerID);
-            
+
             SDL_Log("Player %s (ID %d) has resumed", playerName.c_str(), (int)playerID);
-            
+
             // If it's a remote player, show a message
             Player* pLocalPlayer = currentGame->getPlayerByName(currentGame->getLocalPlayerName());
             if(pLocalPlayer && playerID != pLocalPlayer->getPlayerID()) {
@@ -444,4 +480,3 @@ void Command::executeCommand() const {
     }
 
 }
-

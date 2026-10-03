@@ -31,6 +31,7 @@
 #include <misc/draw_util.h>
 #include <misc/format.h>
 #include <misc/DiscordManager.h>
+#include <misc/TouchInput.h>
 
 #include <mod/ModManager.h>
 
@@ -51,13 +52,17 @@ namespace {
 bool isThinSpiceTerrain(int terrainType) noexcept {
     return terrainType == Terrain_Spice
         || terrainType == Terrain_GreenSpice
-        || terrainType == Terrain_RedSpice;
+        || terrainType == Terrain_RedSpice
+        || terrainType == Terrain_PaleLilacSpice
+        || terrainType == Terrain_WhiteSpice;
 }
 
 bool isThickSpiceTerrain(int terrainType) noexcept {
     return terrainType == Terrain_ThickSpice
         || terrainType == Terrain_ThickGreenSpice
-        || terrainType == Terrain_ThickRedSpice;
+        || terrainType == Terrain_ThickRedSpice
+        || terrainType == Terrain_ThickPaleLilacSpice
+        || terrainType == Terrain_ThickWhiteSpice;
 }
 
 bool isSpiceTerrain(int terrainType) noexcept {
@@ -70,6 +75,10 @@ int getThinSpiceTerrain(int terrainType) noexcept {
         case Terrain_ThickGreenSpice: return Terrain_GreenSpice;
         case Terrain_RedSpice:
         case Terrain_ThickRedSpice: return Terrain_RedSpice;
+        case Terrain_PaleLilacSpice:
+        case Terrain_ThickPaleLilacSpice: return Terrain_PaleLilacSpice;
+        case Terrain_WhiteSpice:
+        case Terrain_ThickWhiteSpice: return Terrain_WhiteSpice;
         default: return Terrain_Spice;
     }
 }
@@ -88,6 +97,14 @@ unsigned int getTerrainObjPic(int terrainType) noexcept {
         case Terrain_ThickRedSpice:
         case Terrain_RedSpiceBloom:
             return ObjPic_Terrain_RedSpice;
+        case Terrain_PaleLilacSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_PaleLilacSpiceBloom:
+            return ObjPic_Terrain_PaleLilacSpice;
+        case Terrain_WhiteSpice:
+        case Terrain_ThickWhiteSpice:
+        case Terrain_WhiteSpiceBloom:
+            return ObjPic_Terrain_WhiteSpice;
         default:
             return ObjPic_Terrain;
     }
@@ -101,6 +118,10 @@ unsigned int getMapEditorStructureUIGraphic(int itemID) noexcept {
         case Structure_Worfinery:           return UI_MapEditor_Worfinery;
         case Structure_TechCenter:          return UI_MapEditor_TechCenter;
         case Structure_Scoutpost:           return UI_MapEditor_Scoutpost;
+        case Structure_Flamepost:           return UI_MapEditor_Flamepost;
+        case Structure_Chemipost:           return UI_MapEditor_Chemipost;
+        case Structure_LoveFactory:         return UI_MapEditor_LoveFactory;
+        case Structure_ChaosFactory:        return UI_MapEditor_ChaosFactory;
         default:                            return NUM_UIGRAPHICS;
     }
 }
@@ -127,7 +148,7 @@ private:
 MapEditor::MapEditor() : pInterface(nullptr) {
     // Update Discord Rich Presence
     DiscordManager::instance().setMapEditor();
-    
+
     bQuitEditor = false;
     scrollDownMode = false;
     scrollLeftMode = false;
@@ -168,7 +189,7 @@ MapEditor::MapEditor() : pInterface(nullptr) {
 MapEditor::~MapEditor() {
     // Clean up cursor manager
     cursorManager.cleanup();
-    
+
     delete screenborder;
     screenborder = nullptr;
 }
@@ -247,8 +268,17 @@ void MapEditor::setMap(const MapData& mapdata, const MapInfo& newMapInfo) {
         players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"CPU",25));
         players.emplace_back(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,true,false,"CPU",25);
         players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"CPU",25));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"CPU",25));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"CPU",25));
+        if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"CPU",25));
+            }
+        if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"CPU",25));
+            }
+        if(isHouseAvailable(HOUSE_CUSTOM)) {
+            if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"CPU",25));
+                }
+        }
     } else {
         players.push_back(Player(getHouseNameByNumber(HOUSE_HARKONNEN),HOUSE_HARKONNEN,HOUSE_HARKONNEN,true,true,"Team1"));
         players.push_back(Player(getHouseNameByNumber(HOUSE_ATREIDES),HOUSE_ATREIDES,HOUSE_ATREIDES,true,true,"Team2"));
@@ -256,12 +286,22 @@ void MapEditor::setMap(const MapData& mapdata, const MapInfo& newMapInfo) {
         players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"Team4"));
         players.push_back(Player(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,true,true,"Team5"));
         players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"Team6"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"Team7"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"Team8"));
+        if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"Team7"));
+            }
+        if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"Team8"));
+            }
+        if(isHouseAvailable(HOUSE_CUSTOM)) {
+            if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"Team9"));
+                }
+        }
     }
 
     // setup default choam
     choam[Unit_Carryall] = 2;
+    choam[Unit_ChemicalCarryall] = 0;
     choam[Unit_Harvester] = 4;
     choam[Unit_Launcher] = 5;
     choam[Unit_MCV] = 2;
@@ -440,8 +480,17 @@ void MapEditor::loadMap(const std::string& filepath) {
     players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"Team4"));
     players.push_back(Player(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,false,false,"Team5"));
     players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"Team6"));
+    if(!ModManager::instance().isTornieLiteActive()) {
     players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"Team7"));
+        }
+    if(!ModManager::instance().isTornieLiteActive()) {
     players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"Team8"));
+        }
+    if(isHouseAvailable(HOUSE_CUSTOM)) {
+        if(!ModManager::instance().isTornieLiteActive()) {
+    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"Team9"));
+            }
+    }
 
     // load map
     loadedINIFile = std::make_unique<INIFile>(filepath, false);
@@ -642,6 +691,13 @@ void MapEditor::saveMap(const std::string& filepath) {
                         row += 'B';
                     } break;
 
+                    case Terrain_PaleLilacSpice: row += 'l'; break;
+                    case Terrain_ThickPaleLilacSpice: row += 'L'; break;
+                    case Terrain_PaleLilacSpiceBloom: row += 'i'; break;
+                    case Terrain_WhiteSpice: row += 'w'; break;
+                    case Terrain_ThickWhiteSpice: row += 'W'; break;
+                    case Terrain_WhiteSpiceBloom: row += 'x'; break;
+
                     case Terrain_Rock: {
                         // Rock
                         row += '%';
@@ -675,7 +731,7 @@ void MapEditor::saveMap(const std::string& filepath) {
     }
 
 
-    for(int i=1;i<=NUM_HOUSES;i++) {
+    for(int i=1;i<=getNumAvailableHouses();i++) {
         loadedINIFile->removeSection("player" + std::to_string(i));
     }
 
@@ -722,7 +778,7 @@ void MapEditor::saveMap(const std::string& filepath) {
     }
 
     // remove players that are leftovers
-    for(int i=currentAnyHouseNumber;i<NUM_HOUSES;i++) {
+    for(int i=currentAnyHouseNumber;i<getNumAvailableHouses();i++) {
         loadedINIFile->removeSection("Player" + std::to_string(i));
     }
 
@@ -908,8 +964,8 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                 for(int i=0;i<mapMirror->getSize();i++) {
 
                     int nextHouse = HOUSE_INVALID;
-                    for(int k = currentHouse; k < currentHouse+NUM_HOUSES;k++) {
-                        if(players[k%NUM_HOUSES].bActive == bHouseIsActive) {
+                    for(int k = currentHouse; k < currentHouse+getNumAvailableHouses();k++) {
+                        if(players[k%getNumAvailableHouses()].bActive == bHouseIsActive) {
                             nextHouse = k;
                             break;
                         }
@@ -918,7 +974,7 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                     if(nextHouse != HOUSE_INVALID) {
                         Coord position = mapMirror->getCoord( Coord(xpos, ypos), i, structureSize);
 
-                        MapEditorStructurePlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%NUM_HOUSES), currentEditorMode.itemID, currentEditorMode.health);
+                        MapEditorStructurePlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%getNumAvailableHouses()), currentEditorMode.itemID, currentEditorMode.health);
 
                         addUndoOperation(placeOperation.perform(this));
 
@@ -950,8 +1006,8 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                 for(int i=0;i<mapMirror->getSize();i++) {
 
                     int nextHouse = HOUSE_INVALID;
-                    for(int k = currentHouse; k < currentHouse+NUM_HOUSES;k++) {
-                        if(players[k%NUM_HOUSES].bActive == bHouseIsActive) {
+                    for(int k = currentHouse; k < currentHouse+getNumAvailableHouses();k++) {
+                        if(players[k%getNumAvailableHouses()].bActive == bHouseIsActive) {
                             nextHouse = k;
                             break;
                         }
@@ -962,7 +1018,7 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
 
                         int angle =  mapMirror->getAngle(currentEditorMode.angle, i);
 
-                        MapEditorUnitPlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%NUM_HOUSES), currentEditorMode.itemID, currentEditorMode.health, angle, currentEditorMode.attackmode);
+                        MapEditorUnitPlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%getNumAvailableHouses()), currentEditorMode.itemID, currentEditorMode.health, angle, currentEditorMode.attackmode);
 
                         addUndoOperation(placeOperation.perform(this));
                         currentHouse = nextHouse + 1;
@@ -1009,7 +1065,9 @@ void MapEditor::performTerrainChange(int x, int y, TERRAINTYPE terrainType) {
 
         case Terrain_ThickSpice:
         case Terrain_ThickGreenSpice:
-        case Terrain_ThickRedSpice: {
+        case Terrain_ThickRedSpice:
+        case Terrain_ThickPaleLilacSpice:
+        case Terrain_ThickWhiteSpice: {
             const auto thinSpice = static_cast<TERRAINTYPE>(getThinSpiceTerrain(terrainType));
             if(map.isInsideMap(x-1, y) && !isSameSpiceFamily(map(x-1,y), terrainType))     performTerrainChange(x-1,y,thinSpice);
             if(map.isInsideMap(x, y-1) && !isSameSpiceFamily(map(x,y-1), terrainType))     performTerrainChange(x,y-1,thinSpice);
@@ -1026,7 +1084,9 @@ void MapEditor::performTerrainChange(int x, int y, TERRAINTYPE terrainType) {
 
         case Terrain_Spice:
         case Terrain_GreenSpice:
-        case Terrain_RedSpice: {
+        case Terrain_RedSpice:
+        case Terrain_PaleLilacSpice:
+        case Terrain_WhiteSpice: {
             if(map.isInsideMap(x-1, y) && (map(x-1,y) == Terrain_Mountain))     performTerrainChange(x-1,y,Terrain_Rock);
             if(map.isInsideMap(x, y-1) && (map(x,y-1) == Terrain_Mountain))     performTerrainChange(x,y-1,Terrain_Rock);
             if(map.isInsideMap(x+1, y) && (map(x+1,y) == Terrain_Mountain))     performTerrainChange(x+1,y,Terrain_Rock);
@@ -1038,6 +1098,8 @@ void MapEditor::performTerrainChange(int x, int y, TERRAINTYPE terrainType) {
         case Terrain_SpiceBloom:
         case Terrain_GreenSpiceBloom:
         case Terrain_RedSpiceBloom:
+        case Terrain_PaleLilacSpiceBloom:
+        case Terrain_WhiteSpiceBloom:
         case Terrain_SpecialBloom: {
             if(map.isInsideMap(x-1, y) && (map(x-1,y) == Terrain_Mountain))     performTerrainChange(x-1,y,Terrain_Rock);
             if(map.isInsideMap(x, y-1) && (map(x,y-1) == Terrain_Mountain))     performTerrainChange(x,y-1,Terrain_Rock);
@@ -1077,6 +1139,9 @@ void MapEditor::processInput() {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
+        if(TouchInput::translateTouchEvent(event)) {
+            continue;
+        }
 
         // first of all update mouse
         if(event.type == SDL_MOUSEMOTION) {
@@ -1524,7 +1589,9 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
                 case Terrain_Spice:
                 case Terrain_GreenSpice:
-                case Terrain_RedSpice: {
+                case Terrain_RedSpice:
+                case Terrain_PaleLilacSpice:
+                case Terrain_WhiteSpice: {
                     //determine which surounding tiles are spice
                     bool up = (y-1 < 0) || isSameSpiceFamily(getTerrain(x, y-1), terrainType);
                     bool right = (x+1 >= map.getSizeX()) || isSameSpiceFamily(getTerrain(x+1, y), terrainType);
@@ -1536,7 +1603,9 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
                 case Terrain_ThickSpice:
                 case Terrain_ThickGreenSpice:
-                case Terrain_ThickRedSpice: {
+                case Terrain_ThickRedSpice:
+                case Terrain_ThickPaleLilacSpice:
+                case Terrain_ThickWhiteSpice: {
                     //determine which surounding tiles are thick spice
                     bool up = (y-1 < 0) || (getTerrain(x, y-1) == terrainType);
                     bool right = (x+1 >= map.getSizeX()) || (getTerrain(x+1, y) == terrainType);
@@ -1548,7 +1617,9 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
                 case Terrain_SpiceBloom:
                 case Terrain_GreenSpiceBloom:
-                case Terrain_RedSpiceBloom: {
+                case Terrain_RedSpiceBloom:
+                case Terrain_PaleLilacSpiceBloom:
+                case Terrain_WhiteSpiceBloom: {
                     tile = Tile::TerrainTile_SpiceBloom;
                 } break;
 
@@ -1695,6 +1766,10 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
                 case Structure_Worfinery:           objectPic = ObjPic_Worfinery;           break;
                 case Structure_TechCenter:          objectPic = ObjPic_TechCenter;          break;
                 case Structure_Scoutpost:           objectPic = ObjPic_Scoutpost;           break;
+                case Structure_Flamepost:           objectPic = ObjPic_Flamepost;           break;
+                case Structure_Chemipost:           objectPic = ObjPic_Chemipost;           break;
+                case Structure_LoveFactory:         objectPic = ObjPic_LoveFactory;         break;
+                case Structure_ChaosFactory:        objectPic = ObjPic_ChaosFactory;        break;
                 default:                            objectPic = 0;                          break;
             }
 
@@ -1769,7 +1844,7 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
     }
 
     const bool tornieActive = ModManager::instance().isInitialized()
-        && ModManager::instance().getActiveModName() == "Tornie";
+        && ModManager::instance().isTornieContentActive();
 
     for(const Unit& unit : units) {
 
@@ -1844,7 +1919,8 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
         int objectPicGunHouse = unit.house;
         const Coord* gunOffset = nullptr;
         switch(unit.itemID) {
-            case Unit_Carryall:         objectPicBase = ObjPic_Carryall;        framesY = 2;                                                                    break;
+            case Unit_Carryall:         objectPicBase = ObjPic_Carryall;         framesY = 2;                                                                    break;
+            case Unit_ChemicalCarryall: objectPicBase = ObjPic_ChemicalCarryall; framesY = 2;                                                                    break;
             case Unit_Devastator:       objectPicBase = ObjPic_Devastator_Base; objectPicGun = ObjPic_Devastator_Gun;   gunOffset = devastatorTurretOffset;     break;
             case Unit_Deviator:         objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_DeviatorGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
             case Unit_Frigate:          objectPicBase = ObjPic_Frigate;                                                                                         break;
@@ -1871,6 +1947,7 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
             case Unit_FlameTank:        objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_FlameTankGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
             case Unit_EliteLauncher:    objectPicBase = ObjPic_Tank_Base;       objectPicGun = tornieActive ? ObjPic_EliteLauncherGunTornie : ObjPic_Launcher_Gun; objectPicGunHouse = tornieActive ? HOUSE_HARKONNEN : unit.house; gunOffset = launcherTurretOffset; break;
             case Unit_EliteSiegeTank:   objectPicBase = ObjPic_Siegetank_Base;  objectPicGun = ObjPic_EliteSiegeTankGunTornie; gunOffset = siegeTankTurretOffset; break;
+            case Unit_ChemicalSiegeTank: objectPicBase = ObjPic_Siegetank_Base; objectPicGun = ObjPic_ChemicalSiegeTankGunTornie; gunOffset = siegeTankTurretOffset; break;
         }
 
         SDL_Texture* pObjectSprite = pGFXManager->getZoomedObjPic(objectPicBase, unit.house, currentZoomlevel);
@@ -1905,7 +1982,8 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
                                        || unit.itemID == Unit_Deviator);
         const bool customStarMarker = (unit.itemID == Unit_RocketTrike || unit.itemID == Unit_SonicTrike
                                        || unit.itemID == Unit_FlameTank || unit.itemID == Unit_EliteLauncher
-                                       || unit.itemID == Unit_EliteSiegeTank || unit.itemID == Unit_RebelHarvester);
+                                       || unit.itemID == Unit_EliteSiegeTank || unit.itemID == Unit_ChemicalSiegeTank
+                                       || unit.itemID == Unit_ChemicalCarryall || unit.itemID == Unit_RebelHarvester);
         if(yellowStarMarker || customStarMarker) {
             SDL_Texture* pStarSprite = pGFXManager->getZoomedObjPic(ObjPic_Star, currentZoomlevel);
 

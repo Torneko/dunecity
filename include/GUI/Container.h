@@ -65,6 +65,13 @@ public:
         resizeAll();
     }
 
+    void forEachChildWidget(const std::function<void(Widget*)>& visitor) const override
+    {
+        for(const WidgetData& widgetData : containedWidgets) {
+            visitor(widgetData.pWidget);
+        }
+    }
+
 
     /**
         This method will remove all contained widgets in this container. Everything

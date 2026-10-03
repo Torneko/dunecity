@@ -1,5 +1,6 @@
 
 #include <Menu/MultiPlayerMenu.h>
+#include <Menu/MainMenuButtonColor.h>
 #include <Menu/CustomGameMenu.h>
 #include <Menu/CustomGamePlayers.h>
 
@@ -52,6 +53,7 @@ MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
     connectHBox.addWidget(&connectPortTextBox, 90);
     connectHBox.addWidget(HSpacer::create(20));
     connectButton.setText(_("Connect"));
+    MainMenuButtonColor::apply(connectButton);
     connectButton.setOnClick(std::bind(&MultiPlayerMenu::onConnect, this));
     connectHBox.addWidget(&connectButton, 100);
 
@@ -66,12 +68,14 @@ MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
     mainHBox.addWidget(&leftVBox, 180);
 
     createLANGameButton.setText(_("Create LAN Game"));
+    MainMenuButtonColor::apply(createLANGameButton);
     createLANGameButton.setOnClick(std::bind(&MultiPlayerMenu::onCreateLANGame, this));
     leftVBox.addWidget(&createLANGameButton, 0.1);
 
     leftVBox.addWidget(VSpacer::create(8));
 
     createInternetGameButton.setText(_("Create Internet Game"));
+    MainMenuButtonColor::apply(createInternetGameButton);
     createInternetGameButton.setOnClick(std::bind(&MultiPlayerMenu::onCreateInternetGame, this));
     leftVBox.addWidget(&createInternetGameButton, 0.1);
 
@@ -83,11 +87,13 @@ MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
     mainHBox.addWidget(Spacer::create(), 0.05);
 
     LANGamesButton.setText(_("LAN Games"));
+    MainMenuButtonColor::apply(LANGamesButton);
     LANGamesButton.setToggleButton(true);
     LANGamesButton.setOnClick(std::bind(&MultiPlayerMenu::onGameTypeChange, this, 0));
     gameTypeButtonsHBox.addWidget(&LANGamesButton, 0.35);
 
     internetGamesButton.setText(_("Internet Games"));
+    MainMenuButtonColor::apply(internetGamesButton);
     internetGamesButton.setToggleButton(true);
     internetGamesButton.setOnClick(std::bind(&MultiPlayerMenu::onGameTypeChange, this, 1));
     gameTypeButtonsHBox.addWidget(&internetGamesButton, 0.35);
@@ -109,12 +115,14 @@ MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
 
     buttonHBox.addWidget(HSpacer::create(70));
     backButton.setText(_("Back"));
+    MainMenuButtonColor::apply(backButton);
     backButton.setOnClick(std::bind(&MultiPlayerMenu::onQuit, this));
     buttonHBox.addWidget(&backButton, 0.1);
 
     buttonHBox.addWidget(Spacer::create(), 0.8);
 
     joinButton.setText(_("Join"));
+    MainMenuButtonColor::apply(joinButton);
     joinButton.setOnClick(std::bind(&MultiPlayerMenu::onJoin, this));
     buttonHBox.addWidget(&joinButton, 0.1);
     buttonHBox.addWidget(HSpacer::create(90));
@@ -149,7 +157,7 @@ MultiPlayerMenu::~MultiPlayerMenu() {
 
 bool MultiPlayerMenu::validateAndSavePlayerName() {
     std::string name = playerNameTextBox.getText();
-    
+
     // Trim whitespace
     size_t start = name.find_first_not_of(" \t");
     size_t end = name.find_last_not_of(" \t");
@@ -158,12 +166,12 @@ bool MultiPlayerMenu::validateAndSavePlayerName() {
     } else {
         name = name.substr(start, end - start + 1);
     }
-    
+
     if (name.empty()) {
         openWindow(MsgBox::create(_("Please enter a player name.")));
         return false;
     }
-    
+
     // Update settings and save
     settings.general.playerName = name;
     playerNameTextBox.setText(name);  // Update with trimmed version
@@ -173,17 +181,17 @@ bool MultiPlayerMenu::validateAndSavePlayerName() {
 
 void MultiPlayerMenu::savePlayerNameToConfig() {
     std::string name = playerNameTextBox.getText();
-    
+
     // Trim whitespace
     size_t start = name.find_first_not_of(" \t");
     size_t end = name.find_last_not_of(" \t");
     if (start != std::string::npos) {
         name = name.substr(start, end - start + 1);
     }
-    
+
     if (!name.empty() && name != settings.general.playerName) {
         settings.general.playerName = name;
-        
+
         // Save to config file
         INIFile myINIFile(getConfigFilepath());
         myINIFile.setStringValue("General", "Player Name", settings.general.playerName);
@@ -258,7 +266,7 @@ void MultiPlayerMenu::onJoin() {
     int selectedEntry = gameList.getSelectedIndex();
     if(selectedEntry >= 0) {
         GameServerInfo* pGameServerInfo = static_cast<GameServerInfo*>(gameList.getEntryPtrData(selectedEntry));
-        
+
         // Smart NAT detection: For internet games, decide whether to use external or local IP
         // - If found via LAN broadcast, use LAN address (same network confirmed)
         // - Otherwise, use external IP from metaserver (the default for internet games)
@@ -266,7 +274,7 @@ void MultiPlayerMenu::onJoin() {
         // which would be detected via LAN broadcast anyway.
         ENetAddress connectAddress = pGameServerInfo->serverAddress;
         bool foundOnLAN = false;
-        
+
         if(internetGamesButton.getToggleState()) {
             // Check if this game is also on LAN (UDP broadcast discovery)
             for(const GameServerInfo& lanGame : LANGameList) {
@@ -281,24 +289,24 @@ void MultiPlayerMenu::onJoin() {
                     break;
                 }
             }
-            
+
             if(!foundOnLAN) {
                 // Not found on LAN - check if we're behind the same NAT (same external IP)
                 // If so, use local IP to avoid hairpin NAT issues
                 std::string clientExternalIP;
                 uint16_t clientStunPort = 0;
                 bool sameNAT = false;
-                
+
                 if (pNetworkManager->performStunQueryFull(clientExternalIP, clientStunPort)) {
                     // Get server's external IP from the address
                     std::string serverExternalIP = Address2String(pGameServerInfo->serverAddress);
-                    
+
                     if (clientExternalIP == serverExternalIP && !pGameServerInfo->localIP.empty()) {
                         // Same external IP = behind same NAT, use local IP
                         SDL_Log("Same-NAT detected: client=%s, server=%s - using local IP %s",
-                                clientExternalIP.c_str(), serverExternalIP.c_str(), 
+                                clientExternalIP.c_str(), serverExternalIP.c_str(),
                                 pGameServerInfo->localIP.c_str());
-                        
+
                         if (enet_address_set_host(&connectAddress, pGameServerInfo->localIP.c_str()) == 0) {
                             // Keep the same port (local port = external port for most routers)
                             sameNAT = true;
@@ -308,7 +316,7 @@ void MultiPlayerMenu::onJoin() {
                         }
                     }
                 }
-                
+
                 // If not same-NAT, try hole punch if available
                 if (!sameNAT && pGameServerInfo->holePunchAvailable && !pGameServerInfo->sessionId.empty()) {
                     SDL_Log("NAT Hole Punch: Attempting hole punch for internet game");
@@ -318,19 +326,19 @@ void MultiPlayerMenu::onJoin() {
                             // Step 2: Request hole punch coordination
                             std::string clientId = pMetaServer->requestHolePunch(
                                 pGameServerInfo->sessionId, clientStunPort);
-                            
+
                             if (!clientId.empty()) {
                                 // Step 3: Poll for punch readiness (with timeout)
                                 openWindow(MsgBox::create(_("Establishing NAT connection...")));
-                                
+
                                 std::string hostIP;
                                 uint16_t hostPort = 0;
                                 int waitSeconds = 0;
                                 bool punchReady = false;
-                                
+
                                 Uint32 pollStart = SDL_GetTicks();
                                 constexpr Uint32 PUNCH_TIMEOUT_MS = 10000;  // 10 second timeout
-                                
+
                                 while (SDL_GetTicks() - pollStart < PUNCH_TIMEOUT_MS) {
                                     if (pMetaServer->pollPunchStatus(pGameServerInfo->sessionId, clientId,
                                                                      hostIP, hostPort, waitSeconds)) {
@@ -339,21 +347,21 @@ void MultiPlayerMenu::onJoin() {
                                     }
                                     SDL_Delay(500);  // Poll every 500ms
                                 }
-                                
+
                                 closeChildWindow();
-                                
+
                                 if (punchReady) {
                                     SDL_Log("NAT Hole Punch: Ready - host at %s:%d, waiting %d sec",
                                             hostIP.c_str(), hostPort, waitSeconds);
-                                    
+
                                     // Step 4: Wait coordinated time
                                     if (waitSeconds > 0) {
                                         SDL_Delay(waitSeconds * 1000);
                                     }
-                                    
+
                                     // Step 5: Send punch packets
                                     pNetworkManager->sendHolePunchPackets(hostIP, hostPort, 10, 50);
-                                    
+
                                     // Step 6: Update connect address to punched address
                                     if (enet_address_set_host(&connectAddress, hostIP.c_str()) == 0) {
                                         connectAddress.port = hostPort;
@@ -594,6 +602,10 @@ void MultiPlayerMenu::showDisconnectMessageBox(int cause) {
 
         case NETWORKDISCONNECT_GAME_FULL: {
             openWindow(MsgBox::create(_("There is no free player slot in this game left!")));
+        } break;
+
+        case NETWORKDISCONNECT_PROTOCOL_MISMATCH: {
+            openWindow(MsgBox::create(_("The game host uses an incompatible network protocol version. Please use the same Dune Legacy Tornie version.")));
         } break;
 
         default: {

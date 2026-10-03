@@ -1,3 +1,6 @@
 *.pbxproj -crlf -diff
 *.sh text eol=lf
 data/maps/** whitespace=cr-at-eol
+# Mod checksums describe exact shipped bytes on every platform.
+mods/** -text
+mods/** whitespace=cr-at-eol

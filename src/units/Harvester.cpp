@@ -114,7 +114,10 @@ void Harvester::blitToScreen()
     SDL_Rect source = calcSpriteSourceRect(pUnitGraphic, drawnAngle, numImagesX);
     SDL_Rect dest = calcSpriteDrawingRect( pUnitGraphic, x, y, numImagesX, 1, HAlign::Center, VAlign::Center);
 
-    SDL_RenderCopy(renderer, pUnitGraphic, &source, &dest);
+    if(!pGFXManager->drawHDObjPic(graphicID, getOwner()->getHouseID(), currentZoomlevel,
+                                  drawnAngle, numImagesX, 0, 1, x, y)) {
+        SDL_RenderCopy(renderer, pUnitGraphic, &source, &dest);
+    }
 
     if(isHarvesting() == true) {
 
@@ -156,7 +159,7 @@ void Harvester::checkPos()
 
     // Log LONG-TERM stuck harvesters (30+ seconds) - ANY harvester not moving
     static std::map<Uint32, int> idleLogCounters;
-    
+
     if(active && !moving && !justStoppedMoving) {
         idleLogCounters[getObjectID()]++;
         if(idleLogCounters[getObjectID()] == 1800) { // 30 seconds at 60fps - log once
@@ -208,7 +211,7 @@ void Harvester::checkPos()
                 } else if(!awaitingPickup && owner->hasCarryalls() && pRefinery->isHarvesterDropoffFree() && blockDistance(location, pRefinery->getClosestPoint(location)) >= MIN_CARRYALL_LIFT_DISTANCE) {
                     requestCarryall();
                 }
-                
+
                 // Check if path to refinery is blocked - request carryall if stuck
                 if(!awaitingPickup && !moving && pathList.empty() && destination != location) {
                     // Not moving, no path, but has a destination - path is likely blocked
@@ -223,7 +226,7 @@ void Harvester::checkPos()
                             // Refinery is occupied - try to find another free refinery
                             StructureBase* pAlternateRefinery = nullptr;
                             FixPoint closestDistance = FixPt32_MAX;
-                            
+
                             for(StructureBase* pStructure : structureList) {
                                 if(pStructure->acceptsHarvesterDropoff() && (pStructure->getOwner() == owner)) {
                                     StructureBase* pOtherRefinery = pStructure;
@@ -236,7 +239,7 @@ void Harvester::checkPos()
                                     }
                                 }
                             }
-                            
+
                             if(pAlternateRefinery) {
                                 // Found an alternate free refinery - switch to it
                                 SDL_Log("HARVESTER %d: Current refinery occupied, switching to alternate", getObjectID());
@@ -313,7 +316,7 @@ void Harvester::checkPos()
                 if(destination != location && pathList.empty()) {
                     setGuardPoint(location);
                 }
-                
+
                 // Find harvest location nearest to our base
                 Coord newDestination;
                 if(currentGameMap->findSpice(newDestination, guardPoint)) {
@@ -519,8 +522,8 @@ void Harvester::setReturned()
     awaitingPickup = false;
 
     if(!storedInside) {
-        // Worfinery unloads instantly, but the harvester must leave the
-        // occupied structure tiles before resuming its harvesting cycle.
+        // A non-storing drop-off must let the harvester leave the occupied
+        // structure tiles before resuming its harvesting cycle.
         Coord deployPos = currentGameMap->findDeploySpot(
             this, dropoff->getLocation(), currentGame->randomGen,
             getGuardPoint(), dropoff->getStructureSize());
@@ -548,7 +551,7 @@ void Harvester::setReturned()
 void Harvester::move()
 {
     TrackedUnit::move();
-    
+
     // Log harvesters sitting on spice tiles
     static std::map<Uint32, int> onSpiceCounter;
     // Track if harvester is on spice but not moving (removed spammy logging)
@@ -564,7 +567,12 @@ void Harvester::move()
                     if(tile->hasSpice()) {
 
                         int beforeTileType = tile->getType();
-                        spice += tile->harvestSpice();
+                        const bool harvestingLilacSpice = tile->isPaleLilacSpice();
+                        const FixPoint harvested = tile->harvestSpice();
+                        spice += harvested;
+                        if(harvestingLilacSpice && harvested > 0) {
+                            addHealth();
+                        }
                         int afterTileType = tile->getType();
 
                         if(beforeTileType != afterTileType) {

@@ -199,13 +199,13 @@ Coord AIPlayer::findPlaceLocation(Uint32 itemID) {
     FixPoint bestrating = 0;
     Coord bestLocation = Coord::Invalid();
     int count = 0;
-    
+
     // MULTIPLAYER FIX (Issue #4): Deterministic placement search
     // Use house ID + itemID to ensure all clients search same locations
     const int houseID = static_cast<int>(getHouse()->getHouseID());
     const int rangeX = maxX - minX + 1;
     const int rangeY = maxY - minY + 1;
-    
+
     do {
         // Deterministic pseudo-random coordinates based on house ID, item ID, and iteration
         int x = minX + ((houseID + itemID + count) % rangeX);
@@ -356,7 +356,7 @@ void AIPlayer::build() {
             if(pStructure->getItemID() == Structure_Palace) {
                 const Palace* pPalace = static_cast<const Palace*>(pStructure);
                 if(pPalace->isSpecialWeaponReady()) {
-                    const HOUSETYPE palaceHouse = static_cast<HOUSETYPE>(pPalace->getOriginalHouseID());
+                    const HOUSETYPE palaceHouse = getHouseFallbackHouse(static_cast<HOUSETYPE>(pPalace->getOriginalHouseID()));
                     if(palaceHouse == HOUSE_HARKONNEN || palaceHouse == HOUSE_SARDAUKAR) {
                         const House* pBestHouse = nullptr;
                         for(int i = 0; i < NUM_HOUSES; i++) {
@@ -397,6 +397,16 @@ void AIPlayer::build() {
                 if((getHouse()->getCredits() > 2000) && (pBuilder->getHealth() >= pBuilder->getMaxHealth()) && (pBuilder->isUpgrading() == false) && (pBuilder->getCurrentUpgradeLevel() < pBuilder->getMaxUpgradeLevel())) {
                     doUpgrade(pBuilder);
                     continue;
+                }
+
+                if(isAllowedToArm() && !pBuilder->isUpgrading()
+                   && pBuilder->getProductionQueueSize() < 1
+                   && getHouse()->getCredits() > 1500) {
+                    const int customItem = chooseLowPriorityCustomUnit(pBuilder);
+                    if(customItem != ItemID_Invalid) {
+                        doProduceItem(pBuilder, customItem);
+                        continue;
+                    }
                 }
 
                 switch (pStructure->getItemID()) {
@@ -759,9 +769,9 @@ void AIPlayer::checkAllUnits() {
 }
 
 bool AIPlayer::isAllowedToArm() const {
-    int teamScore[NUM_TEAMS];
+    int teamScore[NUM_TEAM_SLOTS];
 
-    for(int i = 0; i < NUM_TEAMS; i++) {
+    for(int i = 0; i < NUM_TEAM_SLOTS; i++) {
         teamScore[i] = 0;
     }
 
