@@ -229,10 +229,14 @@ void Tile::load(InputStream& stream) {
     }
 
     if (currentGame && currentGame->getLoadedSavegameVersion() >= 9807) {
-        cityZoneType_ = static_cast<DuneCity::ZoneType>(stream.readUint8());
-        cityZoneDensity_ = stream.readUint8();
-        cityTileId_ = stream.readUint16();
-        stream.readBools(&cityPowered_, &isRoad_);
+        // Consume the legacy DuneCity per-tile payload to keep old non-city
+        // saves aligned, but do not retain city state.
+        (void) stream.readUint8();
+        (void) stream.readUint8();
+        (void) stream.readUint16();
+        bool legacyCityPowered = false;
+        bool legacyRoad = false;
+        stream.readBools(&legacyCityPowered, &legacyRoad);
     }
 }
 
@@ -312,10 +316,11 @@ void Tile::save(OutputStream& stream) const {
         stream.writeUint32List(assignedNonInfantryGroundObjectList);
     }
 
-    stream.writeUint8(static_cast<Uint8>(cityZoneType_));
-    stream.writeUint8(cityZoneDensity_);
-    stream.writeUint16(cityTileId_);
-    stream.writeBools(cityPowered_, isRoad_);
+    // Preserve the legacy per-tile payload width for save compatibility.
+    stream.writeUint8(0);
+    stream.writeUint8(0);
+    stream.writeUint16(0);
+    stream.writeBools(false, false);
 }
 
 void Tile::assignAirUnit(Uint32 newObjectID) {
@@ -371,17 +376,10 @@ void Tile::assignUndergroundUnit(Uint32 newObjectID) {
 }
 
 void Tile::blitGround(int xPos, int yPos) {
-    // Skip terrain rendering when a regular Dune building occupies this
-    // tile (the building sprite is opaque and fully covers the tile —
-    // drawing terrain underneath would just be wasted work). DuneCity
-    // zone structures are an exception: their density=0 cells are
-    // transparent so the player sees the Micropolis-style empty plot
-    // (colored zone tint + dotted border) underneath. Without this
-    // exception, fresh-zoned tiles render as solid black.
+    // Skip terrain rendering when an opaque Dune structure covers the tile.
     if (hasANonInfantryGroundObject()) {
         const ObjectBase* groundObject = getNonInfantryGroundObject();
         if (groundObject != nullptr && groundObject->isAStructure()
-            && !hasCityZone()
             && !shouldDrawTerrainBelowStructure(groundObject->getItemID())) {
             return;
         }
@@ -409,27 +407,6 @@ void Tile::blitGround(int xPos, int yPos) {
             terrainSprite = pGFXManager->getZoomedObjPic(terrainObjPic, currentZoomlevel);
         }
         SDL_RenderCopy(renderer, terrainSprite, &source, &drawLocation);
-    }
-
-    // DuneCity: overlay an auto-tiled road sprite when the tile carries a
-    // player-placed Road structure. Roads sit on rock terrain (placement
-    // rule), and connect visually only to neighboring roads — concrete
-    // slabs render as plain concrete and do *not* trigger road auto-tiling.
-    if (isRoad_ && currentGame && currentGame->isCitySimEnabled()) {
-        SDL_Texture* cityRoadTex = pGFXManager->getZoomedObjPic(ObjPic_CityRoad, currentZoomlevel);
-        if (cityRoadTex) {
-            const bool up    = !currentGameMap->tileExists(location.x, location.y - 1)
-                               || currentGameMap->getTile(location.x, location.y - 1)->isRoad();
-            const bool right = !currentGameMap->tileExists(location.x + 1, location.y)
-                               || currentGameMap->getTile(location.x + 1, location.y)->isRoad();
-            const bool down  = !currentGameMap->tileExists(location.x, location.y + 1)
-                               || currentGameMap->getTile(location.x, location.y + 1)->isRoad();
-            const bool left  = !currentGameMap->tileExists(location.x - 1, location.y)
-                               || currentGameMap->getTile(location.x - 1, location.y)->isRoad();
-            const int mask = ((int)up) | ((int)right << 1) | ((int)down << 2) | ((int)left << 3);
-            SDL_Rect roadSrc = { mask * zoomed_tilesize, 0, zoomed_tilesize, zoomed_tilesize };
-            SDL_RenderCopy(renderer, cityRoadTex, &roadSrc, &drawLocation);
-        }
     }
 
     if (destroyedStructureTile != DestroyedStructure_None) {
@@ -470,43 +447,7 @@ void Tile::blitGround(int xPos, int yPos) {
         }
     }
 
-    // city zone overlay
-    if (hasCityZone()) {
-        Uint8 baseR = 0, baseG = 0, baseB = 0;
-        Uint8 borderR = 0, borderG = 0, borderB = 0;
-        
-        switch (cityZoneType_) {
-            case DuneCity::ZoneType::Residential:
-                baseR = 0; baseG = 200; baseB = 0;
-                borderR = 0; borderG = 255; borderB = 0;
-                break;
-            case DuneCity::ZoneType::Commercial:
-                baseR = 0; baseG = 0; baseB = 200;
-                borderR = 0; borderG = 100; borderB = 255;
-                break;
-            case DuneCity::ZoneType::Industrial:
-                baseR = 200; baseG = 200; baseB = 0;
-                borderR = 255; borderG = 255; borderB = 0;
-                break;
-            default:
-                break;
-        }
-        
-        Uint8 alpha = 80 + cityZoneDensity_ * 10;
-        
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-        SDL_SetRenderDrawColor(renderer, baseR, baseG, baseB, alpha);
-        SDL_RenderFillRect(renderer, &drawLocation);
-        
-        SDL_SetRenderDrawColor(renderer, borderR, borderG, borderB, 255);
-        for (int i = 0; i < 2; i++) {
-            SDL_Rect borderRect = { drawLocation.x + i, drawLocation.y + i, 
-                                     drawLocation.w - 2*i, drawLocation.h - 2*i };
-            SDL_RenderDrawRect(renderer, &borderRect);
-        }
-        
-        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-    }
+
 }
 
 void Tile::blitStructures(int xPos, int yPos) const {
