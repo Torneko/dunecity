@@ -191,8 +191,8 @@ jobs:
 
           # Ensure icons and desktop file are in the right AppDir locations
           mkdir -p AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/128x128/apps
-          cp ../dunecity.desktop AppDir/usr/share/applications/
-          cp ../dunecity-128x128.png AppDir/usr/share/icons/hicolor/128x128/apps/dunecity.png
+          cp ../dunelegacy-tornie.desktop AppDir/usr/share/applications/
+          cp ../dunelegacy-tornie-128x128.png AppDir/usr/share/icons/hicolor/128x128/apps/dunelegacy-tornie.png
 
           # linuxdeploy bundles the binary's shared-library dependencies into the
           # AppDir, generates AppRun, and creates the final .AppImage
@@ -200,8 +200,8 @@ jobs:
             ../linuxdeploy-x86_64.AppImage \
             --appdir AppDir \
             --executable AppDir/usr/bin/dunelegacy \
-            --desktop-file AppDir/usr/share/applications/dunecity.desktop \
-            --icon-file AppDir/usr/share/icons/hicolor/128x128/apps/dunecity.png \
+            --desktop-file AppDir/usr/share/applications/dunelegacy-tornie.desktop \
+            --icon-file AppDir/usr/share/icons/hicolor/128x128/apps/dunelegacy-tornie.png \
             --output appimage
 
           # Rename with version for clarity
@@ -375,7 +375,7 @@ jobs:
         run: |
           NOTES_FILE="$(mktemp)"
           {
-            echo "Dune City ${TAG}"
+            echo "Dune Legacy Tornie ${TAG}"
             echo
             echo "Auto-built from tag ${TAG}. See the [CHANGELOG](https://github.com/${GITHUB_REPOSITORY}/commits/${TAG}) for what's in this release."
             echo
@@ -384,7 +384,7 @@ jobs:
             echo "- macOS: \`DuneLegacyTornie-*.dmg\`"
             echo "- Linux: \`.AppImage\` (recommended) / \`.deb\` / \`.rpm\` / \`.tar.gz\`"
             echo
-            echo "Upgrading from a previous Dune City install? Your built-in mod INI files are reseeded automatically on first launch."
+            echo "Upgrading from a previous Dune Legacy Tornie install? Your built-in mod INI files are reseeded automatically on first launch."
           } > "$NOTES_FILE"
 
           # If a release for this tag already exists (e.g. it was hand-
@@ -395,7 +395,7 @@ jobs:
             gh release edit "$TAG" --notes-file "$NOTES_FILE"
           else
             gh release create "$TAG" dist/*/* \
-              --title "Dune City ${TAG}" \
+              --title "Dune Legacy Tornie ${TAG}" \
               --notes-file "$NOTES_FILE"
           fi
 
@@ -428,7 +428,7 @@ jobs:
             # Release tag links
             sed -i "s|releases/tag/v[0-9]\+\.[0-9]\+\.[0-9]\+|releases/tag/v${VERSION}|g" "$FILE"
             # Display version strings: "Dune City X.X.X"
-            sed -i "s|Dune City [0-9]\+\.[0-9]\+\.[0-9]\+|Dune City ${VERSION}|g" "$FILE"
+            sed -i "s|Dune City [0-9]\+\.[0-9]\+\.[0-9]\+|Dune Legacy Tornie ${VERSION}|g" "$FILE"
             # Download button text: "Download X.X.X"
             sed -i "s|Download [0-9]\+\.[0-9]\+\.[0-9]\+|Download ${VERSION}|g" "$FILE"
             # Latest label: "Latest: X.X.X"
@@ -442,5 +442,5 @@ jobs:
           git config user.email "ci@dunelegacy.com"
           git config user.name "Dune Legacy Tornie CI"
           git add website/index.html website/dune-city.html
-          git diff --cached --quiet || git commit -m "release: bump website to Dune City ${VERSION}"
+          git diff --cached --quiet || git commit -m "release: bump website to Dune Legacy Tornie ${VERSION}"
           git push
