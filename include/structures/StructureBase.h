@@ -157,7 +157,6 @@ public:
     /// the analogue of a zone's tile density for non-zone city-role
     /// structures (Refinery, Silo, Radar, Factories, RepairYard, IX,
     /// HighTech). The city sim floors these at level 1 once the structure
-    /// exists (CityEffectsRuntime.cpp) so player-built supply doesn't sit
     /// at zero jobs; higher tiers are still reached via the usual demand
     /// gates. The raw stored value can be 0 (newly built / loaded from an
     /// older save) without affecting jobs.
