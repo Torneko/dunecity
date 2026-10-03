@@ -34,13 +34,9 @@
 
 #include <GUI/QstBox.h>
 #include <misc/DiscordManager.h>
-#include <misc/fnkdat.h>
 #include <mod/ModManager.h>
 #include <mod/ModInfo.h>
 #include <config.h>
-
-#include <cstdio>
-#include <fstream>
 
 
 MainMenu::MainMenu()
@@ -126,14 +122,14 @@ MainMenu::MainMenu()
     quitButton.setOnClick(std::bind(&MainMenu::onQuit, this));
     MenuButtons.addWidget(&quitButton);
 
-    // Bottom-left watermark: <active mod display name> stacked over v<VERSION>.
+    // Identify the project, then its version and the active mod.
     {
         modVersionLabel.setTextFontSize(16);
         modVersionLabel.setTextColor(COLOR_WHITE, COLOR_BLACK);
         modVersionLabel.setAlignment(static_cast<Alignment_Enum>(Alignment_Left | Alignment_VCenter));
         refreshModVersionLabel();
 
-        const int labelWidth  = 220;
+        const int labelWidth  = 260;
         const int labelHeight = 50;
         const int marginX     = 12;
         const int marginY     = 8;
@@ -179,7 +175,7 @@ void MainMenu::refreshModVersionLabel()
     }
     lastShownModName = activeModName;
     try {
-        modVersionLabel.setText(modDisplayName + "\nv" + std::string(VERSION));
+        modVersionLabel.setText("Dune Legacy Tornie\nv" + std::string(VERSION) + " - " + modDisplayName);
     } catch (const std::exception& e) {
         SDL_Log("MainMenu: setText failed: %s", e.what());
     }
