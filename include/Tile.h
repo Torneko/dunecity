@@ -457,24 +457,6 @@ public:
         return (isMountain() || hasAGroundObject());
     }
 
-    // --- DuneCity accessors ---
-    DuneCity::ZoneType getCityZoneType() const noexcept { return cityZoneType_; }
-    void setCityZoneType(DuneCity::ZoneType z) noexcept { cityZoneType_ = z; }
-    uint8_t getCityZoneDensity() const noexcept { return cityZoneDensity_; }
-    void setCityZoneDensity(uint8_t d) noexcept { cityZoneDensity_ = d; }
-    bool isCityPowered() const noexcept { return cityPowered_; }
-    void setCityPowered(bool p) noexcept { cityPowered_ = p; }
-    /// True if a player-placed Road structure occupies this tile. Roads are a
-    /// build-menu item (like concrete slabs): they mutate tile state rather
-    /// than spawning an object, so they aren't selectable and units traverse
-    /// them via the underlying terrain. Power in DuneCity flows globally
-    /// based on produced-vs-required totals, so this flag is no longer about
-    /// electrical conductivity — it strictly tracks "is there a road here".
-    bool isRoad() const noexcept { return isRoad_; }
-    void setRoad(bool r) noexcept { isRoad_ = r; }
-    bool hasCityZone() const noexcept { return cityZoneType_ != DuneCity::ZoneType::None; }
-
-
     void addDamage(Uint32 damageType, int tile, Coord realPos) {
         if (damage.size() >= DAMAGE_PER_TILE) return;
 
