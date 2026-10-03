@@ -119,7 +119,7 @@ void setVideoMode(int displayIndex);
 void realign_buttons();
 
 static void printUsage() {
-    fprintf(stderr, "Usage:\n\tdunecity [--showlog] [--fullscreen|--window] [--PlayerName=X] [--ServerPort=X]\n");
+    fprintf(stderr, "Usage:\n\tdunelegacy [--showlog] [--fullscreen|--window] [--PlayerName=X] [--ServerPort=X]\n");
 }
 
 int getLogicalToPhysicalResolutionFactor(int physicalWidth, int physicalHeight) {
@@ -183,7 +183,7 @@ void setVideoMode(int displayIndex)
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");  // Use nearest-neighbor scaling for pixel-perfect look
     SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");       // Enable render batching for performance
 
-    window = SDL_CreateWindow("DuneCity",
+    window = SDL_CreateWindow("Dune Legacy Tornie",
                               SDL_WINDOWPOS_CENTERED_DISPLAY(displayIndex), SDL_WINDOWPOS_CENTERED_DISPLAY(displayIndex),
                               settings.video.physicalWidth, settings.video.physicalHeight,
                               videoFlags);
@@ -293,7 +293,7 @@ std::string getPerformanceLogFilepath()
 {
     // determine path to performance logfile
     char tmp[FILENAME_MAX];
-    if(fnkdat("DuneCity-Performance.log", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) < 0) {
+    if(fnkdat("DuneLegacy-Performance.log", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) < 0) {
         THROW(std::runtime_error, "fnkdat() failed for performance log!");
     }
 
@@ -612,14 +612,14 @@ void logOutputFunction(void *userdata, int category, SDL_LogPriority priority, c
     fprintf(stderr, "%s\n", message);
     fflush(stderr);
 
-    // DuneCity 1.0.501: mirror all SDL logs to dunecity-crash.log next to the
+    // Dune Legacy Tornie 1.0.501: mirror all SDL logs to dunelegacy-crash.log next to the
     // executable. On Windows release builds stderr isn't visible, so a silent
     // crash in the async GFXManager/SFXManager loaders left users (Tornie)
     // staring at a black screen with no diagnostic. The log file gives Stefan
     // something to attach to a bug report.
     static FILE* logFile = nullptr;
     if(logFile == nullptr) {
-        logFile = fopen("dunecity-crash.log", "w");
+        logFile = fopen("dunelegacy-crash.log", "w");
     }
     if(logFile != nullptr) {
         fprintf(logFile, "%s\n", message);
@@ -630,20 +630,20 @@ void logOutputFunction(void *userdata, int category, SDL_LogPriority priority, c
 void showMissingFilesMessageBox() {
     SDL_ShowCursor(SDL_ENABLE);
 
-    std::string instruction = "DuneCity uses the data files from original Dune II. The following files are missing:\n";
+    std::string instruction = "Dune Legacy Tornie uses the data files from original Dune II. The following files are missing:\n";
 
     for(const std::string& missingFile : FileManager::getMissingFiles()) {
         instruction += " " + missingFile + "\n";
     }
 
-    instruction += "\nPut them in one of the following directories and restart DuneCity:\n";
+    instruction += "\nPut them in one of the following directories and restart Dune Legacy Tornie:\n";
     for(const std::string& searchPath : FileManager::getSearchPath()) {
         instruction += " " + searchPath + "\n";
     }
 
     instruction += "\nYou may want to add GERMAN.PAK or FRENCH.PAK for playing in these languages.";
 
-    if(!SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DuneCity", instruction.c_str(), nullptr)) {
+    if(!SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie", instruction.c_str(), nullptr)) {
         fprintf(stderr, "%s\n", instruction.c_str());
     }
 }
@@ -698,11 +698,11 @@ int main(int argc, char *argv[]) {
     // v1.0.512: build-stamp log so Stefan can verify the binary on disk
     // actually contains the v1.0.5xx fixes. If this line is missing from
     // the run log, the .exe is stale.
-    SDL_Log("DuneCity v%s — build stamp active", std::string(VERSION).c_str());
+    SDL_Log("Dune Legacy Tornie v%s — build stamp active", std::string(VERSION).c_str());
 
     // v1.0.514: install SIGSEGV/SIGABRT/SIGFPE handler so a fatal native
     // crash (nullptr deref, divide by zero, etc.) writes a diagnostic to
-    // dunecity-crash.log before the process dies, instead of dying silently
+    // dunelegacy-crash.log before the process dies, instead of dying silently
     // with no visible feedback. The handler then re-raises the signal with
     // the default handler so a debugger can attach if running under one.
     // This is the Tornie fix for the silent SIGSEGV that Stefan reported:
@@ -726,13 +726,13 @@ int main(int argc, char *argv[]) {
             }
             char buf[512];
             int n = snprintf(buf, sizeof(buf),
-                "\n=== DuneCity fatal crash ===\n"
+                "\n=== Dune Legacy Tornie fatal crash ===\n"
                 "  Signal:  %d (%s)\n"
                 "  Reason:  %d (si_code)\n"
                 "  Address: %p (si_addr)\n"
                 "  Version: %s\n"
                 "  Stack trace not available (would require libunwind).\n"
-                "  Check Dune City.log for the last SDL_Log lines before the\n"
+                "  Check Dune Legacy.log for the last SDL_Log lines before the\n"
                 "  crash — that is where the actionable diagnostic lives.\n"
                 "=============================\n",
                 sig, sigName, info->si_code, info->si_addr, VERSION);
@@ -740,7 +740,7 @@ int main(int argc, char *argv[]) {
                 // stderr
                 (void)!write(2, buf, n);
                 // crash log file (best-effort, opened each invocation)
-                int fd = open("dunecity-crash.log",
+                int fd = open("dunelegacy-crash.log",
 #ifdef O_APPEND
                     O_WRONLY | O_CREAT | O_APPEND
 #else
@@ -766,7 +766,7 @@ int main(int argc, char *argv[]) {
         sigaction(SIGSEGV, &sa, nullptr);
         sigaction(SIGABRT, &sa, nullptr);
         sigaction(SIGFPE,  &sa, nullptr);
-        SDL_Log("DuneCity: SIGSEGV/SIGABRT/SIGFPE handler installed");
+        SDL_Log("Dune Legacy Tornie: SIGSEGV/SIGABRT/SIGFPE handler installed");
     }
     #endif
 
@@ -854,7 +854,7 @@ int main(int argc, char *argv[]) {
         std::string crashLogPath = getLogFilepath();
         installCrashHandlers(crashLogPath.c_str());
 
-        SDL_Log("Starting DuneCity %s on %s", VERSION, SDL_GetPlatform());
+        SDL_Log("Starting Dune Legacy Tornie %s on %s", VERSION, SDL_GetPlatform());
 
 #if defined(__linux__)
         // Verify that required shared libraries are loadable before proceeding.
@@ -1000,7 +1000,7 @@ int main(int argc, char *argv[]) {
                     setBackToEnglishWarning += filename + "\n";
                 }
                 setBackToEnglishWarning += "\nLanguage is changed to English!";
-                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "DuneCity", setBackToEnglishWarning.c_str(), NULL);
+                SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Dune Legacy Tornie", setBackToEnglishWarning.c_str(), NULL);
 
                 SDL_Log("Warning: Language is changed to English!");
 
@@ -1183,7 +1183,7 @@ int main(int argc, char *argv[]) {
                 auto gfxManagerFut = std::async(std::launch::async, []() { return std::make_unique<GFXManager>(); } );
                 auto sfxManagerFut = std::async(std::launch::async, []() { return std::make_unique<SFXManager>(); } );
 
-                // DuneCity 1.0.501: catch any exception from the async loaders
+                // Dune Legacy Tornie 1.0.501: catch any exception from the async loaders
                 // so a failed load produces a visible error dialog + log file
                 // entry instead of the silent death that 1.0.499 had (Tornie
                 // OOB: "game doesn't launch, no alert, just nothing").
@@ -1192,14 +1192,14 @@ int main(int argc, char *argv[]) {
                 } catch(const std::exception& e) {
                     std::string msg = std::string("GFXManager failed to initialize:\n\n") + e.what()
                                     + "\n\nA required data file is probably missing or the bundled PAK is corrupt."
-                                    + "\nSee dunecity-crash.log next to the executable for the full SDL log.";
+                                    + "\nSee dunelegacy-crash.log next to the executable for the full SDL log.";
                     SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "%s", msg.c_str());
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DuneCity — graphics load failed", msg.c_str(), nullptr);
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie — graphics load failed", msg.c_str(), nullptr);
                     THROW(std::runtime_error, "%s", msg.c_str());
                 } catch(...) {
                     SDL_LogCritical(SDL_LOG_CATEGORY_APPLICATION, "GFXManager failed to initialize: unknown exception");
-                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DuneCity — graphics load failed",
-                                              "GFXManager threw an unknown exception. See dunecity-crash.log.", nullptr);
+                    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie — graphics load failed",
+                                              "GFXManager threw an unknown exception. See dunelegacy-crash.log.", nullptr);
                     THROW(std::runtime_error, "GFXManager unknown exception");
                 }
 
@@ -1327,8 +1327,8 @@ int main(int argc, char *argv[]) {
             THROW(std::runtime_error, "Cannot uninitialize fnkdat!");
         }
     } catch(const std::exception& e) {
-        std::string message = std::string("An unhandled exception of type \'") + demangleSymbol(typeid(e).name()) + std::string("\' was thrown:\n\n") + e.what() + std::string("\n\nDuneCity will now be terminated!");
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "DuneCity: Unrecoverable error", message.c_str(), nullptr);
+        std::string message = std::string("An unhandled exception of type \'") + demangleSymbol(typeid(e).name()) + std::string("\' was thrown:\n\n") + e.what() + std::string("\n\nDune Legacy Tornie will now be terminated!");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Dune Legacy Tornie: Unrecoverable error", message.c_str(), nullptr);
 
         return EXIT_FAILURE;
     }
