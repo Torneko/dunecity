@@ -161,8 +161,6 @@ public:
     /// at zero jobs; higher tiers are still reached via the usual demand
     /// gates. The raw stored value can be 0 (newly built / loaded from an
     /// older save) without affecting jobs.
-    uint8_t getCityOccupancy() const { return cityOccupancy_; }
-    void setCityOccupancy(uint8_t v) { cityOccupancy_ = v; }
 
 protected:
     /**
@@ -192,7 +190,6 @@ protected:
     int     curAnimFrame;       ///< The current frame of the current animation
     int     animationCounter;   ///< When to show the next animation frame?
 
-    uint8_t cityOccupancy_ = 0; ///< City sim level for non-zone city-role structures (0=vacant)
 
 private:
     void init();
