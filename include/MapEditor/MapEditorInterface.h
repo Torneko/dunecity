@@ -247,20 +247,6 @@ private:
     SymbolButton        editorModeStructs_TechCenter;   ///< Tornie: Palace-equivalent that spawns vehicles
     HBox                editorModeStructs_HBoxScoutpost;
     SymbolButton        editorModeStructs_Scoutpost;     ///< Tornie: power/defense/recon post
-    // DuneCity: SimCity-style buildings, only added to the picker when the
-    // dune city mod is active. Buttons are always declared so the shared
-    // setHouse symbol-wiring and onStructButton toggle reset can address
-    // them uniformly without further branching.
-    // Two rows so the wider Nuclear sprite doesn't overflow the sidebar
-    // width — zones live on row 1, Road + Nuclear on row 2.
-    HBox                editorModeStructs_HBoxCityZones;
-    HBox                editorModeStructs_HBoxCityInfra;
-    SymbolButton        editorModeStructs_ZoneResidential;
-    SymbolButton        editorModeStructs_ZoneCommercial;
-    SymbolButton        editorModeStructs_ZoneIndustrial;
-    SymbolButton        editorModeStructs_Road;
-    SymbolButton        editorModeStructs_NuclearPlant;
-    bool                cityStructsVisible_ = false;
     bool                tornieContentVisible_ = false;
 
 
