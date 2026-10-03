@@ -50,9 +50,9 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # Options
-option(DUNECITY_BUILD_TESTS "Build test suite" OFF)
-option(DUNECITY_ENABLE_PCH "Enable precompiled headers" ON)
-option(DUNECITY_STATIC_RUNTIME "Use static runtime libraries" OFF)
+option(DUNELEGACY_BUILD_TESTS "Build test suite" OFF)
+option(DUNELEGACY_ENABLE_PCH "Enable precompiled headers" ON)
+option(DUNELEGACY_STATIC_RUNTIME "Use static runtime libraries" OFF)
 
 # Find required packages
 # When using vcpkg, these will be automatically found via CMAKE_TOOLCHAIN_FILE
@@ -73,14 +73,14 @@ if(WIN32)
         set(CMAKE_VS_PLATFORM_TOOLSET_HOST_ARCHITECTURE "x64")
 
         # Runtime library settings
-        if(DUNECITY_STATIC_RUNTIME)
+        if(DUNELEGACY_STATIC_RUNTIME)
             set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
         else()
             set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
         endif()
 
         # Precompiled header settings
-        if(DUNECITY_ENABLE_PCH)
+        if(DUNELEGACY_ENABLE_PCH)
             set(PCH_SOURCE "${CMAKE_SOURCE_DIR}/IDE/VC/stdafx.cpp")
             set(PCH_HEADER "${CMAKE_SOURCE_DIR}/IDE/VC/stdafx.h")
         endif()
@@ -123,7 +123,7 @@ endif()
 
 # Add subdirectories
 add_subdirectory(src)
-if(DUNECITY_BUILD_TESTS)
+if(DUNELEGACY_BUILD_TESTS)
     enable_testing()
     add_subdirectory(tests)
 endif()
@@ -146,22 +146,22 @@ endif()
 # Platform-specific install configuration
 if(WIN32)
     # Windows: install all files to root directory (not in a share subdirectory)
-    set(DUNECITY_INSTALL_ROOT ".")
-    set(DUNECITY_DATA_DIR ".")
-    set(DUNECITY_CONFIG_DIR "config")
-    set(DUNECITY_DOC_DIR ".")
+    set(DUNELEGACY_INSTALL_ROOT ".")
+    set(DUNELEGACY_DATA_DIR ".")
+    set(DUNELEGACY_CONFIG_DIR "config")
+    set(DUNELEGACY_DOC_DIR ".")
 elseif(APPLE)
     # macOS already handled via bundle
-    set(DUNECITY_INSTALL_ROOT ".")
-    set(DUNECITY_DATA_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
-    set(DUNECITY_CONFIG_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/config")
-    set(DUNECITY_DOC_DIR "${CMAKE_INSTALL_DOCDIR}")
+    set(DUNELEGACY_INSTALL_ROOT ".")
+    set(DUNELEGACY_DATA_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+    set(DUNELEGACY_CONFIG_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/config")
+    set(DUNELEGACY_DOC_DIR "${CMAKE_INSTALL_DOCDIR}")
 else()
     # Unix/Linux FHS structure
-    set(DUNECITY_INSTALL_ROOT "${CMAKE_INSTALL_BINDIR}")
-    set(DUNECITY_DATA_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
-    set(DUNECITY_CONFIG_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/config")
-    set(DUNECITY_DOC_DIR "${CMAKE_INSTALL_DOCDIR}")
+    set(DUNELEGACY_INSTALL_ROOT "${CMAKE_INSTALL_BINDIR}")
+    set(DUNELEGACY_DATA_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+    set(DUNELEGACY_CONFIG_DIR "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/config")
+    set(DUNELEGACY_DOC_DIR "${CMAKE_INSTALL_DOCDIR}")
 endif()
 
 # Install data files
@@ -178,7 +178,7 @@ if(NOT APPLE)
             "config/QuantBot Config.ini.default"
             "config/Dune Legacy.ini"
             config/README.md
-            DESTINATION ${DUNECITY_CONFIG_DIR}
+            DESTINATION ${DUNELEGACY_CONFIG_DIR}
         )
     endif()
 endif()
@@ -204,20 +204,20 @@ endif()
 if(WIN32)
     # Windows: install docs to root
     install(FILES AUTHORS COPYING NEWS README
-        DESTINATION ${DUNECITY_DOC_DIR}
+        DESTINATION ${DUNELEGACY_DOC_DIR}
     )
     # Install release notes
     install(FILES "release_notes/RELEASE_NOTES.md"
-        DESTINATION ${DUNECITY_DOC_DIR}
+        DESTINATION ${DUNELEGACY_DOC_DIR}
         RENAME "Release_Notes.md"
     )
 elseif(NOT APPLE)
     # Linux: use standard doc directory
     install(FILES AUTHORS COPYING NEWS README
-        DESTINATION ${DUNECITY_DOC_DIR}
+        DESTINATION ${DUNELEGACY_DOC_DIR}
     )
     install(FILES "release_notes/RELEASE_NOTES.md"
-        DESTINATION ${DUNECITY_DOC_DIR}
+        DESTINATION ${DUNELEGACY_DOC_DIR}
         RENAME "Release_Notes.md"
         OPTIONAL
     )
