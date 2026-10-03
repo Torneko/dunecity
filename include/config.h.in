@@ -14,11 +14,11 @@
 #cmakedefine DUNELEGACY_DATADIR "@DUNELEGACY_DATADIR@"
 
 #ifndef CONFIGFILENAME
-    #define CONFIGFILENAME "Dune City.ini"
+    #define CONFIGFILENAME "Dune Legacy.ini"
 #endif
 
 #ifndef LOGFILENAME
-    #define LOGFILENAME "Dune City.log"
+    #define LOGFILENAME "Dune Legacy.log"
 #endif
 
 #cmakedefine HAS_GETHOSTBYADDR_R
