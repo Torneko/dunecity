@@ -706,34 +706,6 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
 
         } break;
 
-        case (Structure_Road): {
-            // Road is a tile-state structure (like Slab1) — not selectable,
-            // no StructureBase object, just a flag on the underlying rock.
-            // Power flows globally in DuneCity, so roads don't conduct
-            // electricity; they only matter as the city's transport substrate
-            // and as a visual road overlay.
-            Tile* pTile = currentGameMap->getTile(xPos, yPos);
-            pTile->setRoad(true);
-            pTile->setDestroyedStructureTile(DestroyedStructure_None);
-            pTile->setOwner(getHouseID());
-            currentGameMap->viewMap(getHouseID(), xPos, yPos, currentGame->objectData.data[Structure_Road][houseID].viewrange);
-
-            if(pBuilder != nullptr) {
-                pBuilder->unSetWaitingToPlace();
-
-                if(this == pLocalHouse) {
-                    if(pBuilder->isSelected()) {
-                        currentGame->setCursorMode(Game::CursorMode_Normal);
-                    }
-
-                    pLocalPlayer->onPlaceStructure(nullptr);
-                }
-            }
-
-            return nullptr;
-
-        } break;
-
         case (Structure_Slab4): {
             // Slabs are no normal buildings
             currentGameMap->for_each(xPos, yPos, xPos + 2, yPos + 2,
