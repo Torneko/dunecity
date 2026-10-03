@@ -438,17 +438,6 @@ void Command::executeCommand() const {
             }
         } break;
 
-        case CMD_CITY_PLACE_ZONE:
-        case CMD_CITY_SET_TAX_RATE:
-        case CMD_CITY_SET_BUDGET:
-        case CMD_CITY_TOOL: {
-            DuneCity::CitySimulation::executeCityCommand(
-                playerID, commandID,
-                parameter.size() > 0 ? parameter[0] : 0,
-                parameter.size() > 1 ? parameter[1] : 0,
-                parameter.size() > 2 ? parameter[2] : 0);
-        } break;
-
         default: {
             THROW(std::invalid_argument, "Command::executeCommand(): Unknown CommandID!");
         } break;
