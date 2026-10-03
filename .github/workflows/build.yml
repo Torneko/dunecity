@@ -72,7 +72,7 @@ jobs:
 
       - name: Run tests
         run: |
-          DUNE_CITY_SOURCE_DIR=${{ github.workspace }} \
+          DUNELEGACY_SOURCE_DIR=${{ github.workspace }} \
           DUNELEGACY_DATADIR=${{ github.workspace }}/data \
           ./build/bin/dunelegacy_tests
 
@@ -120,7 +120,7 @@ jobs:
 
       - name: Skip macOS build (no self-hosted ARM64 runner on moonbear fork)
         run: |
-          echo "macOS self-hosted ARM64 runner not configured on moonbear-dev/dunecity."
+          echo "macOS self-hosted ARM64 runner not configured on Torneko/dunelegacy-tornie."
           echo "Re-add the [self-hosted, macOS, ARM64] runs-on in the main repo"
           echo "when the macOS DMG build is wanted there. This no-op produces a"
           echo "zero-byte placeholder artifact so dev-release/tornie-release can"
@@ -434,11 +434,11 @@ jobs:
 
           # Replace version numbers and download URLs in both HTML files
           for FILE in website/index.html website/dune-city.html; do
-            # Download URLs: v1.0.4/DuneCity-1.0.4-... -> vVERSION/DuneCity-VERSION-...
+            # Migrate historical release URLs to the Dune Legacy Tornie artifact name.
             sed -i "s|/v[0-9]\+\.[0-9]\+\.[0-9]\+/DuneCity-[0-9]\+\.[0-9]\+\.[0-9]\+-|/v${VERSION}/DuneLegacyTornie-${VERSION}-|g" "$FILE"
             # Release tag links
             sed -i "s|releases/tag/v[0-9]\+\.[0-9]\+\.[0-9]\+|releases/tag/v${VERSION}|g" "$FILE"
-            # Display version strings: "Dune City X.X.X"
+            # Migrate historical display version strings.
             sed -i "s|Dune City [0-9]\+\.[0-9]\+\.[0-9]\+|Dune Legacy Tornie ${VERSION}|g" "$FILE"
             # Download button text: "Download X.X.X"
             sed -i "s|Download [0-9]\+\.[0-9]\+\.[0-9]\+|Download ${VERSION}|g" "$FILE"
