@@ -101,7 +101,6 @@ target_sources(dunelegacy
         Choam.cpp
         Command.cpp
         CommandManager.cpp
-        CityScore.cpp
         CrashHandler.cpp
         CursorManager.cpp
         Explosion.cpp
@@ -183,7 +182,6 @@ target_sources(dunelegacy
         GUI/dune/NewsTicker.cpp
         GUI/dune/MessageTicker.cpp
         GUI/dune/BuilderList.cpp
-        GUI/dune/DisasterNotification.cpp
         GUI/dune/WaitingForOtherPlayers.cpp
 
         # Menu
@@ -257,7 +255,6 @@ target_sources(dunelegacy
         structures/TechCenter.cpp
         structures/Scoutpost.cpp
         structures/WOR.cpp
-        structures/NuclearPlant.cpp
 
         # Units
         units/UnitBase.cpp
