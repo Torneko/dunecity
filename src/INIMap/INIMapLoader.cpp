@@ -809,9 +809,7 @@ void INIMapLoader::loadStructures()
                     logWarning(key.getLineNumber(), "Invalid or occupied position for '" + BuildingStr + "': '" + PosStr + "'!");
                     continue;
                 }
-            } else if(BuildingStr == "Road" && pGame->objectData.data[Structure_Road][houseID].enabled) {
-                getOrCreateHouse(houseID)->placeStructure(NONE_ID, Structure_Road, getXPos(pos), getYPos(pos), true);
-            } else if((BuildingStr != "Concrete") && (BuildingStr != "Wall") && (BuildingStr != "Road")) {
+            } else if((BuildingStr != "Concrete") && (BuildingStr != "Wall")) {
                 logWarning(key.getLineNumber(), "Invalid building string: '" + BuildingStr + "'!");
                 continue;
             }
