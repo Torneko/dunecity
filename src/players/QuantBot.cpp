@@ -1788,8 +1788,8 @@ void QuantBot::build(int militaryValue) {
 
 			case Structure_LightFactory: {
 				if (!pBuilder->isUpgrading()
-					&& (gameMode == GameMode::Campaign || (currentGame && currentGame->isCitySimEnabled()))
-					&& money > (currentGame && currentGame->isCitySimEnabled() ? 500 : 1000)
+					&& gameMode == GameMode::Campaign
+					&& money > 1000
 					&& pBuilder->getProductionQueueSize() < 1
 					&& pBuilder->getBuildListSize() > 0
 					&& militaryValue < militaryValueLimit) {
@@ -1894,30 +1894,15 @@ void QuantBot::build(int militaryValue) {
 							&& pBuilder->isAvailableToBuild(Unit_MCV)
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& [&]() {
-								// City sim: 1 CY + 1 per 50 credits/sec income (only if money>3000)
-								// Non-city: 1 CY per 4000 credits
 								int currentCYs = itemCount[Structure_ConstructionYard] + itemCount[Unit_MCV];
-								int desiredCYs = 1;
-								if (currentGame && currentGame->isCitySimEnabled()) {
-									if (money <= 3000) return false;
-									auto* citySim = currentGame->getCitySimulation();
-									int tax = citySim ? citySim->getCityTax() : 7;
-									int32_t annual = DuneCity::computeAnnualTaxRevenue(ownTotalPop, tax, ownAvgLandValue);
-									int creditsPerSec = annual / 60;
-									desiredCYs = 1 + creditsPerSec / 50;
-								} else {
-									desiredCYs = money / 4000;
-								}
-								if (desiredCYs > 8) desiredCYs = 8;
+								int desiredCYs = std::min(8, money / 4000);
 								return currentCYs < desiredCYs;
 							}()) {
 							produceItemWithLogging(Unit_MCV);
 							itemCount[Unit_MCV]++;
-							logDebug("MCV: Building MCV (city-income scaling, money=%d, pop=%d)",
-								money, ownTotalPop);
+							logDebug("MCV: Building MCV (money scaling, credits=%d)", money);
 						}
 						else if (gameMode == GameMode::Custom
-							&& !(currentGame && currentGame->isCitySimEnabled())
 							&& pBuilder->isAvailableToBuild(harvesterID)
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& totalHarvesters < militaryValue / 1000
@@ -1927,8 +1912,7 @@ void QuantBot::build(int militaryValue) {
 							produceItemWithLogging(harvesterID);
 							itemCount[harvesterID]++;
 						}
-						else if (!(currentGame && currentGame->isCitySimEnabled())
-							&& totalHarvesters < harvesterLimit
+						else if (totalHarvesters < harvesterLimit
 							&& pBuilder->isAvailableToBuild(harvesterID)
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& (money < 2000 || gameMode == GameMode::Campaign)) {
@@ -1945,7 +1929,7 @@ void QuantBot::build(int militaryValue) {
 								doRepair(pBuilder);
 							}
 						}
-						else if (money > (currentGame && currentGame->isCitySimEnabled() ? 500 : 2000)
+						else if (money > 2000
 							&& militaryValue < militaryValueLimit && !getHouse()->isGroundUnitLimitReached()) {
 							// Limit enemy military units based on difficulty
 
@@ -2173,19 +2157,13 @@ void QuantBot::build(int militaryValue) {
 								logDebug("PRODUCTION: Upgrading CY to level %d, credits: %d", pBuilder->getCurrentUpgradeLevel() + 1, money);
 							}
 							else if ((getHouse()->getProducedPower() < getHouse()->getPowerRequirement())
-								&& pBuilder->getProductionQueueSize() == 0) {
-								// Prefer nuclear plant over windtrap
-								if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-									&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-									produceItemWithLogging(Structure_NuclearPlant);
-									itemCount[Structure_NuclearPlant]++;
-									logDebug("***CampAI Build Nuclear Plant: power %d/%d", getHouse()->getProducedPower(), getHouse()->getPowerRequirement());
-								} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
-									&& findPlaceLocation(Structure_WindTrap).isValid()) {
-									produceItemWithLogging(Structure_WindTrap);
-									itemCount[Structure_WindTrap]++;
-									logDebug("***CampAI Build windtrap: power %d/%d", getHouse()->getProducedPower(), getHouse()->getPowerRequirement());
-								}
+								&& pBuilder->getProductionQueueSize() == 0
+								&& pBuilder->isAvailableToBuild(Structure_WindTrap)
+								&& findPlaceLocation(Structure_WindTrap).isValid()) {
+								produceItemWithLogging(Structure_WindTrap);
+								itemCount[Structure_WindTrap]++;
+								logDebug("***CampAI Build windtrap: power %d/%d",
+									getHouse()->getProducedPower(), getHouse()->getPowerRequirement());
 							}
 							else if ((getHouse()->getStoredCredits() > getHouse()->getCapacity() * 0.90_fix)  // Only build when 90% full
 								&& pBuilder->isAvailableToBuild(Structure_Silo)
@@ -2209,42 +2187,6 @@ void QuantBot::build(int militaryValue) {
 
 								logDebug("***CampAI Build A new Rocket turret increasing count to: %d", itemCount[Structure_RocketTurret]);
 							}
-							// City zone structures for campaign AI — pick by live demand AND ratio.
-							else if (currentGame && currentGame->isCitySimEnabled()
-								&& money > 200
-								&& pBuilder->getProductionQueueSize() == 0
-								&& itemCount[Structure_WindTrap] > 0) {
-								const int resCount = itemCount[Structure_ZoneResidential];
-								const int comCount = itemCount[Structure_ZoneCommercial];
-								const int indCount = itemCount[Structure_ZoneIndustrial];
-								const int expR = std::max(comCount, indCount) * 3 + 3;
-								const int expI = std::max(resCount / 3, 1);
-								const int expC = std::max(resCount / 3, 1);
-								const int rGap = expR - resCount;
-								const int iGap = expI - indCount;
-								const int cGap = expC - comCount;
-								Uint32 zoneID = NONE_ID;
-								int bestGap = std::numeric_limits<int>::min();
-								if (ownResValve > 0 && rGap > bestGap) {
-									bestGap = rGap; zoneID = Structure_ZoneResidential;
-								}
-								if (ownIndValve > 0 && iGap > bestGap) {
-									bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-								}
-								if (ownComValve > 0 && cGap > bestGap) {
-									bestGap = cGap; zoneID = Structure_ZoneCommercial;
-								}
-
-								if (zoneID != NONE_ID && pBuilder->isAvailableToBuild(zoneID)
-									&& findPlaceLocation(zoneID).isValid()) {
-									produceItemWithLogging(zoneID);
-									itemCount[zoneID]++;
-									logDebug("***CampAI CITY-ZONE: Building %s (R:%d C:%d I:%d valves=R%+d C%+d I%+d)",
-										getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-										ownResValve, ownComValve, ownIndValve);
-								}
-							}
-
 							// MULTIPLAYER FIX: Use deterministic timer instead of random
 							buildTimer = 5 + (getHouse()->getHouseID() % 10);  // 5-14 cycles
 						}
