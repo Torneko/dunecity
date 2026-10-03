@@ -315,65 +315,6 @@ Builder = Construction Yard
 TechLevel = 2
 Prerequisite = Windtrap, Refinery
 
-### DuneCity Zone Structures ###
-
-[Residential Zone]
-Enabled = true
-HitPoints = 200
-Price = 100
-Power = 0
-ViewRange = 2
-BuildTime = 1
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-
-[Commercial Zone]
-Enabled = true
-HitPoints = 200
-Price = 100
-Power = 0
-ViewRange = 2
-BuildTime = 1
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-
-[Industrial Zone]
-Enabled = true
-HitPoints = 200
-Price = 100
-Power = 0
-ViewRange = 2
-BuildTime = 1
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-
-### DuneCity Infrastructure ###
-
-[Road]
-Enabled = true
-HitPoints = 1
-Price = 10
-Power = 0
-ViewRange = 0
-BuildTime = 4
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-
-[Power Line]
-Enabled = false
-HitPoints = 1
-Price = 15
-Power = 0
-ViewRange = 0
-BuildTime = 4
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-
 [Slab1]
 Enabled = true
 Price = 5
@@ -426,17 +367,6 @@ InfSpawnProp = 25
 Builder = Construction Yard
 TechLevel = 1
 
-[Nuclear Plant]
-Enabled = true
-HitPoints = 600
-Price = 1500
-Power = -1000		# 10x WindTrap, single nuclear powers a Dune base + city
-ViewRange = 3
-BuildTime = 144
-InfSpawnProp = 25
-Builder = Construction Yard
-TechLevel = 6
-Prerequisite = Windtrap
 
 [Advanced Windtrap]
 Enabled = false
@@ -474,49 +404,8 @@ Builder = Invalid
 TechLevel = 6
 Prerequisite = Windtrap, Radar, Hightech Factory
 
-[Police Station]
-# DuneCity city-mode-only. Sole source of police coverage — Barracks/WOR
-# no longer count toward crime reduction. Price matches SimCity Classic's
-# TOOL_POLICESTATION (tool.cpp gCostOf[4] = 500).
-Enabled = true
-HitPoints = 400
-Price = 500
-Power = 20
-ViewRange = 2
-BuildTime = 80
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 1
-Prerequisite = Windtrap
 
-[Stadium]
-# DuneCity civic building. 3x3 footprint. Provides a large land-value
-# and quality-of-life boost to surrounding residential/commercial areas.
-# Does not count as R/C/I — it's a civic amenity.
-Enabled = true
-HitPoints = 500
-Price = 3000
-Power = 30
-ViewRange = 3
-BuildTime = 120
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 4
-Prerequisite = Windtrap, Radar
 
-[Airport]
-# DuneCity economic building. 3x3 footprint. Provides commercial/transport
-# boost to nearby areas — equivalent to SimCity Classic's airport zone.
-Enabled = true
-HitPoints = 500
-Price = 5000
-Power = 40
-ViewRange = 4
-BuildTime = 144
-InfSpawnProp = 0
-Builder = Construction Yard
-TechLevel = 6
-Prerequisite = Windtrap
 
 [WOR]
 Enabled = true
