@@ -489,7 +489,7 @@ set(TORNIE_MOD_REFERENCE_FILES
 function(add_copy_tornie_mod_reference DEST_DIR)
     if(EXISTS "${TORNIE_MOD_DIR}")
         add_custom_command(
-            TARGET dunecity
+            TARGET dunelegacy
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory
                 "${DEST_DIR}/mods/Tornie"
@@ -509,7 +509,7 @@ if(APPLE)
     # This matches the Xcode project structure where .PAK files are in Resources root
     set(BUNDLE_RESOURCES_DIR "$<TARGET_BUNDLE_CONTENT_DIR:dunelegacy>/Resources")
     add_custom_command(
-        TARGET dunecity
+        TARGET dunelegacy
         POST_BUILD
         # Copy all .PAK files and other data to Resources root
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -535,7 +535,7 @@ if(APPLE)
     set(IMPORTED_SPRITES_SRC "${CMAKE_SOURCE_DIR}/imported_sprites")
     if(EXISTS "${IMPORTED_SPRITES_SRC}")
         add_custom_command(
-            TARGET dunecity
+            TARGET dunelegacy
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${IMPORTED_SPRITES_SRC}"
@@ -548,7 +548,7 @@ if(APPLE)
     # This is required for macOS Gatekeeper to allow the app to run when downloaded
     # Without proper signing, users get "app is damaged and can't be opened" error
     add_custom_command(
-        TARGET dunecity
+        TARGET dunelegacy
         POST_BUILD
         COMMAND codesign --force --deep --sign - "$<TARGET_BUNDLE_DIR:dunelegacy>"
         COMMENT "Code signing app bundle with ad-hoc signature"
@@ -557,7 +557,7 @@ else()
     # For other platforms, copy to build/data directory
     set(BUILD_DATA_DIR "${CMAKE_BINARY_DIR}/data")
     add_custom_command(
-        TARGET dunecity
+        TARGET dunelegacy
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${DATA_DIR}"
@@ -570,7 +570,7 @@ else()
     # non-existent install path; the fallback in FileSystem.cpp uses
     # SDL_GetBasePath() which resolves to this directory.
     add_custom_command(
-        TARGET dunecity
+        TARGET dunelegacy
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config"
         COMMAND ${CMAKE_COMMAND} -E copy
@@ -587,7 +587,7 @@ else()
     set(IMPORTED_SPRITES_SRC "${CMAKE_SOURCE_DIR}/imported_sprites")
     if(EXISTS "${IMPORTED_SPRITES_SRC}")
         add_custom_command(
-            TARGET dunecity
+            TARGET dunelegacy
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
                 "${IMPORTED_SPRITES_SRC}"
@@ -750,7 +750,7 @@ else()
     # toolchain file; skip silently if building without vcpkg.
     if(DEFINED VCPKG_INSTALLED_DIR AND DEFINED VCPKG_TARGET_TRIPLET)
         install(DIRECTORY "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/"
-            DESTINATION "${CMAKE_INSTALL_LIBDIR}/dunecity"
+            DESTINATION "${CMAKE_INSTALL_LIBDIR}/dunelegacy"
             FILES_MATCHING
                 PATTERN "*.so"
                 PATTERN "*.so.*"
