@@ -126,16 +126,16 @@ typedef enum {
     ObjPic_Worfinery,             ///< Tornie: WOR + Refinery combo (48x64 = 2 vertical frames at 3x2)
     ObjPic_TechCenter,            ///< Tornie: Tech Center (Palace-equivalent, 48x64 = 2 vertical frames at 3x2)
     ObjPic_Scoutpost,             ///< Tornie: Scoutpost (16x32 = 2 vertical frames at 1x1)
-    ObjPic_ZoneResidential,
-    ObjPic_ZoneCommercial,
-    ObjPic_ZoneIndustrial,
-    ObjPic_CityRoad,
-    ObjPic_NuclearPlant,   ///< DuneCity: Micropolis nuclear-plant sprite (3x3 footprint)
-    ObjPic_PoliceStation,  ///< DuneCity: Micropolis police-station sprite (2x2 footprint)
-    ObjPic_Stadium,        ///< DuneCity: Micropolis stadium sprite (3x3 footprint)
-    ObjPic_Airport,        ///< DuneCity: Micropolis airport sprite (3x3 footprint)
-    ObjPic_Hospital,       ///< DuneCity: Micropolis hospital sprite (2x2, auto-placed on residential)
-    ObjPic_Church,         ///< DuneCity: Micropolis church sprite (2x2, auto-placed on residential)
+    ObjPic_LegacyReserved01,
+    ObjPic_LegacyReserved02,
+    ObjPic_LegacyReserved03,
+    ObjPic_LegacyReserved04,
+    ObjPic_LegacyReserved05,   ///< reserved legacy slot
+    ObjPic_LegacyReserved06,  ///< reserved legacy slot
+    ObjPic_LegacyReserved07,        ///< reserved legacy slot
+    ObjPic_LegacyReserved08,        ///< reserved legacy slot
+    ObjPic_LegacyReserved09,       ///< reserved legacy slot
+    ObjPic_LegacyReserved10,         ///< reserved legacy slot
     ObjPic_SonicTrike,     ///< Tornie: Rebels-only light sonic vehicle
     ObjPic_EliteLauncherGunTornie, ///< Tornie: elite Launcher turret overlay
     ObjPic_RebelSonicTankGun,      ///< Tornie: Rebels-only violet Sonic Tank turret
@@ -211,15 +211,15 @@ typedef enum {
     Picture_Wall,
     Picture_WindTrap,
     Picture_WOR,
-    Picture_ZoneResidential,
-    Picture_ZoneCommercial,
-    Picture_ZoneIndustrial,
-    Picture_Road,
-    Picture_PowerLine,
-    Picture_NuclearPlant,
-    Picture_PoliceStation,
-    Picture_Stadium,
-    Picture_Airport,
+    Picture_LegacyReserved01,
+    Picture_LegacyReserved02,
+    Picture_LegacyReserved03,
+    Picture_LegacyReserved04,
+    Picture_LegacyReserved05,
+    Picture_LegacyReserved06,
+    Picture_LegacyReserved07,
+    Picture_LegacyReserved08,
+    Picture_LegacyReserved09,
     Picture_AdvancedWindTrap,
     Picture_RocketTrike,           ///< Tornie: portrait from RocketTrikeIcon.png (91x55)
     Picture_FlameTank,             ///< Tornie: portrait from FlameTankIcon.png (91x55)
@@ -488,11 +488,11 @@ typedef enum {
     UI_MapEditor_Pen1x1,
     UI_MapEditor_Pen3x3,
     UI_MapEditor_Pen5x5,
-    UI_MapEditor_ZoneResidential,   ///< DuneCity: map-editor icon for R zone
-    UI_MapEditor_ZoneCommercial,    ///< DuneCity: map-editor icon for C zone
-    UI_MapEditor_ZoneIndustrial,    ///< DuneCity: map-editor icon for I zone
-    UI_MapEditor_NuclearPlant,      ///< DuneCity: map-editor icon for nuclear plant
-    UI_MapEditor_Road,              ///< DuneCity: map-editor icon for road tile
+    UI_MapEditor_LegacyReserved01,   ///< reserved legacy slot
+    UI_MapEditor_LegacyReserved02,    ///< reserved legacy slot
+    UI_MapEditor_LegacyReserved03,    ///< reserved legacy slot
+    UI_MapEditor_LegacyReserved04,      ///< reserved legacy slot
+    UI_MapEditor_LegacyReserved05,              ///< reserved legacy slot
     UI_MapEditor_SonicTrike,        ///< Tornie: Rebels-only light sonic vehicle
     NUM_UIGRAPHICS
 } UIGraphics_Enum;
