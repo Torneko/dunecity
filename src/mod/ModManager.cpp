@@ -42,7 +42,6 @@ static const char* OBJECT_DATA_FILE = "ObjectData.ini";
 static const char* QUANTBOT_CONFIG_FILE = "QuantBot Config.ini";
 static const char* GAME_OPTIONS_FILE = "GameOptions.ini";
 static const char* VANILLA_MOD_NAME = "vanilla";
-static const char* DUNECITY_MOD_NAME = "dunecity";
 static const char* TORNIE_MOD_NAME = "Tornie";
 
 // Install config file names (with .default suffix)
@@ -84,14 +83,7 @@ void ModManager::initialize() {
         seedVanillaFromDefaults();
     }
 
-    // Seed built-in dunecity mod if needed
-    if (!modExists(DUNECITY_MOD_NAME) || dunecityNeedsReseed()) {
-        seedDunecityFromDefaults();
-    }
-
-    // Seed built-in Tornie mod if needed. DuneCity 1.0.492:
-    // both "dunecity" and "Tornie" mods are seeded on first
-    // opening per Tornie's OOB. The Tornie mod contains the
+    // Seed the bundled Tornie mod if needed. It contains the
     // 8-house campaigns, custom units (Deviator/Flame Tank/
     // Sonic Tank/Elite Siege Tank), custom buildings
     // (Advanced Windtrap), palettes (Custom_IBM.PAL),
@@ -119,13 +111,10 @@ std::string ModManager::getActiveModName() const {
 }
 
 bool ModManager::isCityModeActive() const {
-    if (!initialized) {
-        return false;
-    }
-    if (!modExists(activeMod)) {
-        return false;
-    }
-    return getModInfo(activeMod).enablesCityMode;
+    // Dune Legacy Tornie is intentionally separated from DuneCity.
+    // Keep this method for savegame/source compatibility, but never
+    // activate the former city-simulation layer.
+    return false;
 }
 
 bool ModManager::setActiveMod(const std::string& name) {
@@ -759,7 +748,7 @@ void ModManager::seedVanillaFromDefaults() {
     ModInfo info;
     info.name = VANILLA_MOD_NAME;
     info.displayName = "Vanilla";
-    info.author = "Dune City";
+    info.author = "Dune Legacy Tornie";
     info.description = "Default game settings";
     info.gameVersion = VERSION;
     info.enablesCityMode = false;
@@ -768,74 +757,7 @@ void ModManager::seedVanillaFromDefaults() {
     SDL_Log("ModManager: Vanilla mod seeded successfully");
 }
 
-void ModManager::seedDunecityFromDefaults() {
-    SDL_Log("ModManager: Seeding dunecity mod from install defaults...");
-
-    std::string dunecityPath = getModPath(DUNECITY_MOD_NAME);
-    std::string installConfigPath = getInstallConfigPath();
-
-    createDir(dunecityPath);
-
-    // Copy ObjectData.ini.default -> ObjectData.ini
-    std::string srcObjectData = installConfigPath + "/" + OBJECT_DATA_DEFAULT;
-    std::string dstObjectData = dunecityPath + "/" + OBJECT_DATA_FILE;
-    if (existsFile(srcObjectData)) {
-        copyFile(srcObjectData, dstObjectData);
-        SDL_Log("ModManager: Copied %s (dunecity)", OBJECT_DATA_FILE);
-    } else {
-        SDL_Log("ModManager: Warning - %s not found at %s", OBJECT_DATA_DEFAULT, srcObjectData.c_str());
-    }
-
-    // Copy QuantBot Config.ini.default -> QuantBot Config.ini
-    std::string srcQuantBot = installConfigPath + "/" + QUANTBOT_CONFIG_DEFAULT;
-    std::string dstQuantBot = dunecityPath + "/" + QUANTBOT_CONFIG_FILE;
-    if (existsFile(srcQuantBot)) {
-        copyFile(srcQuantBot, dstQuantBot);
-        SDL_Log("ModManager: Copied %s (dunecity)", QUANTBOT_CONFIG_FILE);
-    } else {
-        SDL_Log("ModManager: Warning - %s not found at %s", QUANTBOT_CONFIG_DEFAULT, srcQuantBot.c_str());
-    }
-
-    // GameOptions.ini: dunecity tunes game switches for city-builder play
-    // (open map, sandworm respawn/spice, concrete required, rocket-turrets
-    // need power). The city-mode toggle itself lives in mod.ini.
-    std::string gameOptionsPath = dunecityPath + "/" + GAME_OPTIONS_FILE;
-    std::ofstream gameOptionsFile(gameOptionsPath);
-    if (gameOptionsFile.is_open()) {
-        gameOptionsFile << "# Dune City Game Options (default values)\n";
-        gameOptionsFile << "[Game Options]\n";
-        gameOptionsFile << "Game Speed = 16\n";
-        gameOptionsFile << "Concrete Required = true\n";
-        gameOptionsFile << "Structures Degrade On Concrete = false\n";
-        gameOptionsFile << "Fog of War = false\n";
-        gameOptionsFile << "Start with Explored Map = true\n";
-        gameOptionsFile << "Instant Build = false\n";
-        gameOptionsFile << "Only One Palace = false\n";
-        gameOptionsFile << "Rocket-Turrets Need Power = true\n";
-        gameOptionsFile << "Sandworms Respawn = true\n";
-        gameOptionsFile << "Killed Sandworms Drop Spice = true\n";
-        gameOptionsFile << "Manual Carryall Drops = false\n";
-        gameOptionsFile << "Maximum Number of Units Override = 0\n";
-        gameOptionsFile << "Maximum Number of Harvesters Override = -1\n";
-        gameOptionsFile << "Immortal Human Player = false\n";
-        gameOptionsFile << "City Effects = true\n";  // dunecity mod opts in
-        gameOptionsFile.close();
-        SDL_Log("ModManager: Created %s (dunecity)", GAME_OPTIONS_FILE);
-    }
-
-    ModInfo info;
-    info.name = DUNECITY_MOD_NAME;
-    info.displayName = "Dune City";
-    info.author = "Dune City";
-    info.description = "Hybrid RTS + city-builder mode (zones, overlays, city sim).";
-    info.gameVersion = VERSION;
-    info.enablesCityMode = true;
-    writeModInfo(dunecityPath, info);
-
-    SDL_Log("ModManager: Dunecity mod seeded successfully");
-}
-
-// DuneCity 1.0.492: seed the Tornie mod. The source files
+// Seed the Tornie mod. The source files
 // (mod.ini, ObjectData.ini, campaign/) are shipped in the
 // install at mods/Tornie/. We register this directory as
 // a mod so it appears in the Mods menu and can be activated.
@@ -918,56 +840,8 @@ void ModManager::seedTornieFromDefaults() {
     SDL_Log("ModManager: Tornie mod seeded successfully");
 }
 
-bool ModManager::dunecityNeedsReseed() const {
-    std::string dunecityPath = getModPath(DUNECITY_MOD_NAME);
-
-    std::string objectDataPath = dunecityPath + "/" + OBJECT_DATA_FILE;
-    std::string quantBotPath = dunecityPath + "/" + QUANTBOT_CONFIG_FILE;
-    std::string gameOptionsPath = dunecityPath + "/" + GAME_OPTIONS_FILE;
-    std::string modIniPath = dunecityPath + "/" + MOD_INI_FILE;
-
-    if (!existsFile(objectDataPath)) {
-        SDL_Log("ModManager: Dunecity missing %s, needs reseed", OBJECT_DATA_FILE);
-        return true;
-    }
-    if (!existsFile(quantBotPath)) {
-        SDL_Log("ModManager: Dunecity missing %s, needs reseed", QUANTBOT_CONFIG_FILE);
-        return true;
-    }
-    if (!existsFile(gameOptionsPath)) {
-        SDL_Log("ModManager: Dunecity missing %s, needs reseed", GAME_OPTIONS_FILE);
-        return true;
-    }
-    if (!existsFile(modIniPath)) {
-        SDL_Log("ModManager: Dunecity missing %s, needs reseed", MOD_INI_FILE);
-        return true;
-    }
-
-    ModInfo info = readModIni(dunecityPath);
-    if (info.gameVersion != VERSION) {
-        SDL_Log("ModManager: Dunecity version mismatch (%s vs %s), needs reseed",
-                info.gameVersion.c_str(), VERSION);
-        return true;
-    }
-
-    // Self-heal: if a previous build wrote the mod.ini without the city-mode
-    // flag set, reseed so it gets the correct metadata.
-    if (!info.enablesCityMode) {
-        SDL_Log("ModManager: Dunecity mod.ini missing 'Enables City Mode = true', needs reseed");
-        return true;
-    }
-
-    if (installedObjectDataDiffersFromDefaults(DUNECITY_MOD_NAME)) {
-        SDL_Log("ModManager: Dunecity %s drifted from defaults, needs reseed", OBJECT_DATA_FILE);
-        return true;
-    }
-
-    return false;
-}
-
 bool ModManager::tornieNeedsReseed() const {
-    // DuneCity 1.0.494: re-seed on version mismatch (same
-    // pattern as dunecityNeedsReseed). Without this, the
+    // Re-seed on version mismatch. Without this, the
     // Tornie mod files seeded by an older version (e.g.
     // v1.0.492 which had the wrong install path) would
     // persist in the user mods dir even after a new version
