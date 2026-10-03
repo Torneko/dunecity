@@ -69,8 +69,8 @@ public:
     std::string getActiveModName() const;
 
     /**
-     * \return true if the active mod opts into DuneCity city-sim features
-     *         (i.e. its mod.ini sets `Enables City Mode = true`).
+     * Legacy compatibility hook. Dune Legacy Tornie does not enable the
+     * former DuneCity city-simulation mode.
      */
     bool isCityModeActive() const;
     
@@ -191,22 +191,10 @@ public:
      */
     bool vanillaNeedsReseed() const;
 
-    /**
-     * Seed the built-in "dunecity" mod from install defaults.
-     * Same config files as vanilla, but mod.ini sets `Enables City Mode = true`.
-     */
-    void seedDunecityFromDefaults();
-
-    // DuneCity 1.0.492: seed the Tornie mod
+    // Seed the Tornie mod bundled with Dune Legacy Tornie.
     void seedTornieFromDefaults();
 
-    /**
-     * \return true if the dunecity mod is missing required files or has
-     *         a stale game version and should be re-seeded.
-     */
-    bool dunecityNeedsReseed() const;
-
-    // DuneCity 1.0.492: Tornie mod reseed check
+    // Tornie mod reseed check.
     bool tornieNeedsReseed() const;
     
     // === Paths ===
