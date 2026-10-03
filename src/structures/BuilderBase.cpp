@@ -25,7 +25,6 @@
 #include <Map.h>
 #include <House.h>
 #include <Game.h>
-#include <dunecity/CitySimulation.h>
 #include <units/UnitBase.h>
 #include <units/HarvesterHelpers.h>
 
@@ -35,7 +34,7 @@
 
 #include <algorithm>
 
-const int BuilderBase::itemOrder[] = {    Structure_Slab4, Structure_Slab1, Structure_Road, Structure_IX, Structure_StarPort,
+const int BuilderBase::itemOrder[] = {    Structure_Slab4, Structure_Slab1, Structure_IX, Structure_StarPort,
                                            Structure_HighTechFactory, Structure_HeavyFactory, Structure_RocketTurret,
                                            Structure_Scoutpost,
                                            Structure_RepairYard, Structure_GunTurret, Structure_TechCenter, Structure_WOR,
@@ -43,9 +42,7 @@ const int BuilderBase::itemOrder[] = {    Structure_Slab4, Structure_Slab1, Stru
                                            Structure_Barracks, Structure_Wall, Structure_LightFactory,
                                            Structure_Silo, Structure_Radar, Structure_Refinery, Structure_WindTrap,
                                            Structure_AdvancedWindTrap, Structure_AdvancedWindTrapMK2, Structure_AdvancedWindTrapMK3,
-                                           Structure_NuclearPlant, Structure_PoliceStation, Structure_Palace,
-                                           Structure_Stadium, Structure_Airport,
-                                           Structure_ZoneResidential, Structure_ZoneCommercial, Structure_ZoneIndustrial,
+                                           Structure_Palace,
                                            Unit_SonicTank, Unit_Devastator, Unit_Deviator, Unit_Special,
                                            Unit_EliteLauncher, Unit_EliteSiegeTank, Unit_FlameTank,
                                            Unit_Launcher, Unit_SiegeTank, Unit_Tank, Unit_MCV,
@@ -365,40 +362,6 @@ void BuilderBase::updateBuildList()
     for(int i = 0; itemOrder[i] != ItemID_Invalid; i++) {
 
         int itemID2Add = itemOrder[i];
-
-        // City zones and Road are only available when the active mod opts into
-        // DuneCity city-sim features. Hide them from the build list otherwise.
-        // (Concrete slabs stay available in vanilla mode — they pre-date the
-        // city-sim fork and are core Dune Legacy.)
-        const bool isCityOnly = (itemID2Add == Structure_ZoneResidential
-                              || itemID2Add == Structure_ZoneCommercial
-                              || itemID2Add == Structure_ZoneIndustrial
-                              || itemID2Add == Structure_Road
-                              || itemID2Add == Structure_NuclearPlant
-                              || itemID2Add == Structure_PoliceStation
-                              || itemID2Add == Structure_Stadium
-                              || itemID2Add == Structure_Airport);
-        if (isCityOnly && !currentGame->isCitySimEnabled()) {
-            removeItem(buildList, iter, itemID2Add);
-            continue;
-        }
-
-        // City-sim gate: Starport is a shipyard scaled to a sizable city —
-        // require 20000 displayed population (= 1000 internal) before it can
-        // be built. Outside city sim there's no population, so no gate.
-        if (itemID2Add == Structure_StarPort && currentGame->isCitySimEnabled()) {
-            constexpr int kStarPortMinDisplayPop = 20000;
-            constexpr int kStarPortMinInternalPop =
-                kStarPortMinDisplayPop / DuneCity::CitySimulation::kPopDisplayMultiplier;
-            auto* citySim = currentGame->getCitySimulation();
-            const int ownPop = (citySim != nullptr)
-                ? citySim->getHouseState(owner->getHouseID()).getTotalPop()
-                : 0;
-            if (ownPop < kStarPortMinInternalPop) {
-                removeItem(buildList, iter, itemID2Add);
-                continue;
-            }
-        }
 
         const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[itemID2Add][originalHouseID];
 
