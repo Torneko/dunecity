@@ -69,12 +69,6 @@ public:
     std::string getActiveModName() const;
 
     /**
-     * Legacy compatibility hook. Dune Legacy Tornie does not enable the
-     * former DuneCity city-simulation mode.
-     */
-    bool isCityModeActive() const;
-    
-    /**
      * Set the active mod by name.
      * \param name Mod folder name
      * \return true if mod exists and was activated
