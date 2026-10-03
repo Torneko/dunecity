@@ -229,7 +229,7 @@ void Tile::load(InputStream& stream) {
     }
 
     if (currentGame && currentGame->getLoadedSavegameVersion() >= 9807) {
-        // Consume the legacy DuneCity per-tile payload to keep old non-city
+        // Consume the legacy legacy per-tile payload to keep old non-city
         // saves aligned, but do not retain city state.
         (void) stream.readUint8();
         (void) stream.readUint8();

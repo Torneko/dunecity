@@ -72,11 +72,6 @@ bool AdvancedWindTrap::update() {
         if(justPlacedTimer <= 0 || curAnimFrame != 0) {
             curAnimFrame = 2 + ((currentGame->getGameCycleCount()/8) % 2);
         }
-
-        auto* citySim = currentGame->getCitySimulation();
-        if (citySim) {
-            citySim->registerPowerSource(location.x, location.y, getProducedPower());
-        }
     }
 
     return bResult;

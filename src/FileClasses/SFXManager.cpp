@@ -26,7 +26,6 @@
 
 #include <FileClasses/adl/sound_adlib.h>
 
-#include <audio/sounds.h>
 #include <misc/sound_util.h>
 #include <misc/exceptions.h>
 #include <mod/ModManager.h>
@@ -405,12 +404,6 @@ void SFXManager::loadSoundEffects() {
     soundChunk[Sound_Sonic] = loadMixFromADL("DUNE1.ADL", 43);
     soundChunk[Sound_RocketSmall] = getChunkFromFile("MISLTINP.VOC");
 
-    soundChunk[Sound_CityTaxCollected] = DuneCitySounds::CreateTaxCollectedChunk();
-    soundChunk[Sound_CityBudgetLow] = DuneCitySounds::CreateBudgetLowChunk();
-    soundChunk[Sound_CityZoneBuilt] = DuneCitySounds::CreateZoneBuiltChunk();
-    soundChunk[Sound_CityPowerShortage] = DuneCitySounds::CreatePowerOutageChunk();
-    soundChunk[Sound_CityDisasterWarning] = DuneCitySounds::CreateDisasterWarningChunk();
-    soundChunk[Sound_CityMilestone] = DuneCitySounds::CreateMilestoneChunk();
 }
 
 Mix_Chunk* SFXManager::getNonEnglishVoice(Voice_enum id, int house) const {

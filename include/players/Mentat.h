@@ -114,7 +114,6 @@ private:
     Coord findPlaceLocationSimple(Uint32 itemID);
     Coord findSlabPlaceLocation(Uint32 itemID);
     Coord findTurretPlaceLocation(Uint32 itemID);
-    Coord findCityTurretPlaceLocation(Uint32 itemID);
     Coord findEffectiveTurretPlaceLocation(Uint32 itemID);
     Coord findSquadCenter(int houseID);
     Coord findBaseCentre(int houseID);
@@ -136,7 +135,6 @@ private:
     void retreatAllUnits();
     void build(int militaryValue);
     void attack(int militaryValue);
-    void manageCityBuilding();
 
     // --- Mentat refactor: CY build order vector ---
     static const std::vector<MentatBuildStepMentat>& getCYBuildOrder();
@@ -164,7 +162,6 @@ private:
     // Build context snapshot
     MentatBuildContext buildContextSnapshot(int militaryValue);
 
-    Sint32 cityBuildTimer = 0;
 };
 
 #endif //Mentat_H

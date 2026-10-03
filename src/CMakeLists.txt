@@ -125,7 +125,6 @@ target_sources(dunelegacy
         Tile.cpp
 
         # Audio
-        audio/sounds.cpp
 
         # INIMap
         INIMap/INIMapLoader.cpp

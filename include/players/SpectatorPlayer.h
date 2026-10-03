@@ -21,7 +21,7 @@
 #include <players/Player.h>
 
 /**
-    DuneCity 1.0.370: SpectatorPlayer.
+    legacy 1.0.370: SpectatorPlayer.
 
     SpectatorPlayer is a non-interactive Player subclass that exists
     so a slot in CustomGamePlayers can be flagged as 'Spectator'.

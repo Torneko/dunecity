@@ -72,7 +72,7 @@
 #define PALCOLOR_SPICE 111
 #define PALCOLOR_THICKSPICE 116
 
-// DuneCity 1.0.491: per-house color slot constants for the
+// legacy 1.0.491: per-house color slot constants for the
 // 8-house system. The v1.0.92 baseline only has 6 houses
 // (no NEUTRAL or REBELS), so these constants didn't exist.
 // We add them here to support the Tornie mod's 8-house

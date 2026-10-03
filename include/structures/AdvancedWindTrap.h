@@ -4,7 +4,7 @@
 #include <structures/StructureBase.h>
 
 /**
- * Advanced Windtrap: high-output 3x3 power source for DuneCity mode.
+ * Advanced Windtrap: high-output 3x3 power source for legacy mode.
  *
  * Produces 300 power (3x standard WindTrap). Power output scales with health,
  * matching WindTrap mechanics. Requires Windtrap + Radar + Hightech Factory.

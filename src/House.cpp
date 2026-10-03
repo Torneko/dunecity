@@ -387,8 +387,7 @@ void House::incrementUnits(int itemID) {
        && itemID != Unit_MCV
        && itemID != Unit_Harvester
        && itemID != Unit_RebelHarvester
-       && itemID != Unit_Sandworm
-       && !isAmbientUnit(itemID)) {
+       && itemID != Unit_Sandworm) {
 
             militaryValue += currentGame->objectData.data[itemID][houseID].price;
     }
@@ -417,8 +416,7 @@ void House::decrementUnits(int itemID) {
        && itemID != Unit_MCV
        && itemID != Unit_Harvester
        && itemID != Unit_RebelHarvester
-       && itemID != Unit_Sandworm
-       && !isAmbientUnit(itemID)) {
+       && itemID != Unit_Sandworm) {
 
             lossValue += currentGame->objectData.data[itemID][houseID].price;
     }
@@ -530,8 +528,7 @@ void House::informHasKilled(Uint32 itemID) {
            && itemID != Unit_Carryall
            && itemID != Unit_MCV
            && itemID != Unit_Harvester
-           && itemID != Unit_Sandworm
-           && !isAmbientUnit(itemID)) {
+           && itemID != Unit_Sandworm) {
 
                 killValue += currentGame->objectData.data[itemID][houseID].price;
 

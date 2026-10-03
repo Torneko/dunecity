@@ -3227,7 +3227,7 @@ void GFXManager::invalidateAllSpriteTextures() {
                // as truecolor RGBA for every visual colour slot. Keep them
                // across renderer cache invalidation; discarding them would
                // re-enter the newer lazy indexed remap path.
-               || id == ObjPic_AdvancedWindTrap
+               id == ObjPic_AdvancedWindTrap
                || id == ObjPic_AdvancedWindTrap2x3
                || id == ObjPic_AdvancedWindTrap3x2
                || id == ObjPic_Worfinery

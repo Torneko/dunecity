@@ -15,7 +15,6 @@
  *  along with Dune Legacy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <players/Mentat.h>
 #include <players/QuantBotConfig.h>
 #include <players/MentatBuildContext.h>
@@ -45,9 +44,6 @@
 #include <limits>
 #include <units/Carryall.h>
 
-#include <dunecity/CitySimulation.h>
-#include <dunecity/CityEffects.h>
-#include <dunecity/CityConstants.h>
 #include <Command.h>
 #include <CommandManager.h>
 
@@ -55,8 +51,6 @@
 #include <set>
 
 #define AIUPDATEINTERVAL 50
-
-
 
  /**
   TODO
@@ -69,15 +63,12 @@
 
   - fix game performance when toomany units
 
-
   New list from May 2016
   - units should move at start
   - fix single player campaign crash
   - fix unit allocation bug - atredes only building light tanks
 
-
   == Building Placement ==
-
 
   ia) build concrete when no placement locations are available == in progress, bugs exist ==
   iii) increase favourability of being near other buildings == 50% done ==
@@ -86,11 +77,9 @@
   4. Repair yards factories, & Turrets near enemy == 50% done ==
   5. All buildings away from enemy other that silos and turrets
 
-
   == buildings ==
   i) stop repair when just on yellow (at 50%) == 50% done, still broken for some buildings as goes into yellow health ==
   ii) silo build broken == fixed ==
-
 
   building algo still leaving gaps
   increase alignment score when sides match
@@ -112,8 +101,6 @@
   7) remove turrets from nuke target calculation =50%=
   8) adjust turret placement algo to include points for proximitry to base centre =50%=
 
-
-
   1. Harvesters deploy away from enemy
   5. fix gun turret & gun for rocket turret
 
@@ -126,14 +113,11 @@
   3. create a retreate mechanism = 50% = still need to add retreat timer, say 1 retreat per minute, max
   - fix rally point and ybut deploy logic
 
-
   2. Make carryalls and ornithopers easier to hit
 
   ====> FIX WORM CRASH GAME BUG
 
   **/
-
-
 
 Mentat::Mentat(House* associatedHouse, const std::string& playername, Difficulty difficulty, bool supportModeEnabled)
 	: Player(associatedHouse, playername), difficulty(difficulty), supportMode(supportModeEnabled) {
@@ -189,7 +173,6 @@ Mentat::Mentat(House* associatedHouse, const std::string& playername, Difficulty
 	}
 }
 
-
 Mentat::Mentat(InputStream& stream, House* associatedHouse) : Player(stream, associatedHouse) {
 	Mentat::init();
 
@@ -237,7 +220,6 @@ Mentat::Mentat(InputStream& stream, House* associatedHouse) : Player(stream, ass
     }
 }
 
-
 void Mentat::init() {
 	// Load Mentat configuration from file on first init
 	// This will create the config file with defaults if it doesn't exist
@@ -249,7 +231,6 @@ void Mentat::init() {
 	
 	SDL_Log("Mentat initialized with external configuration");
 }
-
 
 Mentat::~Mentat() = default;
 
@@ -284,7 +265,6 @@ void Mentat::save(OutputStream& stream) const {
 
     stream.writeBool(supportMode);
 }
-
     
 void Mentat::update() {
 	// Safety check: if our house is null (e.g., during game cleanup), don't update
@@ -336,8 +316,6 @@ void Mentat::update() {
 				}
 			}
 		}
-
-
 
 	// Get config for this difficulty
 	const QuantBotConfig& config = getQuantBotConfig();
@@ -709,22 +687,13 @@ void Mentat::update() {
 		attackTimer = std::numeric_limits<Sint32>::max();
 	}
 
-	if (cityBuildTimer <= 0) {
-		manageCityBuilding();
-		cityBuildTimer = AIUPDATEINTERVAL * 10;
-	} else {
-		cityBuildTimer -= AIUPDATEINTERVAL;
-	}
 }
-
 
 void Mentat::onObjectWasBuilt(const ObjectBase* pObject) {
 }
 
-
 void Mentat::onDecrementStructures(int itemID, const Coord& location) {
 }
-
 
 /// When we take losses we should hold off from attacking for longer...
 void Mentat::onDecrementUnits(int itemID) {
@@ -734,7 +703,6 @@ void Mentat::onDecrementUnits(int itemID) {
 			retreatTimer -= MILLI2CYCLES(currentGame->objectData.data[itemID][getHouse()->getHouseID()].price * 20);
 	}
 }
-
 
 /// When we get kills we should re-attack sooner...
 void Mentat::onIncrementUnitKills(int itemID) {
@@ -839,7 +807,6 @@ void Mentat::onDamage(const ObjectBase* pObject, int damage, Uint32 damagerID) {
 					&& pDamager->getItemID() != Structure_RocketTurret)
 				) {
 
-
 				// If unit isn't an infrantry then heal it once it is below 2/3 health if not an easy or medium campaign
 				if (getHouse()->hasRepairYard()
 					&& pGroundUnit->getHealth() / pGroundUnit->getMaxHealth() < 0.6_fix
@@ -856,8 +823,6 @@ void Mentat::onDamage(const ObjectBase* pObject, int damage, Uint32 damagerID) {
 					doSetAttackMode(pGroundUnit, AREAGUARD);
 					moveToOptimalSquadPosition(pGroundUnit, 6);  // 6 tile radius
 				}
-
-
 
 			}
 		}
@@ -1154,189 +1119,6 @@ Coord Mentat::findPlaceLocation(Uint32 itemID) {
 			locationScore -= lround(blockDistance(baseCenter, Coord(placeLocationX, placeLocationY)));
 		}
 
-		// === CITY MODE: grid alignment + road spacing + zone-type scoring ===
-		if (currentGame && currentGame->isCitySimEnabled()) {
-
-			// Grid alignment: snap to a 3-cell grid (2-tile footprint +
-			// 1-tile road gap) anchored on the base centre. Positions
-			// that land on grid intersections get a massive bonus so the
-			// AI naturally builds in neat rows with roads between.
-			int gridOffsetX = ((placeLocationX - baseCenter.x) % 3 + 3) % 3;
-			int gridOffsetY = ((placeLocationY - baseCenter.y) % 3 + 3) % 3;
-			if (gridOffsetX == 0 && gridOffsetY == 0) {
-				locationScore += 80;  // strong grid alignment bonus
-			} else {
-				locationScore -= 40;  // off-grid penalty
-			}
-
-			// Road-spacing: check 4 sides for road / open / structure.
-			int sidesWithRoad = 0;
-			int sidesWithOpen = 0;
-			int sidesTouchingStructure = 0;
-
-			struct SideCheck { int startI, startJ, endI, endJ; };
-			SideCheck sides[4] = {
-				{ placeLocationX, placeLocationY - 1, placeLocationEndX, placeLocationY },
-				{ placeLocationX, placeLocationEndY, placeLocationEndX, placeLocationEndY + 1 },
-				{ placeLocationX - 1, placeLocationY, placeLocationX, placeLocationEndY },
-				{ placeLocationEndX, placeLocationY, placeLocationEndX + 1, placeLocationEndY }
-			};
-
-			for (const auto& side : sides) {
-				bool sideHasRoad = false, sideHasOpen = false, sideTouchesStruct = false;
-				for (int si = side.startI; si < side.endI; si++) {
-					for (int sj = side.startJ; sj < side.endJ; sj++) {
-						if (!getMap().tileExists(si, sj)) continue;
-						const Tile* t = getMap().getTile(si, sj);
-						if (t->isRoad()) sideHasRoad = true;
-						else if (t->hasAStructure() || t->hasCityZone()) sideTouchesStruct = true;
-						else if (t->isRock() && !t->isMountain() && !t->hasAGroundObject()) sideHasOpen = true;
-					}
-				}
-				if (sideHasRoad) sidesWithRoad++;
-				if (sideHasOpen) sidesWithOpen++;
-				if (sideTouchesStruct) sidesTouchingStructure++;
-			}
-
-			if (sidesWithRoad == 0 && sidesWithOpen == 0) {
-				continue;  // landlocked — skip
-			}
-			locationScore += sidesWithRoad * 25;
-			locationScore += sidesWithOpen * 5;
-			locationScore -= sidesTouchingStructure * 30;
-
-			// Zone-type proximity scoring:
-			// R/C avoid industrial pollution (radius 5) but want it
-			// within supply range (16). I clusters with itself and
-			// wants residential nearby for workers.
-			bool isResidential = (itemID == Structure_ZoneResidential);
-			bool isCommercial  = (itemID == Structure_ZoneCommercial);
-			bool isIndustrial  = (itemID == Structure_ZoneIndustrial);
-
-			if (isResidential || isCommercial || isIndustrial) {
-				int closestIndDist = 100;
-				int nearbyRes = 0, nearbyCom = 0, nearbyInd = 0;
-
-				for (const StructureBase* pStruct : getStructureList()) {
-					if (pStruct->getOwner() != getHouse()) continue;
-					int dist = lround(blockDistance(
-						Coord(placeLocationX, placeLocationY), pStruct->getLocation()));
-					if (dist > 16) continue;  // outside supply radius
-
-					int sid = pStruct->getItemID();
-					if (sid == Structure_ZoneIndustrial) {
-						nearbyInd++;
-						if (dist < closestIndDist) closestIndDist = dist;
-					}
-					if (sid == Structure_ZoneResidential) nearbyRes++;
-					if (sid == Structure_ZoneCommercial) nearbyCom++;
-				}
-
-				if (isResidential || isCommercial) {
-					auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-
-					// Penalty if within pollution radius of industrial
-					if (closestIndDist <= 5) {
-						locationScore -= 50;
-					}
-					// Bonus if industrial is reachable but outside pollution
-					else if (closestIndDist <= 16) {
-						locationScore += 20;
-					}
-
-					// Pollution density penalty (city sim layer)
-					if (citySim) {
-						const auto& polMap = citySim->getPollutionDensityMap();
-						int totalPollution = 0;
-						for (int px = placeLocationX; px < placeLocationEndX; px++) {
-							for (int py = placeLocationY; py < placeLocationEndY; py++) {
-								totalPollution += polMap.worldGet(px, py);
-							}
-						}
-						locationScore -= totalPollution / 10;
-					}
-
-					// Crime rate penalty (city sim layer)
-					if (citySim) {
-						const auto& crimeMap = citySim->getCrimeRateMap();
-						int totalCrime = 0;
-						for (int px = placeLocationX; px < placeLocationEndX; px++) {
-							for (int py = placeLocationY; py < placeLocationEndY; py++) {
-								totalCrime += crimeMap.worldGet(px, py);
-							}
-						}
-						locationScore -= totalCrime / 5;
-					}
-
-					// Sand adjacency bonus — higher land value near sand/desert
-					Coord zoneSize = getStructureSize(itemID);
-					int sandBonus = 0;
-					for (int adjX = placeLocationX - 1; adjX <= placeLocationX + zoneSize.x; adjX++) {
-						for (int adjY = placeLocationY - 1; adjY <= placeLocationY + zoneSize.y; adjY++) {
-							if (adjX >= placeLocationX && adjX < placeLocationX + zoneSize.x &&
-								adjY >= placeLocationY && adjY < placeLocationY + zoneSize.y)
-								continue;
-							if (getMap().tileExists(adjX, adjY) && getMap().getTile(adjX, adjY)->isSand())
-								sandBonus += 5;
-						}
-					}
-					locationScore += sandBonus;
-
-					if (isResidential) {
-						// Employment access: bonus if C or I zones reachable
-						if (nearbyCom > 0 || nearbyInd > 0) locationScore += 20;
-						// Extra for having both (mixed economy nearby)
-						if (nearbyCom > 0 && nearbyInd > 0) locationScore += 10;
-						// R ↔ C synergy
-						if (nearbyCom > 0) locationScore += 15;
-					}
-
-					if (isCommercial) {
-						// Commercial wants both R (customers) and I (supply) nearby
-						if (nearbyRes > 0) locationScore += 20;
-						if (nearbyInd > 0) locationScore += 15;
-						// Strong bonus for being between R and I
-						if (nearbyRes > 0 && nearbyInd > 0) locationScore += 15;
-					}
-				}
-
-				if (isIndustrial) {
-					// I clusters with other I (pollution doesn't affect I)
-					locationScore += nearbyInd * 10;
-
-					// I should stay away from R/C to avoid polluting them
-					// but within commute distance (6-16 tiles = sweet spot)
-					int closestResDist = 100;
-					int closestComDist = 100;
-					for (const StructureBase* pStruct : getStructureList()) {
-						if (pStruct->getOwner() != getHouse()) continue;
-						int sid = pStruct->getItemID();
-						int dist = lround(blockDistance(
-							Coord(placeLocationX, placeLocationY), pStruct->getLocation()));
-						if (sid == Structure_ZoneResidential && dist < closestResDist)
-							closestResDist = dist;
-						if (sid == Structure_ZoneCommercial && dist < closestComDist)
-							closestComDist = dist;
-					}
-
-					// Sweet spot: outside pollution radius but within commute
-					if (closestResDist >= 6 && closestResDist <= 16) {
-						locationScore += 25;
-					} else if (closestResDist < 6) {
-						locationScore -= 30;  // too close — will pollute residential
-					} else if (closestResDist > 16) {
-						locationScore -= 10;  // too far — no workers
-					}
-
-					if (closestComDist >= 6 && closestComDist <= 16) {
-						locationScore += 15;
-					} else if (closestComDist < 6) {
-						locationScore -= 20;  // too close to commercial
-					}
-				}
-			}
-		}
-
 				// Pick this location if it has the best score
 				if (locationScore > bestLocationScore) {
 					bestLocationScore = locationScore;
@@ -1540,76 +1322,8 @@ Coord Mentat::findTurretPlaceLocation(Uint32 itemID) {
 	return bestLocation;
 }
 
-Coord Mentat::findCityTurretPlaceLocation(Uint32 itemID) {
-	int newSizeX = getStructureSize(itemID).x;
-	int newSizeY = getStructureSize(itemID).y;
-
-	// Own-territory crime hotspot placement. Scans only tiles covered by
-	// the AI's own structures (full footprint, not just origin), then
-	// spirals outward from the hottest own-territory tile for a valid spot.
-	// This prevents the AI from chasing enemy crime across the map and
-	// instead suppresses crime in its own city. Also provides air defence
-	// as a side benefit of rocket turret placement.
-	auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-	if (!citySim) return Coord::Invalid();
-
-	const auto& crimeMap = citySim->getCrimeRateMap();
-	const int mapW = getMap().getSizeX();
-	const int mapH = getMap().getSizeY();
-
-	int bestCrime = 0;
-	int hotspotX = -1, hotspotY = -1;
-
-	// Scan crime across the full footprint of every own structure.
-	for (const StructureBase* pStructure : getStructureList()) {
-		if (!pStructure || pStructure->getOwner() != getHouse())
-			continue;
-		Coord pos = pStructure->getStructureSize();
-		Coord loc = pStructure->getLocation();
-		for (int dy = 0; dy < pos.y; dy++) {
-			for (int dx = 0; dx < pos.x; dx++) {
-				int tx = loc.x + dx;
-				int ty = loc.y + dy;
-				if (tx < 0 || ty < 0 || tx >= mapW || ty >= mapH) continue;
-				int c = crimeMap.worldGet(tx, ty);
-				if (c > bestCrime) {
-					bestCrime = c;
-					hotspotX = tx;
-					hotspotY = ty;
-				}
-			}
-		}
-	}
-
-	if (hotspotX < 0) return Coord::Invalid();  // no own-territory crime
-
-	// Spiral search outward from the hotspot for a valid placement.
-	// Capped at a reasonable radius so we don't degenerate into a full
-	// map scan if the hotspot sits in a fully-built zone.
-	constexpr int kMaxSearchRadius = 16;
-	for (int r = 0; r <= kMaxSearchRadius; r++) {
-		for (int dy = -r; dy <= r; dy++) {
-			for (int dx = -r; dx <= r; dx++) {
-				if (std::max(std::abs(dx), std::abs(dy)) != r) continue;  // ring at radius r
-				int x = hotspotX + dx;
-				int y = hotspotY + dy;
-				if (x < 0 || y < 0 || x + newSizeX > mapW || y + newSizeY > mapH) continue;
-				if (getMap().okayToPlaceStructure(x, y, newSizeX, newSizeY, false,
-						getHouse(), false, itemID)) {
-					return Coord(x, y);
-				}
-			}
-		}
-	}
-
-	return Coord::Invalid();
-}
-
 Coord Mentat::findEffectiveTurretPlaceLocation(Uint32 itemID) {
-	if (currentGame && currentGame->isCitySimEnabled()) {
-		Coord loc = findCityTurretPlaceLocation(itemID);
-		if (loc.isValid()) return loc;
-	}
+
 	return findTurretPlaceLocation(itemID);
 }
 
@@ -1700,7 +1414,6 @@ Coord Mentat::findPlaceLocationSimple(Uint32 itemID) {
 	return bestLocation;
 }
 
-	
 // ---------------------------------------------------------------------------
 // buildContextSnapshot — populate a MentatBuildContext for this tick
 // ---------------------------------------------------------------------------
@@ -1715,7 +1428,7 @@ MentatBuildContext Mentat::buildContextSnapshot(int militaryValue) {
 	ctx.harvesterLimit = this->harvesterLimit;
 	ctx.powerProduced = getHouse()->getProducedPower();
 	ctx.powerRequired = getHouse()->getPowerRequirement();
-	ctx.isCitySim = (currentGame && currentGame->isCitySimEnabled());
+
 	ctx.isCampaign = (gameMode == GameMode::Campaign);
 	ctx.isCustom = (gameMode == GameMode::Custom);
 	ctx.isBrutal = (difficulty == Difficulty::Brutal);
@@ -1753,24 +1466,6 @@ MentatBuildContext Mentat::buildContextSnapshot(int militaryValue) {
 					ctx.activeRepairYardCount++;
 				}
 			}
-		}
-	}
-
-	// Per-house city stats
-	if (ctx.isCitySim) {
-		auto* citySim = currentGame->getCitySimulation();
-		if (citySim) {
-			const auto& hs = citySim->getHouseState(getHouse()->getHouseID());
-			ctx.ownResPop = hs.resPop;
-			ctx.ownComPop = hs.comPop;
-			ctx.ownIndPop = hs.indPop;
-			ctx.ownTotalPop = hs.getTotalPop();
-			ctx.ownAvgLandValue = hs.avgLandValue;
-			ctx.ownResValve = hs.resValve;
-			ctx.ownComValve = hs.comValve;
-			ctx.ownIndValve = hs.indValve;
-			ctx.ownHasStadium = hs.hasStadium;
-			ctx.ownHasAirport = hs.hasAirport;
 		}
 	}
 
@@ -2012,12 +1707,7 @@ void Mentat::handleSpecialWeapon(const StructureBase* pStructure, MentatBuildCon
 // handleLightFactory
 // ---------------------------------------------------------------------------
 void Mentat::handleLightFactory(const BuilderBase* pBuilder, MentatBuildContext& ctx) {
-	if (!pBuilder->isUpgrading()
-		&& (ctx.isCampaign || ctx.isCitySim)
-		&& ctx.money > (ctx.isCitySim ? 500 : 1000)
-		&& pBuilder->getProductionQueueSize() < 1
-		&& pBuilder->getBuildListSize() > 0
-		&& ctx.militaryValue < ctx.militaryValueLimit) {
+	if ((!pBuilder->isUpgrading()) && (ctx.isCampaign) && (ctx.money > (1000)) && (pBuilder->getProductionQueueSize() < 1) && (pBuilder->getBuildListSize() > 0) && (ctx.militaryValue < ctx.militaryValueLimit)) {
 
 		if (pBuilder->getCurrentUpgradeLevel() < pBuilder->getMaxUpgradeLevel() && getHouse()->getCredits() > 1500) {
 			doUpgrade(pBuilder);
@@ -2137,47 +1827,25 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 				doRepair(pBuilder);
 			}
 		}
-		else if (ctx.isCustom
-			&& pBuilder->isAvailableToBuild(Unit_MCV)
-			&& !getHouse()->isGroundUnitLimitReached()
-			&& [&]() {
+		else if ((ctx.isCustom) && (pBuilder->isAvailableToBuild(Unit_MCV)) && (!getHouse()->isGroundUnitLimitReached()) && ([&]() {
 				int currentCYs = ctx.itemCount[Structure_ConstructionYard] + ctx.itemCount[Unit_MCV];
 				int desiredCYs = 1;
-				if (ctx.isCitySim) {
-					if (ctx.money <= 3000) return false;
-					auto* citySim = currentGame->getCitySimulation();
-					int tax = citySim ? citySim->getCityTax() : 7;
-					int32_t annual = DuneCity::computeAnnualTaxRevenue(ctx.ownTotalPop, tax, ctx.ownAvgLandValue);
-					int creditsPerSec = annual / 60;
-					desiredCYs = 1 + creditsPerSec / 50;
-				} else {
+				{
 					desiredCYs = ctx.money / 4000;
 				}
 				if (desiredCYs > 8) desiredCYs = 8;
 				return currentCYs < desiredCYs;
-			}()) {
+			}())) {
 			produceItemWithLogging(Unit_MCV);
 			ctx.itemCount[Unit_MCV]++;
-			logDebug("MCV: Building MCV (city-income scaling, money=%d, pop=%d)",
-				ctx.money, ctx.ownTotalPop);
+			logDebug("MCV: Building MCV (money=%d)",
+				ctx.money);
 		}
-		else if (ctx.isCustom
-			&& !ctx.isCitySim
-			&& pBuilder->isAvailableToBuild(harvesterID)
-			&& !getHouse()->isGroundUnitLimitReached()
-			&& totalHarvesters < ctx.militaryValue / 1000
-			&& totalHarvesters < ctx.harvesterLimit) {
-			// In case we get given lots of money, it will eventually run out so we need to be prepared
-			// Skip on city sim maps — no spice to harvest
+		else if ((ctx.isCustom) && (pBuilder->isAvailableToBuild(harvesterID)) && (!getHouse()->isGroundUnitLimitReached()) && (totalHarvesters < ctx.militaryValue / 1000) && (totalHarvesters < ctx.harvesterLimit)) {
 			produceItemWithLogging(harvesterID);
 			ctx.itemCount[harvesterID]++;
 		}
-		else if (!ctx.isCitySim
-			&& totalHarvesters < ctx.harvesterLimit
-			&& pBuilder->isAvailableToBuild(harvesterID)
-			&& !getHouse()->isGroundUnitLimitReached()
-			&& (ctx.money < 2000 || ctx.isCampaign)) {
-			// Skip on city sim — no spice, harvesters are useless
+		else if ((totalHarvesters < ctx.harvesterLimit) && (pBuilder->isAvailableToBuild(harvesterID)) && (!getHouse()->isGroundUnitLimitReached()) && ((ctx.money < 2000) || (ctx.isCampaign))) {
 			produceItemWithLogging(harvesterID);
 			ctx.itemCount[harvesterID]++;
 		}
@@ -2190,8 +1858,7 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 				doRepair(pBuilder);
 			}
 		}
-		else if (ctx.money > (ctx.isCitySim ? 500 : 2000)
-			&& ctx.militaryValue < ctx.militaryValueLimit && !getHouse()->isGroundUnitLimitReached()) {
+		else if ((ctx.money > (2000)) && (ctx.militaryValue < ctx.militaryValueLimit) && (!getHouse()->isGroundUnitLimitReached())) {
 			// Limit enemy military units based on difficulty
 
 			// Calculate current value of units
@@ -2203,7 +1870,6 @@ void Mentat::handleHeavyFactory(const BuilderBase* pBuilder, MentatBuildContext&
 				+ data[Unit_FlameTank][houseID].price * ctx.itemCount[Unit_FlameTank];
 			int siegeValue = data[Unit_SiegeTank][houseID].price * ctx.itemCount[Unit_SiegeTank]
 				+ data[Unit_EliteSiegeTank][houseID].price * ctx.itemCount[Unit_EliteSiegeTank];
-
 
 			/// Use current value and what percentage of military we want to determine
 			/// whether to build an additional unit.
@@ -2493,13 +2159,7 @@ void Mentat::handleCYProduction(const BuilderBase* pBuilder, const StructureBase
 			}
 			else if ((ctx.powerProduced < ctx.powerRequired)
 				&& pBuilder->getProductionQueueSize() == 0) {
-				// Prefer nuclear plant over windtrap
-				if (ctx.isCitySim && pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-					&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-					produceItemWithLogging(Structure_NuclearPlant);
-					ctx.itemCount[Structure_NuclearPlant]++;
-					logDebug("***CampAI Build Nuclear Plant: power %d/%d", ctx.powerProduced, ctx.powerRequired);
-				} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
+				if (pBuilder->isAvailableToBuild(Structure_WindTrap)
 					&& findPlaceLocation(Structure_WindTrap).isValid()) {
 					produceItemWithLogging(Structure_WindTrap);
 					ctx.itemCount[Structure_WindTrap]++;
@@ -2528,42 +2188,6 @@ void Mentat::handleCYProduction(const BuilderBase* pBuilder, const StructureBase
 
 				logDebug("***CampAI Build A new Rocket turret increasing count to: %d", ctx.itemCount[Structure_RocketTurret]);
 			}
-			// City zone structures for campaign AI — pick by live demand AND ratio.
-			else if (currentGame && ctx.isCitySim
-				&& ctx.money > 200
-				&& pBuilder->getProductionQueueSize() == 0
-				&& ctx.itemCount[Structure_WindTrap] > 0) {
-				const int resCount = ctx.itemCount[Structure_ZoneResidential];
-				const int comCount = ctx.itemCount[Structure_ZoneCommercial];
-				const int indCount = ctx.itemCount[Structure_ZoneIndustrial];
-				const int expR = std::max(comCount, indCount) * 3 + 3;
-				const int expI = std::max(resCount / 3, 1);
-				const int expC = std::max(resCount / 3, 1);
-				const int rGap = expR - resCount;
-				const int iGap = expI - indCount;
-				const int cGap = expC - comCount;
-				Uint32 zoneID = NONE_ID;
-				int bestGap = std::numeric_limits<int>::min();
-				if (ctx.ownResValve > 0 && rGap > bestGap) {
-					bestGap = rGap; zoneID = Structure_ZoneResidential;
-				}
-				if (ctx.ownIndValve > 0 && iGap > bestGap) {
-					bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-				}
-				if (ctx.ownComValve > 0 && cGap > bestGap) {
-					bestGap = cGap; zoneID = Structure_ZoneCommercial;
-				}
-
-				if (zoneID != NONE_ID && pBuilder->isAvailableToBuild(zoneID)
-					&& findPlaceLocation(zoneID).isValid()) {
-					produceItemWithLogging(zoneID);
-					ctx.itemCount[zoneID]++;
-					logDebug("***CampAI CITY-ZONE: Building %s (R:%d C:%d I:%d valves=R%+d C%+d I%+d)",
-						getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-						ctx.ownResValve, ctx.ownComValve, ctx.ownIndValve);
-				}
-			}
-
 			// MULTIPLAYER FIX: Use deterministic timer instead of random
 			buildTimer = 5 + (getHouse()->getHouseID() % 10);  // 5-14 cycles
 		}
@@ -2573,8 +2197,7 @@ void Mentat::handleCYProduction(const BuilderBase* pBuilder, const StructureBase
 
 			for (const auto& step : getCYBuildOrder()) {
 				// Mode filters
-				if (step.mode.cityOnly && !ctx.isCitySim) continue;
-				if (step.mode.vanillaOnly && ctx.isCitySim) continue;
+
 				if (step.mode.campaignOnly && !ctx.isCampaign) continue;
 				if (step.mode.customOnly && ctx.isCampaign) continue;
 
@@ -2684,13 +2307,7 @@ void Mentat::handleCYProduction(const BuilderBase* pBuilder, const StructureBase
 
 			// Proactive idle build
 			if (ctx.money > 500 && pBuilder->getProductionQueueSize() < 1 && itemID == NONE_ID) {
-				if (ctx.isCitySim
-					&& ctx.itemCount[Structure_WindTrap] > 0
-					&& pBuilder->isAvailableToBuild(Structure_ZoneResidential)
-					&& findPlaceLocation(Structure_ZoneResidential).isValid()) {
-					doProduceItem(pBuilder, Structure_ZoneResidential);
-					logDebug("PROACTIVE: Building Residential Zone (idle CY, money: %d)", ctx.money);
-				} else if (!ctx.isCitySim && pBuilder->isAvailableToBuild(Structure_Slab1)) {
+				if (pBuilder->isAvailableToBuild(Structure_Slab1)) {
 					Coord slabLocation = findSlabPlaceLocation(Structure_Slab1);
 					if (slabLocation.isValid()) {
 						doProduceItem(pBuilder, Structure_Slab1);
@@ -2805,7 +2422,6 @@ void Mentat::build(int militaryValue) {
 	// MULTIPLAYER FIX: Use deterministic timer instead of random
 	buildTimer = 5 + (getHouse()->getHouseID() % 10);  // 5-14 cycles
 }
-
 
 void Mentat::scrambleUnitsAndDefend(const ObjectBase* pIntruder, int numUnits) {
 	if (supportMode) {
@@ -3032,7 +2648,6 @@ bool Mentat::tryLaunchOrnithopterStrike(const QuantBotConfig::DifficultySettings
     return launched;
 }
 
-
 void Mentat::attack(int militaryValue) {
 	if (supportMode) {
 		attackTimer = std::numeric_limits<Sint32>::max();
@@ -3143,7 +2758,6 @@ void Mentat::attack(int militaryValue) {
 	logDebug("=== END ATTACK ===");
 
 }
-
 
 Coord Mentat::findSquadRallyLocation() {
 	int buildingCount = 0;
@@ -3320,7 +2934,6 @@ Coord Mentat::findBestDeathHandTarget(int enemyHouseID) {
 	// Fallback to center of base if no suitable target found
 	return findBaseCentre(enemyHouseID);
 }
-
 
 Coord Mentat::findSquadCenter(int houseID) {
 	int squadSize = 0;
@@ -3583,7 +3196,6 @@ void Mentat::retreatAllUnits() {
 	}
 }
 
-
 /**
 	In dune it is best to mass military units in one location.
 	This function determines a squad leader by finding the unit with the most central location
@@ -3838,85 +3450,6 @@ void Mentat::retreatAllUnits() {
                         }
                     }
                 } break;
-            }
-        }
-    }
-}
-
-void Mentat::manageCityBuilding() {
-    if (!currentGame) return;
-    auto* citySim = currentGame->getCitySimulation();
-    if (!citySim || !citySim->isInitialized()) return;
-    if (!currentGameMap) return;
-
-    Coord baseCenter = findBaseCentre(getHouse()->getHouseID());
-    if (!baseCenter.isValid()) return;
-
-    // Zone structures are now built through the Construction Yard build
-    // order (see the Structure_ConstructionYard case in build()).  The old
-    // tile-flag approach (CMD_CITY_PLACE_ZONE without a backing structure)
-    // created phantom zones that runZoneGrowth() ignored (it requires an
-    // actual structure object) and that blocked real zone placement.
-    //
-    // Road placement remains here: roads are tile-level and don't need the
-    // Construction Yard pipeline.
-
-    // Place roads in the gaps between zones/structures. A tile gets a road
-    // when it is adjacent to a zone or structure on at least one side AND
-    // adjacent to an existing road or zone on at least one side (keeps the
-    // network continuous). Scan outward from base center.
-    int roadsPlaced = 0;
-    constexpr int MAX_ROADS_PER_ROUND = 8;
-    constexpr int CITY_RADIUS = 20;
-
-    static constexpr int dx4[] = { 0, 1, 0, -1 };
-    static constexpr int dy4[] = { -1, 0, 1, 0 };
-
-    for (int r = 1; r <= CITY_RADIUS && roadsPlaced < MAX_ROADS_PER_ROUND; r++) {
-        for (int angle = 0; angle < r * 8 && roadsPlaced < MAX_ROADS_PER_ROUND; angle++) {
-            int ox, oy;
-            int side = angle / (r * 2);
-            int pos = angle % (r * 2);
-            switch (side) {
-                case 0: ox = -r + pos; oy = -r; break;
-                case 1: ox = r; oy = -r + pos; break;
-                case 2: ox = r - pos; oy = r; break;
-                default: ox = -r; oy = r - pos; break;
-            }
-
-            int tx = baseCenter.x + ox;
-            int ty = baseCenter.y + oy;
-
-            if (tx < 0 || tx >= currentGameMap->getSizeX() || ty < 0 || ty >= currentGameMap->getSizeY()) continue;
-            if (!currentGameMap->tileExists(tx, ty)) continue;
-
-            Tile* tile = currentGameMap->getTile(tx, ty);
-            // Skip tiles that already have road, zone, structure, or aren't buildable
-            if (tile->isRoad() || tile->hasCityZone() || tile->hasAStructure()) continue;
-            if (!tile->isRock() || tile->isMountain()) continue;
-            // Allow rubble tiles (destroyed structures) — road clears the rubble
-            if (tile->hasAGroundObject() && tile->getDestroyedStructureTile() == DestroyedStructure_None) continue;
-
-            bool nearStructure = false;
-            bool nearRoadOrStructure = false;
-            for (int d = 0; d < 4; d++) {
-                int nx = tx + dx4[d];
-                int ny = ty + dy4[d];
-                if (nx < 0 || nx >= currentGameMap->getSizeX() || ny < 0 || ny >= currentGameMap->getSizeY()) continue;
-                if (!currentGameMap->tileExists(nx, ny)) continue;
-                const Tile* nb = currentGameMap->getTile(nx, ny);
-                if (nb->hasCityZone() || nb->hasAStructure()) nearStructure = true;
-                if (nb->isRoad() || nb->hasCityZone() || nb->hasAStructure()) nearRoadOrStructure = true;
-            }
-
-            // Place road if tile is next to a structure AND connects to
-            // existing road network or another structure
-            if (nearStructure && nearRoadOrStructure) {
-                currentGame->getCommandManager().addCommand(
-                    Command(getPlayerID(), CMD_CITY_TOOL,
-                            static_cast<Uint32>(tx), static_cast<Uint32>(ty),
-                            static_cast<Uint32>(1)));
-                roadsPlaced++;
             }
         }
     }

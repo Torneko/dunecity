@@ -19,7 +19,6 @@
 #define TECHCENTERINTERFACE_H
 
 #include "DefaultStructureInterface.h"
-#include "CityStatsBox.h"
 
 #include <FileClasses/FontManager.h>
 #include <FileClasses/GFXManager.h>
@@ -31,7 +30,6 @@
 
 #include <House.h>
 #include <structures/TechCenter.h>
-#include <dunecity/CityEffects.h>
 
 class TechCenterInterface : public DefaultStructureInterface {
 public:
@@ -64,15 +62,11 @@ protected:
 
         Uint32 color = getHouseColorRGB(getHouseVisualHouse(pLocalHouse->getHouseID()), 3);
 
-        levelLabel.setTextFontSize(12);
-        levelLabel.setTextColor(color);
-        techCenterVBox.addWidget(&levelLabel, (Sint32)18);
 
         poweredLabel.setTextFontSize(12);
         poweredLabel.setTextColor(color);
         techCenterVBox.addWidget(&poweredLabel, (Sint32)18);
 
-        cityStats_.attachTo(techCenterVBox, color, /*isZone=*/false);
         techCenterVBox.addWidget(Spacer::create(), 0.99);
     }
 
@@ -89,17 +83,10 @@ protected:
             spawnProgressBar.setProgress(pTechCenter->getPercentComplete());
             spawnSelectButton.setVisible(pTechCenter->canSpawnVehicles());
 
-            int level = static_cast<int>(pTechCenter->getCityOccupancy());
-            if(level < 1) {
-                level = 1;
-            }
-            const int maxLevel = DuneCity::getStructureMaxLevel(Structure_TechCenter);
-            levelLabel.setText(" Level: " + std::to_string(level) + "/" + std::to_string(maxLevel));
 
             const bool powered = pTechCenter->getOwner()->hasPower();
             poweredLabel.setText(std::string(" ") + (powered ? _("Powered") : _("UNPOWERED")));
 
-            cityStats_.update(pTechCenter);
         }
 
         return DefaultStructureInterface::update();
@@ -118,9 +105,7 @@ private:
     StaticContainer     spawnBox;
     PictureProgressBar  spawnProgressBar;
     PictureButton       spawnSelectButton;
-    Label               levelLabel;
     Label               poweredLabel;
-    CityStatsBox        cityStats_;
 };
 
 #endif // TECHCENTERINTERFACE_H

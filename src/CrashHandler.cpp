@@ -188,16 +188,16 @@ static void signalHandler(int sig) {
     // Show message to user
     char message[512];
     snprintf(message, sizeof(message),
-        "Dune City has crashed unexpectedly.\n\n"
+        "Dune Legacy Tornie has crashed unexpectedly.\n\n"
         "A crash report has been saved to:\n"
         "%s\n\n"
         "Please report this bug on GitHub or the forums.\n"
         "Include the crash report to help fix the issue.",
-        crashLogPath ? crashLogPath : "Dune City.log");
+        crashLogPath ? crashLogPath : "Dune Legacy Tornie.log");
     
     SDL_ShowSimpleMessageBox(
         SDL_MESSAGEBOX_ERROR,
-        "Dune City - Fatal Error",
+        "Dune Legacy Tornie - Fatal Error",
         message,
         nullptr
     );
@@ -250,4 +250,3 @@ void registerGameForCrashReporting(void* game) {
     registeredGame = game;
     SDL_Log("Game instance registered for crash reporting");
 }
-

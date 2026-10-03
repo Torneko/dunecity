@@ -71,11 +71,6 @@ void Scoutpost::updateStructureSpecificStuff() {
         curAnimFrame = 2 + ((currentGame->getGameCycleCount() / 16) % 2);
     }
 
-    auto* citySim = currentGame->getCitySimulation();
-    if(citySim) {
-        citySim->registerPowerSource(location.x, location.y, getProducedPower());
-    }
-
     if(target && target.getObjPointer() != nullptr) {
         if(!canAttack(target.getObjPointer()) || !targetInWeaponRange()) {
             setTarget(nullptr);

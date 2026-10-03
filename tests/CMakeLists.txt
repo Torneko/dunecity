@@ -14,7 +14,6 @@ target_sources(dunelegacy_tests
         NetworkManagerTestCase/NetworkManagerTestCase.cpp
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
-        ${CMAKE_SOURCE_DIR}/src/audio/sounds.cpp
         globals_test_stub.cpp
         TextManager_stub.cpp
         # ENet library sources (needed for NetworkManager tests)
@@ -82,4 +81,4 @@ add_custom_command(
         "${CMAKE_SOURCE_DIR}/data"
         "${CMAKE_BINARY_DIR}/tests/data"
     COMMENT "Copying test data to build directory"
-) 
+)

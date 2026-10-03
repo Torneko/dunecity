@@ -22,9 +22,7 @@
 #include <discord_rpc.h>
 #include <curl/curl.h>
 #include <thread>
-
-// Discord Application ID from Discord Developer Portal
-static constexpr const char* DISCORD_APP_ID = "1448523957492908034";
+#include <cstdlib>
 
 DiscordManager& DiscordManager::instance() {
     static DiscordManager instance;
@@ -52,8 +50,9 @@ void DiscordManager::initialize() {
         return;
     }
     
-    // Check if we have a valid app ID
-    if (std::string(DISCORD_APP_ID) == "YOUR_DISCORD_APP_ID_HERE") {
+    // Use this edition's own Discord application when configured.
+    const char* appId = std::getenv("DUNELEGACY_DISCORD_APP_ID");
+    if (appId == nullptr || *appId == '\0') {
         SDL_Log("Discord: App ID not configured, Rich Presence disabled");
         return;
     }
@@ -63,7 +62,7 @@ void DiscordManager::initialize() {
     handlers.disconnected = handleDiscordDisconnected;
     handlers.errored = handleDiscordError;
     
-    Discord_Initialize(DISCORD_APP_ID, &handlers, 1, nullptr);
+    Discord_Initialize(appId, &handlers, 1, nullptr);
     
     initialized = true;
     connected = true;
@@ -131,7 +130,7 @@ void DiscordManager::updatePresence(const std::string& state, const std::string&
 }
 
 void DiscordManager::setMainMenu() {
-    updatePresence("In Main Menu", "Dune City");
+    updatePresence("In Main Menu", "Dune Legacy Tornie");
 }
 
 void DiscordManager::setInGame(const std::string& houseName, const std::string& mapName, bool isCampaign) {
@@ -148,14 +147,14 @@ void DiscordManager::setInGame(const std::string& houseName, const std::string& 
         smallText = houseName;
     }
     
-    updatePresence(state, details + " - " + mapName, "logo", "Dune City", smallImage, smallText);
+    updatePresence(state, details + " - " + mapName, "logo", "Dune Legacy Tornie", smallImage, smallText);
 }
 
 void DiscordManager::setHostingGame(const std::string& mapName, int currentPlayers, int maxPlayers) {
     std::string state = "Hosting Multiplayer";
     std::string details = mapName;
     
-    updatePresence(state, details, "logo", "Dune City", "multiplayer", "Multiplayer", 
+    updatePresence(state, details, "logo", "Dune Legacy Tornie", "multiplayer", "Multiplayer",
                    currentPlayers, maxPlayers);
 }
 
@@ -163,7 +162,7 @@ void DiscordManager::setInLobby(const std::string& hostName, const std::string& 
     std::string state = "In Lobby";
     std::string details = hostName + " - " + mapName;
     
-    updatePresence(state, details, "logo", "Dune City", "multiplayer", "Multiplayer");
+    updatePresence(state, details, "logo", "Dune Legacy Tornie", "multiplayer", "Multiplayer");
 }
 
 void DiscordManager::setMultiplayerGame(const std::string& houseName, const std::string& mapName,
@@ -171,7 +170,7 @@ void DiscordManager::setMultiplayerGame(const std::string& houseName, const std:
     std::string state = "Playing as " + houseName;
     std::string details = "Multiplayer - " + mapName;
     
-    updatePresence(state, details, "logo", "Dune City", "multiplayer", "Multiplayer",
+    updatePresence(state, details, "logo", "Dune Legacy Tornie", "multiplayer", "Multiplayer",
                    currentPlayers, maxPlayers);
 }
 
@@ -193,7 +192,7 @@ void DiscordManager::setGameStarting(const std::string& mapName, const std::stri
         state = state.substr(0, 122) + "...";
     }
     
-    updatePresence(state, details, "logo", "Dune City", "multiplayer", "Game Starting!",
+    updatePresence(state, details, "logo", "Dune Legacy Tornie", "multiplayer", "Game Starting!",
                    playerCount, playerCount);
 }
 
@@ -201,7 +200,7 @@ void DiscordManager::setMapEditor(const std::string& mapName) {
     std::string state = "Map Editor";
     std::string details = mapName.empty() ? "Creating a map" : "Editing: " + mapName;
     
-    updatePresence(state, details, "logo", "Dune City", "editor", "Map Editor");
+    updatePresence(state, details, "logo", "Dune Legacy Tornie", "editor", "Map Editor");
 }
 
 void DiscordManager::clear() {
@@ -248,7 +247,7 @@ void DiscordManager::sendWebhookMessage(const std::string& title, const std::str
             "\"title\":\"" + escapeJson(title) + "\","
             "\"description\":\"" + escapeJson(description) + "\","
             "\"color\":" + std::to_string(color) + ","
-            "\"footer\":{\"text\":\"Dune City\"}"
+            "\"footer\":{\"text\":\"Dune Legacy Tornie\"}"
             "}]}";
         
         struct curl_slist* headers = nullptr;
@@ -292,4 +291,3 @@ void DiscordManager::sendGameStartingNotification(const std::string& mapName, co
     // Orange color for game starting
     sendWebhookMessage(title, description, 0xE67E22);
 }
-

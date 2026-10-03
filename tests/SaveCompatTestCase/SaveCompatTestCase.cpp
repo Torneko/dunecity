@@ -37,12 +37,16 @@ TEST_CASE("Save compat: SAVEGAMEVERSION is 9811 or higher",
     REQUIRE(SAVEGAMEVERSION >= 9811);
 }
 
-TEST_CASE("Save compat: new items are at indices >= LEGACY_NUM_ITEM_ID_9810",
+TEST_CASE("Save compat: former city IDs remain reserved without shifting Tornie items",
           "[save-compat][regression]") {
-    REQUIRE(Structure_Stadium == 48);
-    REQUIRE(Structure_Airport == 49);
-    REQUIRE(Unit_AmbientAirplane == 50);
-    REQUIRE(Unit_AmbientHelicopter == 51);
+    REQUIRE(ItemID_LegacyReserved48 == 48);
+    REQUIRE(ItemID_LegacyReserved49 == 49);
+    REQUIRE(ItemID_LegacyReserved50 == 50);
+    REQUIRE(ItemID_LegacyReserved51 == 51);
+    for(int id : {20, 21, 22, 23, 24, 25, 26, 48, 49, 50, 51}) {
+        REQUIRE_FALSE(isStructure(id));
+        REQUIRE_FALSE(isUnit(id));
+    }
 }
 
 TEST_CASE("Save compat: Unit_Troopers is last legacy item at index 47",
@@ -53,13 +57,13 @@ TEST_CASE("Save compat: Unit_Troopers is last legacy item at index 47",
 
 TEST_CASE("Save compat: extended items classified correctly",
           "[save-compat][regression]") {
-    REQUIRE(isStructure(Structure_Stadium));
-    REQUIRE(isStructure(Structure_Airport));
-    REQUIRE_FALSE(isUnit(Structure_Stadium));
+    REQUIRE(isStructure(Structure_AdvancedWindTrap));
+    REQUIRE(isStructure(Structure_TechCenter));
+    REQUIRE_FALSE(isUnit(Structure_TechCenter));
 
-    REQUIRE(isUnit(Unit_AmbientAirplane));
-    REQUIRE(isUnit(Unit_AmbientHelicopter));
-    REQUIRE_FALSE(isStructure(Unit_AmbientAirplane));
+    REQUIRE(isUnit(Unit_RocketTrike));
+    REQUIRE(isUnit(Unit_RebelHarvester));
+    REQUIRE_FALSE(isStructure(Unit_RocketTrike));
 }
 
 // ---------- determineLegacySavedItemCount ----------

@@ -1,5 +1,5 @@
 /*
- *  This file is part of Dune City.
+ *  This file is part of Dune Legacy Tornie.
  *
  *  Licensed under GPL-2.0-or-later.
  */
@@ -11,67 +11,27 @@
 #include <FileClasses/GFXManager.h>
 #include <FileClasses/TextManager.h>
 
-// Inline copy of HOWTOPLAY.md condensed for the in-game viewer. Kept in
-// sync by hand — the full long-form doc lives at the repo root and on
-// dunelegacy.com/dune-city.html. Plain text only (TextView can't render
-// markdown), so headings are upper-cased and bullets use ASCII dashes.
+// RTS guide for the standalone Tornie edition.
 static const char* kHowToPlayBody =
-    "DUNE CITY layers a Micropolis-style city simulation on top of\n"
-    "Dune II. Build a Construction Yard, lay out roads, drop R/C/I\n"
-    "zone tiles, and keep the lights on. The simulation does the rest.\n"
+    "DUNE LEGACY TORNIE\n"
+    "Build a base, harvest spice, and command your army on Arrakis.\n"
     "\n"
-    "1) TURN ON CITY-SIM MODE\n"
-    "On first launch Dune City offers an 'Enable now' prompt for the\n"
-    "bundled 'dunecity' mod. If you skipped it, open Mods from the main\n"
-    "menu, pick 'Dune City', and click Activate. The active mod is\n"
-    "shown in the bottom-left watermark.\n"
+    "1) CHOOSE A GAME\n"
+    "Play a campaign or select Single Player -> Custom Game for a\n"
+    "skirmish. Multiplayer and the map editor are available too.\n"
     "\n"
-    "2) START A CITY-SIZED SKIRMISH\n"
-    "Single Player -> Custom Game -> pick a large map. The bundled map\n"
-    "'2P - 192x192 - SimCity' is designed for city-sim play. City tools\n"
-    "only work on rock tiles; sand is for spice and combat as usual.\n"
+    "2) BUILD YOUR ECONOMY\n"
+    "Start with a Construction Yard, Wind Traps and a Refinery.\n"
+    "Harvesters collect spice; Silos expand your storage.\n"
+    "Place structures on rock and keep enough power for your base.\n"
     "\n"
-    "3) LAY DOWN THE BACKBONE\n"
-    "- Construction Yard: your anchor. Place on rock first.\n"
-    "- Wind Traps / Nuclear Plants: power everything. Without surplus\n"
-    "  power, zones decay.\n"
-    "- Refinery + Silos: spice income funds the build queue.\n"
-    "- Roads: a 'Road' tile appears in the build menu when city-sim\n"
-    "  mode is on. Roads carry supply between Industrial, Commercial,\n"
-    "  and Residential. Without roads, zones stall at Level 1.\n"
-    "Roads cost 10 credits and build instantly. They are not units.\n"
+    "3) DEFEND AND EXPAND\n"
+    "Build production facilities, train units, and protect your\n"
+    "harvesters. Upgrade buildings to unlock more technology.\n"
     "\n"
-    "4) ZONE THE CITY\n"
-    "Three new buildable tiles appear when city-sim is active:\n"
-    "- Residential (R): population. Needs jobs and low pollution.\n"
-    "- Commercial (C):  jobs and services. Needs people + supply.\n"
-    "- Industrial (I):  production. Cluster away from R - pollution\n"
-    "  drops land value.\n"
-    "Each zone is a 2x2 tile. Zones start empty and develop over time\n"
-    "based on land value, power, supply, and crime.\n"
-    "\n"
-    "5) MANAGE THE BUDGET\n"
-    "Population pays taxes annually. Police stations cost upkeep.\n"
-    "Open the City Budget window from the HUD to set tax rate and\n"
-    "police funding %. Underfunded police -> rising crime -> falling\n"
-    "land value -> stalled growth. Every player runs their own budget.\n"
-    "\n"
-    "6) KEEP GROWING\n"
-    "- Spread police stations - they have a coverage radius.\n"
-    "- Cluster industry at the city edge.\n"
-    "- Watch the power meter; build nuclear before you run out.\n"
-    "- Drop an inner Industrial spur near Commercial - C zones need\n"
-    "  supply within ~16 tiles via road.\n"
-    "\n"
-    "COMBAT STILL APPLIES\n"
-    "Dune City is layered on top of Dune Legacy. Units, vehicles,\n"
-    "ornithopters, sandworms and combat all still work. Play a pure\n"
-    "city-builder skirmish on a big rock map, or a hybrid where you\n"
-    "defend the colony while it grows.\n"
-    "\n"
-    "MORE\n"
-    "- Full guide: https://dunelegacy.com/dune-city.html\n"
-    "- Source / issues: https://github.com/svan058/dunecity\n";
+    "4) TORNIE MOD\n"
+    "Use MODS to choose the bundled Tornie mod or the vanilla RTS.\n"
+    "Tornie includes custom units and the Neutral and Rebels houses.\n";
 
 HowToPlayMenu::HowToPlayMenu() : MenuBase()
 {
@@ -93,7 +53,7 @@ HowToPlayMenu::HowToPlayMenu() : MenuBase()
     dest2.y = dest2.y + getHeight(pDuneLegacy) / 2 + 28;
     windowWidget.addWidget(&duneLegacy, dest2);
 
-    title.setText(_("HOW TO PLAY DUNE CITY"));
+    title.setText(_("HOW TO PLAY"));
     title.setTextFontSize(20);
     title.setAlignment(Alignment_HCenter);
     windowWidget.addWidget(&title,

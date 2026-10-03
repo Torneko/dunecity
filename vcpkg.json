@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
-  "name": "dunecity",
-  "version": "1.0.516",
-  "description": "Dune City - A modern OpenSource Dune 2 engine with city simulation",
-  "homepage": "https://dunelegacy.sourceforge.net",
+  "name": "dunelegacy-tornie",
+  "version": "1.0.522",
+  "description": "Independent Dune Legacy RTS with Tornie factions, units and campaigns",
+  "homepage": "https://github.com/Torneko/dunelegacy-tornie",
   "dependencies": [
     {
       "name": "sdl2",

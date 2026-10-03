@@ -15,7 +15,6 @@
  *  along with Dune Legacy.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <players/QuantBot.h>
 #include <players/QuantBotConfig.h>
 
@@ -51,8 +50,6 @@
 
 #define AIUPDATEINTERVAL 50
 
-
-
  /**
   TODO
 
@@ -64,15 +61,12 @@
 
   - fix game performance when toomany units
 
-
   New list from May 2016
   - units should move at start
   - fix single player campaign crash
   - fix unit allocation bug - atredes only building light tanks
 
-
   == Building Placement ==
-
 
   ia) build concrete when no placement locations are available == in progress, bugs exist ==
   iii) increase favourability of being near other buildings == 50% done ==
@@ -81,11 +75,9 @@
   4. Repair yards factories, & Turrets near enemy == 50% done ==
   5. All buildings away from enemy other that silos and turrets
 
-
   == buildings ==
   i) stop repair when just on yellow (at 50%) == 50% done, still broken for some buildings as goes into yellow health ==
   ii) silo build broken == fixed ==
-
 
   building algo still leaving gaps
   increase alignment score when sides match
@@ -107,8 +99,6 @@
   7) remove turrets from nuke target calculation =50%=
   8) adjust turret placement algo to include points for proximitry to base centre =50%=
 
-
-
   1. Harvesters deploy away from enemy
   5. fix gun turret & gun for rocket turret
 
@@ -121,14 +111,11 @@
   3. create a retreate mechanism = 50% = still need to add retreat timer, say 1 retreat per minute, max
   - fix rally point and ybut deploy logic
 
-
   2. Make carryalls and ornithopers easier to hit
 
   ====> FIX WORM CRASH GAME BUG
 
   **/
-
-
 
 QuantBot::QuantBot(House* associatedHouse, const std::string& playername, Difficulty difficulty, bool supportModeEnabled)
 	: Player(associatedHouse, playername), difficulty(difficulty), supportMode(supportModeEnabled) {
@@ -184,7 +171,6 @@ QuantBot::QuantBot(House* associatedHouse, const std::string& playername, Diffic
 	}
 }
 
-
 QuantBot::QuantBot(InputStream& stream, House* associatedHouse) : Player(stream, associatedHouse) {
 	QuantBot::init();
 
@@ -232,7 +218,6 @@ QuantBot::QuantBot(InputStream& stream, House* associatedHouse) : Player(stream,
     }
 }
 
-
 void QuantBot::init() {
 	// Load QuantBot configuration from file on first init
 	// This will create the config file with defaults if it doesn't exist
@@ -244,7 +229,6 @@ void QuantBot::init() {
 	
 	SDL_Log("QuantBot initialized with external configuration");
 }
-
 
 QuantBot::~QuantBot() = default;
 
@@ -279,7 +263,6 @@ void QuantBot::save(OutputStream& stream) const {
 
     stream.writeBool(supportMode);
 }
-
     
 void QuantBot::update() {
 	// Safety check: if our house is null (e.g., during game cleanup), don't update
@@ -331,8 +314,6 @@ void QuantBot::update() {
 				}
 			}
 		}
-
-
 
 	// Get config for this difficulty
 	const QuantBotConfig& config = getQuantBotConfig();
@@ -704,17 +685,13 @@ void QuantBot::update() {
 		attackTimer = std::numeric_limits<Sint32>::max();
 	}
 
-
 }
-
 
 void QuantBot::onObjectWasBuilt(const ObjectBase* pObject) {
 }
 
-
 void QuantBot::onDecrementStructures(int itemID, const Coord& location) {
 }
-
 
 /// When we take losses we should hold off from attacking for longer...
 void QuantBot::onDecrementUnits(int itemID) {
@@ -724,7 +701,6 @@ void QuantBot::onDecrementUnits(int itemID) {
 			retreatTimer -= MILLI2CYCLES(currentGame->objectData.data[itemID][getHouse()->getHouseID()].price * 20);
 	}
 }
-
 
 /// When we get kills we should re-attack sooner...
 void QuantBot::onIncrementUnitKills(int itemID) {
@@ -829,7 +805,6 @@ void QuantBot::onDamage(const ObjectBase* pObject, int damage, Uint32 damagerID)
 					&& pDamager->getItemID() != Structure_RocketTurret)
 				) {
 
-
 				// If unit isn't an infrantry then heal it once it is below 2/3 health if not an easy or medium campaign
 				if (getHouse()->hasRepairYard()
 					&& pGroundUnit->getHealth() / pGroundUnit->getMaxHealth() < 0.6_fix
@@ -846,8 +821,6 @@ void QuantBot::onDamage(const ObjectBase* pObject, int damage, Uint32 damagerID)
 					doSetAttackMode(pGroundUnit, AREAGUARD);
 					moveToOptimalSquadPosition(pGroundUnit, 6);  // 6 tile radius
 				}
-
-
 
 			}
 		}
@@ -1144,7 +1117,6 @@ Coord QuantBot::findPlaceLocation(Uint32 itemID) {
 			locationScore -= lround(blockDistance(baseCenter, Coord(placeLocationX, placeLocationY)));
 		}
 
-
 				// Pick this location if it has the best score
 				if (locationScore > bestLocationScore) {
 					bestLocationScore = locationScore;
@@ -1439,7 +1411,6 @@ Coord QuantBot::findPlaceLocationSimple(Uint32 itemID) {
 	return bestLocation;
 }
 
-	
 void QuantBot::build(int militaryValue) {
 	placementCache.clear();
 
@@ -1491,11 +1462,9 @@ void QuantBot::build(int militaryValue) {
 			// Production buildings will deploy units at their default position
 		}
 
-
 	}
 
 	int money = getHouse()->getCredits();
-
 
 	bool emitStatsLog = false;
 
@@ -1519,13 +1488,10 @@ void QuantBot::build(int militaryValue) {
         }
     }
 
-
 	// Second attempt at unit prioritisation
 	// This algorithm calculates damage dealt over units lost value for each unit type
 	// referred to as damage loss ratio (dlr)
 	// It then prioritises the build of units with a higher dlr
-
-
 
 	FixPoint dlrTank = getHouse()->getNumItemDamageInflicted(Unit_Tank) / FixPoint((1 + getHouse()->getNumLostItems(Unit_Tank)) * data[Unit_Tank][houseID].price);
 	FixPoint dlrSiege = getHouse()->getNumItemDamageInflicted(Unit_SiegeTank) / FixPoint((1 + getHouse()->getNumLostItems(Unit_SiegeTank)) * data[Unit_SiegeTank][houseID].price);
@@ -1566,8 +1532,6 @@ void QuantBot::build(int militaryValue) {
 	FixPoint siegePercent = dlrSiege / dlrTotal;
 	FixPoint ornithopterPercent = dlrOrnithopter / dlrTotal;
 	FixPoint tankPercent = dlrTank / dlrTotal;
-
-
 
 	// If we haven't done much damage just keep all ratios at optimised defaults
 	// These ratios are based on end game stats over a number of AI test runs to see
@@ -1688,8 +1652,6 @@ void QuantBot::build(int militaryValue) {
 
 	// End of adaptive unit prioritisation algorithm
 
-	// Track unique structures ordered this tick to prevent multiple CYs
-	// from building the same thing. Zones and turrets are excluded (want multiples).
 	std::set<Uint32> orderedThisTick;
 
 	for (const StructureBase* pStructure : getStructureList()) {
@@ -1907,8 +1869,6 @@ void QuantBot::build(int militaryValue) {
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& totalHarvesters < militaryValue / 1000
 							&& totalHarvesters < harvesterLimit) {
-							// In case we get given lots of money, it will eventually run out so we need to be prepared
-							// Skip on city sim maps — no spice to harvest
 							produceItemWithLogging(harvesterID);
 							itemCount[harvesterID]++;
 						}
@@ -1916,7 +1876,6 @@ void QuantBot::build(int militaryValue) {
 							&& pBuilder->isAvailableToBuild(harvesterID)
 							&& !getHouse()->isGroundUnitLimitReached()
 							&& (money < 2000 || gameMode == GameMode::Campaign)) {
-							// Skip on city sim — no spice, harvesters are useless
 							produceItemWithLogging(harvesterID);
 							itemCount[harvesterID]++;
 						}
@@ -1942,7 +1901,6 @@ void QuantBot::build(int militaryValue) {
 								+ data[Unit_FlameTank][houseID].price * itemCount[Unit_FlameTank];
 							int siegeValue = data[Unit_SiegeTank][houseID].price * itemCount[Unit_SiegeTank]
 								+ data[Unit_EliteSiegeTank][houseID].price * itemCount[Unit_EliteSiegeTank];
-
 
 							/// Use current value and what percentage of military we want to determine
 							/// whether to build an additional unit.
@@ -2075,8 +2033,6 @@ void QuantBot::build(int militaryValue) {
 							militaryValue += data[Unit_Tank][houseID].price;
 						}
 
-
-
 						while (militaryValue < militaryValueLimit && money > choam.getPrice(Unit_Ornithopter) && choam.getNumAvailable(Unit_Ornithopter) > 0
 							&& choam.isCheap(Unit_Ornithopter) && militaryValue < militaryValueLimit && money > 2000) {
 							produceItemWithLogging(Unit_Ornithopter);
@@ -2084,8 +2040,6 @@ void QuantBot::build(int militaryValue) {
 							money = money - choam.getPrice(Unit_Ornithopter);
 							militaryValue += data[Unit_Ornithopter][houseID].price;
 						}
-
-
 
 						doPlaceOrder(pStarPort);
 					}
@@ -2252,11 +2206,7 @@ void QuantBot::build(int militaryValue) {
 										logDebug("COUNTER-ORNITHOPTER: Building radar prerequisite (enemy ornis: %d)", maxEnemyOrnithopters);
 									} else if (!hasPowerBufferForTurret()) {
 										int powerExcess = getHouse()->getProducedPower() - getHouse()->getPowerRequirement();
-										if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-											&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-											itemID = Structure_NuclearPlant;
-											logDebug("COUNTER-ORNITHOPTER: Nuclear Plant for turret power (excess: %d)", powerExcess);
-										} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
+										if (pBuilder->isAvailableToBuild(Structure_WindTrap)
 											&& findPlaceLocation(Structure_WindTrap).isValid()) {
 											itemID = Structure_WindTrap;
 											logDebug("COUNTER-ORNITHOPTER: Windtrap for turret power (excess: %d)", powerExcess);
@@ -2289,206 +2239,40 @@ void QuantBot::build(int militaryValue) {
 					&& pBuilder->isAvailableToBuild(Structure_WindTrap)) {
 						itemID = Structure_WindTrap;
 					}
-				// 1b. Power Deficit Recovery - prefer nuclear plant, fall back to windtrap
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
 					&& getHouse()->getProducedPower() < getHouse()->getPowerRequirement()) {
 					int powerDeficit = getHouse()->getPowerRequirement() - getHouse()->getProducedPower();
-					if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-						&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-						itemID = Structure_NuclearPlant;
-						logDebug("POWER-RECOVERY: Building Nuclear Plant for power deficit (%d)", powerDeficit);
-					} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
+					if (pBuilder->isAvailableToBuild(Structure_WindTrap)
 						&& findPlaceLocation(Structure_WindTrap).isValid()) {
 						itemID = Structure_WindTrap;
 						logDebug("POWER-RECOVERY: Building windtrap for power deficit (%d)", powerDeficit);
 					}
 				}
-				// 1c. City-mode proportional power buffer.
-				//
-				// Buffer scales with zone power demand: 10% surplus over
-				// current powerRequirement. No zones → no buffer needed
-				// (step 1 already builds the first windtrap). This avoids
-				// the AI blowing its entire bank on windtraps at game start
-				// when there are no zones yet.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& currentGame && currentGame->isCitySimEnabled()) {
-					const int produced  = getHouse()->getProducedPower();
-					const int required  = getHouse()->getPowerRequirement();
-					const int buffer    = produced - required;
-					const int targetBuffer = required / 10;  // 10% surplus
-					if (required > 0 && buffer < targetBuffer) {
-						// Prefer Nuclear: one plant = 10 Windtraps, and a
-						// city packed with zones has limited rock left for
-						// more Windtrap footprints.
-						if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-							&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-							itemID = Structure_NuclearPlant;
-							logDebug("CITY-POWER: Building Nuclear Plant (buffer=%d, target=%d, required=%d)",
-									 buffer, targetBuffer, required);
-						} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
-							&& findPlaceLocation(Structure_WindTrap).isValid()) {
-							itemID = Structure_WindTrap;
-							logDebug("CITY-POWER: Building Windtrap (no Nuclear available, buffer=%d, target=%d)",
-									 buffer, targetBuffer);
-						}
-					}
-				}
-				// Low-spice economy: skip additional refineries, pivot to R/I/C zones
+
 				const bool lowSpiceEconomy = (lastCalculatedSpice < 500);
-				const bool isCitySim = (currentGame && currentGame->isCitySimEnabled());
 
-				// 2-CITY. City-sim economic backbone.
-				// Drives credits-per-turn growth by interleaving R/I/C zones with
-				// refineries. Refineries provide spice→credits, zones provide
-				// tax→credits — both are economic, both must grow together. The
-				// AI alternates so neither income stream starves the other.
-				//
-				// Spice maps:   refinery, then 3 zones (R/I/C seed), then refinery,
-				//               then 3 more zones, etc. — capped at 4 refineries.
-				// No-spice:     only zones; refinery branch never fires.
-				//
-				// Bootstrap pulses until pop ≥ 100 (~2000 displayed). After that
-				// the demand-valve zone block (later in this method) keeps zones
-				// growing alongside any military investment.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic && isCitySim) {
-					int resCount = itemCount[Structure_ZoneResidential];
-					int comCount = itemCount[Structure_ZoneCommercial];
-					int indCount = itemCount[Structure_ZoneIndustrial];
-					int zoneCount = resCount + comCount + indCount;
-					int refCount = itemCount[Structure_Refinery];
-
-					// Bootstrap fires until we have a basic seed economy: 1 each
-					// of R/I/C and a small head start. After that the demand-valve
-					// block (step 18) handles ongoing zone growth, freeing the CY
-					// to build Dune infrastructure (refineries, factories, etc.).
-					//
-					// Population is NOT a usable gate here — freshly-zoned plots
-					// stay at density 0 until growth conditions kick in, so the AI
-					// can place dozens of R-zones with ownTotalPop still at zero.
-					constexpr int kCityBootstrapZoneSeed = 6;  // ~3R + 2I + 1C
-					constexpr int kCityRefineryCap = 4;
-					constexpr int kZonesPerRefinery = 3;
-
-					// First refinery is always required as a tech prerequisite
-					// (unlocks buildings in the tech tree), even on no-spice maps.
-					const bool firstRefineryNeeded = refCount == 0
-						&& pBuilder->isAvailableToBuild(Structure_Refinery)
-						&& findPlaceLocation(Structure_Refinery).isValid();
-
-					// On spice maps, queue a refinery whenever zones have pulled
-					// ahead of the 3:1 ratio. This is the alternation pulse.
-					const bool refineryDue = !lowSpiceEconomy
-						&& refCount < kCityRefineryCap
-						&& zoneCount >= refCount * kZonesPerRefinery
-						&& pBuilder->isAvailableToBuild(Structure_Refinery)
-						&& findPlaceLocation(Structure_Refinery).isValid();
-
-					if (firstRefineryNeeded || refineryDue) {
-						itemID = Structure_Refinery;
-						if (itemCount[Unit_Harvester] < harvesterLimit) {
-							itemCount[Unit_Harvester]++;
-						}
-						logDebug("CITY-ECON: Building Refinery (zones=%d ref=%d, %s)",
-							zoneCount, refCount,
-							firstRefineryNeeded ? "tech prerequisite" : "alternation");
-					} else if (zoneCount < kCityBootstrapZoneSeed) {
-						// Seed the economy. Missing-type rule first (the I and C
-						// valves crash to -1500 at game start because nobody is
-						// working yet — plant one of each anyway so jobs can
-						// appear). After all three types exist, pick by the same
-						// demand-AND-ratio rule used in the main zoning block,
-						// otherwise R-valve's wider range dominates and we end
-						// up R-only.
-						Uint32 zoneID = NONE_ID;
-						if (resCount == 0) {
-							zoneID = Structure_ZoneResidential;
-						} else if (indCount == 0) {
-							zoneID = Structure_ZoneIndustrial;
-						} else if (comCount == 0) {
-							zoneID = Structure_ZoneCommercial;
-						} else {
-							const int expR = std::max(comCount, indCount) * 3 + 3;
-							const int expI = std::max(resCount / 3, 1);
-							const int expC = std::max(resCount / 3, 1);
-							const int rGap = expR - resCount;
-							const int iGap = expI - indCount;
-							const int cGap = expC - comCount;
-							int bestGap = std::numeric_limits<int>::min();
-							if (ownResValve > 0 && rGap > bestGap) {
-								bestGap = rGap; zoneID = Structure_ZoneResidential;
-							}
-							if (ownIndValve > 0 && iGap > bestGap) {
-								bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-							}
-							if (ownComValve > 0 && cGap > bestGap) {
-								bestGap = cGap; zoneID = Structure_ZoneCommercial;
-							}
-							if (zoneID == NONE_ID) zoneID = Structure_ZoneResidential;
-						}
-
-						if (zoneID != NONE_ID
-							&& money > 200
-							&& itemCount[Structure_WindTrap] > 0
-							&& pBuilder->isAvailableToBuild(zoneID)
-							&& findPlaceLocation(zoneID).isValid()) {
-							itemID = zoneID;
-							logDebug("CITY-ECON: Building %s (R:%d C:%d I:%d zoneCount=%d valves=R%+d C%+d I%+d)",
-								getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-								zoneCount, ownResValve, ownComValve, ownIndValve);
-						}
-					}
-				}
-				// 2. Refinery (if 0) — non-city-sim path; city sim handles refineries above.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& !isCitySim
-					&& itemCount[Structure_Refinery] == 0
-					&& pBuilder->isAvailableToBuild(Structure_Refinery)) {
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (itemCount[Structure_Refinery] == 0) && (pBuilder->isAvailableToBuild(Structure_Refinery))) {
 					itemID = Structure_Refinery;
 					if (itemCount[Unit_Harvester] < harvesterLimit) {
 						itemCount[Unit_Harvester]++;
 					}
 				}
 
-				// 3. Refinery (ratio: 1 refinery per 3 harvesters) — non-city-sim only.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& !isCitySim
-					&& !lowSpiceEconomy
-					&& itemCount[Structure_Refinery] < itemCount[Unit_Harvester] / 3
-			&& pBuilder->isAvailableToBuild(Structure_Refinery)
-			&& !(gameMode == GameMode::Campaign && itemCount[Structure_Refinery] >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5)) {
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (itemCount[Structure_Refinery] < itemCount[Unit_Harvester] / 3) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (!(gameMode == GameMode::Campaign && itemCount[Structure_Refinery] >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5))) {
 						itemID = Structure_Refinery;
 						if (itemCount[Unit_Harvester] < harvesterLimit) {
 							itemCount[Unit_Harvester]++;
 						}
 					}
-				// 4. Refinery (< 4, money < 2000) — non-city-sim only.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-				&& !isCitySim
-				&& !lowSpiceEconomy
-				&& gameMode != GameMode::Campaign
-				&& itemCount[Structure_Refinery] < 4
-				&& pBuilder->isAvailableToBuild(Structure_Refinery)
-					&& money < 2000) {
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (gameMode != GameMode::Campaign) && (itemCount[Structure_Refinery] < 4) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (money < 2000)) {
 					itemID = Structure_Refinery;
 					if (itemCount[Unit_Harvester] < harvesterLimit) {
 						itemCount[Unit_Harvester]++;
 					}
 				}
-				// City income gate: in city sim mode, defer military infrastructure
-				// (StarPort/Radar/LightFactory) until the city has at least the
-				// seed economy in place. Uses zone *count*, not population —
-				// zones stay at density 0 (and contribute 0 pop) until growth
-				// conditions kick in, so a pop-based gate locks military out
-				// indefinitely if the AI hasn't laid roads/supply yet.
-				constexpr int kCityIncomeReadyZones = 3;
-				const int kCityZoneCount = itemCount[Structure_ZoneResidential]
-					+ itemCount[Structure_ZoneCommercial]
-					+ itemCount[Structure_ZoneIndustrial];
-				const bool cityIncomeReady = !isCitySim || kCityZoneCount >= kCityIncomeReadyZones;
 
 				// 5. StarPort (skip if nothing available/enabled in CHOAM and no heavy factory)
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& cityIncomeReady
 					&& itemCount[Structure_StarPort] == 0
 					&& pBuilder->isAvailableToBuild(Structure_StarPort) 
 					&& findPlaceLocation(Structure_StarPort).isValid()
@@ -2508,7 +2292,6 @@ void QuantBot::build(int militaryValue) {
 				}
 				// 6. Radar
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& cityIncomeReady
 					&& itemCount[Structure_Radar] == 0
 					&& pBuilder->isAvailableToBuild(Structure_Radar)
 					&& money > 500) {
@@ -2516,7 +2299,6 @@ void QuantBot::build(int militaryValue) {
 				}
 				// 7. Light Factory
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& cityIncomeReady
 					&& itemCount[Structure_LightFactory] == 0
 					&& pBuilder->isAvailableToBuild(Structure_LightFactory)
 					&& money > 500) {
@@ -2530,16 +2312,7 @@ void QuantBot::build(int militaryValue) {
 					itemID = Structure_RepairYard;
 					logDebug("Build Repair Yard... money: %d", money);
 				}
-				// 8a. Upgrade CY to level 2 for rocket turrets
-				//     City sim: upgrade early (no repair yard needed) so turrets protect the colony
-				//     Non-city: requires repair yard + starport/heavy factory
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& pBuilder->getCurrentUpgradeLevel() < 2
-					&& !pBuilder->isUpgrading()
-					&& ((currentGame && currentGame->isCitySimEnabled() && money > 500)
-						|| (itemCount[Structure_RepairYard] > 0
-							&& (itemCount[Structure_StarPort] > 0 || itemCount[Structure_HeavyFactory] > 0)
-							&& itemCount[Structure_RocketTurret] < 2))) {
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (pBuilder->getCurrentUpgradeLevel() < 2) && (!pBuilder->isUpgrading()) && ((itemCount[Structure_RepairYard] > 0) && ((itemCount[Structure_StarPort] > 0) || (itemCount[Structure_HeavyFactory] > 0)) && (itemCount[Structure_RocketTurret] < 2))) {
 					if (pBuilder->getHealth() < pBuilder->getMaxHealth() && !pBuilder->isRepairing()) {
 						doRepair(pBuilder);
 						logDebug("TURRET-PREP: Repairing CY before upgrade (level %d)", pBuilder->getCurrentUpgradeLevel());
@@ -2575,7 +2348,6 @@ void QuantBot::build(int militaryValue) {
 					repairDamagedWindtraps();
 				}
 				
-				// 8b-pre. Build power for turret buffer — prefer nuclear, fall back to windtrap
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
 					&& getGameInitSettings().getGameOptions().rocketTurretsNeedPower
 					&& itemCount[Structure_RepairYard] > 0
@@ -2584,11 +2356,7 @@ void QuantBot::build(int militaryValue) {
 					&& pBuilder->isAvailableToBuild(Structure_RocketTurret)
 					&& !hasPowerBufferForTurret()) {
 					int powerExcess = getHouse()->getProducedPower() - getHouse()->getPowerRequirement();
-					if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-						&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-						itemID = Structure_NuclearPlant;
-						logDebug("TURRET-POWER: Nuclear Plant for turret buffer (excess: %d, need: 225)", powerExcess);
-					} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
+					if (pBuilder->isAvailableToBuild(Structure_WindTrap)
 						&& findPlaceLocation(Structure_WindTrap).isValid()) {
 						itemID = Structure_WindTrap;
 						logDebug("TURRET-POWER: Windtrap for turret buffer (excess: %d, need: 225)", powerExcess);
@@ -2634,7 +2402,6 @@ void QuantBot::build(int militaryValue) {
 				}
 				// 9. Heavy Factory
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& cityIncomeReady
 					&& itemCount[Structure_HeavyFactory] == 0
 					&& pBuilder->isAvailableToBuild(Structure_HeavyFactory)
 					&& money > 500) {
@@ -2643,7 +2410,6 @@ void QuantBot::build(int militaryValue) {
 				}
 				// 10. High Tech Factory (first one - after heavy factory)
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& cityIncomeReady
 					&& itemCount[Structure_HighTechFactory] == 0
 					&& itemCount[Structure_HeavyFactory] > 0
 					&& pBuilder->isAvailableToBuild(Structure_HighTechFactory)
@@ -2662,27 +2428,11 @@ void QuantBot::build(int militaryValue) {
 					itemID = Structure_IX;
 					logDebug("Build IX... money: %d", money);
 				}
-				// 12. Additional Heavy Factories (expansion).
-				//     City sim: scale HF count with credits/sec income (same formula
-				//     as CY/MCV scaling). HFs should grow with the city economy, not
-				//     with raw treasury size — otherwise the AI hoards money and
-				//     spams factories with no use for them.
-				//     Non-city: keep money/4000 fallback.
-				//     Requirements are progressive based on tech level:
-				//     Tech 4: No prerequisites (just money and need)
-				//     Tech 5-6: Require Repair Yard
-				//     Tech 7+: Require Repair Yard + IX
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
 								&& money > 2000 && pBuilder->isAvailableToBuild(Structure_HeavyFactory)) {
 
 								int desiredHFs = 1;
-								if (isCitySim) {
-									auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-									int tax = citySim ? citySim->getCityTax() : 7;
-									int32_t annual = DuneCity::computeAnnualTaxRevenue(ownTotalPop, tax, ownAvgLandValue);
-									int creditsPerSec = annual / 60;
-									desiredHFs = 1 + creditsPerSec / 50;
-								} else {
+								{
 									desiredHFs = 1 + money / 4000;
 								}
 
@@ -2747,59 +2497,10 @@ void QuantBot::build(int militaryValue) {
 									itemID = Structure_Silo;
 					logDebug("Build Silo - storage at %d/%d", getHouse()->getStoredCredits().lround(), getHouse()->getCapacity());
 								}
-				// 17. City protection turrets (city sim only) — before Palace
-				//     Aim for zero visible crime: build when own territory
-				//     has any meaningful crime (maxOwnCrime > 2). Threshold
-				//     of 2 filters display rounding noise from the crime map
-				//     while still driving residual crime to zero. Also
-				//     doubles as air defence via rocket turret AA.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& currentGame && currentGame->isCitySimEnabled()
-					&& money > 500
-					&& hasPowerBufferForTurret()
-					&& pBuilder->isAvailableToBuild(Structure_RocketTurret)) {
-					bool shouldBuild = false;
-					int maxOwnCrime = 0;
 
-					// Scan crime across the full footprint of every own
-					// structure, not just origin tiles. A 2x2 zone's far
-					// corner can have crime the origin doesn't see.
-					if (auto* citySim = currentGame->getCitySimulation()) {
-						const auto& crimeMap = citySim->getCrimeRateMap();
-						for (const StructureBase* pStructure : getStructureList()) {
-							if (!pStructure || pStructure->getOwner() != getHouse())
-								continue;
-							Coord pos = pStructure->getLocation();
-							Coord sz  = pStructure->getStructureSize();
-							for (int dy = 0; dy < sz.y; dy++) {
-								for (int dx = 0; dx < sz.x; dx++) {
-									int c = crimeMap.worldGet(pos.x + dx, pos.y + dy);
-									if (c > maxOwnCrime) maxOwnCrime = c;
-								}
-							}
-						}
-						// Threshold 2: filters sub-pixel noise, drives
-						// visible crime to zero.
-						shouldBuild = (maxOwnCrime > 2);
-					}
-
-					if (shouldBuild) {
-						Coord loc = findCityTurretPlaceLocation(Structure_RocketTurret);
-						if (loc.isValid()) {
-							itemID = Structure_RocketTurret;
-							logDebug("CITY-TURRET: Building rocket turret for crime suppression (ownCrime=%d)",
-								maxOwnCrime);
-						}
-					}
-				}
-				// 17b. Palace (after military infrastructure)
-				//       City sim: 1 palace per 30000 population
 				{
 				bool palaceAllowed;
-				if (currentGame && currentGame->isCitySimEnabled()) {
-					// Use AI's own population (not local player's)
-					palaceAllowed = (itemCount[Structure_Palace] < 1 + ownTotalPop / 25);
-				} else {
+				{
 					palaceAllowed = (itemCount[Structure_Palace] == 0 || !getGameInitSettings().getGameOptions().onlyOnePalace);
 				}
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
@@ -2811,109 +2512,9 @@ void QuantBot::build(int militaryValue) {
 								itemID = Structure_Palace;
 							}
 				}
-				// 18. City zone structures (when city sim is active)
-				// Zones are 2x2 structures built via the CY; runZoneGrowth()
-				// requires an actual structure object, so tile-flag placement
-				// (CMD_CITY_PLACE_ZONE without a structure) does not work.
-				// 18b. Civic buildings: Stadium (resPop > 500) and Airport (comPop > 20)
-				//      Build these before more zones to unlock civic caps.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& currentGame && currentGame->isCitySimEnabled()
-					&& money > 500) {
-					// Use AI's own population and civic building checks
-					if (!ownHasStadium
-						&& ownResPop > 500
-						&& pBuilder->isAvailableToBuild(Structure_Stadium)
-						&& findPlaceLocation(Structure_Stadium).isValid()) {
-						itemID = Structure_Stadium;
-						logDebug("CITY-CIVIC: Building Stadium (ownResPop=%d > 500, no stadium)",
-							ownResPop);
-					}
-					else if (!ownHasAirport
-						&& ownComPop > 20
-						&& pBuilder->isAvailableToBuild(Structure_Airport)
-						&& findPlaceLocation(Structure_Airport).isValid()) {
-						itemID = Structure_Airport;
-						logDebug("CITY-CIVIC: Building Airport (ownComPop=%d > 20, no airport)",
-							ownComPop);
-					}
-				}
 
-				// Zone type is chosen by demand valves: build whichever R/I/C
-				// has the highest positive demand. Falls back to R if all
-				// valves are equal or negative.
-				// In city sim, zones are the economic base — only windtrap is
-				// required so the AI doesn't gate growth behind military
-				// infrastructure that itself requires population (e.g. Starport
-				// now needs 20000 pop). Outside city sim there's no zone path
-				// here at all.
-				if (itemID == NONE_ID && !skipRemainingStructureLogic
-					&& currentGame && currentGame->isCitySimEnabled()
-					&& money > 200
-					&& itemCount[Structure_WindTrap] > 0) {
-					// Zones consume power as they grow. Before placing one,
-					// ensure we have surplus power. If not, build a nuclear
-					// plant (or windtrap fallback) first.
-					constexpr int kZonePowerHeadroom = 24;  // worst case: industrial L3
-					const int powerSurplus = getHouse()->getProducedPower() - getHouse()->getPowerRequirement();
-					if (powerSurplus < kZonePowerHeadroom) {
-						if (pBuilder->isAvailableToBuild(Structure_NuclearPlant)
-							&& findPlaceLocation(Structure_NuclearPlant).isValid()) {
-							itemID = Structure_NuclearPlant;
-							logDebug("CITY-ZONE-POWER: Building Nuclear Plant before zoning (surplus=%d, need=%d)",
-								powerSurplus, kZonePowerHeadroom);
-						} else if (pBuilder->isAvailableToBuild(Structure_WindTrap)
-							&& findPlaceLocation(Structure_WindTrap).isValid()) {
-							itemID = Structure_WindTrap;
-							logDebug("CITY-ZONE-POWER: Building Windtrap before zoning (surplus=%d, need=%d)",
-								powerSurplus, kZonePowerHeadroom);
-						}
-					} else {
-						// Pick zone by demand AND target ratio (~3R : 1I : 1C).
-						// Pure valve picking is broken when all three valves
-						// saturate: R-valve range is ±2000 vs ±1500 for C/I, so
-						// at full demand R always wins and the city becomes
-						// pure-residential. Combine valve sign (live demand)
-						// with the count gap to the target ratio.
-						const int resCount = itemCount[Structure_ZoneResidential];
-						const int comCount = itemCount[Structure_ZoneCommercial];
-						const int indCount = itemCount[Structure_ZoneIndustrial];
-						const int expR = std::max(comCount, indCount) * 3 + 3;
-						const int expI = std::max(resCount / 3, 1);
-						const int expC = std::max(resCount / 3, 1);
-						const int rGap = expR - resCount;
-						const int iGap = expI - indCount;
-						const int cGap = expC - comCount;
-
-						Uint32 zoneID = NONE_ID;
-						int bestGap = std::numeric_limits<int>::min();
-						if (ownResValve > 0 && rGap > bestGap) {
-							bestGap = rGap; zoneID = Structure_ZoneResidential;
-						}
-						if (ownIndValve > 0 && iGap > bestGap) {
-							bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-						}
-						if (ownComValve > 0 && cGap > bestGap) {
-							bestGap = cGap; zoneID = Structure_ZoneCommercial;
-						}
-
-						if (zoneID != NONE_ID && pBuilder->isAvailableToBuild(zoneID)
-							&& findPlaceLocation(zoneID).isValid()) {
-							itemID = zoneID;
-							logDebug("CITY-ZONE: Building %s (R:%d C:%d I:%d gap=%d valves=R%+d C%+d I%+d surplus=%d)",
-								getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-								bestGap, ownResValve, ownComValve, ownIndValve, powerSurplus);
-						}
-					}
-				}
-
-			// Dedup: skip if another CY already ordered this unique structure
-			// this tick. Zones and turrets are allowed in multiples.
 			if (itemID != NONE_ID) {
-				bool isMultiBuild = (itemID == Structure_ZoneResidential
-					|| itemID == Structure_ZoneCommercial
-					|| itemID == Structure_ZoneIndustrial
-					|| itemID == Structure_RocketTurret
+					bool isMultiBuild = (itemID == Structure_RocketTurret
 					|| itemID == Structure_GunTurret
 					|| itemID == Structure_Wall
 					|| itemID == Structure_Slab1);
@@ -3021,18 +2622,8 @@ void QuantBot::build(int militaryValue) {
 			logDebug("No structure selected to build (money: %d, skipRemaining: %d)", money, skipRemainingStructureLogic);
 		}
 		
-		// Proactive idle build. In city sim mode the AI should keep growing
-		// its economic base (residential zones) when there's nothing else to
-		// do — laying concrete in the desert burns credits and adds no income.
-		// Outside city sim, fall back to perimeter concrete.
 		if (money > 500 && pBuilder->getProductionQueueSize() < 1 && itemID == NONE_ID) {
-			if (isCitySim
-				&& itemCount[Structure_WindTrap] > 0
-				&& pBuilder->isAvailableToBuild(Structure_ZoneResidential)
-				&& findPlaceLocation(Structure_ZoneResidential).isValid()) {
-				doProduceItem(pBuilder, Structure_ZoneResidential);
-				logDebug("PROACTIVE: Building Residential Zone (idle CY, money: %d)", money);
-			} else if (!isCitySim && pBuilder->isAvailableToBuild(Structure_Slab1)) {
+			if (pBuilder->isAvailableToBuild(Structure_Slab1)) {
 				Coord slabLocation = findSlabPlaceLocation(Structure_Slab1);
 				if (slabLocation.isValid()) {
 					doProduceItem(pBuilder, Structure_Slab1);
@@ -3080,8 +2671,6 @@ void QuantBot::build(int militaryValue) {
 						// For concrete slabs, use specialized slab placement method
 						location = findSlabPlaceLocation(itemToBePlaced);
 					} else if (itemToBePlaced == Structure_RocketTurret || itemToBePlaced == Structure_GunTurret) {
-						// For turrets, try city placement first (near crime hotspots),
-						// falling back to normal perimeter placement
 						location = findEffectiveTurretPlaceLocation(itemToBePlaced);
 					} else {
 						// For other structures, use normal method that favors adjacency
@@ -3107,7 +2696,6 @@ void QuantBot::build(int militaryValue) {
 	// MULTIPLAYER FIX: Use deterministic timer instead of random
 	buildTimer = 5 + (getHouse()->getHouseID() % 10);  // 5-14 cycles
 }
-
 
 void QuantBot::scrambleUnitsAndDefend(const ObjectBase* pIntruder, int numUnits) {
 	if (supportMode) {
@@ -3334,7 +2922,6 @@ bool QuantBot::tryLaunchOrnithopterStrike(const QuantBotConfig::DifficultySettin
     return launched;
 }
 
-
 void QuantBot::attack(int militaryValue) {
 	if (supportMode) {
 		attackTimer = std::numeric_limits<Sint32>::max();
@@ -3445,7 +3032,6 @@ void QuantBot::attack(int militaryValue) {
 	logDebug("=== END ATTACK ===");
 
 }
-
 
 Coord QuantBot::findSquadRallyLocation() {
 	int buildingCount = 0;
@@ -3622,7 +3208,6 @@ Coord QuantBot::findBestDeathHandTarget(int enemyHouseID) {
 	// Fallback to center of base if no suitable target found
 	return findBaseCentre(enemyHouseID);
 }
-
 
 Coord QuantBot::findSquadCenter(int houseID) {
 	int squadSize = 0;
@@ -3884,7 +3469,6 @@ void QuantBot::retreatAllUnits() {
 		}
 	}
 }
-
 
 /**
 	In dune it is best to mass military units in one location.

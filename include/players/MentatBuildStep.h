@@ -28,17 +28,13 @@ class QuantBot;
 
 /// Mode filter flags for build steps.
 struct MentatStepMode {
-    bool cityOnly = false;      ///< Skip if !ctx.isCitySim
-    bool vanillaOnly = false;   ///< Skip if ctx.isCitySim
     bool campaignOnly = false;  ///< Skip if !ctx.isCampaign
     bool customOnly = false;    ///< Skip if ctx.isCampaign
 };
 
 /// Convenience constructors for common mode filters.
 inline MentatStepMode anyMode()      { return {}; }
-inline MentatStepMode cityOnly()     { return {true, false, false, false}; }
-inline MentatStepMode vanillaOnly()  { return {false, true, false, false}; }
-inline MentatStepMode vanillaCustomOnly() { return {false, true, false, true}; }
+inline MentatStepMode vanillaCustomOnly() { return {false, true}; }
 
 using MentatCheckFn = std::function<bool(QuantBot*, const BuilderBase*, const QuantBotBuildContext&)>;
 using MentatRunFn   = std::function<std::pair<Uint32, bool>(QuantBot*, const BuilderBase*, QuantBotBuildContext&)>;

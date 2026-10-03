@@ -1,5 +1,5 @@
 /*
- *  This file is part of Dune City.
+ *  This file is part of Dune Legacy Tornie.
  *
  *  Licensed under GPL-2.0-or-later.
  */

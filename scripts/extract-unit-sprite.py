@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 extract-unit-sprite.py — Extract a ground-unit sprite strip from the original
-Dune II UNITS.SHP and write it as an RGBA PNG sprite sheet for DuneCity.
+Dune II UNITS.SHP and write it as an RGBA PNG sprite sheet for Dune Legacy Tornie.
 
 This reproduces, in Python, the exact decode path used by the game engine:
   * PAK container index             (src/FileClasses/Pakfile.cpp)

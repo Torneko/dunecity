@@ -123,9 +123,9 @@ int VersionChecker::checkThreadMain(void* data) {
     VersionInfo info;
     info.updateAvailable = false;
     info.latestVersion = VERSION;
-    info.downloadURL = "https://github.com/svan058/dunecity/releases/latest";
+    info.downloadURL = "https://github.com/Torneko/dunelegacy-tornie/releases/latest";
 
-    // Dune City's update channel is GitHub Releases on the project repo.
+    // Dune Legacy Tornie's update channel is GitHub Releases on the project repo.
     // We query api.github.com/repos/.../releases/latest and parse the
     // tag_name field (expected form: "v1.0.0"). Stripping the leading
     // 'v' gives a SemVer string we can compare against the build's
@@ -133,9 +133,9 @@ int VersionChecker::checkThreadMain(void* data) {
     //
     // The old upstream-Dune-Legacy metaServer call was removed: it
     // would forever respond with "Latest=0.99.5" which is upstream's
-    // last release, not a Dune City update.
+    // last release, not a Dune Legacy Tornie update.
     const std::string api =
-        "https://api.github.com/repos/svan058/dunecity/releases/latest";
+        "https://api.github.com/repos/Torneko/dunelegacy-tornie/releases/latest";
 
     try {
         std::string response = loadFromHttp(api);
@@ -180,4 +180,3 @@ int VersionChecker::checkThreadMain(void* data) {
 
     return 0;
 }
-

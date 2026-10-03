@@ -27,9 +27,6 @@
 #include <structures/BuilderBase.h>
 #include <structures/ConstructionYard.h>
 
-#include <dunecity/CitySimulation.h>
-#include <dunecity/CityEffects.h>
-
 #include <limits>
 #include <algorithm>
 
@@ -100,11 +97,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
                 return {Structure_Radar, false};
             } else if (!hasPowerBufferForTurret()) {
                 int powerExcess = ctx.powerProduced - ctx.powerRequired;
-                if (ctx.isCitySim && b->isAvailableToBuild(Structure_NuclearPlant)
-                    && bot->findPlaceLocation(Structure_NuclearPlant).isValid()) {
-                    bot->logDebug("COUNTER-ORNITHOPTER: Nuclear Plant for turret power (excess: %d)", powerExcess);
-                    return {Structure_NuclearPlant, false};
-                } else if (b->isAvailableToBuild(Structure_WindTrap)
+                if (b->isAvailableToBuild(Structure_WindTrap)
                     && bot->findPlaceLocation(Structure_WindTrap).isValid()) {
                     bot->logDebug("COUNTER-ORNITHOPTER: Windtrap for turret power (excess: %d)", powerExcess);
                     return {Structure_WindTrap, false};
@@ -147,120 +140,10 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
         },
         [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
             int powerDeficit = ctx.powerRequired - ctx.powerProduced;
-            if (ctx.isCitySim && b->isAvailableToBuild(Structure_NuclearPlant)
-                && bot->findPlaceLocation(Structure_NuclearPlant).isValid()) {
-                bot->logDebug("POWER-RECOVERY: Building Nuclear Plant for power deficit (%d)", powerDeficit);
-                return {Structure_NuclearPlant, false};
-            } else if (b->isAvailableToBuild(Structure_WindTrap)
+            if (b->isAvailableToBuild(Structure_WindTrap)
                 && bot->findPlaceLocation(Structure_WindTrap).isValid()) {
                 bot->logDebug("POWER-RECOVERY: Building windtrap for power deficit (%d)", powerDeficit);
                 return {Structure_WindTrap, false};
-            }
-            return {NONE_ID, false};
-        }},
-
-    // 1c. City-mode proportional power buffer
-    {"CITY-POWER-BUFFER", cityOnly(),
-        [](Mentat*, const BuilderBase*, const MentatBuildContext& ctx) {
-            if (!currentGame) return false;
-            const int buffer = ctx.powerProduced - ctx.powerRequired;
-            const int targetBuffer = ctx.powerRequired / 10;
-            return ctx.powerRequired > 0 && buffer < targetBuffer;
-        },
-        [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
-            const int buffer = ctx.powerProduced - ctx.powerRequired;
-            const int targetBuffer = ctx.powerRequired / 10;
-            if (b->isAvailableToBuild(Structure_NuclearPlant)
-                && bot->findPlaceLocation(Structure_NuclearPlant).isValid()) {
-                bot->logDebug("CITY-POWER: Building Nuclear Plant (buffer=%d, target=%d, required=%d)",
-                    buffer, targetBuffer, ctx.powerRequired);
-                return {Structure_NuclearPlant, false};
-            } else if (b->isAvailableToBuild(Structure_WindTrap)
-                && bot->findPlaceLocation(Structure_WindTrap).isValid()) {
-                bot->logDebug("CITY-POWER: Building Windtrap (no Nuclear available, buffer=%d, target=%d)",
-                    buffer, targetBuffer);
-                return {Structure_WindTrap, false};
-            }
-            return {NONE_ID, false};
-        }},
-
-    // ═══════════════════════════════════════════════════════════════════
-    //  CITY-SIM ECONOMIC BACKBONE (step 2-CITY)
-    // ═══════════════════════════════════════════════════════════════════
-
-    {"CITY-ECON", cityOnly(),
-        [](Mentat*, const BuilderBase*, const MentatBuildContext&) {
-            return true; // Always check; run() decides
-        },
-        [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
-            int resCount = ctx.itemCount[Structure_ZoneResidential];
-            int comCount = ctx.itemCount[Structure_ZoneCommercial];
-            int indCount = ctx.itemCount[Structure_ZoneIndustrial];
-            int zoneCount = resCount + comCount + indCount;
-            int refCount = ctx.itemCount[Structure_Refinery];
-
-            constexpr int kCityBootstrapZoneSeed = 6;
-            constexpr int kCityRefineryCap = 4;
-            constexpr int kZonesPerRefinery = 3;
-
-            const bool lowSpiceEconomy = (bot->lastCalculatedSpice < 500);
-
-            const bool firstRefineryNeeded = refCount == 0
-                && b->isAvailableToBuild(Structure_Refinery)
-                && bot->findPlaceLocation(Structure_Refinery).isValid();
-
-            const bool refineryDue = !lowSpiceEconomy
-                && refCount < kCityRefineryCap
-                && zoneCount >= refCount * kZonesPerRefinery
-                && b->isAvailableToBuild(Structure_Refinery)
-                && bot->findPlaceLocation(Structure_Refinery).isValid();
-
-            if (firstRefineryNeeded || refineryDue) {
-                if (ctx.itemCount[Unit_Harvester] < ctx.harvesterLimit) {
-                    ctx.itemCount[Unit_Harvester]++;
-                }
-                bot->logDebug("CITY-ECON: Building Refinery (zones=%d ref=%d, %s)",
-                    zoneCount, refCount,
-                    firstRefineryNeeded ? "tech prerequisite" : "alternation");
-                return {Structure_Refinery, false};
-            } else if (zoneCount < kCityBootstrapZoneSeed) {
-                Uint32 zoneID = NONE_ID;
-                if (resCount == 0) {
-                    zoneID = Structure_ZoneResidential;
-                } else if (indCount == 0) {
-                    zoneID = Structure_ZoneIndustrial;
-                } else if (comCount == 0) {
-                    zoneID = Structure_ZoneCommercial;
-                } else {
-                    const int expR = std::max(comCount, indCount) * 3 + 3;
-                    const int expI = std::max(resCount / 3, 1);
-                    const int expC = std::max(resCount / 3, 1);
-                    const int rGap = expR - resCount;
-                    const int iGap = expI - indCount;
-                    const int cGap = expC - comCount;
-                    int bestGap = std::numeric_limits<int>::min();
-                    if (ctx.ownResValve > 0 && rGap > bestGap) {
-                        bestGap = rGap; zoneID = Structure_ZoneResidential;
-                    }
-                    if (ctx.ownIndValve > 0 && iGap > bestGap) {
-                        bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-                    }
-                    if (ctx.ownComValve > 0 && cGap > bestGap) {
-                        bestGap = cGap; zoneID = Structure_ZoneCommercial;
-                    }
-                    if (zoneID == NONE_ID) zoneID = Structure_ZoneResidential;
-                }
-
-                if (zoneID != NONE_ID
-                    && ctx.money > 200
-                    && ctx.itemCount[Structure_WindTrap] > 0
-                    && b->isAvailableToBuild(zoneID)
-                    && bot->findPlaceLocation(zoneID).isValid()) {
-                    bot->logDebug("CITY-ECON: Building %s (R:%d C:%d I:%d zoneCount=%d valves=R%+d C%+d I%+d)",
-                        getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-                        zoneCount, ctx.ownResValve, ctx.ownComValve, ctx.ownIndValve);
-                    return {zoneID, false};
-                }
             }
             return {NONE_ID, false};
         }},
@@ -270,7 +153,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     // ═══════════════════════════════════════════════════════════════════
 
     // 2. Refinery (if 0) — vanilla only
-    {"REFINERY-0", vanillaOnly(),
+    {"REFINERY-0", anyMode(),
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             return ctx.itemCount[Structure_Refinery] == 0
                 && b->isAvailableToBuild(Structure_Refinery);
@@ -283,7 +166,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
         }},
 
     // 3. Refinery ratio (1 per 3 harvesters) — vanilla only
-    {"REFINERY-RATIO", vanillaOnly(),
+    {"REFINERY-RATIO", anyMode(),
         [](Mentat* bot, const BuilderBase* b, const MentatBuildContext& ctx) {
             if (bot->lastCalculatedSpice < 500) return false;
             if (ctx.itemCount[Structure_Refinery] >= ctx.itemCount[Unit_Harvester] / 3) return false;
@@ -322,12 +205,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     // 5. StarPort
     {"STARPORT", anyMode(),
         [](Mentat* bot, const BuilderBase* b, const MentatBuildContext& ctx) {
-            // City income gate
             constexpr int kCityIncomeReadyZones = 3;
-            const int zoneCount = ctx.itemCount[Structure_ZoneResidential]
-                + ctx.itemCount[Structure_ZoneCommercial]
-                + ctx.itemCount[Structure_ZoneIndustrial];
-            if (ctx.isCitySim && zoneCount < kCityIncomeReadyZones) return false;
 
             if (ctx.itemCount[Structure_StarPort] != 0) return false;
             if (!b->isAvailableToBuild(Structure_StarPort)) return false;
@@ -353,10 +231,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     {"RADAR", anyMode(),
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             constexpr int kCityIncomeReadyZones = 3;
-            const int zoneCount = ctx.itemCount[Structure_ZoneResidential]
-                + ctx.itemCount[Structure_ZoneCommercial]
-                + ctx.itemCount[Structure_ZoneIndustrial];
-            if (ctx.isCitySim && zoneCount < kCityIncomeReadyZones) return false;
+
             return ctx.itemCount[Structure_Radar] == 0
                 && b->isAvailableToBuild(Structure_Radar)
                 && ctx.money > 500;
@@ -369,10 +244,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     {"LIGHT-FACTORY", anyMode(),
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             constexpr int kCityIncomeReadyZones = 3;
-            const int zoneCount = ctx.itemCount[Structure_ZoneResidential]
-                + ctx.itemCount[Structure_ZoneCommercial]
-                + ctx.itemCount[Structure_ZoneIndustrial];
-            if (ctx.isCitySim && zoneCount < kCityIncomeReadyZones) return false;
+
             return ctx.itemCount[Structure_LightFactory] == 0
                 && b->isAvailableToBuild(Structure_LightFactory)
                 && ctx.money > 500;
@@ -398,7 +270,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             if (b->getCurrentUpgradeLevel() >= 2) return false;
             if (b->isUpgrading()) return false;
-            if (currentGame && ctx.isCitySim && ctx.money > 500) return true;
+
             return ctx.itemCount[Structure_RepairYard] > 0
                 && (ctx.itemCount[Structure_StarPort] > 0 || ctx.itemCount[Structure_HeavyFactory] > 0)
                 && ctx.itemCount[Structure_RocketTurret] < 2;
@@ -456,11 +328,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
         },
         [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
             int powerExcess = ctx.powerProduced - ctx.powerRequired;
-            if (ctx.isCitySim && b->isAvailableToBuild(Structure_NuclearPlant)
-                && bot->findPlaceLocation(Structure_NuclearPlant).isValid()) {
-                bot->logDebug("TURRET-POWER: Nuclear Plant for turret buffer (excess: %d, need: 225)", powerExcess);
-                return {Structure_NuclearPlant, false};
-            } else if (b->isAvailableToBuild(Structure_WindTrap)
+            if (b->isAvailableToBuild(Structure_WindTrap)
                 && bot->findPlaceLocation(Structure_WindTrap).isValid()) {
                 bot->logDebug("TURRET-POWER: Windtrap for turret buffer (excess: %d, need: 225)", powerExcess);
                 return {Structure_WindTrap, false};
@@ -518,10 +386,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     {"HEAVY-FACTORY-0", anyMode(),
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             constexpr int kCityIncomeReadyZones = 3;
-            const int zoneCount = ctx.itemCount[Structure_ZoneResidential]
-                + ctx.itemCount[Structure_ZoneCommercial]
-                + ctx.itemCount[Structure_ZoneIndustrial];
-            if (ctx.isCitySim && zoneCount < kCityIncomeReadyZones) return false;
+
             return ctx.itemCount[Structure_HeavyFactory] == 0
                 && b->isAvailableToBuild(Structure_HeavyFactory)
                 && ctx.money > 500;
@@ -535,10 +400,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
     {"HTF-0", anyMode(),
         [](Mentat*, const BuilderBase* b, const MentatBuildContext& ctx) {
             constexpr int kCityIncomeReadyZones = 3;
-            const int zoneCount = ctx.itemCount[Structure_ZoneResidential]
-                + ctx.itemCount[Structure_ZoneCommercial]
-                + ctx.itemCount[Structure_ZoneIndustrial];
-            if (ctx.isCitySim && zoneCount < kCityIncomeReadyZones) return false;
+
             return ctx.itemCount[Structure_HighTechFactory] == 0
                 && ctx.itemCount[Structure_HeavyFactory] > 0
                 && b->isAvailableToBuild(Structure_HighTechFactory)
@@ -571,13 +433,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
         },
         [](Mentat* bot, const BuilderBase*, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
             int desiredHFs = 1;
-            if (ctx.isCitySim) {
-                auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-                int tax = citySim ? citySim->getCityTax() : 7;
-                int32_t annual = DuneCity::computeAnnualTaxRevenue(ctx.ownTotalPop, tax, ctx.ownAvgLandValue);
-                int creditsPerSec = annual / 60;
-                desiredHFs = 1 + creditsPerSec / 50;
-            } else {
+            {
                 desiredHFs = 1 + ctx.money / 4000;
             }
 
@@ -657,45 +513,6 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
             return {Structure_Silo, false};
         }},
 
-    // 17. City protection turrets
-    {"CITY-TURRET", cityOnly(),
-        [](Mentat* bot, const BuilderBase* b, const MentatBuildContext& ctx) {
-            if (!currentGame) return false;
-            if (ctx.money <= 500) return false;
-            // Power buffer check
-            if (bot->getGameInitSettings().getGameOptions().rocketTurretsNeedPower
-                && (ctx.powerProduced - ctx.powerRequired) < 225) return false;
-            if (!b->isAvailableToBuild(Structure_RocketTurret)) return false;
-
-            int maxOwnCrime = 0;
-            if (auto* citySim = currentGame->getCitySimulation()) {
-                const auto& crimeMap = citySim->getCrimeRateMap();
-                for (const StructureBase* pStruct : bot->getStructureList()) {
-                    if (!pStruct || pStruct->getOwner() != bot->getHouse())
-                        continue;
-                    Coord pos = pStruct->getLocation();
-                    Coord sz  = pStruct->getStructureSize();
-                    for (int dy = 0; dy < sz.y; dy++) {
-                        for (int dx = 0; dx < sz.x; dx++) {
-                            int c = crimeMap.worldGet(pos.x + dx, pos.y + dy);
-                            if (c > maxOwnCrime) maxOwnCrime = c;
-                        }
-                    }
-                }
-            }
-            return maxOwnCrime > 2;
-        },
-        [](Mentat* bot, const BuilderBase*, MentatBuildContext&) -> std::pair<Uint32, bool> {
-            Coord loc = bot->findCityTurretPlaceLocation(Structure_RocketTurret);
-            if (loc.isValid()) {
-                // We can't pass the location through, but findPlaceLocation in the
-                // finalisation block will re-find it. The check confirmed it exists.
-                bot->logDebug("CITY-TURRET: Building rocket turret for crime suppression");
-                return {Structure_RocketTurret, false};
-            }
-            return {NONE_ID, false};
-        }},
-
     // 17b. Palace
     {"PALACE", anyMode(),
         [](Mentat* bot, const BuilderBase* b, const MentatBuildContext& ctx) {
@@ -705,9 +522,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
             if (ctx.itemCount[Structure_LightFactory] == 0) return false;
 
             bool palaceAllowed;
-            if (currentGame && ctx.isCitySim) {
-                palaceAllowed = (ctx.itemCount[Structure_Palace] < 1 + ctx.ownTotalPop / 25);
-            } else {
+            {
                 palaceAllowed = (ctx.itemCount[Structure_Palace] == 0
                     || !bot->getGameInitSettings().getGameOptions().onlyOnePalace);
             }
@@ -717,89 +532,7 @@ const std::vector<MentatBuildStepMentat>& Mentat::getCYBuildOrder() {
             return {Structure_Palace, false};
         }},
 
-    // ═══════════════════════════════════════════════════════════════════
-    //  CITY ZONES & CIVIC BUILDINGS
-    // ═══════════════════════════════════════════════════════════════════
-
     // 18b. Civic buildings: Stadium and Airport
-    {"CITY-CIVIC", cityOnly(),
-        [](Mentat*, const BuilderBase*, const MentatBuildContext& ctx) {
-            if (!currentGame) return false;
-            return ctx.money > 500;
-        },
-        [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
-            if (!ctx.ownHasStadium
-                && ctx.ownResPop > 500
-                && b->isAvailableToBuild(Structure_Stadium)
-                && bot->findPlaceLocation(Structure_Stadium).isValid()) {
-                bot->logDebug("CITY-CIVIC: Building Stadium (ownResPop=%d > 500, no stadium)", ctx.ownResPop);
-                return {Structure_Stadium, false};
-            }
-            else if (!ctx.ownHasAirport
-                && ctx.ownComPop > 20
-                && b->isAvailableToBuild(Structure_Airport)
-                && bot->findPlaceLocation(Structure_Airport).isValid()) {
-                bot->logDebug("CITY-CIVIC: Building Airport (ownComPop=%d > 20, no airport)", ctx.ownComPop);
-                return {Structure_Airport, false};
-            }
-            return {NONE_ID, false};
-        }},
-
-    // 18. City zone expansion (power headroom + demand valves)
-    {"CITY-ZONE", cityOnly(),
-        [](Mentat*, const BuilderBase*, const MentatBuildContext& ctx) {
-            if (!currentGame) return false;
-            return ctx.money > 200 && ctx.itemCount[Structure_WindTrap] > 0;
-        },
-        [](Mentat* bot, const BuilderBase* b, MentatBuildContext& ctx) -> std::pair<Uint32, bool> {
-            constexpr int kZonePowerHeadroom = 24;
-            const int powerSurplus = ctx.powerProduced - ctx.powerRequired;
-            if (powerSurplus < kZonePowerHeadroom) {
-                if (b->isAvailableToBuild(Structure_NuclearPlant)
-                    && bot->findPlaceLocation(Structure_NuclearPlant).isValid()) {
-                    bot->logDebug("CITY-ZONE-POWER: Building Nuclear Plant before zoning (surplus=%d, need=%d)",
-                        powerSurplus, kZonePowerHeadroom);
-                    return {Structure_NuclearPlant, false};
-                } else if (b->isAvailableToBuild(Structure_WindTrap)
-                    && bot->findPlaceLocation(Structure_WindTrap).isValid()) {
-                    bot->logDebug("CITY-ZONE-POWER: Building Windtrap before zoning (surplus=%d, need=%d)",
-                        powerSurplus, kZonePowerHeadroom);
-                    return {Structure_WindTrap, false};
-                }
-                return {NONE_ID, false};
-            }
-
-            const int resCount = ctx.itemCount[Structure_ZoneResidential];
-            const int comCount = ctx.itemCount[Structure_ZoneCommercial];
-            const int indCount = ctx.itemCount[Structure_ZoneIndustrial];
-            const int expR = std::max(comCount, indCount) * 3 + 3;
-            const int expI = std::max(resCount / 3, 1);
-            const int expC = std::max(resCount / 3, 1);
-            const int rGap = expR - resCount;
-            const int iGap = expI - indCount;
-            const int cGap = expC - comCount;
-
-            Uint32 zoneID = NONE_ID;
-            int bestGap = std::numeric_limits<int>::min();
-            if (ctx.ownResValve > 0 && rGap > bestGap) {
-                bestGap = rGap; zoneID = Structure_ZoneResidential;
-            }
-            if (ctx.ownIndValve > 0 && iGap > bestGap) {
-                bestGap = iGap; zoneID = Structure_ZoneIndustrial;
-            }
-            if (ctx.ownComValve > 0 && cGap > bestGap) {
-                bestGap = cGap; zoneID = Structure_ZoneCommercial;
-            }
-
-            if (zoneID != NONE_ID && b->isAvailableToBuild(zoneID)
-                && bot->findPlaceLocation(zoneID).isValid()) {
-                bot->logDebug("CITY-ZONE: Building %s (R:%d C:%d I:%d gap=%d valves=R%+d C%+d I%+d surplus=%d)",
-                    getItemNameByID(zoneID).c_str(), resCount, comCount, indCount,
-                    bestGap, ctx.ownResValve, ctx.ownComValve, ctx.ownIndValve, powerSurplus);
-                return {zoneID, false};
-            }
-            return {NONE_ID, false};
-        }},
 
     }; // end ORDER
 

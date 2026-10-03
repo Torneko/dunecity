@@ -136,7 +136,7 @@ std::unique_ptr<MapEditorOperation> MapEditorStructurePlaceOperation::perform(Ma
 
     int newID = (preferredID != INVALID) ? preferredID : (maxID + 1);
 
-    if((itemID == Structure_Slab1) || (itemID == Structure_Slab4) || (itemID == Structure_Wall) || (itemID == Structure_Road)) {
+    if((itemID == Structure_Slab1) || (itemID == Structure_Slab4) || (itemID == Structure_Wall)) {
         newID = minID-1;
     }
 

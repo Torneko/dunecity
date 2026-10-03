@@ -13,7 +13,7 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(REPO, "data")
 OUT  = os.path.join(DATA, "Tornie.PAK")
 
-# DuneCity 1.0.341: canonical Tornie mod bundle minus 8th-house
+# Tornie 1.0.341: canonical Tornie mod bundle minus 8th-house
 # resources. After Tornie's repeated confirmation that the green-grid
 # bug never goes away for HOUSE_REBELS regardless of how many (R)
 # entries we mirror or what code paths we restore, this release

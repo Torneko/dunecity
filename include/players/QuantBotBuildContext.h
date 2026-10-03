@@ -43,19 +43,12 @@ struct QuantBotBuildContext {
     int powerRequired;
 
     // Mode flags
-    bool isCitySim;
     bool isCampaign;
     bool isCustom;
     bool isBrutal;
     bool supportMode;
     int  techLevel;
     int  difficulty;
-
-    // City simulation stats
-    int ownResPop = 0, ownComPop = 0, ownIndPop = 0, ownTotalPop = 0;
-    int ownAvgLandValue = 0;
-    int16_t ownResValve = 0, ownComValve = 0, ownIndValve = 0;
-    bool ownHasStadium = false, ownHasAirport = false;
 
     // Dedup tracking — items ordered this tick across multiple CYs
     std::set<Uint32> orderedThisTick;
@@ -81,21 +74,12 @@ struct QuantBotBuildContext {
 
     /// Is this item allowed to be built by multiple CYs in one tick?
     bool isMultiBuild(Uint32 itemID) const {
-        return itemID == Structure_ZoneResidential
-            || itemID == Structure_ZoneCommercial
-            || itemID == Structure_ZoneIndustrial
-            || itemID == Structure_RocketTurret
+        return itemID == Structure_RocketTurret
             || itemID == Structure_GunTurret
             || itemID == Structure_Wall
             || itemID == Structure_Slab1;
     }
 
-    /// Combined city zone count
-    int cityZoneCount() const {
-        return itemCount[Structure_ZoneResidential]
-             + itemCount[Structure_ZoneCommercial]
-             + itemCount[Structure_ZoneIndustrial];
-    }
 };
 
 #endif // QUANTBOT_BUILD_CONTEXT_H

@@ -82,7 +82,7 @@ StructureBase::StructureBase(InputStream& stream): ObjectBase(stream) {
         smoke.emplace_back(stream);
     }
 
-    (void) stream.readUint8(); // legacy DuneCity save byte
+    (void) stream.readUint8(); // legacy legacy save byte
 }
 
 void StructureBase::init() {
@@ -133,7 +133,7 @@ void StructureBase::save(OutputStream& stream) const {
         structureSmoke.save(stream);
     }
 
-    stream.writeUint8(0); // reserved legacy DuneCity save byte
+    stream.writeUint8(0); // reserved legacy legacy save byte
 }
 
 void StructureBase::assignToMap(const Coord& pos) {

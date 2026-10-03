@@ -181,8 +181,7 @@ public:
 
     /// Mod that was active when this game was created. Persisted in
     /// savegames and shipped over the network so clients can mirror the
-    /// host's mod choice (e.g. enable city-sim features when the host
-    /// is on the dunecity mod).
+    /// host's choice of RTS rules and mod content.
     inline const std::string& getModName() const { return modName; }
     inline void setGameSpeed(int gameSpeed) { gameOptions.gameSpeed = gameSpeed; };
     inline void setImmortalHumanPlayer(bool immortal) { gameOptions.immortalHumanPlayer = immortal; };

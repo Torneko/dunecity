@@ -75,7 +75,7 @@ User configuration is kept separately from old DuneCity configuration directorie
 
 ## Original Dune II data
 
-Dune Legacy Tornie requires original Dune II game data files. Those copyrighted game data files are not part of the source-code project and should be supplied separately by the user.
+Dune Legacy Tornie loads Dune II game data from its data paths, together with `LEGACY.PAK` and the Tornie assets.
 
 ## License and credits
 
@@ -84,3 +84,9 @@ The project remains distributed under the GNU General Public License version 2 o
 Credits remain due to the original Dune Legacy contributors, Westwood Studios for Dune II, and all contributors whose work remains in this derived codebase.
 
 **Tornie / Tornie Panther** maintains the Tornie-specific direction, assets and gameplay changes in this project.
+
+The retained code also includes contributions from the DuneCity development history. Its original authorship and license notices remain in the source history and credits.
+
+## Optional Discord presence
+
+Set `DUNELEGACY_DISCORD_APP_ID` to the application ID of your own Discord application to enable Rich Presence. Without it, Rich Presence stays disabled. This edition does not use the former project's Discord application.

@@ -598,11 +598,20 @@ std::string getDuneLegacyDataDir() {
     if(duneLegacyDataDir.empty()) {
 
         std::string dataDir;
+#if defined(__linux__) && !defined(__ANDROID__)
+        if(char* basePath = SDL_GetBasePath()) {
+            const std::string bundledDataDir = std::string(basePath) + "../share/DuneLegacyTornie/";
+            SDL_free(basePath);
+            if(existsFile(bundledDataDir + "locale/English.en.po")) {
+                dataDir = bundledDataDir;
+            }
+        }
+#endif
 #ifdef DUNELEGACY_DATADIR
         // Only use the compile-time install path if it actually exists
         // (i.e. the binary was installed, not run from a build directory)
         struct stat dirCheck;
-        if (stat(DUNELEGACY_DATADIR, &dirCheck) == 0 && S_ISDIR(dirCheck.st_mode)) {
+        if (dataDir.empty() && stat(DUNELEGACY_DATADIR, &dirCheck) == 0 && S_ISDIR(dirCheck.st_mode)) {
             dataDir = DUNELEGACY_DATADIR;
         } else {
             SDL_Log("DUNELEGACY_DATADIR '%s' not found, falling through to SDL_GetBasePath()", DUNELEGACY_DATADIR);

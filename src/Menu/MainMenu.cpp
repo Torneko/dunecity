@@ -42,34 +42,6 @@
 #include <cstdio>
 #include <fstream>
 
-namespace {
-// Marker file under the user config dir. Once written, the first-launch
-// "Enable city-sim mod?" prompt is suppressed forever.
-std::string firstLaunchMarkerPath() {
-    char tmp[FILENAME_MAX];
-    if (fnkdat("dunecity-first-launch.done", tmp, FILENAME_MAX,
-               FNKDAT_USER | FNKDAT_CREAT) < 0) {
-        return std::string();
-    }
-    return std::string(tmp);
-}
-
-bool firstLaunchMarkerExists() {
-    const std::string p = firstLaunchMarkerPath();
-    if (p.empty()) return true; // fail closed: don't pester
-    FILE* f = std::fopen(p.c_str(), "rb");
-    if (f == nullptr) return false;
-    std::fclose(f);
-    return true;
-}
-
-void writeFirstLaunchMarker() {
-    const std::string p = firstLaunchMarkerPath();
-    if (p.empty()) return;
-    std::ofstream out(p);
-    out << "Dune City " << VERSION << "\n";
-}
-} // namespace
 
 MainMenu::MainMenu()
 {
@@ -171,22 +143,7 @@ MainMenu::MainMenu()
                                Point(labelWidth, labelHeight));
     }
 
-    // Left-side info text: tell players about the DuneCity mod.
-    {
-        cityInfoLabel.setTextFontSize(14);
-        cityInfoLabel.setTextColor(COLOR_YELLOW, COLOR_BLACK);
-        cityInfoLabel.setAlignment(static_cast<Alignment_Enum>(Alignment_Left | Alignment_Top));
-        cityInfoLabel.setText(_("DUNE CITY\nCity-building RTS mod\n\nActivate via MODS menu\nEnable 'dunecity' then\nstart a Custom game"));
 
-        const int infoWidth  = 180;
-        const int infoHeight = 110;
-        const int marginX    = 16;
-        // Align vertically with the menu buttons
-        const int menuY = getRendererHeight()/2 + 64;
-        windowWidget.addWidget(&cityInfoLabel,
-                               Point(marginX, menuY),
-                               Point(infoWidth, infoHeight));
-    }
 }
 
 void MainMenu::refreshModVersionLabel()
@@ -278,7 +235,7 @@ void MainMenu::update()
     if(!latestVersion.empty() && !bUpdateDialogShown && !pChildWindow) {
         bUpdateDialogShown = true;
 
-        std::string message = _("A new version of Dune City is available!");
+        std::string message = _("A new version of Dune Legacy Tornie is available!");
         message += "\n\n";
         message += _("Current: ");
         message += VERSION;
@@ -291,9 +248,6 @@ void MainMenu::update()
         openWindow(QstBox::create(message, _("Download"), _("Later"), QSTBOX_BUTTON1));
     }
 
-    // First-launch "Enable city-sim mod?" prompt. Runs after the update
-    // dialog so we don't stack two QstBoxes on top of each other.
-    showFirstLaunchCityPromptIfNeeded();
 }
 
 void MainMenu::onChildWindowClose(Window* pChildWindow)
@@ -301,21 +255,6 @@ void MainMenu::onChildWindowClose(Window* pChildWindow)
     QstBox* pQstBox = dynamic_cast<QstBox*>(pChildWindow);
     if (pQstBox == nullptr) return;
 
-    if (bFirstLaunchPromptOpen) {
-        // This QstBox was the first-launch "Enable city-sim mod?" prompt.
-        bFirstLaunchPromptOpen = false;
-        writeFirstLaunchMarker(); // record the user's decision either way
-
-        if (pQstBox->getPressedButtonID() == QSTBOX_BUTTON1) {
-            ModManager& mm = ModManager::instance();
-            if (mm.setActiveMod("dunecity")) {
-                // Reinitialize so all subsystems pick up the new mod's
-                // ObjectData.ini, QuantBot Config.ini, and game options.
-                quit(MENU_QUIT_REINITIALIZE);
-            }
-        }
-        return;
-    }
 
     if (pQstBox->getPressedButtonID() == QSTBOX_BUTTON1) {
         // User clicked "Download" - open the download URL
@@ -373,43 +312,3 @@ void MainMenu::onHowToPlay() const
 void MainMenu::onQuit() {
     quit();
 }
-
-void MainMenu::showFirstLaunchCityPromptIfNeeded()
-{
-    if (bFirstLaunchPromptChecked) return;
-    bFirstLaunchPromptChecked = true;
-
-    // Don't compete with the version-update dialog.
-    if (bUpdateDialogShown || pChildWindow != nullptr) {
-        // Reschedule on next tick by un-flagging.
-        bFirstLaunchPromptChecked = false;
-        return;
-    }
-
-    ModManager& mm = ModManager::instance();
-    if (!mm.isInitialized()) return;
-
-    // Already on a city-sim mod -> nothing to prompt.
-    if (mm.isCityModeActive()) {
-        writeFirstLaunchMarker();
-        return;
-    }
-
-    // Already shown previously -> respect the user's choice.
-    if (firstLaunchMarkerExists()) return;
-
-    // Need the dunecity mod to exist before we can offer to activate it.
-    if (!mm.modExists("dunecity")) return;
-
-    bFirstLaunchPromptOpen = true;
-
-    std::string message = _("Welcome to Dune City!");
-    message += "\n\n";
-    message += _("Dune City adds a Micropolis-style city simulation on top of Dune II: zone Residential / Commercial / Industrial districts, build roads, manage power and police, and grow a colony on Arrakis.");
-    message += "\n\n";
-    message += _("Enable the city-sim mod now? You can change this any time in Mods.");
-
-    openWindow(QstBox::create(message, _("Enable now"), _("Later"), QSTBOX_BUTTON1));
-}
-
-

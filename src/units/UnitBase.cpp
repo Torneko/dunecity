@@ -27,7 +27,6 @@
 #include <Bullet.h>
 #include <ScreenBorder.h>
 #include <House.h>
-#include <audio/sounds.h>
 
 #include <players/HumanPlayer.h>
 
@@ -1289,10 +1288,6 @@ void UnitBase::setSpeeds() {
     if(!isAFlyingUnit()) {
         const Tile* pTile = currentGameMap->getTile(location);
         speed += speed*(1 - getTerrainDifficulty((TERRAINTYPE) pTile->getType()));
-        if(pTile->isRoad()) {
-            // Roads boost ground-unit travel speed (city-sim feature).
-            speed *= ROADSPEEDMULTIPLIER;
-        }
         if(isBadlyDamaged()) {
             speed *= HEAVILYDAMAGEDSPEEDMULTIPLIER;
         }

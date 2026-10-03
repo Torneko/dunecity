@@ -19,7 +19,6 @@
 #define PALACEINTERFACE_H
 
 #include "DefaultStructureInterface.h"
-#include "CityStatsBox.h"
 
 #include <FileClasses/FontManager.h>
 #include <FileClasses/TextManager.h>
@@ -32,7 +31,6 @@
 #include <Map.h>
 #include <Tile.h>
 #include <structures/Palace.h>
-#include <dunecity/CityEffects.h>
 
 class PalaceInterface : public DefaultStructureInterface {
 public:
@@ -68,15 +66,11 @@ protected:
 
         Uint32 color = getHouseColorRGB(getHouseVisualHouse(pLocalHouse->getHouseID()), 3);
 
-        levelLabel.setTextFontSize(12);
-        levelLabel.setTextColor(color);
-        palaceVBox.addWidget(&levelLabel, (Sint32)18);
 
         poweredLabel.setTextFontSize(12);
         poweredLabel.setTextColor(color);
         palaceVBox.addWidget(&poweredLabel, (Sint32)18);
 
-        cityStats_.attachTo(palaceVBox, color, /*isZone=*/false);
 
         palaceVBox.addWidget(Spacer::create(), 0.99);
     }
@@ -128,15 +122,10 @@ protected:
 
             weaponSelectButton.setVisible(pPalace->isSpecialWeaponReady());
 
-            int level = static_cast<int>(pPalace->getCityOccupancy());
-            if (level < 1) level = 1;
-            int maxLevel = DuneCity::getStructureMaxLevel(Structure_Palace);
-            levelLabel.setText(" Level: " + std::to_string(level) + "/" + std::to_string(maxLevel));
 
             const bool powered = pPalace->getOwner()->hasPower();
             poweredLabel.setText(std::string(" ") + (powered ? _("Powered") : _("UNPOWERED")));
 
-            cityStats_.update(pPalace);
         }
 
         return DefaultStructureInterface::update();
@@ -163,9 +152,7 @@ private:
     StaticContainer     weaponBox;
     PictureProgressBar  weaponProgressBar;
     PictureButton       weaponSelectButton;
-    Label               levelLabel;
     Label               poweredLabel;
-    CityStatsBox        cityStats_;
 };
 
 #endif // PALACEINTERFACE_H

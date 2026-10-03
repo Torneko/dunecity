@@ -132,12 +132,6 @@ void SoundPlayer::playSound(Sound_enum soundID, int volume)
         ChannelGroup::Gun,                  // Sound_MachineGun
         ChannelGroup::Sonic,                // Sound_Sonic
         ChannelGroup::Rocket,               // Sound_RocketSmall
-        ChannelGroup::Credits,              // Sound_CityTaxCollected
-        ChannelGroup::UI,                   // Sound_CityBudgetLow
-        ChannelGroup::UI,                   // Sound_CityZoneBuilt
-        ChannelGroup::UI,                   // Sound_CityPowerShortage
-        ChannelGroup::Other,                // Sound_CityDisasterWarning
-        ChannelGroup::Credits,              // Sound_CityMilestone
     };
 
     if(soundOn) {

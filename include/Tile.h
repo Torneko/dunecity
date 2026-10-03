@@ -474,6 +474,10 @@ public:
 
 private:
 
+    template<typename Pred>
+    void selectFilter(int houseID, ObjectBase** lastCheckedObject,
+                      ObjectBase** lastSelectedObject, Pred&& predicate);
+
     Uint32      type;           ///< the type of the tile (Terrain_Sand, Terrain_Rock, ...)
 
     Uint32      fogColor;       ///< remember last color (radar)

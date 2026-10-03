@@ -1,5 +1,5 @@
 /*
- *  SpectatorPlayer implementation - DuneCity 1.0.370
+ *  SpectatorPlayer implementation - legacy 1.0.370
  *
  *  Empty body. SpectatorPlayer never produces ticks; the
  *  Game class schedules update() on all Players but a Spectator's

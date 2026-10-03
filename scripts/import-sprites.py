@@ -4,7 +4,7 @@ import-sprites.py — Extract building sprites from original Dune II game files.
 
 Reads a user-provided local DUNE2 data directory (containing .PAK archives)
 and extracts structure/building sprite frames as individual PNGs into an
-output directory for use as DuneCity zone art.
+output directory for use as Tornie structure art.
 
 This script does NOT copy or bundle copyrighted original-game assets into the
 repository.  It operates on files you supply from your own local copy of
@@ -192,7 +192,7 @@ STRUCTURE_MAP_INDICES = {
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Extract Dune II building sprites to PNG for DuneCity zone art.')
+        description='Extract Dune II building sprites to PNG for Tornie structure art.')
     parser.add_argument('datadir', type=Path,
                         help='Path to local Dune II DATA directory '
                              '(containing ICON.ICN, ICON.MAP, IBM.PAL)')

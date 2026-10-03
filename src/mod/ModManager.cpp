@@ -824,7 +824,6 @@ void ModManager::seedTornieFromDefaults() {
     info.author = "Tornie_Panther";
     info.description = "Tornie Mod: New units, new building, 2 additional campaigns with two custom factions, extra features in the editor. Special vehicles reviewed for sub-factions and the two new houses.";
     info.gameVersion = VERSION;
-    info.enablesCityMode = false;
     writeModInfo(torniePath, info);
 
     SDL_Log("ModManager: Tornie mod seeded successfully");

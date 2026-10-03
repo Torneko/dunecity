@@ -203,7 +203,7 @@ endif()
 # Install documentation
 if(WIN32)
     # Windows: install docs to root
-    install(FILES AUTHORS COPYING NEWS README
+    install(FILES AUTHORS COPYING NEWS README.md HOWTOPLAY.md
         DESTINATION ${DUNELEGACY_DOC_DIR}
     )
     # Install release notes
@@ -213,7 +213,7 @@ if(WIN32)
     )
 elseif(NOT APPLE)
     # Linux: use standard doc directory
-    install(FILES AUTHORS COPYING NEWS README
+    install(FILES AUTHORS COPYING NEWS README.md HOWTOPLAY.md
         DESTINATION ${DUNELEGACY_DOC_DIR}
     )
     install(FILES "release_notes/RELEASE_NOTES.md"

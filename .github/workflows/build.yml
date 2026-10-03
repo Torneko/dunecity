@@ -52,7 +52,7 @@ jobs:
           if grep -RInE 'DuneCity|Dune City|dunecity' \
               src include tests config mods scripts CMakeLists.txt \
               --exclude='ChangeLog' --exclude='*.md' --exclude='*.txt' \
-              --exclude='SaveCompatTestCase.cpp'; then
+              --exclude='SaveCompatTestCase.cpp' --exclude='SaveCompat.h'; then
             echo "::error::Legacy DuneCity reference found in active project files."
             exit 1
           fi
@@ -119,9 +119,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Skip macOS build (no self-hosted ARM64 runner on moonbear fork)
+      - name: Skip macOS build (no ARM64 runner configured)
         run: |
-          echo "macOS self-hosted ARM64 runner not configured on Torneko/dunelegacy-tornie."
+          echo "macOS self-hosted ARM64 runner not configured for this repository."
           echo "Re-add the [self-hosted, macOS, ARM64] runs-on in the main repo"
           echo "when the macOS DMG build is wanted there. This no-op produces a"
           echo "zero-byte placeholder artifact so dev-release/tornie-release can"
@@ -410,49 +410,3 @@ jobs:
               --title "Dune Legacy Tornie ${TAG}" \
               --notes-file "$NOTES_FILE"
           fi
-
-      - name: Update dunelegacy.com website
-        env:
-          WEBSITE_TOKEN: ${{ secrets.WEBSITE_DEPLOY_TOKEN }}
-          TAG: ${{ github.ref_name }}
-        run: |
-          # Strip leading 'v' to get bare version number (e.g. v1.0.5 -> 1.0.5)
-          VERSION="${TAG#v}"
-
-          git clone "https://x-access-token:${WEBSITE_TOKEN}@github.com/svan058/dunelegacy.com.git" website-repo
-          cd website-repo
-
-          # Guard: don't let a stale older run overwrite a newer version
-          CURRENT=$(sed -n 's/.*softwareVersion": "\([0-9]*\.[0-9]*\.[0-9]*\)".*/\1/p' website/index.html | head -1)
-          if [ -n "$CURRENT" ]; then
-            CUR_PATCH=$(echo "$CURRENT" | cut -d. -f3)
-            NEW_PATCH=$(echo "$VERSION" | cut -d. -f3)
-            if [ "$NEW_PATCH" -lt "$CUR_PATCH" ] 2>/dev/null; then
-              echo "Website already at $CURRENT, skipping update to $VERSION (older)"
-              exit 0
-            fi
-          fi
-
-          # Replace version numbers and download URLs in both HTML files
-          for FILE in website/index.html website/dune-city.html; do
-            # Migrate historical release URLs to the Dune Legacy Tornie artifact name.
-            sed -i "s|/v[0-9]\+\.[0-9]\+\.[0-9]\+/DuneCity-[0-9]\+\.[0-9]\+\.[0-9]\+-|/v${VERSION}/DuneLegacyTornie-${VERSION}-|g" "$FILE"
-            # Release tag links
-            sed -i "s|releases/tag/v[0-9]\+\.[0-9]\+\.[0-9]\+|releases/tag/v${VERSION}|g" "$FILE"
-            # Migrate historical display version strings.
-            sed -i "s|Dune City [0-9]\+\.[0-9]\+\.[0-9]\+|Dune Legacy Tornie ${VERSION}|g" "$FILE"
-            # Download button text: "Download X.X.X"
-            sed -i "s|Download [0-9]\+\.[0-9]\+\.[0-9]\+|Download ${VERSION}|g" "$FILE"
-            # Latest label: "Latest: X.X.X"
-            sed -i "s|Latest: [0-9]\+\.[0-9]\+\.[0-9]\+|Latest: ${VERSION}|g" "$FILE"
-            # Schema softwareVersion
-            sed -i "s|softwareVersion\": \"[0-9]\+\.[0-9]\+\.[0-9]\+\"|softwareVersion\": \"${VERSION}\"|g" "$FILE"
-            # "X.X.X is current"
-            sed -i "s|[0-9]\+\.[0-9]\+\.[0-9]\+ is current|${VERSION} is current|g" "$FILE"
-          done
-
-          git config user.email "ci@dunelegacy.com"
-          git config user.name "Dune Legacy Tornie CI"
-          git add website/index.html website/dune-city.html
-          git diff --cached --quiet || git commit -m "release: bump website to Dune Legacy Tornie ${VERSION}"
-          git push
