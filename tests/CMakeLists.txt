@@ -12,40 +12,9 @@ target_sources(dunelegacy_tests
     PRIVATE
         PathBudgetTestCase/PathBudgetTestCase.cpp
         NetworkManagerTestCase/NetworkManagerTestCase.cpp
-        ZoneStructureTestCase/ZoneStructureTestCase.cpp
-        RoadPlacementTestCase/RoadPlacementTestCase.cpp
-        CityBudgetIntegrationTestCase/CityBudgetIntegrationTestCase.cpp
-        BudgetAllocationTestCase/BudgetAllocationTestCase.cpp
-        CityBuildLogicTestCase/CityBuildLogicTestCase.cpp
-        OverlayLegendTestCase/OverlayLegendTestCase.cpp
-        CityRoadTestCase/CityRoadTestCase.cpp
-        RoadNetworkGrowthTestCase/RoadNetworkGrowthTestCase.cpp
-        MilestoneTestCase/MilestoneTestCase.cpp
-        CityStructuresTestCase/CityStructuresTestCase.cpp
         ConstructionYardResolverTestCase/ConstructionYardResolverTestCase.cpp
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
-        ZonePowerTestCase/ZonePowerTestCase.cpp
-        CityEffectsTestCase/CityEffectsTestCase.cpp
-        ValueModelTestCase/ValueModelTestCase.cpp
-        PoliceStationTestCase/PoliceStationTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
-        # NeutralHouseTestCase disabled in v1.0.513: the test references
-        # Anim_NeutralEyes/Mouth/Shoulder/Ring and HouseNeutral, none of
-        # which exist in the current build. The Neutral house is a planned
-        # future addition; the test was checked in ahead of the
-        # implementation. Re-enable when the Anim_Neutral* and HouseNeutral
-        # symbols land.
-        # NeutralHouseTestCase/NeutralHouseTestCase.cpp
-        # DuneCity core sources (needed for CitySimulation tests)
-        ${CMAKE_SOURCE_DIR}/src/dunecity/CitySimulation.cpp
-        CityEffectsRuntime_test_stub.cpp
-        ${CMAKE_SOURCE_DIR}/src/dunecity/PowerGrid.cpp
-        ${CMAKE_SOURCE_DIR}/src/dunecity/ZoneSimulation.cpp
-        # TrafficSimulation.cpp excluded: it pulls in Tile/Map/StructureBase
-        # and is only used by CityEffectsRuntime (which is stubbed in tests).
-        ${CMAKE_SOURCE_DIR}/src/dunecity/CityBudget.cpp
-        ${CMAKE_SOURCE_DIR}/src/dunecity/CityScanner.cpp
-        ${CMAKE_SOURCE_DIR}/src/dunecity/CityEvaluation.cpp
         ${CMAKE_SOURCE_DIR}/src/audio/sounds.cpp
         globals_test_stub.cpp
         TextManager_stub.cpp
@@ -103,7 +72,7 @@ add_test(NAME dunelegacy_tests COMMAND dunelegacy_tests)
 
 # Set test properties
 set_tests_properties(dunelegacy_tests PROPERTIES
-    ENVIRONMENT "DUNECITY_DATADIR=${CMAKE_SOURCE_DIR}/data;DUNE_CITY_SOURCE_DIR=${CMAKE_SOURCE_DIR}"
+    ENVIRONMENT "DUNELEGACY_DATADIR=${CMAKE_SOURCE_DIR}/data;DUNELEGACY_SOURCE_DIR=${CMAKE_SOURCE_DIR}"
 )
 
 # Copy test data to build directory
