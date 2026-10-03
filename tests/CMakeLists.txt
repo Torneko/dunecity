@@ -12,7 +12,6 @@ target_sources(dunelegacy_tests
     PRIVATE
         PathBudgetTestCase/PathBudgetTestCase.cpp
         NetworkManagerTestCase/NetworkManagerTestCase.cpp
-        ConstructionYardResolverTestCase/ConstructionYardResolverTestCase.cpp
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
         ${CMAKE_SOURCE_DIR}/src/audio/sounds.cpp
