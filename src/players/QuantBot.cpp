@@ -43,9 +43,6 @@
 #include <limits>
 #include <units/Carryall.h>
 
-#include <dunecity/CitySimulation.h>
-#include <dunecity/CityEffects.h>
-#include <dunecity/CityConstants.h>
 #include <Command.h>
 #include <CommandManager.h>
 
@@ -707,12 +704,7 @@ void QuantBot::update() {
 		attackTimer = std::numeric_limits<Sint32>::max();
 	}
 
-	if (cityBuildTimer <= 0) {
-		manageCityBuilding();
-		cityBuildTimer = AIUPDATEINTERVAL * 10;
-	} else {
-		cityBuildTimer -= AIUPDATEINTERVAL;
-	}
+
 }
 
 
@@ -1152,188 +1144,6 @@ Coord QuantBot::findPlaceLocation(Uint32 itemID) {
 			locationScore -= lround(blockDistance(baseCenter, Coord(placeLocationX, placeLocationY)));
 		}
 
-		// === CITY MODE: grid alignment + road spacing + zone-type scoring ===
-		if (currentGame && currentGame->isCitySimEnabled()) {
-
-			// Grid alignment: snap to a 3-cell grid (2-tile footprint +
-			// 1-tile road gap) anchored on the base centre. Positions
-			// that land on grid intersections get a massive bonus so the
-			// AI naturally builds in neat rows with roads between.
-			int gridOffsetX = ((placeLocationX - baseCenter.x) % 3 + 3) % 3;
-			int gridOffsetY = ((placeLocationY - baseCenter.y) % 3 + 3) % 3;
-			if (gridOffsetX == 0 && gridOffsetY == 0) {
-				locationScore += 80;  // strong grid alignment bonus
-			} else {
-				locationScore -= 40;  // off-grid penalty
-			}
-
-			// Road-spacing: check 4 sides for road / open / structure.
-			int sidesWithRoad = 0;
-			int sidesWithOpen = 0;
-			int sidesTouchingStructure = 0;
-
-			struct SideCheck { int startI, startJ, endI, endJ; };
-			SideCheck sides[4] = {
-				{ placeLocationX, placeLocationY - 1, placeLocationEndX, placeLocationY },
-				{ placeLocationX, placeLocationEndY, placeLocationEndX, placeLocationEndY + 1 },
-				{ placeLocationX - 1, placeLocationY, placeLocationX, placeLocationEndY },
-				{ placeLocationEndX, placeLocationY, placeLocationEndX + 1, placeLocationEndY }
-			};
-
-			for (const auto& side : sides) {
-				bool sideHasRoad = false, sideHasOpen = false, sideTouchesStruct = false;
-				for (int si = side.startI; si < side.endI; si++) {
-					for (int sj = side.startJ; sj < side.endJ; sj++) {
-						if (!getMap().tileExists(si, sj)) continue;
-						const Tile* t = getMap().getTile(si, sj);
-						if (t->isRoad()) sideHasRoad = true;
-						else if (t->hasAStructure() || t->hasCityZone()) sideTouchesStruct = true;
-						else if (t->isRock() && !t->isMountain() && !t->hasAGroundObject()) sideHasOpen = true;
-					}
-				}
-				if (sideHasRoad) sidesWithRoad++;
-				if (sideHasOpen) sidesWithOpen++;
-				if (sideTouchesStruct) sidesTouchingStructure++;
-			}
-
-			if (sidesWithRoad == 0 && sidesWithOpen == 0) {
-				continue;  // landlocked — skip
-			}
-			locationScore += sidesWithRoad * 25;
-			locationScore += sidesWithOpen * 5;
-			locationScore -= sidesTouchingStructure * 30;
-
-			// Zone-type proximity scoring:
-			// R/C avoid industrial pollution (radius 5) but want it
-			// within supply range (16). I clusters with itself and
-			// wants residential nearby for workers.
-			bool isResidential = (itemID == Structure_ZoneResidential);
-			bool isCommercial  = (itemID == Structure_ZoneCommercial);
-			bool isIndustrial  = (itemID == Structure_ZoneIndustrial);
-
-			if (isResidential || isCommercial || isIndustrial) {
-				int closestIndDist = 100;
-				int nearbyRes = 0, nearbyCom = 0, nearbyInd = 0;
-
-				for (const StructureBase* pStruct : getStructureList()) {
-					if (pStruct->getOwner() != getHouse()) continue;
-					int dist = lround(blockDistance(
-						Coord(placeLocationX, placeLocationY), pStruct->getLocation()));
-					if (dist > 16) continue;  // outside supply radius
-
-					int sid = pStruct->getItemID();
-					if (sid == Structure_ZoneIndustrial) {
-						nearbyInd++;
-						if (dist < closestIndDist) closestIndDist = dist;
-					}
-					if (sid == Structure_ZoneResidential) nearbyRes++;
-					if (sid == Structure_ZoneCommercial) nearbyCom++;
-				}
-
-				if (isResidential || isCommercial) {
-					auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-
-					// Penalty if within pollution radius of industrial
-					if (closestIndDist <= 5) {
-						locationScore -= 50;
-					}
-					// Bonus if industrial is reachable but outside pollution
-					else if (closestIndDist <= 16) {
-						locationScore += 20;
-					}
-
-					// Pollution density penalty (city sim layer)
-					if (citySim) {
-						const auto& polMap = citySim->getPollutionDensityMap();
-						int totalPollution = 0;
-						for (int px = placeLocationX; px < placeLocationEndX; px++) {
-							for (int py = placeLocationY; py < placeLocationEndY; py++) {
-								totalPollution += polMap.worldGet(px, py);
-							}
-						}
-						locationScore -= totalPollution / 10;
-					}
-
-					// Crime rate penalty (city sim layer)
-					if (citySim) {
-						const auto& crimeMap = citySim->getCrimeRateMap();
-						int totalCrime = 0;
-						for (int px = placeLocationX; px < placeLocationEndX; px++) {
-							for (int py = placeLocationY; py < placeLocationEndY; py++) {
-								totalCrime += crimeMap.worldGet(px, py);
-							}
-						}
-						locationScore -= totalCrime / 5;
-					}
-
-					// Sand adjacency bonus — higher land value near sand/desert
-					Coord zoneSize = getStructureSize(itemID);
-					int sandBonus = 0;
-					for (int adjX = placeLocationX - 1; adjX <= placeLocationX + zoneSize.x; adjX++) {
-						for (int adjY = placeLocationY - 1; adjY <= placeLocationY + zoneSize.y; adjY++) {
-							if (adjX >= placeLocationX && adjX < placeLocationX + zoneSize.x &&
-								adjY >= placeLocationY && adjY < placeLocationY + zoneSize.y)
-								continue;
-							if (getMap().tileExists(adjX, adjY) && getMap().getTile(adjX, adjY)->isSand())
-								sandBonus += 5;
-						}
-					}
-					locationScore += sandBonus;
-
-					if (isResidential) {
-						// Employment access: bonus if C or I zones reachable
-						if (nearbyCom > 0 || nearbyInd > 0) locationScore += 20;
-						// Extra for having both (mixed economy nearby)
-						if (nearbyCom > 0 && nearbyInd > 0) locationScore += 10;
-						// R ↔ C synergy
-						if (nearbyCom > 0) locationScore += 15;
-					}
-
-					if (isCommercial) {
-						// Commercial wants both R (customers) and I (supply) nearby
-						if (nearbyRes > 0) locationScore += 20;
-						if (nearbyInd > 0) locationScore += 15;
-						// Strong bonus for being between R and I
-						if (nearbyRes > 0 && nearbyInd > 0) locationScore += 15;
-					}
-				}
-
-				if (isIndustrial) {
-					// I clusters with other I (pollution doesn't affect I)
-					locationScore += nearbyInd * 10;
-
-					// I should stay away from R/C to avoid polluting them
-					// but within commute distance (6-16 tiles = sweet spot)
-					int closestResDist = 100;
-					int closestComDist = 100;
-					for (const StructureBase* pStruct : getStructureList()) {
-						if (pStruct->getOwner() != getHouse()) continue;
-						int sid = pStruct->getItemID();
-						int dist = lround(blockDistance(
-							Coord(placeLocationX, placeLocationY), pStruct->getLocation()));
-						if (sid == Structure_ZoneResidential && dist < closestResDist)
-							closestResDist = dist;
-						if (sid == Structure_ZoneCommercial && dist < closestComDist)
-							closestComDist = dist;
-					}
-
-					// Sweet spot: outside pollution radius but within commute
-					if (closestResDist >= 6 && closestResDist <= 16) {
-						locationScore += 25;
-					} else if (closestResDist < 6) {
-						locationScore -= 30;  // too close — will pollute residential
-					} else if (closestResDist > 16) {
-						locationScore -= 10;  // too far — no workers
-					}
-
-					if (closestComDist >= 6 && closestComDist <= 16) {
-						locationScore += 15;
-					} else if (closestComDist < 6) {
-						locationScore -= 20;  // too close to commercial
-					}
-				}
-			}
-		}
 
 				// Pick this location if it has the best score
 				if (locationScore > bestLocationScore) {
@@ -1538,76 +1348,7 @@ Coord QuantBot::findTurretPlaceLocation(Uint32 itemID) {
 	return bestLocation;
 }
 
-Coord QuantBot::findCityTurretPlaceLocation(Uint32 itemID) {
-	int newSizeX = getStructureSize(itemID).x;
-	int newSizeY = getStructureSize(itemID).y;
-
-	// Own-territory crime hotspot placement. Scans only tiles covered by
-	// the AI's own structures (full footprint, not just origin), then
-	// spirals outward from the hottest own-territory tile for a valid spot.
-	// This prevents the AI from chasing enemy crime across the map and
-	// instead suppresses crime in its own city. Also provides air defence
-	// as a side benefit of rocket turret placement.
-	auto* citySim = currentGame ? currentGame->getCitySimulation() : nullptr;
-	if (!citySim) return Coord::Invalid();
-
-	const auto& crimeMap = citySim->getCrimeRateMap();
-	const int mapW = getMap().getSizeX();
-	const int mapH = getMap().getSizeY();
-
-	int bestCrime = 0;
-	int hotspotX = -1, hotspotY = -1;
-
-	// Scan crime across the full footprint of every own structure.
-	for (const StructureBase* pStructure : getStructureList()) {
-		if (!pStructure || pStructure->getOwner() != getHouse())
-			continue;
-		Coord pos = pStructure->getStructureSize();
-		Coord loc = pStructure->getLocation();
-		for (int dy = 0; dy < pos.y; dy++) {
-			for (int dx = 0; dx < pos.x; dx++) {
-				int tx = loc.x + dx;
-				int ty = loc.y + dy;
-				if (tx < 0 || ty < 0 || tx >= mapW || ty >= mapH) continue;
-				int c = crimeMap.worldGet(tx, ty);
-				if (c > bestCrime) {
-					bestCrime = c;
-					hotspotX = tx;
-					hotspotY = ty;
-				}
-			}
-		}
-	}
-
-	if (hotspotX < 0) return Coord::Invalid();  // no own-territory crime
-
-	// Spiral search outward from the hotspot for a valid placement.
-	// Capped at a reasonable radius so we don't degenerate into a full
-	// map scan if the hotspot sits in a fully-built zone.
-	constexpr int kMaxSearchRadius = 16;
-	for (int r = 0; r <= kMaxSearchRadius; r++) {
-		for (int dy = -r; dy <= r; dy++) {
-			for (int dx = -r; dx <= r; dx++) {
-				if (std::max(std::abs(dx), std::abs(dy)) != r) continue;  // ring at radius r
-				int x = hotspotX + dx;
-				int y = hotspotY + dy;
-				if (x < 0 || y < 0 || x + newSizeX > mapW || y + newSizeY > mapH) continue;
-				if (getMap().okayToPlaceStructure(x, y, newSizeX, newSizeY, false,
-						getHouse(), false, itemID)) {
-					return Coord(x, y);
-				}
-			}
-		}
-	}
-
-	return Coord::Invalid();
-}
-
 Coord QuantBot::findEffectiveTurretPlaceLocation(Uint32 itemID) {
-	if (currentGame && currentGame->isCitySimEnabled()) {
-		Coord loc = findCityTurretPlaceLocation(itemID);
-		if (loc.isValid()) return loc;
-	}
 	return findTurretPlaceLocation(itemID);
 }
 
@@ -1755,27 +1496,6 @@ void QuantBot::build(int militaryValue) {
 
 	int money = getHouse()->getCredits();
 
-	// Per-house city stats — CitySimulation now tracks these per player.
-	int ownResPop = 0, ownComPop = 0, ownIndPop = 0, ownTotalPop = 0;
-	int ownAvgLandValue = 0;
-	int16_t ownResValve = 0, ownComValve = 0, ownIndValve = 0;
-	bool ownHasStadium = false, ownHasAirport = false;
-	if (currentGame && currentGame->isCitySimEnabled()) {
-		auto* citySim = currentGame->getCitySimulation();
-		if (citySim) {
-			const auto& hs = citySim->getHouseState(getHouse()->getHouseID());
-			ownResPop = hs.resPop;
-			ownComPop = hs.comPop;
-			ownIndPop = hs.indPop;
-			ownTotalPop = hs.getTotalPop();
-			ownAvgLandValue = hs.avgLandValue;
-			ownResValve = hs.resValve;
-			ownComValve = hs.comValve;
-			ownIndValve = hs.indValve;
-			ownHasStadium = hs.hasStadium;
-			ownHasAirport = hs.hasAirport;
-		}
-	}
 
 	bool emitStatsLog = false;
 
@@ -4478,85 +4198,6 @@ void QuantBot::retreatAllUnits() {
                         }
                     }
                 } break;
-            }
-        }
-    }
-}
-
-void QuantBot::manageCityBuilding() {
-    if (!currentGame) return;
-    auto* citySim = currentGame->getCitySimulation();
-    if (!citySim || !citySim->isInitialized()) return;
-    if (!currentGameMap) return;
-
-    Coord baseCenter = findBaseCentre(getHouse()->getHouseID());
-    if (!baseCenter.isValid()) return;
-
-    // Zone structures are now built through the Construction Yard build
-    // order (see the Structure_ConstructionYard case in build()).  The old
-    // tile-flag approach (CMD_CITY_PLACE_ZONE without a backing structure)
-    // created phantom zones that runZoneGrowth() ignored (it requires an
-    // actual structure object) and that blocked real zone placement.
-    //
-    // Road placement remains here: roads are tile-level and don't need the
-    // Construction Yard pipeline.
-
-    // Place roads in the gaps between zones/structures. A tile gets a road
-    // when it is adjacent to a zone or structure on at least one side AND
-    // adjacent to an existing road or zone on at least one side (keeps the
-    // network continuous). Scan outward from base center.
-    int roadsPlaced = 0;
-    constexpr int MAX_ROADS_PER_ROUND = 8;
-    constexpr int CITY_RADIUS = 20;
-
-    static constexpr int dx4[] = { 0, 1, 0, -1 };
-    static constexpr int dy4[] = { -1, 0, 1, 0 };
-
-    for (int r = 1; r <= CITY_RADIUS && roadsPlaced < MAX_ROADS_PER_ROUND; r++) {
-        for (int angle = 0; angle < r * 8 && roadsPlaced < MAX_ROADS_PER_ROUND; angle++) {
-            int ox, oy;
-            int side = angle / (r * 2);
-            int pos = angle % (r * 2);
-            switch (side) {
-                case 0: ox = -r + pos; oy = -r; break;
-                case 1: ox = r; oy = -r + pos; break;
-                case 2: ox = r - pos; oy = r; break;
-                default: ox = -r; oy = r - pos; break;
-            }
-
-            int tx = baseCenter.x + ox;
-            int ty = baseCenter.y + oy;
-
-            if (tx < 0 || tx >= currentGameMap->getSizeX() || ty < 0 || ty >= currentGameMap->getSizeY()) continue;
-            if (!currentGameMap->tileExists(tx, ty)) continue;
-
-            Tile* tile = currentGameMap->getTile(tx, ty);
-            // Skip tiles that already have road, zone, structure, or aren't buildable
-            if (tile->isRoad() || tile->hasCityZone() || tile->hasAStructure()) continue;
-            if (!tile->isRock() || tile->isMountain()) continue;
-            // Allow rubble tiles (destroyed structures) — road clears the rubble
-            if (tile->hasAGroundObject() && tile->getDestroyedStructureTile() == DestroyedStructure_None) continue;
-
-            bool nearStructure = false;
-            bool nearRoadOrStructure = false;
-            for (int d = 0; d < 4; d++) {
-                int nx = tx + dx4[d];
-                int ny = ty + dy4[d];
-                if (nx < 0 || nx >= currentGameMap->getSizeX() || ny < 0 || ny >= currentGameMap->getSizeY()) continue;
-                if (!currentGameMap->tileExists(nx, ny)) continue;
-                const Tile* nb = currentGameMap->getTile(nx, ny);
-                if (nb->hasCityZone() || nb->hasAStructure()) nearStructure = true;
-                if (nb->isRoad() || nb->hasCityZone() || nb->hasAStructure()) nearRoadOrStructure = true;
-            }
-
-            // Place road if tile is next to a structure AND connects to
-            // existing road network or another structure
-            if (nearStructure && nearRoadOrStructure) {
-                currentGame->getCommandManager().addCommand(
-                    Command(getPlayerID(), CMD_CITY_TOOL,
-                            static_cast<Uint32>(tx), static_cast<Uint32>(ty),
-                            static_cast<Uint32>(1)));
-                roadsPlaced++;
             }
         }
     }
