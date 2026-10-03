@@ -559,50 +559,6 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeStructs_Scoutpost.setTooltipText(resolveItemName(Structure_Scoutpost));
     editorModeStructs_Scoutpost.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Scoutpost));
 
-    // DuneCity: expose SimCity-style buildings (R/C/I zones, Road, nuclear
-    // plant) in the editor when the dune city mod is the active mod. Always
-    // wire the click handlers + tooltips so the existing toggle/symbol code
-    // paths can address these buttons uniformly; only the layout add is
-    // conditional. Two rows so the 3-wide Nuclear sprite doesn't overflow
-    // the sidebar width.
-    editorModeStructs_ZoneResidential.setToggleButton(true);
-    editorModeStructs_ZoneResidential.setTooltipText(resolveItemName(Structure_ZoneResidential));
-    editorModeStructs_ZoneResidential.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_ZoneResidential));
-
-    editorModeStructs_ZoneCommercial.setToggleButton(true);
-    editorModeStructs_ZoneCommercial.setTooltipText(resolveItemName(Structure_ZoneCommercial));
-    editorModeStructs_ZoneCommercial.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_ZoneCommercial));
-
-    editorModeStructs_ZoneIndustrial.setToggleButton(true);
-    editorModeStructs_ZoneIndustrial.setTooltipText(resolveItemName(Structure_ZoneIndustrial));
-    editorModeStructs_ZoneIndustrial.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_ZoneIndustrial));
-
-    editorModeStructs_Road.setToggleButton(true);
-    editorModeStructs_Road.setTooltipText(resolveItemName(Structure_Road));
-    editorModeStructs_Road.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Road));
-
-    editorModeStructs_NuclearPlant.setToggleButton(true);
-    editorModeStructs_NuclearPlant.setTooltipText(resolveItemName(Structure_NuclearPlant));
-    editorModeStructs_NuclearPlant.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_NuclearPlant));
-
-    cityStructsVisible_ = ModManager::instance().isCityModeActive();
-    if(cityStructsVisible_) {
-        // Row 1: R/C/I zones (three 2x2-tile buttons).
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxCityZones, 2*D2_TILESIZE + 4);
-        editorModeStructs_HBoxCityZones.addWidget(&editorModeStructs_ZoneResidential);
-        editorModeStructs_HBoxCityZones.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxCityZones.addWidget(&editorModeStructs_ZoneCommercial);
-        editorModeStructs_HBoxCityZones.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxCityZones.addWidget(&editorModeStructs_ZoneIndustrial);
-
-        // Row 2: Road (1x1) + NuclearPlant (3x3). Three-tile-tall row matches
-        // Nuclear; the smaller Road button is vertically centered by HBox.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxCityInfra, 3*D2_TILESIZE + 4);
-        editorModeStructs_HBoxCityInfra.addWidget(&editorModeStructs_Road);
-        editorModeStructs_HBoxCityInfra.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxCityInfra.addWidget(&editorModeStructs_NuclearPlant);
-    }
-
     if(tornieContentVisible_) {
         // Tornie custom structures: two buttons per row keep the sidebar compact,
         // and the small Scoutpost is centered by the resized SymbolButton.
@@ -1253,11 +1209,6 @@ void MapEditorInterface::onStructButton(int structType) {
     editorModeStructs_TechCenter.setToggleState( (structType == Structure_TechCenter) );
     editorModeStructs_Scoutpost.setToggleState( (structType == Structure_Scoutpost) );
 
-    editorModeStructs_ZoneResidential.setToggleState( (structType == Structure_ZoneResidential) );
-    editorModeStructs_ZoneCommercial.setToggleState( (structType == Structure_ZoneCommercial) );
-    editorModeStructs_ZoneIndustrial.setToggleState( (structType == Structure_ZoneIndustrial) );
-    editorModeStructs_Road.setToggleState( (structType == Structure_Road) );
-    editorModeStructs_NuclearPlant.setToggleState( (structType == Structure_NuclearPlant) );
 
     if(structType >= 0) {
         HOUSETYPE house = (HOUSETYPE) houseDropDownBox.getSelectedEntryIntData();
@@ -1517,11 +1468,6 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeStructs_TechCenter.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_TechCenter, newHouse));
     editorModeStructs_Scoutpost.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Scoutpost, newHouse));
 
-    editorModeStructs_ZoneResidential.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ZoneResidential, newHouse));
-    editorModeStructs_ZoneCommercial.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ZoneCommercial, newHouse));
-    editorModeStructs_ZoneIndustrial.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_ZoneIndustrial, newHouse));
-    editorModeStructs_Road.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Road, newHouse));
-    editorModeStructs_NuclearPlant.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_NuclearPlant, newHouse));
 
     editorModeUnits_Soldier.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Soldier, newHouse));
     editorModeUnits_Trooper.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Trooper, newHouse));
