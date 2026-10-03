@@ -81,7 +81,7 @@ if(WIN32)
 endif()
 
 # Precompiled headers
-if(DUNECITY_ENABLE_PCH AND WIN32 AND MSVC)
+if(DUNELEGACY_ENABLE_PCH AND WIN32 AND MSVC)
     target_precompile_headers(dunelegacy
         PRIVATE
             ${PCH_HEADER}
