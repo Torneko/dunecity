@@ -45,6 +45,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Audit legacy DuneCity references
+        shell: bash
+        run: |
+          set -e
+          if grep -RInE 'DuneCity|Dune City|dunecity' \
+              src include tests config mods scripts CMakeLists.txt \
+              --exclude='ChangeLog' --exclude='*.md' --exclude='*.txt'; then
+            echo "::error::Legacy DuneCity reference found in active project files."
+            exit 1
+          fi
+
       - name: Install test dependencies
         run: |
           sudo apt-get update
