@@ -68,21 +68,12 @@ SDL_Texture* resolveItemPicture(int itemID, HOUSETYPE house) {
         case Structure_Wall:                newPicID = Picture_Wall;                break;
         case Structure_WindTrap:            newPicID = Picture_WindTrap;            break;
         case Structure_WOR:                 newPicID = Picture_WOR;                 break;
-        case Structure_NuclearPlant:        newPicID = Picture_NuclearPlant;        break;
-        case Structure_PoliceStation:       newPicID = Picture_PoliceStation;       break;
-        case Structure_Stadium:            newPicID = Picture_Stadium;             break;
-        case Structure_Airport:            newPicID = Picture_Airport;             break;
         case Structure_AdvancedWindTrap:   newPicID = Picture_AdvancedWindTrap;    break;
         case Structure_AdvancedWindTrapMK2:newPicID = Picture_AdvancedWindTrap;    break;
         case Structure_AdvancedWindTrapMK3:newPicID = Picture_AdvancedWindTrap;    break;
         case Structure_Worfinery:          newPicID = Picture_Worfinery;           break;
         case Structure_TechCenter:         newPicID = Picture_TechCenter;          break;
         case Structure_Scoutpost:          newPicID = Picture_Scoutpost;           break;
-        case Structure_ZoneResidential:    newPicID = Picture_ZoneResidential;    break;
-        case Structure_ZoneCommercial:     newPicID = Picture_ZoneCommercial;     break;
-        case Structure_ZoneIndustrial:     newPicID = Picture_ZoneIndustrial;     break;
-        case Structure_Road:               newPicID = Picture_Road;               break;
-        case Structure_PowerLine:          newPicID = Picture_PowerLine;          break;
 
         case Unit_Carryall:                 newPicID = Picture_Carryall;            break;
         case Unit_Devastator:               newPicID = Picture_Devastator;          break;
