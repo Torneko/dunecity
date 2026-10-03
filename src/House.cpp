@@ -35,7 +35,6 @@
 
 #include <structures/StructureBase.h>
 #include <structures/BuilderBase.h>
-#include <structures/ZoneStructure.h>
 #include <structures/Refinery.h>
 #include <structures/HarvesterDropoff.h>
 #include <structures/ConstructionYard.h>
@@ -794,42 +793,6 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
 
             newStructure->setLocation(xPos, yPos);
 
-            // DuneCity: when city-sim mode is active, auto-pave a 1-tile
-            // road ring around any freshly-placed building (zones AND
-            // regular Dune structures like Refineries/Barracks/etc.) so
-            // every plot is road-accessible by default — the SimCity
-            // "zone with road frontage" pattern, generalised. Only empty
-            // rock tiles get the flag; sand, mountain, and tiles with
-            // existing ground objects are skipped. The structure's own
-            // footprint tiles get any prior road flag cleared so the
-            // auto-tiled road overlay doesn't render under the building
-            // art. Players can still place buildings on top of these
-            // auto-roads later (road is a tile flag, not a StructureBase).
-            if (currentGame && currentGame->isCitySimEnabled() && itemID != Structure_Wall) {
-                const int sx = newStructure->getStructureSizeX();
-                const int sy = newStructure->getStructureSizeY();
-                for (int dy = 0; dy < sy; ++dy) {
-                    for (int dx = 0; dx < sx; ++dx) {
-                        if (Tile* t = currentGameMap->getTile(xPos + dx, yPos + dy)) {
-                            t->setRoad(false);
-                        }
-                    }
-                }
-                for (int dy = -1; dy <= sy; ++dy) {
-                    for (int dx = -1; dx <= sx; ++dx) {
-                        const bool onFootprint = (dx >= 0 && dx < sx && dy >= 0 && dy < sy);
-                        if (onFootprint) continue;
-                        const int tx = xPos + dx;
-                        const int ty = yPos + dy;
-                        if (!currentGameMap->tileExists(tx, ty)) continue;
-                        Tile* t = currentGameMap->getTile(tx, ty);
-                        if (t->hasAGroundObject()) continue;
-                        if (t->getType() != Terrain_Rock) continue;
-                        t->setRoad(true);
-                    }
-                }
-            }
-
             if ((builderID != NONE_ID) && (itemID != Structure_Wall)) {
                 newStructure->setJustPlaced();
             }
@@ -861,17 +824,6 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
                     }
                     pLocalPlayer->onPlaceStructure(newStructure);
 
-                    // DuneCity: Check for first zone milestone
-                    if (newStructure != nullptr && currentGame != nullptr) {
-                        auto* citySim = currentGame->getCitySimulation();
-                        if (citySim != nullptr && !citySim->wasFirstZoneMilestoneTriggered()) {
-                            // Check if this is a zone structure (R/C/I)
-                            ZoneStructure* pZone = dynamic_cast<ZoneStructure*>(newStructure);
-                            if (pZone != nullptr) {
-                                citySim->onFirstZoneBuilt();
-                            }
-                        }
-                    }
                 }
 
                 // only if we were constructed by construction yard
