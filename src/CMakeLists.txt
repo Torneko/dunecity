@@ -511,20 +511,6 @@ if(APPLE)
 
     add_copy_tornie_mod_reference("${BUNDLE_RESOURCES_DIR}")
 
-    # Copy imported Micropolis-derived zone sprites into the bundle so they
-    # are found by getDuneLegacyDataDir() + "imported_sprites/..." at runtime.
-    set(IMPORTED_SPRITES_SRC "${CMAKE_SOURCE_DIR}/imported_sprites")
-    if(EXISTS "${IMPORTED_SPRITES_SRC}")
-        add_custom_command(
-            TARGET dunelegacy
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${IMPORTED_SPRITES_SRC}"
-                "${BUNDLE_RESOURCES_DIR}/imported_sprites"
-            COMMENT "Copying imported sprites into app bundle Resources"
-        )
-    endif()
-
     # Code sign the app bundle with ad-hoc signature
     # This is required for macOS Gatekeeper to allow the app to run when downloaded
     # Without proper signing, users get "app is damaged and can't be opened" error
@@ -564,18 +550,6 @@ else()
 
     add_copy_tornie_mod_reference("${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
 
-    # Copy imported zone sprites next to the binary for non-bundle builds
-    set(IMPORTED_SPRITES_SRC "${CMAKE_SOURCE_DIR}/imported_sprites")
-    if(EXISTS "${IMPORTED_SPRITES_SRC}")
-        add_custom_command(
-            TARGET dunelegacy
-            POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-                "${IMPORTED_SPRITES_SRC}"
-                "${CMAKE_BINARY_DIR}/bin/imported_sprites"
-            COMMENT "Copying imported sprites to build output"
-        )
-    endif()
 endif()
 
 # Install data directory
@@ -621,27 +595,6 @@ elseif(NOT APPLE)
         DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}
         FILES_MATCHING PATTERN "*.*"
     )
-endif()
-
-# Install imported sprite assets (Micropolis-derived civic/zone PNGs).
-# macOS bundles already include these via the POST_BUILD copy above.
-# Windows and Linux packaged builds need an explicit install rule so CPack
-# bundles the PNGs into the installer — without this, getDuneLegacyDataDir()
-# + "imported_sprites/..." finds nothing and civic sprites fall back to
-# placeholders (or crash on older builds).
-set(IMPORTED_SPRITES_SRC "${CMAKE_SOURCE_DIR}/imported_sprites")
-if(EXISTS "${IMPORTED_SPRITES_SRC}")
-    if(WIN32)
-        install(
-            DIRECTORY "${IMPORTED_SPRITES_SRC}/"
-            DESTINATION imported_sprites
-        )
-    elseif(NOT APPLE)
-        install(
-            DIRECTORY "${IMPORTED_SPRITES_SRC}/"
-            DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/imported_sprites
-        )
-    endif()
 endif()
 
 if(EXISTS "${TORNIE_MOD_DIR}")
