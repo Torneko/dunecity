@@ -306,6 +306,8 @@ public:
         update_impl();
     }
 
+    void update_impl();
+
     void clearTerrain();
 
     void setTrack(Uint8 direction);
