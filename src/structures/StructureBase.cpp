@@ -33,7 +33,6 @@
 #include <units/UnitBase.h>
 
 #include <GUI/ObjectInterfaces/DefaultStructureInterface.h>
-#include <GUI/ObjectInterfaces/CityStatsStructureInterface.h>
 
 #include <set>
 #include <tuple>
@@ -146,11 +145,6 @@ void StructureBase::assignToMap(const Coord& pos) {
             if(currentGameMap->tileExists(i, j)) {
                 Tile* pTile = currentGameMap->getTile(i,j);
                 pTile->assignNonInfantryGroundObject(getObjectID());
-                // Clear road flag when a structure is placed on a road tile,
-                // so the tile is no longer rendered/treated as a road.
-                if(pTile->isRoad()) {
-                    pTile->setRoad(false);
-                }
                 if(!pTile->isConcrete() && currentGame->getGameInitSettings().getGameOptions().concreteRequired && (currentGame->gameState != GameState::Start)) {
                     bFoundNonConcreteTile = true;
 
@@ -281,13 +275,6 @@ void StructureBase::blitToScreen() {
 
 ObjectInterface* StructureBase::getInterfaceContainer() {
     if((pLocalHouse == owner) || (debug == true)) {
-        // Non-builder structures with no specific interface (Wall, GunTurret,
-        // RocketTurret, IX, NuclearPlant) get the city-sim stats panel when
-        // city sim is active. Builder structures use BuilderInterface from
-        // BuilderBase, so they bypass this entirely.
-        if (currentGame && currentGame->isCitySimEnabled() && !isABuilder()) {
-            return CityStatsStructureInterface::create(objectID);
-        }
         return DefaultStructureInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);
