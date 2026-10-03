@@ -21,7 +21,6 @@
 #include <DataTypes.h>
 #include <mmath.h>
 #include <data.h>
-#include <dunecity/CityConstants.h>
 
 #include <misc/InputStream.h>
 #include <misc/OutputStream.h>
@@ -515,17 +514,7 @@ private:
     Uint32      lastAccess[NUM_TEAMS];    ///< contains for every team when this tile was seen last by this house
     bool        explored[NUM_TEAMS];      ///< contains for every team if this tile is explored
 
-    // --- DuneCity overlay fields ---
-    DuneCity::ZoneType  cityZoneType_ = DuneCity::ZoneType::None;
-    uint8_t             cityZoneDensity_ = 0;   ///< population level within zone (0-8)
-    uint16_t            cityTileId_ = 0;        ///< Micropolis-style tile character
-    bool                cityPowered_ = false;   ///< connected to power grid (legacy; power flows globally now)
-    bool                isRoad_ = false;        ///< a player-placed Road structure occupies this tile
 
-    void update_impl();
-
-    template<typename Pred>
-    void selectFilter(int houseID, ObjectBase** lastCheckedObject, ObjectBase** lastSelectedObject, Pred&& predicate);
 };
 
 
