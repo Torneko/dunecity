@@ -2,7 +2,7 @@ name: Build Dune Legacy
 
 on:
   push:
-    branches: [ main, release-*, tornie-beta ]
+    branches: [ main, release-*, tornie-beta, dunelegacy-tornie ]
     tags:     [ 'v*' ]
   pull_request:
     branches: [ main ]
@@ -30,7 +30,7 @@ jobs:
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           echo "Tag version: $TAG_VERSION"
           bash scripts/bump-version.sh --check
-          SOURCE_VERSION=$(sed -n 's/^project(DuneCity VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
+          SOURCE_VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
           if [ "$SOURCE_VERSION" != "$TAG_VERSION" ]; then
             echo "::error::Version mismatch: tag is v${TAG_VERSION} but source metadata says ${SOURCE_VERSION}."
             echo "::error::Commit the version bump with 'scripts/bump-version.sh ${TAG_VERSION}' before tagging."
@@ -97,7 +97,7 @@ jobs:
       - name: Upload Installer
         uses: actions/upload-artifact@v4
         with:
-          name: DuneCity-Windows-Installer
+          name: DuneLegacyTornie-Windows-Installer
           path: build/*.zip
 
   build-macos:
@@ -199,19 +199,19 @@ jobs:
           ARCH=x86_64 FUSE_APPIMAGE_EXTRACT_AND_RUN=1 \
             ../linuxdeploy-x86_64.AppImage \
             --appdir AppDir \
-            --executable AppDir/usr/bin/dunecity \
+            --executable AppDir/usr/bin/dunelegacy \
             --desktop-file AppDir/usr/share/applications/dunecity.desktop \
             --icon-file AppDir/usr/share/icons/hicolor/128x128/apps/dunecity.png \
             --output appimage
 
           # Rename with version for clarity
-          VERSION=$(sed -n 's/^project(DuneCity VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' ../CMakeLists.txt)
-          mv DuneCity-*.AppImage "DuneCity-${VERSION}-Linux-x86_64.AppImage" 2>/dev/null || true
+          VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' ../CMakeLists.txt)
+          mv DuneLegacyTornie-*.AppImage "DuneLegacyTornie-${VERSION}-Linux-x86_64.AppImage" 2>/dev/null || true
 
       - name: Upload Packages
         uses: actions/upload-artifact@v4
         with:
-          name: DuneCity-Linux-Packages
+          name: DuneLegacyTornie-Linux-Packages
           path: |
             build/*.deb
             build/*.rpm
@@ -236,28 +236,28 @@ jobs:
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-Windows-Installer
+          name: DuneLegacyTornie-Windows-Installer
           path: dist/windows
 
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-macOS-DMG
+          name: DuneLegacyTornie-macOS-DMG
           path: dist/macos
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-Linux-Packages
+          name: DuneLegacyTornie-Linux-Packages
           path: dist/linux
 
       - name: Update latest-dev release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=$(sed -n 's/^project(DuneCity VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
+          VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
           SHA="${GITHUB_SHA::8}"
           NOTES="Dev build v${VERSION} (${SHA})\n\nAuto-built from main @ $(date -u '+%Y-%m-%d %H:%M UTC')\n\n**Downloads** (attached below)"
 
@@ -294,28 +294,28 @@ jobs:
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-Windows-Installer
+          name: DuneLegacyTornie-Windows-Installer
           path: dist/windows
 
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-macOS-DMG
+          name: DuneLegacyTornie-macOS-DMG
           path: dist/macos
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-Linux-Packages
+          name: DuneLegacyTornie-Linux-Packages
           path: dist/linux
 
       - name: Update tornie-beta release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          VERSION=$(sed -n 's/^project(DuneCity VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
+          VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
           SHA="${GITHUB_SHA::8}"
           NOTES="Tornie Mod beta v${VERSION} (${SHA})\n\nAuto-built from tornie-beta @ $(date -u '+%Y-%m-%d %H:%M UTC')\n\nThe Tornie mod is bundled as the active mod. Use the in-game Mod menu to switch back to vanilla or to Tornie.\n\n**Downloads** (attached below)"
 
@@ -351,21 +351,21 @@ jobs:
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
-          name: DuneCity-Windows-Installer
+          name: DuneLegacyTornie-Windows-Installer
           path: dist/windows
 
       - name: Download macOS artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-macOS-DMG
+          name: DuneLegacyTornie-macOS-DMG
           path: dist/macos
 
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          name: DuneCity-Linux-Packages
+          name: DuneLegacyTornie-Linux-Packages
           path: dist/linux
 
       - name: Create or update GitHub Release
