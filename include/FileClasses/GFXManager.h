@@ -154,7 +154,7 @@ static const std::array<std::string, NUM_OBJPICS> ObjPicNames =  { { "Tank_Base"
     "ExplosionMedium2", "ExplosionLarge1", "ExplosionLarge2", "ExplosionSmallUnit", "ExplosionFlames", "ExplosionSpiceBloom",
     "DeadInfantry", "DeadAirUnit", "Smoke", "SandwormShimmerMask", "SandwormShimmerTemp", "Terrain", "Terrain_GreenSpice", "Terrain_RedSpice", "DestroyedStructure", "RockDamage",
     "SandDamage", "Terrain_Hidden", "Terrain_HiddenFog", "Terrain_Tracks", "Star", "RebelHarvester", "Worfinery", "TechCenter", "Scoutpost",
-    "ZoneResidential", "ZoneCommercial", "ZoneIndustrial", "CityRoad", "NuclearPlant", "PoliceStation",
+    "LegacyReserved01", "LegacyReserved02", "LegacyReserved03", "LegacyReserved04", "LegacyReserved05", "LegacyReserved06",
     "Stadium", "Airport", "Hospital", "Church", "SonicTrike", "EliteLauncherGunTornie", "RebelSonicTankGun",
     "HarvestankGunTornie" } };
 
@@ -598,7 +598,7 @@ public:
     zoomable_texture getObjPic(unsigned int id, int house=HOUSE_HARKONNEN);
     bool             hasObjPic(unsigned int id, int house=HOUSE_HARKONNEN, unsigned int z=0) const;
 
-    // DuneCity 1.0.487: invalidate sprite texture cache
+    // Invalidate sprite texture cache when runtime assets change
     // (objPicTex + objPic, NOT uiGraphic). Re-applied per
     // Tornie's OOB 'ajouter ces fonctions aussi'.
     void invalidateAllSpriteTextures();
