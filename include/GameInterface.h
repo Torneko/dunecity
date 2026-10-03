@@ -28,7 +28,6 @@
 #include <GUI/Label.h>
 #include <GUI/dune/ChatManager.h>
 #include <GUI/dune/NewsTicker.h>
-#include <GUI/dune/DisasterNotification.h>
 
 #include <vector>
 #include <functional>
@@ -84,7 +83,6 @@ public:
         \param  durationSeconds duration in seconds
         \param  affectedCount   number of zones affected
     */
-    virtual void addDisasterNotification(DisasterType type, const std::string& message, int durationSeconds, int affectedCount);
 
     /**
         Returns the radar view
@@ -104,14 +102,8 @@ public:
     */
     virtual void updateObjectInterface();
 
-    /**
-        Toggle the city stats HUD overlay
-    */
-    void toggleCityStatsOverlay() { showCityStatsOverlay = !showCityStatsOverlay; }
-
 private:
     void removeOldContainer();
-    void drawCityStatsOverlay();
 
 
     ObjectInterface*    pObjectContainer;       ///< The container holding information about the currently selected unit/structure
@@ -123,7 +115,6 @@ private:
     NewsTicker          newsticker;             ///< The newsticker showing news on the game (e.g. new starport prices, harvester fill level, etc.)
     PictureButton       optionsButton;          ///< Button for accessing the ingame menu
     PictureButton       mentatButton;           ///< Button for accessing the mentat menu
-    TextButton          budgetButton;           ///< City sim mode only: opens the budget mini-window
     PictureLabel        topBar;                 ///< The background of the top bar
 
     PictureLabel        sideBar;                ///< The background of the side bar
@@ -133,16 +124,7 @@ private:
     ChatManager         chatManager;            ///< Manages chat manages shown overlayed with the main map
     TextButton          ornithopterSelectButton;///< Button that selects all owned ornithopters
 
-    bool                showCityStatsOverlay;   ///< Whether to show the city stats overlay
-
     Label               modVersionLabel;        ///< Bottom-right "<active mod>\nv<VERSION>" watermark, mirrors the main menu.
-    Label               populationLabel;        ///< Always-visible "Pop: N" pill (city sim mode only). Refreshed in update().
-    Label               rciDemandLabel;         ///< RCI demand readout (city sim mode only), sits just below populationLabel.
-    int                 lastShownPopulation = -1; ///< Tracks last value pushed to populationLabel; avoids redundant setText.
-    int                 lastShownResValve = INT_MIN; ///< Tracks last RCI snapshot pushed to rciDemandLabel.
-    int                 lastShownComValve = INT_MIN;
-    int                 lastShownIndValve = INT_MIN;
 
-    std::vector<std::unique_ptr<DisasterNotification>> disasterNotifications_;
 };
     #endif // GAMEINTERFACE_H
