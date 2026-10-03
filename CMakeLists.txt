@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Project name and version
-project(DuneCity VERSION 1.0.522 LANGUAGES C CXX)
+project(DuneLegacyTornie VERSION 1.0.522 LANGUAGES C CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -139,7 +139,7 @@ if(NOT APPLE)
     )
 
     # Add dependency to ensure data files are copied after main target is built
-    add_dependencies(copy_data dunecity)
+    add_dependencies(copy_data dunelegacy)
 endif()
 
 
@@ -176,7 +176,7 @@ if(NOT APPLE)
         install(FILES
             config/ObjectData.ini.default
             "config/QuantBot Config.ini.default"
-            "config/Dune City.ini"
+            "config/Dune Legacy.ini"
             config/README.md
             DESTINATION ${DUNECITY_CONFIG_DIR}
         )
@@ -225,7 +225,7 @@ endif()
 
 # CPack configuration for packaging
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
-set(CPACK_PACKAGE_VENDOR "Dune City Team")
+set(CPACK_PACKAGE_VENDOR "Tornie")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${PROJECT_DESCRIPTION})
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
 set(CPACK_PACKAGE_HOMEPAGE_URL ${PROJECT_HOMEPAGE_URL})
@@ -238,13 +238,13 @@ if(WIN32)
     set(CPACK_NSIS_MODIFY_PATH OFF)
     set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/dunecity.ico")
     set(CPACK_NSIS_MUI_UNIICON "${CMAKE_CURRENT_SOURCE_DIR}/dunecity.ico")
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "dunecity.exe")
-    set(CPACK_NSIS_DISPLAY_NAME "Dune City")
-    set(CPACK_NSIS_PACKAGE_NAME "Dune City")
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY "DuneCity")
-    set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-Windows-x64")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "dunelegacy.exe")
+    set(CPACK_NSIS_DISPLAY_NAME "Dune Legacy Tornie")
+    set(CPACK_NSIS_PACKAGE_NAME "Dune Legacy Tornie")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "DuneLegacyTornie")
+    set(CPACK_PACKAGE_FILE_NAME "DuneLegacyTornie-${PROJECT_VERSION}-Windows-x64")
     set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "dunecity.exe")
+    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "dunelegacy.exe")
 
     # Add checkbox to view release notes on finish page
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
@@ -264,12 +264,12 @@ if(WIN32)
 
     # Create Start Menu shortcuts
     set(CPACK_NSIS_CREATE_ICONS_EXTRA "
-        CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Dune City.lnk\\\" \\\"$INSTDIR\\\\dunecity.exe\\\"
+        CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Dune Legacy Tornie.lnk\\\" \\\"$INSTDIR\\\\dunecity.exe\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Release Notes.lnk\\\" \\\"$INSTDIR\\\\Release_Notes.md\\\"
         CreateShortCut \\\"$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Readme.lnk\\\" \\\"$INSTDIR\\\\README\\\"
     ")
     set(CPACK_NSIS_DELETE_ICONS_EXTRA "
-        Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Dune City.lnk\\\"
+        Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Dune Legacy Tornie.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Release Notes.lnk\\\"
         Delete \\\"$SMPROGRAMS\\\\$MUI_TEMP\\\\Readme.lnk\\\"
     ")
@@ -293,9 +293,9 @@ if(WIN32)
     )
 elseif(APPLE)
     set(CPACK_GENERATOR "DragNDrop")
-    set(CPACK_DMG_VOLUME_NAME "Dune City ${PROJECT_VERSION}")
+    set(CPACK_DMG_VOLUME_NAME "Dune Legacy Tornie ${PROJECT_VERSION}")
     set(CPACK_DMG_FORMAT "UDZO")  # Compressed
-    set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-macOS")
+    set(CPACK_PACKAGE_FILE_NAME "DuneLegacyTornie-${PROJECT_VERSION}-macOS")
     set(MACOSX_BUNDLE_ICON_FILE "dunecity.icns")
 
     # Install README and release notes to DMG root (not inside .app)
@@ -321,20 +321,20 @@ elseif(APPLE)
         COMMAND ${CMAKE_COMMAND} -E echo "Building binary..."
         COMMAND ${CMAKE_COMMAND} --build . --config Release
         COMMAND ${CMAKE_COMMAND} -E echo "Cleaning old DMG and staging..."
-        COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_BINARY_DIR}/DuneCity-${PROJECT_VERSION}-macOS.dmg
-        COMMAND ${CMAKE_COMMAND} -E remove_directory /tmp/dunecity_dmg_staging
+        COMMAND ${CMAKE_COMMAND} -E remove ${CMAKE_BINARY_DIR}/DuneLegacyTornie-${PROJECT_VERSION}-macOS.dmg
+        COMMAND ${CMAKE_COMMAND} -E remove_directory /tmp/dunelegacy_tornie_dmg_staging
         COMMAND ${CMAKE_COMMAND} -E echo "Staging files for DMG..."
-        COMMAND ${CMAKE_COMMAND} -E make_directory /tmp/dunecity_dmg_staging
-        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/bin/dunecity.app /tmp/dunecity_dmg_staging/dunecity.app
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/README /tmp/dunecity_dmg_staging/README
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/release_notes/RELEASE_NOTES.md /tmp/dunecity_dmg_staging/Release\\ Notes.md
+        COMMAND ${CMAKE_COMMAND} -E make_directory /tmp/dunelegacy_tornie_dmg_staging
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/bin/dunelegacy.app /tmp/dunelegacy_tornie_dmg_staging/dunelegacy.app
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/README /tmp/dunelegacy_tornie_dmg_staging/README
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/release_notes/RELEASE_NOTES.md /tmp/dunelegacy_tornie_dmg_staging/Release\\ Notes.md
         COMMAND ${CMAKE_COMMAND} -E echo "Creating Applications symlink for drag-and-drop install..."
-        COMMAND ln -sf /Applications /tmp/dunecity_dmg_staging/Applications
+        COMMAND ln -sf /Applications /tmp/dunelegacy_tornie_dmg_staging/Applications
         COMMAND ${CMAKE_COMMAND} -E echo "Creating DMG with hdiutil..."
-        COMMAND hdiutil create -volname "Dune City ${PROJECT_VERSION}" -srcfolder /tmp/dunecity_dmg_staging -ov -format UDZO ${CMAKE_BINARY_DIR}/DuneCity-${PROJECT_VERSION}-macOS.dmg
+        COMMAND hdiutil create -volname "Dune Legacy Tornie ${PROJECT_VERSION}" -srcfolder /tmp/dunelegacy_tornie_dmg_staging -ov -format UDZO ${CMAKE_BINARY_DIR}/DuneLegacyTornie-${PROJECT_VERSION}-macOS.dmg
         COMMAND ${CMAKE_COMMAND} -E echo "Cleaning up staging..."
-        COMMAND ${CMAKE_COMMAND} -E remove_directory /tmp/dunecity_dmg_staging
-        COMMAND ${CMAKE_COMMAND} -E echo "DMG created: DuneCity-${PROJECT_VERSION}-macOS.dmg"
+        COMMAND ${CMAKE_COMMAND} -E remove_directory /tmp/dunelegacy_tornie_dmg_staging
+        COMMAND ${CMAKE_COMMAND} -E echo "DMG created: DuneLegacyTornie-${PROJECT_VERSION}-macOS.dmg"
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
         COMMENT "Building macOS DMG installer (manual hdiutil - bypasses CPack caching issues)..."
     )
@@ -342,13 +342,13 @@ else()
     set(CPACK_GENERATOR "DEB;RPM;TGZ")
     set(CPACK_DEBIAN_PACKAGE_SECTION "games")
     # SDL2, SDL2_mixer, SDL2_ttf, curl, miniupnpc, and discord-rpc are all
-    # bundled from vcpkg into lib/dunecity/ — do not declare them as system
+    # bundled from vcpkg into lib/dunelegacy/ — do not declare them as system
     # package dependencies. Only the baseline C/C++ runtime is required.
     set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.17), libstdc++6 (>= 6)")
-    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Dune City Team")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Tornie")
     set(CPACK_RPM_PACKAGE_LICENSE "GPL-2.0+")
     set(CPACK_RPM_PACKAGE_GROUP "Amusements/Games")
-    set(CPACK_PACKAGE_FILE_NAME "DuneCity-${PROJECT_VERSION}-Linux-x64")
+    set(CPACK_PACKAGE_FILE_NAME "DuneLegacyTornie-${PROJECT_VERSION}-Linux-x64")
 
     # Add custom target for Linux packages. CMake reserves the target
     # name "package" when CPack is enabled (newer CMake versions error
