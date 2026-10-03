@@ -19,7 +19,6 @@
 #define MAP_H
 
 #include <Tile.h>
-#include <dunecity/CityMapLayer.h>
 #include <misc/InputStream.h>
 #include <misc/OutputStream.h>
 #include <misc/exceptions.h>
