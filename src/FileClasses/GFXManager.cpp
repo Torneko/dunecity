@@ -137,7 +137,7 @@ static const Coord objPicTiles[] {
     { 4, 4 },   // ObjPic_ZoneResidential (4 density × 4 value-tier variants)
     { 4, 4 },   // ObjPic_ZoneCommercial  (4 density × 4 value-tier variants)
     { 4, 2 },   // ObjPic_ZoneIndustrial  (4 density × 2 value-tier variants)
-    { 16, 1 },  // ObjPic_CityRoad (16 connection variants, indexed by neighbor mask)
+    { 16, 1 },  // reserved legacy slot
     { 8, 1 },   // ObjPic_NuclearPlant (8 frame slots for build-animation parity; all identical)
     { 4, 1 },   // ObjPic_PoliceStation (4 frame slots, all identical; 2x2 footprint)
     { 4, 1 },   // ObjPic_Stadium (4 frame slots, all identical; 3x3 footprint)
@@ -1535,7 +1535,7 @@ GFXManager::GFXManager() {
     uiGraphic[UI_NewMapWindow][HOUSE_HARKONNEN] = PicFactory->createMenu(600,440);
     uiGraphic[UI_DuneLegacy][HOUSE_HARKONNEN] = LoadPNG_RW(pFileManager->openFile("DuneLegacy.png").get());
     {
-        // Replace the baked-in "Dune Legacy" title with "Dune City": fill the
+        // Replace the baked-in title with the project title: fill the
         // central text region with the banner's dark interior tone and draw
         // our own title centered. Decorative wood frame at the edges remains
         // visible. The same surface is then reused as UI_GameMenu's header.
@@ -1547,7 +1547,7 @@ GFXManager::GFXManager() {
 
         const int titleFontSize = std::max(16, std::min(34, bh - 16));
         sdl2::surface_ptr titleText{
-            pFontManager->createSurfaceWithText("Dune City", COLOR_LIGHTYELLOW, titleFontSize) };
+            pFontManager->createSurfaceWithText("Dune Legacy Tornie", COLOR_LIGHTYELLOW, titleFontSize) };
         SDL_Rect titleDest = calcDrawingRect(titleText.get(), bw / 2, bh / 2,
                                              HAlign::Center, VAlign::Center);
         SDL_BlitSurface(titleText.get(), nullptr, pBanner, &titleDest);
