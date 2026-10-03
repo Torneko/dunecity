@@ -53,6 +53,11 @@ typedef enum {
     CMD_PLAYER_RESUME,                  ///< CMD_PLAYER_RESUME() - notify other players this player resumed
     CMD_TEST_SYNC,                      ///< TEST_SYNC(SEED)
 
+    // Reserved command IDs retained for compatibility with older save/replay data.
+    CMD_LEGACY_RESERVED_1,
+    CMD_LEGACY_RESERVED_2,
+    CMD_LEGACY_RESERVED_3,
+    CMD_LEGACY_RESERVED_4,
     CMD_TECHCENTER_SPAWN,               ///< TECHCENTER_SPAWN(OBJECT_ID)
 
     CMD_MAX
