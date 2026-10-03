@@ -278,17 +278,7 @@ void BuilderBase::updateProductionProgress() {
 
             FixPoint oldProgress = productionProgress;
 
-            // City-sim mode: concrete slabs AND road tiles feel right as
-            // instant placement (think SimCity road-laying), not Dune-style
-            // timed construction. Roads are a single-tile structure that
-            // mutates tile state on placement; gating them behind a build
-            // timer would feel sluggish for laying out a road network.
-            const bool tileLikeInCityMode = currentGame->isCitySimEnabled()
-                                        && (currentProducedItem == Structure_Slab1
-                                         || currentProducedItem == Structure_Slab4
-                                         || currentProducedItem == Structure_Road);
-
-            if(currentGame->getGameInitSettings().getGameOptions().instantBuild == true || tileLikeInCityMode) {
+            if(currentGame->getGameInitSettings().getGameOptions().instantBuild == true) {
                 FixPoint totalBuildCosts = tmp->price;
                 FixPoint buildCosts = totalBuildCosts - productionProgress;
 
