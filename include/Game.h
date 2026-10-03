@@ -33,8 +33,6 @@
 #include <players/HumanPlayer.h>
 #include <misc/SDL2pp.h>
 #include <CursorManager.h>
-#include <dunecity/CitySimulation.h>
-#include <dunecity/CityOverlay.h>
 
 #include <DataTypes.h>
 
@@ -244,10 +242,6 @@ public:
 
     inline ObjectManager& getObjectManager() { return objectManager; };
     inline GameInterface& getGameInterface() { return *pInterface; };
-    DuneCity::CitySimulation* getCitySimulation() { return citySimulation_.get(); }
-    bool isCitySimEnabled() const { return citySimEnabled_; }
-    DuneCity::CityOverlayMode getCityOverlayMode() const { return currentCityOverlay_; }
-    void setCityOverlayMode(DuneCity::CityOverlayMode mode) { currentCityOverlay_ = mode; }
     void queueTargetRequest(Uint32 objectId);
     void queuePathRequest(Uint32 objectId);
     inline size_t getPathRequestQueueSize() const { return pathRequestQueue.size(); }
@@ -291,11 +285,6 @@ public:
         It pauses the game and loads the mentat help screen.
     */
     void onMentat();
-
-    /**
-        This method opens the city budget window.
-    */
-    void onCityBudget();
 
     /**
         This method selects all units/structures in the list aList.
@@ -364,11 +353,6 @@ public:
             pInterface->addUrgentMessageToNewsTicker(text);
         }
     }
-
-    // Disaster notification triggers
-    void triggerFireDisaster();
-    void triggerSandstormDisaster();
-    void triggerSandwormDisaster();
 
     // Fire spread from combat
     void updateFireSpread();
@@ -469,20 +453,6 @@ public:
     */
     void takeScreenshot() const;
 
-    /**
-        Draw the city data overlay for the visible map area
-    */
-    void drawCityOverlay(int x1, int y1, int x2, int y2);
-
-    /**
-        Draw placeholder visuals for conductive city roads.
-    */
-    void drawCityRoads(int x1, int y1, int x2, int y2);
-
-    /**
-        Draw the active city placement hint.
-    */
-    void drawCityPlacementHint();
 private:
 
     /**
@@ -538,13 +508,6 @@ private:
     bool handleSelectedObjectsCaptureClick(int xPos, int yPos);
 
     /**
-        Handles a city zone placement click.
-        \param  xPos    x-coordinate in map coordinates
-        \param  yPos    y-coordinate in map coordinates
-    */
-    void handleCityZonePlacementClick(int xPos, int yPos);
-    void handleCityRoadPlacementClick(int xPos, int yPos);
-    /**
         Performs a request carryall click for the currently selected units.
         \param  xPos    x-coordinate in map coordinates
         \param  yPos    x-coordinate in map coordinates
@@ -583,15 +546,10 @@ public:
         CursorMode_Move,
         CursorMode_Capture,
         CursorMode_CarryallDrop,
-        CursorMode_Placing,
-        CursorMode_CityZone,
-        CursorMode_CityRoad
+        CursorMode_Placing
     };
 
     int         currentCursorMode = CursorMode_Normal;
-    int         lastRoadTileX = -1;
-    int         lastRoadTileY = -1;
-    DuneCity::ZoneType selectedZoneType_ = DuneCity::ZoneType::Residential;
 
     GameType    gameType = GameType::Campaign;
     int         techLevel = 0;
@@ -717,7 +675,6 @@ public:
         double aiMsThisFrame = 0.0;
         double aiWorstHouseMsThisFrame = 0.0;
         int    aiWorstHouseIdxThisFrame = -1;
-        double citySimMsThisFrame = 0.0;
         double unitsMsThisFrame = 0.0;
         double structuresMsThisFrame = 0.0;
         double renderingMsThisFrame = 0.0;
@@ -844,9 +801,6 @@ private:
 
 
     std::unique_ptr<SpatialGrid>    spatialGrid;            ///< Spatial partition for fast proximity queries
-    std::unique_ptr<DuneCity::CitySimulation> citySimulation_; ///< City-building simulation layer
-    bool                citySimEnabled_ = false;             ///< Feature flag for city simulation. Defaults off; enabled when the active mod opts into city mode (see ModManager::isCityModeActive) or when a savegame contains city-sim state.
-    DuneCity::CityOverlayMode currentCityOverlay_ = DuneCity::CityOverlayMode::None; ///< Current city data overlay mode
 
     ObjectManager       objectManager;          ///< This manages all the object and maps object ids to the actual objects
 
