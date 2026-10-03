@@ -306,11 +306,6 @@ void Map::damage(Uint32 damagerID, House* damagerOwner, const Coord& realPos, Ui
                 }
             }
 
-            // Roads are tile flags, not structures — destroy them on sufficient impact.
-            if (affectTerrain && pTile && pTile->isRoad() && damage >= 10) {
-                pTile->setRoad(false);
-                pTile->setDestroyedStructureTile(Destroyed1x1Structure);
-            }
         }
     }
 
@@ -369,12 +364,6 @@ bool Map::okayToPlaceStructure(int x, int y, int buildingSizeX, int buildingSize
             if (!pTile)
                 return false;
 
-            // Block placement on city zone tiles (residential/commercial/industrial).
-            // Road tiles are allowed — the road flag will be cleared on placement.
-            if(pTile->hasCityZone()) {
-                return false;
-            }
-
             if(!pTile->isRock() || (tilesRequired && !pTile->isConcrete()) || (!bIgnoreUnits && pTile->isBlocked())) {
                 return false;
             }
@@ -387,35 +376,8 @@ bool Map::okayToPlaceStructure(int x, int y, int buildingSizeX, int buildingSize
     return withinBuildRange;
 }
 
-bool Map::okayToPlaceStructure(int x, int y, int buildingSizeX, int buildingSizeY, bool tilesRequired, const House* pHouse, bool bIgnoreUnits, int itemID) const {
-    if(!isZoneStructure(itemID)) {
-        return okayToPlaceStructure(x, y, buildingSizeX, buildingSizeY, tilesRequired, pHouse, bIgnoreUnits);
-    }
-
-    bool withinBuildRange = false;
-
-    for(auto i = x; i < x + buildingSizeX; i++) {
-        for(auto j = y; j < y + buildingSizeY; j++) {
-            const auto pTile = getTile_internal(i, j);
-
-            if(!pTile)
-                return false;
-
-            // Zone structures cannot overlap existing city zones.
-            if(pTile->hasCityZone()) {
-                return false;
-            }
-
-            if(pTile->isMountain() || (!bIgnoreUnits && pTile->isBlocked())) {
-                return false;
-            }
-
-            if((pHouse == nullptr) || isWithinBuildRange(i, j, pHouse)) {
-                withinBuildRange = true;
-            }
-        }
-    }
-    return withinBuildRange;
+bool Map::okayToPlaceStructure(int x, int y, int buildingSizeX, int buildingSizeY, bool tilesRequired, const House* pHouse, bool bIgnoreUnits, int /*itemID*/) const {
+    return okayToPlaceStructure(x, y, buildingSizeX, buildingSizeY, tilesRequired, pHouse, bIgnoreUnits);
 }
 
 bool Map::isWithinBuildRange(int x, int y, const House* pHouse) const {
