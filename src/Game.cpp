@@ -56,7 +56,6 @@ std::mutex Game::performanceLogMutex;
 
 #include <GUI/dune/InGameMenu.h>
 #include <GUI/dune/WaitingForOtherPlayers.h>
-#include <GUI/dune/CityBudgetWindow.h>
 #include <Menu/MentatHelp.h>
 #include <Menu/BriefingMenu.h>
 #include <Menu/MapChoice.h>
@@ -80,9 +79,6 @@ std::mutex Game::performanceLogMutex;
 #include <units/HarvesterHelpers.h>
 #include <units/InfantryBase.h>
 #include <units/GroundUnit.h>
-#include <units/AmbientAirplane.h>
-#include <units/AmbientHelicopter.h>
-#include <structures/Airport.h>
 
 #include <algorithm>
 #include <exception>
@@ -92,36 +88,6 @@ std::mutex Game::performanceLogMutex;
 namespace {
 
 constexpr Uint32 SAVE_SETUP_COLOR_MARKER = 0x53434F4C; // "SCOL"
-
-DuneCity::CityTilePlacementState makeCityTilePlacementState(const Tile& tile) {
-    return DuneCity::makeCityTilePlacementState(
-        tile.isRock(),
-        tile.isMountain(),
-        tile.hasAGroundObject(),
-        tile.hasCityZone(),
-        tile.isRoad());
-}
-
-bool hasVisibleRoadNeighbor(int x, int y) {
-    constexpr int dx[] = {0, 1, 0, -1};
-    constexpr int dy[] = {-1, 0, 1, 0};
-
-    for (int i = 0; i < 4; ++i) {
-        const int nx = x + dx[i];
-        const int ny = y + dy[i];
-
-        if (!currentGameMap->tileExists(nx, ny)) {
-            continue;
-        }
-
-        const Tile* neighbor = currentGameMap->getTile(nx, ny);
-        if (neighbor->isRoad() && !neighbor->hasCityZone()) {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 struct StructurePlacementPreview {
     unsigned int objectPic = NUM_OBJPICS;
@@ -190,10 +156,6 @@ Game::Game() {
     currentZoomlevel = settings.video.preferredZoomLevel;
 
     localPlayerName = settings.general.playerName;
-
-    // City-sim features are gated by the active mod. A savegame load may
-    // re-enable this later if the save contains city-sim state.
-    citySimEnabled_ = ModManager::instance().isCityModeActive();
 
     unitList.clear();       //holds all the units
     structureList.clear();  //all the structures
@@ -313,7 +275,7 @@ void Game::initPerformanceLog() {
         char timeStr[100];
         std::strftime(timeStr, sizeof(timeStr), "%Y-%m-%d %H:%M:%S", std::localtime(&nowTime));
         
-        performanceLogFile << "=== Dune City Performance Log Started " << timeStr << " ===" << std::endl;
+        performanceLogFile << "=== Dune Legacy Tornie Performance Log Started " << timeStr << " ===" << std::endl;
         performanceLogFile << "Version: " << VERSION << std::endl;
         performanceLogFile << "Platform: " << SDL_GetPlatform() << std::endl;
         performanceLogFile << std::endl;
@@ -368,26 +330,6 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
         pGFXManager->invalidateAllSpriteTextures();
     }
 
-    // The host's mod choice is the source of truth for whether the
-    // city-sim feature flag is on — not whatever mod the local player
-    // happens to have active in their main menu. This matters most for
-    // multiplayer clients (their local ModManager may be on vanilla),
-    // but also keeps single-player consistent if mod state drifted
-    // between menu navigation and game start.
-    {
-        const std::string& sessionMod = gameInitSettings.getModName();
-        if (!sessionMod.empty()) {
-            ModInfo info = ModManager::instance().getModInfo(sessionMod);
-            // If the named mod isn't installed locally we keep the
-            // earlier value (set in the Game constructor) so single
-            // player still works — but for any installed mod the
-            // session's choice wins.
-            if (!info.name.empty()) {
-                citySimEnabled_ = info.enablesCityMode;
-            }
-        }
-    }
-
     targetRequestQueue.clear();
     pendingTargetRequestIds.clear();
     pathRequestQueue.clear();
@@ -422,19 +364,6 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
             randomGen.setSeed(gameInitSettings.getRandomSeed());
 
             objectData.loadFromINIFile(ModManager::instance().getActiveObjectDataPath(), false);
-
-            // City zones must not be buildable when the active mod doesn't
-            // opt into DuneCity city-sim features. Force-disable them in the
-            // loaded ObjectData so every consumer (build lists, prerequisites,
-            // AI, save/load) sees them as unavailable, regardless of what the
-            // mod's ObjectData.ini says.
-            if (!citySimEnabled_) {
-                for (int h = 0; h < NUM_HOUSES; h++) {
-                    objectData.data[Structure_ZoneResidential][h].enabled = false;
-                    objectData.data[Structure_ZoneCommercial][h].enabled  = false;
-                    objectData.data[Structure_ZoneIndustrial][h].enabled  = false;
-                }
-            }
 
             objectData.logSettings();
 
@@ -1454,14 +1383,6 @@ void Game::drawScreen()
                 screenborder->world2screenY(t.getLocation().y*TILESIZE));
         });
 
-    /* draw city overlay */
-    if (currentCityOverlay_ != DuneCity::CityOverlayMode::None && citySimulation_) {
-        drawCityOverlay(x1, y1, x2, y2);
-    }
-
-    /* draw placeholder road visuals */
-    drawCityRoads(x1, y1, x2, y2);
-
     /* draw structures */
     currentGameMap->for_each(x1, y1, x2, y2,
         [](Tile& t) {
@@ -1660,12 +1581,8 @@ void Game::drawScreen()
                             bool tileValid = false;
                             if(withinRange && currentGameMap->tileExists(i,j)) {
                                 Tile* pTile = currentGameMap->getTile(i,j);
-                                if(isZoneStructure(placeItem)) {
-                                    tileValid = !pTile->isMountain() && !pTile->hasAGroundObject();
-                                } else {
-                                    tileValid = pTile->isRock() && !pTile->isMountain() && !pTile->hasAGroundObject()
-                                        && !(((placeItem == Structure_Slab1) || (placeItem == Structure_Slab4)) && pTile->isConcrete());
-                                }
+                                tileValid = pTile->isRock() && !pTile->isMountain() && !pTile->hasAGroundObject()
+                                    && !(((placeItem == Structure_Slab1) || (placeItem == Structure_Slab4)) && pTile->isConcrete());
                             }
                             image = tileValid ? validPlace : invalidPlace;
 
@@ -1760,42 +1677,6 @@ void Game::drawScreen()
         }
     }
 
-    if(currentCursorMode == CursorMode_CityRoad) {
-        if(screenborder->isScreenCoordInsideMap(drawnMouseX, drawnMouseY)) {
-            int xPos = screenborder->screen2MapX(drawnMouseX);
-            int yPos = screenborder->screen2MapY(drawnMouseY);
-
-            SDL_Texture* validPlace = nullptr;
-            SDL_Texture* invalidPlace = nullptr;
-
-            switch(currentZoomlevel) {
-                case 0:
-                    validPlace = pGFXManager->getUIGraphic(UI_ValidPlace_Zoomlevel0);
-                    invalidPlace = pGFXManager->getUIGraphic(UI_InvalidPlace_Zoomlevel0);
-                    break;
-                case 1:
-                    validPlace = pGFXManager->getUIGraphic(UI_ValidPlace_Zoomlevel1);
-                    invalidPlace = pGFXManager->getUIGraphic(UI_InvalidPlace_Zoomlevel1);
-                    break;
-                case 2:
-                default:
-                    validPlace = pGFXManager->getUIGraphic(UI_ValidPlace_Zoomlevel2);
-                    invalidPlace = pGFXManager->getUIGraphic(UI_InvalidPlace_Zoomlevel2);
-                    break;
-            }
-
-            if(currentGameMap->tileExists(xPos, yPos)) {
-                Tile* pTile = currentGameMap->getTile(xPos, yPos);
-                const bool tileValid = DuneCity::canPlaceRoad(makeCityTilePlacementState(*pTile));
-                SDL_Texture* image = tileValid ? validPlace : invalidPlace;
-                SDL_Rect drawLocation = calcDrawingRect(image,
-                    screenborder->world2screenX(xPos * TILESIZE),
-                    screenborder->world2screenY(yPos * TILESIZE));
-                SDL_RenderCopy(renderer, image, nullptr, &drawLocation);
-            }
-        }
-    }
-
 ///////////draw game selection rectangle
     if(selectionMode) {
 
@@ -1838,7 +1719,6 @@ void Game::drawScreen()
 ///////////draw game bar
     pInterface->draw(Point(0,0));
     pInterface->drawOverlay(Point(0,0));
-    drawCityPlacementHint();
 
     // draw chat message currently typed
     if(chatMode) {
@@ -2033,21 +1913,9 @@ void Game::doInput()
 
                                 } break;
 
-                                case CursorMode_CityZone: {
 
-                                    if(screenborder->isScreenCoordInsideMap(mouse->x, mouse->y) == true) {
-                                        handleCityZonePlacementClick(screenborder->screen2MapX(mouse->x), screenborder->screen2MapY(mouse->y));
-                                    }
 
-                                } break;
 
-                                case CursorMode_CityRoad: {
-
-                                    if(screenborder->isScreenCoordInsideMap(mouse->x, mouse->y) == true) {
-                                        handleCityRoadPlacementClick(screenborder->screen2MapX(mouse->x), screenborder->screen2MapY(mouse->y));
-                                    }
-
-                                } break;
 
                                 case CursorMode_Normal:
                                 default: {
@@ -2327,7 +2195,6 @@ void Game::runMainLoop() {
         frameTiming.aiMsThisFrame = 0.0;
         frameTiming.aiWorstHouseMsThisFrame = 0.0;
         frameTiming.aiWorstHouseIdxThisFrame = -1;
-        frameTiming.citySimMsThisFrame = 0.0;
         frameTiming.unitsMsThisFrame = 0.0;
         frameTiming.structuresMsThisFrame = 0.0;
         frameTiming.pathfindingMsThisFrame = 0.0;
@@ -2551,14 +2418,13 @@ void Game::runMainLoop() {
             && (gameCycleCount - lastSpikeLogCycle >= 10 || lastSpikeLogCycle == 0)) {
             lastSpikeLogCycle = gameCycleCount;
             logPerformance("[FRAME SPIKE] Cycle %u frame=%.1fms cycles=%d ai=%.1f(worst h%d=%.1f)"
-                           " citySim=%.1f units=%.1f"
+                           " units=%.1f"
                            " (tgt=%.1f nav=%.1f move=%.1f turn=%.1f vis=%.1f)"
                            " struct=%.1f path=%.1f render=%.1f net=%.1f"
                            " turretScan=%.1f(%dx) sim_avg=%.1f units=%d queue=%zu",
                 gameCycleCount, thisFrameMs, frameTiming.gameCyclesThisFrame,
                 frameTiming.aiMsThisFrame,
                 frameTiming.aiWorstHouseIdxThisFrame, frameTiming.aiWorstHouseMsThisFrame,
-                frameTiming.citySimMsThisFrame,
                 frameTiming.unitsMsThisFrame,
                 frameTiming.unitTargetingMsThisFrame, frameTiming.unitNavigateMsThisFrame,
                 frameTiming.unitMoveMsThisFrame, frameTiming.unitTurnMsThisFrame,
@@ -2636,17 +2502,6 @@ void Game::initializeGameLoop() {
     gameState = GameState::Running;
     finishedLevel = false;
     bShowTime = winFlags & WINLOSEFLAGS_TIMEOUT;
-
-    // Initialize DuneCity simulation
-    if (citySimEnabled_ && currentGameMap != nullptr && !citySimulation_) {
-        citySimulation_ = std::make_unique<DuneCity::CitySimulation>();
-        citySimulation_->init(currentGameMap->getSizeX(), currentGameMap->getSizeY());
-        // City Effects is implicitly on whenever the city sim itself is
-        // on — the GameOptions.ini toggle is kept for explicit overrides
-        // but should never silently leave a city-mode game with the
-        // pollution/land-value/crime/growth pipeline disabled.
-        citySimulation_->setCityEffectsEnabled(true);
-    }
 
     // Check if a player has lost
     for(int j = 0; j < NUM_HOUSES; j++) {
@@ -2755,86 +2610,6 @@ void Game::updateGameState() {
     screenborder->update();
     triggerManager.trigger(gameCycleCount);
     processObjects();
-
-    // DuneCity: advance one phase of the city simulation
-    if (citySimEnabled_ && citySimulation_) {
-        const Uint64 citySimStart = SDL_GetPerformanceCounter();
-        citySimulation_->advancePhase(gameCycleCount);
-        const Uint64 citySimEnd = SDL_GetPerformanceCounter();
-        const double citySimMs = getElapsedMs(citySimStart, citySimEnd);
-        frameTiming.citySimMsThisFrame += citySimMs;
-        if(citySimMs > 10.0) {
-            logPerformance("[CITYSIM SPIKE] Cycle %u advancePhase=%.1fms",
-                gameCycleCount, citySimMs);
-        }
-
-        // Power shortage warning: notify player when zones lose power
-        if (citySimulation_->isPowerShortageJustStarted()) {
-            int32_t unpowered = citySimulation_->getUnpoweredZoneCount();
-            currentGame->addToNewsTicker(fmt::sprintf(_("WARNING: Power shortage! %d zones unpowered"), unpowered));
-        }
-
-        if ((winFlags & WINLOSEFLAGS_ECONOMIC) && !finished) {
-            int32_t threshold = citySimulation_->getEconomicVictoryThreshold();
-            if (threshold > 0 && citySimulation_->getTotalPop() >= threshold) {
-                setGameWon();
-            }
-        }
-
-        // Ambient aircraft spawning — every ~10s (625 cycles at 62.5Hz),
-        // deterministically check each Airport for spawning an airplane or
-        // helicopter.  Cap at 3 ambient units per house.
-        static constexpr Uint32 kAmbientSpawnInterval = 625;
-        if (gameCycleCount > 0 && (gameCycleCount % kAmbientSpawnInterval) == 0) {
-            for (StructureBase* pStruct : structureList) {
-                if (pStruct->getItemID() != Structure_Airport) continue;
-
-                House* pOwner = pStruct->getOwner();
-                if (!pOwner) continue;
-
-                // Count existing ambient units for this house
-                int ambientCount = pOwner->getNumItems(Unit_AmbientAirplane)
-                                 + pOwner->getNumItems(Unit_AmbientHelicopter);
-                if (ambientCount >= 3) continue;
-
-                // Deterministic "random" choice based on cycle + airport position
-                const Coord airportPos = pStruct->getLocation();
-                Uint32 seed = gameCycleCount * 7u
-                            + static_cast<Uint32>(airportPos.x) * 131u
-                            + static_cast<Uint32>(airportPos.y) * 257u;
-
-                // Only spawn ~50% of the time
-                if ((seed % 4u) < 2u) continue;
-
-                bool spawnAirplane = (seed % 3u) != 0;  // 2/3 airplanes, 1/3 helicopters
-                int unitType = spawnAirplane ? Unit_AmbientAirplane : Unit_AmbientHelicopter;
-
-                UnitBase* pUnit = pOwner->createUnit(unitType);
-                if (!pUnit) continue;
-
-                Coord center = airportPos + Coord(1, 1);  // center of 3x3 airport
-
-                if (spawnAirplane) {
-                    // Airplane: spawn at a map edge, fly across the airport, exit other side
-                    Coord edgeStart = currentGameMap->findClosestEdgePoint(center, Coord(1, 1));
-                    pUnit->deploy(edgeStart);
-                    pUnit->setDestination(center);
-                    // guardPoint set to opposite edge for exit path
-                    int exitX = currentGameMap->getSizeX() - 1 - edgeStart.x;
-                    int exitY = currentGameMap->getSizeY() - 1 - edgeStart.y;
-                    pUnit->setGuardPoint(Coord(exitX, exitY));
-                    // Face toward destination
-                    if (edgeStart.x == 0) pUnit->setAngle(RIGHT);
-                    else if (edgeStart.x == currentGameMap->getSizeX() - 1) pUnit->setAngle(LEFT);
-                    else if (edgeStart.y == 0) pUnit->setAngle(DOWN);
-                    else pUnit->setAngle(UP);
-                } else {
-                    // Helicopter: spawn at airport, orbit nearby
-                    pUnit->deploy(center);
-                }
-            }
-        }
-    }
 
     if((indicatorFrame != NONE_ID) && (--indicatorTimer <= 0)) {
         indicatorTimer = indicatorTime;
@@ -3203,15 +2978,6 @@ void Game::onMentat()
     pauseGame();
 }
 
-void Game::onCityBudget()
-{
-    if (!citySimulation_ || !citySimulation_->isInitialized()) {
-        return;
-    }
-    pInterface->openWindow(CityBudgetWindow::create());
-}
-
-
 GameInitSettings Game::getNextGameInitSettings()
 {
     if(nextGameInitSettings.getGameType() != GameType::Invalid) {
@@ -3553,27 +3319,13 @@ bool Game::loadSaveGame(InputStream& stream) {
         screenborder->load(stream);
     }
 
-    // load city simulation state (version 9807+)
+    // Keep the legacy DuneCity flag position for save compatibility.
+    // City-simulation saves are intentionally not supported by this separated project.
     if (savegameVersion >= 9807) {
-        bool hasCitySim = stream.readBool();
-        if (hasCitySim) {
-            citySimEnabled_ = true;
-            citySimulation_ = std::make_unique<DuneCity::CitySimulation>();
-            citySimulation_->init(currentGameMap->getSizeX(), currentGameMap->getSizeY());
-            citySimulation_->setCityEffectsEnabled(
-                gameInitSettings.getGameOptions().cityEffects);
-            citySimulation_->load(stream);
-        }
-    }
-
-    // Mirror the new-game gate: if the loaded save's ObjectData has zones
-    // enabled but city sim is off, force them off so vanilla saves can't
-    // surface zone build entries.
-    if (!citySimEnabled_) {
-        for (int h = 0; h < NUM_HOUSES; h++) {
-            objectData.data[Structure_ZoneResidential][h].enabled = false;
-            objectData.data[Structure_ZoneCommercial][h].enabled  = false;
-            objectData.data[Structure_ZoneIndustrial][h].enabled  = false;
+        const bool hasLegacyCityState = stream.readBool();
+        if (hasLegacyCityState) {
+            SDL_Log("Cannot load this save: it contains DuneCity city-simulation state.");
+            return false;
         }
     }
 
@@ -3689,11 +3441,8 @@ bool Game::saveGame(const std::string& filename)
         screenborder->save(fs);
     }
 
-    // save city simulation state
-    fs.writeBool(citySimEnabled_ && citySimulation_ != nullptr);
-    if (citySimEnabled_ && citySimulation_) {
-        citySimulation_->save(fs);
-    }
+    // Preserve the legacy save-field position while writing no DuneCity state.
+    fs.writeBool(false);
 
     // save triggers
     triggerManager.save(fs);
@@ -4032,21 +3781,7 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
         case SDLK_9: {
             int selectListIndex = keyboardEvent.keysym.sym - SDLK_1;
 
-            if(citySimEnabled_ && (SDL_GetModState() & KMOD_SHIFT)) {
-                switch(keyboardEvent.keysym.sym) {
-                    case SDLK_1: currentCityOverlay_ = DuneCity::CityOverlayMode::None; break;
-                    case SDLK_2: currentCityOverlay_ = DuneCity::CityOverlayMode::PowerGrid; break;
-                    case SDLK_3: currentCityOverlay_ = DuneCity::CityOverlayMode::TrafficDensity; break;
-                    case SDLK_4: currentCityOverlay_ = DuneCity::CityOverlayMode::Pollution; break;
-                    case SDLK_5: currentCityOverlay_ = DuneCity::CityOverlayMode::LandValue; break;
-                    case SDLK_6: currentCityOverlay_ = DuneCity::CityOverlayMode::CrimeRate; break;
-                    case SDLK_7: currentCityOverlay_ = DuneCity::CityOverlayMode::Population; break;
-                    case SDLK_8: currentCityOverlay_ = DuneCity::CityOverlayMode::WindTrapRadius; break;
-                    default: break;
-                }
-            } else if (citySimEnabled_ && currentCursorMode == CursorMode_CityZone && selectListIndex < 3) {
-                selectedZoneType_ = static_cast<DuneCity::ZoneType>(selectListIndex + 1);
-            } else if(SDL_GetModState() & KMOD_CTRL) {
+            if(SDL_GetModState() & KMOD_CTRL) {
                 pLocalPlayer->setGroupList(selectListIndex, selectedList);
                 pInterface->updateObjectInterface();
             } else {
@@ -4116,30 +3851,8 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
             }
         } break;
 
-        case SDLK_b: {
-            if (citySimEnabled_ && (SDL_GetModState() & KMOD_SHIFT)) {
-                onCityBudget();
-            }
-        } break;
-
         case SDLK_c: {
-            if (citySimEnabled_ && (SDL_GetModState() & KMOD_SHIFT)) {
-                pInterface->toggleCityStatsOverlay();
-            } else {
-                setCursorMode(CursorMode_Capture);
-            }
-        } break;
-
-        case SDLK_z: {
-            if (!citySimEnabled_) {
-                break;
-            }
-            if (currentCursorMode == CursorMode_CityZone) {
-                setCursorMode(CursorMode_Normal);
-            } else {
-                setCursorMode(CursorMode_CityZone);
-                selectedZoneType_ = DuneCity::ZoneType::Residential;
-            }
+            setCursorMode(CursorMode_Capture);
         } break;
 
         case SDLK_a: {
@@ -4152,11 +3865,7 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
         } break;
 
         case SDLK_ESCAPE: {
-            if (currentCursorMode == CursorMode_CityZone || currentCursorMode == CursorMode_CityRoad) {
-                setCursorMode(CursorMode_Normal);
-            } else {
-                onOptions();
-            }
+            onOptions();
         } break;
 
         case SDLK_F1: {
@@ -4198,27 +3907,6 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
             // skip 2 minutes
             if(gameType != GameType::CustomMultiplayer || bReplay) {
                 skipToGameCycle = gameCycleCount + (120*1000)/GAMESPEED_DEFAULT;
-            }
-        } break;
-
-        case SDLK_F7: {
-            // Test: Fire disaster notification
-            if (citySimEnabled_) {
-                triggerFireDisaster();
-            }
-        } break;
-
-        case SDLK_F8: {
-            // Test: Sandstorm disaster notification
-            if (citySimEnabled_) {
-                triggerSandstormDisaster();
-            }
-        } break;
-
-        case SDLK_F9: {
-            // Test: Sandworm disaster notification
-            if (citySimEnabled_) {
-                triggerSandwormDisaster();
             }
         } break;
 
@@ -4305,25 +3993,15 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
 
 
         case SDLK_r: {
-            if (citySimEnabled_ && (SDL_GetModState() & KMOD_SHIFT)) {
-                if (currentCursorMode == CursorMode_CityRoad) {
-                    setCursorMode(CursorMode_Normal);
-                } else {
-                    setCursorMode(CursorMode_CityRoad);
-                    addToNewsTicker(_("Road tool selected: click rock or slab tiles to place roads."));
-                }
-            } else {
-                for(Uint32 objectID : selectedList) {
-                    ObjectBase* pObject = objectManager.getObject(objectID);
-                    if(pObject->isAStructure()) {
-                        static_cast<StructureBase*>(pObject)->handleRepairClick();
-                    } else if(pObject->isAGroundUnit() && pObject->getHealth() < pObject->getMaxHealth()) {
-                        static_cast<GroundUnit*>(pObject)->handleSendToRepairClick();
-                    }
+            for(Uint32 objectID : selectedList) {
+                ObjectBase* pObject = objectManager.getObject(objectID);
+                if(pObject->isAStructure()) {
+                    static_cast<StructureBase*>(pObject)->handleRepairClick();
+                } else if(pObject->isAGroundUnit() && pObject->getHealth() < pObject->getMaxHealth()) {
+                    static_cast<GroundUnit*>(pObject)->handleSendToRepairClick();
                 }
             }
         } break;
-
 
         case SDLK_d: {
             setCursorMode(CursorMode_CarryallDrop);
@@ -4590,63 +4268,6 @@ bool Game::handleSelectedObjectsCaptureClick(int xPos, int yPos) {
     return false;
 }
 
-void Game::handleCityZonePlacementClick(int xPos, int yPos) {
-    Tile* pTile = currentGameMap->getTile(xPos, yPos);
-
-    if(pTile == nullptr) {
-        return;
-    }
-
-    if (!pTile->isRock() && pTile->getType() != Terrain_Slab) {
-        soundPlayer->playSound(Sound_InvalidAction);
-        return;
-    }
-
-    if (pTile->hasANonInfantryGroundObject()) {
-        soundPlayer->playSound(Sound_InvalidAction);
-        return;
-    }
-
-    cmdManager.addCommand(Command(pLocalPlayer->getPlayerID(), CMD_CITY_PLACE_ZONE,
-                                   static_cast<uint32_t>(xPos),
-                                   static_cast<uint32_t>(yPos),
-                                   static_cast<uint32_t>(selectedZoneType_)));
-
-    soundPlayer->playSound(Sound_PlaceStructure);
-}
-
-void Game::handleCityRoadPlacementClick(int xPos, int yPos) {
-    Tile* pTile = currentGameMap->getTile(xPos, yPos);
-
-    if(pTile == nullptr) {
-        return;
-    }
-
-    if(pTile->isMountain()) {
-        addToNewsTicker(_("Cannot place road on mountain."));
-        soundPlayer->playSound(Sound_InvalidAction);
-        return;
-    }
-
-    if(pTile->hasAStructure()) {
-        addToNewsTicker(_("Cannot place road on structure."));
-        soundPlayer->playSound(Sound_InvalidAction);
-        return;
-    }
-
-    if(pTile->isRoad()) {
-        soundPlayer->playSound(Sound_InvalidAction);
-        return;
-    }
-
-    cmdManager.addCommand(Command(pLocalPlayer->getPlayerID(), CMD_CITY_TOOL,
-                                   static_cast<uint32_t>(xPos),
-                                   static_cast<uint32_t>(yPos),
-                                   static_cast<uint32_t>(DuneCity::CityTool_Road)));
-
-    soundPlayer->playSound(Sound_PlaceStructure);
-}
-
 bool Game::handleSelectedObjectsActionClick(int xPos, int yPos) {
     //let unit handle right click on map or target
     ObjectBase  *pResponder = nullptr;
@@ -4670,300 +4291,6 @@ bool Game::handleSelectedObjectsActionClick(int xPos, int yPos) {
 }
 
 
-void Game::drawCityOverlay(int x1, int y1, int x2, int y2) {
-    if (!citySimulation_ || currentCityOverlay_ == DuneCity::CityOverlayMode::None) {
-        return;
-    }
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
-    auto drawOverlayBlock = [&](int tileX, int tileY, int blockSize, uint8_t value, 
-                                 uint8_t r1, uint8_t g1, uint8_t b1, 
-                                 uint8_t r2, uint8_t g2, uint8_t b2) {
-        float normalized = value / 255.0f;
-        uint8_t r = static_cast<uint8_t>(r1 + (r2 - r1) * normalized);
-        uint8_t g = static_cast<uint8_t>(g1 + (g2 - g1) * normalized);
-        uint8_t b = static_cast<uint8_t>(b1 + (b2 - b1) * normalized);
-        uint8_t a = 120;
-
-        int zoomed_tilesize = world2zoomedWorld(TILESIZE);
-        int blockPixels = blockSize * zoomed_tilesize;
-
-        SDL_Rect overlayRect = {
-            screenborder->world2screenX(tileX * TILESIZE),
-            screenborder->world2screenY(tileY * TILESIZE),
-            blockPixels,
-            blockPixels
-        };
-
-        SDL_SetRenderDrawColor(renderer, r, g, b, a);
-        SDL_RenderFillRect(renderer, &overlayRect);
-    };
-
-
-    switch (currentCityOverlay_) {
-        case DuneCity::CityOverlayMode::PowerGrid: {
-            // The per-tile city power grid (CitySimulation::getPowerGridMap)
-            // is stubbed — every cell reads 0.  Instead, show a simple
-            // house-level power status: green overlay on zone/conductive tiles
-            // when the house has power, red when it doesn't.
-            bool housePower = pLocalHouse->hasPower();
-            uint8_t level = housePower ? 200 : 200;
-            int rOn = 0, gOn = 255, bOn = 0;     // green = powered
-            int rOff = 255, gOff = 0, bOff = 0;  // red   = no power
-            const auto& powerMap = citySimulation_->getPowerGridMap();
-            int blockSize = powerMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    if (!currentGameMap->tileExists(x, y)) continue;
-                    Tile* t = currentGameMap->getTile(x, y);
-                    if (t->hasCityZone() || t->isRoad()) {
-                        if (housePower)
-                            drawOverlayBlock(x, y, blockSize, level, rOn, gOn, bOn, rOn, gOn, bOn);
-                        else
-                            drawOverlayBlock(x, y, blockSize, level, rOff, gOff, bOff, rOff, gOff, bOff);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::TrafficDensity: {
-            const auto& trafficMap = citySimulation_->getTrafficDensityMap();
-            int blockSize = trafficMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    uint8_t traffic = trafficMap.worldGet(x, y);
-                    if (traffic > 0) {
-                        drawOverlayBlock(x, y, blockSize, traffic, 0, 255, 0, 255, 0, 0);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::Pollution: {
-            const auto& pollutionMap = citySimulation_->getPollutionDensityMap();
-            int blockSize = pollutionMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    uint8_t pollution = pollutionMap.worldGet(x, y);
-                    if (pollution > 0) {
-                        drawOverlayBlock(x, y, blockSize, pollution, 0, 255, 0, 150, 0, 200);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::LandValue: {
-            const auto& landValueMap = citySimulation_->getLandValueMap();
-            int blockSize = landValueMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    uint8_t landValue = landValueMap.worldGet(x, y);
-                    if (landValue > 0) {
-                        drawOverlayBlock(x, y, blockSize, landValue, 255, 0, 0, 0, 255, 0);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::CrimeRate: {
-            const auto& crimeMap = citySimulation_->getCrimeRateMap();
-            int blockSize = crimeMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    uint8_t crime = crimeMap.worldGet(x, y);
-                    if (crime > 0) {
-                        drawOverlayBlock(x, y, blockSize, crime, 0, 255, 0, 255, 0, 0);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::Population: {
-            const auto& popMap = citySimulation_->getPopulationDensityMap();
-            int blockSize = popMap.getBlockSize();
-            for (int x = x1; x < x2; x += blockSize) {
-                for (int y = y1; y < y2; y += blockSize) {
-                    uint8_t pop = popMap.worldGet(x, y);
-                    if (pop > 0) {
-                        drawOverlayBlock(x, y, blockSize, pop, 50, 50, 50, 255, 255, 255);
-                    }
-                }
-            }
-        } break;
-
-        case DuneCity::CityOverlayMode::WindTrapRadius: {
-            // Draw circles around Wind Traps showing their power radius
-            // Wind Trap power radius: typically 12-15 tiles (from Micropolis)
-            constexpr int WINDTRAP_POWER_RADIUS = 12;
-
-            for (const auto* pStructure : structureList) {
-                if (pStructure->getItemID() == Structure_WindTrap) {
-                    int wx = pStructure->getX();
-                    int wy = pStructure->getY();
-
-                    // Draw radius as a filled circle with transparency
-                    for (int dx = -WINDTRAP_POWER_RADIUS; dx <= WINDTRAP_POWER_RADIUS; dx++) {
-                        for (int dy = -WINDTRAP_POWER_RADIUS; dy <= WINDTRAP_POWER_RADIUS; dy++) {
-                            int tx = wx + dx;
-                            int ty = wy + dy;
-
-                            if (!currentGameMap->tileExists(tx, ty)) continue;
-
-                            // Check if within circular radius (center is 2x2, so adjust)
-                            int distSq = dx*dx + dy*dy;
-                            if (distSq <= WINDTRAP_POWER_RADIUS * WINDTRAP_POWER_RADIUS) {
-                                // Draw at full opacity at edge, fading toward center
-                                int alpha = 50 + (distSq * 150) / (WINDTRAP_POWER_RADIUS * WINDTRAP_POWER_RADIUS);
-                                alpha = std::min(200, alpha);
-
-                                // Draw as single tiles in the overlay
-                                drawOverlayBlock(tx, ty, 1, 255, 0, 150, 255, 0, 255, alpha);
-                            }
-                        }
-                    }
-                }
-            }
-        } break;
-        default:
-            break;
-    }
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-}
-
-void Game::drawCityRoads(int x1, int y1, int x2, int y2) {
-    if (!citySimulation_) {
-        return;
-    }
-
-    // The proper road atlas (ObjPic_CityRoad) is rendered in Tile::blitGround
-    // with auto-tiled sprites and white center markings. This placeholder
-    // brown-rectangle overlay is only needed when the atlas failed to load.
-    SDL_Texture* roadAtlas = pGFXManager->getZoomedObjPic(ObjPic_CityRoad, currentZoomlevel);
-    if (roadAtlas) {
-        return;  // atlas handles rendering; skip brown overlay
-    }
-
-    const int zoomedTileSize = world2zoomedWorld(TILESIZE);
-    const int centerInset = std::max(2, zoomedTileSize / 3);
-    const int laneHalfWidth = std::max(1, zoomedTileSize / 10);
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
-    auto drawRoadStub = [&](int tileX, int tileY, int dx, int dy) {
-        SDL_Rect stubRect{};
-        const int centerX = screenborder->world2screenX(tileX * TILESIZE) + zoomedTileSize / 2;
-        const int centerY = screenborder->world2screenY(tileY * TILESIZE) + zoomedTileSize / 2;
-
-        if (dx != 0) {
-            stubRect.y = centerY - laneHalfWidth;
-            stubRect.h = laneHalfWidth * 2;
-            if (dx < 0) {
-                stubRect.x = centerX - centerInset;
-                stubRect.w = centerInset;
-            } else {
-                stubRect.x = centerX;
-                stubRect.w = centerInset;
-            }
-        } else {
-            stubRect.x = centerX - laneHalfWidth;
-            stubRect.w = laneHalfWidth * 2;
-            if (dy < 0) {
-                stubRect.y = centerY - centerInset;
-                stubRect.h = centerInset;
-            } else {
-                stubRect.y = centerY;
-                stubRect.h = centerInset;
-            }
-        }
-
-        SDL_RenderFillRect(renderer, &stubRect);
-    };
-
-    currentGameMap->for_each(x1, y1, x2, y2, [&](Tile& tile) {
-        if (!tile.isRoad() || tile.hasCityZone()) {
-            return;
-        }
-
-        if (!debug && !tile.isExploredByTeam(pLocalHouse->getTeamID())) {
-            return;
-        }
-
-        const int tileX = tile.getLocation().x;
-        const int tileY = tile.getLocation().y;
-        const int screenX = screenborder->world2screenX(tileX * TILESIZE);
-        const int screenY = screenborder->world2screenY(tileY * TILESIZE);
-
-        SDL_SetRenderDrawColor(renderer, 120, 92, 56, 210);
-        SDL_Rect centerRect = {
-            screenX + centerInset,
-            screenY + centerInset,
-            zoomedTileSize - 2 * centerInset,
-            zoomedTileSize - 2 * centerInset
-        };
-        SDL_RenderFillRect(renderer, &centerRect);
-
-        SDL_SetRenderDrawColor(renderer, 196, 168, 120, 210);
-        if (currentGameMap->tileExists(tileX, tileY - 1) && currentGameMap->getTile(tileX, tileY - 1)->isRoad()) {
-            drawRoadStub(tileX, tileY, 0, -1);
-        }
-        if (currentGameMap->tileExists(tileX + 1, tileY) && currentGameMap->getTile(tileX + 1, tileY)->isRoad()) {
-            drawRoadStub(tileX, tileY, 1, 0);
-        }
-        if (currentGameMap->tileExists(tileX, tileY + 1) && currentGameMap->getTile(tileX, tileY + 1)->isRoad()) {
-            drawRoadStub(tileX, tileY, 0, 1);
-        }
-        if (currentGameMap->tileExists(tileX - 1, tileY) && currentGameMap->getTile(tileX - 1, tileY)->isRoad()) {
-            drawRoadStub(tileX, tileY, -1, 0);
-        }
-
-        if (!hasVisibleRoadNeighbor(tileX, tileY)) {
-            SDL_SetRenderDrawColor(renderer, 196, 168, 120, 210);
-            SDL_Rect fallbackRect = {
-                screenX + zoomedTileSize / 2 - laneHalfWidth,
-                screenY + centerInset,
-                laneHalfWidth * 2,
-                zoomedTileSize - 2 * centerInset
-            };
-            SDL_RenderFillRect(renderer, &fallbackRect);
-        }
-    });
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-}
-
-void Game::drawCityPlacementHint() {
-    if (currentCursorMode != CursorMode_CityRoad) {
-        return;
-    }
-
-    const std::string hint = std::string(DuneCity::getRoadPlacementModeLabel()) + "\nShift+R toggle · Click to place · Esc cancels";
-    sdl2::texture_ptr hintTexture = pFontManager->createTextureWithMultilineText(hint, COLOR_WHITE, 12, true);
-    if (!hintTexture) {
-        return;
-    }
-
-    int texW = 0;
-    int texH = 0;
-    SDL_QueryTexture(hintTexture.get(), nullptr, nullptr, &texW, &texH);
-
-    const int hintX = 20;
-    const int hintY = std::max(90, topBarPos.h + 18);
-    SDL_Rect bgRect = {hintX - 6, hintY - 6, texW + 12, texH + 12};
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 180);
-    SDL_RenderFillRect(renderer, &bgRect);
-    SDL_SetRenderDrawColor(renderer, 196, 168, 120, 220);
-    SDL_RenderDrawRect(renderer, &bgRect);
-
-    SDL_Rect textRect = {hintX, hintY, texW, texH};
-    SDL_RenderCopy(renderer, hintTexture.get(), nullptr, &textRect);
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
-}
-
-
 void Game::takeScreenshot() const {
     std::string screenshotFilename;
     int i = 1;
@@ -4975,24 +4302,6 @@ void Game::takeScreenshot() const {
     sdl2::surface_ptr pCurrentScreen = renderReadSurface(renderer);
     SavePNG(pCurrentScreen.get(), screenshotFilename.c_str());
     currentGame->addToNewsTicker(_("Screenshot saved") + ": '" + screenshotFilename + "'");
-}
-
-void Game::triggerFireDisaster() {
-    if(pInterface != nullptr) {
-        pInterface->addDisasterNotification(DisasterType::Fire, "Fire! Extinguish immediately!", 8, 3);
-    }
-}
-
-void Game::triggerSandstormDisaster() {
-    if(pInterface != nullptr) {
-        pInterface->addDisasterNotification(DisasterType::Sandstorm, "Sandstorm approaching!", 12, 5);
-    }
-}
-
-void Game::triggerSandwormDisaster() {
-    if(pInterface != nullptr) {
-        pInterface->addDisasterNotification(DisasterType::Sandworm, "Sandworm spotted!", 6, 2);
-    }
 }
 
 void Game::selectNextStructureOfType(const std::set<Uint32>& itemIDs) {
