@@ -55,7 +55,6 @@ struct ModInfo {
     bool hasQuantBotConfig;      ///< Does this mod have QuantBot Config.ini?
     bool hasGameOptions;         ///< Does this mod have GameOptions.ini?
 
-    bool enablesCityMode = false; ///< When true, DuneCity city-sim features are active for this mod.
 };
 
 #endif // MODINFO_H
