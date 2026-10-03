@@ -54,7 +54,7 @@ jobs:
             catch2
 
       - name: Configure CMake
-        run: cmake -B build -DDUNECITY_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
+        run: cmake -B build -DDUNELEGACY_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build tests
         run: cmake --build build --target dunelegacy_tests
@@ -62,7 +62,7 @@ jobs:
       - name: Run tests
         run: |
           DUNE_CITY_SOURCE_DIR=${{ github.workspace }} \
-          DUNECITY_DATADIR=${{ github.workspace }}/data \
+          DUNELEGACY_DATADIR=${{ github.workspace }}/data \
           ./build/bin/dunelegacy_tests
 
   build-windows:
@@ -115,7 +115,7 @@ jobs:
           echo "zero-byte placeholder artifact so dev-release/tornie-release can"
           echo "still upload the macOS step (artifact is just absent)."
           mkdir -p build
-          touch build/DuneCity-macOS-SKIP.txt
+          touch build/DuneLegacyTornie-macOS-SKIP.txt
 
   build-linux:
     runs-on: ubuntu-latest
@@ -380,8 +380,8 @@ jobs:
             echo "Auto-built from tag ${TAG}. See the [CHANGELOG](https://github.com/${GITHUB_REPOSITORY}/commits/${TAG}) for what's in this release."
             echo
             echo "**Downloads** (attached below):"
-            echo "- Windows: \`DuneCity-*.zip\`"
-            echo "- macOS: \`DuneCity-*.dmg\`"
+            echo "- Windows: \`DuneLegacyTornie-*.zip\`"
+            echo "- macOS: \`DuneLegacyTornie-*.dmg\`"
             echo "- Linux: \`.AppImage\` (recommended) / \`.deb\` / \`.rpm\` / \`.tar.gz\`"
             echo
             echo "Upgrading from a previous Dune City install? Your built-in mod INI files are reseeded automatically on first launch."
@@ -424,7 +424,7 @@ jobs:
           # Replace version numbers and download URLs in both HTML files
           for FILE in website/index.html website/dune-city.html; do
             # Download URLs: v1.0.4/DuneCity-1.0.4-... -> vVERSION/DuneCity-VERSION-...
-            sed -i "s|/v[0-9]\+\.[0-9]\+\.[0-9]\+/DuneCity-[0-9]\+\.[0-9]\+\.[0-9]\+-|/v${VERSION}/DuneCity-${VERSION}-|g" "$FILE"
+            sed -i "s|/v[0-9]\+\.[0-9]\+\.[0-9]\+/DuneCity-[0-9]\+\.[0-9]\+\.[0-9]\+-|/v${VERSION}/DuneLegacyTornie-${VERSION}-|g" "$FILE"
             # Release tag links
             sed -i "s|releases/tag/v[0-9]\+\.[0-9]\+\.[0-9]\+|releases/tag/v${VERSION}|g" "$FILE"
             # Display version strings: "Dune City X.X.X"
@@ -440,7 +440,7 @@ jobs:
           done
 
           git config user.email "ci@dunelegacy.com"
-          git config user.name "DuneCity CI"
+          git config user.name "Dune Legacy Tornie CI"
           git add website/index.html website/dune-city.html
           git diff --cached --quiet || git commit -m "release: bump website to Dune City ${VERSION}"
           git push
