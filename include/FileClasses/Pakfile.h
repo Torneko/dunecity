@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string>
 #include <vector>
+#include <mutex>
 #include <inttypes.h>
 
 #define PAKFILE_RWOP_TYPE   0x9A5F17EC
@@ -81,6 +82,8 @@ private:
 
     bool write;
     SDL_RWops * fPakFile;
+    // Each entry has its own logical cursor, but all entries share this file.
+    std::mutex readMutex;
     std::string filename;
 
     char* writeOutData;

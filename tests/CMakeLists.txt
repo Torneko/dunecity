@@ -17,6 +17,8 @@ target_sources(dunelegacy_tests
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
         SpiceVariantsTestCase/SpiceVariantsTestCase.cpp
+        PakfileConcurrentReadTestCase/PakfileConcurrentReadTestCase.cpp
+        ${CMAKE_SOURCE_DIR}/src/FileClasses/Pakfile.cpp
         globals_test_stub.cpp
         TextManager_stub.cpp
         # ENet library sources (needed for NetworkManager tests)

@@ -152,6 +152,19 @@ jobs:
               throw "Required loose Windows runtime asset is missing: $asset"
             }
           }
+          $env:SDL_VIDEODRIVER = "dummy"
+          $env:SDL_AUDIODRIVER = "dummy"
+          $env:SDL_RENDER_DRIVER = "software"
+          foreach ($language in @("fr", "en")) {
+            $env:DUNELEGACY_USER_DIR = Join-Path $env:RUNNER_TEMP "dunelegacy-installed-$language"
+            New-Item -ItemType Directory -Force -Path $env:DUNELEGACY_USER_DIR | Out-Null
+            $env:DUNELEGACY_SMOKE_DIR = $env:DUNELEGACY_USER_DIR
+            Set-Content -LiteralPath (Join-Path $env:DUNELEGACY_USER_DIR "Dune Legacy.ini") -Value "[General]`nLanguage=$language`nPlay Intro=false`n[Video]`nFullscreen=false`n[Audio]`nMusic Type=adl`nPlay Music=false" -Encoding utf8
+            $log = Join-Path $env:RUNNER_TEMP "dunelegacy-installed-$language.log"
+            $process = Start-Process -FilePath "install/dunelegacy.exe" -ArgumentList "--verify-mods", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
+            Get-Content -LiteralPath $log | Select-String "MOD SMOKE|unhandled exception|runtime check:"
+            if ($process.ExitCode -ne 0 -or -not (Select-String -LiteralPath $log -Pattern "MOD SMOKE COMPLETE:")) { throw "Installed $language mod runtime checks failed." }
+          }
           cpack -G ZIP -C Release
 
       - name: Upload Installer
