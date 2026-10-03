@@ -16,42 +16,42 @@ configure_file(
 # Main executable
 if(APPLE)
     # Create macOS application bundle
-    add_executable(dunecity MACOSX_BUNDLE)
+    add_executable(dunelegacy MACOSX_BUNDLE)
     
     # Set bundle properties
-    set_target_properties(dunecity PROPERTIES
+    set_target_properties(dunelegacy PROPERTIES
         MACOSX_BUNDLE TRUE
-        MACOSX_BUNDLE_BUNDLE_NAME "Dune City"
+        MACOSX_BUNDLE_BUNDLE_NAME "Dune Legacy Tornie"
         MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
         MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
         MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}"
         MACOSX_BUNDLE_ICON_FILE "dunecity.icns"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "net.dunecity.DuneCity"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "net.torneko.DuneLegacyTornie"
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/IDE/xCode/Info.plist"
-        MACOSX_BUNDLE_COPYRIGHT "© Dune City Team"
-        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "net.dunecity.DuneCity"
+        MACOSX_BUNDLE_COPYRIGHT "© Tornie / Dune Legacy contributors"
+        XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "net.torneko.DuneLegacyTornie"
     )
     
     # Add icon to bundle
     set_source_files_properties(${CMAKE_SOURCE_DIR}/dunecity.icns PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources"
     )
-    target_sources(dunecity PRIVATE ${CMAKE_SOURCE_DIR}/dunecity.icns)
+    target_sources(dunelegacy PRIVATE ${CMAKE_SOURCE_DIR}/dunecity.icns)
 else()
-    add_executable(dunecity)
+    add_executable(dunelegacy)
 endif()
 
 # Enable Win32 subsystem on Windows
 if(WIN32)
     if(MSVC)
         # Add Windows resource file with icon for MSVC
-        target_sources(dunecity PRIVATE "${CMAKE_SOURCE_DIR}/resource.rc")
+        target_sources(dunelegacy PRIVATE "${CMAKE_SOURCE_DIR}/resource.rc")
         # Set application icon properties for MSVC
-        set_target_properties(dunecity PROPERTIES
+        set_target_properties(dunelegacy PROPERTIES
             VS_DPI_AWARE "PerMonitor"
             WIN32_EXECUTABLE TRUE)
         
-        target_link_options(dunecity PRIVATE
+        target_link_options(dunelegacy PRIVATE
             $<$<CONFIG:Release>:/SUBSYSTEM:WINDOWS>
             $<$<CONFIG:Debug>:/SUBSYSTEM:CONSOLE>
         )
@@ -62,19 +62,19 @@ if(WIN32)
             "${CMAKE_CURRENT_BINARY_DIR}/dunecity.rc"
             COPYONLY
         )
-        target_sources(dunecity PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/dunecity.rc")
+        target_sources(dunelegacy PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/dunecity.rc")
         
         # MinGW equivalent for Windows subsystem
         if(CMAKE_BUILD_TYPE STREQUAL "Release")
-            target_link_options(dunecity PRIVATE -mwindows)
+            target_link_options(dunelegacy PRIVATE -mwindows)
         else()
-            target_link_options(dunecity PRIVATE -mconsole)
+            target_link_options(dunelegacy PRIVATE -mconsole)
         endif()
     endif()
     
     # When using vcpkg, CMake will automatically handle DLL copying
     # Add a post-build message for confirmation
-    add_custom_command(TARGET dunecity POST_BUILD
+    add_custom_command(TARGET dunelegacy POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E echo "vcpkg will automatically copy required DLLs to output directory"
         COMMENT "Checking for SDL2 DLLs..."
     )
@@ -82,18 +82,18 @@ endif()
 
 # Precompiled headers
 if(DUNECITY_ENABLE_PCH AND WIN32 AND MSVC)
-    target_precompile_headers(dunecity
+    target_precompile_headers(dunelegacy
         PRIVATE
             ${PCH_HEADER}
     )
-    target_sources(dunecity
+    target_sources(dunelegacy
         PRIVATE
             ${PCH_SOURCE}
     )
 endif()
 
 # All source files
-target_sources(dunecity
+target_sources(dunelegacy
     PRIVATE
         # Root sources
         AStarSearch.cpp
@@ -358,7 +358,7 @@ target_sources(dunecity
 )
 
 # C source files
-target_sources(dunecity
+target_sources(dunelegacy
     PRIVATE
         # enet
         enet/callbacks.c
@@ -386,7 +386,7 @@ target_sources(dunecity
 
 # Platform-specific source files
 if(APPLE)
-    target_sources(dunecity
+    target_sources(dunelegacy
         PRIVATE
             ${CMAKE_SOURCE_DIR}/IDE/xCode/MacFunctions.m
     )
@@ -401,7 +401,7 @@ endif()
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} PREFIX "Source Files" FILES ${sources})
 
 # Include directories
-target_include_directories(dunecity PRIVATE
+target_include_directories(dunelegacy PRIVATE
     ${CMAKE_BINARY_DIR}/include   # generated config.h (has correct PROJECT_VERSION)
     ${CMAKE_SOURCE_DIR}/include
     ${CMAKE_SOURCE_DIR}/src
@@ -409,7 +409,7 @@ target_include_directories(dunecity PRIVATE
 
 # Platform-specific include directories
 if(APPLE)
-    target_include_directories(dunecity PRIVATE
+    target_include_directories(dunelegacy PRIVATE
         ${CMAKE_SOURCE_DIR}/IDE/xCode
     )
 endif()
@@ -431,13 +431,13 @@ endif()
 # Find discord-rpc for Discord Rich Presence (optional)
 find_library(DISCORD_RPC_LIBRARY discord-rpc PATHS ${CMAKE_PREFIX_PATH}/lib)
 if(DISCORD_RPC_LIBRARY)
-    target_sources(dunecity PRIVATE misc/DiscordManager.cpp)
-    target_compile_definitions(dunecity PRIVATE HAS_DISCORD_RPC)
+    target_sources(dunelegacy PRIVATE misc/DiscordManager.cpp)
+    target_compile_definitions(dunelegacy PRIVATE HAS_DISCORD_RPC)
 endif()
 
 # Link libraries
 # vcpkg provides modern CMake targets for SDL2
-target_link_libraries(dunecity
+target_link_libraries(dunelegacy
     PRIVATE
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
@@ -449,7 +449,7 @@ target_link_libraries(dunecity
 )
 
 if(WIN32)
-    target_link_libraries(dunecity
+    target_link_libraries(dunelegacy
         PRIVATE
             ws2_32
             winmm
@@ -461,7 +461,7 @@ endif()
 
 # macOS-specific frameworks
 if(APPLE)
-    target_link_libraries(dunecity
+    target_link_libraries(dunelegacy
         PRIVATE
             "-framework Cocoa"
             "-framework Foundation"
@@ -470,7 +470,7 @@ if(APPLE)
 endif()
 
 # Compiler options
-target_compile_options(dunecity
+target_compile_options(dunelegacy
     PRIVATE
         $<$<CXX_COMPILER_ID:MSVC>:/W4>
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic>
@@ -507,7 +507,7 @@ endfunction()
 if(APPLE)
     # For macOS bundle, copy data files directly to Resources/ (not Resources/data/)
     # This matches the Xcode project structure where .PAK files are in Resources root
-    set(BUNDLE_RESOURCES_DIR "$<TARGET_BUNDLE_CONTENT_DIR:dunecity>/Resources")
+    set(BUNDLE_RESOURCES_DIR "$<TARGET_BUNDLE_CONTENT_DIR:dunelegacy>/Resources")
     add_custom_command(
         TARGET dunecity
         POST_BUILD
@@ -522,7 +522,7 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy
             "${CMAKE_SOURCE_DIR}/config/ObjectData.ini.default"
             "${CMAKE_SOURCE_DIR}/config/QuantBot Config.ini.default"
-            "${CMAKE_SOURCE_DIR}/config/Dune City.ini"
+            "${CMAKE_SOURCE_DIR}/config/Dune Legacy.ini"
             "${CMAKE_SOURCE_DIR}/config/README.md"
             "${BUNDLE_RESOURCES_DIR}/config/"
         COMMENT "Copying data and config files into app bundle Resources"
@@ -550,7 +550,7 @@ if(APPLE)
     add_custom_command(
         TARGET dunecity
         POST_BUILD
-        COMMAND codesign --force --deep --sign - "$<TARGET_BUNDLE_DIR:dunecity>"
+        COMMAND codesign --force --deep --sign - "$<TARGET_BUNDLE_DIR:dunelegacy>"
         COMMENT "Code signing app bundle with ad-hoc signature"
     )
 else()
@@ -576,7 +576,7 @@ else()
         COMMAND ${CMAKE_COMMAND} -E copy
             "${CMAKE_SOURCE_DIR}/config/ObjectData.ini.default"
             "${CMAKE_SOURCE_DIR}/config/QuantBot Config.ini.default"
-            "${CMAKE_SOURCE_DIR}/config/Dune City.ini"
+            "${CMAKE_SOURCE_DIR}/config/Dune Legacy.ini"
             "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/"
         COMMENT "Copying config template files to build output"
     )
@@ -686,7 +686,7 @@ endif()
 if(WIN32)
     # Windows: install to root directory
     # Use CMake build output (not VS IDE output)
-    install(TARGETS dunecity
+    install(TARGETS dunelegacy
         RUNTIME DESTINATION .
     )
     # Install vcpkg DLLs for Windows
@@ -698,14 +698,14 @@ if(WIN32)
     endif()
 elseif(APPLE)
     # macOS: install as bundle
-    install(TARGETS dunecity
+    install(TARGETS dunelegacy
         BUNDLE DESTINATION .
     )
 
     # Re-codesign the installed bundle. The POST_BUILD codesign on the
     # in-tree build is invalidated by `cmake --install` rewriting the
     # binary's rpath, so verification fails ("code or signature have
-    # been modified") and macOS shows "dunecity.app is damaged and
+    # been modified") and macOS shows "dunelegacy.app is damaged and
     # can't be opened." Signing the bundle at install time, after all
     # rpath fixup is done, restores a valid ad-hoc signature. The
     # signature is still ad-hoc (no Apple Developer ID), so first-run
@@ -713,34 +713,34 @@ elseif(APPLE)
     # warning becomes "cannot verify developer" with an Open Anyway
     # path instead of the unrecoverable "damaged" message.
     install(CODE "
-        message(STATUS \"Re-codesigning installed dunecity.app...\")
+        message(STATUS \"Re-codesigning installed dunelegacy.app...\")
         execute_process(
-            COMMAND codesign --force --deep --sign - \"\${CMAKE_INSTALL_PREFIX}/dunecity.app\"
+            COMMAND codesign --force --deep --sign - \"\${CMAKE_INSTALL_PREFIX}/dunelegacy.app\"
             RESULT_VARIABLE _codesign_result
         )
         if(NOT _codesign_result EQUAL 0)
             message(FATAL_ERROR \"Install-time codesign failed with exit code \${_codesign_result}\")
         endif()
         execute_process(
-            COMMAND codesign --verify --deep --strict \"\${CMAKE_INSTALL_PREFIX}/dunecity.app\"
+            COMMAND codesign --verify --deep --strict \"\${CMAKE_INSTALL_PREFIX}/dunelegacy.app\"
             RESULT_VARIABLE _verify_result
         )
         if(NOT _verify_result EQUAL 0)
             message(FATAL_ERROR \"Install-time codesign verification failed with exit code \${_verify_result}\")
         endif()
-        message(STATUS \"Installed dunecity.app signature verified.\")
+        message(STATUS \"Installed dunelegacy.app signature verified.\")
     ")
 else()
     # Linux: set rpath so the installed binary finds bundled .so files relative
     # to itself rather than requiring system-installed or build-tree libraries.
     # $ORIGIN expands to the directory containing the binary at runtime, so
-    # $ORIGIN/../lib/dunecity resolves to <prefix>/lib/dunecity.
-    set_target_properties(dunecity PROPERTIES
-        INSTALL_RPATH "$ORIGIN/../lib/dunecity"
+    # $ORIGIN/../lib/dunelegacy resolves to <prefix>/lib/dunelegacy.
+    set_target_properties(dunelegacy PROPERTIES
+        INSTALL_RPATH "$ORIGIN/../lib/dunelegacy"
         BUILD_WITH_INSTALL_RPATH FALSE
     )
 
-    install(TARGETS dunecity
+    install(TARGETS dunelegacy
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
