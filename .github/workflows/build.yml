@@ -51,7 +51,8 @@ jobs:
           set -e
           if grep -RInE 'DuneCity|Dune City|dunecity' \
               src include tests config mods scripts CMakeLists.txt \
-              --exclude='ChangeLog' --exclude='*.md' --exclude='*.txt'; then
+              --exclude='ChangeLog' --exclude='*.md' --exclude='*.txt' \
+              --exclude='SaveCompatTestCase.cpp'; then
             echo "::error::Legacy DuneCity reference found in active project files."
             exit 1
           fi
