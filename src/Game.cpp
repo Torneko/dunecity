@@ -324,7 +324,7 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
 
     applyCustomPaletteRuntimeHouseRamps();
 
-    // DuneCity 1.0.487: invalidate sprite texture cache to fix
+    // Invalidate sprite texture cache to fix
     // the first-launch invisibility bug. Preserves uiGraphic.
     if(pGFXManager) {
         pGFXManager->invalidateAllSpriteTextures();
@@ -3219,8 +3219,8 @@ bool Game::loadSaveGame(InputStream& stream) {
     // SAVEGAMEVERSION 9811+ stores an item count in the stream (pass 0 to auto-read).
     // Pre-9811 saves lack the count field; we infer it from duneVersion:
     //   "dunelegacy*"               → 41 items (original Dune Legacy 0.99.x)
-    //   "dunecity1.0.0"–"1.0.7"    → 48 items
-    //   "dunecity1.0.8"–"1.0.10"   → 52 items
+    //   "legacy1.0.0"–"1.0.7"    → 48 items
+    //   "legacy1.0.8"–"1.0.10"   → 52 items
     int savedItemCount = determineLegacySavedItemCount(savegameVersion, duneVersion);
     if(savedItemCount != 0) {
         SDL_Log("Game::loadSaveGame(): legacy save v%d (%s) — loading %d items (current: %d)",
@@ -3316,12 +3316,12 @@ bool Game::loadSaveGame(InputStream& stream) {
         screenborder->load(stream);
     }
 
-    // Keep the legacy DuneCity flag position for save compatibility.
+    // Keep the legacy city-simulation flag position for save compatibility.
     // City-simulation saves are intentionally not supported by this separated project.
     if (savegameVersion >= 9807) {
         const bool hasLegacyCityState = stream.readBool();
         if (hasLegacyCityState) {
-            SDL_Log("Cannot load this save: it contains DuneCity city-simulation state.");
+            SDL_Log("Cannot load this save: it contains legacy city-simulation state.");
             return false;
         }
     }
@@ -3438,7 +3438,7 @@ bool Game::saveGame(const std::string& filename)
         screenborder->save(fs);
     }
 
-    // Preserve the legacy save-field position while writing no DuneCity state.
+    // Preserve the legacy save-field position while writing no city-simulation state.
     fs.writeBool(false);
 
     // save triggers
