@@ -185,17 +185,17 @@ endif()
 
 # Install desktop file and icons on Linux
 if(UNIX AND NOT APPLE)
-    install(FILES dunecity.desktop
+    install(FILES dunelegacy-tornie.desktop
         DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
     )
-    install(FILES dunecity.png
+    install(FILES dunelegacy-tornie.png
         DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/48x48/apps
     )
-    install(FILES dunecity-128x128.png
+    install(FILES dunelegacy-tornie-128x128.png
         DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/128x128/apps
-        RENAME dunecity.png
+        RENAME dunelegacy-tornie.png
     )
-    install(FILES dunecity.svg
+    install(FILES dunelegacy-tornie.svg
         DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps
     )
 endif()
@@ -236,8 +236,8 @@ if(WIN32)
     set(CPACK_GENERATOR "NSIS;ZIP")
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)
     set(CPACK_NSIS_MODIFY_PATH OFF)
-    set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/dunecity.ico")
-    set(CPACK_NSIS_MUI_UNIICON "${CMAKE_CURRENT_SOURCE_DIR}/dunecity.ico")
+    set(CPACK_NSIS_MUI_ICON "${CMAKE_CURRENT_SOURCE_DIR}/dunelegacy-tornie.ico")
+    set(CPACK_NSIS_MUI_UNIICON "${CMAKE_CURRENT_SOURCE_DIR}/dunelegacy-tornie.ico")
     set(CPACK_NSIS_INSTALLED_ICON_NAME "dunelegacy.exe")
     set(CPACK_NSIS_DISPLAY_NAME "Dune Legacy Tornie")
     set(CPACK_NSIS_PACKAGE_NAME "Dune Legacy Tornie")
@@ -296,7 +296,7 @@ elseif(APPLE)
     set(CPACK_DMG_VOLUME_NAME "Dune Legacy Tornie ${PROJECT_VERSION}")
     set(CPACK_DMG_FORMAT "UDZO")  # Compressed
     set(CPACK_PACKAGE_FILE_NAME "DuneLegacyTornie-${PROJECT_VERSION}-macOS")
-    set(MACOSX_BUNDLE_ICON_FILE "dunecity.icns")
+    set(MACOSX_BUNDLE_ICON_FILE "dunelegacy-tornie.icns")
 
     # Install README and release notes to DMG root (not inside .app)
     install(FILES README DESTINATION . COMPONENT Runtime)
