@@ -159,10 +159,6 @@ AStarSearch::AStarSearch(Map* pMap, UnitBase* pUnit, Coord start, Coord destinat
 
                         {
                             FixPoint terrainCost = pUnit->isAFlyingUnit() ? 1.0_fix : pUnit->getTerrainDifficulty((TERRAINTYPE) nextTile.getType());
-                            // Road tiles are faster for ground units; reduce path cost to match.
-                            if(!pUnit->isAFlyingUnit() && nextTile.isRoad()) {
-                                terrainCost /= ROADSPEEDMULTIPLIER;
-                            }
                             if((nextCoord.x != currentCoord.x) && (nextCoord.y != currentCoord.y)) {
                                 g += FixPt_SQRT2 * terrainCost;
                             } else {
