@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# bump-version.sh — single source of truth for DuneCity version bumps.
+# bump-version.sh — single source of truth for Dune Legacy Tornie version bumps.
 # Updates CMakeLists.txt, include/config.h, and vcpkg.json consistently.
 #
 # Usage:
@@ -22,7 +22,7 @@ VCPKG="$REPO_ROOT/vcpkg.json"
 pypath() { command -v cygpath >/dev/null 2>&1 && cygpath -w "$1" || echo "$1"; }
 
 read_cmake_version() {
-  sed -n 's/^project(DuneCity VERSION \([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' "$CMAKE"
+  sed -n 's/^project(DuneLegacyTornie VERSION \([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' "$CMAKE"
 }
 
 read_config_h_version() {
@@ -92,7 +92,7 @@ bump_file() {
 }
 
 bump_file "$CMAKE" \
-  "s/project(DuneCity VERSION [0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/project(DuneCity VERSION ${VERSION}/" \
+  "s/project(DuneLegacyTornie VERSION [0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*/project(DuneLegacyTornie VERSION ${VERSION}/" \
   ""
 
 bump_file "$CONFIG_H" \
