@@ -5,7 +5,7 @@ on:
     branches: [ main, release-*, tornie-beta, dunelegacy-tornie ]
     tags:     [ 'v*' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, dunelegacy-tornie ]
   workflow_dispatch:
 
 concurrency:
@@ -64,6 +64,9 @@ jobs:
             libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev \
             libcurl4-openssl-dev \
             catch2
+
+      - name: Validate supplied spice maps
+        run: python3 scripts/add-spice-variants.py --check
 
       - name: Configure CMake
         run: cmake -B build -DDUNELEGACY_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
@@ -218,7 +221,10 @@ jobs:
 
           # Rename with version for clarity
           VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' ../CMakeLists.txt)
-          mv DuneLegacyTornie-*.AppImage "DuneLegacyTornie-${VERSION}-Linux-x86_64.AppImage" 2>/dev/null || true
+          for image in ./*.AppImage; do
+            mv "$image" "DuneLegacyTornie-${VERSION}-Linux-x86_64.AppImage"
+            break
+          done
 
       - name: Upload Packages
         uses: actions/upload-artifact@v4

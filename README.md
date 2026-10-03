@@ -4,6 +4,18 @@
 
 This repository is intentionally separated from **DuneCity** and **Dune2R**. The former DuneCity city-building simulation is not part of this project.
 
+Project repository: https://github.com/Torneko/dunelegacy-tornie
+
+The supplied maps contain small, reproducible pockets of Tornie red and green spice.
+About 10% of normal spice tiles are replaced, preserving thin/thick terrain, blooms,
+rock, units, buildings and scenario coordinates. Version-2 maps store the new terrain
+directly; the 25 seed-based legacy scenarios opt in through `SpiceVariantPercent`
+and `SpiceVariantSeed` in `[MAP]`. Unmarked maps keep their original spice.
+The optional loader rule is capped at 15%. Run
+`python scripts/add-spice-variants.py --check` to validate the supplied maps;
+`--write` applies the conversion to new, unmarked maps without converting existing
+maps twice.
+
 ## Main goals
 
 - Preserve the Dune Legacy RTS foundation.

@@ -140,13 +140,15 @@ int VersionChecker::checkThreadMain(void* data) {
     try {
         std::string response = loadFromHttp(api);
 
-        // GitHub returns JSON; we only need tag_name. A full JSON parser
-        // would be overkill — find the field by substring. Format:
-        //   "tag_name":"v1.0.0"
-        const std::string tagKey = "\"tag_name\":\"";
+        // GitHub's JSON may contain whitespace around the colon.
+        const std::string tagKey = "\"tag_name\"";
         const size_t tagPos = response.find(tagKey);
-        if (tagPos != std::string::npos) {
-            const size_t start = tagPos + tagKey.size();
+        const size_t colon = tagPos == std::string::npos ? std::string::npos
+            : response.find_first_not_of(" \t\r\n", tagPos + tagKey.size());
+        const size_t value = colon == std::string::npos || response[colon] != ':'
+            ? std::string::npos : response.find_first_not_of(" \t\r\n", colon + 1);
+        if (value != std::string::npos && response[value] == '"') {
+            const size_t start = value + 1;
             const size_t end   = response.find('"', start);
             if (end != std::string::npos) {
                 std::string tag = response.substr(start, end - start);

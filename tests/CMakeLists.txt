@@ -14,6 +14,7 @@ target_sources(dunelegacy_tests
         NetworkManagerTestCase/NetworkManagerTestCase.cpp
         UnitMovementPolicyTestCase/UnitMovementPolicyTestCase.cpp
         SaveCompatTestCase/SaveCompatTestCase.cpp
+        SpiceVariantsTestCase/SpiceVariantsTestCase.cpp
         globals_test_stub.cpp
         TextManager_stub.cpp
         # ENet library sources (needed for NetworkManager tests)
@@ -37,7 +38,7 @@ target_include_directories(dunelegacy_tests
         ${CMAKE_BINARY_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/src/enet  # For enet headers
-        ${CMAKE_SOURCE_DIR}/src      # For audio/sounds.h and other src-level headers
+        ${CMAKE_SOURCE_DIR}/src      # For source-level headers
 )
 
 # Link libraries

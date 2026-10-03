@@ -1,4 +1,5 @@
 #include <INIMap/INIMapLoader.h>
+#include <INIMap/SpiceVariants.h>
 
 #include <FileClasses/FileManager.h>
 
@@ -437,6 +438,37 @@ void INIMapLoader::loadMap() {
         }
 
         currentGameMap->createSandRegions();
+    }
+
+    // Seed-based legacy scenarios cannot store terrain rows. They explicitly opt
+    // into the same deterministic spice patches as the supplied version-2 maps.
+    const int variantPercent = inifile->getIntValue("MAP", "SpiceVariantPercent", 0);
+    if(variantPercent > 0) {
+        std::string terrain(static_cast<size_t>(sizeX) * sizeY, '-');
+        for(int y = 0; y < sizeY; ++y) {
+            for(int x = 0; x < sizeX; ++x) {
+                const int type = currentGameMap->getTile(x, y)->getType();
+                terrain[static_cast<size_t>(y) * sizeX + x] =
+                    type == Terrain_Spice ? '~' : type == Terrain_ThickSpice ? '+' : '-';
+            }
+        }
+        const auto variants = SpiceVariants::apply(terrain, sizeX, variantPercent,
+            static_cast<uint32_t>(inifile->getIntValue("MAP", "SpiceVariantSeed", 0)));
+        for(int y = 0; y < sizeY; ++y) {
+            for(int x = 0; x < sizeX; ++x) {
+                const size_t index = static_cast<size_t>(y) * sizeX + x;
+                if(variants[index] == terrain[index]) {
+                    continue;
+                }
+                auto* tile = currentGameMap->getTile(x, y);
+                const auto spiceAmount = tile->getSpice();
+                const char variant = variants[index];
+                tile->setType(variant == 'g' ? Terrain_GreenSpice
+                    : variant == 'G' ? Terrain_ThickGreenSpice
+                    : variant == 'r' ? Terrain_RedSpice : Terrain_ThickRedSpice);
+                tile->setSpice(spiceAmount);
+            }
+        }
     }
 
     screenborder->adjustScreenBorderToMapsize(currentGameMap->getSizeX(), currentGameMap->getSizeY());
