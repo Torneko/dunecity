@@ -3139,14 +3139,11 @@ bool Game::loadSaveGame(InputStream& stream) {
                 SDL_Log("Game::loadSaveGame(): Required mod '%s' not found - loading with current mod active",
                         savedModName.c_str());
             } else if (savedModName != currentModName) {
-                // Auto-switch to the save's mod so its rules (city sim,
-                // ObjectData, GameOptions) match what the save was authored
-                // against. Persists via active_mod.txt — same as picking it
-                // in the mod menu.
+                // Auto-switch to the save's mod so its ObjectData and
+                // GameOptions match what the save was authored against.
                 if (ModManager::instance().setActiveMod(savedModName)) {
                     SDL_Log("Game::loadSaveGame(): switched active mod to '%s' for save load",
                             savedModName.c_str());
-                    citySimEnabled_ = ModManager::instance().isCityModeActive();
                 } else {
                     SDL_Log("Game::loadSaveGame(): WARNING - failed to switch to mod '%s'; loading anyway",
                             savedModName.c_str());
