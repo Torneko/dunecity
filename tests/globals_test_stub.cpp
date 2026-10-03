@@ -1,7 +1,7 @@
 /*
- *  globals_test_stub.cpp - Minimal test stub for globals needed by CitySimulation tests.
+ *  globals_test_stub.cpp - Minimal test stub for globals needed by the test suite.
  *
- *  Provides null pointers and minimal stubs so that CitySimulation.cpp and sounds.cpp
+ *  Provides null pointers and minimal stubs so that sounds.cpp and other test targets
  *  compile and link in the test executable without the full Dune Legacy game
  *  infrastructure.
  */
