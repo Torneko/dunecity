@@ -53,11 +53,6 @@ typedef enum {
     CMD_PLAYER_RESUME,                  ///< CMD_PLAYER_RESUME() - notify other players this player resumed
     CMD_TEST_SYNC,                      ///< TEST_SYNC(SEED)
 
-    // DuneCity commands
-    CMD_CITY_PLACE_ZONE,                ///< CMD_CITY_PLACE_ZONE(X, Y, ZONE_TYPE)
-    CMD_CITY_SET_TAX_RATE,              ///< CMD_CITY_SET_TAX_RATE(HOUSE_ID, RATE)
-    CMD_CITY_SET_BUDGET,                ///< CMD_CITY_SET_BUDGET(ROAD_PCT, POLICE_PCT, FIRE_PCT)
-    CMD_CITY_TOOL,                      ///< CMD_CITY_TOOL(X, Y, TOOL_TYPE) - bulldoze, road, power line, etc.
     CMD_TECHCENTER_SPAWN,               ///< TECHCENTER_SPAWN(OBJECT_ID)
 
     CMD_MAX
