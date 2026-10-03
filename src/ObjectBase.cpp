@@ -56,11 +56,7 @@
 #include <structures/TechCenter.h>
 #include <structures/Scoutpost.h>
 #include <structures/NuclearPlant.h>
-#include <structures/PoliceStation.h>
-#include <structures/Stadium.h>
-#include <structures/Airport.h>
 #include <structures/WOR.h>
-#include <structures/ZoneStructure.h>
 
 //units
 #include <units/Carryall.h>
@@ -82,8 +78,6 @@
 #include <units/Tank.h>
 #include <units/Trike.h>
 #include <units/Trooper.h>
-#include <units/AmbientAirplane.h>
-#include <units/AmbientHelicopter.h>
 #include <units/RocketTrike.h>
 #include <units/SonicTrike.h>
 #include <units/FlameTank.h>
@@ -841,12 +835,6 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
         case Structure_Scoutpost:           newObject = new Scoutpost(Owner); break;
         case Structure_WOR:                 newObject = new WOR(Owner); break;
         case Structure_NuclearPlant:        newObject = new NuclearPlant(Owner); break;
-        case Structure_PoliceStation:       newObject = new PoliceStation(Owner); break;
-        case Structure_ZoneResidential:     newObject = new ResidentialZone(Owner); break;
-        case Structure_ZoneCommercial:      newObject = new CommercialZone(Owner); break;
-        case Structure_ZoneIndustrial:      newObject = new IndustrialZone(Owner); break;
-        case Structure_Stadium:             newObject = new Stadium(Owner); break;
-        case Structure_Airport:             newObject = new Airport(Owner); break;
 
         case Unit_Carryall:                 newObject = new Carryall(Owner); break;
         case Unit_Devastator:               newObject = new Devastator(Owner); break;
@@ -867,8 +855,6 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario) 
         case Unit_Trike:                    newObject = new Trike(Owner); break;
         case Unit_RaiderTrike:              newObject = new RaiderTrike(Owner); break;
         case Unit_Trooper:                  newObject = new Trooper(Owner); break;
-        case Unit_AmbientAirplane:          newObject = new AmbientAirplane(Owner); break;
-        case Unit_AmbientHelicopter:        newObject = new AmbientHelicopter(Owner); break;
         case Unit_RocketTrike:              newObject = new RocketTrike(Owner); break;
         case Unit_SonicTrike:               newObject = new SonicTrike(Owner); break;
         case Unit_FlameTank:                newObject = new FlameTank(Owner); break;
@@ -946,12 +932,6 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Structure_Scoutpost:           newObject = new Scoutpost(stream); break;
         case Structure_WOR:                 newObject = new WOR(stream); break;
         case Structure_NuclearPlant:        newObject = new NuclearPlant(stream); break;
-        case Structure_PoliceStation:       newObject = new PoliceStation(stream); break;
-        case Structure_ZoneResidential:     newObject = new ResidentialZone(stream); break;
-        case Structure_ZoneCommercial:      newObject = new CommercialZone(stream); break;
-        case Structure_ZoneIndustrial:      newObject = new IndustrialZone(stream); break;
-        case Structure_Stadium:             newObject = new Stadium(stream); break;
-        case Structure_Airport:             newObject = new Airport(stream); break;
 
         case Unit_Carryall:                 newObject = new Carryall(stream); break;
         case Unit_Devastator:               newObject = new Devastator(stream); break;
@@ -972,8 +952,6 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Unit_Trike:                    newObject = new Trike(stream); break;
         case Unit_RaiderTrike:              newObject = new RaiderTrike(stream); break;
         case Unit_Trooper:                  newObject = new Trooper(stream); break;
-        case Unit_AmbientAirplane:          newObject = new AmbientAirplane(stream); break;
-        case Unit_AmbientHelicopter:        newObject = new AmbientHelicopter(stream); break;
         case Unit_RocketTrike:              newObject = new RocketTrike(stream); break;
         case Unit_SonicTrike:               newObject = new SonicTrike(stream); break;
         case Unit_FlameTank:                newObject = new FlameTank(stream); break;
