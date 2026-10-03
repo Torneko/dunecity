@@ -1225,20 +1225,8 @@ GFXManager::GFXManager() {
 
     // scale obj pics and apply color key
     for(int id = 0; id < NUM_OBJPICS; id++) {
-        // Zone sprites (and Star) are 32-bit RGBA with per-pixel alpha.
-        // SDL_SetColorKey with PALCOLOR_TRANSPARENT (== 0) on them would
-        // treat any pixel with raw value 0 as color-keyed, overriding the
-        // alpha channel and producing black squares where transparent
-        // pixels have non-zero RGB.  Skip color keying for these IDs.
-        const bool isTruecolorSprite = (id == ObjPic_ZoneResidential
-                                     || id == ObjPic_ZoneCommercial
-                                     || id == ObjPic_ZoneIndustrial
-                                     || id == ObjPic_CityRoad
-                                     || id == ObjPic_NuclearPlant
-                                     || id == ObjPic_PoliceStation
-                                     || id == ObjPic_Stadium
-                                     || id == ObjPic_Airport
-                                     || id == ObjPic_Star);
+        // Star is a truecolor RGBA sprite with per-pixel alpha.
+        const bool isTruecolorSprite = (id == ObjPic_Star);
 
         for(int h = 0; h < (int) NUM_HOUSES; h++) {
             if(objPic[id][h][0] != nullptr) {
@@ -1323,7 +1311,7 @@ GFXManager::GFXManager() {
     smallDetailPicTex[Picture_WindTrap] = extractSmallDetailPic("WINDTRAP.WSA");
     smallDetailPicTex[Picture_WOR] = extractSmallDetailPic("WOR.WSA");
 
-    // DuneCity 1.0.506: Tornie unit portraits. The mod ships 91x55 PNG icons
+    // Tornie unit portraits. The mod ships 91x55 PNG icons
     // (RocketTrikeIcon.png, FlameTankIcon.png, EliteLauncherIcon.png,
     // EliteSiegeTankIcon.png) as WSA replacements — simpler than authoring
     // 4 new WSA animations. Load via LoadPNG_RW; if missing, fall back to a
