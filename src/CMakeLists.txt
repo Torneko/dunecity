@@ -175,7 +175,6 @@ target_sources(dunelegacy
         GUI/TextView.cpp
         GUI/RadioButtonManager.cpp
         GUI/dune/ChatManager.cpp
-        GUI/dune/CityBudgetWindow.cpp
         GUI/dune/DuneStyle.cpp
         GUI/dune/GameOptionsWindow.cpp
         GUI/dune/LoadSaveWindow.cpp
@@ -259,10 +258,6 @@ target_sources(dunelegacy
         structures/Scoutpost.cpp
         structures/WOR.cpp
         structures/NuclearPlant.cpp
-        structures/PoliceStation.cpp
-        structures/Stadium.cpp
-        structures/Airport.cpp
-        structures/ZoneStructure.cpp
 
         # Units
         units/UnitBase.cpp
@@ -290,8 +285,6 @@ target_sources(dunelegacy
         units/Tank.cpp
         units/Trike.cpp
         units/Trooper.cpp
-        units/AmbientAirplane.cpp
-        units/AmbientHelicopter.cpp
         units/RocketTrike.cpp
         units/SonicTrike.cpp
         units/FlameTank.cpp
@@ -333,15 +326,6 @@ target_sources(dunelegacy
         Trigger/ReinforcementTrigger.cpp
         Trigger/TimeoutTrigger.cpp
 
-        # DuneCity - city-building simulation layer
-        dunecity/CitySimulation.cpp
-        dunecity/CityEffectsRuntime.cpp
-        dunecity/PowerGrid.cpp
-        dunecity/ZoneSimulation.cpp
-        dunecity/TrafficSimulation.cpp
-        dunecity/CityScanner.cpp
-        dunecity/CityBudget.cpp
-        dunecity/CityEvaluation.cpp
 
         # misc
         misc/draw_util.cpp
