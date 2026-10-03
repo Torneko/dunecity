@@ -110,13 +110,6 @@ std::string ModManager::getActiveModName() const {
     return activeMod;
 }
 
-bool ModManager::isCityModeActive() const {
-    // Dune Legacy Tornie is intentionally separated from DuneCity.
-    // Keep this method for savegame/source compatibility, but never
-    // activate the former city-simulation layer.
-    return false;
-}
-
 bool ModManager::setActiveMod(const std::string& name) {
     if (!modExists(name)) {
         SDL_Log("ModManager: Cannot activate mod '%s' - does not exist", name.c_str());
@@ -317,7 +310,6 @@ SettingsClass::GameOptionsClass ModManager::loadEffectiveGameOptions(
             else if (key == "Maximum Number of Units Override") result.maximumNumberOfUnitsOverride = std::stoi(value);
             else if (key == "Maximum Number of Harvesters Override") result.maximumNumberOfHarvestersOverride = std::stoi(value);
             else if (key == "Immortal Human Player") result.immortalHumanPlayer = parseBool(value);
-            else if (key == "City Effects") result.cityEffects = parseBool(value);
         }
         
         file.close();
@@ -739,7 +731,6 @@ void ModManager::seedVanillaFromDefaults() {
         gameOptionsFile << "Manual Carryall Drops = false\n";
         gameOptionsFile << "Maximum Number of Units Override = 0\n";
         gameOptionsFile << "Maximum Number of Harvesters Override = -1\n";
-        gameOptionsFile << "City Effects = false\n";
         gameOptionsFile.close();
         SDL_Log("ModManager: Created %s", GAME_OPTIONS_FILE);
     }
@@ -751,7 +742,6 @@ void ModManager::seedVanillaFromDefaults() {
     info.author = "Dune Legacy Tornie";
     info.description = "Default game settings";
     info.gameVersion = VERSION;
-    info.enablesCityMode = false;
     writeModInfo(vanillaPath, info);
 
     SDL_Log("ModManager: Vanilla mod seeded successfully");
@@ -995,9 +985,6 @@ ModInfo ModManager::readModIni(const std::string& modPath) const {
         else if (key == "Description") info.description = value;
         else if (key == "Version") info.version = value;
         else if (key == "Game Version") info.gameVersion = value;
-        else if (key == "Enables City Mode") {
-            info.enablesCityMode = (value == "true" || value == "1" || value == "yes");
-        }
     }
     
     file.close();
@@ -1019,7 +1006,6 @@ void ModManager::writeModInfo(const std::string& modPath, const ModInfo& info) c
     file << "Description = " << info.description << "\n";
     file << "Version = " << info.version << "\n";
     file << "Game Version = " << info.gameVersion << "\n";
-    file << "Enables City Mode = " << (info.enablesCityMode ? "true" : "false") << "\n";
 
     file.close();
 }
