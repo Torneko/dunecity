@@ -25,7 +25,7 @@ if(APPLE)
         MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
         MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
         MACOSX_BUNDLE_LONG_VERSION_STRING "${PROJECT_VERSION}"
-        MACOSX_BUNDLE_ICON_FILE "dunecity.icns"
+        MACOSX_BUNDLE_ICON_FILE "dunelegacy-tornie.icns"
         MACOSX_BUNDLE_GUI_IDENTIFIER "net.torneko.DuneLegacyTornie"
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_SOURCE_DIR}/IDE/xCode/Info.plist"
         MACOSX_BUNDLE_COPYRIGHT "© Tornie / Dune Legacy contributors"
@@ -33,10 +33,10 @@ if(APPLE)
     )
     
     # Add icon to bundle
-    set_source_files_properties(${CMAKE_SOURCE_DIR}/dunecity.icns PROPERTIES
+    set_source_files_properties(${CMAKE_SOURCE_DIR}/dunelegacy-tornie.icns PROPERTIES
         MACOSX_PACKAGE_LOCATION "Resources"
     )
-    target_sources(dunelegacy PRIVATE ${CMAKE_SOURCE_DIR}/dunecity.icns)
+    target_sources(dunelegacy PRIVATE ${CMAKE_SOURCE_DIR}/dunelegacy-tornie.icns)
 else()
     add_executable(dunelegacy)
 endif()
@@ -58,11 +58,11 @@ if(WIN32)
     else()
         # For MinGW, add the resource file with the icon
         configure_file(
-            "${CMAKE_CURRENT_SOURCE_DIR}/dunecity.rc"
-            "${CMAKE_CURRENT_BINARY_DIR}/dunecity.rc"
+            "${CMAKE_CURRENT_SOURCE_DIR}/dunelegacy-tornie.rc"
+            "${CMAKE_CURRENT_BINARY_DIR}/dunelegacy-tornie.rc"
             COPYONLY
         )
-        target_sources(dunelegacy PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/dunecity.rc")
+        target_sources(dunelegacy PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/dunelegacy-tornie.rc")
         
         # MinGW equivalent for Windows subsystem
         if(CMAKE_BUILD_TYPE STREQUAL "Release")
