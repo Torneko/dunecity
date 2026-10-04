@@ -28,6 +28,9 @@ statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Game save formats
 remain unchanged. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
 
+Version **1.0.527** corrects Chaos Factory graphics and its map-editor preview
+after switching mods, with render checks across faction colors and zoom levels.
+
 - Preserve the Dune Legacy RTS foundation.
 - Keep Tornie-specific gameplay and quality-of-life improvements.
 - Support the extended house roster, including Neutral and Rebels.

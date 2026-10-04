@@ -1,4 +1,18 @@
-# Dune Legacy Tornie 1.0.526
+# Dune Legacy Tornie 1.0.527
+
+Fixes the Chaos Factory's Starport fallback in the map editor after a mod switch.
+Its dedicated 3x2 preview is now rebuilt with the other mod-dependent structures.
+The structure sprite loader also accepts its bundled RGBA PNG through the existing
+game-palette/team-color pipeline instead of rejecting it. Original PNG assets,
+balance, item IDs, achievement profiles and save formats are preserved.
+
+The real-engine regression check verifies the preview and sprite atlas after
+startup, mod switches, game initialization and save/load. It checks every campaign
+faction slot at all three zooms, and compares the rendered editor preview pixel for
+pixel with the active structure frame. The previous build reproduced the fallback
+failure. Full achievement and campaign integration checks remain enabled.
+
+## Previous release: 1.0.526
 
 Adds 37 internal offline achievements, a main-menu window with cumulative statistics
 and discreet news-ticker unlock notifications. Definitions and French/English text

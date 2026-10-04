@@ -13,6 +13,56 @@
 #include <fstream>
 #include <stdexcept>
 
+inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
+                                      const std::string& stage) {
+    auto require = [](bool value, const std::string& message) {
+        if(!value) throw std::runtime_error("Mod runtime check: Chaos Factory " + message);
+    };
+    constexpr int width = 3 * D2_TILESIZE, height = 2 * D2_TILESIZE;
+    for(int house = 0; house < NUM_CAMPAIGN_HOUSES; ++house) {
+        auto* preview = pGFXManager->getUIGraphicSurface(UI_MapEditor_ChaosFactory, house);
+        require(preview && preview->w == width && preview->h == height,
+                mod + " " + stage + " editor preview is using a fallback");
+        for(unsigned zoom = 0; zoom < NUM_ZOOMLEVEL; ++zoom) {
+            auto* texture = pGFXManager->getZoomedObjPic(ObjPic_ChaosFactory, house, zoom);
+            int w = 0, h = 0;
+            require(texture && SDL_QueryTexture(texture, nullptr, nullptr, &w, &h) == 0
+                    && w == 4 * width * static_cast<int>(zoom + 1)
+                    && h == height * static_cast<int>(zoom + 1),
+                    mod + " " + stage + " atlas dimensions/zoom do not match custom art");
+        }
+    }
+    // Compare actual rendered pixels, so a non-null but stale preview cannot pass.
+    auto* atlas = pGFXManager->getZoomedObjPic(ObjPic_ChaosFactory, HOUSE_HARKONNEN, 0);
+    auto* preview = pGFXManager->getUIGraphic(UI_MapEditor_ChaosFactory, HOUSE_HARKONNEN);
+    SDL_RenderSetClipRect(renderer, nullptr);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
+    SDL_Rect source{2 * width, 0, width, height};
+    SDL_Rect left{0, 0, width, height}, right{width, 0, width, height};
+    require(SDL_RenderCopy(renderer, atlas, &source, &left) == 0
+            && SDL_RenderCopy(renderer, preview, nullptr, &right) == 0, "rendering");
+    auto pixels = sdl2::surface_ptr(SDL_CreateRGBSurfaceWithFormat(
+        0, 2 * width, height, 32, SDL_PIXELFORMAT_ARGB8888));
+    SDL_Rect area{0, 0, 2 * width, height};
+    require(pixels && SDL_RenderReadPixels(renderer, &area, pixels->format->format,
+                                         pixels->pixels, pixels->pitch) == 0, "pixel capture");
+    bool visible = false;
+    for(int y = 0; y < height; ++y) {
+        auto* row = reinterpret_cast<const Uint32*>(static_cast<const Uint8*>(pixels->pixels) + y * pixels->pitch);
+        for(int x = 0; x < width; ++x) {
+            visible = visible || (row[x] & 0xffffff) != 0;
+            require((row[x] & 0xffffff) == (row[x + width] & 0xffffff),
+                    mod + " " + stage + " editor preview differs from the dedicated sprite");
+        }
+    }
+    require(visible, mod + " " + stage + " sprite is invisible");
+    require(SDL_SaveBMP(pixels.get(), (std::filesystem::path(output)
+            / (mod + "-chaos-" + stage + ".bmp")).string().c_str()) == 0, "preview output");
+    SDL_Log("CHAOS GRAPHICS PASS: %s %s, all faction slots/zooms and exact editor pixels",
+            mod.c_str(), stage.c_str());
+}
+
 inline void runModRuntimeSmoke() {
     auto require = [](bool value, const std::string& message) {
         if(!value) throw std::runtime_error("Mod runtime check: " + message);
@@ -23,6 +73,7 @@ inline void runModRuntimeSmoke() {
     require(PlayerFactory::getByPlayerClass(HUMANPLAYERCLASS) != nullptr, "human player factory unavailable");
     auto& mods = ModManager::instance();
     const std::string previousMod = mods.getActiveModName();
+    if(mods.isTornieContentActive()) verifyChaosFactoryGraphics(output, previousMod, "startup");
     int scenarios = 0;
     for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "vanilla", "Jericho", "TornieLite"}) {
         require(mods.modExists(mod), "missing selectable mod " + mod);
@@ -37,6 +88,7 @@ inline void runModRuntimeSmoke() {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             continue;
         }
+        verifyChaosFactoryGraphics(output, mod, "switch");
         // Load the opening and final scenarios of every bundled campaign through
         // the actual INI loader, object factory and active-mod search path.
         const int previousScenarios = scenarios;
@@ -113,6 +165,7 @@ inline void runModRuntimeSmoke() {
                 x += 6;
             }
             game->processObjects();
+            verifyChaosFactoryGraphics(output, mod, "game");
             require(game->saveGame(save), "cannot save new mod objects");
         }
         currentGame = nullptr; pLocalHouse = nullptr; pLocalPlayer = nullptr;
@@ -123,6 +176,7 @@ inline void runModRuntimeSmoke() {
             require(game->getHouse(HOUSE_ATREIDES)->getNumItems(Structure_LoveFactory) == 1, "Love Factory disappeared in save/load");
             require(game->getHouse(HOUSE_ATREIDES)->getNumItems(Structure_ChaosFactory) == 1, "Chaos Factory disappeared in save/load");
             game->processObjects();
+            verifyChaosFactoryGraphics(output, mod, "save-load");
         }
         currentGame = nullptr; pLocalHouse = nullptr; pLocalPlayer = nullptr;
         SDL_Log("MOD SMOKE PASS: %s activation, campaign loading, new objects, save/load", mod.c_str());

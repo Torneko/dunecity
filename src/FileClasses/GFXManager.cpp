@@ -1115,8 +1115,21 @@ GFXManager::GFXManager() {
                 return;
             }
             if(raw->format->BitsPerPixel != 8 || !raw->format->palette) {
-                SDL_Log("GFXManager: %s sprite '%s' is not 8-bit indexed, refusing it", label, pngName);
-                return;
+                // Bundled Chaos Factory art is RGBA. Resolve it through the
+                // game palette before the existing team-color/atlas pipeline.
+                SDL_Surface* reference = objPic[ObjPic_Windtrap][HOUSE_HARKONNEN][0].get();
+                const SDL_Palette* targetPalette = ibmPaletteLoaded
+                    ? ibmPalette.getSDLPalette()
+                    : (reference && reference->format ? reference->format->palette : nullptr);
+                auto indexed = convertTruecolorSurfaceToPalette(raw.get(), targetPalette);
+                if(!indexed) {
+                    SDL_Log("GFXManager: %s sprite '%s' could not be converted to the game palette",
+                            label, pngName);
+                    return;
+                }
+                raw = std::move(indexed);
+                SDL_Log("GFXManager: %s sprite '%s' converted from truecolor to the game palette",
+                        label, pngName);
             }
             preserveOpaqueBlackIndex(raw.get());
             normalizeTransparentPaletteIndexes(raw.get());
@@ -4254,7 +4267,8 @@ void GFXManager::rebuildModDependentEditorGraphics() {
         { UI_MapEditor_Scoutpost,           ObjPic_Scoutpost,           2*D2_TILESIZE,   0, D2_TILESIZE,   D2_TILESIZE },
         { UI_MapEditor_Flamepost,           ObjPic_Flamepost,           2*D2_TILESIZE,   0, D2_TILESIZE,   D2_TILESIZE },
         { UI_MapEditor_Chemipost,           ObjPic_Chemipost,           2*D2_TILESIZE,   0, D2_TILESIZE,   D2_TILESIZE },
-        { UI_MapEditor_LoveFactory,         ObjPic_LoveFactory,         2*2*D2_TILESIZE, 0, 2*D2_TILESIZE, 3*D2_TILESIZE }
+        { UI_MapEditor_LoveFactory,         ObjPic_LoveFactory,         2*2*D2_TILESIZE, 0, 2*D2_TILESIZE, 3*D2_TILESIZE },
+        { UI_MapEditor_ChaosFactory,        ObjPic_ChaosFactory,        2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE }
     };
 
     const bool tornieGraphicsVisible = isTornieGraphicsVisible();
