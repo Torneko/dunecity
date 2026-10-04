@@ -24,6 +24,7 @@
 #include <ScreenBorder.h>
 #include <sand.h>
 #include <mod/ModManager.h>
+#include <misc/SpiceGeneration.h>
 
 #include <units/UnitBase.h>
 #include <units/InfantryBase.h>
@@ -38,7 +39,7 @@
 namespace {
 
 bool isTornieModActive() {
-    return ModManager::instance().isInitialized() && ModManager::instance().getActiveModName() == "Tornie";
+    return ModManager::instance().isInitialized() && ModManager::instance().isTornieContentActive();
 }
 
 int applyJerichoKleshmershFireResistance(const ObjectBase* target, Uint32 bulletID, int damage) {
@@ -803,15 +804,7 @@ std::pair<int, int> Map::chooseGeneratedSpiceTerrain(int thinSpiceTerrain, int t
         return std::make_pair(thinSpiceTerrain, thickSpiceTerrain);
     }
 
-    const int roll = currentGame->randomGen.rand(0, 99);
-    if(roll < 10) {
-        return std::make_pair(Terrain_GreenSpice, Terrain_ThickGreenSpice);
-    }
-    if(roll < 20) {
-        return std::make_pair(Terrain_RedSpice, Terrain_ThickRedSpice);
-    }
-
-    return std::make_pair(Terrain_Spice, Terrain_ThickSpice);
+    return generatedSpiceTerrainForRoll(currentGame->randomGen.rand(0, 99));
 }
 
 void Map::createSpiceField(Coord location, int radius, bool centerIsThickSpice, int thinSpiceTerrain, int thickSpiceTerrain) const {

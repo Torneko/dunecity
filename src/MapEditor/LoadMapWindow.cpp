@@ -30,15 +30,18 @@
 #include <misc/FileSystem.h>
 #include <misc/draw_util.h>
 #include <misc/format.h>
+#include <misc/string_util.h>
 
 #include <INIMap/INIMapPreviewCreator.h>
 
 #include <globals.h>
+#include <mod/ModManager.h>
 
 #include <exception>
+#include <filesystem>
 
 
-LoadMapWindow::LoadMapWindow(Uint32 color) : Window(0,0,0,0), color(color), loadMapSingleplayer(false) {
+LoadMapWindow::LoadMapWindow(Uint32 color, MapSource source) : Window(0,0,0,0), color(color), loadMapSingleplayer(false) {
 
     // set up window
     SDL_Texture *pBackground = pGFXManager->getUIGraphic(UI_NewMapWindow);
@@ -66,19 +69,15 @@ LoadMapWindow::LoadMapWindow(Uint32 color) : Window(0,0,0,0), color(color), load
 
     leftVBox.addWidget(&mapTypeButtonsHBox, 24);
 
-    singleplayerUserMapsButton.setText(_("SP User Maps"));
-    singleplayerUserMapsButton.setTextColor(color);
-    singleplayerUserMapsButton.setToggleButton(true);
-    singleplayerUserMapsButton.setOnClick(std::bind(&LoadMapWindow::onMapTypeChange, this, 0));
-    mapTypeButtonsHBox.addWidget(&singleplayerUserMapsButton);
+    mapSourceDropDown.setColor(color);
+    mapSourceDropDown.addEntry(_("SP Maps"), static_cast<int>(MapSource::Singleplayer));
+    mapSourceDropDown.addEntry(_("MP Maps"), static_cast<int>(MapSource::Multiplayer));
+    mapSourceDropDown.addEntry(_("SP User Maps"), static_cast<int>(MapSource::UserSingleplayer));
+    mapSourceDropDown.addEntry(_("MP User Maps"), static_cast<int>(MapSource::UserMultiplayer));
+    if(ModManager::instance().isTornieContentActive())
+        mapSourceDropDown.addEntry(_("CAMPAIGN") + " - " + ModManager::instance().getActiveModName(), static_cast<int>(MapSource::Campaign));
+    mapTypeButtonsHBox.addWidget(&mapSourceDropDown);
 
-    multiplayerUserMapsButton.setText(_("MP User Maps"));
-    multiplayerUserMapsButton.setTextColor(color);
-    multiplayerUserMapsButton.setToggleButton(true);
-    multiplayerUserMapsButton.setOnClick(std::bind(&LoadMapWindow::onMapTypeChange, this, 1));
-    mapTypeButtonsHBox.addWidget(&multiplayerUserMapsButton);
-
-    mapTypeButtonsHBox.addWidget(Spacer::create(), 5.0);
     mapList.setColor(color);
     mapList.setAutohideScrollbar(false);
     mapList.setOnSelectionChange(std::bind(&LoadMapWindow::onMapListSelectionChange, this, std::placeholders::_1));
@@ -136,7 +135,11 @@ LoadMapWindow::LoadMapWindow(Uint32 color) : Window(0,0,0,0), color(color), load
 
     mainVBox.addWidget(VSpacer::create(10));
 
-    onMapTypeChange(0);
+    mapSourceDropDown.setSelectedItem(static_cast<int>(source));
+    mapSourceDropDown.setOnSelectionChange([this](bool) {
+        onMapTypeChange(mapSourceDropDown.getSelectedEntryIntData());
+    });
+    onMapTypeChange(static_cast<int>(source));
 }
 
 bool LoadMapWindow::handleKeyPress(SDL_KeyboardEvent& key) {
@@ -150,6 +153,7 @@ bool LoadMapWindow::handleKeyPress(SDL_KeyboardEvent& key) {
             onLoad();
             return true;
         } else if(key.keysym.sym == SDLK_DELETE) {
+            if(!currentMapsAreUserMaps) return true;
             int index = mapList.getSelectedIndex();
             if(index >= 0) {
                 QstBox* pQstBox = QstBox::create(   fmt::sprintf(_("Do you really want to delete '%s' ?"), mapList.getEntry(index).c_str()),
@@ -175,13 +179,14 @@ bool LoadMapWindow::handleKeyPress(SDL_KeyboardEvent& key) {
 void LoadMapWindow::onChildWindowClose(Window* pChildWindow) {
     QstBox* pQstBox = dynamic_cast<QstBox*>(pChildWindow);
     if(pQstBox != nullptr) {
-        if(pQstBox->getPressedButtonID() == QSTBOX_BUTTON1) {
+        if(pQstBox->getPressedButtonID() == QSTBOX_BUTTON1 && currentMapsAreUserMaps) {
             int index = mapList.getSelectedIndex();
             if(index >= 0) {
-                std::string file2delete = currentMapDirectory + mapList.getSelectedEntry() + ".ini";
+                std::string file2delete = getSelectedMapPath();
 
                 if(remove(file2delete.c_str()) == 0) {
                     // remove was successful => delete from list
+                    mapFilepaths.erase(mapFilepaths.begin() + index);
                     mapList.removeEntry(index);
                     if(mapList.getNumEntries() > 0) {
                         if(index >= mapList.getNumEntries()) {
@@ -204,13 +209,13 @@ void LoadMapWindow::onCancel() {
 }
 
 void LoadMapWindow::onLoad() {
-    if(mapList.getSelectedIndex() < 0) {
+    if(mapList.getSelectedIndex() < 0 || !loadButton.isEnabled()) {
         return;
     }
 
     loadMapname = mapList.getSelectedEntry();
-    loadMapFilepath = currentMapDirectory + loadMapname + ".ini";
-    loadMapSingleplayer = singleplayerUserMapsButton.getToggleState();
+    loadMapFilepath = getSelectedMapPath();
+    loadMapSingleplayer = currentMapsAreSingleplayer;
     getCaseInsensitiveFilename(loadMapFilepath);
 
     Window* pParentWindow = dynamic_cast<Window*>(getParent());
@@ -221,25 +226,40 @@ void LoadMapWindow::onLoad() {
 
 void LoadMapWindow::onMapTypeChange(int buttonID)
 {
-    singleplayerUserMapsButton.setToggleState(buttonID == 0);
-    multiplayerUserMapsButton.setToggleState(buttonID == 1);
+    const auto source = static_cast<MapSource>(buttonID);
+    currentMapDirectory.clear();
+    currentMapsAreUserMaps = source == MapSource::UserSingleplayer || source == MapSource::UserMultiplayer;
+    currentMapsAreSingleplayer = source != MapSource::Multiplayer && source != MapSource::UserMultiplayer;
 
-    switch(buttonID) {
-        case 0: {
-            char tmp[FILENAME_MAX];
-            fnkdat("maps/singleplayer/", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT);
-            currentMapDirectory = tmp;
+    switch(source) {
+        case MapSource::Singleplayer:
+        case MapSource::Multiplayer: {
+            const std::string relative = currentMapsAreSingleplayer ? "/maps/singleplayer/" : "/maps/multiplayer/";
+            currentMapDirectory = getDuneLegacyDataDir() + relative;
+            if(getFileNamesList(currentMapDirectory, "ini", true).empty())
+                currentMapDirectory = getDuneLegacyDataDir() + "/data" + relative;
         } break;
-        case 1: {
+        case MapSource::UserSingleplayer: {
             char tmp[FILENAME_MAX];
-            fnkdat("maps/multiplayer/", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT);
-            currentMapDirectory = tmp;
+            if(fnkdat("maps/singleplayer/", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) >= 0) currentMapDirectory = tmp;
+        } break;
+        case MapSource::UserMultiplayer: {
+            char tmp[FILENAME_MAX];
+            if(fnkdat("maps/multiplayer/", tmp, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT) >= 0) currentMapDirectory = tmp;
+        } break;
+        case MapSource::Campaign: {
+            const auto& mods = ModManager::instance();
+            currentMapDirectory = mods.getModPath(mods.getActiveModName()) + "/campaign/";
         } break;
     }
 
     mapList.clearAllEntries();
+    mapFilepaths.clear();
+    loadButton.setEnabled(false);
 
-    for(const std::string& filename : getFileNamesList(currentMapDirectory, "ini", true, FileListOrder_Name_CaseInsensitive_Asc)) {
+    if(!currentMapDirectory.empty()) for(const std::string& filename : getFileNamesList(currentMapDirectory, "ini", true, FileListOrder_Name_CaseInsensitive_Asc)) {
+        if(source == MapSource::Campaign && strToLower(filename).find("scen") != 0) continue;
+        mapFilepaths.push_back((std::filesystem::path(currentMapDirectory) / filename).string());
         mapList.addEntry(filename.substr(0, filename.length() - 4));
     }
 
@@ -254,6 +274,11 @@ void LoadMapWindow::onMapTypeChange(int buttonID)
     }
 }
 
+std::string LoadMapWindow::getSelectedMapPath() const {
+    const int index = mapList.getSelectedIndex();
+    return index >= 0 && index < static_cast<int>(mapFilepaths.size()) ? mapFilepaths[index] : std::string();
+}
+
 void LoadMapWindow::onMapListSelectionChange(bool bInteractive)
 {
     loadButton.setEnabled(true);
@@ -262,7 +287,7 @@ void LoadMapWindow::onMapListSelectionChange(bool bInteractive)
         return;
     }
 
-    std::string mapFilename = currentMapDirectory + mapList.getSelectedEntry() + ".ini";
+    std::string mapFilename = getSelectedMapPath();
     getCaseInsensitiveFilename(mapFilename);
 
     INIFile inimap(mapFilename);

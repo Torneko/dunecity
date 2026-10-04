@@ -35,6 +35,11 @@ Version **1.0.528** restores Jericho faction colors on startup and resets the
 editor to faction defaults after custom games. Editor palettes and map ownership
 are checked across all four mods, including map save/load.
 
+Version **1.0.529** includes normal, green, red, purple and blue spice in generated
+fields and random blooms across Tornie, Tornie Lite and Jericho. The existing 20%
+variant budget is shared equally between the four colors. The editor's load dialog
+now lists supplied solo/multiplayer maps, personal maps and active-mod campaigns.
+
 - Preserve the Dune Legacy RTS foundation.
 - Keep Tornie-specific gameplay and quality-of-life improvements.
 - Support the extended house roster, including Neutral and Rebels.

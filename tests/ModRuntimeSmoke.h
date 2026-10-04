@@ -13,6 +13,7 @@
 #include <fstream>
 #include <stdexcept>
 #include "EditorHouseColorSmoke.h"
+#include "SpiceAndMapLoadingSmoke.h"
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -88,6 +89,8 @@ inline void runModRuntimeSmoke() {
                 "registered house slots leaked across a mod switch");
         verifyEditorHouseColors(output, mod, "switch");
         verifyEditorHouseColorRoundtrip(output, mod);
+        verifyEditorMapLoading(output, mod);
+        verifyGeneratedSpice(output, mod);
         if(mod == "vanilla") {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             continue;

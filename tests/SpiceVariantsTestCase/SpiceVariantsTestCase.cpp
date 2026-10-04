@@ -1,5 +1,25 @@
 #include <catch2/catch_all.hpp>
 #include <INIMap/SpiceVariants.h>
+#include <misc/SpiceGeneration.h>
+
+TEST_CASE("Generated spice includes every supported color within the original variant budget", "[map][spice]") {
+    const std::pair<int, int> families[] = {
+        {Terrain_Spice, Terrain_ThickSpice}, {Terrain_GreenSpice, Terrain_ThickGreenSpice},
+        {Terrain_RedSpice, Terrain_ThickRedSpice}, {Terrain_PaleLilacSpice, Terrain_ThickPaleLilacSpice},
+        {Terrain_WhiteSpice, Terrain_ThickWhiteSpice}
+    };
+    int counts[5]{};
+    for(int roll = 0; roll < 100; ++roll) {
+        const auto result = generatedSpiceTerrainForRoll(roll);
+        const auto found = std::find(std::begin(families), std::end(families), result);
+        REQUIRE(found != std::end(families));
+        ++counts[found - std::begin(families)];
+    }
+    REQUIRE(counts[0] == 80);
+    for(int color = 1; color < 5; ++color) REQUIRE(counts[color] == 5);
+    REQUIRE(generatedSpiceTerrainForRoll(-1) == families[0]);
+    REQUIRE(generatedSpiceTerrainForRoll(100) == families[0]);
+}
 
 TEST_CASE("Spice variants preserve terrain, thickness and the moderate replacement budget", "[map][spice]") {
     std::string terrain;

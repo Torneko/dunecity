@@ -27,13 +27,15 @@
 #include <GUI/TextButton.h>
 #include <GUI/ListBox.h>
 #include <GUI/PictureLabel.h>
+#include <GUI/DropDownBox.h>
 #include <misc/SDL2pp.h>
+#include <vector>
 
 class  LoadMapWindow : public Window
 {
 public:
-
-    explicit LoadMapWindow(Uint32 color = COLOR_DEFAULT);
+    enum class MapSource { Singleplayer, Multiplayer, UserSingleplayer, UserMultiplayer, Campaign };
+    explicit LoadMapWindow(Uint32 color = COLOR_DEFAULT, MapSource source = MapSource::Singleplayer);
 
     const std::string& getLoadMapFilepath() const { return loadMapFilepath; };
     const std::string& getLoadMapname() const { return loadMapname; };
@@ -66,6 +68,7 @@ private:
     void onLoad();
     void onMapTypeChange(int buttonID);
     void onMapListSelectionChange(bool bInteractive);
+    std::string getSelectedMapPath() const;
 
     HBox    mainHBox;
     VBox    mainVBox;
@@ -74,8 +77,7 @@ private:
     // left VBox with map list
     VBox            leftVBox;
     HBox            mapTypeButtonsHBox;
-    TextButton      singleplayerUserMapsButton;
-    TextButton      multiplayerUserMapsButton;
+    DropDownBox     mapSourceDropDown;
     ListBox         mapList;
 
     // right VBox with mini map
@@ -101,6 +103,9 @@ private:
     std::string loadMapname;
     bool        loadMapSingleplayer;
     std::string currentMapDirectory;
+    std::vector<std::string> mapFilepaths;
+    bool currentMapsAreUserMaps = false;
+    bool currentMapsAreSingleplayer = true;
 };
 
 

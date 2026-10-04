@@ -1,4 +1,24 @@
-# Dune Legacy Tornie 1.0.528
+# Dune Legacy Tornie 1.0.529
+
+Generated spice fields and random blooms can now use all five supported terrain
+families: normal, green, red, purple (PaleLilac) and blue (White). This also applies
+to spice dropped by sandworms. The rule now covers Tornie Lite and Jericho as well
+as Tornie. Normal spice keeps its 80% probability; each colored variant receives
+5%, using the same single deterministic RNG draw. Explicitly colored fields and
+blooms keep their family. Vanilla generation remains normal spice.
+
+The map editor's load dialog now offers the supplied SP and MP maps, both personal
+map folders and the active Tornie-family mod's campaign scenarios. It resolves
+installed and development resource layouts, retains exact filename casing and
+excludes campaign REGION metadata. Supplied maps cannot be deleted from this
+dialog; edited maps still save to the existing personal map folders.
+
+Tests cover the complete weighted selection, deterministic seeded generation,
+colored bloom/field expansion, actual load-dialog selection and editor loading,
+uppercase user filenames, SP/MP classification and protection of supplied maps.
+Game saves, stable terrain IDs and existing map payloads remain unchanged.
+
+## Previous release: 1.0.528
 
 Fixes the Jericho house colors when launching with Jericho already selected.
 Wildspade, Kleshmersh and Tharpique now receive their faction colors immediately,

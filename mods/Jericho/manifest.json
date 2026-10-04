@@ -4,7 +4,7 @@
     "id": "Jericho",
     "displayName": "Jericho",
     "version": "1.0.524-12",
-    "gameVersion": "1.0.528",
+    "gameVersion": "1.0.529",
     "author": "Tornie_Panther"
   },
   "source": {
@@ -78,7 +78,7 @@
   "integrationStatus": "independent Jericho 1.0.524-12 integration",
   "standaloneAdaptation": {
     "project": "Dune Legacy Tornie",
-    "version": "1.0.528",
+    "version": "1.0.529",
     "baseRelease": "1.0.524-26",
     "baseCommit": "80799faba1b66c64887286446f5ed6b0df985226",
     "citySimulationRemoved": true
