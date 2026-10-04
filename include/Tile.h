@@ -320,7 +320,7 @@ public:
     void unassignInfantry(Uint32 objectID, int currentPosition);
     void unassignUndergroundUnit(Uint32 objectID);
     void setType(int newType);
-    void squash() const;
+    void squash(ObjectBase* crusher = nullptr) const;
     int getInfantryTeam() const;
     FixPoint harvestSpice();
     void setSpice(FixPoint newSpice);

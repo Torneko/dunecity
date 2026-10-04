@@ -16,6 +16,8 @@
  */
 
 #include <Game.h>
+#include <Achievements/AchievementEvents.h>
+#include <Achievements/AchievementManager.h>
 #include <main.h>
 #include <cstdarg>
 #include <ctime>
@@ -234,6 +236,7 @@ void Game::queuePathRequest(Uint32 objectId) {
     The destructor frees up all the used memory.
 */
 Game::~Game() {
+    achievements::AchievementManager::instance().end();
     // Close performance log
     closePerformanceLog();
 
@@ -339,6 +342,13 @@ void Game::logPerformance(const char* format, ...) {
 
 
 void Game::initGame(const GameInitSettings& newGameInitSettings) {
+    achievements::AchievementManager::instance().end();
+    achievementResumed = newGameInitSettings.getGameType() == GameType::LoadSavegame
+        || newGameInitSettings.getGameType() == GameType::LoadMultiplayer;
+    achievementCheckpointKey = newGameInitSettings.getGameType() == GameType::LoadSavegame
+        ? AchievementEvents::fileKey(newGameInitSettings.getFilename())
+        : newGameInitSettings.getGameType() == GameType::LoadMultiplayer
+            ? AchievementEvents::dataKey(newGameInitSettings.getFiledata()) : std::string();
     gameInitSettings = newGameInitSettings;
 
     applyCustomPaletteRuntimeHouseRamps();
@@ -1389,6 +1399,7 @@ void Game::applyPendingBudgetChanges() {
 
 void Game::drawScreen()
 {
+    AchievementEvents::pump(*this);
     Coord TopLeftTile = screenborder->getTopLeftTile();
     Coord BottomRightTile = screenborder->getBottomRightTile();
 
@@ -2523,6 +2534,9 @@ void Game::runMainLoop() {
 }
 
 void Game::initializeGameLoop() {
+    AchievementEvents::begin(*this, achievementCheckpointKey, achievementResumed,
+        !bReplay && !bCheatsEnabled && (gameType == GameType::CustomMultiplayer
+            || !gameInitSettings.getGameOptions().immortalHumanPlayer));
     if(pInterface == nullptr) {
         pInterface = std::make_unique<GameInterface>();
         if(gameState == GameState::Loading) {
@@ -3612,6 +3626,7 @@ bool Game::saveGame(const std::string& filename)
     cmdManager.save(fs);
 
     fs.close();
+    achievements::AchievementManager::instance().checkpoint(AchievementEvents::fileKey(filename));
 
     return true;
 }
@@ -3795,6 +3810,7 @@ void Game::onPeerDisconnected(const std::string& name, bool bHost, int cause) {
 
 void Game::setGameWon() {
     if(!bQuitGame && !finished) {
+        AchievementEvents::finish(true);
         won = true;
         finished = true;
         finishedLevelCycle = gameCycleCount;  // MULTIPLAYER FIX (Issue #9): Use cycle count
@@ -3805,6 +3821,7 @@ void Game::setGameWon() {
 
 void Game::setGameLost() {
     if(!bQuitGame && !finished) {
+        AchievementEvents::finish(false);
         won = false;
         finished = true;
         finishedLevelCycle = gameCycleCount;  // MULTIPLAYER FIX (Issue #9): Use cycle count
@@ -3890,6 +3907,7 @@ void Game::handleChatInput(SDL_KeyboardEvent& keyboardEvent) {
 
             if((bCheatsEnabled == false) && (md5string == "0xB8766C8EC7A61036B69893FC17AAF21E")) {
                 bCheatsEnabled = true;
+                achievements::AchievementManager::instance().suspend();
                 pInterface->getChatManager().addInfoMessage("Cheat mode enabled");
             } else if((bCheatsEnabled == true) && (md5string == "0xB8766C8EC7A61036B69893FC17AAF21E")) {
                 pInterface->getChatManager().addInfoMessage("Cheat mode already enabled");

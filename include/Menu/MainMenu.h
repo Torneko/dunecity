@@ -51,6 +51,7 @@ private:
     void onOptions();
     void onAbout() const;
     void onHowToPlay() const;
+    void onAchievements();
     void onQuit();
 
 
@@ -69,6 +70,7 @@ private:
     TextButton      howToPlayButton;
     TextButton      aboutButton;
     TextButton      quitButton;
+    TextButton      achievementsButton;
 
     PictureLabel    planetPicture;
     PictureLabel    duneLegacy;

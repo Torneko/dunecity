@@ -23,6 +23,11 @@ maps twice.
 
 ## Main goals
 
+Version **1.0.526** adds 37 internal offline achievements, cumulative local
+statistics, a main-menu achievement window and discreet unlock messages.
+Campaign, custom and multiplayer events share a central manager. Game save formats
+remain unchanged. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
+
 - Preserve the Dune Legacy RTS foundation.
 - Keep Tornie-specific gameplay and quality-of-life improvements.
 - Support the extended house roster, including Neutral and Rebels.

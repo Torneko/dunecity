@@ -16,6 +16,7 @@
  */
 
 #include <Menu/MainMenu.h>
+#include <Achievements/AchievementEvents.h>
 #include <Menu/MainMenuButtonColor.h>
 
 #include <globals.h>
@@ -34,6 +35,7 @@
 #include <Menu/HowToPlayMenu.h>
 
 #include <GUI/QstBox.h>
+#include <GUI/dune/AchievementsWindow.h>
 #include <misc/DiscordManager.h>
 #include <mod/ModManager.h>
 #include <mod/ModInfo.h>
@@ -42,6 +44,7 @@
 
 MainMenu::MainMenu()
 {
+    AchievementEvents::initializeProfile();
     // Update Discord Rich Presence
     DiscordManager::instance().setMainMenu();
 
@@ -131,6 +134,12 @@ MainMenu::MainMenu()
     quitButton.setOnClick(std::bind(&MainMenu::onQuit, this));
     MenuButtons.addWidget(&quitButton);
 
+    achievementsButton.setText(settings.general.language == "fr" ? "HAUTS FAITS" : "ACHIEVEMENTS");
+    MainMenuButtonColor::apply(achievementsButton);
+    achievementsButton.setOnClick(std::bind(&MainMenu::onAchievements, this));
+    windowWidget.addWidget(&achievementsButton,
+        Point(getRendererWidth() - 200, getRendererHeight() - 72), Point(182,26));
+
     // Identify the project, then its version and the active mod.
     {
         modVersionLabel.setTextFontSize(16);
@@ -161,6 +170,7 @@ void MainMenu::refreshModVersionLabel()
     MainMenuButtonColor::apply(howToPlayButton);
     MainMenuButtonColor::apply(aboutButton);
     MainMenuButtonColor::apply(quitButton);
+    MainMenuButtonColor::apply(achievementsButton);
 
     std::string activeModName;
     std::string modDisplayName = "Vanilla";
@@ -321,6 +331,10 @@ void MainMenu::onHowToPlay() const
 {
     HowToPlayMenu menu;
     menu.showMenu();
+}
+
+void MainMenu::onAchievements() {
+    openWindow(new AchievementsWindow());
 }
 
 void MainMenu::onQuit() {

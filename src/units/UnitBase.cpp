@@ -16,6 +16,7 @@
  */
 
 #include <units/UnitBase.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -408,6 +409,7 @@ void UnitBase::deploy(const Coord& newLocation) {
 }
 
 void UnitBase::destroy() {
+    AchievementEvents::lost(this);
 
     setTarget(nullptr);
     currentGameMap->removeObjectFromMap(getObjectID()); //no map point will reference now

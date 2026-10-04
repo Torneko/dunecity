@@ -16,6 +16,7 @@
  */
 
 #include <ObjectBase.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -259,6 +260,7 @@ int ObjectBase::getMaxHealth() const {
 }
 
 void ObjectBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
+    const bool wasAlive = getHealth() > 0;
     // Immortality guard: Human-controlled houses are invulnerable in single-player modes when option is enabled
     // This applies when ANY human player controls the house (not just AI players)
     if(damage > 0) {
@@ -304,6 +306,9 @@ void ObjectBase::handleDamage(int damage, Uint32 damagerID, House* damagerOwner)
         }
     }
 
+    if(damage > 0 && wasAlive) {
+        AchievementEvents::damage(this, damagerID, damagerOwner, getHealth() <= 0);
+    }
     getOwner()->noteDamageLocation(this, damage, damagerID);
 }
 

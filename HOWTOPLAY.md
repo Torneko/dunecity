@@ -10,4 +10,12 @@ The former urban simulation has been removed. Its two scenario maps are retained
 
 User settings are stored in a separate Dune Legacy Tornie profile. Saves containing the removed urban simulation are rejected; historical RTS save-format identifiers and reserved object IDs are retained for compatibility.
 
+Open **Achievements / Hauts faits** in the main menu for 37 offline awards and
+cumulative statistics. Unlock messages appear in the news ticker during play.
+Progress is stored in `achievements.ini` beside your user configuration. Keep that
+file with your profile when transferring saves. Captures are allowed for Pacifism;
+the consumed infantry still counts as a loss for No Casualties. Replays, cheat mode
+and single-player immortality do not grant achievements. Old saves remain playable,
+but unknown earlier actions cannot qualify for no-destruction or no-loss awards.
+
 Source and issues: [Torneko/dunelegacy-tornie](https://github.com/Torneko/dunelegacy-tornie).

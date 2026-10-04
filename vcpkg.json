@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "dunelegacy-tornie",
-  "version": "1.0.525",
+  "version": "1.0.526",
   "description": "Independent Dune Legacy RTS with Tornie factions, units and campaigns",
   "homepage": "https://github.com/Torneko/dunelegacy-tornie",
   "dependencies": [
@@ -29,7 +29,9 @@
   "features": {
     "tests": {
       "description": "Build the engine and bundled-mod regression checks",
-      "dependencies": ["catch2"]
+      "dependencies": [
+        "catch2"
+      ]
     }
   },
   "builtin-baseline": "0804e3b55b7e435c593707071052363fa876f170",

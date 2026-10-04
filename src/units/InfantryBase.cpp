@@ -16,6 +16,7 @@
  */
 
 #include <units/InfantryBase.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -275,6 +276,13 @@ void InfantryBase::checkPos() {
                     }
 
 
+                    // Record the capture and consumed infantry before removing the
+                    // final enemy building can synchronously finish the mission.
+                    AchievementEvents::captured(getOwner(), pOwner);
+                    if(!immortalityEnabled || getOwner() != pLocalHouse) {
+                        AchievementEvents::lost(this);
+                    }
+
                     // destroy captured structure ...
                     pCapturedStructure->setHealth(0);
                     delete pCapturedStructure;
@@ -337,6 +345,7 @@ void InfantryBase::checkPos() {
 
                 if(!isImmortal) {
                     // destroy unit indirectly (normal behavior: engineer is consumed)
+                    AchievementEvents::lost(this);
                     setTarget(nullptr);
                     setHealth(0);
                 } else {

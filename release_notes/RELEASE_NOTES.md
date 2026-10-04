@@ -1,4 +1,26 @@
-# Dune Legacy Tornie 1.0.525
+# Dune Legacy Tornie 1.0.526
+
+Adds 37 internal offline achievements, a main-menu window with cumulative statistics
+and discreet news-ticker unlock notifications. Definitions and French/English text
+are configurable in `config/Achievements.ini`; secret awards are supported.
+
+Rules cover Pacifism, True Pacifist, captures, all-force elimination, same-vehicle
+Roadkill, custom faction colors, eight campaigns, production, Palace powers, worms
+and modded spice. Player damage attribution excludes allies and environmental kills.
+Final-building capture is recorded before synchronous victory checks.
+
+Progress is stored atomically in the independent user profile. Local save checkpoints
+resume eligibility and avoid recounting the same events. Game save streams and
+versions are unchanged, including loading previous-version RTS saves. Untracked
+earlier save history cannot grant no-destruction or no-loss achievements.
+
+Validation: 79 engine test cases (3507 assertions), plus real-engine event, window
+rendering and save/reload integration. Test builds expose `--verify-achievements`;
+Windows CI now checks both build and installed French/English packages.
+
+See [complete rules and persistence](docs/ACHIEVEMENTS.md).
+
+## Previous release: 1.0.525
 
 Based on corrected DuneCity Tornie **1.0.524-26**, commit
 `80799faba1b66c64887286446f5ed6b0df985226` from `Torneko/dunecity-tornie`.

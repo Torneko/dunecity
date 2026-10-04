@@ -16,6 +16,7 @@
  */
 
 #include <units/RebelHarvester.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -596,6 +597,7 @@ void RebelHarvester::move()
 
                     if(tile->hasSpice()) {
 
+                        AchievementEvents::spice(getOwner(), tile);
                         int beforeTileType = tile->getType();
                         const bool harvestingLilacSpice = tile->isPaleLilacSpice();
                         const FixPoint harvested = tile->harvestSpice();

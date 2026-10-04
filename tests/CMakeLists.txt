@@ -18,6 +18,8 @@ target_sources(dunelegacy_tests
         SaveCompatTestCase/SaveCompatTestCase.cpp
         SpiceVariantsTestCase/SpiceVariantsTestCase.cpp
         PakfileConcurrentReadTestCase/PakfileConcurrentReadTestCase.cpp
+        AchievementsTestCase/AchievementsTestCase.cpp
+        ${CMAKE_SOURCE_DIR}/src/Achievements/AchievementManager.cpp
         ${CMAKE_SOURCE_DIR}/src/FileClasses/Pakfile.cpp
         globals_test_stub.cpp
         TextManager_stub.cpp
@@ -67,6 +69,7 @@ endif()
 target_compile_options(dunelegacy_tests
     PRIVATE
         $<$<CXX_COMPILER_ID:MSVC>:/W4>
+        $<$<CXX_COMPILER_ID:MSVC>:/utf-8>
         $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -pedantic>
 )
 

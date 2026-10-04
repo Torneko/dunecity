@@ -96,6 +96,9 @@ if(DUNELEGACY_ENABLE_PCH AND WIN32 AND MSVC)
 endif()
 
 # All source files
+set_source_files_properties(
+    Achievements/AchievementManager.cpp Achievements/AchievementEvents.cpp GUI/dune/AchievementsWindow.cpp
+    PROPERTIES COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 target_sources(dunelegacy
     PRIVATE
         # Root sources
@@ -108,6 +111,9 @@ target_sources(dunelegacy
         CursorManager.cpp
         Explosion.cpp
         Game.cpp
+        Achievements/AchievementManager.cpp
+        Achievements/AchievementEvents.cpp
+        GUI/dune/AchievementsWindow.cpp
         GameInitSettings.cpp
         GameInterface.cpp
         House.cpp
@@ -500,6 +506,7 @@ if(APPLE)
             "${CMAKE_SOURCE_DIR}/config/ObjectData.ini.default"
             "${CMAKE_SOURCE_DIR}/config/QuantBot Config.ini.default"
             "${CMAKE_SOURCE_DIR}/config/Dune Legacy.ini"
+            "${CMAKE_SOURCE_DIR}/config/Achievements.ini"
             "${CMAKE_SOURCE_DIR}/config/README.md"
             "${BUNDLE_RESOURCES_DIR}/config/"
         COMMENT "Copying data and config files into app bundle Resources"
@@ -544,6 +551,7 @@ else()
             "${CMAKE_SOURCE_DIR}/config/ObjectData.ini.default"
             "${CMAKE_SOURCE_DIR}/config/QuantBot Config.ini.default"
             "${CMAKE_SOURCE_DIR}/config/Dune Legacy.ini"
+            "${CMAKE_SOURCE_DIR}/config/Achievements.ini"
             "${BUILD_RUNTIME_DIR}/config/"
         COMMENT "Copying config template files to build output"
     )

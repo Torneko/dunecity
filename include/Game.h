@@ -826,6 +826,8 @@ private:
 
     bool    finished = false;                   ///< Is the game finished (won or lost) and we are just waiting for the end message to be shown
     bool    won = false;                        ///< If the game is finished, is it won or lost
+    std::string achievementCheckpointKey;       ///< Profile-only metadata, never written into the save stream.
+    bool achievementResumed = false;
     Uint32  finishedLevelCycle = 0;             ///< MULTIPLAYER FIX (Issue #9): Cycle-based (was finishedLevelTime)
     bool    finishedLevel = false;              ///< Set, when the game is really finished and the end message was shown
 

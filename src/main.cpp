@@ -60,6 +60,7 @@
 #include <CutScenes/Intro.h>
 #ifdef DUNELEGACY_RUNTIME_TESTS
 #include "../tests/ModRuntimeSmoke.h"
+#include "../tests/AchievementRuntimeSmoke.h"
 #endif
 
 #include <SDL_ttf.h>
@@ -799,6 +800,7 @@ int main(int argc, char *argv[]) {
         }
 
         bool bVerifyMods = false;
+        bool bVerifyAchievements = false;
         bool bShowDebugLog = false;
         for(int i=1; i < argc; i++) {
             //check for overiding params
@@ -806,6 +808,7 @@ int main(int argc, char *argv[]) {
 
             #ifdef DUNELEGACY_RUNTIME_TESTS
             if(parameter == "--verify-mods") { bVerifyMods = true; continue; }
+            if(parameter == "--verify-achievements") { bVerifyMods = true; bVerifyAchievements = true; continue; }
 #endif
             if(parameter == "--showlog") {
                 // special parameter which does not overwrite settings
@@ -1320,6 +1323,7 @@ int main(int argc, char *argv[]) {
                 #ifdef DUNELEGACY_RUNTIME_TESTS
                 if(bVerifyMods) {
                     runModRuntimeSmoke();
+                    if(bVerifyAchievements) runAchievementRuntimeSmoke();
                     bExitGame = true;
                 } else
                 #endif

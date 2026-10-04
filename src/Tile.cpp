@@ -16,6 +16,7 @@
  */
 
 #include <Tile.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -820,7 +821,7 @@ void Tile::setType(int newType) {
 }
 
 
-void Tile::squash() const {
+void Tile::squash(ObjectBase* crusher) const {
     if (!hasInfantry()) return;
 
     auto iter = assignedInfantryList.begin();
@@ -831,6 +832,7 @@ void Tile::squash() const {
         if(current == nullptr)
             continue;
 
+        AchievementEvents::crushed(current, crusher);
         current->squash();
     } while(iter != assignedInfantryList.end());
 }
@@ -1000,6 +1002,7 @@ ObjectBase* Tile::getObjectWithID(Uint32 objectID) const {
 
 void Tile::triggerSpiceBloom(House* pTrigger) {
     if (!isSpiceBloom()) return;
+    AchievementEvents::bloom(pTrigger);
 
     const int bloomType = type;
     std::pair<int, int> generatedSpiceTerrain;

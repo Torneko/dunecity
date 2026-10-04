@@ -16,6 +16,7 @@
  */
 
 #include <structures/Palace.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -222,6 +223,7 @@ void Palace::doSpecialWeapon() {
 
         if(activated) {
             specialWeaponTimer = getMaxSpecialWeaponTimer();
+            AchievementEvents::palace(getOwner());
         }
         return;
     }
@@ -229,6 +231,7 @@ void Palace::doSpecialWeapon() {
     if(usesJerichoOrnithopterStrike()) {
         if(callOrnithopterStrike()) {
             specialWeaponTimer = getMaxSpecialWeaponTimer();
+            AchievementEvents::palace(getOwner());
         }
         return;
     }
@@ -236,6 +239,7 @@ void Palace::doSpecialWeapon() {
     if(usesJerichoKleshmershFremenCall()) {
         if(callFremen()) {
             specialWeaponTimer = getMaxSpecialWeaponTimer();
+            AchievementEvents::palace(getOwner());
         }
         return;
     }
@@ -243,6 +247,7 @@ void Palace::doSpecialWeapon() {
     if(usesLightVehicleCall()) {
         if(callLightVehicles()) {
             specialWeaponTimer = getMaxSpecialWeaponTimer();
+            AchievementEvents::palace(getOwner());
         }
         return;
     }
@@ -258,6 +263,7 @@ void Palace::doSpecialWeapon() {
         case HOUSE_FREMEN: {
             if(callFremen()) {
                 specialWeaponTimer = getMaxSpecialWeaponTimer();
+                AchievementEvents::palace(getOwner());
             }
         } break;
 
@@ -265,6 +271,7 @@ void Palace::doSpecialWeapon() {
         case HOUSE_MERCENARY: {
             if(spawnSaboteur()) {
                 specialWeaponTimer = getMaxSpecialWeaponTimer();
+                AchievementEvents::palace(getOwner());
             }
         } break;
 
@@ -272,6 +279,7 @@ void Palace::doSpecialWeapon() {
         case HOUSE_REBELS: {
             if(callLightVehicles()) {
                 specialWeaponTimer = getMaxSpecialWeaponTimer();
+                AchievementEvents::palace(getOwner());
             }
         } break;
 
@@ -318,6 +326,7 @@ void Palace::doLaunchDeathhand(int x, int y) {
     }
 
     specialWeaponTimer = getMaxSpecialWeaponTimer();
+    AchievementEvents::palace(getOwner());
 
 }
 

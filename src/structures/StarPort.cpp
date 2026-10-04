@@ -289,7 +289,7 @@ bool StarPort::deploySingleUnit(Uint32 unitItemID, bool announce) {
         }
     }
 
-    newUnit->getOwner()->informWasBuilt(newUnit);
+    newUnit->getOwner()->informWasBuilt(newUnit, false);
     return true;
 }
 

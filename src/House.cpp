@@ -16,6 +16,7 @@
  */
 
 #include <House.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 #include <sand.h>
@@ -253,6 +254,7 @@ void House::addCredits(FixPoint newCredits, bool wasRefined) {
     if(newCredits > 0) {
         if(wasRefined == true) {
             harvestedSpice += newCredits;
+            AchievementEvents::refined(this, static_cast<std::uint64_t>(std::max(0, harvestedSpice.floor())));
         }
 
         storedCredits += newCredits;
@@ -557,7 +559,8 @@ void House::noteDamageLocation(ObjectBase* pObject, int damage, Uint32 damagerID
     This method informs this house that a new unit or structure was built
     \param pObject   the object that was built
 */
-void House::informWasBuilt(ObjectBase* pObject) {
+void House::informWasBuilt(ObjectBase* pObject, bool produced) {
+    if(produced) AchievementEvents::built(this, pObject);
     int itemID = pObject->getItemID();
     if(pObject->isAStructure()) {
         structureBuiltValue += currentGame->objectData.data[itemID][houseID].price;

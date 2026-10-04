@@ -198,7 +198,7 @@ public:
     */
     void noteDamageLocation(ObjectBase* pObject, int damage, Uint32 damagerID);
 
-    void informWasBuilt(ObjectBase* pObject);
+    void informWasBuilt(ObjectBase* pObject, bool produced = true);
     void informHasKilled(Uint32 itemID);
     void informHasDamaged(Uint32 itemID, Uint32 damage);
 

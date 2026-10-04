@@ -57,7 +57,7 @@ void TrackedUnit::checkPos()
     GroundUnit::checkPos();
 
     if(active && justStoppedMoving)
-        currentGameMap->getTile(location.x, location.y)->squash();
+        currentGameMap->getTile(location.x, location.y)->squash(this);
 }
 
 bool TrackedUnit::canPass(int xPos, int yPos) const

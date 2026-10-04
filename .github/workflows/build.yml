@@ -136,9 +136,10 @@ jobs:
           $env:SDL_AUDIODRIVER = "dummy"
           $env:SDL_RENDER_DRIVER = "software"
           $log = Join-Path $env:RUNNER_TEMP "dunelegacy-mod-smoke.log"
-          $process = Start-Process -FilePath "build/bin/Release/dunelegacy.exe" -ArgumentList "--verify-mods", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
-          Get-Content -LiteralPath $log | Select-String "MOD SMOKE|unhandled exception|runtime check:"
+          $process = Start-Process -FilePath "build/bin/Release/dunelegacy.exe" -ArgumentList "--verify-achievements", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
+          Get-Content -LiteralPath $log | Select-String "MOD SMOKE|ACHIEVEMENT SMOKE|unhandled exception|runtime check:"
           if ($process.ExitCode -ne 0 -or -not (Select-String -LiteralPath $log -Pattern "MOD SMOKE COMPLETE:")) { throw "Bundled mod runtime checks failed." }
+          if (-not (Select-String -LiteralPath $log -Pattern "ACHIEVEMENT SMOKE COMPLETE:")) { throw "Achievement runtime checks failed." }
 
       - name: Create Installer Package
         run: |
@@ -161,9 +162,10 @@ jobs:
             $env:DUNELEGACY_SMOKE_DIR = $env:DUNELEGACY_USER_DIR
             Set-Content -LiteralPath (Join-Path $env:DUNELEGACY_USER_DIR "Dune Legacy.ini") -Value "[General]`nLanguage=$language`nPlay Intro=false`n[Video]`nFullscreen=false`n[Audio]`nMusic Type=adl`nPlay Music=false" -Encoding utf8
             $log = Join-Path $env:RUNNER_TEMP "dunelegacy-installed-$language.log"
-            $process = Start-Process -FilePath "install/dunelegacy.exe" -ArgumentList "--verify-mods", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
-            Get-Content -LiteralPath $log | Select-String "MOD SMOKE|unhandled exception|runtime check:"
+            $process = Start-Process -FilePath "install/dunelegacy.exe" -ArgumentList "--verify-achievements", "--showlog", "--window" -WindowStyle Hidden -Wait -PassThru -RedirectStandardError $log
+            Get-Content -LiteralPath $log | Select-String "MOD SMOKE|ACHIEVEMENT SMOKE|unhandled exception|runtime check:"
             if ($process.ExitCode -ne 0 -or -not (Select-String -LiteralPath $log -Pattern "MOD SMOKE COMPLETE:")) { throw "Installed $language mod runtime checks failed." }
+            if (-not (Select-String -LiteralPath $log -Pattern "ACHIEVEMENT SMOKE COMPLETE:")) { throw "Installed $language achievement checks failed." }
           }
           cpack -G ZIP -C Release
 
