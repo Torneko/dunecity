@@ -96,9 +96,14 @@ if(DUNELEGACY_ENABLE_PCH AND WIN32 AND MSVC)
 endif()
 
 # All source files
+# These UTF-8 sources cannot consume the MSVC PCH built with the legacy
+# character set used by the remaining sources. Keep their accented text intact
+# and compile just these files without the PCH.
 set_source_files_properties(
     Achievements/AchievementManager.cpp Achievements/AchievementEvents.cpp GUI/dune/AchievementsWindow.cpp
-    PROPERTIES COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+    PROPERTIES
+        COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
+        SKIP_PRECOMPILE_HEADERS ON)
 target_sources(dunelegacy
     PRIVATE
         # Root sources
