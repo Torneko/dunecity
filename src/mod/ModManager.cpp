@@ -148,6 +148,9 @@ void ModManager::initialize() {
     activeGuestCustomHouse = makeGuestCustomHouse(activeMod);
     activeMentats = activeInfo.mentats;
     initialized = true;
+    // Resolve faction colors on cold startup too, before any menu or editor
+    // graphics are requested. Jericho uses different identities in slots 6-8.
+    resetHouseVisualHouseMapping();
     SDL_Log("ModManager: Initialized with active mod '%s'", activeMod.c_str());
 }
 

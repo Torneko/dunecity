@@ -146,6 +146,9 @@ private:
 
 
 MapEditor::MapEditor() : pInterface(nullptr) {
+    // Maps use faction identities, not the team colors of the previous game.
+    // Restore defaults before constructing the sidebar and object previews.
+    resetHouseVisualHouseMapping();
     // Update Discord Rich Presence
     DiscordManager::instance().setMapEditor();
 

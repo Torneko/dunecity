@@ -12,6 +12,7 @@
 #include <filesystem>
 #include <fstream>
 #include <stdexcept>
+#include "EditorHouseColorSmoke.h"
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -73,6 +74,7 @@ inline void runModRuntimeSmoke() {
     require(PlayerFactory::getByPlayerClass(HUMANPLAYERCLASS) != nullptr, "human player factory unavailable");
     auto& mods = ModManager::instance();
     const std::string previousMod = mods.getActiveModName();
+    verifyEditorHouseColors(output, previousMod, "startup");
     if(mods.isTornieContentActive()) verifyChaosFactoryGraphics(output, previousMod, "startup");
     int scenarios = 0;
     for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "vanilla", "Jericho", "TornieLite"}) {
@@ -84,6 +86,8 @@ inline void runModRuntimeSmoke() {
                 "custom-house registration leaked across a mod switch");
         require(getNumAvailableHouses() == ((mod == "Tornie" || mod == "Jericho") ? 9 : 8),
                 "registered house slots leaked across a mod switch");
+        verifyEditorHouseColors(output, mod, "switch");
+        verifyEditorHouseColorRoundtrip(output, mod);
         if(mod == "vanilla") {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             continue;

@@ -1,4 +1,17 @@
-# Dune Legacy Tornie 1.0.527
+# Dune Legacy Tornie 1.0.528
+
+Fixes the Jericho house colors when launching with Jericho already selected.
+Wildspade, Kleshmersh and Tharpique now receive their faction colors immediately,
+as they already did after switching mods. The map editor also restores default
+faction colors before creating its interface, regardless of previous custom-game
+team colors. Map ownership, gameplay balance and save formats remain unchanged.
+
+Real-engine regression checks reproduce the old startup mismatch and verify
+faction mappings, interface colors and editor icon palettes at startup, after mod
+switches, after custom-game colors and after map save/load. Tornie, Tornie Lite,
+Jericho and vanilla are covered; Chaos Factory and achievement checks are retained.
+
+## Previous release: 1.0.527
 
 Fixes the Chaos Factory's Starport fallback in the map editor after a mod switch.
 Its dedicated 3x2 preview is now rebuilt with the other mod-dependent structures.
