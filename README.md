@@ -58,6 +58,12 @@ All 142 supplied maps use the four-color variant algorithm while unmarked/older
 maps preserve their original rules. Campaign region files use canonical faction
 ownership keys and CP850 translations; their routes are checked automatically.
 
+Version **1.0.532** supplies Kleshmersh's own voice asset in vanilla, including
+its selection name in the English, French and German interfaces. Jericho Neutral
+and Rebels use their canonical banners rather than legacy Wildspade/Kleshmersh
+aliases. House Collector counts victories with all twelve named factions; previous
+statistics and unlocked awards are retained.
+
 - Preserve the Dune Legacy RTS foundation.
 - Keep Tornie-specific gameplay and quality-of-life improvements.
 - Support the extended house roster, including Neutral and Rebels.

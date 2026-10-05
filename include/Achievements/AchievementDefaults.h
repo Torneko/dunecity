@@ -338,11 +338,11 @@ Secret=false
 [HOUSE_COLLECTOR]
 Name=House Collector
 NameFr=Collectionneur de maisons
-Description=Win with each of the eight H/A/O/F/S/M/N/R houses.
-DescriptionFr=Gagner avec chacune des huit maisons H/A/O/F/S/M/N/R.
+Description=Win with all twelve factions: Atreides, Harkonnen, Ordos, Fremen, Sardaukar, Mercenary, Neutral, Rebels, Wildspade, Kleshmersh, Tharpique and Corruptique.
+DescriptionFr=Gagner avec les douze factions : Atreides, Harkonnen, Ordos, Fremen, Sardaukar, Mercenary, Neutral, Rebels, Wildspade, Kleshmersh, Tharpique et Corruptique.
 Rule=VictoryHouses
 Statistic=
-Target=8
+Target=12
 Secret=false
 
 [RED_HARVEST]

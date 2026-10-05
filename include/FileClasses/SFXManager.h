@@ -110,6 +110,7 @@ private:
     Mix_Chunk*      getNonEnglishVoice(Voice_enum id, int house) const;
 
     std::vector<sdl2::mix_chunk_ptr> lngVoice;
+    sdl2::mix_chunk_ptr kleshmershNameVoice;
     std::array<sdl2::mix_chunk_ptr, NUM_SOUNDCHUNK> soundChunk;
 };
 

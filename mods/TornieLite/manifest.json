@@ -4,7 +4,7 @@
     "id": "TornieLite",
     "displayName": "Tornie Lite",
     "version": "1.0.524-2",
-    "gameVersion": "1.0.531",
+    "gameVersion": "1.0.532",
     "author": "Tornie_Panther"
   },
   "source": {
@@ -45,7 +45,7 @@
   "integrationStatus": "independent Tornie Lite 1.0.524-2 integration",
   "standaloneAdaptation": {
     "project": "Dune Legacy Tornie",
-    "version": "1.0.531",
+    "version": "1.0.532",
     "baseRelease": "1.0.524-26",
     "baseCommit": "80799faba1b66c64887286446f5ed6b0df985226",
     "citySimulationRemoved": true

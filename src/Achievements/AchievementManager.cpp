@@ -13,7 +13,8 @@
 
 namespace achievements {
 namespace {
-const char* houses[] = {"Harkonnen","Atreides","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels"};
+const char* campaignHouses[] = {"Harkonnen","Atreides","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels"};
+const char* victoryHouses[] = {"Harkonnen","Atreides","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels","Corruptique","Wildspade","Kleshmersh","Tharpique"};
 std::string trim(std::string s) {
     const auto first=s.find_first_not_of(" \t\r\n");
     return first==std::string::npos ? "" : s.substr(first,s.find_last_not_of(" \t\r\n")-first+1);
@@ -168,9 +169,17 @@ std::uint64_t AchievementManager::progress(const Achievement& a) const {
         if(s!=state.end())for(const auto& entry:s->second)if(entry.first.compare(0,a.statistic.size()+1,a.statistic+":")==0)++count;
         return std::min(count,a.target);
     }
-    if(a.rule=="CampaignCount"||a.rule=="VictoryHouses") {
-        if(a.rule=="CampaignCount"&&a.statistic=="Any"){const auto s=state.find("Campaigns");return s==state.end()?0:std::min<std::uint64_t>(a.target,s->second.size());}
-        std::uint64_t count=0;for(auto h:houses){if(a.rule=="VictoryHouses")count+=statistic(std::string("Victories")+h)>0;else{auto s=state.find("Campaigns");count+=s!=state.end()&&s->second.count(h);}}return std::min(count,a.target);
+    if(a.rule=="VictoryHouses") {
+        std::uint64_t count=0;
+        for(auto h:victoryHouses) count+=statistic(std::string("Victories")+h)>0;
+        return std::min(count,a.target);
+    }
+    if(a.rule=="CampaignCount") {
+        const auto s=state.find("Campaigns");
+        if(s==state.end())return 0;
+        if(a.statistic=="Any")return std::min<std::uint64_t>(a.target,s->second.size());
+        std::uint64_t count=0;for(auto h:campaignHouses)count+=s->second.count(h);
+        return std::min(count,a.target);
     }
     return 0;
 }

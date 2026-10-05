@@ -18,6 +18,7 @@
 #include <Menu/HouseChoiceInfoMenu.h>
 #include <MapEditor/PlayerSettingsWindow.h>
 #include <ObjectData.h>
+#include "FactionPresentationSmoke.h"
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -80,6 +81,7 @@ inline void runModRuntimeSmoke() {
     auto& mods = ModManager::instance();
     const std::string previousMod = mods.getActiveModName();
     verifyEditorHouseColors(output, previousMod, "startup");
+    verifyJerichoHeralds(output,"startup");
     if(mods.isTornieContentActive()) verifyChaosFactoryGraphics(output, previousMod, "startup");
     int scenarios = 0;
     for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "vanilla", "Jericho", "TornieLite"}) {
@@ -92,6 +94,7 @@ inline void runModRuntimeSmoke() {
         require(getNumAvailableHouses() == ((mod == "Tornie" || mod == "Jericho") ? 9 : 8),
                 "registered house slots leaked across a mod switch");
         verifyEditorHouseColors(output, mod, "switch");
+        verifyJerichoHeralds(output,"switch");
         verifyEditorHouseColorRoundtrip(output, mod);
         verifyEditorMapLoading(output, mod);
         verifyGeneratedSpice(output, mod);
@@ -124,6 +127,7 @@ inline void runModRuntimeSmoke() {
             require(window.getSize().y<=getRendererHeight(),"player settings viewport exceeds screen");
         }
         if(mod == "vanilla") {
+            verifyVanillaKleshmershVoice();
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             require(isCampaignHouseAvailable(HOUSE_KLESHMERSH),"vanilla Kleshmersh unavailable");
             // Version 1.0.530 reads this legacy slot from Custom_IBM.PAL when

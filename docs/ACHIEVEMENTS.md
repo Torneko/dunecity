@@ -1,6 +1,6 @@
 # Local achievements
 
-Dune Legacy Tornie 1.0.526 provides 43 offline achievements. Open **Achievements**
+Dune Legacy Tornie provides 43 offline achievements. Open **Achievements**
 or **Hauts faits** from the main menu to view locked awards and cumulative stats.
 Unlocks use the existing in-game news ticker. Steam is not required.
 
@@ -22,9 +22,12 @@ Leaving a match grants neither a victory nor a defeat.
   seconds, including the boundary. Vehicle counts cannot be combined.
 - True Colors compares the resolved initial color against the chosen faction's
   standard color, and requires a custom or multiplayer victory.
-- Campaign completion means winning final mission 22. Master of Arrakis and House
-  Collector require the eight specified base houses; extra factions do not replace
-  those houses. Completing any faction's campaign grants Conquer Arrakis.
+- Campaign completion means winning final mission 22. Master of Arrakis requires
+  the eight specified base campaigns. House Collector requires victories with all
+  twelve named factions, including Wildspade, Kleshmersh, Tharpique and Corruptique.
+  Victories from different mods accumulate by faction identity. Repeated victories
+  with one faction do not substitute for another. Completing any faction's campaign
+  grants Conquer Arrakis. Previously earned House Collector awards remain unlocked.
 - No Casualties counts consumed capture infantry, as well as destroyed units.
   Healthy MCV deployment and departing logistics aircraft are not losses.
 - Worm Hunter credits player-attributed half-health defeats, including retreat with respawning enabled.

@@ -50,6 +50,7 @@ SFXManager::SFXManager() {
 SFXManager::~SFXManager() = default;
 
 void SFXManager::reloadVoices() {
+    kleshmershNameVoice.reset();
     // Reload language-specific voices after an active-mod switch so optional
     // mod assets cannot leak into another mod.
     if(settings.general.language == "de") {
@@ -380,6 +381,11 @@ Mix_Chunk* SFXManager::getEnglishVoice(Voice_enum id, int house) const {
 }
 
 void SFXManager::loadNonEnglishVoice(const std::string& languagePrefix) {
+    // Proper names are shared across language packs; keep the local-language
+    // notifications, but never announce Kleshmersh using another faction's name.
+    if(pFileManager->exists("KLESHMERSH.VOC")) {
+        kleshmershNameVoice = getChunkFromFile("KLESHMERSH.VOC");
+    }
     lngVoice.clear();
     lngVoice.resize(NUM_VOICE);
 
@@ -508,8 +514,12 @@ void SFXManager::loadSoundEffects() {
 }
 
 Mix_Chunk* SFXManager::getNonEnglishVoice(Voice_enum id, int house) const {
-    if(id < 0 || id >= NUM_VOICE)
+    if(id < 0 || id >= NUM_VOICE || house < 0 || house >= NUM_HOUSES)
         return nullptr;
 
+    if(id == HouseHarkonnen && kleshmershNameVoice != nullptr
+       && getHouseFactionIdentity(static_cast<HOUSETYPE>(house)) == HOUSE_KLESHMERSH) {
+        return kleshmershNameVoice.get();
+    }
     return lngVoice[id].get();
 }

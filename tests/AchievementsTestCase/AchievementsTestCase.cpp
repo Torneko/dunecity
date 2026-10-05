@@ -121,7 +121,7 @@ TEST_CASE_METHOD(Fixture,"Spice credits exclude the initial balance of an old sa
 TEST_CASE_METHOD(Fixture,"All eight campaign and victory houses are tracked independently","[achievements]"){
     info.mode=Mode::Campaign;info.mission=22;
     for(auto house:{"Atreides","Harkonnen","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels"}){info.house=house;manager.begin(info);manager.finish(true,false);}
-    REQUIRE(manager.unlocked("MASTER_OF_ARRAKIS"));REQUIRE(manager.unlocked("HOUSE_COLLECTOR"));REQUIRE(manager.unlocked("NEUTRAL_COMMANDER"));
+    REQUIRE(manager.unlocked("MASTER_OF_ARRAKIS"));REQUIRE_FALSE(manager.unlocked("HOUSE_COLLECTOR"));REQUIRE(manager.unlocked("NEUTRAL_COMMANDER"));
     REQUIRE(manager.statistic("GamesWon")==8);
 }
 TEST_CASE_METHOD(Fixture,"Disabled, replay or cheat sessions emit no achievements or statistics","[achievements]"){
@@ -182,4 +182,36 @@ TEST_CASE_METHOD(Fixture,"Jericho campaigns are mod scoped and include all four 
     }
     REQUIRE(manager.unlocked("JERICHO_MASTER"));
     for(auto id:{"CORRUPTIQUE_COMMANDER","WILDSPADE_COMMANDER","KLESHMERSH_COMMANDER","THARPIQUE_COMMANDER"})REQUIRE(manager.unlocked(id));
+}
+
+TEST_CASE_METHOD(Fixture,"House Collector requires twelve distinct victories and persists all named factions","[achievements]"){
+    const auto award=std::find_if(manager.definitions().begin(),manager.definitions().end(),[](const auto& a){return a.id=="HOUSE_COLLECTOR";});
+    REQUIRE(award!=manager.definitions().end());REQUIRE(award->target==12);
+    for(auto house:{"Atreides","Harkonnen","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels"}){
+        info.house=house;manager.begin(info);manager.finish(true,false);
+    }
+    REQUIRE_FALSE(manager.unlocked("HOUSE_COLLECTOR"));REQUIRE(manager.progress(*award)==8);
+    info.house="Atreides";manager.begin(info);manager.finish(true,false);
+    info.house="Unknown";manager.begin(info);manager.finish(true,false);
+    info.house="Tharpique";manager.begin(info);manager.finish(false,false);
+    REQUIRE(manager.progress(*award)==8);
+    for(auto house:{"Wildspade","Kleshmersh","Corruptique"}){
+        info.house=house;manager.begin(info);manager.finish(true,false);
+    }
+    REQUIRE_FALSE(manager.unlocked("HOUSE_COLLECTOR"));REQUIRE(manager.progress(*award)==11);
+    AchievementManager reloaded;REQUIRE(reloaded.configure("",(dir/"achievements.ini").u8string()));
+    const auto loadedAward=std::find_if(reloaded.definitions().begin(),reloaded.definitions().end(),[](const auto& a){return a.id=="HOUSE_COLLECTOR";});
+    REQUIRE(loadedAward!=reloaded.definitions().end());REQUIRE(reloaded.progress(*loadedAward)==11);
+    info.house="Tharpique";reloaded.begin(info);reloaded.finish(true,false);reloaded.finish(true,false);
+    REQUIRE(reloaded.unlocked("HOUSE_COLLECTOR"));REQUIRE(reloaded.progress(*loadedAward)==12);
+    for(auto house:{"Wildspade","Kleshmersh","Tharpique","Corruptique"})REQUIRE(reloaded.statistic(std::string("Victories")+house)==1);
+}
+TEST_CASE_METHOD(Fixture,"House Collector keeps an award already earned under the older eight-house rule","[achievements]"){
+    const auto legacy=dir/"legacy.ini";
+    {std::ofstream f(legacy);f<<"[Profile]\nVersion=1\n[Unlocked]\nHOUSE_COLLECTOR=123456789\n[Statistics]\nVictoriesAtreides=2\n";}
+    AchievementManager reloaded;REQUIRE(reloaded.configure("",legacy.u8string()));
+    REQUIRE(reloaded.unlocked("HOUSE_COLLECTOR"));REQUIRE(reloaded.statistic("VictoriesAtreides")==2);
+    info.house="Kleshmersh";reloaded.begin(info);reloaded.finish(true,false);REQUIRE(reloaded.save());
+    const auto text=[&]{std::ifstream f(legacy);return std::string(std::istreambuf_iterator<char>(f),{});}();
+    REQUIRE(text.find("HOUSE_COLLECTOR=123456789")!=std::string::npos);
 }
