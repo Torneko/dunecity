@@ -126,12 +126,18 @@ inline void runModRuntimeSmoke() {
         if(mod == "vanilla") {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             require(isCampaignHouseAvailable(HOUSE_KLESHMERSH),"vanilla Kleshmersh unavailable");
+            // Version 1.0.530 reads this legacy slot from Custom_IBM.PAL when
+            // available, otherwise IBM.PAL. Keep that optional-palette behavior.
+            require(getHouseColorPaletteIndexFromSlot(HOUSECOLOR_CUSTOM_BRIGHT_YELLOW)==PALCOLOR_FREMEN,
+                    "older vanilla custom color moved to another palette ramp");
+            const auto& legacyPalette=customPaletteLoaded ? customPalette : palette;
             for(int shade=0;shade<8;++shade) {
-                const auto original=palette[PALCOLOR_FREMEN+shade];
+                const auto original=legacyPalette[PALCOLOR_FREMEN+shade];
                 const auto actual=getHouseColorSDL(HOUSECOLOR_CUSTOM_BRIGHT_YELLOW,shade);
                 require(actual.r==original.r && actual.g==original.g && actual.b==original.b,
                         "older vanilla custom color changed meaning");
             }
+            SDL_Log("VANILLA LEGACY COLOR PASS: unchanged slot/ramp, optional palette=%d",customPaletteLoaded);
             auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_KLESHMERSH);
             require(herald && herald->w==84 && herald->h==91,"brown attached banner sizing");
             require(SDL_SaveBMP(herald,(std::filesystem::path(output)/"vanilla-kleshmersh-banner.bmp").string().c_str())==0,"brown banner output");
