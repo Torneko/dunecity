@@ -166,6 +166,8 @@ Uint32 getHouseColorRGB(int colorSlot, int shadeOffset = 3);
 void loadCustomPalette();
 void applyCustomPaletteRuntimeHouseRamps();
 bool isHouseAvailable(HOUSETYPE house);
+// Campaign/editor roster reuses existing runtime IDs, including former guest factions.
+bool isCampaignHouseAvailable(HOUSETYPE house);
 int getNumAvailableHouses();
 bool isCustomGameHouseAvailable(HOUSETYPE house);
 int getNumCustomGameHouses();

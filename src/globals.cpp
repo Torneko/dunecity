@@ -163,6 +163,11 @@ int getHouseColorPaletteIndexFromSlot(int colorSlot) {
         return PALCOLOR_HARKONNEN;
     }
 
+    // Color slot 8 belongs to Corruptique's identity even though Jericho keeps
+    // that faction in runtime slot 11 for existing save/profile compatibility.
+    if(colorSlot==HOUSE_CUSTOM && ModManager::instance().isInitialized()
+       && ModManager::instance().getActiveModName()=="Jericho") return PALCOLOR_FREMEN;
+
     const bool tornieMainActive = ModManager::instance().isInitialized()
         && ModManager::instance().getActiveModName() == "Tornie";
     if(tornieMainActive && colorSlot == HOUSECOLOR_CUSTOM_BRIGHT_YELLOW) {
@@ -207,7 +212,8 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
 
     if(colorSlot == HOUSECOLOR_CUSTOM_BRIGHT_YELLOW
        && ModManager::instance().isInitialized()
-       && ModManager::instance().isTornieContentActive()) {
+       && (ModManager::instance().isTornieContentActive()
+           || ModManager::instance().getActiveModName() == "vanilla")) {
         return kleshmershBrownRamp[shadeOffset];
     }
 
@@ -285,13 +291,21 @@ int getNumAvailableHouses() {
 }
 
 bool isCustomGameHouseAvailable(HOUSETYPE house) {
+    if(house==HOUSE_KLESHMERSH && ModManager::instance().isInitialized()
+       && ModManager::instance().getActiveModName()=="vanilla") return true;
     if(isHouseAvailable(house)) return true;
     return crossModCustomGameHousesActive()
         && house >= HOUSE_WILDSPADE && house <= HOUSE_THARPIQUE;
 }
 
 int getNumCustomGameHouses() {
-    return crossModCustomGameHousesActive() ? NUM_HOUSES : getNumAvailableHouses();
+    int count=0;for(int h=0;h<NUM_HOUSES;++h)count+=isCustomGameHouseAvailable(static_cast<HOUSETYPE>(h));return count;
+}
+
+bool isCampaignHouseAvailable(HOUSETYPE house) {
+    if(ModManager::instance().isInitialized() && ModManager::instance().isTornieLiteActive()
+       && house>=HOUSE_NEUTRAL) return false;
+    return isCustomGameHouseAvailable(house);
 }
 
 HOUSETYPE getHouseFactionIdentity(HOUSETYPE house) {
@@ -327,7 +341,9 @@ HOUSETYPE getRuntimeHouseForIdentity(HOUSETYPE identity) {
 }
 
 bool isHouseFaction(HOUSETYPE house, HOUSETYPE identity) {
-    return getHouseFactionIdentity(house) == identity;
+    const auto actual=getHouseFactionIdentity(house);
+    return actual==identity || (identity==HOUSE_NEUTRAL && actual==HOUSE_KLESHMERSH
+        && ModManager::instance().isInitialized() && ModManager::instance().getActiveModName()=="vanilla");
 }
 
 int getDefaultHouseColorSlot(HOUSETYPE house) {
@@ -337,6 +353,9 @@ int getDefaultHouseColorSlot(HOUSETYPE house) {
        && ModManager::instance().getActiveModName() == "vanilla") {
         return HOUSECOLOR_CUSTOM_APPLE_GREEN;
     }
+
+    if(identity == HOUSE_KLESHMERSH && ModManager::instance().isInitialized()
+       && ModManager::instance().getActiveModName() == "vanilla") return HOUSECOLOR_CUSTOM_BRIGHT_YELLOW;
 
     if(identity >= HOUSE_WILDSPADE && identity <= HOUSE_THARPIQUE) {
         return HOUSECOLOR_GUEST_1 + (identity - HOUSE_WILDSPADE);
@@ -390,7 +409,7 @@ HOUSETYPE getHouseFallbackHouse(HOUSETYPE house) {
         return info.enabled ? static_cast<HOUSETYPE>(info.fallbackHouse) : HOUSE_HARKONNEN;
     }
     if(identity == HOUSE_WILDSPADE) return HOUSE_NEUTRAL;
-    if(identity == HOUSE_KLESHMERSH) return HOUSE_REBELS;
+    if(identity == HOUSE_KLESHMERSH) return ModManager::instance().getActiveModName()=="vanilla" ? HOUSE_NEUTRAL : HOUSE_REBELS;
     return identity;
 }
 

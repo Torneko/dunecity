@@ -14,6 +14,10 @@
 #include <stdexcept>
 #include "EditorHouseColorSmoke.h"
 #include "SpiceAndMapLoadingSmoke.h"
+#include <Menu/MapChoice.h>
+#include <Menu/HouseChoiceInfoMenu.h>
+#include <MapEditor/PlayerSettingsWindow.h>
+#include <ObjectData.h>
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -21,7 +25,7 @@ inline void verifyChaosFactoryGraphics(const std::string& output, const std::str
         if(!value) throw std::runtime_error("Mod runtime check: Chaos Factory " + message);
     };
     constexpr int width = 3 * D2_TILESIZE, height = 2 * D2_TILESIZE;
-    for(int house = 0; house < NUM_CAMPAIGN_HOUSES; ++house) {
+    for(int house = 0; house < NUM_HOUSES; ++house) {
         auto* preview = pGFXManager->getUIGraphicSurface(UI_MapEditor_ChaosFactory, house);
         require(preview && preview->w == width && preview->h == height,
                 mod + " " + stage + " editor preview is using a fallback");
@@ -91,21 +95,82 @@ inline void runModRuntimeSmoke() {
         verifyEditorHouseColorRoundtrip(output, mod);
         verifyEditorMapLoading(output, mod);
         verifyGeneratedSpice(output, mod);
+        if(mod=="Tornie") {
+            auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_FREMEN);
+            require(herald && herald->w==84 && herald->h==91,"attached Fremen banner dimensions");
+            require(SDL_SaveBMP(herald,(std::filesystem::path(output)/"tornie-fremen-banner.bmp").string().c_str())==0,"Fremen banner output");
+        }
+        if(mod=="Jericho") {
+            auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,getRuntimeHouseForIdentity(HOUSE_CUSTOM));
+            require(herald!=nullptr,"yellow Corruptique herald missing");
+            require(SDL_SaveBMP(herald,(std::filesystem::path(output)/"jericho-corruptique-banner.bmp").string().c_str())==0,"Corruptique banner output");
+        }
+        // Every actual campaign region file is parsed by the game UI, including
+        // all eight progress stages and Jericho's identity-to-runtime mapping.
+        for(int h=0;h<NUM_HOUSES;++h) {
+            const auto house=static_cast<HOUSETYPE>(h);
+            if(!isCampaignHouseAvailable(house))continue;
+            const auto name=getHouseNameByNumber(house);
+            require(pTextManager->getBriefingText(0,MISSION_DESCRIPTION,h).find(name)!=std::string::npos,
+                    "faction description uses another house name: "+name);
+            HouseChoiceInfoMenu confirmation(h);
+            for(unsigned mission:{1U,4U,7U,10U,13U,16U,19U,21U}) {
+                MapChoice choice(house,mission,0);choice.drawSpecificStuff();
+            }
+        }
+        {
+            MapEditor editor;editor.setMap(MapData(64,32,Terrain_Rock),MapInfo());
+            PlayerSettingsWindow window(&editor,HOUSE_HARKONNEN);window.draw();
+            require(window.getSize().y<=getRendererHeight(),"player settings viewport exceeds screen");
+        }
         if(mod == "vanilla") {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
+            require(isCampaignHouseAvailable(HOUSE_KLESHMERSH),"vanilla Kleshmersh unavailable");
+            auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_KLESHMERSH);
+            require(herald && herald->w==84 && herald->h==91,"brown attached banner sizing");
+            require(SDL_SaveBMP(herald,(std::filesystem::path(output)/"vanilla-kleshmersh-banner.bmp").string().c_str())==0,"brown banner output");
+            for(int mission=1;mission<=22;++mission) {
+                const auto name=GameInitSettings(HOUSE_KLESHMERSH,mission,effectiveGameOptions).getFilename();
+                auto file=pFileManager->openCampaignFile(name);
+                std::string content(static_cast<size_t>(SDL_RWsize(file.get())),'\0');
+                require(SDL_RWread(file.get(),content.data(),1,content.size())==content.size(),"Kleshmersh scenario read");
+                // Load the actual campaign map as a custom fixture so no
+                // interactive briefing waits for clicks during automation.
+                GameInitSettings init(name,content,false,effectiveGameOptions);
+                const auto opponent=mission<=10 ? HOUSE_HARKONNEN : mission<=21 ? HOUSE_SARDAUKAR : HOUSE_REBELS;
+                for(auto house:{HOUSE_KLESHMERSH,opponent}) {
+                    const bool human=house==HOUSE_KLESHMERSH;
+                    GameInitSettings::HouseInfo info(house,human ? 1 : 2);
+                    info.addPlayerInfo(GameInitSettings::PlayerInfo(human ? settings.general.playerName : "Kleshmersh Smoke AI",
+                        human ? HUMANPLAYERCLASS : DEFAULTAIPLAYERCLASS));init.addHouseInfo(info);
+                }
+                auto game=std::make_unique<Game>();currentGame=game.get();game->initGame(init);
+                require(pLocalHouse && pLocalHouse->getHouseID()==HOUSE_KLESHMERSH,"vanilla Kleshmersh campaign owner");
+                require(game->getHouse(opponent)!=nullptr,"vanilla Kleshmersh campaign opponent");
+                for(int item=0;item<Num_ItemID;++item) {
+                    const auto& k=currentGame->objectData.data[item][HOUSE_KLESHMERSH];
+                    const auto& n=currentGame->objectData.data[item][HOUSE_NEUTRAL];
+                    require(k.enabled==n.enabled && k.techLevel==n.techLevel && k.upgradeLevel==n.upgradeLevel
+                        && k.builder==n.builder && k.prerequisiteStructuresSet==n.prerequisiteStructuresSet
+                        && k.hitpoints==n.hitpoints && k.price==n.price,"vanilla Kleshmersh tech mismatch");
+                }
+                game->processObjects();++scenarios;
+                game.reset();currentGame=nullptr;pLocalHouse=nullptr;pLocalPlayer=nullptr;
+            }
+            SDL_Log("VANILLA KLESHMERSH PASS: 22 Neutral map clones, opponents, brown banner and matching tech");
             continue;
         }
         verifyChaosFactoryGraphics(output, mod, "switch");
         // Load the opening and final scenarios of every bundled campaign through
         // the actual INI loader, object factory and active-mod search path.
         const int previousScenarios = scenarios;
-        const int campaignHouseCount = mod == "TornieLite" ? 6 : NUM_CAMPAIGN_HOUSES;
+        const int campaignHouseCount = NUM_HOUSES;
         for(int selectedHouse = 0; selectedHouse < campaignHouseCount; ++selectedHouse) {
-          if(!isHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) continue;
+          if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) continue;
           for(int mission : {1, 22}) {
             const GameInitSettings campaign(static_cast<HOUSETYPE>(selectedHouse), mission, effectiveGameOptions);
             const std::string name = campaign.getFilename();
-            auto resolvedFile = pFileManager->openFile(name);
+            auto resolvedFile = pFileManager->openCampaignFile(name);
             const Sint64 size = SDL_RWsize(resolvedFile.get());
             require(size > 0, "empty campaign resource " + name);
             std::string data(static_cast<size_t>(size), '\0');
@@ -116,10 +181,10 @@ inline void runModRuntimeSmoke() {
             INIFile scenario(entryPath.string());
             GameInitSettings init(name, data, false, effectiveGameOptions);
             bool humanAssigned = false;
-            for(int h = 0; h < NUM_CAMPAIGN_HOUSES; ++h) {
+            for(int h = 0; h < NUM_HOUSES; ++h) {
                 const auto house = static_cast<HOUSETYPE>(h);
                 const std::string section = getHouseNameByNumber(house);
-                if(!isHouseAvailable(house) || !scenario.hasSection(section)) continue;
+                if(!isCampaignHouseAvailable(house) || !scenario.hasSection(section)) continue;
                 GameInitSettings::HouseInfo info(house, h + 1);
                 const bool human = scenario.getStringValue(section, "Brain", "CPU") == "Human";
                 info.addPlayerInfo(GameInitSettings::PlayerInfo(
@@ -144,7 +209,7 @@ inline void runModRuntimeSmoke() {
             pLocalPlayer = nullptr;
         }
         }
-        require(scenarios - previousScenarios == (mod == "TornieLite" ? 12 : 18),
+        require(scenarios - previousScenarios == (mod == "TornieLite" ? 12 : 24),
                 mod + " opening/final campaign scenario coverage is incomplete");
         // Exercise the added factory classes and stable IDs through save/load.
         std::string terrain = "[BASIC]\nVersion=2\nTechLevel=9\n[MAP]\nSizeX=32\nSizeY=32\n";

@@ -7,7 +7,7 @@ import json
 import re
 
 ROOT = Path(__file__).resolve().parents[1]
-for name, letters in [('Tornie', 'HAOFSMNRC'), ('TornieLite', 'HAOFSM'), ('Jericho', 'HAOFSMWKT')]:
+for name, letters in [('Tornie', 'HAOFSMNRCWKT'), ('TornieLite', 'HAOFSM'), ('Jericho', 'HAOFSMNRCWKT')]:
     root = ROOT / 'mods' / name
     config = configparser.ConfigParser(interpolation=None, strict=False)
     config.read(root / 'mod.ini', encoding='utf-8-sig')

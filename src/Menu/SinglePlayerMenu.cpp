@@ -150,7 +150,7 @@ void SinglePlayerMenu::onCampaign() {
     }
 
     for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
-        if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(houseID))) {
             continue;
         }
         if(houseID == player) {

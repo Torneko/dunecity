@@ -83,6 +83,7 @@ inline std::vector<int> getSpecialVehicleFallbackPoolForHouse(
         case HOUSE_MERCENARY:
         case HOUSE_NEUTRAL:
         case HOUSE_REBELS:
+        case HOUSE_KLESHMERSH:
         case HOUSE_CUSTOM:     return { Unit_SonicTank, Unit_Devastator };
         default:               return {};
     }

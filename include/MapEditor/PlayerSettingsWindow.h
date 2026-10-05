@@ -23,6 +23,7 @@
 #include <GUI/Window.h>
 #include <GUI/HBox.h>
 #include <GUI/VBox.h>
+#include <GUI/ScrollView.h>
 #include <GUI/Label.h>
 #include <GUI/DropDownBox.h>
 #include <GUI/RadioButton.h>
@@ -71,6 +72,7 @@ private:
     HBox    mainHBox;
     VBox    mainVBox;
     VBox    centralVBox;
+    ScrollView centralScroll;
 
     struct PlayerWidgets {
 

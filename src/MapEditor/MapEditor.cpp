@@ -263,43 +263,13 @@ void MapEditor::setMap(const MapData& mapdata, const MapInfo& newMapInfo) {
     units.clear();
     players.clear();
 
-    // setup default players
-    if(getMapVersion() < 2) {
-        players.push_back(Player(getHouseNameByNumber(HOUSE_HARKONNEN),HOUSE_HARKONNEN,HOUSE_HARKONNEN,true,false,"Human",25));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_ATREIDES),HOUSE_ATREIDES,HOUSE_ATREIDES,true,false,"CPU",25));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_ORDOS),HOUSE_ORDOS,HOUSE_ORDOS,true,false,"CPU",25));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"CPU",25));
-        players.emplace_back(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,true,false,"CPU",25);
-        players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"CPU",25));
-        if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"CPU",25));
-            }
-        if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"CPU",25));
-            }
-        if(isHouseAvailable(HOUSE_CUSTOM)) {
-            if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"CPU",25));
-                }
-        }
-    } else {
-        players.push_back(Player(getHouseNameByNumber(HOUSE_HARKONNEN),HOUSE_HARKONNEN,HOUSE_HARKONNEN,true,true,"Team1"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_ATREIDES),HOUSE_ATREIDES,HOUSE_ATREIDES,true,true,"Team2"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_ORDOS),HOUSE_ORDOS,HOUSE_ORDOS,true,true,"Team3"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"Team4"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,true,true,"Team5"));
-        players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"Team6"));
-        if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"Team7"));
-            }
-        if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"Team8"));
-            }
-        if(isHouseAvailable(HOUSE_CUSTOM)) {
-            if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"Team9"));
-                }
-        }
+    // Slot indices are stable house IDs, including unavailable placeholders.
+    for(int h=0; h<NUM_HOUSES; ++h) {
+        const auto house=static_cast<HOUSETYPE>(h);
+        const bool active=isCampaignHouseAvailable(house) && (h<3 || h==HOUSE_SARDAUKAR);
+        const bool legacy=getMapVersion()<2;
+        players.emplace_back(getHouseNameByNumber(house),house,house,active,
+                             !legacy && active,legacy ? (h==0 ? "Human" : "CPU") : "Team"+std::to_string(h+1),25);
     }
 
     // setup default choam
@@ -477,22 +447,9 @@ void MapEditor::loadMap(const std::string& filepath) {
     units.clear();
     players.clear();
 
-    players.emplace_back(getHouseNameByNumber(HOUSE_HARKONNEN),HOUSE_HARKONNEN,HOUSE_HARKONNEN,false,true,"Team1");
-    players.push_back(Player(getHouseNameByNumber(HOUSE_ATREIDES),HOUSE_ATREIDES,HOUSE_ATREIDES,false,true,"Team2"));
-    players.push_back(Player(getHouseNameByNumber(HOUSE_ORDOS),HOUSE_ORDOS,HOUSE_ORDOS,false,true,"Team3"));
-    players.push_back(Player(getHouseNameByNumber(HOUSE_FREMEN),HOUSE_FREMEN,HOUSE_FREMEN,false,false,"Team4"));
-    players.push_back(Player(getHouseNameByNumber(HOUSE_SARDAUKAR),HOUSE_SARDAUKAR,HOUSE_SARDAUKAR,false,false,"Team5"));
-    players.push_back(Player(getHouseNameByNumber(HOUSE_MERCENARY),HOUSE_MERCENARY,HOUSE_MERCENARY,false,false,"Team6"));
-    if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_NEUTRAL),HOUSE_NEUTRAL,HOUSE_NEUTRAL,false,false,"Team7"));
-        }
-    if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_REBELS),HOUSE_REBELS,HOUSE_REBELS,false,false,"Team8"));
-        }
-    if(isHouseAvailable(HOUSE_CUSTOM)) {
-        if(!ModManager::instance().isTornieLiteActive()) {
-    players.push_back(Player(getHouseNameByNumber(HOUSE_CUSTOM),HOUSE_CUSTOM,HOUSE_CUSTOM,false,false,"Team9"));
-            }
+    for(int h=0; h<NUM_HOUSES; ++h) {
+        const auto house=static_cast<HOUSETYPE>(h);
+        players.emplace_back(getHouseNameByNumber(house),house,house,false,h<3,"Team"+std::to_string(h+1));
     }
 
     // load map
@@ -734,7 +691,7 @@ void MapEditor::saveMap(const std::string& filepath) {
     }
 
 
-    for(int i=1;i<=getNumAvailableHouses();i++) {
+    for(int i=1;i<=static_cast<int>(players.size());i++) {
         loadedINIFile->removeSection("player" + std::to_string(i));
     }
 
@@ -781,7 +738,7 @@ void MapEditor::saveMap(const std::string& filepath) {
     }
 
     // remove players that are leftovers
-    for(int i=currentAnyHouseNumber;i<getNumAvailableHouses();i++) {
+    for(int i=currentAnyHouseNumber;i<static_cast<int>(players.size());i++) {
         loadedINIFile->removeSection("Player" + std::to_string(i));
     }
 
@@ -967,8 +924,8 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                 for(int i=0;i<mapMirror->getSize();i++) {
 
                     int nextHouse = HOUSE_INVALID;
-                    for(int k = currentHouse; k < currentHouse+getNumAvailableHouses();k++) {
-                        if(players[k%getNumAvailableHouses()].bActive == bHouseIsActive) {
+                    for(int k = currentHouse; k < currentHouse+static_cast<int>(players.size());k++) {
+                        if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(k%players.size())) && players[k%players.size()].bActive == bHouseIsActive) {
                             nextHouse = k;
                             break;
                         }
@@ -977,7 +934,7 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                     if(nextHouse != HOUSE_INVALID) {
                         Coord position = mapMirror->getCoord( Coord(xpos, ypos), i, structureSize);
 
-                        MapEditorStructurePlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%getNumAvailableHouses()), currentEditorMode.itemID, currentEditorMode.health);
+                        MapEditorStructurePlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%static_cast<int>(players.size())), currentEditorMode.itemID, currentEditorMode.health);
 
                         addUndoOperation(placeOperation.perform(this));
 
@@ -1009,8 +966,8 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
                 for(int i=0;i<mapMirror->getSize();i++) {
 
                     int nextHouse = HOUSE_INVALID;
-                    for(int k = currentHouse; k < currentHouse+getNumAvailableHouses();k++) {
-                        if(players[k%getNumAvailableHouses()].bActive == bHouseIsActive) {
+                    for(int k = currentHouse; k < currentHouse+static_cast<int>(players.size());k++) {
+                        if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(k%players.size())) && players[k%players.size()].bActive == bHouseIsActive) {
                             nextHouse = k;
                             break;
                         }
@@ -1021,7 +978,7 @@ void MapEditor::performMapEdit(int xpos, int ypos, bool bRepeated) {
 
                         int angle =  mapMirror->getAngle(currentEditorMode.angle, i);
 
-                        MapEditorUnitPlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%getNumAvailableHouses()), currentEditorMode.itemID, currentEditorMode.health, angle, currentEditorMode.attackmode);
+                        MapEditorUnitPlaceOperation placeOperation(position, (HOUSETYPE) (nextHouse%static_cast<int>(players.size())), currentEditorMode.itemID, currentEditorMode.health, angle, currentEditorMode.attackmode);
 
                         addUndoOperation(placeOperation.perform(this));
                         currentHouse = nextHouse + 1;

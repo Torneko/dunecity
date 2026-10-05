@@ -26,6 +26,7 @@ public:
     void bloom();
     void palace();
     void finish(bool won, bool enemiesRemain);
+    void campaignScore(int score);
     bool unlock(const std::string& id);
     bool save();
     void checkpoint(const std::string& key);

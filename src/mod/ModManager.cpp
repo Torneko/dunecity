@@ -204,7 +204,7 @@ const ModMentatInfo& ModManager::getActiveMentatInfo(int house) const {
         house = HOUSE_NEUTRAL + (house - HOUSE_WILDSPADE);
     }
     if(initialized && activeMod == VANILLA_MOD_NAME
-       && (house == HOUSE_NEUTRAL || house == HOUSE_REBELS)) {
+       && (house == HOUSE_NEUTRAL || house == HOUSE_REBELS || house == HOUSE_KLESHMERSH)) {
         return vanillaChani;
     }
     if(!initialized || house < 0 || static_cast<std::size_t>(house) >= activeMentats.size()) {

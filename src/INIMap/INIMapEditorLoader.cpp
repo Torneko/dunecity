@@ -7,6 +7,7 @@
 #include <AITeamInfo.h>
 
 #include <MapSeed.h>
+#include <INIMap/SpiceVariants.h>
 #include <ScreenBorder.h>
 
 #include <misc/format.h>
@@ -304,6 +305,32 @@ void INIMapEditorLoader::loadMap() {
         }
     }
 
+    // The seed-map preview uses the same opt-in algorithm as the game loader.
+    const int percent=inifile->getIntValue("MAP","SpiceVariantPercent",0);
+    if(percent>0) {
+        const int width=pMapEditor->map.getSizeX(), height=pMapEditor->map.getSizeY();
+        std::string terrain(static_cast<size_t>(width)*height,'-');
+        for(int y=0;y<height;++y) for(int x=0;x<width;++x) {
+            const int type=pMapEditor->map(x,y);
+            terrain[static_cast<size_t>(y)*width+x]=type==Terrain_Spice?'~':type==Terrain_ThickSpice?'+':'-';
+        }
+        const auto variants=SpiceVariants::apply(terrain,width,percent,
+            static_cast<uint32_t>(inifile->getIntValue("MAP","SpiceVariantSeed",0)),
+            inifile->getIntValue("MAP","SpiceVariantVersion",1));
+        for(int y=0;y<height;++y) for(int x=0;x<width;++x) {
+            switch(variants[static_cast<size_t>(y)*width+x]) {
+                case 'r':pMapEditor->map(x,y)=Terrain_RedSpice;break;
+                case 'R':pMapEditor->map(x,y)=Terrain_ThickRedSpice;break;
+                case 'g':pMapEditor->map(x,y)=Terrain_GreenSpice;break;
+                case 'G':pMapEditor->map(x,y)=Terrain_ThickGreenSpice;break;
+                case 'l':pMapEditor->map(x,y)=Terrain_PaleLilacSpice;break;
+                case 'L':pMapEditor->map(x,y)=Terrain_ThickPaleLilacSpice;break;
+                case 'w':pMapEditor->map(x,y)=Terrain_WhiteSpice;break;
+                case 'W':pMapEditor->map(x,y)=Terrain_ThickWhiteSpice;break;
+                default:break;
+            }
+        }
+    }
     screenborder->adjustScreenBorderToMapsize(pMapEditor->map.getSizeX(), pMapEditor->map.getSizeY());
 
 }
@@ -314,7 +341,7 @@ void INIMapEditorLoader::loadMap() {
 void INIMapEditorLoader::loadHouses()
 {
     for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
-        if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
         std::string houseName = getHouseNameByNumber((HOUSETYPE) houseID);
 
         if(inifile->hasSection(houseName)) {
@@ -333,11 +360,11 @@ void INIMapEditorLoader::loadHouses()
         }
     }
 
-    for(int i=1;i<=getNumAvailableHouses();i++) {
+    for(int i=1;i<=MAX_CUSTOM_GAME_PLAYERS;i++) {
         std::string sectionname = "player" + std::to_string(i);
         if(inifile->hasSection(sectionname)) {
             for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
-                if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
+                if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(houseID))) continue;
                 MapEditor::Player& player = pMapEditor->getPlayers()[houseID];
 
                 if(player.bActive == false) {

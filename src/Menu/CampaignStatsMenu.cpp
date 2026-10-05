@@ -16,6 +16,7 @@
  */
 
 #include <Menu/CampaignStatsMenu.h>
+#include <Achievements/AchievementManager.h>
 
 #include <globals.h>
 
@@ -466,6 +467,8 @@ void CampaignStatsMenu::calculateScore(int level)
     }
 
     totalScore -= ((totalTime/60) + 1);
+    if(!currentGame->areCheatsEnabled())
+        achievements::AchievementManager::instance().campaignScore(totalScore);
 
     for(const UnitBase* pUnit : unitList) {
         if(pUnit->getItemID() == Unit_Harvester) {

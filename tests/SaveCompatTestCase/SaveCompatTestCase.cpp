@@ -44,6 +44,11 @@ TEST_CASE("Save compat: extended houses preserve legacy IDs",
     REQUIRE(NUM_LEGACY_HOUSES == 8);
     REQUIRE(HOUSE_REBELS == 7);
     REQUIRE(HOUSE_CUSTOM == 8);
+    REQUIRE(HOUSE_WILDSPADE == 9);
+    REQUIRE(HOUSE_KLESHMERSH == 10);
+    REQUIRE(HOUSE_THARPIQUE == 11);
+    REQUIRE(NUM_CAMPAIGN_HOUSES == 9); // legacy color layout stays stable
+    REQUIRE(HOUSECOLOR_GUEST_1 == 15);
     REQUIRE(NUM_HOUSES == 12);
     REQUIRE(NUM_TEAM_SLOTS == 10);
 }

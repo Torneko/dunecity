@@ -141,7 +141,7 @@ TEST_CASE_METHOD(Fixture,"A damaged or newer profile is preserved rather than ov
     std::ifstream in(path);const std::string text(std::istreambuf_iterator<char>(in),{});REQUIRE(text.find("Protected=original")!=std::string::npos);
 }
 TEST_CASE_METHOD(Fixture,"Catalog ships every proposed achievement and notifications fire once","[achievements]"){
-    REQUIRE(manager.definitions().size()==37);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
+    REQUIRE(manager.definitions().size()==43);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
     REQUIRE(manager.takeNotification()=="PACIFISM");REQUIRE(manager.takeNotification().empty());REQUIRE_FALSE(manager.unlock("UNKNOWN"));
 }
 TEST_CASE_METHOD(Fixture,"Extra factions complete a campaign without replacing the eight required houses","[achievements]"){
@@ -152,4 +152,34 @@ TEST_CASE_METHOD(Fixture,"Veteran and high-difficulty victories use completed ma
     info.highDifficulty=true;
     for(int i=0;i<25;i++){manager.begin(info);manager.finish(true,true);manager.finish(true,true);}
     REQUIRE(manager.statistic("GamesWon")==25);REQUIRE(manager.unlocked("VETERAN_COMMANDER"));REQUIRE(manager.unlocked("AGAINST_THE_ODDS"));
+}
+
+TEST_CASE_METHOD(Fixture,"Campaign score uses the displayed victorious score without adding it to lifetime totals","[achievements]"){
+    info.mode=Mode::Campaign;manager.begin(info);
+    manager.campaignScore(2000);REQUIRE_FALSE(manager.unlocked("RULER_OF_ARRAKIS"));
+    manager.finish(true,false);manager.campaignScore(999);REQUIRE_FALSE(manager.unlocked("RULER_OF_ARRAKIS"));
+    manager.campaignScore(1000);REQUIRE(manager.unlocked("RULER_OF_ARRAKIS"));
+    manager.campaignScore(900);manager.campaignScore(1000);REQUIRE(manager.statistic("BestCampaignScore")==1000);
+    AchievementManager reloaded;REQUIRE(reloaded.configure("",(dir/"achievements.ini").u8string()));
+    REQUIRE(reloaded.unlocked("RULER_OF_ARRAKIS"));REQUIRE(reloaded.statistic("BestCampaignScore")==1000);
+}
+TEST_CASE_METHOD(Fixture,"Defeats, custom matches and disabled sessions cannot unlock a campaign score award","[achievements]"){
+    SECTION("defeat"){info.mode=Mode::Campaign;manager.begin(info);manager.finish(false,false);}
+    SECTION("custom"){info.mode=Mode::Custom;manager.begin(info);manager.finish(true,false);}
+    SECTION("disabled"){info.mode=Mode::Campaign;info.enabled=false;manager.begin(info);manager.finish(true,false);}
+    manager.campaignScore(1239);REQUIRE_FALSE(manager.unlocked("RULER_OF_ARRAKIS"));
+    REQUIRE(manager.statistic("BestCampaignScore")==0);
+}
+TEST_CASE_METHOD(Fixture,"Jericho campaigns are mod scoped and include all four named factions","[achievements]"){
+    info.mode=Mode::Campaign;info.mission=22;info.mod="Tornie";
+    for(auto house:{"Atreides","Harkonnen","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels","Corruptique","Wildspade","Kleshmersh","Tharpique"}){
+        info.house=house;manager.begin(info);manager.finish(true,false);
+    }
+    REQUIRE_FALSE(manager.unlocked("JERICHO_MASTER"));
+    info.mod="Jericho";
+    for(auto house:{"Atreides","Harkonnen","Ordos","Fremen","Sardaukar","Mercenary","Neutral","Rebels","Corruptique","Wildspade","Kleshmersh","Tharpique"}){
+        info.house=house;manager.begin(info);manager.finish(true,false);
+    }
+    REQUIRE(manager.unlocked("JERICHO_MASTER"));
+    for(auto id:{"CORRUPTIQUE_COMMANDER","WILDSPADE_COMMANDER","KLESHMERSH_COMMANDER","THARPIQUE_COMMANDER"})REQUIRE(manager.unlocked(id));
 }

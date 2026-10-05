@@ -216,7 +216,7 @@ void GameInitSettings::migrateLegacyHouseColorSlots() {
 }
 
 std::string GameInitSettings::getScenarioFilename(HOUSETYPE newHouse, int mission) {
-    if((newHouse < 0) || (newHouse >= NUM_HOUSES) || !isHouseAvailable(newHouse)) {
+    if((newHouse < 0) || (newHouse >= NUM_HOUSES) || !isCampaignHouseAvailable(newHouse)) {
         THROW(std::invalid_argument, "GameInitSettings::getScenarioFilename(): Invalid house id " + std::to_string(newHouse) + ".");
     }
 

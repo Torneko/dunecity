@@ -15,7 +15,7 @@ import re
 
 SECTION = re.compile(rb"^[ \t]*\[MAP\][ \t]*\r?\n(.*?)(?=^[ \t]*\[|\Z)", re.I | re.M | re.S)
 ROW = re.compile(rb"^([ \t]*(\d{3})[ \t]*=[ \t]*)([^\r\n]*)", re.M)
-MARKER = b'; TornieSpiceVariants v1:'
+MARKER = b'; TornieSpiceVariants v'
 
 
 def mix(value):
@@ -26,13 +26,13 @@ def mix(value):
     return value ^ (value >> 16)
 
 
-def apply(terrain, width, percentage, seed):
+def apply(terrain, width, percentage, seed, version=1):
     """Same fixed integer algorithm as include/INIMap/SpiceVariants.h."""
     terrain = bytearray(terrain)
     candidates = [i for i, tile in enumerate(terrain) if tile in b'~+']
     target = len(candidates) * max(0, min(percentage, 15)) // 100
     candidates.sort(key=lambda index: (mix(seed ^ index), index))
-    converted = 0
+    converted = pocket_number = 0
     height = len(terrain) // width
     for center in candidates:
         if converted == target:
@@ -41,7 +41,9 @@ def apply(terrain, width, percentage, seed):
             continue
         rank = mix(seed ^ center)
         green = (rank >> 8) & 1
-        pocket_size = 3 + rank % 5
+        color = (seed + pocket_number) % 4
+        pocket_number += 1
+        pocket_size = min(3 + rank % 5, max(1, target // 4)) if version >= 2 else 3 + rank % 5
         pending = [center]
         cursor = pocket_count = 0
         while cursor < len(pending) and pocket_count < pocket_size and converted < target:
@@ -50,7 +52,7 @@ def apply(terrain, width, percentage, seed):
             original = terrain[index]
             if original not in b'~+':
                 continue
-            terrain[index] = (ord('g') if green else ord('r')) if original == ord('~') else (ord('G') if green else ord('R'))
+            terrain[index] = (b'rglw'[color] if original == ord('~') else b'RGLW'[color]) if version >= 2 else ((ord('g') if green else ord('r')) if original == ord('~') else (ord('G') if green else ord('R')))
             converted += 1
             pocket_count += 1
             x, y = index % width, index // width
@@ -92,16 +94,38 @@ def process(path, root, write, check):
     seed = int.from_bytes(hashlib.sha256(relative.encode('utf-8')).digest()[:4], 'little') & 0x7FFFFFFF
     modern = integer(section, b'SizeX') is not None
     if MARKER in section:
-        marker = re.search(rb'TornieSpiceVariants v1: percent=(\d+) seed=(\d+) original=(\d+) variants=(\d+)', section)
-        assert marker and int(marker[1]) == 10 and int(marker[2]) == seed, 'Invalid variant marker'
+        marker = re.search(rb'TornieSpiceVariants v([12]): percent=(\d+) seed=(\d+) original=(\d+) variants=(\d+)', section)
+        assert marker and int(marker[2]) == 10 and int(marker[3]) == seed, 'Invalid variant marker'
+        version = int(marker[1])
+        if write and version == 1:
+            section = re.sub(rb'^; TornieSpiceVariants v1:[^\r\n]*\r?\n', b'', section, flags=re.M)
+            if modern:
+                width, height, found, terrain = rows(section)
+                terrain = terrain.translate(bytes.maketrans(b'gGrR', b'~+~+'))
+                changed = apply(terrain, width, 10, seed, 2)
+                for y in reversed(range(height)):
+                    match = found[y]
+                    section = section[:match.start(3)] + changed[y*width:(y+1)*width] + section[match.end(3):]
+                original, variants = int(marker[4]), int(marker[5])
+            else:
+                original = variants = 0
+                newline = b'\r\n' if b'\r\n' in raw else b'\n'
+                section = b'SpiceVariantVersion=2' + newline + section
+            newline = b'\r\n' if b'\r\n' in raw else b'\n'
+            mark = f'; TornieSpiceVariants v2: percent=10 seed={seed} original={original} variants={variants}'.encode()+newline
+            path.write_bytes(raw[:section_match.start(1)] + mark + section + raw[section_match.end(1):])
+            return 'upgraded-grid' if modern else 'upgraded-seed'
         if modern:
             _, _, _, terrain = rows(section)
-            original, variants = int(marker[3]), int(marker[4])
+            original, variants = int(marker[4]), int(marker[5])
             assert variants <= original, 'Invalid variant budget'
-            assert sum(terrain.count(tile) for tile in b'~+gGrR') == original, 'Spice tile count changed'
-            assert sum(terrain.count(tile) for tile in b'gGrR') == variants, 'Variant tile count changed'
+            assert sum(terrain.count(tile) for tile in b'~+gGrRlLwW') == original, 'Spice tile count changed'
+            assert sum(terrain.count(tile) for tile in b'gGrRlLwW') == variants, 'Variant tile count changed'
+            if version >= 2 and variants >= 4:
+                assert all(any(tile in terrain for tile in pair) for pair in (b'gG', b'rR', b'lL', b'wW')), 'A spice family is absent'
         else:
             assert integer(section, b'SpiceVariantPercent') == 10 and integer(section, b'SpiceVariantSeed') == seed
+            if version >= 2: assert integer(section, b'SpiceVariantVersion') == 2
         return 'checked-grid' if modern else 'checked-seed'
     assert not check, 'Map has not been converted'
     newline = b'\r\n' if b'\r\n' in raw else b'\n'
@@ -109,7 +133,7 @@ def process(path, root, write, check):
         width, height, found, terrain = rows(section)
         original = sum(terrain.count(tile) for tile in b'~+gGrR')
         variants = sum(terrain.count(tile) for tile in b'gGrR')
-        changed = apply(terrain, width, 10, seed)
+        changed = apply(terrain, width, 10, seed, 2)
         variants += sum(old != new for old, new in zip(terrain, changed))
         for y in reversed(range(height)):
             match = found[y]
@@ -117,8 +141,8 @@ def process(path, root, write, check):
     else:
         assert integer(section, b'Seed') is not None, 'Unknown map format'
         original = variants = 0
-        section = f'SpiceVariantPercent=10\nSpiceVariantSeed={seed}\n'.encode().replace(b'\n', newline) + section
-    marker = f'; TornieSpiceVariants v1: percent=10 seed={seed} original={original} variants={variants}'.encode() + newline
+        section = f'SpiceVariantVersion=2\nSpiceVariantPercent=10\nSpiceVariantSeed={seed}\n'.encode().replace(b'\n', newline) + section
+    marker = f'; TornieSpiceVariants v2: percent=10 seed={seed} original={original} variants={variants}'.encode() + newline
     updated = raw[:section_match.start(1)] + marker + section + raw[section_match.end(1):]
     if write:
         path.write_bytes(updated)

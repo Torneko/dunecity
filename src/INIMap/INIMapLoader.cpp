@@ -529,7 +529,8 @@ void INIMapLoader::loadMap() {
             }
         }
         const auto variants = SpiceVariants::apply(terrain, sizeX, variantPercent,
-            static_cast<uint32_t>(inifile->getIntValue("MAP", "SpiceVariantSeed", 0)));
+            static_cast<uint32_t>(inifile->getIntValue("MAP", "SpiceVariantSeed", 0)),
+            inifile->getIntValue("MAP", "SpiceVariantVersion", 1));
         for(int y = 0; y < sizeY; ++y) {
             for(int x = 0; x < sizeX; ++x) {
                 const size_t index = static_cast<size_t>(y) * sizeX + x;
@@ -541,7 +542,9 @@ void INIMapLoader::loadMap() {
                 const char variant = variants[index];
                 tile->setType(normalizeVanillaSpiceTerrain(variant == 'g' ? Terrain_GreenSpice
                     : variant == 'G' ? Terrain_ThickGreenSpice
-                    : variant == 'r' ? Terrain_RedSpice : Terrain_ThickRedSpice));
+                    : variant == 'r' ? Terrain_RedSpice : variant == 'R' ? Terrain_ThickRedSpice
+                    : variant == 'l' ? Terrain_PaleLilacSpice : variant == 'L' ? Terrain_ThickPaleLilacSpice
+                    : variant == 'w' ? Terrain_WhiteSpice : Terrain_ThickWhiteSpice));
                 tile->setSpice(spiceAmount);
             }
         }
@@ -559,7 +562,7 @@ void INIMapLoader::loadHouses()
 
     // find "player?" sections
     std::vector<std::string> playerSectionsOnMap;
-    for(int i=1;i<=getNumAvailableHouses();i++) {
+    for(int i=1;i<=MAX_CUSTOM_GAME_PLAYERS;i++) {
         std::string sectionname = "player" + std::to_string(i);
         if(inifile->hasSection(sectionname)) {
             playerSectionsOnMap.push_back(sectionname);
@@ -570,7 +573,7 @@ void INIMapLoader::loadHouses()
     std::vector<HOUSETYPE> unboundedHouses;
 
     for(int h=0;h<NUM_HOUSES;h++) {
-        if(!isHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
         bool bFound = false;
         for(const GameInitSettings::HouseInfo& houseInfo : houseInfoList) {
             if(houseInfo.houseID == (HOUSETYPE) h) {
@@ -587,7 +590,7 @@ void INIMapLoader::loadHouses()
 
     // init housename2house mapping with every house section marked as unused
     for(int i=0;i<NUM_HOUSES;i++) {
-        if(!isHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
         std::string houseName = getHouseNameByNumber((HOUSETYPE) i);
         convertToLower(houseName);
 

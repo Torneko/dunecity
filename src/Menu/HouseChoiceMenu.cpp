@@ -29,27 +29,18 @@
 
 
 namespace {
-const int houseOrder[] = {
-    HOUSE_ATREIDES,
-    HOUSE_ORDOS,
-    HOUSE_HARKONNEN,
-    HOUSE_MERCENARY,
-    HOUSE_FREMEN,
-    HOUSE_SARDAUKAR,
-    HOUSE_NEUTRAL,
-    HOUSE_REBELS,
-    HOUSE_CUSTOM
-};
+std::vector<int> getHouseOrder() {
+    const int candidates[] = { HOUSE_ATREIDES, HOUSE_ORDOS, HOUSE_HARKONNEN,
+        HOUSE_MERCENARY, HOUSE_FREMEN, HOUSE_SARDAUKAR, HOUSE_NEUTRAL,
+        HOUSE_REBELS, HOUSE_CUSTOM, HOUSE_WILDSPADE, HOUSE_KLESHMERSH, HOUSE_THARPIQUE };
+    std::vector<int> result;
+    for(int house : candidates)
+        if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(house))) result.push_back(house);
+    return result;
+}
 
 constexpr int kVisibleHouseButtons = 3;
-int getHouseChoiceCount() {
-    if(ModManager::instance().isTornieLiteActive()) {
-        return 6;
-    }
-
-    const int capacity = sizeof(houseOrder) / sizeof(houseOrder[0]);
-    return isHouseAvailable(HOUSE_CUSTOM) ? capacity : capacity - 1;
-}
+int getHouseChoiceCount() { return static_cast<int>(getHouseOrder().size()); }
 
 int getMaxHouseScrollPos() {
     return getHouseChoiceCount() - kVisibleHouseButtons;
@@ -195,7 +186,7 @@ void HouseChoiceMenu::onEnemyAISelectionChanged(bool /*interactive*/) {
 }
 
 void HouseChoiceMenu::onHouseButton(int button) {
-    int selectedHouse = houseOrder[currentHouseChoiceScrollPos+button];
+    int selectedHouse = getHouseOrder()[currentHouseChoiceScrollPos+button];
 
     const HOUSETYPE selectedIdentity =
         getHouseFactionIdentity(static_cast<HOUSETYPE>(selectedHouse));
@@ -244,13 +235,13 @@ void HouseChoiceMenu::onHouseButton(int button) {
 
 void HouseChoiceMenu::updateHouseChoice() {
     // House1 button
-    house1Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, houseOrder[currentHouseChoiceScrollPos+0]));
+    house1Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, getHouseOrder()[currentHouseChoiceScrollPos+0]));
 
     // House2 button
-    house2Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, houseOrder[currentHouseChoiceScrollPos+1]));
+    house2Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, getHouseOrder()[currentHouseChoiceScrollPos+1]));
 
     // House3 button
-    house3Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, houseOrder[currentHouseChoiceScrollPos+2]));
+    house3Button.setTextures(pGFXManager->getUIGraphic(UI_Herald_ColoredLarge, getHouseOrder()[currentHouseChoiceScrollPos+2]));
 }
 
 void HouseChoiceMenu::onHouseLeft()

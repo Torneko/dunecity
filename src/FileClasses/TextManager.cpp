@@ -19,6 +19,7 @@
 #include <mod/ModManager.h>
 
 #include <globals.h>
+#include <sand.h>
 
 #include <misc/string_util.h>
 
@@ -92,7 +93,35 @@ void TextManager::loadData() {
 }
 
 std::string TextManager::getBriefingText(unsigned int mission, unsigned int texttype, int house) const {
-    switch(house) {
+    const auto faction=getHouseFactionIdentity(static_cast<HOUSETYPE>(house));
+    if(faction==HOUSE_CUSTOM || faction>=HOUSE_WILDSPADE) {
+        const auto name=getHouseNameByNumber(static_cast<HOUSETYPE>(house));
+        const bool french=settings.general.language=="fr";
+        if(mission==0) {
+            std::string description;
+            switch(faction) {
+                case HOUSE_WILDSPADE: description=french
+                    ? "Les Wildspade prennent le ciel pour frapper leurs adversaires sur Arrakis."
+                    : "Wildspade takes to the skies to strike its opponents on Arrakis.";break;
+                case HOUSE_KLESHMERSH: description=french
+                    ? u8"Kleshmersh trace sa propre voie sur Arrakis, entre puissance militaire et commerce de l'\u00e9pice."
+                    : "Kleshmersh follows its own path on Arrakis through military strength and the spice trade.";break;
+                case HOUSE_THARPIQUE: description=french
+                    ? u8"Tharpique combine mobilit\u00e9 et technologies sp\u00e9cialis\u00e9es pour conqu\u00e9rir Arrakis."
+                    : "Tharpique combines mobility and specialized technologies to conquer Arrakis.";break;
+                default: description=french
+                    ? u8"Corruptique d\u00e9ploie un arsenal lourd pour prendre le contr\u00f4le de l'\u00e9pice."
+                    : "Corruptique deploys a heavy arsenal to take control of the spice.";break;
+            }
+            return (french ? "Maison " : "House ")+name+"\n"+description;
+        }
+        if(texttype==MISSION_WIN)return name+(french ? u8" a remport\u00e9 cette op\u00e9ration sur Arrakis." : " has won this operation on Arrakis.");
+        if(texttype==MISSION_LOSE)return name+(french ? u8" a perdu cette bataille. Reconstruisez vos forces et r\u00e9essayez." : " has lost this battle. Rebuild your forces and try again.");
+        return (french ? "Commandez la maison " : "Command House ")+name+(french
+            ? u8". D\u00e9veloppez votre base, prot\u00e9gez vos moissonneuses et accomplissez les objectifs de la mission."
+            : ". Develop your base, protect your harvesters and complete the mission objectives.");
+    }
+    switch(faction) {
         case HOUSE_HARKONNEN: {
             switch(texttype) {
                 case MISSION_DESCRIPTION: {

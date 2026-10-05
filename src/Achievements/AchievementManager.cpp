@@ -59,7 +59,7 @@ bool AchievementManager::configure(const std::string& catalogPath,const std::str
     save();state.clear();notifications.clear();running=false;dirty=false;writable=true;lastError.clear();catalog.clear();profilePath=profile;
     auto defs=parse(defaultCatalog);
     for(auto& section:parse(read(catalogPath)))defs[section.first]=section.second;
-    const std::set<std::string> rules={"Lifetime","Match","Pacifism","TruePacifist","CapturePacifism","NoMercy","Annihilation","Roadkill","TrueColors","CampaignCount","CampaignHouse","NoCasualties","Arsenal","HighDifficulty","VictoryHouses","SpiceTypes","SpiceCount"};
+    const std::set<std::string> rules={"Lifetime","Match","Pacifism","TruePacifist","CapturePacifism","NoMercy","Annihilation","Roadkill","TrueColors","CampaignCount","CampaignHouse","ModCampaignCount","NoCasualties","Arsenal","HighDifficulty","VictoryHouses","SpiceTypes","SpiceCount"};
     for(auto& entry:defs) {
         auto& s=entry.second;if(!rules.count(s["Rule"]))continue;
         Achievement a;a.id=entry.first;a.name=s["Name"];a.nameFr=s["NameFr"];
@@ -145,6 +145,16 @@ std::uint64_t AchievementManager::statistic(const std::string& name) const {
     const auto s=state.find("Statistics");if(s==state.end())return 0;
     auto v=s->second.find(name);return v==s->second.end()?0:number(v->second);
 }
+void AchievementManager::campaignScore(int score) {
+    // The campaign results screen supplies its actual displayed score after victory.
+    if(!running || !active.completed || active.info.mode!=Mode::Campaign
+       || active.counts["GamesWon"]==0 || score<0) return;
+    auto& best=state["Statistics"]["BestCampaignScore"];
+    if(static_cast<std::uint64_t>(score)>number(best)) {
+        best=std::to_string(score);dirty=true;
+    }
+    evaluate();save();
+}
 bool AchievementManager::unlocked(const std::string& id) const {
     const auto s=state.find("Unlocked");return s!=state.end()&&s->second.count(id);
 }
@@ -153,6 +163,11 @@ std::uint64_t AchievementManager::progress(const Achievement& a) const {
     if(a.secret)return 0;
     if(a.rule=="Lifetime")return std::min(a.target,statistic(a.statistic));
     if(a.rule=="CampaignHouse"){auto s=state.find("Campaigns");return s!=state.end()&&s->second.count(a.statistic)?1:0;}
+    if(a.rule=="ModCampaignCount") {
+        const auto s=state.find("CampaignsByMod");std::uint64_t count=0;
+        if(s!=state.end())for(const auto& entry:s->second)if(entry.first.compare(0,a.statistic.size()+1,a.statistic+":")==0)++count;
+        return std::min(count,a.target);
+    }
     if(a.rule=="CampaignCount"||a.rule=="VictoryHouses") {
         if(a.rule=="CampaignCount"&&a.statistic=="Any"){const auto s=state.find("Campaigns");return s==state.end()?0:std::min<std::uint64_t>(a.target,s->second.size());}
         std::uint64_t count=0;for(auto h:houses){if(a.rule=="VictoryHouses")count+=statistic(std::string("Victories")+h)>0;else{auto s=state.find("Campaigns");count+=s!=state.end()&&s->second.count(h);}}return std::min(count,a.target);
@@ -164,7 +179,7 @@ void AchievementManager::evaluate(bool victory,bool enemiesRemain) {
     const bool pacifist=active.historyKnown&&!active.destroyedEnemy;
     for(const auto& a:catalog) {
         bool earned=false;
-        if(a.rule=="Lifetime"||a.rule=="CampaignCount"||a.rule=="CampaignHouse"||a.rule=="VictoryHouses"){
+        if(a.rule=="Lifetime"||a.rule=="CampaignCount"||a.rule=="CampaignHouse"||a.rule=="ModCampaignCount"||a.rule=="VictoryHouses"){
             auto visible=a;visible.secret=false;earned=progress(visible)>=a.target;
         }
         else if(a.rule=="Match")earned=active.counts[a.statistic]>=a.target;

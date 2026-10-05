@@ -9,20 +9,30 @@ inline void verifyEditorHouseColors(const std::string& output, const std::string
     auto require = [](bool value, const std::string& message) {
         if(!value) throw std::runtime_error("Editor house color check: " + message);
     };
-    const int count = ModManager::instance().isTornieLiteActive() ? 6 : getNumAvailableHouses();
+    std::vector<int> roster;
+    for(int h=0;h<NUM_HOUSES;++h)if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(h)))roster.push_back(h);
+    const int count=static_cast<int>(roster.size());
     SDL_RenderSetClipRect(renderer, nullptr);
     SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255);
     SDL_RenderClear(renderer);
     for(int i = 0; i < count; ++i) {
-        const auto house = static_cast<HOUSETYPE>(i);
-        int expected = i;
-        if(mod == "Jericho" && i >= HOUSE_NEUTRAL) expected = HOUSECOLOR_GUEST_1 + i - HOUSE_NEUTRAL;
-        if(mod == "vanilla" && i == HOUSE_REBELS) expected = HOUSECOLOR_CUSTOM_APPLE_GREEN;
+        const auto house = static_cast<HOUSETYPE>(roster[i]);
+        int expected = roster[i];
+        if(mod == "Jericho" && roster[i] >= HOUSE_NEUTRAL) {
+            static const int slots[]={15,16,17,6,7,8};expected=slots[roster[i]-HOUSE_NEUTRAL];
+        }
+        if(mod == "Tornie" && roster[i]>=HOUSE_WILDSPADE)expected=15+roster[i]-HOUSE_WILDSPADE;
+        if(mod == "vanilla" && roster[i] == HOUSE_REBELS) expected = HOUSECOLOR_CUSTOM_APPLE_GREEN;
+        if(mod=="vanilla" && roster[i]==HOUSE_KLESHMERSH)expected=HOUSECOLOR_CUSTOM_BRIGHT_YELLOW;
         require(getHouseVisualHouse(house) == expected,
                 mod + " " + stage + " wrong color for " + getHouseDisplayNameByNumber(house)
                 + ": " + std::to_string(getHouseVisualHouse(house)) + " instead of " + std::to_string(expected));
         require(getHouseInterfaceColor(house) == getHouseColorRGB(expected),
                 mod + " " + stage + " interface color mismatch");
+        if(mod=="Jericho" && house==getRuntimeHouseForIdentity(HOUSE_CUSTOM)) {
+            const auto yellow=getHouseColorSDL(expected,0);
+            require(yellow.r>220 && yellow.g>220 && yellow.b<120,"Jericho Corruptique must retain yellow");
+        }
 
         auto* surface = pGFXManager->getUIGraphicSurface(UI_MapEditor_Windtrap, house);
         require(surface != nullptr, "missing editor building icon");
@@ -66,21 +76,23 @@ inline void verifyEditorHouseColorRoundtrip(const std::string& output, const std
     for(int i = 0; i < NUM_HOUSES; ++i) setHouseVisualHouse(static_cast<HOUSETYPE>(i), HOUSE_HARKONNEN);
     MapEditor editor;
     verifyEditorHouseColors(output, mod, "after-custom-game");
-    editor.setMap(MapData(32, 32, Terrain_Rock), MapInfo());
+    editor.setMap(MapData(64, 32, Terrain_Rock), MapInfo());
     for(auto& player : editor.getPlayers()) {
-        player.bActive = true;
+        player.bActive = isCampaignHouseAvailable(player.house);
+        if(!player.bActive)continue;
         player.bAnyHouse = false;
         const int x = 1 + 3 * player.house;
         editor.getStructureList().emplace_back(100 + player.house, player.house, Structure_WindTrap, 256, Coord(x, 2));
         editor.getUnitList().emplace_back(200 + player.house, player.house, Unit_Trike, 256, Coord(x, 8), 0, GUARD);
     }
-    const auto count = editor.getPlayers().size();
+    const auto count = std::count_if(editor.getPlayers().begin(),editor.getPlayers().end(),[](const auto& p){return p.bActive;});
     const auto path = (std::filesystem::path(output) / (mod + "-editor-colors.ini")).string();
     editor.saveMap(path);
     editor.loadMap(path);
     if(editor.getStructureList().size() != count || editor.getUnitList().size() != count)
         throw std::runtime_error("Editor house color check: map objects lost in roundtrip");
     for(const auto& player : editor.getPlayers()) {
+        if(!isCampaignHouseAvailable(player.house))continue;
         if(!player.bActive || player.bAnyHouse)
             throw std::runtime_error("Editor house color check: faction identity lost in roundtrip");
         const auto* structure = editor.getStructure(100 + player.house);

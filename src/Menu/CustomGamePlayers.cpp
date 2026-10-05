@@ -113,7 +113,8 @@ void addColorDropDownEntries(DropDownBox& colorDropDown, int selectedColor, bool
             colorDropDown.addEntry(getCustomColorName(colorSlot), colorSlot);
         }
     } else {
-        for(int h = 0; h < getCustomGameHouseCount(); ++h) {
+        for(int h = 0; h < NUM_HOUSES; ++h) {
+            if(!isCustomGameHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
             colorDropDown.addEntry(
                 getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(h)),
                 getDefaultHouseColorSlot(static_cast<HOUSETYPE>(h)));
@@ -1246,7 +1247,7 @@ void CustomGamePlayers::onNext()
             }
 
             const int selectedHouse = curHouseInfo.houseDropDown.getSelectedEntryIntData();
-            if(selectedHouse >= 0 && isHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) {
+            if(selectedHouse >= 0 && isCustomGameHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) {
                 if(houseAlreadyUsed[selectedHouse]) {
                     bDuplicateHouse = true;
                 } else {
@@ -1506,8 +1507,9 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
 
 
     boundHousesOnMap.clear();
-    for(int h = 0; h < getCustomGameHouseCount(); h++) {
+    for(int h = 0; h < NUM_HOUSES; h++) {
         const HOUSETYPE house = static_cast<HOUSETYPE>(h);
+        if(!isCustomGameHouseAvailable(house)) continue;
         if(pMap->hasSection(getHouseNameByNumber(house))) {
             boundHousesOnMap.push_back(house);
         }
@@ -1646,7 +1648,8 @@ void CustomGamePlayers::onChangeHousesDropDownBoxes(bool bInteractive, int house
 
         addToHouseDropDown(curHouseInfo.houseDropDown, HOUSE_INVALID);
 
-        for(int h=0;h<getCustomGameHouseCount();h++) {
+        for(int h=0;h<NUM_HOUSES;h++) {
+            if(!isCustomGameHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
             bool bAddHouse;
 
             bool bCheck;
@@ -2025,7 +2028,8 @@ void CustomGamePlayers::addToHouseDropDown(DropDownBox& houseDropDownBox, int ho
 
             int currentItemIndex = (houseDropDownBox.getEntryIntData(0) == HOUSE_INVALID) ? 1 : 0;
 
-            for(int h = 0; h < getCustomGameHouseCount(); h++) {
+            for(int h = 0; h < NUM_HOUSES; h++) {
+                if(!isCustomGameHouseAvailable(static_cast<HOUSETYPE>(h))) continue;
                 if(currentItemIndex < houseDropDownBox.getNumEntries() && houseDropDownBox.getEntryIntData(currentItemIndex) == h) {
                     if(h == house) {
                         if(bSelect) {

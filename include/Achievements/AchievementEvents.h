@@ -14,6 +14,7 @@ void finish(bool won);
 void pump(Game& game);
 void damage(ObjectBase* victim,std::uint32_t attackerID,House* attacker,bool lethal);
 void lost(UnitBase* unit);
+void wormDefeated(UnitBase* unit);
 void built(House* house,ObjectBase* object);
 void captured(House* captor,House* previousOwner);
 void crushed(ObjectBase* victim,ObjectBase* vehicle);

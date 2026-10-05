@@ -184,7 +184,7 @@ bool isVanillaCoreCampaignHouse(const char house) {
 }
 
 bool isVanillaAddonCampaignHouse(const char house) {
-    return house == 'N' || house == 'R';
+    return house == 'N' || house == 'R' || house == 'K';
 }
 
 std::string getVanillaCampaignPakName(const char house) {
@@ -437,7 +437,9 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
     }
 
     if(!isTornieCampaign && isVanillaAddonCampaignFile(filename)) {
-        if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
+        // The loose region files correct translations without rewriting PAKs.
+        const bool regionFile=strToUpper(filename).rfind("REGION",0)==0;
+        if(!regionFile) if(auto rwop = openFromNamedPakCaseInsensitive(pakFiles, filename, "EXTRA.PAK")) {
             SDL_Log("FileManager: using vanilla add-on campaign file '%s' from Extra.PAK", filename.c_str());
             return rwop;
         }
@@ -456,6 +458,8 @@ sdl2::RWops_ptr FileManager::openCampaignFile(const std::string& filename) {
                 return rwop;
             }
         }
+
+        if(auto rwop=openFromNamedPakCaseInsensitive(pakFiles,filename,"EXTRA.PAK")) return rwop;
 
         THROW(io_error, "Cannot find vanilla add-on campaign file '%s' in Extra.PAK or campaign_vanilla!", filename);
     }

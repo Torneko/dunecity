@@ -11,11 +11,11 @@ source at `80799faba1b66c64887286446f5ed6b0df985226` from
 `Torneko/dunecity-tornie`. Its RTS changes, campaigns and mod assets are retained;
 the standalone identity and removal of city simulation are applied on top.
 
-The supplied maps contain small, reproducible pockets of Tornie red and green spice.
+The supplied maps contain small, reproducible pockets of Tornie red, green, purple and blue spice.
 About 10% of normal spice tiles are replaced, preserving thin/thick terrain, blooms,
 rock, units, buildings and scenario coordinates. Version-2 maps store the new terrain
 directly; the 25 seed-based legacy scenarios opt in through `SpiceVariantPercent`
-and `SpiceVariantSeed` in `[MAP]`. Unmarked maps keep their original spice.
+and `SpiceVariantSeed` and `SpiceVariantVersion=2` in `[MAP]`. Unmarked maps keep their original spice.
 The optional loader rule is capped at 15%. Run
 `python scripts/add-spice-variants.py --check` to validate the supplied maps;
 `--write` applies the conversion to new, unmarked maps without converting existing
@@ -23,7 +23,7 @@ maps twice.
 
 ## Main goals
 
-Version **1.0.526** adds 37 internal offline achievements, cumulative local
+The project includes 43 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Game save formats
 remain unchanged. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
@@ -43,6 +43,20 @@ now lists supplied solo/multiplayer maps, personal maps and active-mod campaigns
 Version **1.0.530** fixes Windows builds with precompiled headers enabled:
 the three UTF-8 achievement sources compile separately from the legacy-encoded
 MSVC precompiled header, preserving their accented text.
+
+Version **1.0.531** integrates twelve named campaign factions in Tornie and
+Jericho. Vanilla adds brown Kleshmersh as its ninth selectable faction with
+Neutral's tech tree and all 22 cloned campaign maps: Harkonnen in missions 1–10,
+Sardaukar in 11–21 and Rebels in 22. Runtime/save IDs and legacy faction adapters
+remain unchanged. Jericho Corruptique retains yellow and its supplied herald.
+
+The campaign score achievement requires a displayed victorious score of at least
+1000. Four faction commanders and Master of Jericho extend the catalog. Worm
+Hunter counts player-attributed half-health defeats even with respawning enabled.
+Purple spice heals harvesters by at most one HP per 1008 simulated milliseconds.
+All 142 supplied maps use the four-color variant algorithm while unmarked/older
+maps preserve their original rules. Campaign region files use canonical faction
+ownership keys and CP850 translations; their routes are checked automatically.
 
 - Preserve the Dune Legacy RTS foundation.
 - Keep Tornie-specific gameplay and quality-of-life improvements.

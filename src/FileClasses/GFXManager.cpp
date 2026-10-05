@@ -46,6 +46,29 @@
 #include <cstdlib>
 #include <filesystem>
 
+// Keep the user-provided PNG intact; fit its visible banner in the native UI.
+static sdl2::surface_ptr fitAttachedHerald(sdl2::surface_ptr source) {
+    if(!source) return source;
+    auto rgba=sdl2::surface_ptr(SDL_ConvertSurfaceFormat(source.get(),SDL_PIXELFORMAT_ARGB8888,0));
+    if(!rgba) return source;
+    int left=rgba->w,top=rgba->h,right=-1,bottom=-1;
+    for(int y=0;y<rgba->h;++y) {
+        const auto* row=reinterpret_cast<const Uint32*>(static_cast<const Uint8*>(rgba->pixels)+y*rgba->pitch);
+        for(int x=0;x<rgba->w;++x) if((row[x]&0xffffffU)!=0) {
+            left=std::min(left,x);top=std::min(top,y);right=std::max(right,x);bottom=std::max(bottom,y);
+        }
+    }
+    if(right<left) return source;
+    auto fitted=sdl2::surface_ptr(SDL_CreateRGBSurfaceWithFormat(0,84,91,32,SDL_PIXELFORMAT_ARGB8888));
+    if(!fitted) return source;
+    SDL_FillRect(fitted.get(),nullptr,0);
+    SDL_Rect crop{left,top,right-left+1,bottom-top+1};
+    SDL_SetSurfaceBlendMode(rgba.get(),SDL_BLENDMODE_NONE);
+    if(SDL_BlitScaled(rgba.get(),&crop,fitted.get(),nullptr)!=0) return source;
+    SDL_SetColorKey(fitted.get(),SDL_TRUE,SDL_MapRGB(fitted->format,0,0,0));
+    return fitted;
+}
+
 /**
     Number of columns and rows each obj pic has
 */
@@ -1868,7 +1891,12 @@ GFXManager::GFXManager() {
         uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN] = getSubPicture(pHouseChoiceBackground.get(), 215, 54, 83, 91);
         uiGraphic[UI_Herald_ColoredLarge][HOUSE_HARKONNEN] = Scaler::defaultDoubleSurface(uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
         uiGraphic[UI_Herald_Colored][HOUSE_FREMEN] = PicFactory->createHeraldFre(uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
-        uiGraphic[UI_Herald_ColoredLarge][HOUSE_FREMEN] = Scaler::defaultDoubleSurface(uiGraphic[UI_Herald_Colored][HOUSE_FREMEN].get());
+        if(ModManager::instance().getActiveModName()=="Tornie" && pFileManager->exists("HeraldFremen.png"))
+            uiGraphic[UI_Herald_Colored][HOUSE_FREMEN]=fitAttachedHerald(LoadPNG_RW(pFileManager->openFile("HeraldFremen.png").get()));
+        uiGraphic[UI_Herald_ColoredLarge][HOUSE_FREMEN] =
+            uiGraphic[UI_Herald_Colored][HOUSE_FREMEN]->format->BytesPerPixel==1
+                ? Scaler::defaultDoubleSurface(uiGraphic[UI_Herald_Colored][HOUSE_FREMEN].get())
+                : Scaler::doubleSurfaceNN(uiGraphic[UI_Herald_Colored][HOUSE_FREMEN].get());
         uiGraphic[UI_Herald_Colored][HOUSE_SARDAUKAR] = PicFactory->createHeraldSard(uiGraphic[UI_Herald_Colored][HOUSE_ORDOS].get(), uiGraphic[UI_Herald_Colored][HOUSE_ATREIDES].get());
         uiGraphic[UI_Herald_ColoredLarge][HOUSE_SARDAUKAR] = Scaler::defaultDoubleSurface(uiGraphic[UI_Herald_Colored][HOUSE_SARDAUKAR].get());
         uiGraphic[UI_Herald_Colored][HOUSE_MERCENARY] = PicFactory->createHeraldMerc(uiGraphic[UI_Herald_Colored][HOUSE_ATREIDES].get(), uiGraphic[UI_Herald_Colored][HOUSE_ORDOS].get());
@@ -1878,6 +1906,7 @@ GFXManager::GFXManager() {
             if(pFileManager->exists(filename)) {
                 auto herald = LoadPNG_RW(pFileManager->openFile(filename).get());
                 if(herald) {
+                    if(std::string(filename)=="HeraldKleshmershBrown.png") herald=fitAttachedHerald(std::move(herald));
                     if(house != HOUSE_REBELS) {
                         SDL_SetColorKey(herald.get(), SDL_TRUE, 0);
                     }
@@ -1907,6 +1936,17 @@ GFXManager::GFXManager() {
                         uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
         loadBonusHerald(HOUSE_REBELS, jerichoIdentity ? "HeraldKleshmersh.png" : "HeraldRebels.png",
                         uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
+        if(isCampaignHouseAvailable(HOUSE_WILDSPADE)) {
+            loadBonusHerald(HOUSE_WILDSPADE,jerichoIdentity ? "HeraldNeu.png" : "HeraldWildspade.png",
+                            uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
+            uiGraphic[UI_Herald_Grey][HOUSE_WILDSPADE]=PicFactory->createGreyHouseChoice(uiGraphic[UI_Herald_Colored][HOUSE_WILDSPADE].get());
+        }
+        if(isCampaignHouseAvailable(HOUSE_KLESHMERSH)) {
+            const bool vanilla=ModManager::instance().getActiveModName()=="vanilla";
+            loadBonusHerald(HOUSE_KLESHMERSH,vanilla ? "HeraldKleshmershBrown.png" : jerichoIdentity ? "HeraldRebels.png" : "HeraldKleshmersh.png",
+                            uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
+            uiGraphic[UI_Herald_Grey][HOUSE_KLESHMERSH]=PicFactory->createGreyHouseChoice(uiGraphic[UI_Herald_Colored][HOUSE_KLESHMERSH].get());
+        }
     }
 
     uiGraphic[UI_Herald_Grey][HOUSE_HARKONNEN] = PicFactory->createGreyHouseChoice(uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
@@ -4578,6 +4618,7 @@ void GFXManager::reloadModDependentUiGraphics() {
         if(pFileManager->exists(filename)) {
             auto herald = LoadPNG_RW(pFileManager->openFile(filename).get());
             if(herald != nullptr) {
+                if(std::string(filename)=="HeraldKleshmershBrown.png" || std::string(filename)=="HeraldFremen.png") herald=fitAttachedHerald(std::move(herald));
                 if(herald->format->Amask == 0
                    && !isHouseFaction(static_cast<HOUSETYPE>(house), HOUSE_REBELS)) {
                     SDL_SetColorKey(herald.get(), SDL_TRUE, 0);
@@ -4591,7 +4632,9 @@ void GFXManager::reloadModDependentUiGraphics() {
             if(fallback == nullptr) {
                 return;
             }
-            if(isHouseFaction(static_cast<HOUSETYPE>(house), HOUSE_REBELS)) {
+            if(house==HOUSE_FREMEN) {
+                uiGraphic[UI_Herald_Colored][house]=pictureFactory->createHeraldFre(fallback);
+            } else if(isHouseFaction(static_cast<HOUSETYPE>(house), HOUSE_REBELS)) {
                 uiGraphic[UI_Herald_Colored][house] = copySurface(fallback);
             } else {
                 uiGraphic[UI_Herald_Colored][house] =
@@ -4611,15 +4654,16 @@ void GFXManager::reloadModDependentUiGraphics() {
 
     auto getHeraldFilename = [](HOUSETYPE house) -> const char* {
         switch(getHouseFactionIdentity(house)) {
+            case HOUSE_FREMEN: return ModManager::instance().getActiveModName()=="Tornie" ? "HeraldFremen.png" : "";
             case HOUSE_NEUTRAL: return "HeraldNeu.png";
             case HOUSE_REBELS: return "HeraldRebels.png";
             case HOUSE_WILDSPADE: return "HeraldWildspade.png";
-            case HOUSE_KLESHMERSH: return "HeraldKleshmersh.png";
+            case HOUSE_KLESHMERSH: return ModManager::instance().getActiveModName()=="vanilla" ? "HeraldKleshmershBrown.png" : "HeraldKleshmersh.png";
             default: return nullptr;
         }
     };
     for(const HOUSETYPE house : {
-            HOUSE_NEUTRAL, HOUSE_REBELS, HOUSE_WILDSPADE, HOUSE_KLESHMERSH }) {
+            HOUSE_FREMEN, HOUSE_NEUTRAL, HOUSE_REBELS, HOUSE_WILDSPADE, HOUSE_KLESHMERSH }) {
         const char* filename = getHeraldFilename(house);
         if(filename != nullptr && isCustomGameHouseAvailable(house)) {
             reloadBonusHerald(house, filename);

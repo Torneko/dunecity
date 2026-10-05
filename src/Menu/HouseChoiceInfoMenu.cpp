@@ -50,7 +50,7 @@ HouseChoiceInfoMenu::HouseChoiceInfoMenu(int newHouse) : MentatMenu(HOUSE_INVALI
         } break;
     }
 
-    if((newHouse == HOUSE_CUSTOM || displayHouse == HOUSE_NEUTRAL || displayHouse == HOUSE_REBELS)
+    if((newHouse >= HOUSE_CUSTOM || displayHouse == HOUSE_NEUTRAL || displayHouse == HOUSE_REBELS)
        && anim != nullptr) {
         SDL_Surface* registeredHerald = pGFXManager->getUIGraphicSurface(UI_Herald_ColoredLarge, static_cast<HOUSETYPE>(newHouse));
         auto opaqueHerald = copySurface(registeredHerald);

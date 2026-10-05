@@ -16,6 +16,7 @@
  */
 
 #include <units/RebelHarvester.h>
+#include <misc/SpiceEffects.h>
 #include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
@@ -602,7 +603,8 @@ void RebelHarvester::move()
                         const bool harvestingLilacSpice = tile->isPaleLilacSpice();
                         const FixPoint harvested = tile->harvestSpice();
                         spice += harvested;
-                        if(harvestingLilacSpice && harvested > 0) {
+                        if(harvestingLilacSpice && harvested > 0
+                           && spiceHealingTick(currentGame->getGameCycleCount(), getObjectID())) {
                             addHealth();
                         }
                         int afterTileType = tile->getType();

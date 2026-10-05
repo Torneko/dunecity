@@ -16,6 +16,7 @@
  */
 
 #include <units/SandWorm.h>
+#include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
 
@@ -367,6 +368,7 @@ void Sandworm::handleDamage(int damage, Uint32 damagerID, House* damagerOwner) {
 
 bool Sandworm::update() {
     if(getHealth() <= getMaxHealth()/2) {
+        AchievementEvents::wormDefeated(this);
         if(sleepOrDie() == false) {
             return false;
         }

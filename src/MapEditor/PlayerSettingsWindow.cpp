@@ -55,10 +55,12 @@ PlayerSettingsWindow::PlayerSettingsWindow(MapEditor* pMapEditor, HOUSETYPE curr
 
     mainVBox.addWidget(VSpacer::create(8));
 
-    mainVBox.addWidget(&centralVBox, 360);
+    centralScroll.setContent(&centralVBox);
+    mainVBox.addWidget(&centralScroll, 360);
 
     const int playerCount = static_cast<int>(pMapEditor->getPlayers().size());
     for(int i = 0; i < playerCount; i++) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
 
         MapEditor::Player& playerInfo = pMapEditor->getPlayers()[i];
 
@@ -206,6 +208,7 @@ void PlayerSettingsWindow::onAdvancedBasicToggle() {
         advancedBasicToggle.setText(_("Basic..."));
 
         for(int i = 0; i < playerCount; i++) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].creditsLabel);
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].creditsTextBox);
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].spacer);
@@ -224,6 +227,7 @@ void PlayerSettingsWindow::onAdvancedBasicToggle() {
         advancedBasicToggle.setText(_("Advanced..."));
 
         for(int i = 0; i < playerCount; i++) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].spiceQuotaLabel);
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].spiceQuotaTextBox);
             playerWidgets[i].playerHBox.removeChildWidget(&playerWidgets[i].spacer);
@@ -246,6 +250,7 @@ void PlayerSettingsWindow::onOK() {
 
     const int playerCount = static_cast<int>(pMapEditor->getPlayers().size());
     for(int i = 0; i < playerCount; i++) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(i))) continue;
         bool bActive = playerWidgets[i].playerCheckbox.isChecked();
         bool bAnyHouse = pMapEditor->getMapVersion() < 2 ? false : playerWidgets[i].anyHouseRadioButton.isChecked();
         int credits = playerWidgets[i].creditsTextBox.getValue();

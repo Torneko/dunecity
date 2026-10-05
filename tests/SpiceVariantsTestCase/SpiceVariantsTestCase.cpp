@@ -1,6 +1,7 @@
 #include <catch2/catch_all.hpp>
 #include <INIMap/SpiceVariants.h>
 #include <misc/SpiceGeneration.h>
+#include <misc/SpiceEffects.h>
 
 TEST_CASE("Generated spice includes every supported color within the original variant budget", "[map][spice]") {
     const std::pair<int, int> families[] = {
@@ -71,4 +72,23 @@ TEST_CASE("Spice variants are opt-in, bounded and safe on tiny or invalid maps",
     REQUIRE(SpiceVariants::apply("%%%OOOQQQ", 3, 10, 42) == "%%%OOOQQQ");
     const auto bounded = SpiceVariants::apply(terrain, 10, 100, 42);
     REQUIRE(std::count(bounded.begin(), bounded.end(), '~') == 85);
+}
+
+TEST_CASE("Version two provided maps include all four variants without changing the old algorithm","[map][spice]") {
+    const std::string terrain(1600,'~');
+    for(uint32_t seed:{0U,42U,123456789U}) {
+        const auto result=SpiceVariants::apply(terrain,40,10,seed,2);
+        REQUIRE(std::count(result.begin(),result.end(),'~')==1440);
+        for(char variant:std::string("rglw"))REQUIRE(std::count(result.begin(),result.end(),variant)>0);
+        REQUIRE(result==SpiceVariants::apply(terrain,40,10,seed,2));
+    }
+}
+TEST_CASE("Healing spice is limited to one point per simulated second independent of unit ID","[spice][balance]") {
+    constexpr uint64_t interval=(1000+GAMESPEED_DEFAULT-1)/GAMESPEED_DEFAULT;
+    for(uint32_t object:{0U,1U,62U,63U,123456U}) {
+        int heals=0;
+        for(uint64_t cycle=0;cycle<interval*10;++cycle)heals+=spiceHealingTick(cycle,object);
+        REQUIRE(heals==10);
+        REQUIRE(interval*GAMESPEED_DEFAULT>=1000);
+    }
 }

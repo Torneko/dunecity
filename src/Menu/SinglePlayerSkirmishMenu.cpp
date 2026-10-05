@@ -29,27 +29,18 @@
 #include <sand.h>
 
 namespace {
-const int houseOrder[] = {
-    HOUSE_ATREIDES,
-    HOUSE_ORDOS,
-    HOUSE_HARKONNEN,
-    HOUSE_MERCENARY,
-    HOUSE_FREMEN,
-    HOUSE_SARDAUKAR,
-    HOUSE_NEUTRAL,
-    HOUSE_REBELS,
-    HOUSE_CUSTOM
-};
+std::vector<int> getHouseOrder() {
+    const int candidates[] = { HOUSE_ATREIDES, HOUSE_ORDOS, HOUSE_HARKONNEN,
+        HOUSE_MERCENARY, HOUSE_FREMEN, HOUSE_SARDAUKAR, HOUSE_NEUTRAL,
+        HOUSE_REBELS, HOUSE_CUSTOM, HOUSE_WILDSPADE, HOUSE_KLESHMERSH, HOUSE_THARPIQUE };
+    std::vector<int> result;
+    for(int house : candidates)
+        if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(house))) result.push_back(house);
+    return result;
+}
 
 constexpr int kVisibleHouseButtons = 3;
-int getHouseChoiceCount() {
-    if(ModManager::instance().isTornieLiteActive()) {
-        return 6;
-    }
-
-    const int capacity = sizeof(houseOrder) / sizeof(houseOrder[0]);
-    return isHouseAvailable(HOUSE_CUSTOM) ? capacity : capacity - 1;
-}
+int getHouseChoiceCount() { return static_cast<int>(getHouseOrder().size()); }
 
 int getMaxHouseScrollPos() {
     return getHouseChoiceCount() - kVisibleHouseButtons;
@@ -256,7 +247,7 @@ void SinglePlayerSkirmishMenu::onChildWindowClose(Window* pChildWindow) {
 
 void SinglePlayerSkirmishMenu::onStart()
 {
-    HOUSETYPE houseChoice = static_cast<HOUSETYPE>(houseOrder[currentHouseChoiceScrollPos + selectedButton]);
+    HOUSETYPE houseChoice = static_cast<HOUSETYPE>(getHouseOrder()[currentHouseChoiceScrollPos + selectedButton]);
 
     supportBotIndex = supportBotDropDown.getSelectedEntryIntData();
     if(supportBotIndex < 0 || supportBotIndex >= kSupportOptionCount) {
@@ -278,7 +269,7 @@ void SinglePlayerSkirmishMenu::onStart()
     }
 
     for(int houseID = 0; houseID < NUM_HOUSES; houseID++) {
-        if(!isHouseAvailable(static_cast<HOUSETYPE>(houseID))) {
+        if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(houseID))) {
             continue;
         }
         if(houseID == houseChoice) {
@@ -398,14 +389,14 @@ void SinglePlayerSkirmishMenu::onGameOptions()
 void SinglePlayerSkirmishMenu::updateHouseChoice()
 {
     // House1 button
-    house1Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, houseOrder[currentHouseChoiceScrollPos+0]));
-    house1SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, houseOrder[currentHouseChoiceScrollPos+0]));
+    house1Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, getHouseOrder()[currentHouseChoiceScrollPos+0]));
+    house1SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, getHouseOrder()[currentHouseChoiceScrollPos+0]));
 
     // House2 button
-    house2Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, houseOrder[currentHouseChoiceScrollPos+1]));
-    house2SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, houseOrder[currentHouseChoiceScrollPos+1]));
+    house2Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, getHouseOrder()[currentHouseChoiceScrollPos+1]));
+    house2SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, getHouseOrder()[currentHouseChoiceScrollPos+1]));
 
     // House3 button
-    house3Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, houseOrder[currentHouseChoiceScrollPos+2]));
-    house3SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, houseOrder[currentHouseChoiceScrollPos+2]));
+    house3Picture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Grey, getHouseOrder()[currentHouseChoiceScrollPos+2]));
+    house3SelectedPicture.setTexture(pGFXManager->getUIGraphic(UI_Herald_Colored, getHouseOrder()[currentHouseChoiceScrollPos+2]));
 }

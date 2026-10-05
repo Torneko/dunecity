@@ -1,4 +1,5 @@
 #pragma once
+#include <units/RebelHarvester.h>
 // Test-build-only integration through real game objects, UI and save streams.
 // SPDX-License-Identifier: GPL-2.0-or-later
 #include <Achievements/AchievementEvents.h>
@@ -27,7 +28,7 @@ inline void runAchievementRuntimeSmoke(){
     const char* output=std::getenv("DUNELEGACY_SMOKE_DIR");
     require(output&&std::filesystem::is_directory(output),"isolated profile/output required");
     auto& mods=ModManager::instance();const auto previous=mods.getActiveModName();require(mods.setActiveMod("Tornie"),"Tornie activation");
-    auto options=settings.gameOptions;options.immortalHumanPlayer=false;options.sandwormsRespawn=false;
+    auto options=settings.gameOptions;options.immortalHumanPlayer=false;options.sandwormsRespawn=true;
     std::string terrain="[BASIC]\nVersion=2\nTechLevel=9\n[MAP]\nSizeX=32\nSizeY=32\n";
     for(int y=0;y<32;++y)terrain+=fmt::sprintf("%03d=",y)+std::string(32,'%')+"\n";
     terrain+="[Player1]\nCredits=100000\n[Player2]\nCredits=100000\n[Player3]\nCredits=100000\n";
@@ -80,8 +81,16 @@ inline void runAchievementRuntimeSmoke(){
         require(manager.statistic("FlameTankKills")==1&&manager.statistic("EnemyUnitsDestroyed")==deaths+1,"flame attribution");
 
         auto* worm=enemy->createUnit(Unit_Sandworm);worm->deploy(Coord(26,26));
-        worm->handleDamage(worm->getMaxHealth(),vehicle->getObjectID(),local);worm->update();
-        require(manager.unlocked("WORM_HUNTER")&&manager.statistic("SandwormsKilled")==1,"actual worm removal");
+        worm->handleDamage(worm->getMaxHealth()/2+1,vehicle->getObjectID(),local);worm->update();
+        require(manager.unlocked("WORM_HUNTER")&&manager.statistic("SandwormsKilled")==1,"worm defeated at half health with respawn enabled");
+        require(!worm->isActive(),"defeated worm sleeps");
+        worm->update();require(manager.statistic("SandwormsKilled")==1,"worm award deduplicated");
+        auto* ownedWorm=local->createUnit(Unit_Sandworm);ownedWorm->deploy(Coord(27,26));
+        ownedWorm->handleDamage(ownedWorm->getMaxHealth()/2+1,vehicle->getObjectID(),local);ownedWorm->update();
+        require(manager.statistic("SandwormsKilled")==2,"same-house neutral worm still credits local attacker");
+        auto* otherWorm=enemy->createUnit(Unit_Sandworm);otherWorm->deploy(Coord(28,26));
+        otherWorm->handleDamage(otherWorm->getMaxHealth()/2+1,vehicle->getObjectID(),ally);otherWorm->update();
+        require(manager.statistic("SandwormsKilled")==2,"AI-defeated worm not credited locally");
         auto* mcv=static_cast<MCV*>(local->createUnit(Unit_MCV));mcv->deploy(Coord(26,3));
         const auto losses=manager.statistic("UnitsLost");require(mcv->doDeploy(),"MCV deployment");
         require(manager.statistic("UnitsLost")==losses,"MCV conversion is not a loss");
@@ -92,6 +101,23 @@ inline void runAchievementRuntimeSmoke(){
         require(manager.unlocked("RED_HARVEST"),"real red-spice collection");
         currentGameMap->removeObjectFromMap(harvester->getObjectID());harvester->deploy(Coord(25,24));harvester->setDestination(Coord(25,24));harvester->move();
         require(manager.unlocked("GREEN_HARVEST")&&manager.unlocked("SPICE_COLLECTOR"),"real green-spice collection");
+        // Exercise both real harvester classes at an eligible healing cycle.
+        for(int item:{Unit_Harvester,Unit_RebelHarvester}) {
+            UnitBase* unit=nullptr;
+            constexpr unsigned interval=(1000+GAMESPEED_DEFAULT-1)/GAMESPEED_DEFAULT;
+            for(unsigned attempt=0;attempt<interval;++attempt) {
+                unit=local->createUnit(item);
+                if(unit->getObjectID()%interval==game->getGameCycleCount()%interval)break;
+            }
+            auto* lilac=currentGameMap->getTile(24,28);lilac->setType(Terrain_PaleLilacSpice);lilac->setSpice(500_fix);
+            unit->deploy(Coord(24,28));unit->setDestination(Coord(24,28));unit->setHealth(unit->getMaxHealth()/2);
+            auto harvestMove=[&] { if(item==Unit_Harvester)static_cast<Harvester*>(unit)->move();else static_cast<RebelHarvester*>(unit)->move(); };
+            const auto health=unit->getHealth();harvestMove();
+            require(unit->getHealth()==health+1,"real harvester heals only one point per eligible tick");
+            const auto healed=unit->getHealth();lilac->setSpice(0_fix);lilac->setType(Terrain_Sand);harvestMove();
+            require(unit->getHealth()==healed,"healing requires actual spice collection");
+            currentGameMap->removeObjectFromMap(unit->getObjectID());
+        }
         local->addCredits(10000_fix,true);require(manager.unlocked("THE_SPICE_MUST_FLOW"),"refinery credit event");
         require(game->saveGame(file),"save stream with profile checkpoint");runID=manager.match().runID;
         manager.enemyDestroyed(999999,false,false,false);

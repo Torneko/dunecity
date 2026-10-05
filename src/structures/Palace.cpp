@@ -114,7 +114,7 @@ bool Palace::usesTornieMainRebelsCooldown() const {
     const HOUSETYPE faction =
         getHouseFactionIdentity(static_cast<HOUSETYPE>(originalHouseID));
     if(activeMod == "vanilla") {
-        return faction == HOUSE_NEUTRAL || faction == HOUSE_REBELS;
+        return faction == HOUSE_NEUTRAL || faction == HOUSE_REBELS || faction == HOUSE_KLESHMERSH;
     }
 
     return (activeMod == "Tornie" || activeMod == "Jericho")
@@ -167,6 +167,7 @@ bool Palace::usesJerichoOrnithopterStrike() const {
 
 bool Palace::usesJerichoKleshmershFremenCall() const {
     return ModManager::instance().isInitialized()
+        && ModManager::instance().isTornieContentActive()
         && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_KLESHMERSH);
 }
 

@@ -1,6 +1,6 @@
 # Local achievements
 
-Dune Legacy Tornie 1.0.526 provides 37 offline achievements. Open **Achievements**
+Dune Legacy Tornie 1.0.526 provides 43 offline achievements. Open **Achievements**
 or **Hauts faits** from the main menu to view locked awards and cumulative stats.
 Unlocks use the existing in-game news ticker. Steam is not required.
 
@@ -27,7 +27,7 @@ Leaving a match grants neither a victory nor a defeat.
   those houses. Completing any faction's campaign grants Conquer Arrakis.
 - No Casualties counts consumed capture infantry, as well as destroyed units.
   Healthy MCV deployment and departing logistics aircraft are not losses.
-- Worm Hunter credits actual worm removal, not a retreat followed by respawn.
+- Worm Hunter credits player-attributed half-health defeats, including retreat with respawning enabled.
 - Spice credits count refinery deposits, not starting funds or captured credits.
   Red/green awards observe actual harvester collection before the tile changes.
 - Flame Master requires 50 cumulative Flame Tank kills. Tornie Arsenal requires
@@ -61,7 +61,7 @@ totals already earned survive loading an earlier save.
 `config/Achievements.ini` defines stable IDs, English/French names and descriptions,
 rule, statistic, threshold and `Secret`. Definitions override the compiled fallback
 catalog; additional IDs using an existing rule can be added. `Secret=true` displays
-`???` and a hidden description until unlocked. The default 37 awards are visible.
+`???` and a hidden description until unlocked. The default 43 awards are visible.
 Keep the fallback in `include/Achievements/AchievementDefaults.h` synchronized when
 changing built-in definitions, so a missing external catalog keeps the same rules.
 
@@ -78,3 +78,18 @@ and `DUNELEGACY_SMOKE_DIR` pointing to an existing output folder.
 The integration check exercises real captures, final-building victory, damage
 attribution, crushing, MCV deployment, worm removal, harvesting, save/reload and SDL
 window rendering. Optional `DUNELEGACY_OLD_SAVE` checks a previous-version save.
+
+## 1.0.531 additions
+
+- `RULER_OF_ARRAKIS`: win a campaign mission with its displayed final score >= 1000.
+  The profile stores `BestCampaignScore`, never the sum of repeated score screens.
+- `WILDSPADE_COMMANDER`, `KLESHMERSH_COMMANDER`, `THARPIQUE_COMMANDER`,
+  `CORRUPTIQUE_COMMANDER`: complete the named campaign in any supported edition.
+- `JERICHO_MASTER`: complete all 12 named campaigns specifically in Jericho.
+  Campaign completion is keyed by both mod and faction; Tornie victories do not substitute.
+- `WORM_HUNTER`: a worm defeated at its half-health retreat threshold counts when
+  the last damaging source belongs to the local player, including respawning and
+  same-house neutral worms. AI damage and ordinary full-health burrowing do not count.
+
+Old profile entries/checkpoints and game save formats are preserved. Legacy custom
+house config adapters remain readable; the game roster exposes named factions.

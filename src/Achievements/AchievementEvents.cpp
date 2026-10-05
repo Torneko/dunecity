@@ -83,14 +83,17 @@ void damage(ObjectBase* victim,std::uint32_t attackerID,House* attacker,bool let
     const auto* source=currentGame->getObjectManager().getObject(attackerID);
     if(source&&source->getItemID()==Unit_Sandworm)return;
     manager().enemyDamage();
-    // A worm retreats at half health and may respawn. Credit only actual removal.
+    // Worm defeats are resolved at the game's half-health retreat threshold.
     if(lethal&&victim->getItemID()!=Unit_Sandworm)manager().enemyDestroyed(victim->getObjectID(),victim->isAStructure(),false,flame);
 }
-void lost(UnitBase* unit){
-    if(unit&&unit->getItemID()==Unit_Sandworm&&enemy(unit->getOwner())&&unit->getHealth()<=unit->getMaxHealth()/2){
+void wormDefeated(UnitBase* unit){
+    if(unit&&unit->getItemID()==Unit_Sandworm&&unit->getHealth()<=unit->getMaxHealth()/2){
         const auto source=manager().match().wormSources.find(unit->getObjectID());
         if(source!=manager().match().wormSources.end()&&source->second>0)manager().enemyDestroyed(unit->getObjectID(),false,true,source->second==2);
     }
+}
+void lost(UnitBase* unit){
+    wormDefeated(unit);
     if(!unit||!pLocalHouse||(!local(unit->getOwner())&&unit->getOriginalHouseID()!=pLocalHouse->getHouseID()))return;
     // Deploying a healthy MCV is a conversion, not a loss.
     if(unit->getItemID()==Unit_MCV&&unit->getHealth()>0&&!unit->isVisible())return;

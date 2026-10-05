@@ -1,7 +1,7 @@
-// Generated fallback for config/Achievements.ini. SPDX-License-Identifier: GPL-2.0-or-later
-#ifndef TORNIE_ACHIEVEMENT_DEFAULTS_H
-#define TORNIE_ACHIEVEMENT_DEFAULTS_H
-namespace achievements { inline constexpr const char* defaultCatalog = R"ACHIEVEMENTS(; Dune Legacy Tornie — UTF-8, local achievements. No gameplay effects.
+// Generated from config/Achievements.ini.
+#pragma once
+namespace achievements {
+inline constexpr const char* defaultCatalog=R"ACHIEVEMENTS(; Dune Legacy Tornie — UTF-8, local achievements. No gameplay effects.
 ; Rule + Statistic + Target define extensible rules. Secret=true hides locked names.
 ; Roadkill uses a 2000 ms simulation window; spice credits count refinery deposits.
 
@@ -374,5 +374,65 @@ Rule=SpiceCount
 Statistic=
 Target=2
 Secret=false
-)ACHIEVEMENTS"; }
-#endif
+
+[RULER_OF_ARRAKIS]
+Name=Ruler of Arrakis
+NameFr=Souverain d’Arrakis
+Description=Win a campaign mission with a displayed score of at least 1000.
+DescriptionFr=Gagner une mission de campagne avec un score affiché de 1000 ou plus.
+Rule=Lifetime
+Statistic=BestCampaignScore
+Target=1000
+Secret=false
+
+[WILDSPADE_COMMANDER]
+Name=Wildspade Commander
+NameFr=Commandant Wildspade
+Description=Complete the Wildspade campaign.
+DescriptionFr=Terminer la campagne Wildspade.
+Rule=CampaignHouse
+Statistic=Wildspade
+Target=1
+Secret=false
+
+[KLESHMERSH_COMMANDER]
+Name=Kleshmersh Commander
+NameFr=Commandant Kleshmersh
+Description=Complete the Kleshmersh campaign.
+DescriptionFr=Terminer la campagne Kleshmersh.
+Rule=CampaignHouse
+Statistic=Kleshmersh
+Target=1
+Secret=false
+
+[THARPIQUE_COMMANDER]
+Name=Tharpique Commander
+NameFr=Commandant Tharpique
+Description=Complete the Tharpique campaign.
+DescriptionFr=Terminer la campagne Tharpique.
+Rule=CampaignHouse
+Statistic=Tharpique
+Target=1
+Secret=false
+
+[CORRUPTIQUE_COMMANDER]
+Name=Corruptique Commander
+NameFr=Commandant Corruptique
+Description=Complete the Corruptique campaign.
+DescriptionFr=Terminer la campagne Corruptique.
+Rule=CampaignHouse
+Statistic=Corruptique
+Target=1
+Secret=false
+
+[JERICHO_MASTER]
+Name=Master of Jericho
+NameFr=Maître de Jericho
+Description=Complete all twelve campaigns in Jericho.
+DescriptionFr=Terminer les douze campagnes dans Jericho.
+Rule=ModCampaignCount
+Statistic=Jericho
+Target=12
+Secret=false
+)ACHIEVEMENTS";
+}

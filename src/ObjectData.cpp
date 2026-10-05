@@ -26,6 +26,7 @@
 #include <misc/string_util.h>
 #include <misc/FileSystem.h>
 #include <main.h>
+#include <mod/ModManager.h>
 
 #include <cstdint>
 #include <cstdio>
@@ -289,6 +290,12 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
             data[itemID][h].techLevel = loadIntValue(*objectDataFile, sectionName, "TechLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.techLevel);
             data[itemID][h].upgradeLevel = loadIntValue(*objectDataFile, sectionName, "UpgradeLevel", getHouseScenarioLetter(static_cast<HOUSETYPE>(h)), defaultData.upgradeLevel);
         }
+    }
+
+    // Vanilla Kleshmersh uses Neutral's complete tech tree and statistics.
+    // Existing saves still load their own serialized object data unchanged.
+    if(ModManager::instance().isInitialized() && ModManager::instance().getActiveModName()=="vanilla") {
+        for(int item=0; item<Num_ItemID; ++item) data[item][HOUSE_KLESHMERSH]=data[item][HOUSE_NEUTRAL];
     }
 
     // Clean up
