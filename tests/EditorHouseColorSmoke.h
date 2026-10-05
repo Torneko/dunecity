@@ -23,7 +23,7 @@ inline void verifyEditorHouseColors(const std::string& output, const std::string
         }
         if(mod == "Tornie" && roster[i]>=HOUSE_WILDSPADE)expected=15+roster[i]-HOUSE_WILDSPADE;
         if(mod == "vanilla" && roster[i] == HOUSE_REBELS) expected = HOUSECOLOR_CUSTOM_APPLE_GREEN;
-        if(mod=="vanilla" && roster[i]==HOUSE_KLESHMERSH)expected=HOUSECOLOR_CUSTOM_BRIGHT_YELLOW;
+        if(mod=="vanilla" && roster[i]==HOUSE_KLESHMERSH)expected=HOUSECOLOR_GUEST_2;
         require(getHouseVisualHouse(house) == expected,
                 mod + " " + stage + " wrong color for " + getHouseDisplayNameByNumber(house)
                 + ": " + std::to_string(getHouseVisualHouse(house)) + " instead of " + std::to_string(expected));

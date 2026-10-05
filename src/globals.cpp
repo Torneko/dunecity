@@ -212,8 +212,7 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
 
     if(colorSlot == HOUSECOLOR_CUSTOM_BRIGHT_YELLOW
        && ModManager::instance().isInitialized()
-       && (ModManager::instance().isTornieContentActive()
-           || ModManager::instance().getActiveModName() == "vanilla")) {
+       && ModManager::instance().isTornieContentActive()) {
         return kleshmershBrownRamp[shadeOffset];
     }
 
@@ -224,6 +223,8 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
     if(colorSlot >= HOUSECOLOR_GUEST_1 && colorSlot <= HOUSECOLOR_GUEST_3
        && ModManager::instance().isInitialized())
        {
+        if(colorSlot==HOUSECOLOR_GUEST_2 && ModManager::instance().getActiveModName()=="vanilla")
+            return kleshmershBrownRamp[shadeOffset];
         if(colorSlot == HOUSECOLOR_GUEST_1) return wildspadeRamp[shadeOffset];
         if(colorSlot == HOUSECOLOR_GUEST_2) return kleshmershOrangeRamp[shadeOffset];
         return tharpiqueRamp[shadeOffset];
@@ -353,9 +354,6 @@ int getDefaultHouseColorSlot(HOUSETYPE house) {
        && ModManager::instance().getActiveModName() == "vanilla") {
         return HOUSECOLOR_CUSTOM_APPLE_GREEN;
     }
-
-    if(identity == HOUSE_KLESHMERSH && ModManager::instance().isInitialized()
-       && ModManager::instance().getActiveModName() == "vanilla") return HOUSECOLOR_CUSTOM_BRIGHT_YELLOW;
 
     if(identity >= HOUSE_WILDSPADE && identity <= HOUSE_THARPIQUE) {
         return HOUSECOLOR_GUEST_1 + (identity - HOUSE_WILDSPADE);

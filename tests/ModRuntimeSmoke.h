@@ -126,6 +126,12 @@ inline void runModRuntimeSmoke() {
         if(mod == "vanilla") {
             require(!pFileManager->exists("HeraldWildspade.png"), "Jericho resource leaked into vanilla");
             require(isCampaignHouseAvailable(HOUSE_KLESHMERSH),"vanilla Kleshmersh unavailable");
+            for(int shade=0;shade<8;++shade) {
+                const auto original=palette[PALCOLOR_FREMEN+shade];
+                const auto actual=getHouseColorSDL(HOUSECOLOR_CUSTOM_BRIGHT_YELLOW,shade);
+                require(actual.r==original.r && actual.g==original.g && actual.b==original.b,
+                        "older vanilla custom color changed meaning");
+            }
             auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_KLESHMERSH);
             require(herald && herald->w==84 && herald->h==91,"brown attached banner sizing");
             require(SDL_SaveBMP(herald,(std::filesystem::path(output)/"vanilla-kleshmersh-banner.bmp").string().c_str())==0,"brown banner output");
