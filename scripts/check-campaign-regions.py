@@ -92,6 +92,11 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
             assert [briefing[f'Opponent{i+1}'] for i in range(3)]==plan['opponents'],(mod,plan)
             opening=read(files[f'SCEN{letter}001.INI'])
             assert briefing['OpeningQuota']==opening[plan['house']].get('Quota','0'),(mod,plan)
+            if plan['house']=='Wildspade':
+                for key,value in helper.WILDSPADE_OPENING_SUPPORT.items():
+                    assert opening['UNITS'][key]==value,(mod,key,'missing starting defence')
+                mirror=ROOT/'mods'/mod/'data/scenw001.ini'
+                if mirror.exists():assert mirror.read_bytes()==files['SCENW001.INI'].read_bytes(),mod
             roles=helper.canonical_roles(plan['vanillaTemplate'],plan['house'],plan['opponents'])
             vanilla=vanilla_scenarios('SCENARIO.PAK')
             for mission in range(1,23):

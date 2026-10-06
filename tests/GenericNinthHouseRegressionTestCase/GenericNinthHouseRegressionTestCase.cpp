@@ -231,3 +231,34 @@ TEST_CASE("House fallback follows the active faction plan when ObjectData has no
                 HOUSE_FREMEN, true, false, noModOwnedCandidates)
             == expectedTornieFremen);
 }
+
+TEST_CASE("Mentat feature patches reject malformed cells and invalid destinations", "[mod][mentat][config]") {
+    std::vector<ModMentatPatch> patches;
+    REQUIRE(ModMentatConfig::parsePatch("0,0,20,10;10,20,40,30;11,20,40,30", patches));
+    REQUIRE(patches.size() == 1);
+    REQUIRE(patches[0].sources.size() == 2);
+    for(const auto& text : {"0,0,20,10;", "0,0,0,10;0,0,5,5", "0,0,20,10;1,2,3", "0,0,20,10;-1,2,3,4", "0,0,20,10;1,2,3,4garbage"}) {
+        REQUIRE_FALSE(ModMentatConfig::parsePatch(text, patches));
+        REQUIRE(patches.size() == 1);
+    }
+    ModMentatInfo info;
+    info.backgroundAsset="cat.png"; info.restFromBackground=true;
+    info.doubleEyes=false; info.doubleMouth=false;
+    info.eyesX=134; info.eyesY=137; info.mouthX=174; info.mouthY=201;
+    info.eyesCropHeight=112; info.eyesWidth=98; info.eyesHeight=32;
+    info.mouthCropHeight=95; info.mouthWidth=40; info.mouthHeight=23;
+    info.eyesFrames=2; info.eyesPatches=patches;
+    REQUIRE(ModMentatConfig::isValid(info));
+    info.eyesFrames=5;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+    info.eyesFrames=2; info.eyesPatches[0].destination.x=95;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+    info.eyesPatches.clear();
+    REQUIRE(ModMentatConfig::parsePolygon("248,268,297,400,248,400",info.foregroundPolygon));
+    REQUIRE(ModMentatConfig::isValid(info));
+    REQUIRE_FALSE(ModMentatConfig::parsePolygon("1,2,3,4,5",info.foregroundPolygon));
+    REQUIRE_FALSE(ModMentatConfig::parsePolygon("1,2,3,4,-5,6",info.foregroundPolygon));
+    REQUIRE_FALSE(ModMentatConfig::parsePolygon("1,2,3,4,5,6,",info.foregroundPolygon));
+    info.foregroundPolygon[0].x=5000;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+}

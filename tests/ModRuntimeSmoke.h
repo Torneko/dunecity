@@ -269,6 +269,16 @@ inline void runModRuntimeSmoke() {
                 require(currentGameMap != nullptr && pLocalHouse != nullptr,
                         mod + " scenario did not initialize: " + name);
                 require(!structureList.empty() || !unitList.empty(), "empty scenario " + name);
+                if(mission == 1 && getHouseFactionIdentity(static_cast<HOUSETYPE>(selectedHouse)) == HOUSE_WILDSPADE) {
+                    int tanks = 0, troops = 0;
+                    for(auto* unit : unitList) if(unit->getOwner() == pLocalHouse) {
+                        if(unit->getItemID() == Unit_Tank) ++tanks;
+                        if(unit->getItemID() == Unit_Trooper) ++troops;
+                    }
+                    require(tanks >= 3 && troops >= 6, mod + " Wildspade starting defence did not spawn");
+                    require(pLocalHouse->getCredits() == 1000, mod + " Wildspade starting credits changed");
+                    SDL_Log("WILDSPADE OPENING PASS: %s, three Tanks and two Troopers orders, credits 1000",mod.c_str());
+                }
                 game->processObjects();
                 ++scenarios;
             }

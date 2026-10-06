@@ -1254,6 +1254,15 @@ ModInfo ModManager::readModIni(const std::string& modPath) const {
             else if(mentatKey == "Mouth Width") parseIntegerField(mentat.mouthWidth);
             else if(mentatKey == "Mouth Height") parseIntegerField(mentat.mouthHeight);
             else if(mentatKey == "Rest From Background") parseBooleanField(mentat.restFromBackground);
+            else if(mentatKey == "Eyes Patch") {
+                if(!ModMentatConfig::parsePatch(mentatValue, mentat.eyesPatches)) mentatFieldsValid[mentatHouse] = false;
+            }
+            else if(mentatKey == "Mouth Patch") {
+                if(!ModMentatConfig::parsePatch(mentatValue, mentat.mouthPatches)) mentatFieldsValid[mentatHouse] = false;
+            }
+            else if(mentatKey == "Foreground Polygon") {
+                if(!ModMentatConfig::parsePolygon(mentatValue, mentat.foregroundPolygon)) mentatFieldsValid[mentatHouse] = false;
+            }
         }
     }
 
