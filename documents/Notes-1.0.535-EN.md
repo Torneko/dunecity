@@ -1,7 +1,17 @@
-# Dune Legacy Tornie 1.0.535
+# Dune Legacy Tornie 1.0.535 — rebalanced campaign openings
 
-24 rebuilt Tornie/Jericho campaigns, 528 scenarios. Three distinct opponents per campaign; each faction occurs once in each role, with disjoint plans between mods. Terrain, credits and other troops preserved; 14 starting infantry orders removed and 36 special vehicles converted to Special Unit Spawn. Regions and briefings aligned. Wildspade mentat uses the original background with animated eyes and mouth.
+This revision replaces the first 1.0.535 release without changing its version number.
 
-Published release: [game 1.0.535](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.535) and [French website](https://torneko.github.io/dunelegacy-tornie/) / [English website](https://torneko.github.io/dunelegacy-tornie/index-en.html). Start a new campaign; existing saves remain readable with their stored maps.
+All 24 Tornie/Jericho intros, covering twelve factions per mod, now start with:
 
-Playtest corrections: Wildspade eye/mouth animation anchors follow the original PNG features, and the shoulder renders over the frame and briefing animation like Paul's. Wildspade mission 1 gains two Tanks and one Troopers squad in both Tornie and Jericho, with the original 1,000 starting credits retained. Start a new campaign to receive the added troops.
+- 2 bonus Tanks relative to the original forces; the earlier Wildspade bonus is replaced without stacking;
+- 3 Troopers squads, or 9 infantry in total;
+- 2 faction-specific Special Unit Spawns.
+
+Other regular vehicles, credits (1,000), quota, buildings and terrain remain. The six extra enemies are removed: each intro deploys 12 enemies. Enemy Special markers become ordinary Tanks, and initial Hunt orders become Area Guard; ambush encounters remain. Disabled Kleshmersh Trikes are replaced with enabled Raider Trikes.
+
+The 24 campaign plans, 528 scenarios, opponents and regions stay aligned. Later missions keep their forces. Wildspade retains correctly anchored eye/mouth animations and its shoulder over the frame. Technologies, Chaos Mode, all 46 achievements and 111 PNGs remain available.
+
+**Download version 1.0.535 again and start a new campaign.** Existing saves remain readable with their stored forces.
+
+[Downloads](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.535) · [French website](https://torneko.github.io/dunelegacy-tornie/) · [English website](https://torneko.github.io/dunelegacy-tornie/index-en.html).

@@ -1,13 +1,13 @@
 {
   "version": "1.0.535",
-  "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
-  "ciRun": 37514280968,
+  "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
+  "ciRun": 37529197044,
   "archive": "DuneLegacyTornie-1.0.535-Windows-x64.zip",
   "ciArchive": "DuneLegacyTornie-1.0.535-Windows-x64.zip",
-  "bytes": 48376334,
-  "sha256": "d8ddd22bcfb776b7091434b9d58c00cba84f327fbb745977639bcfe30726556d",
-  "executableSHA256": "aa8d1d5dd463db5a0ff95d8ea9adfb158ed03d5cd13134fa5042a038d35c2ed3",
-  "exePath": "C:\\Users\\canti\\Documents\\Codex\\2026-10-03\\bon\\work\\release-535-windows\\extracted\\DuneLegacyTornie-1.0.535-Windows-x64\\dunelegacy.exe",
+  "bytes": 48377052,
+  "sha256": "ae491377231f8fec51ac597a251883f64f984350d65afb39c320f64c16055175",
+  "executableSHA256": "3f09979c16d1320c735e01624644c932dc7e5a9159f286ebadf951b284a09873",
+  "exePath": "C:\\Users\\canti\\Documents\\Codex\\2026-10-03\\bon\\work\\release-535-revised-windows\\extracted\\DuneLegacyTornie-1.0.535-Windows-x64\\dunelegacy.exe",
   "maps": 142,
   "dlls": 16,
   "bundledModFiles": 2206,
@@ -18,7 +18,7 @@
   "noCityPromotion": true,
   "runtimeVerification": "passed in French and English using the extracted tagged CI release archive",
   "runtimeLogs": [
-    "chaos-smoke-released-fr-Tornie-0943124c/runtime.log",
-    "chaos-smoke-released-en-Jericho-aa8e10c4/runtime.log"
+    "chaos-smoke-released-fr-Tornie-f895575c/runtime.log",
+    "chaos-smoke-released-en-Jericho-c242b304/runtime.log"
   ]
 }

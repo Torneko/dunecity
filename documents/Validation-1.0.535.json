@@ -1,7 +1,7 @@
 {
   "version": "1.0.535",
   "status": "release-validated",
-  "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
+  "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
   "campaignPlans": {
     "mods": 2,
     "campaigns": 24,
@@ -10,9 +10,6 @@
     "eachFactionOncePerRole": true,
     "disjointOpponentSetsBetweenMods": true
   },
-  "terrainEconomyAndOtherForcesPreserved": true,
-  "removedOpeningInfantryOrders": 14,
-  "specialVehicleMarkersConverted": 36,
   "regionFilesAudited": 33,
   "engineTests": {
     "platforms": [
@@ -31,13 +28,11 @@
     "scenariosPerRun": 838,
     "uniqueRebuiltMaps": 528,
     "profiles": [
-      "chaos-smoke-packaged-fr-Tornie-2272a3dd",
-      "chaos-smoke-build-en-Jericho-357494e6",
-      "linux-achievement-smoke-e6a89e28"
+      "chaos-smoke-build-fr-Tornie-6890be1e",
+      "chaos-smoke-build-en-Jericho-7c91de39"
     ],
     "previousSaves": [
-      "1.0.525",
-      "1.0.534"
+      "original 1.0.535 revision"
     ],
     "originalCatBackgroundPreserved": true,
     "fiveEyeAndMouthStates": true,
@@ -49,8 +44,8 @@
     "paulForegroundRegressionChecked": true,
     "startingDefenceSpawnedInBothMods": true,
     "releaseCIWindowsLogs": [
-      "chaos-smoke-released-fr-Tornie-0943124c/runtime.log",
-      "chaos-smoke-released-en-Jericho-aa8e10c4/runtime.log"
+      "chaos-smoke-released-fr-Tornie-f895575c/runtime.log",
+      "chaos-smoke-released-en-Jericho-c242b304/runtime.log"
     ]
   },
   "website": {
@@ -70,14 +65,14 @@
   },
   "windowsPackage": {
     "version": "1.0.535",
-    "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
-    "ciRun": 37514280968,
+    "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
+    "ciRun": 37529197044,
     "archive": "DuneLegacyTornie-1.0.535-Windows-x64.zip",
     "ciArchive": "DuneLegacyTornie-1.0.535-Windows-x64.zip",
-    "bytes": 48376334,
-    "sha256": "d8ddd22bcfb776b7091434b9d58c00cba84f327fbb745977639bcfe30726556d",
-    "executableSHA256": "aa8d1d5dd463db5a0ff95d8ea9adfb158ed03d5cd13134fa5042a038d35c2ed3",
-    "exePath": "C:\\Users\\canti\\Documents\\Codex\\2026-10-03\\bon\\work\\release-535-windows\\extracted\\DuneLegacyTornie-1.0.535-Windows-x64\\dunelegacy.exe",
+    "bytes": 48377052,
+    "sha256": "ae491377231f8fec51ac597a251883f64f984350d65afb39c320f64c16055175",
+    "executableSHA256": "3f09979c16d1320c735e01624644c932dc7e5a9159f286ebadf951b284a09873",
+    "exePath": "C:\\Users\\canti\\Documents\\Codex\\2026-10-03\\bon\\work\\release-535-revised-windows\\extracted\\DuneLegacyTornie-1.0.535-Windows-x64\\dunelegacy.exe",
     "maps": 142,
     "dlls": 16,
     "bundledModFiles": 2206,
@@ -88,30 +83,23 @@
     "noCityPromotion": true,
     "runtimeVerification": "passed in French and English using the extracted tagged CI release archive",
     "runtimeLogs": [
-      "chaos-smoke-released-fr-Tornie-0943124c/runtime.log",
-      "chaos-smoke-released-en-Jericho-aa8e10c4/runtime.log"
+      "chaos-smoke-released-fr-Tornie-f895575c/runtime.log",
+      "chaos-smoke-released-en-Jericho-c242b304/runtime.log"
     ]
   },
   "gamePullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/6",
-  "ciRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37514280968",
+  "ciRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37529197044",
   "ciStatus": "success",
   "playtestRemaining": [
     "Extended campaign balance across all factions",
     "Live two-PC multiplayer"
   ],
   "publicationStatus": "Game release published; matching website validated for publication",
-  "addedWildspadeStartingSupportPerMod": {
-    "Tank": 2,
-    "TroopersOrders": 1,
-    "individualTroopers": 3,
-    "credits": 1000,
-    "enemyForcesUnchanged": true
-  },
-  "validationScope": "Tagged CI Windows package in French and English, Linux package payload, previously completed Windows/Linux engine and runtime checks, and released offline/local FR/EN website.",
+  "validationScope": "Revised opening balance; tagged CI Windows package in French and English, Linux package payload, previously completed Windows/Linux engine and runtime checks, and released offline/local FR/EN website.",
   "linuxPackage": {
     "version": "1.0.535",
-    "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
-    "ciRun": 37514280968,
+    "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
+    "ciRun": 37529197044,
     "formats": [
       ".AppImage",
       ".deb",
@@ -272,11 +260,1167 @@
       "maps/singleplayer/RWRK_SCENS001.INI"
     ],
     "archive": "DuneLegacyTornie-1.0.535-Linux-x64.tar.gz",
-    "sha256": "83e2ef7fea56dfd7974cfe224649d92b501e787df9f8bd420ec220f5e1590709"
+    "sha256": "b3eea6afbb797739a0d9e64800c3564ffb48aaf35c9364b24782b7df271edcea"
   },
   "userPlaytest": {
-    "confirmed": true,
+    "priorRevisionConfirmed": true,
+    "newOpeningBalanceManuallyTested": false,
     "publicationAuthorized": true,
     "date": "2026-10-06"
-  }
+  },
+  "initialCampaignRebuild": {
+    "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
+    "removedOpeningInfantryOrders": 14,
+    "specialVehicleMarkersConverted": 36
+  },
+  "sameVersionProfileUpdate": {
+    "version": "1.0.535",
+    "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
+    "profile": "same-version-reseed-535-47927c80",
+    "sameVersionOriginalPayloadReseeded": true,
+    "all24NewIntrosMatchSources": true,
+    "personalFilePreserved": true,
+    "originalSaveBytesPreserved": true,
+    "runtimeScenarios": 838,
+    "uniqueOpeningRulesChecked": 24
+  },
+  "terrainAndEconomyPreserved": true,
+  "laterMissionForcesPreserved": true,
+  "openingRevision": {
+    "version": "1.0.535",
+    "revision": "campaign-opening-balance",
+    "baseline": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
+    "intros": 24,
+    "policy": {
+      "bonusTanks": 2,
+      "troopersOrders": 3,
+      "individualTroopers": 9,
+      "specialOrders": 2,
+      "enemyOrders": 12,
+      "immediateHuntOrders": 0
+    },
+    "campaigns": [
+      {
+        "mod": "Tornie",
+        "house": "Harkonnen",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Siege Tank": 1,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 4,
+          "Quad": 2,
+          "Tank": 3,
+          "Siege Tank": 1,
+          "Launcher": 1,
+          "Trike": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Harkonnen,Tank,256,2268,64,Guard",
+          "ID101": "Harkonnen,Tank,256,2269,64,Guard",
+          "ID102": "Harkonnen,Troopers,256,2270,64,Guard",
+          "ID103": "Harkonnen,Troopers,256,2396,64,Guard",
+          "ID104": "Harkonnen,Troopers,256,2203,64,Guard",
+          "ID105": "Harkonnen,Special,256,2204,64,Guard",
+          "ID106": "Harkonnen,Special,256,2205,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID025"
+        ]
+      },
+      {
+        "mod": "Tornie",
+        "house": "Atreides",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 2,
+          "Trike": 2,
+          "Quad": 2,
+          "Tank": 4,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Atreides,Tank,256,1561,64,Guard",
+          "ID101": "Atreides,Tank,256,1562,64,Guard",
+          "ID102": "Atreides,Troopers,256,1563,64,Guard",
+          "ID103": "Atreides,Troopers,256,1625,64,Guard",
+          "ID104": "Atreides,Troopers,256,1496,64,Guard",
+          "ID105": "Atreides,Special,256,1497,64,Guard",
+          "ID106": "Atreides,Special,256,1498,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID035",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID026"
+        ]
+      },
+      {
+        "mod": "Tornie",
+        "house": "Ordos",
+        "player": {
+          "Raider Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 3,
+          "Trooper": 3,
+          "Trike": 3,
+          "Quad": 2,
+          "Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Ordos,Tank,256,1564,64,Guard",
+          "ID101": "Ordos,Tank,256,1565,64,Guard",
+          "ID102": "Ordos,Troopers,256,1566,64,Guard",
+          "ID103": "Ordos,Troopers,256,1628,64,Guard",
+          "ID104": "Ordos,Troopers,256,1692,64,Guard",
+          "ID105": "Ordos,Special,256,1499,64,Guard",
+          "ID106": "Ordos,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID034",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Fremen",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 2,
+          "Trike": 2,
+          "Tank": 3,
+          "Quad": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Fremen,Tank,256,1561,64,Guard",
+          "ID101": "Fremen,Tank,256,1562,64,Guard",
+          "ID102": "Fremen,Troopers,256,1563,64,Guard",
+          "ID103": "Fremen,Troopers,256,1625,64,Guard",
+          "ID104": "Fremen,Troopers,256,1689,64,Guard",
+          "ID105": "Fremen,Special,256,1496,64,Guard",
+          "ID106": "Fremen,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID033",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID034",
+          "ID025"
+        ]
+      },
+      {
+        "mod": "Tornie",
+        "house": "Sardaukar",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 2,
+          "Trike": 1,
+          "Quad": 2,
+          "Tank": 2,
+          "Siege Tank": 2,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Sardaukar,Tank,256,2268,64,Guard",
+          "ID101": "Sardaukar,Tank,256,2269,64,Guard",
+          "ID102": "Sardaukar,Troopers,256,2270,64,Guard",
+          "ID103": "Sardaukar,Troopers,256,2332,64,Guard",
+          "ID104": "Sardaukar,Troopers,256,2396,64,Guard",
+          "ID105": "Sardaukar,Special,256,2203,64,Guard",
+          "ID106": "Sardaukar,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060",
+          "ID062"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Mercenary",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 1,
+          "Trooper": 2,
+          "Trike": 2,
+          "Tank": 4,
+          "Quad": 2,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Mercenary,Tank,256,1564,64,Guard",
+          "ID101": "Mercenary,Tank,256,1565,64,Guard",
+          "ID102": "Mercenary,Troopers,256,1566,64,Guard",
+          "ID103": "Mercenary,Troopers,256,1628,64,Guard",
+          "ID104": "Mercenary,Troopers,256,1692,64,Guard",
+          "ID105": "Mercenary,Special,256,1499,64,Guard",
+          "ID106": "Mercenary,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID036",
+          "ID032",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID031",
+          "ID024",
+          "ID022"
+        ]
+      },
+      {
+        "mod": "Tornie",
+        "house": "Neutral",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Siege Tank": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 1,
+          "Trike": 2,
+          "Quad": 2,
+          "Tank": 2,
+          "Launcher": 2,
+          "Siege Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Neutral,Tank,256,1564,64,Guard",
+          "ID101": "Neutral,Tank,256,1565,64,Guard",
+          "ID102": "Neutral,Troopers,256,1566,64,Guard",
+          "ID103": "Neutral,Troopers,256,1628,64,Guard",
+          "ID104": "Neutral,Troopers,256,1692,64,Guard",
+          "ID105": "Neutral,Special,256,1499,64,Guard",
+          "ID106": "Neutral,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID034",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Rebels",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 1,
+          "Raider Trike": 3,
+          "Quad": 3,
+          "Tank": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Rebels,Tank,256,1561,64,Guard",
+          "ID101": "Rebels,Tank,256,1562,64,Guard",
+          "ID102": "Rebels,Troopers,256,1563,64,Guard",
+          "ID103": "Rebels,Troopers,256,1625,64,Guard",
+          "ID104": "Rebels,Troopers,256,1689,64,Guard",
+          "ID105": "Rebels,Special,256,1496,64,Guard",
+          "ID106": "Rebels,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID035",
+          "ID031",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Corruptique",
+        "player": {
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 3,
+          "Trike": 1,
+          "Tank": 4,
+          "Quad": 2,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Corruptique,Tank,256,2268,64,Guard",
+          "ID101": "Corruptique,Tank,256,2269,64,Guard",
+          "ID102": "Corruptique,Troopers,256,2270,64,Guard",
+          "ID103": "Corruptique,Troopers,256,2332,64,Guard",
+          "ID104": "Corruptique,Troopers,256,2396,64,Guard",
+          "ID105": "Corruptique,Special,256,2203,64,Guard",
+          "ID106": "Corruptique,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060",
+          "ID061",
+          "ID062",
+          "ID063"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID035",
+          "ID024"
+        ]
+      },
+      {
+        "mod": "Tornie",
+        "house": "Wildspade",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 1,
+          "Raider Trike": 2,
+          "Quad": 2,
+          "Tank": 2,
+          "Launcher": 2,
+          "Siege Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Wildspade,Tank,256,1564,64,Guard",
+          "ID101": "Wildspade,Tank,256,1565,64,Guard",
+          "ID102": "Wildspade,Troopers,256,1566,64,Guard",
+          "ID103": "Wildspade,Troopers,256,1628,64,Guard",
+          "ID104": "Wildspade,Troopers,256,1692,64,Guard",
+          "ID105": "Wildspade,Special,256,1499,64,Guard",
+          "ID106": "Wildspade,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID036",
+          "ID033",
+          "ID030",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID045",
+          "ID046",
+          "ID047"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Kleshmersh",
+        "player": {
+          "Quad": 1,
+          "Siege Tank": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 1,
+          "Raider Trike": 3,
+          "Quad": 3,
+          "Tank": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Kleshmersh,Tank,256,1561,64,Guard",
+          "ID101": "Kleshmersh,Tank,256,1562,64,Guard",
+          "ID102": "Kleshmersh,Troopers,256,1563,64,Guard",
+          "ID103": "Kleshmersh,Troopers,256,1625,64,Guard",
+          "ID104": "Kleshmersh,Troopers,256,1689,64,Guard",
+          "ID105": "Kleshmersh,Special,256,1496,64,Guard",
+          "ID106": "Kleshmersh,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID036",
+          "ID033",
+          "ID029",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Tornie",
+        "house": "Tharpique",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 3,
+          "Trike": 1,
+          "Tank": 4,
+          "Quad": 2,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Tharpique,Tank,256,2268,64,Guard",
+          "ID101": "Tharpique,Tank,256,2269,64,Guard",
+          "ID102": "Tharpique,Troopers,256,2270,64,Guard",
+          "ID103": "Tharpique,Troopers,256,2332,64,Guard",
+          "ID104": "Tharpique,Troopers,256,2396,64,Guard",
+          "ID105": "Tharpique,Special,256,2203,64,Guard",
+          "ID106": "Tharpique,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID060",
+          "ID062"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID035",
+          "ID024"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Harkonnen",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Siege Tank": 1,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 4,
+          "Quad": 2,
+          "Tank": 3,
+          "Siege Tank": 1,
+          "Launcher": 1,
+          "Trike": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Harkonnen,Tank,256,2268,64,Guard",
+          "ID101": "Harkonnen,Tank,256,2269,64,Guard",
+          "ID102": "Harkonnen,Troopers,256,2270,64,Guard",
+          "ID103": "Harkonnen,Troopers,256,2396,64,Guard",
+          "ID104": "Harkonnen,Troopers,256,2203,64,Guard",
+          "ID105": "Harkonnen,Special,256,2204,64,Guard",
+          "ID106": "Harkonnen,Special,256,2205,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID025"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Atreides",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 2,
+          "Trike": 2,
+          "Quad": 2,
+          "Tank": 4,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Atreides,Tank,256,1561,64,Guard",
+          "ID101": "Atreides,Tank,256,1562,64,Guard",
+          "ID102": "Atreides,Troopers,256,1563,64,Guard",
+          "ID103": "Atreides,Troopers,256,1625,64,Guard",
+          "ID104": "Atreides,Troopers,256,1496,64,Guard",
+          "ID105": "Atreides,Special,256,1497,64,Guard",
+          "ID106": "Atreides,Special,256,1498,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID035",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID026"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Ordos",
+        "player": {
+          "Raider Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 3,
+          "Trooper": 3,
+          "Trike": 3,
+          "Quad": 2,
+          "Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Ordos,Tank,256,1564,64,Guard",
+          "ID101": "Ordos,Tank,256,1565,64,Guard",
+          "ID102": "Ordos,Troopers,256,1566,64,Guard",
+          "ID103": "Ordos,Troopers,256,1628,64,Guard",
+          "ID104": "Ordos,Troopers,256,1692,64,Guard",
+          "ID105": "Ordos,Special,256,1499,64,Guard",
+          "ID106": "Ordos,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID034",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Fremen",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 2,
+          "Trike": 2,
+          "Tank": 3,
+          "Quad": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Fremen,Tank,256,1561,64,Guard",
+          "ID101": "Fremen,Tank,256,1562,64,Guard",
+          "ID102": "Fremen,Troopers,256,1563,64,Guard",
+          "ID103": "Fremen,Troopers,256,1625,64,Guard",
+          "ID104": "Fremen,Troopers,256,1689,64,Guard",
+          "ID105": "Fremen,Special,256,1496,64,Guard",
+          "ID106": "Fremen,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID033",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID034",
+          "ID025"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Sardaukar",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 2,
+          "Trike": 1,
+          "Quad": 2,
+          "Tank": 2,
+          "Siege Tank": 2,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Sardaukar,Tank,256,2268,64,Guard",
+          "ID101": "Sardaukar,Tank,256,2269,64,Guard",
+          "ID102": "Sardaukar,Troopers,256,2270,64,Guard",
+          "ID103": "Sardaukar,Troopers,256,2332,64,Guard",
+          "ID104": "Sardaukar,Troopers,256,2396,64,Guard",
+          "ID105": "Sardaukar,Special,256,2203,64,Guard",
+          "ID106": "Sardaukar,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060",
+          "ID062"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Mercenary",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 1,
+          "Trooper": 2,
+          "Trike": 2,
+          "Tank": 4,
+          "Quad": 2,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Mercenary,Tank,256,1564,64,Guard",
+          "ID101": "Mercenary,Tank,256,1565,64,Guard",
+          "ID102": "Mercenary,Troopers,256,1566,64,Guard",
+          "ID103": "Mercenary,Troopers,256,1628,64,Guard",
+          "ID104": "Mercenary,Troopers,256,1692,64,Guard",
+          "ID105": "Mercenary,Special,256,1499,64,Guard",
+          "ID106": "Mercenary,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID036",
+          "ID032",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID031",
+          "ID024",
+          "ID022"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Neutral",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Siege Tank": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 1,
+          "Trike": 2,
+          "Quad": 2,
+          "Tank": 2,
+          "Launcher": 2,
+          "Siege Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Neutral,Tank,256,1564,64,Guard",
+          "ID101": "Neutral,Tank,256,1565,64,Guard",
+          "ID102": "Neutral,Troopers,256,1566,64,Guard",
+          "ID103": "Neutral,Troopers,256,1628,64,Guard",
+          "ID104": "Neutral,Troopers,256,1692,64,Guard",
+          "ID105": "Neutral,Special,256,1499,64,Guard",
+          "ID106": "Neutral,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID034",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Rebels",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 1,
+          "Raider Trike": 3,
+          "Quad": 3,
+          "Tank": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Rebels,Tank,256,1561,64,Guard",
+          "ID101": "Rebels,Tank,256,1562,64,Guard",
+          "ID102": "Rebels,Troopers,256,1563,64,Guard",
+          "ID103": "Rebels,Troopers,256,1625,64,Guard",
+          "ID104": "Rebels,Troopers,256,1689,64,Guard",
+          "ID105": "Rebels,Special,256,1496,64,Guard",
+          "ID106": "Rebels,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID035",
+          "ID031",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Corruptique",
+        "player": {
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 3,
+          "Raider Trike": 1,
+          "Tank": 4,
+          "Quad": 2,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Corruptique,Tank,256,2268,64,Guard",
+          "ID101": "Corruptique,Tank,256,2269,64,Guard",
+          "ID102": "Corruptique,Troopers,256,2270,64,Guard",
+          "ID103": "Corruptique,Troopers,256,2332,64,Guard",
+          "ID104": "Corruptique,Troopers,256,2396,64,Guard",
+          "ID105": "Corruptique,Special,256,2203,64,Guard",
+          "ID106": "Corruptique,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID059",
+          "ID060",
+          "ID061",
+          "ID062",
+          "ID063"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID035",
+          "ID024"
+        ]
+      },
+      {
+        "mod": "Jericho",
+        "house": "Wildspade",
+        "player": {
+          "Quad": 1,
+          "Tank": 3,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Soldier": 2,
+          "Trooper": 1,
+          "Trike": 2,
+          "Quad": 2,
+          "Tank": 2,
+          "Launcher": 2,
+          "Siege Tank": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Wildspade,Tank,256,1564,64,Guard",
+          "ID101": "Wildspade,Tank,256,1565,64,Guard",
+          "ID102": "Wildspade,Troopers,256,1566,64,Guard",
+          "ID103": "Wildspade,Troopers,256,1628,64,Guard",
+          "ID104": "Wildspade,Troopers,256,1692,64,Guard",
+          "ID105": "Wildspade,Special,256,1499,64,Guard",
+          "ID106": "Wildspade,Special,256,1500,64,Guard"
+        },
+        "removedOrders": [
+          "ID036",
+          "ID033",
+          "ID030",
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID045",
+          "ID046",
+          "ID047"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID023",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Kleshmersh",
+        "player": {
+          "Quad": 1,
+          "Siege Tank": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 1,
+          "Raider Trike": 3,
+          "Quad": 3,
+          "Tank": 2,
+          "Soldier": 1,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Kleshmersh,Tank,256,1561,64,Guard",
+          "ID101": "Kleshmersh,Tank,256,1562,64,Guard",
+          "ID102": "Kleshmersh,Troopers,256,1563,64,Guard",
+          "ID103": "Kleshmersh,Troopers,256,1625,64,Guard",
+          "ID104": "Kleshmersh,Troopers,256,1689,64,Guard",
+          "ID105": "Kleshmersh,Special,256,1496,64,Guard",
+          "ID106": "Kleshmersh,Special,256,1497,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID036",
+          "ID033",
+          "ID029",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044"
+        ],
+        "rushOrdersChanged": [
+          "ID024",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": []
+      },
+      {
+        "mod": "Jericho",
+        "house": "Tharpique",
+        "player": {
+          "Trike": 1,
+          "Quad": 1,
+          "Tank": 2,
+          "Troopers": 3,
+          "Special": 2
+        },
+        "enemies": {
+          "Trooper": 3,
+          "Trike": 1,
+          "Tank": 4,
+          "Quad": 2,
+          "Siege Tank": 1,
+          "Launcher": 1
+        },
+        "enemyUnitOrders": 12,
+        "addedOrders": {
+          "ID100": "Tharpique,Tank,256,2268,64,Guard",
+          "ID101": "Tharpique,Tank,256,2269,64,Guard",
+          "ID102": "Tharpique,Troopers,256,2270,64,Guard",
+          "ID103": "Tharpique,Troopers,256,2332,64,Guard",
+          "ID104": "Tharpique,Troopers,256,2396,64,Guard",
+          "ID105": "Tharpique,Special,256,2203,64,Guard",
+          "ID106": "Tharpique,Special,256,2204,64,Guard"
+        },
+        "removedOrders": [
+          "ID039",
+          "ID040",
+          "ID041",
+          "ID042",
+          "ID043",
+          "ID044",
+          "ID060",
+          "ID062"
+        ],
+        "rushOrdersChanged": [
+          "ID038",
+          "ID037",
+          "ID022"
+        ],
+        "enemySpecialsReplaced": [
+          "ID035",
+          "ID024"
+        ]
+      }
+    ]
+  },
+  "revision": "campaign-opening-balance"
 }
