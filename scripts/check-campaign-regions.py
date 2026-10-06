@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Audit region routes, house identities, mirrored files and faction campaigns."""
 from pathlib import Path
-import configparser, json, re, struct
+import configparser, json, re, struct, collections
 from importlib.util import spec_from_file_location, module_from_spec
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -92,11 +92,19 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
             assert [briefing[f'Opponent{i+1}'] for i in range(3)]==plan['opponents'],(mod,plan)
             opening=read(files[f'SCEN{letter}001.INI'])
             assert briefing['OpeningQuota']==opening[plan['house']].get('Quota','0'),(mod,plan)
-            if plan['house']=='Wildspade':
-                for key,value in helper.WILDSPADE_OPENING_SUPPORT.items():
-                    assert opening['UNITS'][key]==value,(mod,key,'missing starting defence')
-                mirror=ROOT/'mods'/mod/'data/scenw001.ini'
-                if mirror.exists():assert mirror.read_bytes()==files['SCENW001.INI'].read_bytes(),mod
+            own=collections.Counter();enemies=[];positions=set()
+            for value in opening['UNITS'].values():
+                owner,unit,health,pos,angle,mode=value.split(',')
+                if owner==plan['house']:own[unit]+=1
+                else:enemies.append((unit,mode))
+            assert own['Troopers']==3 and own['Trooper']==0 and own['Special']==2,(mod,letter,own)
+            for i,unit in enumerate(['Tank','Tank','Troopers','Troopers','Troopers','Special','Special']):
+                value=opening['UNITS'][f'ID{100+i:03}'].split(',')
+                assert value[0]==plan['house'] and value[1]==unit and value[2]=='256' and value[5]=='Guard',(mod,letter,value)
+                assert value[3] not in positions,(mod,letter,'overlapping bonus orders');positions.add(value[3])
+            assert len(enemies)==12 and all(unit!='Special' and mode!='Hunt' for unit,mode in enemies),(mod,letter,enemies)
+            mirror=ROOT/'mods'/mod/'data'/f'scen{letter.lower()}001.ini'
+            if mirror.exists():assert mirror.read_bytes()==files[f'SCEN{letter}001.INI'].read_bytes(),mod
             roles=helper.canonical_roles(plan['vanillaTemplate'],plan['house'],plan['opponents'])
             vanilla=vanilla_scenarios('SCENARIO.PAK')
             for mission in range(1,23):

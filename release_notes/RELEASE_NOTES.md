@@ -1,9 +1,20 @@
-# Dune Legacy Tornie 1.0.535 — preview
+# Dune Legacy Tornie 1.0.535 — revised campaign openings
+
+All 24 Tornie/Jericho first missions now receive two bonus Tanks, three Troopers
+squads (nine infantry total) and two faction-specific Special Unit Spawns.
+Other original regular vehicles, credits, quota, buildings and terrain remain.
+The earlier Wildspade-only bonus is replaced without stacking extra Tanks.
+
+Intro opposition is reduced to twelve unit orders: the six extra enemies are
+removed, enemy Special markers become ordinary Tanks, and Hunt orders become
+Area Guard. Ambush encounters remain. Kleshmersh uses enabled Raider Trikes.
+This revision replaces the existing 1.0.535 release; it is not a version bump.
+Start a new campaign to receive the revised forces; old saves keep their maps.
 
 Tornie and Jericho each have twelve rebuilt campaigns. Each campaign has three
 distinct opponents; every faction appears once in each role. The two plans use
 disjoint opponents for the same player faction. All 528 scenarios retain their
-terrain, economy, coordinates and other forces. Opening player infantry orders
+terrain and economy. Later missions retain their forces. Starting Soldiers
 are removed; special ground vehicles use faction-specific Special Unit Spawn.
 Region owners and localized briefings follow the same plan, with safe text for
 missing legacy final-advice entries.
@@ -18,7 +29,7 @@ See docs/CAMPAIGNS.md and docs/WILDSPADE-MENTAT.md in the package.
 
 Version 1.0.534's Chaos Mode and Wildspade technology gates are retained, as are
 the 46 achievements and the original advanced Windtrap portraits on the website.
-The French/English preview guide includes both campaign plans and 111 PNGs.
+The French/English guide includes both campaign plans and 111 PNGs.
 
 ## Earlier release: 1.0.529
 

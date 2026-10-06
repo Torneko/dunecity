@@ -2,27 +2,19 @@
 """Rebuild the 24 full-mod campaigns from the tagged 1.0.534 forces and canonical Vanilla roles."""
 from pathlib import Path
 import configparser,collections,json,re,struct,subprocess,shutil,tarfile,io,argparse
+from importlib.util import spec_from_file_location, module_from_spec
 ROOT=Path(__file__).resolve().parents[1]
 NAMES=['Harkonnen','Atreides','Ordos','Fremen','Sardaukar','Mercenary','Neutral','Rebels','Corruptique','Wildspade','Kleshmersh','Tharpique']
 PREFIX=dict(zip(NAMES,['HAR','ATR','ORD','FRE','SAR','MER','NEU','REB','COR','WIL','KLE','THA']))
 SPECIAL={'Devastator','Sonic Tank','Deviator','Rocket Trike','Sonic Trike','Flame Tank','Elite Launcher','Elite Siege Tank','Chemical Siege Tank'}
 SOLDIERS={'Soldier','Infantry','Infantry (5)','Soldiers (5)','Infantry5'}
-# Playtest correction: Wildspade needs a predictable defensive core alongside
-# its random Special spawns. Keep mission economy, terrain and enemy forces.
-WILDSPADE_OPENING_SUPPORT={
- 'ID045':'Wildspade,Tank,256,1566,64,Guard',
- 'ID046':'Wildspade,Tank,256,1567,64,Guard',
- 'ID047':'Wildspade,Troopers,256,1374,64,Guard',
-}
+# All twelve factions share the corrected intro policy in both full mods.
+spec=spec_from_file_location('opening_balance',ROOT/'scripts/tune-campaign-openings.py')
+opening_balance=module_from_spec(spec);spec.loader.exec_module(opening_balance)
 
 def add_opening_support(text,player,mission):
- if player!='Wildspade' or mission!=1:return text
- eol='\r\n' if '\r\n' in text else '\n'
- scenario=read(text.encode('cp850'))
- for key in WILDSPADE_OPENING_SUPPORT:assert key not in scenario['UNITS'],('duplicate starting order',key)
- extra=eol.join(key+'='+value for key,value in WILDSPADE_OPENING_SUPPORT.items())+eol+eol
- assert '[STRUCTURES]' in text
- return text.replace('[STRUCTURES]',extra+'[STRUCTURES]',1)
+ if mission!=1:return text
+ return opening_balance.tune_opening(text,player)[0]
 def read(data):
  p=configparser.ConfigParser(interpolation=None,strict=False);p.optionxform=str
  p.read_string('\n'.join(l for l in data.decode('cp850').splitlines() if '=' in l or l.strip().startswith(('[',';','#'))));return p
@@ -91,7 +83,7 @@ def rebuild():
     # Some legacy packs expose a second copy through the data search path.
     mirror=ROOT/f'mods/{mod}/data/scen{letter.lower()}{mission:03}.ini'
     if mirror.exists():mirror.write_bytes(text.encode('cp850'))
-    reports.append({'mod':mod,'house':player,'mission':mission,'mapping':mapping,'removedStartingSoldierOrders':removed,'specialSpawnOrdersConverted':converted,'addedStartingSupport':list(WILDSPADE_OPENING_SUPPORT) if player=='Wildspade' and mission==1 else [],'terrainAndEconomyPreserved':True,'vanillaOpponentRolesMatch':True})
+    reports.append({'mod':mod,'house':player,'mission':mission,'mapping':mapping,'removedStartingSoldierOrders':removed,'specialSpawnOrdersConverted':converted,'addedStartingSupport':[f'ID{i:03}' for i in range(100,107)] if mission==1 else [],'terrainAndEconomyPreserved':True,'vanillaOpponentRolesMatch':True})
    region=read(vanilla[f'REGION{template}.INI']);result=io.StringIO()
    for group in range(1,9):
     section=region['GROUP'+str(group)];new={}

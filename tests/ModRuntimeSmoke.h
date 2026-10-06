@@ -269,15 +269,37 @@ inline void runModRuntimeSmoke() {
                 require(currentGameMap != nullptr && pLocalHouse != nullptr,
                         mod + " scenario did not initialize: " + name);
                 require(!structureList.empty() || !unitList.empty(), "empty scenario " + name);
-                if(mission == 1 && getHouseFactionIdentity(static_cast<HOUSETYPE>(selectedHouse)) == HOUSE_WILDSPADE) {
-                    int tanks = 0, troops = 0;
+                if(mission == 1 && (mod == "Tornie" || mod == "Jericho")) {
+                    int troops = 0, enemies = 0;
                     for(auto* unit : unitList) if(unit->getOwner() == pLocalHouse) {
-                        if(unit->getItemID() == Unit_Tank) ++tanks;
                         if(unit->getItemID() == Unit_Trooper) ++troops;
+                    } else {
+                        ++enemies;
+                        require(unit->getAttackMode() != HUNT, mod + " intro has an immediate enemy rush");
                     }
-                    require(tanks >= 3 && troops >= 6, mod + " Wildspade starting defence did not spawn");
-                    require(pLocalHouse->getCredits() == 1000, mod + " Wildspade starting credits changed");
-                    SDL_Log("WILDSPADE OPENING PASS: %s, three Tanks and two Troopers orders, credits 1000",mod.c_str());
+                    if(troops != 9 || enemies != 12) {
+                        SDL_Log("CAMPAIGN OPENING COUNTS: %s %s troops=%d enemies=%d",mod.c_str(),name.c_str(),troops,enemies);
+                        for(auto* unit : unitList)
+                            SDL_Log("OPENING UNIT: item=%u owner=%d local=%d x=%d y=%d",unit->getItemID(),unit->getOwner()->getHouseID(),pLocalHouse->getHouseID(),unit->getLocation().x,unit->getLocation().y);
+                    }
+                    require(troops == 9 && enemies == 12, mod + " intro troop/enemy counts did not deploy: " + name);
+                    for(int order = 100; order <= 106; ++order) {
+                        std::string owner, item, health, pos, angle, mode;
+                        splitString(scenario.getStringValue("UNITS", fmt::sprintf("ID%03d", order)), owner, item, health, pos, angle, mode);
+                        int position = 0;
+                        require(parseString(pos, position), "intro support position");
+                        const Coord location(position % 64 - 1, position / 64 - 1);
+                        int count = 0;
+                        for(auto* unit : unitList) if(unit->getOwner() == pLocalHouse && unit->getLocation() == location) {
+                            if(order <= 101) require(unit->getItemID() == Unit_Tank, "bonus Tank not deployed");
+                            else if(order <= 104) require(unit->getItemID() == Unit_Trooper, "Troopers order not expanded");
+                            else require(unit->getItemID() != Unit_Special && unit->isRespondable(), "Special spawn not resolved");
+                            ++count;
+                        }
+                        require(count == (order >= 102 && order <= 104 ? 3 : 1), mod + " missing/overlapping intro order " + name);
+                    }
+                    require(pLocalHouse->getCredits() == 1000, mod + " intro starting credits changed");
+                    SDL_Log("CAMPAIGN OPENING PASS: %s %s, +2 Tanks, nine Troopers, two Special spawns, twelve enemies without an initial rush",mod.c_str(),name.c_str());
                 }
                 game->processObjects();
                 ++scenarios;
