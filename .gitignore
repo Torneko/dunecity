@@ -23,6 +23,8 @@ docs/*
 !docs/guide.html
 !docs/style.css
 !docs/img/
+!docs/WEBSITE.md
+!docs/ROADMAP-1.0.534.md
 missing
 aclocal.m4
 install-sh
