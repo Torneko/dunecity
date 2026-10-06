@@ -1,8 +1,8 @@
 {
   "project": "Dune Legacy Tornie",
-  "version": "1.0.534",
-  "sourceCommit": "640c00d5538af3deb368fbd06d6c71a15123a0f6",
-  "pngCount": 108,
+  "version": "1.0.535",
+  "sourceCommit": "fa2a5de3d23507f95332e243d060eeb419ce8fd5",
+  "pngCount": 111,
   "files": [
     {
       "file": "02_Sprites_des_unites/advanced_power_2x3.png",
@@ -2205,6 +2205,57 @@
         "Jericho"
       ],
       "transparent": false
+    },
+    {
+      "file": "05_Portraits/MentatCat_Wildspade.png",
+      "url": "assets/png/05_Portraits/MentatCat_Wildspade.png",
+      "width": 640,
+      "height": 400,
+      "transparent": false,
+      "sha256": "e15d1c6402d296f37a7150dd6d0350b73f401625152c5ccba7b9d54fbe0c96d5",
+      "sources": [
+        "mods/Tornie/data/MentatCat_Wildspade.png",
+        "mods/Jericho/data/MentatCat_Wildspade.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ],
+      "description": "Wildspade mentat background supplied by Tornie."
+    },
+    {
+      "file": "05_Portraits/MentatCat_Wildspade_Eyes.png",
+      "url": "assets/png/05_Portraits/MentatCat_Wildspade_Eyes.png",
+      "width": 2172,
+      "height": 724,
+      "transparent": true,
+      "sha256": "7586f3fabbf05869c64593086030a0c086e180c8fe3ed24f8776efcc2b4c637c",
+      "sources": [
+        "mods/Tornie/data/MentatCat_Wildspade_Eyes.png",
+        "mods/Jericho/data/MentatCat_Wildspade_Eyes.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ],
+      "description": "Generated facial atlas; fitted at runtime by the game."
+    },
+    {
+      "file": "05_Portraits/MentatCat_Wildspade_Mouth.png",
+      "url": "assets/png/05_Portraits/MentatCat_Wildspade_Mouth.png",
+      "width": 1983,
+      "height": 793,
+      "transparent": true,
+      "sha256": "4b54df7ac5fc43a2dc070e2a0cbcd0f6dc6d63918791cb3dd0806586732121b1",
+      "sources": [
+        "mods/Tornie/data/MentatCat_Wildspade_Mouth.png",
+        "mods/Jericho/data/MentatCat_Wildspade_Mouth.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ],
+      "description": "Generated facial atlas; fitted at runtime by the game."
     }
   ],
   "vanillaExports": {
@@ -2216,5 +2267,5 @@
     "buildingEntriesIllustrated": 19
   },
   "localChanges": false,
-  "count": 108
+  "count": 111
 }
