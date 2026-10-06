@@ -2657,7 +2657,12 @@
         "UNITS:ID030"
       ],
       "terrainAndEconomyPreserved": true,
-      "vanillaOpponentRolesMatch": true
+      "vanillaOpponentRolesMatch": true,
+      "addedStartingSupport": [
+        "ID045",
+        "ID046",
+        "ID047"
+      ]
     },
     {
       "mod": "Tornie",
@@ -6177,7 +6182,12 @@
         "UNITS:ID030"
       ],
       "terrainAndEconomyPreserved": true,
-      "vanillaOpponentRolesMatch": true
+      "vanillaOpponentRolesMatch": true,
+      "addedStartingSupport": [
+        "ID045",
+        "ID046",
+        "ID047"
+      ]
     },
     {
       "mod": "Jericho",
@@ -7046,5 +7056,6 @@
     }
   ],
   "removedStartingSoldierOrders": 14,
-  "specialSpawnOrdersConverted": 36
+  "specialSpawnOrdersConverted": 36,
+  "addedStartingSupportOrders": 6
 }

@@ -1,7 +1,7 @@
 {
   "archive": "DuneLegacyTornie-1.0.535-Windows-Preview.zip",
-  "bytes": 48292474,
-  "sha256": "a06ea35b8e3a19373fbf47edeae4804d5e157b44c25ea49d2d058e389c9a6c32",
+  "bytes": 48301540,
+  "sha256": "dee553ef523c7a065005e716cf0b599884220306c80262955fd941fcf7fda959",
   "maps": 142,
   "dlls": 16,
   "requiredFilesVerified": 25,
@@ -11,5 +11,5 @@
   "allBundledModFilesMatchSources": true,
   "vanillaCampaignAndVoiceAssetsVerified": 27,
   "noCityPromotion": true,
-  "sourceCommit": "64090c72f5d13d354cfdb20fa43871aa7a8928fd"
+  "sourceCommit": "0b029dff34408f0a6264d0a674b8ad1123e6e6dd"
 }
