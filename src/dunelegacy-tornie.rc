@@ -1,5 +1,0 @@
-/* Dune Legacy Tornie application icon */
-#include <windows.h>
-
-/* Icon */
-MAINICON ICON "../dunelegacy-tornie.ico" 

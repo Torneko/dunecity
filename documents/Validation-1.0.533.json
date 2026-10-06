@@ -1,0 +1,56 @@
+{
+  "version": "1.0.533",
+  "platform": "Windows x64",
+  "engineTests": {
+    "testCases": 92,
+    "assertions": 3727,
+    "result": "passed"
+  },
+  "runtime": {
+    "campaignScenarioLoads": 118,
+    "kleshmershOriginalHarkonnenMaps": 22,
+    "mods": [
+      "Tornie",
+      "TornieLite",
+      "Jericho"
+    ],
+    "squads": "gates, upgrade sequence, house prices, five units, queued save/load",
+    "captureHunt": "editor singles and five-unit squads; infantry-only UI below Retreat; mixed groups; valid targets; retargeting; movement/capture; AI order preservation; save/load; ordinary capture rules; immortality; normal saboteur detonation",
+    "editorScrolling": "heights 480/600/900, scrollbar/wheel, first and last unit selectable",
+    "editor": "Infantry/Troopers Squad tiles with blue star; placements, map roundtrip, five-unit reinforcement groups",
+    "campaign": "original mission fields preserved, house remapping, private colors, enemy palace random-power policy, save/load",
+    "achievements": "actual palace missile launches, third-launch checkpoint resume, local-player attribution, blue/purple harvesting"
+  },
+  "limits": [
+    "Windows automated checks only; Linux has not been built locally.",
+    "A full manual campaign playthrough and balance assessment have not been performed."
+  ],
+  "gameExeSha256": "a182b8e391cf31a39894c15c7ede1dafe8f71cefee63ea62b3cd317d93199234",
+  "website": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "units": 30,
+    "buildings": 29,
+    "achievements": 46,
+    "galleryPNG": 106,
+    "originalPNGsPreserved": 72,
+    "desktop": "passed",
+    "mobile": "passed",
+    "localFile": "passed",
+    "downloads": "passed",
+    "browserErrors": [],
+    "scope": "Previous local-site checks; publication link changes were not rechecked at user request."
+  },
+  "previouslyTestedExeSha256": "99f077923cd91215e175db7cf9b5e0159e805025e2d5be821da52e506936fdfa",
+  "validationScope": "Engine, runtime and browser passes describe the preceding build, before the final Fremen banner fix.",
+  "finalChange": {
+    "name": "Fremen house-choice banner",
+    "build": "passed",
+    "runtimeChecks": "not rerun at user request",
+    "fullSuite": "not rerun at user request"
+  },
+  "releaseUrl": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.533",
+  "websiteUrl": "https://torneko.github.io/dunelegacy-tornie/"
+}

@@ -1,0 +1,2075 @@
+{
+  "project": "Dune Legacy Tornie",
+  "version": "1.0.533",
+  "sourceCommit": "6182a6a0861a9ef6bb60985a3833211c2d4cf2e2",
+  "pngCount": 106,
+  "files": [
+    {
+      "file": "02_Sprites_des_unites/advanced_power_2x3.png",
+      "width": 32,
+      "height": 96,
+      "transparent": false,
+      "sha256": "5d36d1927534c0a510dd48aaefd517fd690bc052f948b5d7a49a7524299ccbf1",
+      "sources": [
+        "mods/Tornie/data/advanced_power_2x3.png",
+        "mods/TornieLite/data/advanced_power_2x3.png",
+        "mods/Jericho/data/advanced_power_2x3.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "03_Batiments/Advanced_Power_Plant.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "f076a3124beb63991ae6036d382fcb28890cb2a275fe4731a9fd661d84b91a06",
+      "sources": [
+        "mods/Tornie/data/Advanced_Power_Plant.png",
+        "mods/TornieLite/data/Advanced_Power_Plant.png",
+        "mods/Jericho/data/Advanced_Power_Plant.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "03_Batiments/BUILDING_3x2_worfinery.png",
+      "width": 48,
+      "height": 224,
+      "transparent": false,
+      "sha256": "59dec701f95846ba7faf12fa7ee4aeb0fbd60ee3d9c180ad3e5416a93dd2c31c",
+      "sources": [
+        "mods/Tornie/data/BUILDING_3x2_worfinery.png",
+        "mods/Tornie/data/Worfinery.png",
+        "mods/TornieLite/data/BUILDING_3x2_worfinery.png",
+        "mods/TornieLite/data/Worfinery.png",
+        "mods/Jericho/data/BUILDING_3x2_worfinery.png",
+        "mods/Jericho/data/Worfinery.png",
+        "data/BUILDING_3x2_worfinery.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Tornie",
+        "TornieLite",
+        "TornieLite",
+        "Jericho",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "05_Portraits/ChaniMentat.png",
+      "width": 320,
+      "height": 200,
+      "transparent": false,
+      "sha256": "ba1767515e19975db2877b87e6b30d9899a8896e3f5083d27c5410935f20ae72",
+      "sources": [
+        "mods/Tornie/data/ChaniMentat.png",
+        "mods/TornieLite/data/ChaniMentat.png",
+        "mods/Jericho/data/ChaniMentat.png",
+        "data/ChaniMentat.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/ChaosFactory.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "186b345b5ced2aa3c76ef43c187cb9f73d654911fba04867b4d0810eda6a8f0b",
+      "sources": [
+        "mods/Tornie/data/ChaosFactory.png",
+        "mods/TornieLite/data/ChaosFactory.png",
+        "mods/Jericho/data/ChaosFactory.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ChaosFactoryIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": true,
+      "sha256": "09b5cf7b19aa4515a29ee0ca816ea21acc8b364a26a7552c1a0af2d97064b8eb",
+      "sources": [
+        "mods/Tornie/data/ChaosFactoryIcon.png",
+        "mods/TornieLite/data/ChaosFactoryIcon.png",
+        "mods/Jericho/data/ChaosFactoryIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/ChemicalCarryall.png",
+      "width": 192,
+      "height": 48,
+      "transparent": true,
+      "sha256": "a2aaa42da5a840465b0c184acda0f524fa66ca2b8ff4d223a2fe71e4511edaeb",
+      "sources": [
+        "mods/Tornie/data/ChemicalCarryall.png",
+        "mods/TornieLite/data/ChemicalCarryall.png",
+        "mods/Jericho/data/ChemicalCarryall.png",
+        "data/ChemicalCarryall.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ChemicalCarryallIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "d67087bacf64131c76de871b895e77530f85d7ab777a2ed87aefb720aa4887ec",
+      "sources": [
+        "mods/Tornie/data/ChemicalCarryallIcon.png",
+        "mods/TornieLite/data/ChemicalCarryallIcon.png",
+        "mods/Jericho/data/ChemicalCarryallIcon.png",
+        "data/ChemicalCarryallIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/ChemicalSiegeTank.png",
+      "width": 128,
+      "height": 16,
+      "transparent": true,
+      "sha256": "bf37c8db73c9068d2bf16a8f6b33a8b6ad57a48175acb916f4f0086c350e5433",
+      "sources": [
+        "mods/Tornie/data/ChemicalSiegeTank.png",
+        "mods/TornieLite/data/ChemicalSiegeTank.png",
+        "mods/Jericho/data/ChemicalSiegeTank.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ChemicalSiegeTankIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "ae2cfc964e42ec1ef061d16fd7429b8a0e8e41989c731a3604eb66f57d224ede",
+      "sources": [
+        "mods/Tornie/data/ChemicalSiegeTankIcon.png",
+        "mods/TornieLite/data/ChemicalSiegeTankIcon.png",
+        "mods/Jericho/data/ChemicalSiegeTankIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "03_Batiments/Chemipost.png",
+      "width": 16,
+      "height": 32,
+      "transparent": false,
+      "sha256": "67978b970d92e4675d7653b3cf8f97b550aa3e750902cf854a7a03b226836470",
+      "sources": [
+        "mods/Tornie/data/Chemipost.png",
+        "mods/TornieLite/data/Chemipost.png",
+        "mods/Jericho/data/Chemipost.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ChemipostIcon.png",
+      "width": 182,
+      "height": 110,
+      "transparent": false,
+      "sha256": "88462d1db356d0918152362c96f138809197abbd7cad7b76cc92a0e6854d318a",
+      "sources": [
+        "mods/Tornie/data/ChemipostIcon.png",
+        "mods/TornieLite/data/ChemipostIcon.png",
+        "mods/Jericho/data/ChemipostIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/Deviator.png",
+      "width": 128,
+      "height": 16,
+      "transparent": true,
+      "sha256": "605a8bad3ee52860ad5afa6b7772cd243b10a47ab54c2522c52e87588bb688d7",
+      "sources": [
+        "mods/Tornie/data/Deviator.png",
+        "mods/TornieLite/data/Deviator.png",
+        "mods/Jericho/data/Deviator.png",
+        "data/Deviator.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/DeviatorGun.png",
+      "width": 80,
+      "height": 10,
+      "transparent": true,
+      "sha256": "e4a0ab6926dd9b2566edc957f6c241aa98ff4b6448dcb688602f95cca42041cb",
+      "sources": [
+        "mods/Tornie/data/DeviatorGun.png",
+        "mods/TornieLite/data/DeviatorGun.png",
+        "mods/Jericho/data/DeviatorGun.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/EliteLauncherGun.png",
+      "width": 80,
+      "height": 10,
+      "transparent": true,
+      "sha256": "c2feec9dbfc5faf38ff361b0af147df245f6eda8cdce25828ec639cd459a3880",
+      "sources": [
+        "mods/Tornie/data/EliteLauncherGun.png",
+        "mods/TornieLite/data/EliteLauncherGun.png",
+        "mods/Jericho/data/EliteLauncherGun.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/EliteLauncherIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "a71dbdfcdf40b2a3ff96d4d5806dbbbc4ac057c580c65a6c34da7db6f12df22e",
+      "sources": [
+        "mods/Tornie/data/EliteLauncherIcon.png",
+        "mods/TornieLite/data/EliteLauncherIcon.png",
+        "mods/Jericho/data/EliteLauncherIcon.png",
+        "data/EliteLauncherIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/EliteSiegeTank.png",
+      "width": 128,
+      "height": 16,
+      "transparent": true,
+      "sha256": "c640e73d0f5d5698f5c981300221352bb210f777308b574545bba62be5584ee1",
+      "sources": [
+        "mods/Tornie/data/EliteSiegeTank.png",
+        "mods/TornieLite/data/EliteSiegeTank.png",
+        "mods/Jericho/data/EliteSiegeTank.png",
+        "data/EliteSiegeTank.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/EliteSiegeTankIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "df59814fd5c3c0d3e95f4de733a5675cbf4f51ccd438fc30112d6a3469dd9dc3",
+      "sources": [
+        "mods/Tornie/data/EliteSiegeTankIcon.png",
+        "mods/TornieLite/data/EliteSiegeTankIcon.png",
+        "mods/Jericho/data/EliteSiegeTankIcon.png",
+        "data/EliteSiegeTankIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Flamepost.png",
+      "width": 16,
+      "height": 32,
+      "transparent": false,
+      "sha256": "f228e3c9a197bd8af6638507245f1246788ba70bbf0059f6d6d3c098c23cb003",
+      "sources": [
+        "mods/Tornie/data/Flamepost.png",
+        "mods/TornieLite/data/Flamepost.png",
+        "mods/Jericho/data/Flamepost.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/FlamepostIcon.png",
+      "width": 182,
+      "height": 110,
+      "transparent": false,
+      "sha256": "3d6ef7cc41f04648f4a0abfe6856cddbbbf07a4c2cb399a3a2fc6348e573d24f",
+      "sources": [
+        "mods/Tornie/data/FlamepostIcon.png",
+        "mods/TornieLite/data/FlamepostIcon.png",
+        "mods/Jericho/data/FlamepostIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/FlameTank.png",
+      "width": 128,
+      "height": 16,
+      "transparent": false,
+      "sha256": "02222c3d242a9ed989dec3dfcae75918e3fcfe263b633fc8d704eeba333eb250",
+      "sources": [
+        "mods/Tornie/data/FlameTank.png",
+        "mods/TornieLite/data/FlameTank.png",
+        "mods/Jericho/data/FlameTank.png",
+        "data/FlameTank.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/FlameTankGun.png",
+      "width": 80,
+      "height": 10,
+      "transparent": true,
+      "sha256": "46c797ecaf0ae1d34daaaa01fc3d144486013236f38d5df4576d125a90abcfd9",
+      "sources": [
+        "mods/Tornie/data/FlameTankGun.png",
+        "mods/TornieLite/data/FlameTankGun.png",
+        "mods/Jericho/data/FlameTankGun.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/FlameTankIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "22cae97269e73c18ce330bc58959755bd066c51c16b50fbc3760f040bc37a5dc",
+      "sources": [
+        "mods/Tornie/data/FlameTankIcon.png",
+        "mods/TornieLite/data/FlameTankIcon.png",
+        "mods/Jericho/data/FlameTankIcon.png",
+        "data/FlameTankIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Green_Post.png",
+      "width": 16,
+      "height": 32,
+      "transparent": false,
+      "sha256": "4135b3d7d52c832cc903a0d961e1beb3bbbc52537accf47da54cd50db7f1fb4e",
+      "sources": [
+        "mods/Tornie/data/Green_Post.png",
+        "mods/TornieLite/data/Green_Post.png",
+        "mods/Jericho/data/Green_Post.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/HarvestankGun.png",
+      "width": 192,
+      "height": 24,
+      "transparent": true,
+      "sha256": "81d2cca2d2aa452fcb3d0928cbf4178ba27952126208f8cf5031bbf3c05a7e50",
+      "sources": [
+        "mods/Tornie/data/HarvestankGun.png",
+        "mods/TornieLite/data/HarvestankGun.png",
+        "mods/Jericho/data/HarvestankGun.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/HarvestankIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "0436fd65778624014054ede4458178c814ad71da5de3189a5972196d2fcd742c",
+      "sources": [
+        "mods/Tornie/data/HarvestankIcon.png",
+        "mods/TornieLite/data/HarvestankIcon.png",
+        "mods/Jericho/data/HarvestankIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldCorruptique.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "8f009f6d55c33dfc25d06371620529fea3b1e6c9e07de2f7ffdbe29079caf65c",
+      "sources": [
+        "mods/Tornie/data/HeraldCorruptique.png"
+      ],
+      "distributions": [
+        "Tornie"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldFremen.png",
+      "width": 384,
+      "height": 456,
+      "transparent": false,
+      "sha256": "eae0a66c55cd23ecc60f72f27f8e75720beb37526c91990879c4fd5c5c4b28af",
+      "sources": [
+        "mods/Tornie/data/HeraldFremen.png"
+      ],
+      "distributions": [
+        "Tornie"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldKleshmersh.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "ac3d94f9d7b0b1ee127103bdb0623388f69d9414a48f7c643838fbf43e3deadc",
+      "sources": [
+        "mods/Tornie/data/HeraldKleshmersh.png",
+        "mods/Jericho/data/HeraldKleshmersh.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldNeu.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "bd60335246acbcb4ce2e03eed467b41186861132c2e18e46b7b9a5ad126a15c4",
+      "sources": [
+        "mods/Tornie/data/HeraldNeu.png",
+        "mods/Jericho/data/HeraldNeu.png",
+        "data/HeraldNeu.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldRebels.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "731dd5a23592d797d91bd34c0739e38681d0152c0db061aa2f63f20eabb89d14",
+      "sources": [
+        "mods/Tornie/data/HeraldRebels.png",
+        "mods/Jericho/data/HeraldRebels.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldTharpique.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "77c6acfcc8573cc697f24e013999e5ca1df11126ddb298683bc06e4981065272",
+      "sources": [
+        "mods/Tornie/data/HeraldTharpique.png",
+        "mods/TornieLite/data/HeraldTharpique.png",
+        "mods/Jericho/data/HeraldTharpique.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldWildspade.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "0587c57067d04724655883d61671b021eaaec0868dc55441cdaeea0b339d1bdf",
+      "sources": [
+        "mods/Tornie/data/HeraldWildspade.png",
+        "mods/Jericho/data/HeraldWildspade.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "03_Batiments/LoveFactory.png",
+      "width": 32,
+      "height": 288,
+      "transparent": false,
+      "sha256": "f14748ffd015e21f81468cbe73c6e5915e602d07c40e7f262388855e29fbb6d2",
+      "sources": [
+        "mods/Tornie/data/LoveFactory.png",
+        "mods/TornieLite/data/LoveFactory.png",
+        "mods/Jericho/data/LoveFactory.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/LoveFactoryIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "38ae22d6a313c739688f6ef507e2a39995d7e64fcc752d8a8661e76ac894259d",
+      "sources": [
+        "mods/Tornie/data/LoveFactoryIcon.png",
+        "mods/TornieLite/data/LoveFactoryIcon.png",
+        "mods/Jericho/data/LoveFactoryIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/PalaceRebelsChargingIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "1356320649ab1ead6584d2d38a17523ffcc636f27c3f1fc993ee40521729cfa0",
+      "sources": [
+        "mods/Tornie/data/PalaceRebelsChargingIcon.png",
+        "mods/Jericho/data/PalaceRebelsChargingIcon.png",
+        "data/PalaceRebelsChargingIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/PalaceRebelsIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "4cb8456307a666638c4718de861d122c4bc18e165355128d5d8a32a4fd503f24",
+      "sources": [
+        "mods/Tornie/data/PalaceRebelsIcon.png",
+        "mods/TornieLite/data/PalaceRebelsIcon.png",
+        "mods/Jericho/data/PalaceRebelsIcon.png",
+        "data/PalaceRebelsIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/PalaceTrikeAndQuadIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "c2370c680e053dabf9986b39a73e09990c914c10dac65f95dc19808e72627a37",
+      "sources": [
+        "mods/Tornie/data/PalaceTrikeAndQuadIcon.png",
+        "mods/TornieLite/data/PalaceTrikeAndQuadIcon.png",
+        "mods/Jericho/data/PalaceTrikeAndQuadIcon.png",
+        "data/PalaceTrikeAndQuadIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "05_Portraits/PaulAtreidesForeground.png",
+      "width": 640,
+      "height": 400,
+      "transparent": true,
+      "sha256": "72993218db807541ccddc719c8715ffae869c74610ffa791b118dabf72fc660f",
+      "sources": [
+        "mods/Tornie/data/PaulAtreidesForeground.png",
+        "mods/TornieLite/data/PaulAtreidesForeground.png",
+        "mods/Jericho/data/PaulAtreidesForeground.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "05_Portraits/PaulAtreidesMentat.png",
+      "width": 640,
+      "height": 400,
+      "transparent": false,
+      "sha256": "66b8841b4c65edd9da128fafae8e793c5a8023d50ed84b17e07c9128cf96c3f1",
+      "sources": [
+        "mods/Tornie/data/PaulAtreidesMentat.png",
+        "mods/TornieLite/data/PaulAtreidesMentat.png",
+        "mods/Jericho/data/PaulAtreidesMentat.png",
+        "data/PaulAtreidesMentat.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/RocketTrike.png",
+      "width": 128,
+      "height": 16,
+      "transparent": true,
+      "sha256": "0ea0c6f0138caab23721004fc9da6603a812025496fa3d3fa5e491368e0ea0c7",
+      "sources": [
+        "mods/Tornie/data/RocketTrike.png",
+        "mods/TornieLite/data/RocketTrike.png",
+        "mods/Jericho/data/RocketTrike.png",
+        "data/RocketTrike.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/RocketTrikeIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "c2442b4517d5cfbe1240e5a3d32a37ccdb09bb60d1b6de85ff4207608e0feae0",
+      "sources": [
+        "mods/Tornie/data/RocketTrikeIcon.png",
+        "mods/TornieLite/data/RocketTrikeIcon.png",
+        "mods/Jericho/data/RocketTrikeIcon.png",
+        "data/RocketTrikeIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Scoutpost.png",
+      "width": 16,
+      "height": 32,
+      "transparent": false,
+      "sha256": "5940668045edd25f625cc35db4bfdc0d256f081a3015c9c610906ab8d66dd328",
+      "sources": [
+        "mods/Tornie/data/Scoutpost.png",
+        "mods/TornieLite/data/Scoutpost.png",
+        "mods/Jericho/data/Scoutpost.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ScoutpostIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "766eeda1e55540ca86f44a465747ff8eeb54111d0daebda40a7e9e9e30c23903",
+      "sources": [
+        "mods/Tornie/data/ScoutpostIcon.png",
+        "mods/TornieLite/data/ScoutpostIcon.png",
+        "mods/Jericho/data/ScoutpostIcon.png",
+        "data/ScoutpostIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/SonicTrike.png",
+      "width": 128,
+      "height": 16,
+      "transparent": true,
+      "sha256": "264aa421e650b2c511ffba496d393efc0b6f13c3cd71db10c6828ecdf9cc2d6a",
+      "sources": [
+        "mods/Tornie/data/SonicTrike.png",
+        "mods/TornieLite/data/SonicTrike.png",
+        "mods/Jericho/data/SonicTrike.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/SonicTrikeIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "117e46a4a42af28472dbf65a69a961fb006a5606b3d02bc9b749b9f0a19c0627",
+      "sources": [
+        "mods/Tornie/data/SonicTrikeIcon.png",
+        "mods/TornieLite/data/SonicTrikeIcon.png",
+        "mods/Jericho/data/SonicTrikeIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "03_Batiments/TechCenter.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "f26586d33a9d894efe57a3e14a87da81a2d6f315d5375f68876dd78cc60cab5b",
+      "sources": [
+        "mods/Tornie/data/TechCenter.png",
+        "mods/TornieLite/data/TechCenter.png",
+        "mods/Jericho/data/TechCenter.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/TechCenterIcon.png",
+      "width": 182,
+      "height": 110,
+      "transparent": false,
+      "sha256": "d411f7234fa7ad5af0df5634c8cb968268a496a0e2155b09a17f3906a0afdeea",
+      "sources": [
+        "mods/Tornie/data/TechCenterIcon.png",
+        "mods/TornieLite/data/TechCenterIcon.png",
+        "mods/Jericho/data/TechCenterIcon.png",
+        "data/TechCenterIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Tornie_AdvancedWindtrap_gfx.png",
+      "width": 48,
+      "height": 96,
+      "transparent": false,
+      "sha256": "7ef4b2b3feeb4f86dc63c5e5ccfe1d8071c00b1fe001259eda7dfe5c2eda8ff4",
+      "sources": [
+        "mods/Tornie/data/Tornie_AdvancedWindtrap_gfx.png",
+        "mods/TornieLite/data/Tornie_AdvancedWindtrap_gfx.png",
+        "mods/Jericho/data/Tornie_AdvancedWindtrap_gfx.png",
+        "data/Tornie_AdvancedWindtrap_gfx.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "79348054e6b977d7afc996ed7b035df17b05703578c7ba60ffdbd9a70edcd343",
+      "sources": [
+        "mods/Tornie/data/Tornie_AdvancedWindtrap_icon.png",
+        "mods/TornieLite/data/Tornie_AdvancedWindtrap_icon.png",
+        "mods/Jericho/data/Tornie_AdvancedWindtrap_icon.png",
+        "data/Tornie_AdvancedWindtrap_icon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/TornieUnits.png",
+      "width": 160,
+      "height": 192,
+      "transparent": true,
+      "sha256": "976d59326a369bee2234ed082d6a24773c6b4aa76b8051f9a4e66b7c4a5911f2",
+      "sources": [
+        "mods/Tornie/data/TornieUnits.png",
+        "mods/TornieLite/data/TornieUnits.png",
+        "mods/Jericho/data/TornieUnits.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/TornieUnits2.png",
+      "width": 160,
+      "height": 64,
+      "transparent": true,
+      "sha256": "30139b94cc92651271a05ee214999d33f5b5424e6eccbe919f65333ea122f411",
+      "sources": [
+        "mods/Tornie/data/TornieUnits2.png",
+        "mods/TornieLite/data/TornieUnits2.png",
+        "mods/Jericho/data/TornieUnits2.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/TornieUnits2Flame.png",
+      "width": 160,
+      "height": 64,
+      "transparent": true,
+      "sha256": "b2ffe0d11e396e227f9ba76f5612094aee733786cc0735532da830341776e796",
+      "sources": [
+        "mods/Tornie/data/TornieUnits2Flame.png",
+        "mods/TornieLite/data/TornieUnits2Flame.png",
+        "mods/Jericho/data/TornieUnits2Flame.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/WorfineryIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "6713eeea273fb61d73527f96a64f98b10a3d2631dbf622cba057bcb98191d5c9",
+      "sources": [
+        "mods/Tornie/data/WorfineryIcon.png",
+        "mods/TornieLite/data/WorfineryIcon.png",
+        "mods/Jericho/data/WorfineryIcon.png",
+        "data/WorfineryIcon.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "TornieLite",
+        "Jericho",
+        "Commun"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldRebels__TornieLite.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "8c837ff89cba81b32af8bdedc79238308289f84d5740d1a2c59cf27b30ef3dae",
+      "sources": [
+        "mods/TornieLite/data/HeraldRebels.png"
+      ],
+      "distributions": [
+        "TornieLite"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldCorruptique__Jericho.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "e28a29c0cad02b213794e604b890cd87b9587553c5aec6e310ad87652dde9f54",
+      "sources": [
+        "mods/Jericho/data/HeraldCorruptique.png"
+      ],
+      "distributions": [
+        "Jericho"
+      ]
+    },
+    {
+      "file": "02_Sprites_des_unites/advanced_power_2x3__Commun.png",
+      "width": 32,
+      "height": 96,
+      "transparent": false,
+      "sha256": "c661bfe2c8f22a54b394f22aa96d104ac8237bee54a7cce33977fbfad4b45cf3",
+      "sources": [
+        "data/advanced_power_2x3.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Advanced_Power_Plant__Commun.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "41f850009171963607d74e90f47442f1c7dd99718e1a564cff2d2e6390b57ef1",
+      "sources": [
+        "data/Advanced_Power_Plant.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldKleshmershBrown.png",
+      "width": 390,
+      "height": 457,
+      "transparent": false,
+      "sha256": "66cc342676dbfc15285257d3edf9d5e0efd1ca94d42210caf5a68f0cd886098a",
+      "sources": [
+        "data/HeraldKleshmershBrown.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldRebels__Commun.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "11f85a062455ee0496d8b0ff190539023a4b09c9192809eb2fdc29193215dc59",
+      "sources": [
+        "data/HeraldRebels.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/NeutralLauncherIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "79a2ba46a4b24cbdc2b8c4b559d39ea80fb464c0ea158d34498820a819f3a82b",
+      "sources": [
+        "data/NeutralLauncherIcon.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/QuadIcon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "554b51ad0d43ec8f4d43d56c356cbfbcb018db714ec197e046422559b2ee11cc",
+      "sources": [
+        "data/QuadIcon.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Scoutpost__Commun.png",
+      "width": 16,
+      "height": 32,
+      "transparent": false,
+      "sha256": "b6c795f9080f136b2cf88090c04cd3aa77624e36034ac418a6d1374266f5e5fb",
+      "sources": [
+        "data/Scoutpost.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/super_power_plant.png",
+      "width": 48,
+      "height": 48,
+      "transparent": false,
+      "sha256": "ed5cfa850a49aee5d3806ebbaff6cb087d5220901622fb4857cf31eea8d9ec8f",
+      "sources": [
+        "data/super_power_plant.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/TechCenter__Commun.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "19b48d93705453252289501b16d9cae1b1d25d365111458d8ffd7d8113025ae1",
+      "sources": [
+        "data/TechCenter.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "06_Epices_et_drapeaux/Tornie_AdvHouseFlag.png",
+      "width": 2,
+      "height": 2,
+      "transparent": false,
+      "sha256": "f72ecbf1fa4d3063b7e23a0e0fecf6b9ff28abd5b35cf9c44b3930496c24dbc0",
+      "sources": [
+        "data/Tornie_AdvHouseFlag.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "06_Epices_et_drapeaux/Tornie_CornerFlag.png",
+      "width": 48,
+      "height": 16,
+      "transparent": true,
+      "sha256": "4f8b3c7a1aa716537f4c5dcb7a04b5eb39bc0bb84cdd4f0447d39752dd9f49ca",
+      "sources": [
+        "data/Tornie_CornerFlag.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "06_Epices_et_drapeaux/Tornie_SpiceGreen.png",
+      "width": 272,
+      "height": 32,
+      "transparent": false,
+      "sha256": "6ff0382f748c239a077212e2d068db1347c8c5741b522e9b6f8ecd526b19c8c4",
+      "sources": [
+        "data/Tornie_SpiceGreen.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "06_Epices_et_drapeaux/Tornie_SpiceRed.png",
+      "width": 272,
+      "height": 32,
+      "transparent": false,
+      "sha256": "d8924d331d8b4c37d99241a034d8516d3022ac5a44cbd8a5ccc39751430ac9a9",
+      "sources": [
+        "data/Tornie_SpiceRed.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "03_Batiments/Worfinery.png",
+      "width": 48,
+      "height": 64,
+      "transparent": false,
+      "sha256": "4cc8bc5040ce4f86471734487344e70bbcdad6a65c8b726d3b4a255117892090",
+      "sources": [
+        "data/Worfinery.png"
+      ],
+      "distributions": [
+        "Commun"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_4SLAB_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "a7c2fbd58d2a22cf8a00a37881015f0b5c50cdf66b14f8736925a35fa450bce9",
+      "sources": [
+        "MENTAT.PAK/4SLAB.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_BARRAC_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "7214a50c265f6acfdf59dbbd3cfd97c4143b53778510ea7afb5f173b3f158fe2",
+      "sources": [
+        "MENTAT.PAK/BARRAC.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_CARRYALL_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "a7155828a02a456f82be25ea2215a6f59b95d01edbe0d9d977a5b45e775f70c1",
+      "sources": [
+        "MENTAT.PAK/CARRYALL.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_CONSTRUC_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "88e3c40444b8853254870976dc71e597cd18dca195bbd6a5268be625ab8348be",
+      "sources": [
+        "MENTAT.PAK/CONSTRUC.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_FRIGATE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "17a9baf76da6b2942ab3d7d6bc6d2f22ce06c3757753e994135e19e75b3b7bf6",
+      "sources": [
+        "MENTAT.PAK/FRIGATE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HARKTANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "cf1a813241ded53287233080f7c56f4be7776f5cbd27997d6266a3a086a4fc57",
+      "sources": [
+        "MENTAT.PAK/HARKTANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HARVEST_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "fb7292ac13526cd56bd520d625768d2d12ad65b99a0283ef7bb4e2d3948420d9",
+      "sources": [
+        "MENTAT.PAK/HARVEST.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HEADQRTS_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "a004d33b1c931e22b0ffd0339e1b531755fcc2ca30da047da1e64ace4bcf147b",
+      "sources": [
+        "MENTAT.PAK/HEADQRTS.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HITCFTRY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "06885bcf0c6daf378e47df6c025d11c9dc2ea314ee35d553d86ed7434e615fd7",
+      "sources": [
+        "MENTAT.PAK/HITCFTRY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HTANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "efad9238f936415bc7d5c71b7314527b8e316f9ea9e66e197adc423d2a96c4ed",
+      "sources": [
+        "MENTAT.PAK/HTANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HVYFTRY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "44ba6496b4b46cf7041c6a4e3b866ceddc65497409b5b86406a2bdbd6a2b0eb3",
+      "sources": [
+        "MENTAT.PAK/HVYFTRY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_HYINFY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "91f12906c523bb136f7f11ec2afbfc76454c2c9743d38b3c87f3c3cc794385f9",
+      "sources": [
+        "MENTAT.PAK/HYINFY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_INFANTRY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "604800599bce308a937d98ab605273d10dff2e2daa8bea7d0e2c03ff269eba43",
+      "sources": [
+        "MENTAT.PAK/INFANTRY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_IX_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "43bcb6b7c78b687ba042d278e474d5772cd568ccd631b1579a52794aa12365e3",
+      "sources": [
+        "MENTAT.PAK/IX.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_LITEFTRY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "c86064720883758fcdbe4d6e83ea12966949266c75bc43daeae07af9e62ea0f2",
+      "sources": [
+        "MENTAT.PAK/LITEFTRY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_LTANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "16326d41bc1efc011361a7e8487d748947ca932edde57f5834d961a9175c5e36",
+      "sources": [
+        "MENTAT.PAK/LTANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_MCV_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "8a0d701158263fe61c64986d55b896e67d362c74e8503eadd10c424dc9a0f201",
+      "sources": [
+        "MENTAT.PAK/MCV.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_ORDRTANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "1255bc2b832a6d964c659d1e67b4d5aa7b5025121267eb1ef9db0ef0053b4f89",
+      "sources": [
+        "MENTAT.PAK/ORDRTANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_ORNI_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "4dc43ed6efe6f4770958694d893f47244887f4895ee3867e34131f8717249653",
+      "sources": [
+        "MENTAT.PAK/ORNI.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_OTRIKE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "24e5b70e5334bc465b59abef1746c103cf2004f05629596f31ebe0e6529ccbf1",
+      "sources": [
+        "MENTAT.PAK/OTRIKE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_PALACE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "2c18e45bd29a1195ac3a3668dd845130f01e156d3d50b21de81fa58c06b79473",
+      "sources": [
+        "MENTAT.PAK/PALACE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_REFINERY_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "b399410fe2794af317b8b973e8e7e4bb7f0c13b4ca52a0809cc4aaa2ede53a9a",
+      "sources": [
+        "MENTAT.PAK/REFINERY.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_REPAIR_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "9bd266661d1e800dc9b8ed36ea36ff13e16ad6f2688f00979103cd4e8ed33378",
+      "sources": [
+        "MENTAT.PAK/REPAIR.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_RTANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "e457e407306994e84657c0600fa2d68a9092f93a7aaa9e752a5429a34a55a88b",
+      "sources": [
+        "MENTAT.PAK/RTANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_RTURRET_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "0c80c5d362fd9fe04a4f1dda21abb292b45cebd59f2c73b3af796d1e87a09966",
+      "sources": [
+        "MENTAT.PAK/RTURRET.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_SABOTURE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "0bd89aaa3255a0ceff7432b8a5263676e53c4be880271c5937d9df0c6408641d",
+      "sources": [
+        "MENTAT.PAK/SABOTURE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_SLAB_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "2b4f2accefc44817c0c29579244da857c55519abcdb463c40dd28c5e7167bac8",
+      "sources": [
+        "MENTAT.PAK/SLAB.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_STANK_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "82768ec0a3bff988c90b0f9117e86466bc401a583da39c231a6b546ea05d0600",
+      "sources": [
+        "MENTAT.PAK/STANK.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_STARPORT_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "087043f01ef4de3366f366e6aa6ebdff458fc34ff544b3170e56953fa45fae6d",
+      "sources": [
+        "MENTAT.PAK/STARPORT.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_STORAGE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "783c59582c5e8b8f4ecf40a84c97575a8b4e610d995dbf3743dc6a4919cf370d",
+      "sources": [
+        "MENTAT.PAK/STORAGE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_TRIKE_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "8347e0cf9616f6cfc1116c3b847df0a1ccdf11777e026d241748693d007ad4b1",
+      "sources": [
+        "MENTAT.PAK/TRIKE.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_TURRET_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "5baee6ee073a2a34de672476fdf401d57d06cf5c8d058c22b500dd1385a8be7e",
+      "sources": [
+        "MENTAT.PAK/TURRET.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_WALL_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "68003d8ab9e0c4e9ec901ddc7b8f4eac14389286475ff3b0ef10f50e5a66766f",
+      "sources": [
+        "MENTAT.PAK/WALL.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_WINDTRAP_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "c4a46a2d69e9b2f01cc4ef1fbda183c9a50fc4da95c777143af896af8e8eaac9",
+      "sources": [
+        "MENTAT.PAK/WINDTRAP.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_WOR_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "4672b586cec5e1d6628d0e91638566528e8f8fc85447911891032d04a4dc8a68",
+      "sources": [
+        "MENTAT.PAK/WOR.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    },
+    {
+      "file": "01_Icones_pour_le_site/Vanilla_WORM_Icon.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "1846454fe242683fc77f3602b98b8a79602c7e2bdfa828bb5f47732248245bbf",
+      "sources": [
+        "MENTAT.PAK/WORM.WSA (frame 0)",
+        "DUNE.PAK/IBM.PAL"
+      ],
+      "distributions": [
+        "Vanilla",
+        "Tornie",
+        "TornieLite",
+        "Jericho"
+      ],
+      "export": {
+        "method": "Dune Legacy small detail picture",
+        "sourceSize": [
+          184,
+          112
+        ],
+        "frame": 0
+      }
+    }
+  ],
+  "vanillaExports": {
+    "gameVersion": "1.0.532",
+    "palette": "DUNE.PAK/IBM.PAL",
+    "method": "First WSA frame, sampled with Dune Legacy small-detail-picture coordinates; original colors and illustrated backgrounds retained.",
+    "newIconCount": 36,
+    "unitEntriesIllustrated": 19,
+    "buildingEntriesIllustrated": 19
+  },
+  "localChanges": true
+}
