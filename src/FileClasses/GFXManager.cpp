@@ -3756,6 +3756,76 @@ void GFXManager::invalidateAllSpriteTextures() {
     }
 }
 
+// Fit optional generated strips at render time. The source background is never
+// rewritten; idle frames use its exact pixels to avoid a seam at rest.
+static std::unique_ptr<Animation> loadFittedMentatAnimation(
+    const std::string& filename, int count, double rate, SDL_Surface* background,
+    int x, int y, int width, int height, int cropY, int cropHeight, bool eyes,
+    const std::vector<ModMentatPatch>& patches) {
+    if(!background || count < 2 || width <= 0 || height <= 0
+       || x < 0 || y < 0 || x + width > background->w || y + height > background->h
+       || !pFileManager->exists(filename)) return nullptr;
+    auto strip = LoadPNG_RW(pFileManager->openFile(filename).get());
+    if(!strip || strip->w < count || cropY < 0 || cropHeight <= 0
+       || cropY + cropHeight > strip->h) return nullptr;
+    auto animation = std::make_unique<Animation>();
+    for(int frame = 0; frame < count; ++frame) {
+        auto base = getSubPicture(background, x, y, width, height);
+        auto composite = sdl2::surface_ptr{SDL_ConvertSurfaceFormat(base.get(), SDL_PIXELFORMAT_RGBA32, 0)};
+        if(!composite) return nullptr;
+        // Eyes: normal frame 0. Mouth: closed frame 0 and final resting frame.
+        if(frame != 0 && (eyes || frame != count - 1)) {
+            const int sourceFrame = eyes ? frame : frame - 1;
+            const int left = sourceFrame * strip->w / count;
+            const int right = (sourceFrame + 1) * strip->w / count;
+            const auto drawPatch = [&](const ModMentatRect& source, const ModMentatRect& destination) {
+                if(source.x + source.w > right - left || source.y + source.h > strip->h) return false;
+                auto cropped = getSubPicture(strip.get(), left + source.x, source.y, source.w, source.h);
+                auto fitted = resizeSurfaceNearest(cropped.get(), destination.w, destination.h);
+                if(!fitted) return false;
+                SDL_SetSurfaceBlendMode(fitted.get(), SDL_BLENDMODE_BLEND);
+                SDL_Rect target{destination.x,destination.y,destination.w,destination.h};
+                return SDL_BlitSurface(fitted.get(), nullptr, composite.get(), &target) == 0;
+            };
+            if(patches.empty()) {
+                if(!drawPatch({0,cropY,right-left,cropHeight}, {0,0,width,height})) return nullptr;
+            } else {
+                for(const auto& patch : patches)
+                    if(!drawPatch(patch.sources[sourceFrame], patch.destination)) return nullptr;
+            }
+        }
+        SDL_SetSurfaceBlendMode(composite.get(), SDL_BLENDMODE_NONE);
+        animation->addFrame(std::move(composite), false, false);
+    }
+    animation->setFrameRate(rate);
+    return animation;
+}
+
+// Restore the overlapping silhouette after the briefing widget, using exact
+// original pixels. Mod authors describe its boundary in native UI coordinates.
+static sdl2::surface_ptr loadMentatForegroundPolygon(SDL_Surface* background,
+                                                     const std::vector<ModMentatPoint>& polygon) {
+    if(!background || polygon.size() < 3) return nullptr;
+    for(const auto& p : polygon) if(p.x > background->w || p.y > background->h) return nullptr;
+    auto foreground = sdl2::surface_ptr{SDL_ConvertSurfaceFormat(background,SDL_PIXELFORMAT_RGBA32,0)};
+    if(!foreground) return nullptr;
+    for(int y=0;y<foreground->h;++y) for(int x=0;x<foreground->w;++x) {
+        bool inside = false;
+        for(std::size_t i=0,j=polygon.size()-1;i<polygon.size();j=i++) {
+            const auto& a=polygon[i]; const auto& b=polygon[j];
+            const int px=2*x+1, py=2*y+1;
+            if((2*a.y > py) != (2*b.y > py)) {
+                const auto cross = static_cast<long long>(px-2*a.x)*(b.y-a.y)
+                    - static_cast<long long>(py-2*a.y)*(b.x-a.x);
+                if((b.y > a.y && cross < 0) || (b.y < a.y && cross > 0)) inside = !inside;
+            }
+        }
+        if(!inside) static_cast<Uint8*>(foreground->pixels)[y*foreground->pitch+x*4+3] = 0;
+    }
+    SDL_SetSurfaceBlendMode(foreground.get(),SDL_BLENDMODE_BLEND);
+    return foreground;
+}
+
 void GFXManager::loadMentatGraphics() {
     for(int house = 0; house < NUM_HOUSE_COLOR_SLOTS; house++) {
         uiGraphic[UI_MentatBackground][house].reset();
@@ -3835,9 +3905,16 @@ void GFXManager::loadMentatGraphics() {
                 SDL_Log("GFXManager: Mentat %d foreground '%s' unavailable; using fallback",
                         house, info.foregroundAsset.c_str());
             }
+        } else if(!info.foregroundPolygon.empty()) {
+            modMentatForeground[house] = loadMentatForegroundPolygon(
+                uiGraphic[UI_MentatBackground][house].get(), info.foregroundPolygon);
         }
         if(!info.eyesAsset.empty()) {
-            modMentatEyes[house] = loadPngStripAnimation(
+            modMentatEyes[house] = info.restFromBackground ? loadFittedMentatAnimation(
+                info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
+                uiGraphic[UI_MentatBackground][house].get(), info.eyesX, info.eyesY,
+                info.eyesWidth, info.eyesHeight, info.eyesCropY, info.eyesCropHeight, true, info.eyesPatches)
+                : loadPngStripAnimation(
                 info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
                 info.doubleEyes, info.eyesTransparentColor);
             if(modMentatEyes[house] == nullptr) {
@@ -3846,7 +3923,11 @@ void GFXManager::loadMentatGraphics() {
             }
         }
         if(!info.mouthAsset.empty()) {
-            modMentatMouth[house] = loadPngStripAnimation(
+            modMentatMouth[house] = info.restFromBackground ? loadFittedMentatAnimation(
+                info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
+                uiGraphic[UI_MentatBackground][house].get(), info.mouthX, info.mouthY,
+                info.mouthWidth, info.mouthHeight, info.mouthCropY, info.mouthCropHeight, false, info.mouthPatches)
+                : loadPngStripAnimation(
                 info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
                 info.doubleMouth, info.mouthTransparentColor);
             if(modMentatMouth[house] == nullptr) {

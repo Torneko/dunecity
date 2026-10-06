@@ -26,6 +26,8 @@ docs/*
 !docs/WEBSITE.md
 !docs/ROADMAP-1.0.534.md
 !docs/CHAOS-MODE.md
+!docs/CAMPAIGNS.md
+!docs/WILDSPADE-MENTAT.md
 missing
 aclocal.m4
 install-sh

@@ -34,3 +34,7 @@ The 1.0.534 site documents Chaos Mode and the updated Wildspade technology gates
 Release downloads: `DuneLegacyTornie-1.0.534-Windows-x64.zip`, four Linux package formats, sources, French/English notes and `DuneLegacyTornie-Site-Local-1.0.534.zip`. The offline website embeds the exact Windows release archive. Previous preview packages are retained locally for reference and are not release download targets.
 
 Validation: release CI https://github.com/Torneko/dunelegacy-tornie/actions/runs/37491579704 succeeded; Pages deployment https://github.com/Torneko/dunelegacy-tornie/actions/runs/37493840528 succeeded. The actual Windows CI archive was checked in French and English; public FR/EN website checks cover 36 desktop/mobile routes and 12 Windtrap portrait cases, in addition to offline/local checks. Published Windows/PNG download hashes match the verified package. Manual Wildspade checks and a live two-PC multiplayer match remain pending according to Tornie's playtest report.
+
+## Prepared preview 1.0.535
+
+The `prepare/1.0.535` game branch and `prepare/site-1.0.535` website branch rebuild Tornie/Jericho campaigns and add the animated Wildspade mentat. The preview has 24 campaign plans, 528 rebuilt scenarios and 111 PNGs. Public release 1.0.534 remains the publication baseline until this preview is approved for release. Offline preview downloads use `DuneLegacyTornie-1.0.535-Windows-Preview.zip`; they must not be presented as public release assets. See [campaign plans](CAMPAIGNS.md) and [mentat sources/prompts](WILDSPADE-MENTAT.md).

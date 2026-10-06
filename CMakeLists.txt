@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Project name and version
-project(DuneLegacyTornie VERSION 1.0.534 LANGUAGES C CXX)
+project(DuneLegacyTornie VERSION 1.0.535 LANGUAGES C CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -166,6 +166,7 @@ if(NOT APPLE)
         install(FILES
             config/ObjectData.ini.default
             config/Achievements.ini
+            config/CampaignPlans.json
             "config/QuantBot Config.ini.default"
             "config/Dune Legacy.ini"
             config/README.md
@@ -192,7 +193,8 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # Install documentation
-install(FILES docs/ACHIEVEMENTS.md docs/CHAOS-MODE.md DESTINATION ${DUNELEGACY_DOC_DIR}/docs)
+install(FILES docs/ACHIEVEMENTS.md docs/CHAOS-MODE.md docs/CAMPAIGNS.md docs/WILDSPADE-MENTAT.md
+        DESTINATION ${DUNELEGACY_DOC_DIR}/docs)
 if(WIN32)
     # Windows: install docs to root
     install(FILES AUTHORS COPYING NEWS README.md HOWTOPLAY.md

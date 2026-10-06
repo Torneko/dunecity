@@ -2,6 +2,7 @@
 """Audit region routes, house identities, mirrored files and faction campaigns."""
 from pathlib import Path
 import configparser, json, re, struct
+from importlib.util import spec_from_file_location, module_from_spec
 
 ROOT=Path(__file__).resolve().parents[1]
 PREFIX={'HAR':'Harkonnen','ATR':'Atreides','ORD':'Ordos','FRE':'Fremen','SAR':'Sardaukar',
@@ -16,7 +17,15 @@ def read(path):
     return p
 def ints(value):return [int(v.strip()) for v in value.split(',') if v.strip()]
 
+spec=spec_from_file_location('campaign_rebuild',ROOT/'scripts/rebuild-campaigns.py')
+helper=module_from_spec(spec);spec.loader.exec_module(helper)
 reports=[]
+plans=json.loads((ROOT/'config/CampaignPlans.json').read_text())['mods']
+for mod,rows in plans.items():
+    names=[row['house'] for row in rows]
+    for role in range(3):assert sorted(row['opponents'][role] for row in rows)==sorted(names),(mod,role)
+    for row in rows:assert len(set([row['house']]+row['opponents']))==4,(mod,row)
+for a,b in zip(plans['Tornie'],plans['Jericho']):assert a['house']==b['house'] and not set(a['opponents']) & set(b['opponents'])
 def vanilla_scenarios(pak='Extra.PAK'):
     data=(ROOT/'data'/pak).read_bytes();pos=0;entries=[]
     while True:
@@ -40,6 +49,9 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
             section=ini['GROUP'+str(group)]
             for key,value in section.items():
                 if key in PREFIX:
+                    if mod in plans:
+                        plan=next(row for row in plans[mod] if row['letter']==letter)
+                        assert PREFIX[key] in [plan['house']]+plan['opponents'],(path,group,key)
                     territories=ints(value)
                     assert all(1<=v<=27 for v in territories),(path,group,key)
                     repeats+=len(territories)-len(set(territories))
@@ -72,7 +84,32 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
                 expected={target for source,target in remap.items() if original.has_section(source)}
                 assert actual==expected,(mission,actual,expected)
         if mod=='vanilla' and letter=='K':assert opponents=={'Harkonnen','Sardaukar','Mercenary'},opponents
-        if letter=='W':assert opponents=={'Atreides','Kleshmersh','Ordos'},(mod,opponents)
+        if mod in plans:
+            plan=next(row for row in plans[mod] if row['letter']==letter)
+            assert opponents==set(plan['opponents']),(mod,letter,opponents,plan)
+            briefing=read(ROOT/'mods'/mod/'data/CampaignPlan.ini')[plan['house']]
+            assert briefing['Template']==plan['vanillaTemplate'],(mod,plan)
+            assert [briefing[f'Opponent{i+1}'] for i in range(3)]==plan['opponents'],(mod,plan)
+            opening=read(files[f'SCEN{letter}001.INI'])
+            assert briefing['OpeningQuota']==opening[plan['house']].get('Quota','0'),(mod,plan)
+            if plan['house']=='Wildspade':
+                for key,value in helper.WILDSPADE_OPENING_SUPPORT.items():
+                    assert opening['UNITS'][key]==value,(mod,key,'missing starting defence')
+                mirror=ROOT/'mods'/mod/'data/scenw001.ini'
+                if mirror.exists():assert mirror.read_bytes()==files['SCENW001.INI'].read_bytes(),mod
+            roles=helper.canonical_roles(plan['vanillaTemplate'],plan['house'],plan['opponents'])
+            vanilla=vanilla_scenarios('SCENARIO.PAK')
+            for mission in range(1,23):
+                scenario=read(files[f'SCEN{letter}{mission:03}.INI'])
+                original=read(vanilla[f"SCEN{plan['vanillaTemplate']}{mission:03}.INI"])
+                expected={roles[h] for h in original.sections() if h in roles and roles[h]!=plan['house']}
+                actual={h for h in PREFIX.values() if scenario.has_section(h) and h!=plan['house']}
+                assert actual==expected,(mod,letter,mission,actual,expected)
+                for section in ['UNITS','REINFORCEMENTS']:
+                    for key,value in scenario.items(section) if scenario.has_section(section) else []:
+                        owner,unit=value.split(',')[:2]
+                        assert unit.strip() not in helper.SPECIAL,(mod,letter,mission,section,key,unit)
+                        if mission==1 and section=='UNITS' and owner.strip()==plan['house']:assert unit.strip() not in helper.SOLDIERS
         reports.append({'mod':mod,'house':LETTERS[letter],'missions':22,'routes':routes,
                         'opponents':sorted(opponents),'intentionalRepeatedTerritories':repeats})
 print(json.dumps({'regionFiles':len(reports),'campaigns':reports},ensure_ascii=True,indent=2))

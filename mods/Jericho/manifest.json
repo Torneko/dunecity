@@ -4,7 +4,7 @@
     "id": "Jericho",
     "displayName": "Jericho",
     "version": "1.0.524-12",
-    "gameVersion": "1.0.534",
+    "gameVersion": "1.0.535",
     "author": "Tornie_Panther"
   },
   "source": {
@@ -114,5 +114,6 @@
       "Tharpique"
     ],
     "missionsPerHouse": 22
-  }
+  },
+  "campaignPlan": "../../config/CampaignPlans.json"
 }

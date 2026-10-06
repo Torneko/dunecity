@@ -88,6 +88,12 @@ public:
 
 
 private:
+    struct CampaignTextPlan {
+        std::string templateLetter;
+        std::array<std::string, 3> opponents;
+        int openingQuota = 0;
+    };
+    std::map<int, CampaignTextPlan> campaignTextPlans;
     /**
         This method returns a localized version of unlocalizedString. No post-processing of the string is performed
         \param  unlocalizedString   the string in english

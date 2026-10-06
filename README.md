@@ -8,6 +8,8 @@ Project repository: https://github.com/Torneko/dunelegacy-tornie
 
 Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) · [English](https://torneko.github.io/dunelegacy-tornie/index-en.html). Keep both languages aligned with each game update; see [website maintenance](docs/WEBSITE.md).
 
+Version **1.0.535** prepares [rebuilt Tornie/Jericho campaigns](docs/CAMPAIGNS.md): twelve campaigns per mod, three balanced opponent roles, disjoint plans between mods and preserved terrain/economy. Opening player infantry is removed and special ground vehicles use faction-specific `Special` spawns. Regions and briefings follow the same plan. [Wildspade’s cat mentat](docs/WILDSPADE-MENTAT.md) uses Tornie’s original background, separately anchored eye/mouth animations and an overlapping shoulder foreground. Wildspade mission 1 gains two Tanks and one Troopers squad in both full mods following playtesting. Start a new campaign for the new maps and added troops.
+
 Version **1.0.534** adds optional [Chaos Mode](docs/CHAOS-MODE.md): one same-level donor faction per production/defence building type and Palace, for campaigns, custom games and multiplayer in the Tornie mods. The draw is deterministic and saved; Vanilla keeps its normal rules. Wildspade gets IX at technology 7, Chemical Carryall at 6 after the first Hightech upgrade without IX, and Ornithopter at 7 after the second upgrade with IX. The original Fremen banner is composited in the house confirmation screen and refreshed on mod changes. The bilingual website uses the original game portraits for the 2×3 and 3×2 windtrap icons, with their sprites and editor previews in the gallery.
 
 Version **1.0.525** incorporates the corrected **DuneCity Tornie 1.0.524-26**
@@ -177,8 +179,9 @@ checks the campaign resources, presentation assets and exact payload checksums.
 Test-enabled builds also accept `--verify-mods`: use an isolated profile,
 `SDL_VIDEODRIVER=dummy`, `SDL_AUDIODRIVER=dummy`, `SDL_RENDER_DRIVER=software`,
 and `DUNELEGACY_SMOKE_DIR` pointing to an existing temporary directory.
-This checks repeated mod switches, the opening/final scenarios of every campaign,
-new object creation and save/load. It does not replace manual gameplay or network testing.
+This checks repeated mod switches, all 528 Tornie/Jericho scenarios, the Wildspade
+briefing/foreground and starting defence, new object creation and save/load.
+It does not replace manual gameplay or network testing.
 
 ## Original Dune II data
 

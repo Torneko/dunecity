@@ -25,12 +25,14 @@
 
 #include <FileClasses/FileManager.h>
 #include <FileClasses/POFile.h>
+#include <FileClasses/INIFile.h>
 
 #include <misc/FileSystem.h>
 #include <misc/exceptions.h>
 
 #include <vector>
 #include <regex>
+#include <algorithm>
 
 #ifdef _
 #undef _
@@ -76,6 +78,23 @@ TextManager::TextManager() {
 TextManager::~TextManager() = default;
 
 void TextManager::loadData() {
+    campaignTextPlans.clear();
+    const auto& mod = ModManager::instance().getActiveModName();
+    if((mod == "Tornie" || mod == "Jericho") && pFileManager->exists("CampaignPlan.ini")) {
+        INIFile plan(pFileManager->openFile("CampaignPlan.ini").get());
+        for(int house = 0; house < NUM_HOUSES; ++house) {
+            const auto name = getHouseNameByNumber(static_cast<HOUSETYPE>(house));
+            if(!plan.hasSection(name)) continue;
+            CampaignTextPlan row;
+            row.templateLetter = plan.getStringValue(name, "Template", "");
+            if(row.templateLetter != "H" && row.templateLetter != "A" && row.templateLetter != "O") continue;
+            for(int role = 0; role < 3; ++role)
+                row.opponents[role] = plan.getStringValue(name, "Opponent" + std::to_string(role + 1), "");
+            if(std::any_of(row.opponents.begin(), row.opponents.end(), [](const std::string& n) { return n.empty(); })) continue;
+            row.openingQuota = plan.getIntValue(name, "OpeningQuota", 0);
+            campaignTextPlans.emplace(getHouseFactionIdentity(static_cast<HOUSETYPE>(house)), std::move(row));
+        }
+    }
     origDuneText.clear();
     for(auto& mentatString : mentatStrings) {
         mentatString.reset();
@@ -95,6 +114,50 @@ void TextManager::loadData() {
 
 std::string TextManager::getBriefingText(unsigned int mission, unsigned int texttype, int house) const {
     const auto faction=getHouseFactionIdentity(static_cast<HOUSETYPE>(house));
+    const auto campaign = campaignTextPlans.find(faction);
+    if(mission > 0 && mission <= 9 && campaign != campaignTextPlans.end()) {
+        const auto& plan = campaign->second;
+        const auto name = getHouseNameByNumber(static_cast<HOUSETYPE>(house));
+        const bool french = settings.general.language == "fr";
+        if(mission == 1 && texttype == MISSION_DESCRIPTION) {
+            return (french ? "Maison " : "House ") + name + (french
+                ? u8". \u00c9tablissez votre \u00e9conomie d'\u00e9pice et prot\u00e9gez vos moissonneuses. "
+                : ". Establish your spice economy and protect your harvesters. ")
+                + (plan.openingQuota > 0 ? (french ? "Objectif : " : "Objective: ")
+                   + std::to_string(plan.openingQuota) + (french ? u8" cr\u00e9dits. " : " credits. ") : "")
+                + (french ? "Premier adversaire : " : "First opponent: ") + plan.opponents[0] + ".";
+        }
+        const auto filename = "TEXT" + plan.templateLetter + "." + _("LanguageFileExtension");
+        const auto source = origDuneText.find(filename);
+        const unsigned offset = texttype == MISSION_WIN ? 1 : texttype == MISSION_LOSE ? 2
+            : texttype == MISSION_ADVICE ? 3 : 0;
+        const unsigned index = mission * 4 + offset;
+        if(source != origDuneText.end() && index < source->second->getNumStrings()) {
+            const auto original = source->second->getString(index);
+            const bool harkonnen = plan.templateLetter == "H", atreides = plan.templateLetter == "A";
+            const std::map<std::string, std::string> names = {
+                {harkonnen ? "HARKONNEN" : atreides ? "ATREIDES" : "ORDOS", name},
+                {harkonnen ? "ATREIDES" : atreides ? "ORDOS" : "HARKONNEN", plan.opponents[0]},
+                {harkonnen ? "ORDOS" : atreides ? "HARKONNEN" : "ATREIDES", plan.opponents[1]},
+                {"SARDAUKAR", plan.opponents[2]}, {"EMPEROR", plan.opponents[2]}, {"EMPEREUR", plan.opponents[2]}
+            };
+            static const std::regex tokens(R"(\b(Harkonnen|Atreides|Ordos|Sardaukar|Emperor|Empereur)\b)", std::regex::icase);
+            std::string result; size_t cursor = 0;
+            for(std::sregex_iterator i(original.begin(), original.end(), tokens), end; i != end; ++i) {
+                result.append(original, cursor, static_cast<size_t>(i->position()) - cursor);
+                result += names.at(strToUpper(i->str()));
+                cursor = static_cast<size_t>(i->position() + i->length());
+            }
+            result.append(original, cursor, std::string::npos);
+            return result;
+        }
+        // Some original English archives omit the final advice entry. Never
+        // fall through to the legacy hard-coded briefing index in that case.
+        if(texttype == MISSION_WIN) return name + (french ? u8" a remport\u00e9 cette bataille." : " has won this battle.");
+        if(texttype == MISSION_LOSE) return name + (french ? u8" doit reconstruire ses forces et r\u00e9essayer." : " must rebuild its forces and try again.");
+        return name + (french ? u8" : prot\u00e9gez vos moissonneuses et d\u00e9veloppez votre base."
+                            : ": protect your harvesters and develop your base.");
+    }
     if(faction==HOUSE_KLESHMERSH && mission>0 && ModManager::instance().getActiveModName()=="vanilla") {
         const auto original=getBriefingText(mission,texttype,HOUSE_HARKONNEN);
         static const std::regex names(R"(\b(Harkonnen|Atreides|Ordos|Sardaukar)\b)",std::regex::icase);
