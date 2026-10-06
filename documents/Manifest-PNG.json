@@ -1,7 +1,7 @@
 {
   "project": "Dune Legacy Tornie",
   "version": "1.0.534",
-  "sourceCommit": "327f95aeb93ac107a28a6a6b895df731dc210df5",
+  "sourceCommit": "640c00d5538af3deb368fbd06d6c71a15123a0f6",
   "pngCount": 108,
   "files": [
     {
@@ -2215,6 +2215,6 @@
     "unitEntriesIllustrated": 19,
     "buildingEntriesIllustrated": 19
   },
-  "localChanges": true,
+  "localChanges": false,
   "count": 108
 }

@@ -1,0 +1,43 @@
+{
+  "run": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37491579704",
+  "sourceCommit": "640c00d5538af3deb368fbd06d6c71a15123a0f6",
+  "conclusion": "success",
+  "checks": [
+    {
+      "name": "verify-version",
+      "conclusion": "success"
+    },
+    {
+      "name": "validate-french-locale",
+      "conclusion": "success"
+    },
+    {
+      "name": "test-linux",
+      "conclusion": "success"
+    },
+    {
+      "name": "build-windows",
+      "conclusion": "success"
+    },
+    {
+      "name": "build-linux",
+      "conclusion": "success"
+    },
+    {
+      "name": "build-macos",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "release",
+      "conclusion": "success"
+    },
+    {
+      "name": "tornie-release",
+      "conclusion": "skipped"
+    },
+    {
+      "name": "dev-release",
+      "conclusion": "skipped"
+    }
+  ]
+}
