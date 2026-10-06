@@ -1,0 +1,161 @@
+name: Linux release packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing release tag to build
+        required: true
+        default: v1.0.533
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: linux-release-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  build-linux:
+    # Ubuntu 22.04 keeps glibc compatibility with Linux Mint 21 and remains compatible with Mint 22.
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+
+      - name: Confirm release tag and source version
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          [[ "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid version tag"; exit 1; }
+          VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' CMakeLists.txt)
+          test "v$VERSION" = "$RELEASE_TAG"
+          if [[ "$RELEASE_TAG" == "v1.0.533" ]]; then
+            test "$(git rev-parse HEAD)" = "e1ce006ded1584164873e7416d95547670c384ec"
+          fi
+
+      - name: Setup ccache
+        uses: hendrikmuhs/ccache-action@v1
+        with:
+          key: linux-${{ hashFiles('vcpkg.json') }}
+
+      # vcpkg builds several autotools-based ports from source on Linux
+      # (libxcrypt, sdl2-mixer's flac/opus/etc.) and needs the GNU build
+      # toolchain pre-installed on the runner. Without these the Configure
+      # step fails with: "libxcrypt currently requires ... autoconf
+      # autoconf-archive automake libtoolize". Also pulling in
+      # build-essential + libltdl-dev so any other transitive port that
+      # needs them is happy.
+      - name: Install Linux build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            autoconf autoconf-archive automake libtool libltdl-dev \
+            build-essential pkg-config bison flex \
+            libsystemd-dev rpm
+
+      - name: Cache vcpkg binary packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/vcpkg/archives
+          key: vcpkg-linux-x64-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            vcpkg-linux-x64-
+
+      - name: Setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgJsonGlob: 'vcpkg.json'
+
+      # run-vcpkg sets VCPKG_BINARY_SOURCES to 'clear;x-gha,readwrite' but
+      # the x-gha backend was removed from vcpkg. The 'clear' prefix also
+      # disables the default file-based cache. Override to use files-based
+      # caching backed by the actions/cache step above.
+      - name: Fix vcpkg binary caching
+        run: echo "VCPKG_BINARY_SOURCES=clear;files,$HOME/.cache/vcpkg/archives,readwrite" >> "$GITHUB_ENV"
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_BUILD_TYPE=Release -DDUNELEGACY_BUILD_TESTS=OFF
+
+      - name: Build
+        # Limit to 2 parallel jobs — ubuntu-latest has 4 cores but only 7GB
+        # RAM, and 4 concurrent g++ -O2 processes on large TUs exceed that.
+        run: cmake --build build --config Release --parallel 2
+
+      - name: Create Linux Packages
+        run: |
+          cd build
+          cmake --install . --prefix install --config Release
+          test -f install/share/DuneLegacyTornie/locale/French.fr.po || { echo "::error::French catalog is missing from the Linux install tree."; exit 1; }
+          test -f install/share/DuneLegacyTornie/ANEU.VOC || { echo "::error::ANEU.VOC is missing from the Linux install tree."; exit 1; }
+          test -f install/share/DuneLegacyTornie/EliteSiegeTank.png || { echo "::error::EliteSiegeTank.png is missing from the Linux install tree."; exit 1; }
+          cpack -G "DEB;RPM;TGZ" -C Release
+
+      - name: Create AppImage
+        run: |
+          # Download linuxdeploy (fuse-less FUSE_APPIMAGE_EXTRACT_AND_RUN avoids
+          # "fuse: device not found" errors on GitHub-hosted runners)
+          wget -q https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+          chmod +x linuxdeploy-x86_64.AppImage
+
+          # Stage the AppDir from the cmake install tree
+          cd build
+          cmake --install . --prefix AppDir/usr --config Release
+          test -f AppDir/usr/share/DuneLegacyTornie/locale/French.fr.po || { echo "::error::French catalog is missing from the AppImage install tree."; exit 1; }
+
+          # Ensure icons and desktop file are in the right AppDir locations
+          mkdir -p AppDir/usr/share/applications AppDir/usr/share/icons/hicolor/128x128/apps
+          cp ../dunelegacy-tornie.desktop AppDir/usr/share/applications/
+          cp ../dunelegacy-tornie-128x128.png AppDir/usr/share/icons/hicolor/128x128/apps/dunelegacy-tornie.png
+
+          # linuxdeploy bundles the binary's shared-library dependencies into the
+          # AppDir, generates AppRun, and creates the final .AppImage
+          ARCH=x86_64 FUSE_APPIMAGE_EXTRACT_AND_RUN=1 \
+            ../linuxdeploy-x86_64.AppImage \
+            --appdir AppDir \
+            --executable AppDir/usr/bin/dunelegacy \
+            --desktop-file AppDir/usr/share/applications/dunelegacy-tornie.desktop \
+            --icon-file AppDir/usr/share/icons/hicolor/128x128/apps/dunelegacy-tornie.png \
+            --output appimage
+
+          # Rename with version for clarity
+          VERSION=$(sed -n 's/^project(DuneLegacyTornie VERSION \([0-9]*\.[0-9]*\.[0-9]*\).*/\1/p' ../CMakeLists.txt)
+          for image in ./*.AppImage; do
+            mv "$image" "DuneLegacyTornie-${VERSION}-Linux-x86_64.AppImage"
+            break
+          done
+
+      - name: Upload Packages
+        uses: actions/upload-artifact@v4
+        with:
+          name: DuneLegacyTornie-Linux-Packages
+          path: |
+            build/*.deb
+            build/*.rpm
+            build/*.tar.gz
+            build/*.AppImage
+
+      - name: Attach all four Linux packages to the existing release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" >/dev/null
+          shopt -s nullglob
+          DEB=(build/*.deb)
+          RPM=(build/*.rpm)
+          TGZ=(build/*.tar.gz)
+          APPIMAGE=(build/*.AppImage)
+          test "${#DEB[@]}" -eq 1
+          test "${#RPM[@]}" -eq 1
+          test "${#TGZ[@]}" -eq 1
+          test "${#APPIMAGE[@]}" -eq 1
+          gh release upload "$RELEASE_TAG" "${DEB[@]}" "${RPM[@]}" "${TGZ[@]}" "${APPIMAGE[@]}" --repo "$GITHUB_REPOSITORY"
+          {
+            echo "Linux packages built from $RELEASE_TAG and attached to the existing release."
+            echo
+            echo "Formats: DEB, RPM, TAR.GZ and AppImage."
+            echo "Gameplay and unit test suites were not run for this packaging job."
+          } >> "$GITHUB_STEP_SUMMARY"
