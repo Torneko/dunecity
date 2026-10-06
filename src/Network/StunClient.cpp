@@ -16,7 +16,7 @@
  */
 
 #include <Network/StunClient.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include <cstring>
 #include <cstdlib>
 #include <ctime>

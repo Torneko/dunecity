@@ -3335,8 +3335,9 @@ bool Game::loadSaveGame(InputStream& stream) {
         }
         // Campaigns have no color picker. Repair raw house IDs saved as colors
         // by older builds without changing explicit colors in custom games.
-        if(useFactionColors || !isValidHouseColorSlot(colorOfHouse)) {
-            colorOfHouse = getDefaultHouseColorSlot(setupHouseInfo.houseID);
+        if(useFactionColors || gameInitSettings.isVanillaKleshmershCampaign()
+           || !isValidHouseColorSlot(colorOfHouse)) {
+            colorOfHouse = gameInitSettings.getFactionColorSlot(setupHouseInfo.houseID);
         }
         setupHouseInfo.colorOfHouse = colorOfHouse;
         setHouseVisualHouse(setupHouseInfo.houseID, colorOfHouse);

@@ -129,11 +129,11 @@ TEST_CASE_METHOD(Fixture,"Disabled, replay or cheat sessions emit no achievement
     REQUIRE(manager.statistic("GamesWon")==0);REQUIRE(manager.statistic("StructuresCaptured")==0);REQUIRE_FALSE(manager.unlocked("FIRST_VICTORY"));
 }
 TEST_CASE_METHOD(Fixture,"Secret and custom stat achievements remain extensible","[achievements]"){
-    const auto path=dir/"catalog.ini";std::ofstream f(path);f<<"[SECRET_CAPTURE]\nName=Secret Capture\nNameFr=Capture secrète\nDescription=Capture one\nRule=Lifetime\nStatistic=StructuresCaptured\nTarget=1\nSecret=true\n";f.close();
+    const auto path=dir/"catalog.ini";std::ofstream f(path);f<<"[SECRET_CAPTURE]\nName=Secret Capture\nNameFr=Capture secrÃƒÂ¨te\nDescription=Capture one\nRule=Lifetime\nStatistic=StructuresCaptured\nTarget=1\nSecret=true\n";f.close();
     AchievementManager custom;REQUIRE(custom.configure(path.u8string(),(dir/"custom.ini").u8string()));
     auto a=std::find_if(custom.definitions().begin(),custom.definitions().end(),[](auto& d){return d.id=="SECRET_CAPTURE";});REQUIRE(a!=custom.definitions().end());
     REQUIRE(custom.displayName(*a,true)=="???");REQUIRE(custom.progress(*a)==0);
-    custom.begin(info);custom.captured();REQUIRE(custom.unlocked(a->id));REQUIRE(custom.displayName(*a,true)=="Capture secrète");
+    custom.begin(info);custom.captured();REQUIRE(custom.unlocked(a->id));REQUIRE(custom.displayName(*a,true)=="Capture secrÃƒÂ¨te");
 }
 TEST_CASE_METHOD(Fixture,"A damaged or newer profile is preserved rather than overwritten","[achievements]"){
     const auto path=dir/"future.ini";std::ofstream f(path);f<<"[Profile]\nVersion=999\nProtected=original\n";f.close();
@@ -141,7 +141,7 @@ TEST_CASE_METHOD(Fixture,"A damaged or newer profile is preserved rather than ov
     std::ifstream in(path);const std::string text(std::istreambuf_iterator<char>(in),{});REQUIRE(text.find("Protected=original")!=std::string::npos);
 }
 TEST_CASE_METHOD(Fixture,"Catalog ships every proposed achievement and notifications fire once","[achievements]"){
-    REQUIRE(manager.definitions().size()==43);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
+    REQUIRE(manager.definitions().size()==46);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
     REQUIRE(manager.takeNotification()=="PACIFISM");REQUIRE(manager.takeNotification().empty());REQUIRE_FALSE(manager.unlock("UNKNOWN"));
 }
 TEST_CASE_METHOD(Fixture,"Extra factions complete a campaign without replacing the eight required houses","[achievements]"){
@@ -214,4 +214,38 @@ TEST_CASE_METHOD(Fixture,"House Collector keeps an award already earned under th
     info.house="Kleshmersh";reloaded.begin(info);reloaded.finish(true,false);REQUIRE(reloaded.save());
     const auto text=[&]{std::ifstream f(legacy);return std::string(std::istreambuf_iterator<char>(f),{});}();
     REQUIRE(text.find("HOUSE_COLLECTOR=123456789")!=std::string::npos);
+}
+
+
+TEST_CASE_METHOD(Fixture,"Missile barrage counts one match and resumes its saved progress","[achievements]") {
+    manager.missile();manager.missile();manager.palace();
+    REQUIRE_FALSE(manager.unlocked("MISSILE_BARRAGE"));
+    manager.checkpoint("two-missiles");
+    AchievementManager resumed;REQUIRE(resumed.configure("",(dir/"achievements.ini").u8string()));
+    resumed.begin(info,"two-missiles",true);resumed.missile();
+    REQUIRE(resumed.unlocked("MISSILE_BARRAGE"));
+    REQUIRE(resumed.statistic("PalaceMissilesLaunched")==3);
+}
+TEST_CASE_METHOD(Fixture,"Missiles across separate matches cannot unlock Missile Barrage","[achievements]") {
+    manager.missile();manager.missile();manager.begin(info);manager.missile();
+    REQUIRE(manager.statistic("PalaceMissilesLaunched")==3);
+    REQUIRE_FALSE(manager.unlocked("MISSILE_BARRAGE"));
+    manager.missile();REQUIRE_FALSE(manager.unlocked("MISSILE_BARRAGE"));
+    manager.missile();REQUIRE(manager.unlocked("MISSILE_BARRAGE"));
+}
+TEST_CASE_METHOD(Fixture,"Ineligible and completed matches cannot grant Missile Barrage","[achievements]") {
+    info.enabled=false;manager.begin(info);manager.missile();manager.missile();manager.missile();
+    REQUIRE_FALSE(manager.unlocked("MISSILE_BARRAGE"));
+    info.enabled=true;manager.begin(info);manager.missile();manager.missile();manager.finish(false,false);manager.missile();
+    REQUIRE_FALSE(manager.unlocked("MISSILE_BARRAGE"));
+}
+
+TEST_CASE_METHOD(Fixture,"Blue and purple harvest awards distinguish each spice type","[achievements]") {
+    manager.harvestedType(1);manager.harvestedType(2);manager.harvestedType(4);
+    REQUIRE_FALSE(manager.unlocked("BLUE_HARVEST"));REQUIRE_FALSE(manager.unlocked("PURPLE_HARVEST"));
+    manager.harvestedType(16);REQUIRE(manager.unlocked("BLUE_HARVEST"));REQUIRE_FALSE(manager.unlocked("PURPLE_HARVEST"));
+    manager.checkpoint("blue-harvest");
+    AchievementManager resumed;REQUIRE(resumed.configure("",(dir/"achievements.ini").u8string()));
+    resumed.begin(info,"blue-harvest",true);REQUIRE(resumed.unlocked("BLUE_HARVEST"));
+    resumed.harvestedType(8);REQUIRE(resumed.unlocked("PURPLE_HARVEST"));
 }

@@ -21,9 +21,37 @@ The optional loader rule is capped at 15%. Run
 `--write` applies the conversion to new, unmarked maps without converting existing
 maps twice.
 
+Version **1.0.533** rebuilds vanilla Kleshmersh from the original Harkonnen campaign
+in `SCENARIO.PAK`: player Harkonnen becomes Kleshmersh, Atreides becomes Harkonnen,
+Ordos becomes Sardaukar, and Sardaukar becomes Mercenary. Original terrain, coordinates,
+starting economy, teams, reinforcements and objectives are preserved. Only this campaign
+uses dark-green Harkonnen, fuchsia Sardaukar and turquoise Mercenary. Mercenary retains
+its full vanilla object data. Enemy palaces randomly select one classic power (missile,
+Fremen or saboteur) whenever ready, using the deterministic game RNG and existing cooldowns.
+Their encoded ready power and colors survive save/load; other campaigns keep their powers.
+
+Tornie, Jericho and Tornie Lite gain a separate **Troopers (5)** purchase at the top of
+the Worfinery list. At technology level 7, owning IX allows one Worfinery upgrade.
+The upgraded building produces five ordinary Troopers per order for three times the
+original house's single-Trooper price; the three-Trooper order remains available.
+The Barracks also gains a separate first **Soldiers (5)** order after its second upgrade
+at technology level 4, without IX, for three times the original house's single-Soldier
+price. Its three-Soldier order remains available wherever it was previously supported.
+Both squads lead the editor custom-unit section, Soldiers then Troopers, using their
+Infantry/Troopers Squad tiles with the existing blue star. One marker expands into
+five ordinary units; map saves and reinforcement orders preserve the group.
+The editor unit list supports the mouse wheel and a vertical scrollbar when it exceeds the available height, keeping the last units accessible.
+WOR, Starport and random factory offers cannot produce these new orders. The purchase ID
+is appended as 74 (Troopers) and 75 (Soldiers), with save version 9825: older saves remain readable with their stored
+rules, while older executables reject new saves. Start a new game for the new purchase.
+
+Three awards bring the catalogue to 46: **Missile Barrage** (three local-player palace
+missiles in one match), **Blue Harvest** and **Purple Harvest** (actual harvester collection).
+Achievement checkpoints preserve the missile count and spice awards across game saves.
+
 ## Main goals
 
-The project includes 43 internal offline achievements, cumulative local
+The project includes 46 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Game save formats
 remain unchanged. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
@@ -165,3 +193,7 @@ The retained code also includes contributions from the DuneCity development hist
 ## Optional Discord presence
 
 Set `DUNELEGACY_DISCORD_APP_ID` to the application ID of your own Discord application to enable Rich Presence. Without it, Rich Presence stays disabled. This edition does not use the former project's Discord application.
+
+The editor’s **Sabotage** mode makes Soldiers and Troopers, including squads, hunt enemy buildings for capture. In game, the **Sabotage** button appears below **Retreat**; mixed selections apply it only to capturing infantry. Allied and noncapturable buildings are ignored, and lost targets are replaced. Normal capture rules apply: a red-health building changes ownership; otherwise the infantry damages it and is consumed.
+
+The Fremen banner is restored in the house-choice confirmation. Its original artwork is preserved; the planet background now uses a compatible image format.

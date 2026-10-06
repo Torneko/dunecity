@@ -122,7 +122,12 @@ bool Palace::usesTornieMainRebelsCooldown() const {
 }
 
 bool Palace::usesTornieMainRebelsRandomSpecial() const {
-    return usesTornieMainRebelsCooldown();
+    return usesTornieMainRebelsCooldown() || usesKleshmershEnemyRandomSpecial();
+}
+
+bool Palace::usesKleshmershEnemyRandomSpecial() const {
+    return currentGame && currentGame->getGameInitSettings().isVanillaKleshmershCampaign()
+        && owner->isAI() && owner->getHouseID() != HOUSE_KLESHMERSH;
 }
 
 Palace::TornieRebelsSpecialWeapon Palace::getTornieMainRebelsSpecialWeapon() const {
@@ -319,6 +324,7 @@ void Palace::doLaunchDeathhand(int x, int y) {
                 y * TILESIZE + TILESIZE/2 + deathOffY);
 
     bulletList.push_back(new Bullet(objectID, &centerPoint, &dest, Bullet_LargeRocket, PALACE_DEATHHAND_WEAPONDAMAGE, false, nullptr));
+    AchievementEvents::missile(getOwner());
     soundPlayer->playSoundAt(Sound_Rocket, getLocation());
 
     if(getOwner() != pLocalHouse) {

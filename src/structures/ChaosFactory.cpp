@@ -85,6 +85,8 @@ bool ChaosFactory::isOfferCandidate(Uint32 candidate) const {
        || candidate == Unit_Sandworm
        || candidate == Unit_Saboteur
        || candidate == Unit_Soldier
+       || candidate == Unit_Infantry5
+       || candidate == Unit_Troopers5
        || candidate == Unit_Infantry
        || candidate == Unit_Frigate
        || candidate == Unit_Special) {

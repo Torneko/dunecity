@@ -30,6 +30,7 @@
 #include <misc/exceptions.h>
 
 #include <vector>
+#include <regex>
 
 #ifdef _
 #undef _
@@ -94,6 +95,19 @@ void TextManager::loadData() {
 
 std::string TextManager::getBriefingText(unsigned int mission, unsigned int texttype, int house) const {
     const auto faction=getHouseFactionIdentity(static_cast<HOUSETYPE>(house));
+    if(faction==HOUSE_KLESHMERSH && mission>0 && ModManager::instance().getActiveModName()=="vanilla") {
+        const auto original=getBriefingText(mission,texttype,HOUSE_HARKONNEN);
+        static const std::regex names(R"(\b(Harkonnen|Atreides|Ordos|Sardaukar)\b)",std::regex::icase);
+        std::string result;size_t cursor=0;
+        for(std::sregex_iterator i(original.begin(),original.end(),names),end;i!=end;++i) {
+            result.append(original,cursor,static_cast<size_t>(i->position())-cursor);
+            const auto name=strToUpper(i->str());
+            result += name=="HARKONNEN" ? "Kleshmersh" : name=="ATREIDES" ? "Harkonnen"
+                : name=="ORDOS" ? "Sardaukar" : "Mercenary";
+            cursor=static_cast<size_t>(i->position()+i->length());
+        }
+        result.append(original,cursor,std::string::npos);return result;
+    }
     if(faction==HOUSE_CUSTOM || faction>=HOUSE_WILDSPADE) {
         const auto name=getHouseNameByNumber(static_cast<HOUSETYPE>(house));
         const bool french=settings.general.language=="fr";

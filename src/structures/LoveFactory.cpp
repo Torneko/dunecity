@@ -250,6 +250,8 @@ void LoveFactory::doBuildRandom() {
 
 bool LoveFactory::isDeliveryCandidate(Uint32 unitItemID, Uint32 deliveryID) const {
     if(currentGame == nullptr || !isUnit(unitItemID)
+       || unitItemID == Unit_Infantry5
+       || unitItemID == Unit_Troopers5
        || unitItemID == Unit_ChemicalCarryall
        || unitItemID == Unit_Frigate || unitItemID == Unit_Ornithopter
        || unitItemID == Unit_Sandworm || unitItemID == Unit_Special) {

@@ -917,11 +917,24 @@ std::unique_ptr<Animation> PictureFactory::createFremenPlanet(SDL_Surface* heral
     auto newFrame = sdl2::surface_ptr{ LoadCPS_RW(pFileManager->openFile("BIGPLAN.CPS").get()) };
     newFrame = getSubPicture(newFrame.get(), -68, -34, 368, 224);
 
+    // SDL cannot blit the mod's true-color PNG onto an indexed planet.
+    if(heraldFre->format->BytesPerPixel > 1 && newFrame->format->BytesPerPixel == 1) {
+        auto trueColorFrame = sdl2::surface_ptr{
+            SDL_ConvertSurfaceFormat(newFrame.get(), SDL_PIXELFORMAT_RGBA32, 0)
+        };
+        if(!trueColorFrame) THROW(std::runtime_error, "Cannot prepare Fremen banner: %s", SDL_GetError());
+        newFrame = std::move(trueColorFrame);
+    }
+
     SDL_Rect src =  {0, 0, getWidth(heraldFre) - 2, 126};
     SDL_Rect dest = {12, 66, getWidth(heraldFre) - 2, getHeight(heraldFre)};
-    SDL_BlitSurface(heraldFre,&src,newFrame.get(),&dest);
+    if(SDL_BlitSurface(heraldFre,&src,newFrame.get(),&dest) != 0) {
+        THROW(std::runtime_error, "Cannot display Fremen banner: %s", SDL_GetError());
+    }
 
-    drawRect(newFrame.get(), 0, 0, newFrame->w - 1, newFrame->h - 1, PALCOLOR_WHITE);
+    const Uint32 borderColor = newFrame->format->BytesPerPixel == 1
+        ? PALCOLOR_WHITE : SDL_MapRGB(newFrame->format, 255, 255, 255);
+    drawRect(newFrame.get(), 0, 0, newFrame->w - 1, newFrame->h - 1, borderColor);
 
     newAnimation->addFrame(std::move(newFrame));
 

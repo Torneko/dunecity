@@ -145,7 +145,7 @@ void AIPlayer::onDamage(const ObjectBase* pObject, int damage, Uint32 damagerID)
 void AIPlayer::scrambleUnitsAndDefend(const ObjectBase* pIntruder) {
     for(const UnitBase* pUnit : getUnitList()) {
         if(pUnit->isRespondable() && (pUnit->getOwner() == getHouse())) {
-            if((pUnit->getAttackMode() != HUNT) && !pUnit->hasATarget()) {
+            if((pUnit->getAttackMode() != HUNT) && pUnit->getAttackMode() != SABOTAGE && !pUnit->hasATarget()) {
                 Uint32 itemID = pUnit->getItemID();
                 if((itemID != Unit_Harvester) && (itemID != Unit_MCV) && (itemID != Unit_Carryall)
                     && (itemID != Unit_Frigate) && (itemID != Unit_Saboteur) && (itemID != Unit_Sandworm)) {

@@ -18,6 +18,21 @@
 
 // ---------- constant checks ----------
 
+TEST_CASE("Five Trooper purchase preserves existing IDs and infantry limits", "[save-compat][worfinery]") {
+    REQUIRE(Structure_Chemipost == 73);
+    REQUIRE(Unit_Troopers5 == 74);
+    REQUIRE(Unit_Infantry5 == 75);
+    REQUIRE(isInfantryUnit(Unit_Infantry5));
+    REQUIRE(isUnit(Unit_Infantry5));
+    REQUIRE_FALSE(isStructure(Unit_Infantry5));
+    REQUIRE(Unit_Troopers == 47);
+    REQUIRE(Unit_Trooper == 44);
+    REQUIRE(isUnit(Unit_Troopers5));
+    REQUIRE(isInfantryUnit(Unit_Troopers5));
+    REQUIRE_FALSE(isStructure(Unit_Troopers5));
+    REQUIRE(SAVEGAMEVERSION >= 9825);
+}
+
 TEST_CASE("Save compat: LEGACY_NUM_ITEM_ID_DUNELEGACY matches original Dune Legacy",
           "[save-compat][regression]") {
     REQUIRE(LEGACY_NUM_ITEM_ID_DUNELEGACY == 41);

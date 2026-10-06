@@ -153,7 +153,11 @@ typedef enum {
     Structure_ChaosFactory = 72,       ///< Tornie: two random global unit offers
     Structure_Chemipost = 73,          ///< Tornie: healing variant of the Scoutpost
 
-    ItemID_LastID = 73,
+    Unit_Troopers5 = 74,               ///< Worfinery order for five ordinary Troopers
+
+    Unit_Infantry5 = 75,               ///< Barracks order for five ordinary Soldiers
+
+    ItemID_LastID = 75,
 
     Num_ItemID
 } ItemID_enum;
@@ -206,7 +210,7 @@ typedef enum {
     \param itemID   the ID of the item (e.g. Unit_Harvester)
     \return true if it is an unit, false otherwise
 */
-inline bool isUnit(int itemID) { return (itemID >= Unit_FirstID && itemID <= Unit_LastID) || (itemID >= Unit_RocketTrike && itemID <= Unit_ExtLastID) || itemID == Unit_RebelHarvester || itemID == Unit_SonicTrike || itemID == Unit_ChemicalSiegeTank || itemID == Unit_ChemicalCarryall; }
+inline bool isUnit(int itemID) { return (itemID >= Unit_FirstID && itemID <= Unit_LastID) || (itemID >= Unit_RocketTrike && itemID <= Unit_ExtLastID) || itemID == Unit_RebelHarvester || itemID == Unit_SonicTrike || itemID == Unit_ChemicalSiegeTank || itemID == Unit_ChemicalCarryall || itemID == Unit_Troopers5 || itemID == Unit_Infantry5; }
 
 /**
     This function determines if the specified itemID is a structure or not.
@@ -233,7 +237,7 @@ inline bool isCarryallUnit(int itemID) {
     \param itemID   the ID of the item (e.g. Unit_Carryall)
     \return true if it is an infantry unit, false otherwise
 */
-inline bool isInfantryUnit(int itemID) { return (itemID == Unit_Soldier) || (itemID == Unit_Trooper) || (itemID == Unit_Infantry) || (itemID == Unit_Troopers) || (itemID == Unit_Saboteur); }
+inline bool isInfantryUnit(int itemID) { return (itemID == Unit_Soldier) || (itemID == Unit_Trooper) || (itemID == Unit_Infantry) || (itemID == Unit_Troopers) || (itemID == Unit_Troopers5) || (itemID == Unit_Infantry5) || (itemID == Unit_Saboteur); }
 
 
 #endif // DATA_H

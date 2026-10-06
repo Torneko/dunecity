@@ -2412,6 +2412,12 @@ GFXManager::GFXManager() {
     for(int colorSlot = 0; colorSlot < NUM_HOUSE_COLOR_SLOTS; ++colorSlot) {
         const int fixedTornieGunSlot = tornieGraphicsVisible ? HOUSE_HARKONNEN : colorSlot;
 
+        for(const unsigned int squadID : {UI_MapEditor_Infantry5, UI_MapEditor_Troopers5}) {
+            const unsigned int sprite = squadID == UI_MapEditor_Infantry5 ? ObjPic_Infantry : ObjPic_Troopers;
+            auto squad = getColoredEditorFrame(sprite, colorSlot, 0, 0, 4, 4);
+            uiGraphic[squadID][colorSlot] = decorateEditorVehicle(std::move(squad), true);
+        }
+
         auto harvestank = composeEditorVehicle(
             ObjPic_Harvester, colorSlot,
             tornieGraphicsVisible ? static_cast<int>(ObjPic_HarvestankGunTornie) : -1,
@@ -4398,6 +4404,8 @@ void GFXManager::rebuildModDependentEditorGraphics() {
     };
 
     constexpr unsigned int customVehiclePreviews[] = {
+        UI_MapEditor_Infantry5,
+        UI_MapEditor_Troopers5,
         UI_MapEditor_RebelHarvester,
         UI_MapEditor_Deviator,
         UI_MapEditor_RocketTrike,
@@ -4432,6 +4440,12 @@ void GFXManager::rebuildModDependentEditorGraphics() {
         }
 
         const int fixedTornieGunSlot = tornieGraphicsVisible ? HOUSE_HARKONNEN : colorSlot;
+        for(const unsigned int squadID : {UI_MapEditor_Infantry5, UI_MapEditor_Troopers5}) {
+            const unsigned int sprite = squadID == UI_MapEditor_Infantry5 ? ObjPic_Infantry : ObjPic_Troopers;
+            auto squad = getRuntimeEditorFrame(sprite, colorSlot, 0, 0, 4, 4);
+            uiGraphic[squadID][colorSlot] = decorateRuntimeEditorVehicle(std::move(squad), true);
+        }
+
         auto harvestank = composeRuntimeEditorVehicle(
             ObjPic_Harvester, colorSlot,
             tornieGraphicsVisible ? static_cast<int>(ObjPic_HarvestankGunTornie) : -1,

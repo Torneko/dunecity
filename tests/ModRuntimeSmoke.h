@@ -7,6 +7,10 @@
 #include <Map.h>
 #include <units/UnitBase.h>
 #include <structures/StructureBase.h>
+#include <structures/Palace.h>
+#include "WorfinerySquadSmoke.h"
+#include "EditorSquadSmoke.h"
+#include "CaptureHuntSmoke.h"
 #include <players/PlayerFactory.h>
 #include <sand.h>
 #include <filesystem>
@@ -153,8 +157,11 @@ inline void runModRuntimeSmoke() {
                 // Load the actual campaign map as a custom fixture so no
                 // interactive briefing waits for clicks during automation.
                 GameInitSettings init(name,content,false,effectiveGameOptions);
-                const auto opponent=mission<=10 ? HOUSE_HARKONNEN : mission<=21 ? HOUSE_SARDAUKAR : HOUSE_REBELS;
-                for(auto house:{HOUSE_KLESHMERSH,opponent}) {
+                auto parsedFile=pFileManager->openCampaignFile(name);
+                INIFile scenario(parsedFile.get());
+                for(int h=0; h<NUM_HOUSES; ++h) {
+                    const auto house=static_cast<HOUSETYPE>(h);
+                    if(!scenario.hasSection(getHouseNameByNumber(house))) continue;
                     const bool human=house==HOUSE_KLESHMERSH;
                     GameInitSettings::HouseInfo info(house,human ? 1 : 2);
                     info.addPlayerInfo(GameInitSettings::PlayerInfo(human ? settings.general.playerName : "Kleshmersh Smoke AI",
@@ -162,7 +169,30 @@ inline void runModRuntimeSmoke() {
                 }
                 auto game=std::make_unique<Game>();currentGame=game.get();game->initGame(init);
                 require(pLocalHouse && pLocalHouse->getHouseID()==HOUSE_KLESHMERSH,"vanilla Kleshmersh campaign owner");
-                require(game->getHouse(opponent)!=nullptr,"vanilla Kleshmersh campaign opponent");
+                require(!game->objectData.data[Unit_Troopers5][HOUSE_KLESHMERSH].enabled,
+                        "five-Trooper order leaked into vanilla");
+                for(auto enemy:{HOUSE_HARKONNEN,HOUSE_SARDAUKAR,HOUSE_MERCENARY}) {
+                    if(!scenario.hasSection(getHouseNameByNumber(enemy))) continue;
+                    require(game->getHouse(enemy)!=nullptr,"Kleshmersh campaign enemy missing");
+                    require(getHouseVisualHouse(enemy)==getCampaignHouseColorSlot(enemy,HOUSE_KLESHMERSH),
+                            "Kleshmersh campaign enemy palette");
+                }
+                if(mission==22) {
+                    for(auto* structure:structureList) {
+                        if(structure->getItemID()!=Structure_Palace) continue;
+                        auto* palace=static_cast<Palace*>(structure);
+                        if(palace->getOwner()->isAI())
+                            require(palace->usesKleshmershEnemyRandomSpecial(),"enemy palace random special missing");
+                    }
+                    const auto save=(std::filesystem::path(output)/"vanilla-kleshmersh-final.sav").string();
+                    require(game->saveGame(save),"save colored campaign");
+                    game.reset();currentGame=nullptr;pLocalHouse=nullptr;pLocalPlayer=nullptr;
+                    game=std::make_unique<Game>();currentGame=game.get();
+                    require(game->loadSaveGame(save),"load colored campaign");
+                    for(auto enemy:{HOUSE_HARKONNEN,HOUSE_SARDAUKAR,HOUSE_MERCENARY})
+                        require(getHouseVisualHouse(enemy)==getCampaignHouseColorSlot(enemy,HOUSE_KLESHMERSH),
+                                "campaign color lost after save/load");
+                }
                 for(int item=0;item<Num_ItemID;++item) {
                     const auto& k=currentGame->objectData.data[item][HOUSE_KLESHMERSH];
                     const auto& n=currentGame->objectData.data[item][HOUSE_NEUTRAL];
@@ -173,9 +203,14 @@ inline void runModRuntimeSmoke() {
                 game->processObjects();++scenarios;
                 game.reset();currentGame=nullptr;pLocalHouse=nullptr;pLocalPlayer=nullptr;
             }
-            SDL_Log("VANILLA KLESHMERSH PASS: 22 Neutral map clones, opponents, brown banner and matching tech");
+            SDL_Log("VANILLA KLESHMERSH PASS: 22 original Harkonnen maps, remapped enemies, private colors, random palaces and save/load");
             continue;
         }
+        verifyEditorUnitScrolling(output, mod);
+        verifyEditorSquads(output, mod);
+        verifyCaptureHunt(output, mod);
+        verifyWorfinerySquad(output, mod);
+        verifyBarracksSquad(output, mod);
         verifyChaosFactoryGraphics(output, mod, "switch");
         // Load the opening and final scenarios of every bundled campaign through
         // the actual INI loader, object factory and active-mod search path.

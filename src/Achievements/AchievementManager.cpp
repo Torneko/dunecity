@@ -129,6 +129,7 @@ void AchievementManager::refinedSpice(std::uint64_t total) {
 }
 void AchievementManager::harvestedType(unsigned type){if(running&&!active.completed){active.spiceTypes|=type;evaluate();}}
 void AchievementManager::bloom(){if(running&&!active.completed){increment("SpiceBloomsTriggered");evaluate();}}
+void AchievementManager::missile(){if(running&&!active.completed){increment("PalaceMissilesLaunched");evaluate();}}
 void AchievementManager::palace(){if(running&&!active.completed){increment("PalaceAbilitiesUsed");evaluate();}}
 
 void AchievementManager::finish(bool won,bool enemiesRemain) {

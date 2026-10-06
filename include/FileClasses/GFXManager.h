@@ -521,6 +521,8 @@ typedef enum {
     UI_MapEditor_Flamepost,         ///< Tornie: dedicated Flamepost
     UI_MapEditor_Chemipost,         ///< Tornie: dedicated healing post
     UI_MapEditor_ChaosFactory,      ///< Tornie: 3x2 Chaos Factory
+    UI_MapEditor_Infantry5,        ///< Five Soldiers: Infantry Squad with custom blue star
+    UI_MapEditor_Troopers5,        ///< Five Troopers: Troopers Squad with custom blue star
     NUM_UIGRAPHICS
 } UIGraphics_Enum;
 

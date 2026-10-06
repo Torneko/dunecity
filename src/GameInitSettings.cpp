@@ -43,6 +43,15 @@ static void setModInfo(std::string& modName, std::string& modChecksum) {
     }
 }
 
+bool GameInitSettings::isVanillaKleshmershCampaign() const {
+    return modName == "vanilla" && ((gameType == GameType::Campaign && houseID == HOUSE_KLESHMERSH)
+        || strToUpper(filename).rfind("SCENK", 0) == 0);
+}
+
+int GameInitSettings::getFactionColorSlot(HOUSETYPE house) const {
+    return getCampaignHouseColorSlot(house, isVanillaKleshmershCampaign() ? HOUSE_KLESHMERSH : HOUSE_INVALID);
+}
+
 GameInitSettings::GameInitSettings() {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);

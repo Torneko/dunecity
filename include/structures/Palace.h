@@ -76,6 +76,7 @@ public:
     bool usesLightVehicleCall() const;
     bool usesTornieMainRebelsCooldown() const;
     bool usesTornieMainRebelsRandomSpecial() const;
+    bool usesKleshmershEnemyRandomSpecial() const;
     TornieRebelsSpecialWeapon getTornieMainRebelsSpecialWeapon() const;
     bool usesTargetedSpecialWeapon() const;
     inline int getMaxSpecialWeaponTimer() const {

@@ -1900,7 +1900,9 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
             case Unit_RaiderTrike:      objectPicBase = ObjPic_Trike;                                                                                           break;
             case Unit_Trooper:          objectPicBase = ObjPic_Trooper;         framesX = 4;    framesY = 3;                                                    break;
             case Unit_Special:          objectPicBase = ObjPic_Devastator_Base; objectPicGun = ObjPic_Devastator_Gun;   gunOffset = devastatorTurretOffset;     break;
+            case Unit_Infantry5:
             case Unit_Infantry:         objectPicBase = ObjPic_Infantry;         framesX = 4;    framesY = 4;                                                   break;
+            case Unit_Troopers5:
             case Unit_Troopers:         objectPicBase = ObjPic_Troopers;         framesX = 4;    framesY = 4;                                                   break;
             case Unit_RocketTrike:      objectPicBase = ObjPic_RocketTrike;                                                                                       break;
             case Unit_SonicTrike:       objectPicBase = ObjPic_SonicTrike;                                                                                        break;
@@ -1940,7 +1942,8 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
 
         const bool yellowStarMarker = (unit.itemID == Unit_RaiderTrike || unit.itemID == Unit_Special
                                        || unit.itemID == Unit_Deviator);
-        const bool customStarMarker = (unit.itemID == Unit_RocketTrike || unit.itemID == Unit_SonicTrike
+        const bool customStarMarker = (unit.itemID == Unit_Infantry5 || unit.itemID == Unit_Troopers5
+                                       || unit.itemID == Unit_RocketTrike || unit.itemID == Unit_SonicTrike
                                        || unit.itemID == Unit_FlameTank || unit.itemID == Unit_EliteLauncher
                                        || unit.itemID == Unit_EliteSiegeTank || unit.itemID == Unit_ChemicalSiegeTank
                                        || unit.itemID == Unit_ChemicalCarryall || unit.itemID == Unit_RebelHarvester);

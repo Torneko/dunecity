@@ -2737,3 +2737,18 @@ msgstr "Vous ne pouvez pas déployer ici."
 
 #~ msgid "Double Buffering"
 #~ msgstr "Double Buffering"
+
+msgid "Troopers (5)"
+msgstr "Escouade de 5 troopers"
+
+msgid "Soldiers (5)"
+msgstr "Escouade de 5 soldats"
+
+msgid "Sabotage"
+msgstr "Sabotage"
+
+msgid "Unit will hunt enemy buildings to capture them"
+msgstr "Le soldat recherche les bâtiments ennemis à capturer"
+
+msgid "Infantry will hunt enemy buildings to capture them"
+msgstr "L’infanterie recherche les bâtiments ennemis à capturer"

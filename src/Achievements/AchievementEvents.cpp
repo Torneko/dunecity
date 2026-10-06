@@ -123,5 +123,6 @@ void spice(House* house,const Tile* tile){
     manager().harvestedType(tile->isRedSpice()?2:tile->isGreenSpice()?4:tile->isPaleLilacSpice()?8:tile->isWhiteSpice()?16:1);
 }
 void bloom(House* house){if(local(house))manager().bloom();}
+void missile(House* house){if(local(house))manager().missile();}
 void palace(House* house){if(local(house))manager().palace();}
 }

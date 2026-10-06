@@ -39,6 +39,9 @@ class MapEditor;
 /// This class represents the map editor interface.
 class MapEditorInterface : public Window {
 public:
+#ifdef DUNELEGACY_RUNTIME_TESTS
+    friend void verifyEditorUnitScrolling(const std::string&, const std::string&);
+#endif
     /// default constructor
     explicit MapEditorInterface(MapEditor* pMapEditor);
 
@@ -263,6 +266,7 @@ private:
 
 
     VBox                editorModeUnits_MainVBox;
+    ScrollView          editorModeUnits_ScrollView;
 
     VBox                editorModeUnits_VBox;
 
@@ -279,6 +283,9 @@ private:
     SymbolButton        editorModeUnits_Trike;
     SymbolButton        editorModeUnits_Raider;
     SymbolButton        editorModeUnits_Quad;
+    HBox                editorModeUnits_HBoxSquads;
+    SymbolButton        editorModeUnits_Infantry5;
+    SymbolButton        editorModeUnits_Troopers5;
     HBox                editorModeUnits_HBoxTornie;            ///< Tornie: RocketTrike / FlameTank row
     SymbolButton        editorModeUnits_RocketTrike;
     SymbolButton        editorModeUnits_FlameTank;

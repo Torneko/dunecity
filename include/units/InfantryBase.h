@@ -71,9 +71,12 @@ public:
 
     bool canPass(int xPos, int yPos) const override;
 
+    const ObjectBase* findTarget() const override;
+
     inline int getTilePosition() const { return tilePosition; }
 
 protected:
+    void targeting() override;
     void setSpeeds() override;
 
     // infantry state

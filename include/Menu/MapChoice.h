@@ -27,6 +27,7 @@
 
 #include <mmath.h>
 #include <vector>
+#include <array>
 
 #define MAPCHOICESTATE_FADEINPLANET 0
 #define MAPCHOICESTATE_SHOWPLANET   1
@@ -95,6 +96,7 @@ private:
 
     std::array<TGroup, 9> group;
 
+    std::array<int, NUM_HOUSES> previousHouseColors{};
     int house;
     unsigned int lastScenario;
     Uint32 alreadyPlayedRegions;

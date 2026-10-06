@@ -2761,3 +2761,9 @@ msgstr "Kann hier nicht eingesetzt werden."
 
 #~ msgid "Double Buffering"
 #~ msgstr "Double Buffering"
+
+msgid "Troopers (5)"
+msgstr "Trooper (5)"
+
+msgid "Soldiers (5)"
+msgstr "Soldaten (5)"

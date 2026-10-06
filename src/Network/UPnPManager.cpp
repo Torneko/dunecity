@@ -16,7 +16,7 @@
  */
 
 #include <Network/UPnPManager.h>
-#include <SDL2/SDL_log.h>
+#include <SDL_log.h>
 
 #include <miniupnpc/miniupnpc.h>
 #include <miniupnpc/upnpcommands.h>

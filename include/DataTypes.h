@@ -131,7 +131,7 @@ typedef enum {
     AMBUSH = 2,     ///< Ambush means a unit will remain in position until sighted by the enemy, and then proceed to attack any enemy units it might find on the map.
     HUNT = 3,       ///< Hunt makes a unit start from its position towards enemy units, even if the player has not sighted the AI (normally the AI will not attack until there has been a contact between the player's and the AI's units). Also works for human units, they'll go towards any enemy units on the map just as the mission starts.
     HARVEST = 4,    ///< Only used by the map editor
-    SABOTAGE = 5,   ///< Only used by the map editor
+    SABOTAGE = 5,   ///< Soldiers and Troopers hunt enemy buildings for capture.
     STOP = 6,
     CAPTURE = 7,    ///< Capture is only used for infantry units when ordered to capture a building
     CARRYALLREQUESTED = 8, ///< This allows a unit to keep requesting a carryall even if one isn't available right now
@@ -338,7 +338,11 @@ constexpr int migrateLegacyHouseColorSlot(int colorSlot) noexcept {
         ? colorSlot + 1
         : colorSlot;
 }
-constexpr int NUM_HOUSE_COLOR_SLOTS           = HOUSECOLOR_GUEST_3 + 1;
+// Private ramps for the vanilla Kleshmersh campaign; existing slots stay stable.
+constexpr int HOUSECOLOR_KLESH_HARKONNEN = HOUSECOLOR_GUEST_3 + 1;
+constexpr int HOUSECOLOR_KLESH_SARDAUKAR = HOUSECOLOR_GUEST_3 + 2;
+constexpr int HOUSECOLOR_KLESH_MERCENARY = HOUSECOLOR_GUEST_3 + 3;
+constexpr int NUM_HOUSE_COLOR_SLOTS = HOUSECOLOR_KLESH_MERCENARY + 1;
 
 typedef enum {
     RIGHT,

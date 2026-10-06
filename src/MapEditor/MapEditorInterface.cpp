@@ -641,7 +641,8 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     }
 
     // setup units mode
-    editorModeUnits_MainVBox.addWidget(&editorModeUnits_VBox, 0.01);
+    editorModeUnits_ScrollView.setContent(&editorModeUnits_VBox);
+    editorModeUnits_MainVBox.addWidget(&editorModeUnits_ScrollView, 1.0);
 
     editorModeUnits_VBox.addWidget(&editorModeUnits_HBox1, 2*D2_TILESIZE);
 
@@ -832,6 +833,18 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
 
     if(tornieContentVisible_) {
         editorModeUnits_VBox.addWidget(VSpacer::create(2));
+        // The two squad commands lead the custom section, Soldiers first.
+        editorModeUnits_Infantry5.setToggleButton(true);
+        editorModeUnits_Infantry5.setTooltipText(resolveItemName(Unit_Infantry5));
+        editorModeUnits_Infantry5.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Infantry5));
+        editorModeUnits_Troopers5.setToggleButton(true);
+        editorModeUnits_Troopers5.setTooltipText(resolveItemName(Unit_Troopers5));
+        editorModeUnits_Troopers5.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Troopers5));
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxSquads, 2*D2_TILESIZE);
+        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Infantry5);
+        editorModeUnits_HBoxSquads.addWidget(HSpacer::create(2));
+        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Troopers5);
+        editorModeUnits_HBoxSquads.addWidget(Spacer::create());
         editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornie, 2*D2_TILESIZE);
         editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_RebelHarvester);
         editorModeUnits_HBoxTornie.addWidget(HSpacer::create(2));
@@ -852,7 +865,6 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeUnits_HBoxTornieChemical.addWidget(Spacer::create());
     }
 
-    editorModeUnits_MainVBox.addWidget(Spacer::create());
 
 
 
@@ -895,7 +907,6 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(AMBUSH), AMBUSH);
     unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(HUNT), HUNT);
     unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(HARVEST), HARVEST);
-    unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(SABOTAGE), SABOTAGE);
     unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(STOP), STOP);
 
     unitDetailsAttackModeDropDownBox.setOnSelectionChange(std::bind(&MapEditorInterface::onUnitAttackModeDropDown, this, std::placeholders::_1));
@@ -1008,7 +1019,14 @@ void MapEditorInterface::onObjectSelected() {
                                 Point(getRendererWidth() - sideBar.getSize().x, 24));
 
         unitDetailsHealthDropDownBox.setSelectedItem(pUnit->health - 1);
-        unitDetailsAttackModeDropDownBox.setSelectedItem(pUnit->attackmode);
+        unitDetailsAttackModeDropDownBox.clearAllEntries();
+        for(const auto mode : {GUARD, AREAGUARD, AMBUSH, HUNT, HARVEST, SABOTAGE, STOP}) {
+            if(mode == SABOTAGE && (!isInfantryUnit(pUnit->itemID) || pUnit->itemID == Unit_Saboteur)) continue;
+            unitDetailsAttackModeDropDownBox.addEntry(getAttackModeNameByMode(mode), mode);
+            if(mode == pUnit->attackmode) {
+                unitDetailsAttackModeDropDownBox.setSelectedItem(unitDetailsAttackModeDropDownBox.getNumEntries() - 1);
+            }
+        }
 
         changeHouseDropDown(pUnit->house);
     }
@@ -1305,6 +1323,8 @@ void MapEditorInterface::onUnitButton(int unitType) {
     editorModeUnits_Trooper.setToggleState( (unitType == Unit_Trooper) );
     editorModeUnits_Harvester.setToggleState( (unitType == Unit_Harvester) );
     editorModeUnits_RebelHarvester.setToggleState( (unitType == Unit_RebelHarvester) );
+    editorModeUnits_Infantry5.setToggleState(unitType == Unit_Infantry5);
+    editorModeUnits_Troopers5.setToggleState(unitType == Unit_Troopers5);
     editorModeUnits_Infantry.setToggleState( (unitType == Unit_Infantry) );
     editorModeUnits_Troopers.setToggleState( (unitType == Unit_Troopers) );
     editorModeUnits_MCV.setToggleState( (unitType == Unit_MCV) );
@@ -1397,7 +1417,7 @@ void MapEditorInterface::onUnitRotateLeft(int unitID) {
 
         int currentAngle = pMirrorUnit->angle;
         currentAngle = pMapEditor->getMapMirror()->getAngle(currentAngle, i);
-        if(pMirrorUnit->itemID == Unit_Soldier || pMirrorUnit->itemID == Unit_Saboteur || pMirrorUnit->itemID == Unit_Trooper || pMirrorUnit->itemID == Unit_Infantry || pMirrorUnit->itemID == Unit_Troopers) {
+        if(isInfantryUnit(pMirrorUnit->itemID)) {
             currentAngle += 2;
         } else {
             currentAngle++;
@@ -1436,7 +1456,7 @@ void MapEditorInterface::onUnitRotateRight(int unitID) {
 
         int currentAngle = pMirrorUnit->angle;
         currentAngle = pMapEditor->getMapMirror()->getAngle(currentAngle, i);
-        if(pMirrorUnit->itemID == Unit_Soldier || pMirrorUnit->itemID == Unit_Saboteur || pMirrorUnit->itemID == Unit_Trooper || pMirrorUnit->itemID == Unit_Infantry || pMirrorUnit->itemID == Unit_Troopers) {
+        if(isInfantryUnit(pMirrorUnit->itemID)) {
             currentAngle -= 2;
         } else {
             currentAngle--;
@@ -1468,6 +1488,8 @@ void MapEditorInterface::onUnitAttackModeDropDown(bool bInteractive) {
 
         for(size_t i = 0; i < selectedUnits.size(); i++) {
             MapEditor::Unit* pUnit = pMapEditor->getUnit(selectedUnits[i]);
+            if(unitDetailsAttackModeDropDownBox.getSelectedEntryIntData() == SABOTAGE
+               && (!isInfantryUnit(pUnit->itemID) || pUnit->itemID == Unit_Saboteur)) continue;
             MapEditorEditUnitOperation editUnitOperation(pUnit->id, pUnit->health, pUnit->angle, (ATTACKMODE) unitDetailsAttackModeDropDownBox.getSelectedEntryIntData());
             pMapEditor->addUndoOperation(editUnitOperation.perform(pMapEditor));
         }
@@ -1591,6 +1613,8 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeUnits_Trooper.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Trooper, newHouse));
     editorModeUnits_Harvester.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Harvester, newHouse));
     editorModeUnits_RebelHarvester.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_RebelHarvester, newHouse));
+    editorModeUnits_Infantry5.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Infantry5, newHouse));
+    editorModeUnits_Troopers5.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Troopers5, newHouse));
     editorModeUnits_Infantry.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Infantry, newHouse));
     editorModeUnits_Troopers.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Troopers, newHouse));
     editorModeUnits_MCV.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_MCV, newHouse));

@@ -22,5 +22,6 @@ void refined(House* house,std::uint64_t total);
 void spice(House* house,const Tile* tile);
 void bloom(House* house);
 void palace(House* house);
+void missile(House* house);
 }
 #endif

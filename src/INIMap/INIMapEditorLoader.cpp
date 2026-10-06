@@ -481,7 +481,7 @@ void INIMapEditorLoader::loadUnits()
                 attackmode = AREAGUARD;
             }
 
-            if(itemID == Unit_Soldier || itemID == Unit_Saboteur || itemID == Unit_Trooper || itemID == Unit_Infantry || itemID == Unit_Troopers) {
+            if(isInfantryUnit(itemID)) {
                 if(angle == UP) {
                     angle = UP;
                 } else if (angle == DOWN) {

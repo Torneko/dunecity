@@ -120,7 +120,9 @@ UnitBase::UnitBase(InputStream& stream) : ObjectBase(stream) {
         Sint32 y = stream.readSint32();
         pathList.emplace_back(x,y);
     }
-    cachedPathDestination = resolvePathDestination();
+    // Objects load in ID order. Resolving a forward target here would clear
+    // its reference before that object exists; validate it after loading instead.
+    cachedPathDestination = destination;
     cachedPathRevision = (currentGameMap != nullptr) ? currentGameMap->getPathingRevision() : 0;
 
     // Stuck detection fields are transient (not saved) - they reset on load
@@ -601,10 +603,11 @@ void UnitBase::engageTarget() {
             // we are going to the repair yard
             // => we do not need to change the destination
             targetAngle = INVALID;
-        } else if(attackMode == CAPTURE) {
+        } else if(attackMode == CAPTURE || attackMode == SABOTAGE) {
             // we want to capture the target building
             setDestination(targetLocation);
             targetAngle = INVALID;
+            if(attackMode == SABOTAGE) return;
         } else if(isTracked() && target.getObjPointer()->isInfantry() && !targetFriendly && currentGameMap->tileExists(targetLocation) && !currentGameMap->getTile(targetLocation)->isMountain() && forced) {
             // we squash the infantry unit because we are forced to
             setDestination(targetLocation);
@@ -936,7 +939,7 @@ void UnitBase::handleRequestCarryallDropClick(int xPos, int yPos) {
 
 
 void UnitBase::doMove2Pos(int xPos, int yPos, bool bForced) {
-    if(attackMode == CAPTURE || attackMode == HUNT) {
+    if(attackMode == CAPTURE || attackMode == HUNT || attackMode == SABOTAGE) {
         doSetAttackMode(GUARD);
     }
 
@@ -967,7 +970,7 @@ void UnitBase::doMove2Object(const ObjectBase* pTargetObject) {
         return;
     }
 
-    if(attackMode == CAPTURE || attackMode == HUNT) {
+    if(attackMode == CAPTURE || attackMode == HUNT || attackMode == SABOTAGE) {
         doSetAttackMode(GUARD);
     }
 
@@ -996,7 +999,7 @@ void UnitBase::doAttackPos(int xPos, int yPos, bool bForced) {
         return;
     }
 
-    if(attackMode == CAPTURE) {
+    if(attackMode == CAPTURE || attackMode == SABOTAGE) {
         doSetAttackMode(GUARD);
     }
 
@@ -1015,7 +1018,7 @@ void UnitBase::doAttackObject(const ObjectBase* pTargetObject, bool bForced) {
         return;
     }
 
-    if(attackMode == CAPTURE) {
+    if(attackMode == CAPTURE || attackMode == SABOTAGE) {
         doSetAttackMode(GUARD);
     }
 
@@ -1046,6 +1049,14 @@ void UnitBase::doAttackObject(Uint32 TargetObjectID, bool bForced) {
 }
 
 void UnitBase::doSetAttackMode(ATTACKMODE newAttackMode) {
+    if(newAttackMode == SABOTAGE && !canCaptureStructures()) return;
+    if(newAttackMode == SABOTAGE || (attackMode == SABOTAGE && newAttackMode != SABOTAGE)) {
+        setTarget(nullptr);
+        setForced(false);
+        setDestination(moving && !justStoppedMoving ? nextSpot : location);
+        clearPath();
+        findTargetTimer = 0;
+    }
     if((newAttackMode >= 0) && (newAttackMode < ATTACKMODE_MAX)) {
         attackMode = newAttackMode;
     }
@@ -1059,7 +1070,7 @@ void UnitBase::doSetAttackMode(ATTACKMODE newAttackMode) {
     }
 
     // When setting HUNT mode, immediately trigger target search
-    if(attackMode == HUNT && !target && pendingTargetRequest == TargetRequestKind::None) {
+    if((attackMode == HUNT || attackMode == SABOTAGE) && !target && pendingTargetRequest == TargetRequestKind::None) {
         enqueueTargetRequest(TargetRequestKind::Acquire);
     }
 }
@@ -1478,6 +1489,19 @@ void UnitBase::resolvePendingTargetRequest() {
 
     if(attackMode == STOP || attackMode == CARRYALLREQUESTED) {
         findTargetTimer = MILLI2CYCLES(2*1000);
+        return;
+    }
+
+    if(attackMode == SABOTAGE && canCaptureStructures()) {
+        if(!target) {
+            if(const auto* building = findTarget()) {
+                setTarget(building);
+                setForced(true);
+                setDestination(building->getClosestPoint(location));
+                clearPath();
+            }
+        }
+        findTargetTimer = MILLI2CYCLES(1*1000);
         return;
     }
 

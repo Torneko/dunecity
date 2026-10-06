@@ -64,6 +64,44 @@ void InfantryBase::init() {
 
 InfantryBase::~InfantryBase() = default;
 
+const ObjectBase* InfantryBase::findTarget() const {
+    if(attackMode != SABOTAGE || !canCaptureStructures()) {
+        return GroundUnit::findTarget();
+    }
+
+    const StructureBase* closest = nullptr;
+    auto distance = FixPt_MAX;
+    for(const auto* structure : structureList) {
+        if(!structure->isActive() || !structure->canBeCaptured()
+           || structure->getOwner()->getTeamID() == owner->getTeamID()
+           || !structure->isVisible(owner->getTeamID())) continue;
+        const auto candidateDistance = blockDistance(location, structure->getClosestPoint(location));
+        if(candidateDistance < distance || (candidateDistance == distance
+           && closest && structure->getObjectID() < closest->getObjectID())) {
+            closest = structure;
+            distance = candidateDistance;
+        }
+    }
+    return closest;
+}
+
+void InfantryBase::targeting() {
+    if(attackMode != SABOTAGE || !canCaptureStructures()) {
+        GroundUnit::targeting();
+        return;
+    }
+
+    const bool hadTarget = target.getObjectID() != NONE_ID;
+    const auto* structure = dynamic_cast<const StructureBase*>(target.getObjPointer());
+    if(!structure || !structure->isActive() || !structure->canBeCaptured()
+       || structure->getOwner()->getTeamID() == owner->getTeamID()
+       || !structure->isVisible(owner->getTeamID())) {
+        if(hadTarget) releaseTarget();
+        if(findTargetTimer == 0) enqueueTargetRequest(TargetRequestKind::Acquire);
+    }
+    engageTarget();
+}
+
 
 void InfantryBase::save(OutputStream& stream) const {
 
@@ -74,7 +112,7 @@ void InfantryBase::save(OutputStream& stream) const {
 }
 
 void InfantryBase::handleCaptureClick(int xPos, int yPos) {
-    if(respondable && ((getItemID() == Unit_Soldier) || (getItemID() == Unit_Trooper))) {
+    if(respondable && canCaptureStructures()) {
         if (currentGameMap->tileExists(xPos, yPos)) {
             if (currentGameMap->getTile(xPos,yPos)->hasAnObject()) {
                 // capture structure
@@ -94,7 +132,7 @@ void InfantryBase::doCaptureStructure(Uint32 targetStructureID) {
 
 void InfantryBase::doCaptureStructure(const StructureBase* pStructure) {
 
-    if((pStructure == nullptr) || (pStructure->canBeCaptured() == false) || (pStructure->getOwner()->getTeamID() == getOwner()->getTeamID())) {
+    if(!canCaptureStructures() || (pStructure == nullptr) || (pStructure->canBeCaptured() == false) || (pStructure->getOwner()->getTeamID() == getOwner()->getTeamID())) {
         // does not exist anymore, cannot be captured or is a friendly building
         return;
     }
@@ -351,8 +389,14 @@ void InfantryBase::checkPos() {
                 } else {
                     // Immortal engineer survives the capture attempt
                     setTarget(nullptr);
-                    // Move the engineer away from the structure so it doesn't keep trying to capture
-                    doMove2Pos(guardPoint, false);
+                    if(attackMode == SABOTAGE) {
+                        setForced(false);
+                        clearPath();
+                        setDestination(location);
+                        findTargetTimer = 0;
+                    } else {
+                        doMove2Pos(guardPoint, false);
+                    }
                 }
                 return;
             }

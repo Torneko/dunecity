@@ -16,8 +16,8 @@
  */
 
 #include <misc/DiscordManager.h>
-#include <SDL2/SDL_log.h>
-#include <SDL2/SDL_timer.h>
+#include <SDL_log.h>
+#include <SDL_timer.h>
 
 #include <discord_rpc.h>
 #include <curl/curl.h>

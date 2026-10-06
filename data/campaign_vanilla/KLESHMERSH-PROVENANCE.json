@@ -1,0 +1,40 @@
+{
+  "source": "Original Dune II SCENARIO.PAK (bundled 1.0.532 Windows archive)",
+  "mapping": {
+    "Harkonnen": "Kleshmersh",
+    "Atreides": "Harkonnen",
+    "Ordos": "Sardaukar",
+    "Sardaukar": "Mercenary",
+    "HAR": "KLE",
+    "ATR": "HAR",
+    "ORD": "SAR",
+    "SAR": "MER",
+    "Artreides": "Harkonnen"
+  },
+  "originalSha256": {
+    "SCENH001.INI": "751f94cf4c575a5fb695c4ea1f585b6366dcf49f5ab6478644020f24e827f26c",
+    "SCENH002.INI": "edbb61380c9235f33e4d07c538c6862dcf0f43047c8e564676934488fc8b584c",
+    "SCENH003.INI": "7a36f6b78c92d038fe43b9f3d4e3028c067c3fe76adcf946eb88742614656329",
+    "SCENH004.INI": "73c754564c34765caf464782b7cd4a936354409e1b7e85c13ddbbc95db354c2f",
+    "SCENH005.INI": "ce32f2b2e916d212ae2309705b2729ab1aac0b43adc48a6c5a4c53d64ad48790",
+    "SCENH006.INI": "8d8476d08e2106725cc12918ee5d71ff9b3ad11c8b20b1b6ffac9bcba8c63b26",
+    "SCENH007.INI": "dabb3326021b6e46c1f692d37f24c46ee15abb1725e17514959a9d2d71aa70e5",
+    "SCENH008.INI": "3d212bd9bbbdee46c25079a79ec81a55ac039a34e46c4d14529e2ae9fb854731",
+    "SCENH009.INI": "ede18e9e26d1d75bf139781eec0168f1670e73ae008a05f369d6aa6cf776040b",
+    "SCENH010.INI": "bf61d55dd35e3eee2624b644e8f0f8a77546adf57737c34ade3bf4a4a392dd62",
+    "SCENH011.INI": "0ced5ed792e26dee7172efd37fa58e8bdd44b6bb07f11e0940770166f43beabc",
+    "SCENH012.INI": "69dfc6a1540eca74b95fd2eb245975c84e3f30a29bb9603e1732916dba145d7b",
+    "SCENH013.INI": "bc91467e184b5affd2b70afd3502e271dc671755d830944f318675f8919077b6",
+    "SCENH014.INI": "f29628cddbc6cda06b5a17e561e5493c1692efe8b010c7b8778de4873bce31ca",
+    "SCENH015.INI": "dfd15b6e72e42fa8cffea0f5378fff306fa388858fc6aad93bf71707487907e2",
+    "SCENH016.INI": "43b0b809673031996d110dcf18c09757c1770319d9b8cff0679495cecc635812",
+    "SCENH017.INI": "527c512656a4ccbe93d2cb12d457ed5145d82cbfb41776857955d0c734be3779",
+    "SCENH018.INI": "8a7665f6bd9e8654cff5bcbd191a86754747ba4c8167e16003c61fd1938f49dc",
+    "SCENH019.INI": "3d33f780ba53d2a5a804841c9e0d93841d36c6d098b274af0dc5bd775ec3671f",
+    "SCENH020.INI": "5711e05666a3ea3cea28311b9a9ff06be16b98b09e6db2620595fba940b11144",
+    "SCENH021.INI": "e7255e1315ac4fa2e179491583da0a22bff18fc97acd0321eb09be9d608dc1a1",
+    "SCENH022.INI": "7223b5a128eb05945f278ee23274d68c152b412ace6a578401455e9da672d605",
+    "REGIONH.INI": "60fc37761f7fcaaf3c825a6a7ced20a2344c68853e50d11b4c67f3089c210aa0"
+  },
+  "preserved": "terrain, coordinates, units, structures, teams, reinforcement timing, economy and victory conditions"
+}

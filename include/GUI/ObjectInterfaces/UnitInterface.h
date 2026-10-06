@@ -179,6 +179,18 @@ protected:
         retreatButton.setOnClick(std::bind(&UnitInterface::onRetreat, this));
         buttonVBox.addWidget(&retreatButton, 26);
 
+        if(itemID == Unit_Soldier || itemID == Unit_Trooper) {
+            buttonVBox.addWidget(VSpacer::create(6));
+            sabotageButton.setText(_("Sabotage"));
+            sabotageButton.setTextColor(color);
+            sabotageButton.setTooltipText(_("Unit will hunt enemy buildings to capture them"));
+            sabotageButton.setToggleButton(true);
+            sabotageButton.setOnClick(std::bind(&UnitInterface::onSabotage, this));
+            buttonVBox.addWidget(&sabotageButton, 26);
+        } else {
+            sabotageButton.setVisible(false);
+        }
+
         buttonVBox.addWidget(VSpacer::create(6));
         buttonVBox.addWidget(Spacer::create());
         buttonVBox.addWidget(VSpacer::create(6));
@@ -263,6 +275,10 @@ protected:
         setAttackMode(RETREAT);
     }
 
+    void onSabotage() {
+        setAttackMode(SABOTAGE);
+    }
+
     void setAttackMode(ATTACKMODE newAttackMode) {
         ObjectBase* pObject = currentGame->getObjectManager().getObject(objectID);
         UnitBase* pUnit = dynamic_cast<UnitBase*>(pObject);
@@ -308,6 +324,7 @@ protected:
             ambushButton.setToggleState( AttackMode == AMBUSH );
             huntButton.setToggleState( AttackMode == HUNT );
             retreatButton.setToggleState( AttackMode == RETREAT );
+            sabotageButton.setToggleState( AttackMode == SABOTAGE );
         }
 
         return true;
@@ -334,6 +351,7 @@ protected:
     TextButton      ambushButton;
     TextButton      huntButton;
     TextButton      retreatButton;
+    TextButton      sabotageButton;
 
 };
 

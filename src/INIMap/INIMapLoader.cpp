@@ -44,6 +44,8 @@ bool isVanillaModActive() {
 
 bool isTornieMapObject(int itemID) {
     switch(itemID) {
+        case Unit_Infantry5:
+        case Unit_Troopers5:
         case Unit_RocketTrike:
         case Unit_SonicTrike:
         case Unit_FlameTank:
@@ -625,8 +627,9 @@ void INIMapLoader::loadHouses()
         }
 
         int colorOfHouse = houseInfo.colorOfHouse;
-        if(useFactionColors || !isValidHouseColorSlot(colorOfHouse)) {
-            colorOfHouse = getDefaultHouseColorSlot(houseID);
+        if(useFactionColors || pGame->getGameInitSettings().isVanillaKleshmershCampaign()
+           || !isValidHouseColorSlot(colorOfHouse)) {
+            colorOfHouse = pGame->getGameInitSettings().getFactionColorSlot(houseID);
         }
         resolvedHouseInfo.colorOfHouse = colorOfHouse;
 
@@ -818,7 +821,16 @@ void INIMapLoader::loadUnits()
                 continue;
             }
 
-            if(itemID == Unit_Infantry) {
+            if(isVanillaModActive() && isTornieMapObject(itemID)) {
+                continue;
+            }
+            if(itemID == Unit_Infantry5) {
+                itemID = Unit_Soldier;
+                Num2Place = 5;
+            } else if(itemID == Unit_Troopers5) {
+                itemID = Unit_Trooper;
+                Num2Place = 5;
+            } else if(itemID == Unit_Infantry) {
                 // make three
                 itemID = Unit_Soldier;
                 Num2Place = 3;
@@ -1026,7 +1038,13 @@ void INIMapLoader::loadReinforcements()
             continue;
         }
 
-        if(itemID == Unit_Infantry) {
+        if(itemID == Unit_Infantry5) {
+            itemID = Unit_Soldier;
+            Num2Drop = 5;
+        } else if(itemID == Unit_Troopers5) {
+            itemID = Unit_Trooper;
+            Num2Drop = 5;
+        } else if(itemID == Unit_Infantry) {
             // make three
             itemID = Unit_Soldier;
             Num2Drop = 3;

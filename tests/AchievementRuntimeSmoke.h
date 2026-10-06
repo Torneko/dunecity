@@ -9,6 +9,7 @@
 #include <units/Harvester.h>
 #include <units/SandWorm.h>
 #include <units/MCV.h>
+#include <structures/Palace.h>
 #include <filesystem>
 
 class AchievementCaptureInfantry final : public InfantryBase {
@@ -101,6 +102,9 @@ inline void runAchievementRuntimeSmoke(){
         require(manager.unlocked("RED_HARVEST"),"real red-spice collection");
         currentGameMap->removeObjectFromMap(harvester->getObjectID());harvester->deploy(Coord(25,24));harvester->setDestination(Coord(25,24));harvester->move();
         require(manager.unlocked("GREEN_HARVEST")&&manager.unlocked("SPICE_COLLECTOR"),"real green-spice collection");
+        auto* blue=currentGameMap->getTile(26,24);blue->setType(Terrain_WhiteSpice);blue->setSpice(500_fix);
+        currentGameMap->removeObjectFromMap(harvester->getObjectID());harvester->deploy(Coord(26,24));harvester->setDestination(Coord(26,24));harvester->move();
+        require(manager.unlocked("BLUE_HARVEST"),"real blue-spice collection");
         // Exercise both real harvester classes at an eligible healing cycle.
         for(int item:{Unit_Harvester,Unit_RebelHarvester}) {
             UnitBase* unit=nullptr;
@@ -118,6 +122,20 @@ inline void runAchievementRuntimeSmoke(){
             require(unit->getHealth()==healed,"healing requires actual spice collection");
             currentGameMap->removeObjectFromMap(unit->getObjectID());
         }
+        require(manager.unlocked("PURPLE_HARVEST"),"real purple-spice collection");
+        auto* palace=static_cast<Palace*>(local->placeStructure(NONE_ID,Structure_Palace,18,8,true,true));
+        require(palace!=nullptr,"local missile palace fixture");palace->setOriginalHouseID(HOUSE_HARKONNEN);
+        for(int launch=0;launch<2;++launch) {
+            for(int t=0;t<=palace->getMaxSpecialWeaponTimer() && !palace->isSpecialWeaponReady();++t)palace->update();
+            require(palace->isSpecialWeaponReady(),"local missile palace charging");
+            palace->doLaunchDeathhand(10,10);
+        }
+        require(manager.match().counts.at("PalaceMissilesLaunched")==2 && !manager.unlocked("MISSILE_BARRAGE"),"exactly two real local missiles before save");
+        auto* enemyPalace=static_cast<Palace*>(enemy->placeStructure(NONE_ID,Structure_Palace,2,8,true,true));
+        require(enemyPalace!=nullptr,"enemy missile palace fixture");
+        for(int t=0;t<=enemyPalace->getMaxSpecialWeaponTimer() && !enemyPalace->isSpecialWeaponReady();++t)enemyPalace->update();
+        enemyPalace->doLaunchDeathhand(10,10);
+        require(manager.match().counts.at("PalaceMissilesLaunched")==2,"enemy missile attributed to player");
         local->addCredits(10000_fix,true);require(manager.unlocked("THE_SPICE_MUST_FLOW"),"refinery credit event");
         require(game->saveGame(file),"save stream with profile checkpoint");runID=manager.match().runID;
         manager.enemyDestroyed(999999,false,false,false);
@@ -128,6 +146,13 @@ inline void runAchievementRuntimeSmoke(){
         AchievementEvents::begin(*game,AchievementEvents::fileKey(file),true,true);
         auto info=manager.match().info;info.enabled=true;manager.begin(info,AchievementEvents::fileKey(file),true);
         require(manager.match().runID==runID&&manager.match().historyKnown,"checkpoint survives save/load");
+        Palace* localPalace=nullptr;
+        for(auto* structure:structureList) if(structure->getItemID()==Structure_Palace && structure->getOwner()==pLocalHouse)
+            localPalace=static_cast<Palace*>(structure);
+        require(localPalace!=nullptr,"saved local missile palace");
+        for(int t=0;t<=localPalace->getMaxSpecialWeaponTimer() && !localPalace->isSpecialWeaponReady();++t)localPalace->update();
+        localPalace->doLaunchDeathhand(10,10);
+        require(manager.unlocked("MISSILE_BARRAGE") && manager.match().counts.at("PalaceMissilesLaunched")==3,"third real missile after save/load");
         game->setGameWon();require(manager.unlocked("TRUE_COLORS"),"real completed-game victory with initial color");
         require(manager.statistic("GamesWon")==1,"victory event counted once");
         require(!manager.unlocked("NO_CASUALTIES"),"capture infantry loss prevents a no-loss award");

@@ -175,6 +175,7 @@ HOUSETYPE getHouseFactionIdentity(HOUSETYPE house);
 HOUSETYPE getRuntimeHouseForIdentity(HOUSETYPE identity);
 bool isHouseFaction(HOUSETYPE house, HOUSETYPE identity);
 int getDefaultHouseColorSlot(HOUSETYPE house);
+int getCampaignHouseColorSlot(HOUSETYPE house, HOUSETYPE campaignHouse);
 char getHouseScenarioLetter(HOUSETYPE house);
 std::string getHouseRegionPrefix(HOUSETYPE house);
 HOUSETYPE getHouseFallbackHouse(HOUSETYPE house);

@@ -25,6 +25,7 @@ public:
     void harvestedType(unsigned type);
     void bloom();
     void palace();
+    void missile();
     void finish(bool won, bool enemiesRemain);
     void campaignScore(int score);
     bool unlock(const std::string& id);

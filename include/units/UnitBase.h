@@ -261,6 +261,8 @@ public:
 
     inline ATTACKMODE getAttackMode() const { return attackMode; }
 
+    bool canCaptureStructures() const { return itemID == Unit_Soldier || itemID == Unit_Trooper; }
+
     inline const Coord& getGuardPoint() const { return guardPoint; }
 
     virtual void playAttackSound();

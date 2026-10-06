@@ -36,3 +36,9 @@ msgstr "ENG"
 msgid "LanguagePakFiles"
 msgstr "ENGLISH.PAK,HARK.PAK,ATRE.PAK,ORDOS.PAK"
 
+
+msgid "Troopers (5)"
+msgstr "Troopers (5)"
+
+msgid "Soldiers (5)"
+msgstr "Soldiers (5)"

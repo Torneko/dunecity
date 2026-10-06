@@ -257,6 +257,7 @@ void CampaignAIPlayer::onDamage(const ObjectBase* pObject, int damage, Uint32 da
     }
 
     const UnitBase* pUnit = static_cast<const UnitBase*>(pObject);
+    if(pUnit->getAttackMode() == SABOTAGE) return;
     const ObjectBase* pDamager = getObject(damagerID);
     if(!pDamager || !pDamager->getOwner()) {
         return;
@@ -291,7 +292,8 @@ void CampaignAIPlayer::scrambleUnitsAndDefend(const ObjectBase* pIntruder) {
     }
 
     for(const UnitBase* pUnit : getUnitList()) {
-        if(pUnit->getOwner() != getHouse() || !pUnit->isRespondable() || pUnit->wasForced()) {
+        if(pUnit->getOwner() != getHouse() || !pUnit->isRespondable() || pUnit->wasForced()
+           || pUnit->getAttackMode() == SABOTAGE) {
             continue;
         }
 
@@ -552,6 +554,7 @@ void CampaignAIPlayer::updateUnits() {
     // Collect idle combat units for attack team staging
     for(const UnitBase* pUnit : getUnitList()) {
         if(pUnit->getOwner() != getHouse() ||
+           pUnit->getAttackMode() == SABOTAGE ||
            pUnit->wasForced() ||
            !pUnit->isRespondable() ||
            pUnit->isByScenario() ||
@@ -649,7 +652,7 @@ void CampaignAIPlayer::triggerFullScaleAttack() {
 
     // Set all combat units to HUNT mode
     for(const UnitBase* pUnit : getUnitList()) {
-        if(pUnit->getOwner() != pHouse) continue;
+        if(pUnit->getOwner() != pHouse || pUnit->getAttackMode() == SABOTAGE) continue;
 
         // Skip non-combat units
         if(pUnit->getItemID() == Unit_Carryall ||

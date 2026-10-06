@@ -1,3 +1,12 @@
+## 1.0.533 engine update
+- Sabotage now hunts capturable enemy buildings for Soldiers/Troopers. Infantry-only single/group commands appear below Retreat; editor groups, retargeting and save/load retain the mode.
+- The editor unit palette now scrolls vertically with a scrollbar and mouse wheel when needed.
+- Editor custom-unit section starts with five Soldiers then five Troopers, using squad tiles and a blue star. Map and reinforcement groups expand to five units.
+- New first Barracks order for five Soldiers at technology level 4, second upgrade, without IX.
+- New first Worfinery order for five Troopers at technology level 7, after upgrade and with IX.
+- Price is three single Troopers of the building's original house; the three-unit order remains.
+- Missile Barrage, Blue Harvest and Purple Harvest achievement support.
+
 # Tornie changelog
 
 ## Jericho 1.0.524-12 - Release 1.0.524-25 gameplay and campaign follow-up

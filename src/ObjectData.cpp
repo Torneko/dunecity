@@ -292,6 +292,24 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
         }
     }
 
+    if(ModManager::instance().isInitialized() && ModManager::instance().isTornieContentActive()) {
+        for(const auto orderID : {Unit_Troopers5, Unit_Infantry5}) {
+          const auto singleID = orderID == Unit_Troopers5 ? Unit_Trooper : Unit_Soldier;
+          for(int h=0; h<NUM_HOUSES; ++h) {
+            if(!data[orderID][h].enabled) continue;
+            const auto order = data[orderID][h];
+            data[orderID][h] = data[singleID][h];
+            auto& squad = data[orderID][h];
+            squad.enabled = order.enabled;
+            squad.price *= 3;
+            squad.builder = order.builder;
+            squad.techLevel = order.techLevel;
+            squad.upgradeLevel = order.upgradeLevel;
+            squad.prerequisiteStructuresSet = order.prerequisiteStructuresSet;
+          }
+        }
+    }
+
     // Vanilla Kleshmersh uses Neutral's complete tech tree and statistics.
     // Existing saves still load their own serialized object data unchanged.
     if(ModManager::instance().isInitialized() && ModManager::instance().getActiveModName()=="vanilla") {

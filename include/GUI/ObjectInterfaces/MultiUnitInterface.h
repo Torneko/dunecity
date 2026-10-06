@@ -190,6 +190,14 @@ protected:
         buttonVBox.addWidget(&retreatButton, 26);
 
         buttonVBox.addWidget(VSpacer::create(6));
+        sabotageButton.setText(_("Sabotage"));
+        sabotageButton.setTextColor(color);
+        sabotageButton.setTooltipText(_("Infantry will hunt enemy buildings to capture them"));
+        sabotageButton.setToggleButton(true);
+        sabotageButton.setOnClick(std::bind(&MultiUnitInterface::onSabotage, this));
+        buttonVBox.addWidget(&sabotageButton, 26);
+
+        buttonVBox.addWidget(VSpacer::create(6));
         buttonVBox.addWidget(Spacer::create());
         buttonVBox.addWidget(VSpacer::create(6));
 
@@ -281,13 +289,17 @@ protected:
         setAttackMode(RETREAT);
     }
 
+    void onSabotage() {
+        setAttackMode(SABOTAGE);
+    }
+
     void setAttackMode(ATTACKMODE newAttackMode) {
 
         UnitBase* pLastUnit = nullptr;
         for(const Uint32 selectedUnitID : currentGame->getSelectedList()) {
             ObjectBase* pObject = currentGame->getObjectManager().getObject(selectedUnitID);
             UnitBase* pUnit = dynamic_cast<UnitBase*>(pObject);
-            if(pUnit != nullptr) {
+            if(pUnit != nullptr && (newAttackMode != SABOTAGE || pUnit->canCaptureStructures())) {
                 pLastUnit = pUnit;
                 pUnit->handleSetAttackModeClick(newAttackMode);
             }
@@ -322,6 +334,7 @@ protected:
         bool bAmbush = true;
         bool bHunt = true;
         bool bRetreat = true;
+        bool bSabotage = true;
 
         bool bShowAttack = false;
         bool bShowHeal = false;
@@ -343,6 +356,7 @@ protected:
                 bAmbush = bAmbush && (attackMode == AMBUSH);
                 bHunt = bHunt && (attackMode == HUNT);
                 bRetreat = bRetreat && (attackMode == RETREAT);
+                if(pUnit->canCaptureStructures()) bSabotage = bSabotage && (attackMode == SABOTAGE);
 
                 if(pUnit->canHeal()) {
                     bShowHeal = true;
@@ -388,6 +402,7 @@ protected:
         attackButton.setVisible(bShowAttack);
         healButton.setVisible(bShowHeal);
         captureButton.setVisible(bShowCapture);
+        sabotageButton.setVisible(bShowCapture);
         returnButton.setVisible(bShowReturn);
         deployButton.setVisible(bShowDeploy);
         destructButton.setVisible(bShowDevastate);
@@ -400,6 +415,7 @@ protected:
         ambushButton.setToggleState( bAmbush );
         huntButton.setToggleState( bHunt );
         retreatButton.setToggleState( bRetreat );
+        sabotageButton.setToggleState( bSabotage && bShowCapture );
 
         return true;
     }
@@ -429,6 +445,7 @@ protected:
     TextButton      ambushButton;
     TextButton      huntButton;
     TextButton      retreatButton;
+    TextButton      sabotageButton;
 };
 
 #endif //MULTIUNITINTERFACE_H

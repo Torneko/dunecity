@@ -1,6 +1,6 @@
 # Local achievements
 
-Dune Legacy Tornie provides 43 offline achievements. Open **Achievements**
+Dune Legacy Tornie provides 46 offline achievements. Open **Achievements**
 or **Hauts faits** from the main menu to view locked awards and cumulative stats.
 Unlocks use the existing in-game news ticker. Steam is not required.
 
@@ -31,8 +31,11 @@ Leaving a match grants neither a victory nor a defeat.
 - No Casualties counts consumed capture infantry, as well as destroyed units.
   Healthy MCV deployment and departing logistics aircraft are not losses.
 - Worm Hunter credits player-attributed half-health defeats, including retreat with respawning enabled.
+- Missile Barrage requires three successfully launched palace missiles in the same match.
+  All local-player palace missiles qualify, including a randomly selected missile.
+  Other palace powers and enemy/allied missiles do not count. Checkpoints preserve progress.
 - Spice credits count refinery deposits, not starting funds or captured credits.
-  Red/green awards observe actual harvester collection before the tile changes.
+  Red/green/blue/purple awards observe actual harvester collection before the tile changes.
 - Flame Master requires 50 cumulative Flame Tank kills. Tornie Arsenal requires
   three distinct produced exclusive types in one game. Spice Collector requires
   two distinct harvested types. These provisional thresholds are configurable.
@@ -64,7 +67,7 @@ totals already earned survive loading an earlier save.
 `config/Achievements.ini` defines stable IDs, English/French names and descriptions,
 rule, statistic, threshold and `Secret`. Definitions override the compiled fallback
 catalog; additional IDs using an existing rule can be added. `Secret=true` displays
-`???` and a hidden description until unlocked. The default 43 awards are visible.
+`???` and a hidden description until unlocked. The default 46 awards are visible.
 Keep the fallback in `include/Achievements/AchievementDefaults.h` synchronized when
 changing built-in definitions, so a missing external catalog keeps the same rules.
 
@@ -96,3 +99,8 @@ window rendering. Optional `DUNELEGACY_OLD_SAVE` checks a previous-version save.
 
 Old profile entries/checkpoints and game save formats are preserved. Legacy custom
 house config adapters remain readable; the game roster exposes named factions.
+
+Version 1.0.533 adds `MISSILE_BARRAGE` (at least three actual local-player palace
+missile launches in one match), `BLUE_HARVEST` and `PURPLE_HARVEST` (actual
+harvester collection of each spice color). Match checkpoints preserve missile
+progress across saved games. Random enemy powers do not count for the player.

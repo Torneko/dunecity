@@ -117,8 +117,10 @@ SDL_Texture* resolveItemPicture(int itemID, HOUSETYPE house) {
             }
         } break;
         case Unit_Special:                  newPicID = Picture_Special;             break;
+        case Unit_Infantry5:
         case Unit_Infantry:                 newPicID = Picture_Soldier;             break;
-        case Unit_Troopers: {
+        case Unit_Troopers:
+        case Unit_Troopers5: {
             switch(house) {
                 case HOUSE_SARDAUKAR:       newPicID = Picture_Sardaukar;           break;
                 case HOUSE_FREMEN:          newPicID = Picture_Fremen;              break;
@@ -298,7 +300,9 @@ Uint32  getItemIDByName(const std::string& name) {
     else if((lowerName == "raider trike") || (lowerName == "raider"))           return Unit_RaiderTrike;
     else if(lowerName == "trooper")                                             return Unit_Trooper;
     else if(lowerName == "special")                                             return Unit_Special;
+    else if(lowerName == "infantry5")                                           return Unit_Infantry5;
     else if(lowerName == "infantry")                                            return Unit_Infantry;
+    else if(lowerName == "troopers5")                                           return Unit_Troopers5;
     else if(lowerName == "troopers")                                            return Unit_Troopers;
     else if(lowerName == "rocket trike")                                        return Unit_RocketTrike;
     else if(lowerName == "sonic trike")                                         return Unit_SonicTrike;
@@ -372,7 +376,9 @@ std::string getItemNameByID(Uint32 itemID) {
         case Unit_Soldier:                  return "Soldier";           break;
         case Unit_Trooper:                  return "Trooper";           break;
         case Unit_Special:                  return "Special";           break;
+        case Unit_Infantry5:                return "Infantry5";        break;
         case Unit_Infantry:                 return "Infantry";          break;
+        case Unit_Troopers5:                return "Troopers5";         break;
         case Unit_Troopers:                 return "Troopers";          break;
         case Unit_RocketTrike:              return "Rocket Trike";      break;
         case Unit_SonicTrike:               return "Sonic Trike";       break;
@@ -450,7 +456,9 @@ std::string resolveItemName(int itemID) {
         case Unit_Soldier:                  return _("@DUNE.ENG|203#Soldier");             break;
         case Unit_Trooper:                  return _("@DUNE.ENG|205#Trooper");             break;
         case Unit_Special:                  return _("Sonic/Devast./Devia.");              break;
+        case Unit_Infantry5:                return _("Soldiers (5)");                     break;
         case Unit_Infantry:                 return _("@DUNE.ENG|199#Infantry");            break;
+        case Unit_Troopers5:                return _("Troopers (5)");                     break;
         case Unit_Troopers:                 return _("@DUNE.ENG|201#Troopers");            break;
         case Unit_RocketTrike:              return _("Rocket Trike");                      break;
         case Unit_SonicTrike:               return _("Sonic Trike");                       break;

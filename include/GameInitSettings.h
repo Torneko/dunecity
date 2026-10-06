@@ -167,6 +167,9 @@ public:
     void save(OutputStream& stream) const;
     void migrateLegacyHouseColorSlots();
 
+    bool isVanillaKleshmershCampaign() const;
+    int getFactionColorSlot(HOUSETYPE house) const;
+
     inline GameType getGameType() const { return gameType; };
     inline HOUSETYPE getHouseID() const { return houseID; };
     inline int getMission() const { return mission; };

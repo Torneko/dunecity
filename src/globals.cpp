@@ -158,7 +158,18 @@ bool isVanillaRebelsColorSlot(int colorSlot) {
         && ModManager::instance().getActiveModName() == "vanilla";
 }
 
+int getCampaignHouseColorSlot(HOUSETYPE house, HOUSETYPE campaignHouse) {
+    if(ModManager::instance().getActiveModName() == "vanilla" && campaignHouse == HOUSE_KLESHMERSH) {
+        if(house == HOUSE_HARKONNEN) return HOUSECOLOR_KLESH_HARKONNEN;
+        if(house == HOUSE_SARDAUKAR) return HOUSECOLOR_KLESH_SARDAUKAR;
+        if(house == HOUSE_MERCENARY) return HOUSECOLOR_KLESH_MERCENARY;
+    }
+    return getDefaultHouseColorSlot(house);
+}
+
 int getHouseColorPaletteIndexFromSlot(int colorSlot) {
+    if(colorSlot >= HOUSECOLOR_KLESH_HARKONNEN && colorSlot <= HOUSECOLOR_KLESH_MERCENARY)
+        return PALCOLOR_HARKONNEN;
     if(!isValidHouseColorSlot(colorSlot)) {
         return PALCOLOR_HARKONNEN;
     }
@@ -201,6 +212,22 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
     if(!isValidHouseColorSlot(colorSlot) || shadeOffset < 0 || shadeOffset >= 8) {
         return SDL_Color{ 0, 0, 0, 255 };
     }
+
+    static const std::array<SDL_Color, 8> campaignGreen{{
+        {60,140,64,255},{48,124,52,255},{36,108,40,255},{28,92,32,255},
+        {20,76,24,255},{12,60,16,255},{8,44,12,255},{4,28,8,255}
+    }};
+    static const std::array<SDL_Color, 8> campaignFuchsia{{
+        {255,76,212,255},{236,52,192,255},{216,32,172,255},{192,20,148,255},
+        {160,12,120,255},{124,8,92,255},{88,4,64,255},{52,0,36,255}
+    }};
+    static const std::array<SDL_Color, 8> campaignTurquoise{{
+        {76,240,220,255},{52,220,204,255},{32,196,184,255},{20,172,164,255},
+        {12,140,136,255},{8,108,108,255},{4,76,80,255},{0,44,48,255}
+    }};
+    if(colorSlot == HOUSECOLOR_KLESH_HARKONNEN) return campaignGreen[shadeOffset];
+    if(colorSlot == HOUSECOLOR_KLESH_SARDAUKAR) return campaignFuchsia[shadeOffset];
+    if(colorSlot == HOUSECOLOR_KLESH_MERCENARY) return campaignTurquoise[shadeOffset];
 
     if(isVanillaRebelsColorSlot(colorSlot)) {
         return darkGreyRamp[shadeOffset];

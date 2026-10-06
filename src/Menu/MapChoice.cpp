@@ -44,6 +44,11 @@ MapChoice::MapChoice(int newHouse, unsigned int lastMission, Uint32 oldAlreadyPl
     lastScenario = (lastMission + 1)/3 + 1;
     alreadyPlayedRegions = oldAlreadyPlayedRegions;
     house = newHouse;
+    for(int h=0; h<NUM_HOUSES; ++h) {
+        previousHouseColors[h] = getHouseVisualHouse(h);
+        setHouseVisualHouse(static_cast<HOUSETYPE>(h),
+            getCampaignHouseColorSlot(static_cast<HOUSETYPE>(h),static_cast<HOUSETYPE>(house)));
+    }
     pGFXManager->invalidateMapChoiceGraphics(house);
 
     // set up window
@@ -115,7 +120,10 @@ MapChoice::MapChoice(int newHouse, unsigned int lastMission, Uint32 oldAlreadyPl
     }
 }
 
-MapChoice::~MapChoice() = default;
+MapChoice::~MapChoice() {
+    for(int h=0; h<NUM_HOUSES; ++h)
+        setHouseVisualHouse(static_cast<HOUSETYPE>(h), previousHouseColors[h]);
+}
 
 int MapChoice::showMenu()
 {

@@ -92,6 +92,10 @@ def main():
     file_data, file_order = read_pak(input_pak)
     add_or_replace(file_order, file_data, campaign_dir / "REGIONN.INI", "REGIONN.INI")
     add_or_replace(file_order, file_data, campaign_dir / "REGIONR.INI", "REGIONR.INI")
+    add_or_replace(file_order, file_data, campaign_dir / "REGIONK.INI", "REGIONK.INI")
+    kleshmersh_scenario_count = add_matching_ini_files(file_order, file_data, campaign_dir, ("SCENK",))
+    if kleshmersh_scenario_count != 22:
+        raise ValueError("Expected 22 vanilla Kleshmersh scenarios")
     addon_scenario_count = add_matching_ini_files(file_order, file_data, data_dir, ("SCENN", "SCENR"))
     core_region_count = add_region_files(file_order, file_data, data_dir, "AHOFMS")
     core_scenario_count = add_matching_ini_files(file_order, file_data, data_dir, ("SCENA", "SCENH", "SCENO", "SCENF", "SCENM", "SCENS"))

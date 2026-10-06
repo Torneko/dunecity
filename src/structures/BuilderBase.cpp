@@ -35,7 +35,7 @@
 
 #include <algorithm>
 
-const int BuilderBase::itemOrder[] = { Unit_ChemicalCarryall, Structure_Slab4, Structure_Slab1, Structure_IX, Structure_StarPort,
+const int BuilderBase::itemOrder[] = { Unit_Troopers5, Unit_Infantry5, Unit_ChemicalCarryall, Structure_Slab4, Structure_Slab1, Structure_IX, Structure_StarPort,
                                            Structure_HighTechFactory, Structure_HeavyFactory, Structure_RocketTurret,
                                            Structure_Scoutpost, Structure_Flamepost, Structure_Chemipost, Structure_LoveFactory, Structure_ChaosFactory,
                                            Structure_RepairYard, Structure_GunTurret, Structure_TechCenter, Structure_WOR,
@@ -333,6 +333,11 @@ void BuilderBase::produceNextAvailableItem() {
 }
 
 int BuilderBase::getMaxUpgradeLevel() const {
+    if(itemID == Structure_Worfinery) {
+        const auto& squad = currentGame->objectData.data[Unit_Troopers5][originalHouseID];
+        return ModManager::instance().isTornieContentActive() && squad.enabled
+            && currentGame->techLevel >= 7 && owner->getNumItems(Structure_IX) > 0 ? 1 : 0;
+    }
     int upgradeLevel = 0;
     const int technologyHouse = ModManager::instance().isTornieContentActive()
         ? originalHouseID : owner->getHouseID();
@@ -380,6 +385,19 @@ void BuilderBase::updateBuildList()
         const int dataHouseID = (itemID2Add == Unit_ChemicalCarryall) ? technologyHouse : originalHouseID;
         const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[itemID2Add][dataHouseID];
 
+        const bool fiveSoldiers = itemID2Add == Unit_Infantry5;
+        if(fiveSoldiers && (!ModManager::instance().isTornieContentActive()
+            || itemID != Structure_Barracks || curUpgradeLev < 2 || currentGame->techLevel < 4)) {
+            removeItem(buildList, iter, itemID2Add);
+            continue;
+        }
+        const bool fiveTroopers = itemID2Add == Unit_Troopers5;
+        if(fiveTroopers && (!ModManager::instance().isTornieContentActive()
+            || itemID != Structure_Worfinery || curUpgradeLev < 1
+            || currentGame->techLevel < 7 || owner->getNumItems(Structure_IX) <= 0)) {
+            removeItem(buildList, iter, itemID2Add);
+            continue;
+        }
         const bool itemEnabled = objData.enabled || specialChemicalCarryall;
         const int requiredUpgrade = specialChemicalCarryall ? 2 : objData.upgradeLevel;
         const int configuredTechLevel = specialChemicalCarryall ? 1 : objData.techLevel;
@@ -462,7 +480,11 @@ void BuilderBase::updateBuildList()
                 if(traceTechCenter) {
                     logTechCenterBuildGate(this, owner, objData, producedHere, true, ItemID_Invalid, "available", true);
                 }
-                const int buildListPrice = specialChemicalCarryall
+                const int buildListPrice = fiveSoldiers
+                    ? 3 * currentGame->objectData.data[Unit_Soldier][originalHouseID].price
+                    : fiveTroopers
+                    ? 3 * currentGame->objectData.data[Unit_Trooper][originalHouseID].price
+                    : specialChemicalCarryall
                     ? 950
                     : (directWorfineryProduct && itemID2Add == Unit_Harvester ? 425 : -1);
                 insertItem(buildList, iter, itemID2Add, buildListPrice);
@@ -534,6 +556,12 @@ bool BuilderBase::update() {
                 // make three
                 finishedItemID = Unit_Trooper;
                 num2Place = 3;
+            } else if(finishedItemID == Unit_Infantry5) {
+                finishedItemID = Unit_Soldier;
+                num2Place = 5;
+            } else if(finishedItemID == Unit_Troopers5) {
+                finishedItemID = Unit_Trooper;
+                num2Place = 5;
             }
 
             Coord groupDeploySpot = Coord::Invalid();

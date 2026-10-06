@@ -3396,3 +3396,9 @@ msgstr "El MCV no se puede desplegar aquí."
 
 #~ msgid "Double Buffering"
 #~ msgstr "Doble buffer"
+
+msgid "Troopers (5)"
+msgstr "Soldados de élite (5)"
+
+msgid "Soldiers (5)"
+msgstr "Soldados (5)"
