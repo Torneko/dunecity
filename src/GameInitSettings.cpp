@@ -29,6 +29,8 @@
 
 namespace {
 constexpr Uint32 GAMEINIT_MOD_MARKER = 0x4D4F4421;   // "MOD!"
+constexpr Uint32 GAMEINIT_MOD3_MARKER = 0x4D4F4433;  // "MOD3"
+constexpr Uint32 GAMEINIT_MOD4_MARKER = 0x4D4F4434;  // "MOD4": Chaos Mode
 constexpr Uint32 GAMEINIT_MOD2_MARKER = 0x4D4F4432;  // "MOD2"
 }
 
@@ -55,6 +57,7 @@ int GameInitSettings::getFactionColorSlot(HOUSETYPE house) const {
 GameInitSettings::GameInitSettings() {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(HOUSETYPE newHouseID, const SettingsClass::GameOptionsClass& gameOptions)
@@ -62,6 +65,7 @@ GameInitSettings::GameInitSettings(HOUSETYPE newHouseID, const SettingsClass::Ga
     filename = getScenarioFilename(houseID, mission);
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(const GameInitSettings& prevGameInitInfoClass, int nextMission, Uint32 alreadyPlayedRegions, Uint32 alreadyShownTutorialHints) {
@@ -78,18 +82,21 @@ GameInitSettings::GameInitSettings(HOUSETYPE newHouseID, int newMission, const S
     filename = getScenarioFilename(houseID, mission);
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(const std::string& mapfile, const std::string& filedata, bool multiplePlayersPerHouse, const SettingsClass::GameOptionsClass& gameOptions)
  : gameType(GameType::CustomGame), filename(mapfile), filedata(filedata), multiplePlayersPerHouse(multiplePlayersPerHouse), gameOptions(gameOptions) {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(const std::string& mapfile, const std::string& filedata, const std::string& serverName, bool multiplePlayersPerHouse, const SettingsClass::GameOptionsClass& gameOptions)
  : gameType(GameType::CustomMultiplayer), filename(mapfile), filedata(filedata), servername(serverName), multiplePlayersPerHouse(multiplePlayersPerHouse), gameOptions(gameOptions) {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(const std::string& savegame)
@@ -105,7 +112,6 @@ GameInitSettings::GameInitSettings(const std::string& savegame, const std::strin
 }
 
 GameInitSettings::GameInitSettings(InputStream& stream) {
-    constexpr Uint32 GAMEINIT_MOD3_MARKER = GAMEINIT_MOD2_MARKER + 1;
     gameType = static_cast<GameType>(stream.readSint8());
     houseID = static_cast<HOUSETYPE>(stream.readSint8());
 
@@ -142,11 +148,11 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
     // Use marker to detect presence for backward compatibility
     try {
         Uint32 modMarker = stream.readUint32();
-        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER) {
+        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
             modName = stream.readString();
             modChecksum = stream.readString();
 
-            if(modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER) {
+            if(modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
                 Uint32 numHouseColors = stream.readUint32();
                 for(Uint32 i = 0; i < numHouseColors; i++) {
                     const int colorOfHouse = stream.readSint32();
@@ -156,9 +162,11 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
                 }
             }
 
-            if(modMarker == GAMEINIT_MOD3_MARKER) {
+            if(modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
                 gameOptions.randomSpiceBlooms = stream.readBool();
             }
+            if(modMarker == GAMEINIT_MOD4_MARKER) gameOptions.chaosMode = stream.readBool();
+            if(modName == "vanilla") gameOptions.chaosMode = false;
         }
     } catch (InputStream::eof&) {
         // Old format without mod info - use defaults
@@ -171,7 +179,6 @@ GameInitSettings::~GameInitSettings() {
 }
 
 void GameInitSettings::save(OutputStream& stream) const {
-    constexpr Uint32 GAMEINIT_MOD3_MARKER = GAMEINIT_MOD2_MARKER + 1;
     stream.writeSint8(static_cast<Sint8>(gameType));
     stream.writeSint8(houseID);
 
@@ -205,7 +212,7 @@ void GameInitSettings::save(OutputStream& stream) const {
     }
 
     // Write mod info with marker for forward compatibility
-    stream.writeUint32(GAMEINIT_MOD3_MARKER);
+    stream.writeUint32(GAMEINIT_MOD4_MARKER);
     stream.writeString(modName);
     stream.writeString(modChecksum);
 
@@ -214,6 +221,7 @@ void GameInitSettings::save(OutputStream& stream) const {
         stream.writeSint32(houseInfo.colorOfHouse);
     }
     stream.writeBool(gameOptions.randomSpiceBlooms);
+    stream.writeBool(isChaosModeEnabled());
 }
 
 

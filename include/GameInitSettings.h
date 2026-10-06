@@ -183,6 +183,7 @@ public:
     inline bool isMultiplePlayersPerHouse() const { return multiplePlayersPerHouse; };
     inline void setMultiplePlayersPerHouse(bool multiplePlayersPerHouse) { this->multiplePlayersPerHouse = multiplePlayersPerHouse; };
     inline const SettingsClass::GameOptionsClass& getGameOptions() const { return gameOptions; };
+    bool isChaosModeEnabled() const { return gameOptions.chaosMode && modName != "vanilla"; }
 
     /// Mod that was active when this game was created. Persisted in
     /// savegames and shipped over the network so clients can mirror the

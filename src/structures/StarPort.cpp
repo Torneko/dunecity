@@ -233,7 +233,7 @@ void StarPort::updateBuildList() {
 
     for(int i = 0; itemOrder[i] != ItemID_Invalid; ++i) {
 
-        const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[itemOrder[i]][originalHouseID];
+        const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[itemOrder[i]][getTechnologyHouseID()];
 
         // Exclude ornithopters from starport in campaign games (can still build from factory)
         bool isOrnithopterInCampaign = (itemOrder[i] == Unit_Ornithopter && currentGame->gameType == GameType::Campaign);
@@ -247,7 +247,7 @@ void StarPort::updateBuildList() {
 }
 
 bool StarPort::deploySingleUnit(Uint32 unitItemID, bool announce) {
-    UnitBase* newUnit = getOwner()->createUnit(unitItemID, false, getProductionHouseID());
+    UnitBase* newUnit = getOwner()->createUnit(unitItemID, false, getTechnologyHouseID());
     if(newUnit == nullptr) {
         return false;
     }

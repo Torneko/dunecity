@@ -350,6 +350,7 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
         : newGameInitSettings.getGameType() == GameType::LoadMultiplayer
             ? AchievementEvents::dataKey(newGameInitSettings.getFiledata()) : std::string();
     gameInitSettings = newGameInitSettings;
+    chaosMode.reset();
 
     applyCustomPaletteRuntimeHouseRamps();
 
@@ -394,6 +395,7 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
 
             objectData.loadFromINIFile(ModManager::instance().getActiveObjectDataPath(), false);
 
+            chaosMode.generate(objectData, gameInitSettings.isChaosModeEnabled(), gameInitSettings.getRandomSeed());
             objectData.logSettings();
 
             if(gameInitSettings.getMission() != 0) {
@@ -3376,6 +3378,10 @@ bool Game::loadSaveGame(InputStream& stream) {
                 savegameVersion, duneVersion.c_str(), savedItemCount, Num_ItemID);
     }
     objectData.load(stream, savedItemCount, savedHouseCount);
+    if(savegameVersion >= 9826) chaosMode.load(stream);
+    else chaosMode.reset();
+    if(chaosMode.isEnabled() != gameInitSettings.isChaosModeEnabled())
+        throw std::runtime_error("Chaos Mode save settings do not match the saved technology table");
 
     //load the house(s) info
     logLoadStage("houses and players");
@@ -3572,6 +3578,7 @@ bool Game::saveGame(const std::string& filename)
 
     // write out the unit/structure data
     objectData.save(fs);
+    chaosMode.save(fs);
 
     //write the house(s) info
     for(int i=0; i<NUM_HOUSES; i++) {

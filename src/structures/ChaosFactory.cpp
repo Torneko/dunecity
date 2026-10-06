@@ -118,7 +118,7 @@ int ChaosFactory::getBasePrice(Uint32 candidate) const {
         return 0;
     }
     const int ownerPrice =
-        currentGame->objectData.data[candidate][originalHouseID].price;
+        currentGame->objectData.data[candidate][getTechnologyHouseID()].price;
     if(ownerPrice > 0) {
         return ownerPrice;
     }

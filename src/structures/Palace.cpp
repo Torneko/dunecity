@@ -112,7 +112,7 @@ bool Palace::usesTornieMainRebelsCooldown() const {
     const std::string activeMod = ModManager::instance().getActiveModName();
 
     const HOUSETYPE faction =
-        getHouseFactionIdentity(static_cast<HOUSETYPE>(originalHouseID));
+        getHouseFactionIdentity(static_cast<HOUSETYPE>(getTechnologyHouseID()));
     if(activeMod == "vanilla") {
         return faction == HOUSE_NEUTRAL || faction == HOUSE_REBELS || faction == HOUSE_KLESHMERSH;
     }
@@ -149,7 +149,7 @@ bool Palace::usesTargetedSpecialWeapon() const {
         return getTornieMainRebelsSpecialWeapon() == TornieRebelsSpecialWeapon::Missile;
     }
 
-    const HOUSETYPE palaceHouse = getHouseFallbackHouse(static_cast<HOUSETYPE>(originalHouseID));
+    const HOUSETYPE palaceHouse = getHouseFallbackHouse(static_cast<HOUSETYPE>(getTechnologyHouseID()));
     return palaceHouse == HOUSE_HARKONNEN || palaceHouse == HOUSE_SARDAUKAR;
 }
 
@@ -167,17 +167,17 @@ void Palace::selectTornieMainRebelsSpecialWeapon() {
 
 bool Palace::usesJerichoOrnithopterStrike() const {
     return ModManager::instance().isInitialized()
-        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_WILDSPADE);
+        && isHouseFaction(static_cast<HOUSETYPE>(getTechnologyHouseID()), HOUSE_WILDSPADE);
 }
 
 bool Palace::usesJerichoKleshmershFremenCall() const {
     return ModManager::instance().isInitialized()
         && ModManager::instance().isTornieContentActive()
-        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_KLESHMERSH);
+        && isHouseFaction(static_cast<HOUSETYPE>(getTechnologyHouseID()), HOUSE_KLESHMERSH);
 }
 
 bool Palace::usesLightVehicleCall() const {
-    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(originalHouseID);
+    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(getTechnologyHouseID());
 
     if(isHouseFaction(originalHouse, HOUSE_THARPIQUE)) {
         return true;
@@ -198,7 +198,7 @@ void Palace::doSpecialWeapon() {
         return;
     }
 
-    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(originalHouseID);
+    const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(getTechnologyHouseID());
     if(usesTornieMainRebelsRandomSpecial()) {
         bool activated = false;
         switch(getTornieMainRebelsSpecialWeapon()) {
@@ -290,7 +290,7 @@ void Palace::doSpecialWeapon() {
         } break;
 
         default: {
-            SDL_Log("PALACE: Ignoring special weapon for unsupported house %d", originalHouseID);
+            SDL_Log("PALACE: Ignoring special weapon for unsupported house %d", getTechnologyHouseID());
             return;
         } break;
     }
@@ -390,7 +390,7 @@ bool Palace::callFremen() {
                 continue;
             }
 
-            Trooper *pFremen = static_cast<Trooper*>(getOwner()->createUnit(Unit_Trooper, false, getProductionHouseID()));
+            Trooper *pFremen = static_cast<Trooper*>(getOwner()->createUnit(Unit_Trooper, false, getTechnologyHouseID()));
 
             int i;
             int j;
@@ -429,7 +429,7 @@ bool Palace::callFremen() {
 }
 
 bool Palace::spawnSaboteur() {
-    Saboteur* saboteur = static_cast<Saboteur*>(getOwner()->createUnit(Unit_Saboteur, false, getProductionHouseID()));
+    Saboteur* saboteur = static_cast<Saboteur*>(getOwner()->createUnit(Unit_Saboteur, false, getTechnologyHouseID()));
     Coord spot = currentGameMap->findDeploySpot(saboteur, getLocation(), currentGame->randomGen, getDestination(), getStructureSize());
 
     saboteur->deploy(spot);
@@ -475,7 +475,7 @@ bool Palace::callLightVehicles() {
     int spawned = 0;
 
     const auto spawnVehicle = [&](int itemID) {
-        UnitBase* newUnit = getOwner()->createUnit(itemID, false, getProductionHouseID());
+        UnitBase* newUnit = getOwner()->createUnit(itemID, false, getTechnologyHouseID());
         if(newUnit == nullptr) {
             return;
         }
@@ -519,7 +519,7 @@ bool Palace::callOrnithopterStrike() {
     int spawned = 0;
 
     for(int i = 0; i < 3; ++i) {
-        UnitBase* ornithopter = getOwner()->createUnit(Unit_Ornithopter, false, getProductionHouseID());
+        UnitBase* ornithopter = getOwner()->createUnit(Unit_Ornithopter, false, getTechnologyHouseID());
         if(ornithopter == nullptr) {
             continue;
         }

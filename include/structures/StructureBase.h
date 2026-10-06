@@ -59,6 +59,7 @@ public:
     StructureBase& operator=(const StructureBase &) = delete;
     StructureBase& operator=(StructureBase &&) = delete;
 
+    int getTechnologyHouseID() const;
     void save(OutputStream& stream) const override;
 
     void assignToMap(const Coord& pos) override;

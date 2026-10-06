@@ -8,6 +8,8 @@ Project repository: https://github.com/Torneko/dunelegacy-tornie
 
 Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) · [English](https://torneko.github.io/dunelegacy-tornie/index-en.html). Keep both languages aligned with each game update; see [website maintenance](docs/WEBSITE.md).
 
+Version **1.0.534** adds optional [Chaos Mode](docs/CHAOS-MODE.md): one same-level donor faction per production/defence building type and Palace, for campaigns, custom games and multiplayer in the Tornie mods. The draw is deterministic and saved; Vanilla keeps its normal rules. Wildspade gets IX at technology 7, Chemical Carryall at 6 after the first Hightech upgrade without IX, and Ornithopter at 7 after the second upgrade with IX. The original Fremen banner is composited in the house confirmation screen and refreshed on mod changes. The bilingual website adds the original 2×3 and 3×2 windtrap previews.
+
 Version **1.0.525** incorporates the corrected **DuneCity Tornie 1.0.524-26**
 source at `80799faba1b66c64887286446f5ed6b0df985226` from
 `Torneko/dunecity-tornie`. Its RTS changes, campaigns and mod assets are retained;

@@ -23,6 +23,7 @@
 #include <MapEditor/PlayerSettingsWindow.h>
 #include <ObjectData.h>
 #include "FactionPresentationSmoke.h"
+#include "ChaosModeSmoke.h"
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -86,6 +87,7 @@ inline void runModRuntimeSmoke() {
     const std::string previousMod = mods.getActiveModName();
     verifyEditorHouseColors(output, previousMod, "startup");
     verifyJerichoHeralds(output,"startup");
+    verifyFremenConfirmation(output, "startup");
     if(mods.isTornieContentActive()) verifyChaosFactoryGraphics(output, previousMod, "startup");
     int scenarios = 0;
     for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "vanilla", "Jericho", "TornieLite"}) {
@@ -102,6 +104,9 @@ inline void runModRuntimeSmoke() {
         verifyEditorHouseColorRoundtrip(output, mod);
         verifyEditorMapLoading(output, mod);
         verifyGeneratedSpice(output, mod);
+        verifyFremenConfirmation(output, "switch");
+        verifyWildspadeTechnology(output, mod);
+        verifyChaosMode(output, mod);
         if(mod=="Tornie") {
             auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_FREMEN);
             require(herald && herald->w==84 && herald->h==91,"attached Fremen banner dimensions");

@@ -1,3 +1,7 @@
+## Game 1.0.534
+
+- Optional Chaos Mode: same-level donor faction per production/defence building and Palace; deterministic campaigns, custom and multiplayer, with saved draws. Vanilla is excluded.
+
 ## 1.0.533 engine update
 - Sabotage now hunts capturable enemy buildings for Soldiers/Troopers. Infantry-only single/group commands appear below Retreat; editor groups, retargeting and save/load retain the mode.
 - The editor unit palette now scrolls vertically with a scrollbar and mouse wheel when needed.

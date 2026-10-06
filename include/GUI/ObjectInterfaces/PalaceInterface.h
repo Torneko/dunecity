@@ -90,7 +90,7 @@ protected:
         Palace* pPalace = dynamic_cast<Palace*>(pObject);
         if(pPalace != nullptr) {
             int picID;
-            const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(pPalace->getOriginalHouseID());
+            const HOUSETYPE originalHouse = static_cast<HOUSETYPE>(pPalace->getTechnologyHouseID());
 
             if(pPalace->usesTornieMainRebelsRandomSpecial()) {
                 if(!pPalace->isSpecialWeaponReady()) {

@@ -4591,6 +4591,9 @@ void GFXManager::reloadModDependentUiGraphics() {
         }
     }
 
+    animation[Anim_FremenPlanet].reset();
+    animation[Anim_SardaukarPlanet].reset();
+    animation[Anim_MercenaryPlanet].reset();
     animation[Anim_NeutralPlanet].reset();
     animation[Anim_RebelsPlanet].reset();
     // Editor previews cache house-remapped surfaces. Drop every derived slot

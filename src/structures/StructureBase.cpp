@@ -93,6 +93,10 @@ StructureBase::StructureBase(InputStream& stream): ObjectBase(stream) {
     (void) stream.readUint8(); // legacy legacy save byte
 }
 
+int StructureBase::getTechnologyHouseID() const {
+    return currentGame ? currentGame->getChaosMode().getTechnologyHouse(originalHouseID, itemID) : originalHouseID;
+}
+
 void StructureBase::init() {
     aStructure = true;
 

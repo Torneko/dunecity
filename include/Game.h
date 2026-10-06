@@ -23,6 +23,7 @@
 #include <misc/InputStream.h>
 #include <misc/OutputStream.h>
 #include <ObjectData.h>
+#include <mod/ChaosMode.h>
 #include <ObjectManager.h>
 #include <CommandManager.h>
 #include <GameInterface.h>
@@ -74,6 +75,7 @@ class UnitBase;
 class Game
 {
 public:
+    const ChaosMode& getChaosMode() const { return chaosMode; }
 
     /**
         Default constructor. Call initGame() or initReplay() afterwards.
@@ -563,6 +565,7 @@ public:
     int         loseFlags = 0;
 
     Random      randomGen;          ///< This is the random number generator for this game
+    ChaosMode chaosMode;
     ObjectData  objectData;         ///< This contains all the unit/structure data
 
     GameState   gameState = GameState::Start;

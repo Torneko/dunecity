@@ -1,3 +1,9 @@
+## Game 1.0.534
+
+- Optional Chaos Mode: same-level donor faction per production/defence building and Palace; deterministic campaigns, custom and multiplayer, with saved draws. Vanilla is excluded.
+- Wildspade: IX tech 7; Chemical Carryall tech 6, first Hightech upgrade, no IX; Ornithopter tech 7, second upgrade and IX.
+- Original Fremen banner composited explicitly in the house confirmation screen; planet caches refreshed on mod changes.
+
 ## 1.0.533 engine update
 - Sabotage now hunts capturable enemy buildings for Soldiers/Troopers. Infantry-only single/group commands appear below Retreat; editor groups, retargeting and save/load retain the mode.
 - The editor unit palette now scrolls vertically with a scrollbar and mouse wheel when needed.

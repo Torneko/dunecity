@@ -196,7 +196,7 @@ void BuilderBase::insertItem(std::list<BuildItem>& buildItemList, std::list<Buil
     }
 
     if(price == -1) {
-        price = currentGame->objectData.data[itemID][originalHouseID].price;
+        price = currentGame->objectData.data[itemID][getTechnologyHouseID()].price;
     }
 
     buildItemList.insert(iter, BuildItem(itemID, price));
@@ -288,7 +288,7 @@ void BuilderBase::updateProductionProgress() {
 
                 FixPoint buildSpeed = std::min( getHealth() / getMaxHealth(), buildSpeedLimit);
                 FixPoint totalBuildCosts = tmp->price;
-                FixPoint totalBuildGameTicks = currentGame->objectData.data[currentProducedItem][originalHouseID].buildtime*15;
+                FixPoint totalBuildGameTicks = currentGame->objectData.data[currentProducedItem][getTechnologyHouseID()].buildtime*15;
                 FixPoint buildCosts = totalBuildCosts / totalBuildGameTicks;
 
                 productionProgress += owner->takeCredits(buildCosts*buildSpeed);
@@ -334,16 +334,16 @@ void BuilderBase::produceNextAvailableItem() {
 
 int BuilderBase::getMaxUpgradeLevel() const {
     if(itemID == Structure_Worfinery) {
-        const auto& squad = currentGame->objectData.data[Unit_Troopers5][originalHouseID];
+        const auto& squad = currentGame->objectData.data[Unit_Troopers5][getTechnologyHouseID()];
         return ModManager::instance().isTornieContentActive() && squad.enabled
             && currentGame->techLevel >= 7 && owner->getNumItems(Structure_IX) > 0 ? 1 : 0;
     }
     int upgradeLevel = 0;
     const int technologyHouse = ModManager::instance().isTornieContentActive()
-        ? originalHouseID : owner->getHouseID();
+        ? getTechnologyHouseID() : owner->getHouseID();
 
     for(int i = ItemID_FirstID; i <= ItemID_LastID; i++) {
-        const int dataHouseID = (i == Unit_ChemicalCarryall) ? technologyHouse : originalHouseID;
+        const int dataHouseID = (i == Unit_ChemicalCarryall) ? technologyHouse : getTechnologyHouseID();
         const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[i][dataHouseID];
 
         if(objData.enabled && (objData.builder == (int) itemID) && (objData.techLevel <= currentGame->techLevel)) {
@@ -354,8 +354,10 @@ int BuilderBase::getMaxUpgradeLevel() const {
     if(itemID == Structure_HighTechFactory && owner != nullptr
        && ModManager::instance().getActiveModName() != "vanilla"
        && getHouseScenarioLetter(static_cast<HOUSETYPE>(technologyHouse)) == 'W'
-       && currentGame->techLevel >= 7) {
-        upgradeLevel = std::max(upgradeLevel, 2);
+       && currentGame->techLevel >= 6) {
+        const bool revisedChemical = currentGame->objectData.data[Unit_ChemicalCarryall][technologyHouse].techLevel == 6;
+        if(revisedChemical || currentGame->techLevel >= 7)
+            upgradeLevel = std::max(upgradeLevel, currentGame->techLevel >= 7 ? 2 : 1);
     }
     return upgradeLevel;
 }
@@ -370,7 +372,7 @@ void BuilderBase::updateBuildList()
 
         const auto activeModName = ModManager::instance().getActiveModName();
         const int technologyHouse = ModManager::instance().isTornieContentActive()
-            ? originalHouseID : owner->getHouseID();
+            ? getTechnologyHouseID() : owner->getHouseID();
         const bool specialChemicalCarryall = itemID2Add == Unit_ChemicalCarryall
             && itemID == Structure_HighTechFactory
             && owner != nullptr
@@ -382,7 +384,7 @@ void BuilderBase::updateBuildList()
             removeItem(buildList, iter, itemID2Add);
             continue;
         }
-        const int dataHouseID = (itemID2Add == Unit_ChemicalCarryall) ? technologyHouse : originalHouseID;
+        const int dataHouseID = (itemID2Add == Unit_ChemicalCarryall) ? technologyHouse : getTechnologyHouseID();
         const ObjectData::ObjectDataStruct& objData = currentGame->objectData.data[itemID2Add][dataHouseID];
 
         const bool fiveSoldiers = itemID2Add == Unit_Infantry5;
@@ -399,8 +401,11 @@ void BuilderBase::updateBuildList()
             continue;
         }
         const bool itemEnabled = objData.enabled || specialChemicalCarryall;
-        const int requiredUpgrade = specialChemicalCarryall ? 2 : objData.upgradeLevel;
-        const int configuredTechLevel = specialChemicalCarryall ? 1 : objData.techLevel;
+        const bool wildspadeChemical = specialChemicalCarryall
+            && isHouseFaction(static_cast<HOUSETYPE>(technologyHouse), HOUSE_WILDSPADE)
+            && objData.techLevel == 6;
+        const int requiredUpgrade = specialChemicalCarryall ? (wildspadeChemical ? 1 : 2) : objData.upgradeLevel;
+        const int configuredTechLevel = specialChemicalCarryall ? (wildspadeChemical ? 6 : 1) : objData.techLevel;
         const int requiredTechLevel = itemID2Add == Structure_ChaosFactory
             ? std::max(9, configuredTechLevel)
             : configuredTechLevel;
@@ -454,7 +459,7 @@ void BuilderBase::updateBuildList()
                 }
             }
 
-            if(specialChemicalCarryall && owner->getNumItems(Structure_IX) <= 0) {
+            if(specialChemicalCarryall && !wildspadeChemical && owner->getNumItems(Structure_IX) <= 0) {
                 bPrerequisitesMet = false;
                 missingPrerequisite = Structure_IX;
             }
@@ -481,9 +486,9 @@ void BuilderBase::updateBuildList()
                     logTechCenterBuildGate(this, owner, objData, producedHere, true, ItemID_Invalid, "available", true);
                 }
                 const int buildListPrice = fiveSoldiers
-                    ? 3 * currentGame->objectData.data[Unit_Soldier][originalHouseID].price
+                    ? 3 * currentGame->objectData.data[Unit_Soldier][getTechnologyHouseID()].price
                     : fiveTroopers
-                    ? 3 * currentGame->objectData.data[Unit_Trooper][originalHouseID].price
+                    ? 3 * currentGame->objectData.data[Unit_Trooper][getTechnologyHouseID()].price
                     : specialChemicalCarryall
                     ? 950
                     : (directWorfineryProduct && itemID2Add == Unit_Harvester ? 425 : -1);
@@ -566,7 +571,7 @@ bool BuilderBase::update() {
 
             Coord groupDeploySpot = Coord::Invalid();
             for(int i = 0; i < num2Place; i++) {
-                UnitBase* newUnit = getOwner()->createUnit(finishedItemID, false, getProductionHouseID());
+                UnitBase* newUnit = getOwner()->createUnit(finishedItemID, false, getTechnologyHouseID());
 
                 if(newUnit != nullptr) {
                     Coord unitDestination;
