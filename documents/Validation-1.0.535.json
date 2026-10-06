@@ -1,0 +1,86 @@
+{
+  "version": "1.0.535",
+  "status": "local-preview-validated",
+  "sourceCommit": "64090c72f5d13d354cfdb20fa43871aa7a8928fd",
+  "campaignPlans": {
+    "mods": 2,
+    "campaigns": 24,
+    "uniqueScenarios": 528,
+    "distinctOpponents": 3,
+    "eachFactionOncePerRole": true,
+    "disjointOpponentSetsBetweenMods": true
+  },
+  "terrainEconomyAndOtherForcesPreserved": true,
+  "removedOpeningInfantryOrders": 14,
+  "specialVehicleMarkersConverted": 36,
+  "regionFilesAudited": 33,
+  "engineTests": {
+    "platforms": [
+      "Windows MSVC Release PCH",
+      "Linux GCC Release"
+    ],
+    "cases": 96,
+    "assertions": 6845,
+    "ctestPassed": true
+  },
+  "runtimeChecks": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "scenariosPerRun": 838,
+    "uniqueRebuiltMaps": 528,
+    "profiles": [
+      "chaos-smoke-packaged-fr-Tornie-b00cb181",
+      "chaos-smoke-build-en-Jericho-03756be0",
+      "linux-achievement-smoke-e071d6c2"
+    ],
+    "previousSaves": [
+      "1.0.525",
+      "1.0.534"
+    ],
+    "originalCatBackgroundPreserved": true,
+    "fiveEyeAndMouthStates": true,
+    "actualTornieAndJerichoMenuPixelsVerified": true,
+    "modSwitches": true
+  },
+  "website": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "routeChecks": 54,
+    "windtrapPortraitChecks": 24,
+    "campaignViews": 8,
+    "ficheChecks": 8,
+    "pngFiles": 111,
+    "pngHashesVerified": true,
+    "localDownloadsVerified": 3,
+    "brokenImages": [],
+    "browserErrors": []
+  },
+  "windowsPackage": {
+    "archive": "DuneLegacyTornie-1.0.535-Windows-Preview.zip",
+    "bytes": 48292474,
+    "sha256": "a06ea35b8e3a19373fbf47edeae4804d5e157b44c25ea49d2d058e389c9a6c32",
+    "maps": 142,
+    "dlls": 16,
+    "requiredFilesVerified": 25,
+    "executableMatchesTestedBuild": true,
+    "allMapsMatchCommittedSources": true,
+    "bundledModFiles": 2206,
+    "allBundledModFilesMatchSources": true,
+    "vanillaCampaignAndVoiceAssetsVerified": 27,
+    "noCityPromotion": true,
+    "sourceCommit": "64090c72f5d13d354cfdb20fa43871aa7a8928fd"
+  },
+  "gamePullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/6",
+  "ciRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37505928729",
+  "ciStatus": "running",
+  "playtestRemaining": [
+    "Complete campaign playthroughs and balance",
+    "Eye/mouth visual preference during actual speaking",
+    "Live two-PC multiplayer"
+  ],
+  "publicationStatus": "Not released; public version remains 1.0.534"
+}

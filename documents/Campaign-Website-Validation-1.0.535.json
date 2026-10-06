@@ -1,0 +1,68 @@
+{
+  "version": "1.0.535",
+  "campaignViews": 8,
+  "rowsPerMod": 12,
+  "balancedRoles": true,
+  "originalPNGHashes": 111,
+  "animationFrames": 5,
+  "localDownloadsVerified": 3,
+  "browserErrors": [],
+  "checks": [
+    {
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "campaignRows": 12,
+      "animationFrames": 5
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "campaignRows": 12,
+      "animationFrames": 5
+    }
+  ]
+}

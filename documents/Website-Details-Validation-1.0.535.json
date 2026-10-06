@@ -1,0 +1,52 @@
+{
+  "version": "1.0.535",
+  "affectedFicheChecks": 8,
+  "checks": [
+    {
+      "lang": "fr",
+      "mod": "Tornie",
+      "chemical": "level 6 / upgrade 1 / no IX",
+      "orni": "level 7 / upgrade 2 / IX"
+    },
+    {
+      "lang": "fr",
+      "mod": "Jericho",
+      "chemical": "level 6 / upgrade 1 / no IX",
+      "orni": "level 7 / upgrade 2 / IX"
+    },
+    {
+      "lang": "fr",
+      "windtrap": "2x3",
+      "image": "original shared game portrait"
+    },
+    {
+      "lang": "fr",
+      "windtrap": "3x2",
+      "image": "original shared game portrait"
+    },
+    {
+      "lang": "en",
+      "mod": "Tornie",
+      "chemical": "level 6 / upgrade 1 / no IX",
+      "orni": "level 7 / upgrade 2 / IX"
+    },
+    {
+      "lang": "en",
+      "mod": "Jericho",
+      "chemical": "level 6 / upgrade 1 / no IX",
+      "orni": "level 7 / upgrade 2 / IX"
+    },
+    {
+      "lang": "en",
+      "windtrap": "2x3",
+      "image": "original shared game portrait"
+    },
+    {
+      "lang": "en",
+      "windtrap": "3x2",
+      "image": "original shared game portrait"
+    }
+  ],
+  "exactPNGHashesVerified": 111,
+  "browserErrors": []
+}

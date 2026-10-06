@@ -1,0 +1,7050 @@
+{
+  "version": "1.0.535",
+  "campaigns": 24,
+  "missions": 528,
+  "baseline": "v1.0.534",
+  "maps": [
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 1,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 2,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 3,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 4,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 5,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 6,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 7,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 8,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 9,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 10,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 11,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 12,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 13,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 14,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 15,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 16,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 17,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 18,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 19,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 20,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 21,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Atreides",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "mission": 22,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Atreides": "Rebels",
+        "Sardaukar": "Atreides",
+        "Mercenary": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 1,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID043"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 2,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 3,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 4,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 5,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 6,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 7,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 8,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 9,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 10,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 11,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 12,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 13,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 14,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 15,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 16,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 17,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 18,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 19,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 20,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 21,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Mercenary",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "mission": 22,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Harkonnen": "Corruptique",
+        "Ordos": "Mercenary",
+        "Mercenary": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 1,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 2,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 3,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 4,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 5,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 6,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 7,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 8,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 9,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 10,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 11,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 12,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 13,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 14,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 15,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 16,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 17,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 18,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 19,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 20,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 21,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "mission": 22,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Fremen",
+        "Sardaukar": "Wildspade",
+        "Neutral": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 1,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036",
+        "ID035"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID034",
+        "UNITS:ID025"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 2,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 3,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 4,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 5,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 6,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 7,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 8,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 9,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 10,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 11,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 12,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 13,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 14,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 15,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 16,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 17,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 18,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 19,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 20,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 21,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Rebels": "Sardaukar",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "mission": 22,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Mercenary": "Kleshmersh",
+        "Rebels": "Sardaukar",
+        "Corruptique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 1,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 2,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 3,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 4,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 5,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 6,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 7,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 8,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 9,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 10,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 11,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 12,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 13,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 14,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 15,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 16,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 17,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 18,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 19,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 20,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 21,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Corruptique",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "mission": 22,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Harkonnen": "Tharpique",
+        "Ordos": "Corruptique",
+        "Neutral": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 1,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID032",
+        "UNITS:ID031",
+        "UNITS:ID022"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 2,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 3,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 4,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 5,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 6,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 7,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 8,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 9,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 10,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 11,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 12,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 13,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 14,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 15,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 16,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 17,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 18,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 19,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 20,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 21,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "mission": 22,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Wildspade",
+        "Neutral": "Harkonnen",
+        "Corruptique": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 1,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 2,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 3,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 4,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 5,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 6,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 7,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 8,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 9,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 10,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 11,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 12,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 13,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 14,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 15,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 16,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 17,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 18,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 19,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 20,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 21,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "mission": 22,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Rebels",
+        "Ordos": "Atreides",
+        "Rebels": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 1,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID031"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 2,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 3,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 4,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 5,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 6,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 7,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 8,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 9,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 10,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 11,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 12,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 13,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 14,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 15,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 16,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 17,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 18,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 19,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 20,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 21,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "mission": 22,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Corruptique",
+        "Sardaukar": "Tharpique",
+        "Corruptique": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 1,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID035",
+        "UNITS:ID060",
+        "UNITS:ID061",
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 2,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 3,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 4,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 5,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 6,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 7,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 8,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 9,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 10,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 11,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 12,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 13,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 14,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 15,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 16,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 17,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 18,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 19,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 20,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 21,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade",
+        "Fremen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "mission": 22,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Wildspade",
+        "Fremen": "Harkonnen",
+        "Rebels": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 1,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID033",
+        "UNITS:ID030"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 2,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 3,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 4,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 5,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 6,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 7,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 8,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 9,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 10,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 11,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 12,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 13,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 14,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 15,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 16,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 17,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 18,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 19,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 20,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 21,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "mission": 22,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Kleshmersh",
+        "Ordos": "Sardaukar",
+        "Kleshmersh": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 1,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Mercenary": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID033",
+        "UNITS:ID029"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 2,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 3,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 4,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 5,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 6,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 7,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 8,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 9,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 10,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 11,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 12,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 13,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 14,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 15,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 16,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 17,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 18,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 19,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 20,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 21,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "mission": 22,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Tharpique",
+        "Sardaukar": "Ordos",
+        "Tharpique": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 1,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Wildspade": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [
+        "ID059"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID035",
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 2,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 3,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 4,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 5,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 6,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 7,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 8,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 9,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 10,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 11,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 12,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 13,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 14,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 15,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 16,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 17,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 18,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 19,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 20,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 21,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "mission": 22,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Harkonnen",
+        "Fremen": "Fremen",
+        "Kleshmersh": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 1,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 2,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 3,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 4,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 5,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 6,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 7,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 8,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 9,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 10,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 11,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 12,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 13,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 14,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 15,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 16,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 17,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 18,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 19,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 20,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 21,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Sardaukar": "Ordos",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "mission": 22,
+      "mapping": {
+        "Harkonnen": "Harkonnen",
+        "Atreides": "Wildspade",
+        "Sardaukar": "Ordos",
+        "Mercenary": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 1,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Fremen": "Fremen"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID043"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 2,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 3,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 4,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 5,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 6,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 7,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 8,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 9,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 10,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 11,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 12,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 13,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 14,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 15,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 16,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 17,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 18,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 19,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 20,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 21,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Ordos": "Neutral",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "mission": 22,
+      "mapping": {
+        "Atreides": "Atreides",
+        "Harkonnen": "Kleshmersh",
+        "Ordos": "Neutral",
+        "Mercenary": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 1,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Tharpique": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 2,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 3,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 4,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 5,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 6,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 7,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 8,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 9,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 10,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 11,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 12,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 13,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 14,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 15,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 16,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 17,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 18,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 19,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 20,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 21,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "mission": 22,
+      "mapping": {
+        "Ordos": "Ordos",
+        "Fremen": "Sardaukar",
+        "Sardaukar": "Tharpique",
+        "Wildspade": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 1,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Harkonnen": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036",
+        "ID035"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID034",
+        "UNITS:ID025"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 2,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 3,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 4,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 5,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 6,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 7,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 8,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 9,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 10,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 11,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 12,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 13,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 14,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 15,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 16,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 17,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 18,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 19,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 20,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 21,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Kleshmersh": "Mercenary",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "mission": 22,
+      "mapping": {
+        "Fremen": "Fremen",
+        "Mercenary": "Harkonnen",
+        "Kleshmersh": "Mercenary",
+        "Tharpique": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 1,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Atreides": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 2,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 3,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 4,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 5,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 6,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 7,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 8,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 9,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 10,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 11,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 12,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 13,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 14,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 15,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 16,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 17,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 18,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 19,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 20,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 21,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Ordos": "Wildspade",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "mission": 22,
+      "mapping": {
+        "Sardaukar": "Sardaukar",
+        "Harkonnen": "Atreides",
+        "Ordos": "Wildspade",
+        "Wildspade": "Neutral"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 1,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Ordos": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID032",
+        "UNITS:ID031",
+        "UNITS:ID022"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 2,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 3,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 4,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 5,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 6,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 7,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 8,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 9,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 10,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 11,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 12,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 13,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 14,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 15,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 16,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 17,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 18,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 19,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 20,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 21,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "mission": 22,
+      "mapping": {
+        "Mercenary": "Mercenary",
+        "Harkonnen": "Kleshmersh",
+        "Wildspade": "Ordos",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 1,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 2,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 3,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 4,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 5,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 6,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 7,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 8,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 9,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 10,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 11,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 12,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 13,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 14,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 15,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 16,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 17,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 18,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 19,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 20,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 21,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "mission": 22,
+      "mapping": {
+        "Neutral": "Neutral",
+        "Atreides": "Corruptique",
+        "Ordos": "Fremen",
+        "Rebels": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 1,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [
+        "ID036"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID031"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 2,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 3,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 4,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 5,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 6,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 7,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 8,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 9,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 10,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 11,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 12,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 13,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 14,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 15,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 16,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 17,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 18,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 19,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 20,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 21,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "mission": 22,
+      "mapping": {
+        "Rebels": "Rebels",
+        "Ordos": "Wildspade",
+        "Sardaukar": "Harkonnen",
+        "Corruptique": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 1,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID035",
+        "UNITS:ID060",
+        "UNITS:ID061",
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 2,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 3,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 4,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 5,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 6,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 7,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 8,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 9,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 10,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 11,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 12,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 13,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 14,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 15,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 16,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 17,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 18,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 19,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 20,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 21,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh",
+        "Fremen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "mission": 22,
+      "mapping": {
+        "Corruptique": "Corruptique",
+        "Harkonnen": "Kleshmersh",
+        "Fremen": "Atreides",
+        "Rebels": "Mercenary"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 1,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID033",
+        "UNITS:ID030"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 2,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 3,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 4,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 5,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 6,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 7,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 8,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 9,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 10,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 11,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 12,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 13,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 14,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 15,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 16,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 17,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 18,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 19,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Ordos": "Tharpique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 20,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 21,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "mission": 22,
+      "mapping": {
+        "Wildspade": "Wildspade",
+        "Atreides": "Tharpique",
+        "Ordos": "Neutral",
+        "Kleshmersh": "Ordos"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 1,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Mercenary": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID033",
+        "UNITS:ID029"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 2,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 3,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 4,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 5,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 6,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 7,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 8,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 9,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 10,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 11,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 12,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 13,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 14,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 15,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 16,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 17,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 18,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 19,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Tharpique": "Harkonnen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 20,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 21,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen",
+        "Sardaukar": "Fremen"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "mission": 22,
+      "mapping": {
+        "Kleshmersh": "Kleshmersh",
+        "Ordos": "Harkonnen",
+        "Sardaukar": "Fremen",
+        "Tharpique": "Rebels"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 1,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Wildspade": "Atreides"
+      },
+      "removedStartingSoldierOrders": [
+        "ID059"
+      ],
+      "specialSpawnOrdersConverted": [
+        "UNITS:ID035",
+        "UNITS:ID062"
+      ],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 2,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 3,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 4,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 5,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 6,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 7,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 8,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 9,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 10,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 11,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 12,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 13,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 14,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 15,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 16,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 17,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 18,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 19,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 20,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 21,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides",
+        "Fremen": "Sardaukar"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "mission": 22,
+      "mapping": {
+        "Tharpique": "Tharpique",
+        "Harkonnen": "Atreides",
+        "Fremen": "Sardaukar",
+        "Kleshmersh": "Corruptique"
+      },
+      "removedStartingSoldierOrders": [],
+      "specialSpawnOrdersConverted": [],
+      "terrainAndEconomyPreserved": true,
+      "vanillaOpponentRolesMatch": true
+    }
+  ],
+  "removedStartingSoldierOrders": 14,
+  "specialSpawnOrdersConverted": 36
+}

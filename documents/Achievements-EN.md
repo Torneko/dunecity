@@ -1,4 +1,4 @@
-# 46 achievements — Dune Legacy Tornie 1.0.534
+# 46 achievements — Dune Legacy Tornie 1.0.535
 
 | Achievement | Requirement |
 |---|---|
