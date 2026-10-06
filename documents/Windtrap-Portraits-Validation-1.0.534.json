@@ -1,0 +1,201 @@
+{
+  "version": "1.0.534",
+  "mode": "offline-and-local",
+  "portraitChecks": 24,
+  "portraitSHA256": "79348054e6b977d7afc996ed7b035df17b05703578c7ba60ffdbd9a70edcd343",
+  "checks": [
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "Tornie",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "Tornie",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "TornieLite",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "TornieLite",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "Jericho",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "fr",
+      "mod": "Jericho",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "Tornie",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "Tornie",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "TornieLite",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "TornieLite",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "Jericho",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "offline file://",
+      "lang": "en",
+      "mod": "Jericho",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "Tornie",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "Tornie",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "TornieLite",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "TornieLite",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "Jericho",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "fr",
+      "mod": "Jericho",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "Tornie",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "Tornie",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "TornieLite",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "TornieLite",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "Jericho",
+      "size": "2x3",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "lang": "en",
+      "mod": "Jericho",
+      "size": "3x2",
+      "cardAndDialog": "original game portrait",
+      "iconDownload": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+    }
+  ],
+  "browserErrors": []
+}

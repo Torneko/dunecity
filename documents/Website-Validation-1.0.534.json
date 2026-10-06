@@ -1,0 +1,343 @@
+{
+  "version": "1.0.534",
+  "mode": "offline-and-local-server",
+  "pageChecks": 54,
+  "languages": [
+    "fr",
+    "en"
+  ],
+  "routeCount": 9,
+  "units": 30,
+  "buildings": 29,
+  "achievements": 46,
+  "galleryPNG": 108,
+  "languageContextPreserved": true,
+  "brokenImages": [],
+  "browserErrors": [],
+  "checks": [
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "offline file://",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "offline file://",
+      "language": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8766/",
+      "language": "en",
+      "width": 390,
+      "route": "projet"
+    }
+  ]
+}

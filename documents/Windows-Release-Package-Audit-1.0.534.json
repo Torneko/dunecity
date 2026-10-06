@@ -1,0 +1,22 @@
+{
+  "version": "1.0.534",
+  "sourceCommit": "640c00d5538af3deb368fbd06d6c71a15123a0f6",
+  "ciRun": 37491579704,
+  "archive": "DuneLegacyTornie-1.0.534-Windows-x64.zip",
+  "ciArchive": "DuneLegacyTornie-1.0.534-Windows-x64.zip",
+  "bytes": 45679896,
+  "sha256": "a2e9fe1922f15cee8dfd2448c947978b3b7398aa86d0314ce6f6fd3d593ba89d",
+  "executableSHA256": "65de05d9cdc558348364ac001b40aee51a615e79afa171f1b9b3d28a5e60203a",
+  "maps": 142,
+  "dlls": 16,
+  "bundledModFiles": 2198,
+  "vanillaCampaignAndVoiceAssetsVerified": 27,
+  "allBundledModFilesMatchSources": true,
+  "allMapsMatchTaggedSourceWithPlatformTextLineEndings": true,
+  "noCityPromotion": true,
+  "runtimeVerification": "passed in French and English using the extracted CI release archive",
+  "runtimeLogs": [
+    "chaos-smoke-released-fr-Tornie-1bf8d425/runtime.log",
+    "chaos-smoke-released-en-Jericho-05cd8e6f/runtime.log"
+  ]
+}

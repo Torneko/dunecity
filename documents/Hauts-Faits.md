@@ -1,4 +1,4 @@
-# 46 hauts faits — Dune Legacy Tornie 1.0.533
+# 46 hauts faits — Dune Legacy Tornie 1.0.534
 
 | Haut fait | Condition |
 |---|---|
