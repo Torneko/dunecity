@@ -1,0 +1,410 @@
+{
+  "version": "1.0.534",
+  "status": "local preview validated; public release remains 1.0.533",
+  "sourceCommit": "327f95aeb93ac107a28a6a6b895df731dc210df5",
+  "pullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/4",
+  "unitTests": {
+    "platforms": [
+      "Windows MSVC Release",
+      "Linux Release"
+    ],
+    "testCases": 95,
+    "assertions": 6839,
+    "ctest": "passed"
+  },
+  "runtime": {
+    "platforms": [
+      "packaged Windows French",
+      "packaged Windows English",
+      "Linux French"
+    ],
+    "campaignScenariosPerRun": 118,
+    "chaosMode": [
+      "Tornie",
+      "TornieLite",
+      "Jericho"
+    ],
+    "vanillaChaosDisabled": true,
+    "checks": [
+      "same-level donor tables",
+      "campaign/multiplayer settings and seed transport",
+      "donor unit technology",
+      "faction identity",
+      "palace donor",
+      "queued unit save/load",
+      "Wildspade gates",
+      "original Fremen confirmation pixels, startup and mod switch",
+      "legacy saves from published 1.0.533 and older versions"
+    ],
+    "logs": {
+      "windowsFr": "work\\chaos-smoke-packaged-fr-Tornie-c3a9fa98\\runtime.log",
+      "windowsEn": "work\\chaos-smoke-packaged-en-Jericho-474a1cfc\\runtime.log",
+      "linuxFr": "work\\linux-achievement-smoke-079e7a2e\\runtime.log"
+    }
+  },
+  "website": {
+    "version": "1.0.534",
+    "mode": "offline-and-local-server",
+    "pageChecks": 54,
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "routeCount": 9,
+    "units": 30,
+    "buildings": 29,
+    "achievements": 46,
+    "galleryPNG": 108,
+    "languageContextPreserved": true,
+    "brokenImages": [],
+    "browserErrors": [],
+    "checks": [
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "unites"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "batiments"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "technologies"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "factions"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "fr",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "unites"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "batiments"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "technologies"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "factions"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.534/dist/",
+        "language": "en",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "unites"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "batiments"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "technologies"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "factions"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "accueil"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "unites"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "batiments"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "technologies"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "factions"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "guide"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "galerie"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "fr",
+        "width": 390,
+        "route": "projet"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "unites"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "batiments"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "technologies"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "factions"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "accueil"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "unites"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "batiments"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "technologies"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "factions"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "hauts-faits"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "guide"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "galerie"
+      },
+      {
+        "source": "http://127.0.0.1:8766/",
+        "language": "en",
+        "width": 390,
+        "route": "projet"
+      }
+    ],
+    "affectedFicheChecks": 8,
+    "exactPNGHashesVerified": 108
+  },
+  "package": {
+    "archive": "DuneLegacyTornie-1.0.534-Windows-Preview.zip",
+    "bytes": 45611671,
+    "sha256": "9787bce5115805acd0bda4b642822eb0fe605cc1de7d7ff25259bdd73846b500",
+    "maps": 142,
+    "dlls": 16,
+    "requiredFilesVerified": 25,
+    "executableMatchesTestedBuild": true,
+    "allMapsMatchCommittedSources": true,
+    "bundledModFiles": 2198,
+    "allBundledModFilesMatchSources": true,
+    "vanillaCampaignAndVoiceAssetsVerified": 27,
+    "noCityPromotion": true,
+    "sourceCommit": "327f95aeb93ac107a28a6a6b895df731dc210df5"
+  },
+  "executableSHA256": "3548f213287bc58a5cf34c99c469c28d9347f59650c3e2c5b3bfe6057d275b91",
+  "remainingPlaytesting": [
+    "live multiplayer match between two PCs",
+    "extended campaign and Chaos balance"
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "regionFiles": 33,
+  "campaigns": [
+    {
+      "mod": "Tornie",
+      "house": "Harkonnen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Mercenary",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Atreides",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Mercenary",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Ordos",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Neutral",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Tornie",
+      "house": "Fremen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Corruptique",
+        "Mercenary",
+        "Rebels"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Sardaukar",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Neutral",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Mercenary",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Corruptique",
+        "Harkonnen",
+        "Neutral"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Tornie",
+      "house": "Neutral",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Ordos",
+        "Rebels"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Tornie",
+      "house": "Rebels",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Corruptique",
+        "Ordos",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Corruptique",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Rebels"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Wildspade",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Kleshmersh",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Tornie",
+      "house": "Kleshmersh",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Mercenary",
+        "Ordos",
+        "Sardaukar",
+        "Tharpique"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Tornie",
+      "house": "Tharpique",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Kleshmersh",
+        "Wildspade"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Harkonnen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Mercenary",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Atreides",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Mercenary"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Ordos",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Fremen",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Fremen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Mercenary",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Sardaukar",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "TornieLite",
+      "house": "Mercenary",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Ordos",
+        "Sardaukar",
+        "Tharpique"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Jericho",
+      "house": "Harkonnen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Kleshmersh",
+        "Mercenary",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Atreides",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Mercenary",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Ordos",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Sardaukar",
+        "Tharpique",
+        "Wildspade"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Jericho",
+      "house": "Fremen",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Kleshmersh",
+        "Mercenary",
+        "Tharpique"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Sardaukar",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Harkonnen",
+        "Ordos",
+        "Wildspade"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Mercenary",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Ordos",
+        "Tharpique",
+        "Wildspade"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Jericho",
+      "house": "Neutral",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Ordos",
+        "Rebels"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Jericho",
+      "house": "Rebels",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Corruptique",
+        "Ordos",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Corruptique",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Rebels"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Wildspade",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Kleshmersh",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "Jericho",
+      "house": "Kleshmersh",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Mercenary",
+        "Ordos",
+        "Sardaukar",
+        "Tharpique"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "Jericho",
+      "house": "Tharpique",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Harkonnen",
+        "Kleshmersh",
+        "Wildspade"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "vanilla",
+      "house": "Neutral",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Atreides",
+        "Harkonnen",
+        "Ordos"
+      ],
+      "intentionalRepeatedTerritories": 1
+    },
+    {
+      "mod": "vanilla",
+      "house": "Rebels",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Fremen",
+        "Mercenary",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    },
+    {
+      "mod": "vanilla",
+      "house": "Kleshmersh",
+      "missions": 22,
+      "routes": 21,
+      "opponents": [
+        "Harkonnen",
+        "Mercenary",
+        "Sardaukar"
+      ],
+      "intentionalRepeatedTerritories": 0
+    }
+  ]
+}
