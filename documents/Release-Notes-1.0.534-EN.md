@@ -9,3 +9,5 @@ Original Fremen banner verified in the actual confirmation screen. Original 2×3
 Preview only: the public website and current released game remain on 1.0.533.
 
 Validation: Windows + Linux Release builds and CTest, 95 cases / 6,839 assertions; packaged Windows FR/EN and Linux runtime checks; 118 campaign scenarios per run; 54 browser route checks, 108 PNGs, no broken images or JavaScript errors. A live two-PC multiplayer match and extended balance remain playtesting steps.
+
+GitHub CI: Windows build and runtime/package validation, Linux build/tests and French locale validation all passed: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37420230124

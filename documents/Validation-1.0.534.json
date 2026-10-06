@@ -37,7 +37,7 @@
       "legacy saves from published 1.0.533 and older versions"
     ],
     "logs": {
-      "windowsFr": "work\\chaos-smoke-packaged-fr-Tornie-c3a9fa98\\runtime.log",
+      "windowsFr": "work/chaos-smoke-packaged-fr-Tornie-02e81976/runtime.log",
       "windowsEn": "work\\chaos-smoke-packaged-en-Jericho-474a1cfc\\runtime.log",
       "linuxFr": "work\\linux-achievement-smoke-079e7a2e\\runtime.log"
     }
@@ -406,5 +406,48 @@
   "remainingPlaytesting": [
     "live multiplayer match between two PCs",
     "extended campaign and Chaos balance"
-  ]
+  ],
+  "githubCI": {
+    "run": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37420230124",
+    "sourceCommit": "327f95aeb93ac107a28a6a6b895df731dc210df5",
+    "conclusion": "success",
+    "checks": [
+      {
+        "name": "build-linux",
+        "conclusion": "success"
+      },
+      {
+        "name": "test-linux",
+        "conclusion": "success"
+      },
+      {
+        "name": "build-windows",
+        "conclusion": "success"
+      },
+      {
+        "name": "verify-version",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "validate-french-locale",
+        "conclusion": "success"
+      },
+      {
+        "name": "build-macos",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "release",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "tornie-release",
+        "conclusion": "skipped"
+      },
+      {
+        "name": "dev-release",
+        "conclusion": "skipped"
+      }
+    ]
+  }
 }
