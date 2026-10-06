@@ -94,7 +94,7 @@ int LoveFactory::getDeliveryMaximum(Uint32 deliveryID) const {
 }
 
 int LoveFactory::getRandomizedPrice(Uint32 deliveryID) const {
-    int basePrice = currentGame->objectData.data[deliveryID][originalHouseID].price;
+    int basePrice = currentGame->objectData.data[deliveryID][getTechnologyHouseID()].price;
     if(basePrice <= 0) {
         basePrice = fallbackBasePrice(deliveryID);
     }
@@ -258,7 +258,7 @@ bool LoveFactory::isDeliveryCandidate(Uint32 unitItemID, Uint32 deliveryID) cons
         return false;
     }
 
-    const auto& data = currentGame->objectData.data[unitItemID][originalHouseID];
+    const auto& data = currentGame->objectData.data[unitItemID][getTechnologyHouseID()];
     if(!data.enabled || data.builder == ItemID_Invalid
        || (data.techLevel >= 0 && data.techLevel > currentGame->techLevel)) {
         return false;

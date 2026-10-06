@@ -50,12 +50,14 @@ HouseChoiceInfoMenu::HouseChoiceInfoMenu(int newHouse) : MentatMenu(HOUSE_INVALI
         } break;
     }
 
-    if((newHouse >= HOUSE_CUSTOM || displayHouse == HOUSE_NEUTRAL || displayHouse == HOUSE_REBELS)
+    if((newHouse >= HOUSE_CUSTOM || displayHouse == HOUSE_FREMEN
+        || displayHouse == HOUSE_NEUTRAL || displayHouse == HOUSE_REBELS)
        && anim != nullptr) {
         SDL_Surface* registeredHerald = pGFXManager->getUIGraphicSurface(UI_Herald_ColoredLarge, static_cast<HOUSETYPE>(newHouse));
         auto opaqueHerald = copySurface(registeredHerald);
         if(opaqueHerald != nullptr) {
             SDL_SetColorKey(opaqueHerald.get(), SDL_FALSE, 0);
+            SDL_SetSurfaceBlendMode(opaqueHerald.get(), SDL_BLENDMODE_NONE);
             customPlanetAnimation = std::make_unique<Animation>();
             for(const auto& frame : anim->getFrames()) {
                 auto customFrame = copySurface(frame.get());
@@ -63,10 +65,9 @@ HouseChoiceInfoMenu::HouseChoiceInfoMenu(int newHouse) : MentatMenu(HOUSE_INVALI
                     continue;
                 }
 
-                if(opaqueHerald->format->BytesPerPixel > 1
-                   && customFrame->format->BytesPerPixel == 1) {
+                if(opaqueHerald->format->BytesPerPixel > 1) {
                     sdl2::surface_ptr trueColorFrame{
-                        SDL_ConvertSurfaceFormat(customFrame.get(), SDL_PIXELFORMAT_RGBA32, 0)
+                        SDL_ConvertSurfaceFormat(customFrame.get(), SDL_PIXELFORMAT_RGB888, 0)
                     };
                     if(trueColorFrame == nullptr) {
                         continue;

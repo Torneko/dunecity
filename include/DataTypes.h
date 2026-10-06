@@ -216,7 +216,7 @@ public:
         GameOptionsClass()
          : gameSpeed(GAMESPEED_DEFAULT), concreteRequired(true), structuresDegradeOnConcrete(true), fogOfWar(false),
            startWithExploredMap(false), instantBuild(false), onlyOnePalace(false), rocketTurretsNeedPower(false),
-           sandwormsRespawn(false), killedSandwormsDropSpice(false), randomSpiceBlooms(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
+           sandwormsRespawn(false), killedSandwormsDropSpice(false), randomSpiceBlooms(false), chaosMode(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
            maximumNumberOfHarvestersOverride(-1), immortalHumanPlayer(false)  {
         }
 
@@ -233,6 +233,7 @@ public:
                     && (sandwormsRespawn == goc.sandwormsRespawn)
                     && (killedSandwormsDropSpice == goc.killedSandwormsDropSpice)
                     && (randomSpiceBlooms == goc.randomSpiceBlooms)
+                    && (chaosMode == goc.chaosMode)
                     && (manualCarryallDrops == goc.manualCarryallDrops)
                     && (maximumNumberOfUnitsOverride == goc.maximumNumberOfUnitsOverride)
                     && (maximumNumberOfHarvestersOverride == goc.maximumNumberOfHarvestersOverride)
@@ -266,6 +267,8 @@ public:
             optStr += std::to_string(maximumNumberOfHarvestersOverride);
             // Note: immortalHumanPlayer is intentionally excluded as it's a per-player setting
 
+            if(chaosMode) optStr += "|ChaosMode=1";
+
             // FNV-1a hash
             uint64_t hash = 14695981039346656037ULL;
             const uint64_t prime = 1099511628211ULL;
@@ -290,6 +293,7 @@ public:
         bool        sandwormsRespawn;
         bool        killedSandwormsDropSpice;
         bool        randomSpiceBlooms;
+        bool        chaosMode;
         bool        manualCarryallDrops;
         int         maximumNumberOfUnitsOverride;
         int         maximumNumberOfHarvestersOverride;

@@ -417,6 +417,7 @@ SettingsClass::GameOptionsClass ModManager::loadEffectiveGameOptions(
 
     // If vanilla mod or no mod system, just return base options
     if (!initialized || activeMod == VANILLA_MOD_NAME) {
+        result.chaosMode = false;
         return result;
     }
 
@@ -468,6 +469,7 @@ SettingsClass::GameOptionsClass ModManager::loadEffectiveGameOptions(
             else if (key == "Rocket-Turrets Need Power") result.rocketTurretsNeedPower = parseBool(value);
             else if (key == "Sandworms Respawn") result.sandwormsRespawn = parseBool(value);
             else if (key == "Killed Sandworms Drop Spice") result.killedSandwormsDropSpice = parseBool(value);
+            else if (key == "Chaos Mode") result.chaosMode = parseBool(value);
             else if (key == "Random Spice Blooms") result.randomSpiceBlooms = parseBool(value);
             else if (key == "Manual Carryall Drops") result.manualCarryallDrops = parseBool(value);
             else if (key == "Maximum Number of Units Override") result.maximumNumberOfUnitsOverride = std::stoi(value);

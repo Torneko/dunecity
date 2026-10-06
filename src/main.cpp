@@ -1012,6 +1012,7 @@ int main(int argc, char *argv[]) {
             settings.gameOptions.rocketTurretsNeedPower = myINIFile.getBoolValue("Game Options","Rocket-Turrets Need Power",false);
             settings.gameOptions.sandwormsRespawn = myINIFile.getBoolValue("Game Options","Sandworms Respawn",false);
             settings.gameOptions.killedSandwormsDropSpice = myINIFile.getBoolValue("Game Options","Killed Sandworms Drop Spice",false);
+            settings.gameOptions.chaosMode = myINIFile.getBoolValue("Game Options","Chaos Mode",false);
             settings.gameOptions.randomSpiceBlooms = myINIFile.getBoolValue("Game Options","Random Spice Blooms",false);
             settings.gameOptions.manualCarryallDrops = myINIFile.getBoolValue("Game Options","Manual Carryall Drops",false);
             settings.gameOptions.maximumNumberOfUnitsOverride = myINIFile.getIntValue("Game Options","Maximum Number of Units Override",0);

@@ -19,6 +19,8 @@ target_sources(dunelegacy_tests
         SpiceVariantsTestCase/SpiceVariantsTestCase.cpp
         PakfileConcurrentReadTestCase/PakfileConcurrentReadTestCase.cpp
         AchievementsTestCase/AchievementsTestCase.cpp
+        ChaosModeTestCase/ChaosModeTestCase.cpp
+        ${CMAKE_SOURCE_DIR}/src/mod/ChaosMode.cpp
         ${CMAKE_SOURCE_DIR}/src/Achievements/AchievementManager.cpp
         ${CMAKE_SOURCE_DIR}/src/FileClasses/Pakfile.cpp
         globals_test_stub.cpp

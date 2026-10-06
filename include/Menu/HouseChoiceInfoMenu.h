@@ -35,6 +35,7 @@ public:
     void onMentatTextFinished() override;
 
     void drawSpecificStuff() override;
+    Animation* getPlanetAnimation() const { return planetAnimation.getAnimation(); }
 private:
     void onYes();
     void onNo();

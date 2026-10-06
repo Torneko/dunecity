@@ -242,6 +242,7 @@ target_sources(dunelegacy
 
         # Mod System
         mod/ModManager.cpp
+        mod/ChaosMode.cpp
 
         # Structures
         structures/StructureBase.cpp

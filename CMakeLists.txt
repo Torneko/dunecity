@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 # Project name and version
-project(DuneLegacyTornie VERSION 1.0.533 LANGUAGES C CXX)
+project(DuneLegacyTornie VERSION 1.0.534 LANGUAGES C CXX)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
@@ -192,7 +192,7 @@ if(UNIX AND NOT APPLE)
 endif()
 
 # Install documentation
-install(FILES docs/ACHIEVEMENTS.md DESTINATION ${DUNELEGACY_DOC_DIR}/docs)
+install(FILES docs/ACHIEVEMENTS.md docs/CHAOS-MODE.md DESTINATION ${DUNELEGACY_DOC_DIR}/docs)
 if(WIN32)
     # Windows: install docs to root
     install(FILES AUTHORS COPYING NEWS README.md HOWTOPLAY.md

@@ -18,6 +18,7 @@
 #include <GUI/dune/GameOptionsWindow.h>
 
 #include <globals.h>
+#include <mod/ModManager.h>
 
 #include <FileClasses/TextManager.h>
 #include <FileClasses/GFXManager.h>
@@ -142,6 +143,14 @@ GameOptionsWindow::GameOptionsWindow(SettingsClass::GameOptionsClass& initialGam
     vboxRight.addWidget(&onlyOnePalaceCheckbox);
     vboxRight.addWidget(VSpacer::create(6));
 
+    chaosModeCheckbox.setText(_("Chaos Mode"));
+    chaosModeCheckbox.setTooltipText(_("Borrow same-level production and defence buildings from other factions. Colours and voices stay with your faction. Unavailable in Vanilla."));
+    const bool chaosAvailable = ModManager::instance().isTornieContentActive();
+    chaosModeCheckbox.setChecked(chaosAvailable && gameOptions.chaosMode);
+    chaosModeCheckbox.setEnabled(chaosAvailable);
+    vboxRight.addWidget(&chaosModeCheckbox);
+    vboxRight.addWidget(VSpacer::create(6));
+
     gameSpeedMinus.setTextures(pGFXManager->getUIGraphic(UI_Minus), pGFXManager->getUIGraphic(UI_Minus_Pressed));
     gameSpeedMinus.setOnClick(std::bind(&GameOptionsWindow::onGameSpeedMinus, this));
     gameSpeedHBox.addWidget(HSpacer::create(4));
@@ -188,6 +197,7 @@ void GameOptionsWindow::onOK() {
     gameOptions.startWithExploredMap = startWithExploredMapCheckbox.isChecked();
     gameOptions.instantBuild = instantBuildCheckbox.isChecked();
     gameOptions.onlyOnePalace = onlyOnePalaceCheckbox.isChecked();
+    gameOptions.chaosMode = chaosModeCheckbox.isEnabled() && chaosModeCheckbox.isChecked();
     gameOptions.rocketTurretsNeedPower = rocketTurretsNeedPowerCheckbox.isChecked();
     gameOptions.sandwormsRespawn = sandwormsRespawnCheckbox.isChecked();
     gameOptions.killedSandwormsDropSpice = killedSandwormsDropSpiceCheckbox.isChecked();

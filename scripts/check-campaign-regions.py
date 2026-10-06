@@ -17,8 +17,8 @@ def read(path):
 def ints(value):return [int(v.strip()) for v in value.split(',') if v.strip()]
 
 reports=[]
-def vanilla_scenarios():
-    data=(ROOT/'data/Extra.PAK').read_bytes();pos=0;entries=[]
+def vanilla_scenarios(pak='Extra.PAK'):
+    data=(ROOT/'data'/pak).read_bytes();pos=0;entries=[]
     while True:
         start=struct.unpack_from('<I',data,pos)[0];pos+=4
         if not start:break
@@ -66,7 +66,12 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
             assert scenario.get(player,'Brain',fallback='')=='Human',(mod,letter,mission,player)
             actual={h for h in PREFIX.values() if scenario.has_section(h) and h!=player}
             opponents|=actual
-            if mod=='vanilla' and letter=='K':assert actual=={'Harkonnen' if mission<=10 else 'Sardaukar' if mission<=21 else 'Rebels'},mission
+            if mod=='vanilla' and letter=='K':
+                original=read(vanilla_scenarios('SCENARIO.PAK')[f'SCENH{mission:03}.INI'])
+                remap={'Atreides':'Harkonnen','Ordos':'Sardaukar','Sardaukar':'Mercenary'}
+                expected={target for source,target in remap.items() if original.has_section(source)}
+                assert actual==expected,(mission,actual,expected)
+        if mod=='vanilla' and letter=='K':assert opponents=={'Harkonnen','Sardaukar','Mercenary'},opponents
         if letter=='W':assert opponents=={'Atreides','Kleshmersh','Ordos'},(mod,opponents)
         reports.append({'mod':mod,'house':LETTERS[letter],'missions':22,'routes':routes,
                         'opponents':sorted(opponents),'intentionalRepeatedTerritories':repeats})

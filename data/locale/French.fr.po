@@ -2752,3 +2752,11 @@ msgstr "Le soldat recherche les bâtiments ennemis à capturer"
 
 msgid "Infantry will hunt enemy buildings to capture them"
 msgstr "L’infanterie recherche les bâtiments ennemis à capturer"
+
+#: src/GUI/dune/GameOptionsWindow.cpp
+msgid "Chaos Mode"
+msgstr "Mode Chaos"
+
+#: src/GUI/dune/GameOptionsWindow.cpp
+msgid "Borrow same-level production and defence buildings from other factions. Colours and voices stay with your faction. Unavailable in Vanilla."
+msgstr "Emprunte les bâtiments de production et les défenses de même niveau aux autres factions. Votre faction conserve ses couleurs et ses voix. Indisponible en Vanilla."
