@@ -200,7 +200,8 @@ const ModMentatInfo& ModManager::getActiveMentatInfo(int house) const {
         return info;
     }();
     if(house >= HOUSE_WILDSPADE && house <= HOUSE_THARPIQUE
-       && (activeMod == TORNIE_MOD_NAME || activeMod == JERICHO_MOD_NAME)) {
+       && (activeMod == TORNIE_MOD_NAME || activeMod == JERICHO_MOD_NAME)
+       && (!initialized || !activeMentats[house].enabled)) {
         house = HOUSE_NEUTRAL + (house - HOUSE_WILDSPADE);
     }
     if(initialized && activeMod == VANILLA_MOD_NAME
@@ -1244,6 +1245,15 @@ ModInfo ModManager::readModIni(const std::string& modPath) const {
             else if(mentatKey == "Mouth X") parseIntegerField(mentat.mouthX);
             else if(mentatKey == "Mouth Y") parseIntegerField(mentat.mouthY);
             else if(mentatKey == "Use Base Extras") parseBooleanField(mentat.useBaseExtras);
+            else if(mentatKey == "Eyes Crop Y") parseIntegerField(mentat.eyesCropY);
+            else if(mentatKey == "Eyes Crop Height") parseIntegerField(mentat.eyesCropHeight);
+            else if(mentatKey == "Eyes Width") parseIntegerField(mentat.eyesWidth);
+            else if(mentatKey == "Eyes Height") parseIntegerField(mentat.eyesHeight);
+            else if(mentatKey == "Mouth Crop Y") parseIntegerField(mentat.mouthCropY);
+            else if(mentatKey == "Mouth Crop Height") parseIntegerField(mentat.mouthCropHeight);
+            else if(mentatKey == "Mouth Width") parseIntegerField(mentat.mouthWidth);
+            else if(mentatKey == "Mouth Height") parseIntegerField(mentat.mouthHeight);
+            else if(mentatKey == "Rest From Background") parseBooleanField(mentat.restFromBackground);
         }
     }
 

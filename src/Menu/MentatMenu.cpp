@@ -36,9 +36,8 @@ MentatMenu::MentatMenu(int newHouse)
 
     disableQuiting(true);
     house = newHouse;
-    const int mentatAssetHouse = newHouse >= HOUSE_WILDSPADE && newHouse <= HOUSE_THARPIQUE
-        ? HOUSE_NEUTRAL + (newHouse - HOUSE_WILDSPADE)
-        : newHouse;
+    const int mentatAssetHouse = newHouse == HOUSE_INVALID ? HOUSE_INVALID
+        : getHouseFactionIdentity(static_cast<HOUSETYPE>(newHouse));
     mentatPresentationHouse = mentatAssetHouse == HOUSE_INVALID
         ? HOUSE_INVALID
         : ModManager::instance().getEffectiveMentatIdentity(mentatAssetHouse);

@@ -111,6 +111,26 @@ TEST_CASE("Invalid optional Mentat fields disable the override safely",
     REQUIRE_FALSE(ModMentatConfig::isValid(invalidForegroundPath));
 }
 
+TEST_CASE("Generated mentat layouts reject incomplete or unsafe rectangles",
+          "[mod][mentat][config]") {
+    ModMentatInfo info;
+    info.eyesCropHeight = 234; info.eyesWidth = 100; info.eyesHeight = 50;
+    REQUIRE(ModMentatConfig::isValid(info));
+    info.eyesHeight = 0;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+    info.eyesHeight = 50; info.eyesCropY = -1;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+    info.eyesCropY = 0; info.restFromBackground = true;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+    info.backgroundAsset = "cat.png";
+    info.eyesX = 132; info.eyesY = 135; info.mouthX = 147; info.mouthY = 188;
+    info.mouthCropHeight = 190; info.mouthWidth = 100; info.mouthHeight = 50;
+    info.doubleEyes = false; info.doubleMouth = false;
+    REQUIRE(ModMentatConfig::isValid(info));
+    info.mouthWidth = 100000;
+    REQUIRE_FALSE(ModMentatConfig::isValid(info));
+}
+
 TEST_CASE("Custom-house presentation numbers parse safely and remain bounded",
           "[custom-house][presentation][config]") {
     double value = 1.0;

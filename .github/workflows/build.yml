@@ -74,6 +74,9 @@ jobs:
       - name: Configure CMake
         run: cmake -B build -DDUNELEGACY_BUILD_TESTS=ON -DCMAKE_BUILD_TYPE=Debug
 
+      - name: Validate campaign plans and region routes
+        run: python3 scripts/check-campaign-regions.py
+
       - name: Build tests
         run: cmake --build build --target dunelegacy_tests
 

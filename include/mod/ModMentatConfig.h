@@ -26,6 +26,11 @@ struct ModMentatInfo {
     int mouthX = -1;
     int mouthY = -1;
     bool useBaseExtras = false;
+    // Optional generated-atlas layout, in source pixels and final UI pixels.
+    // Zero dimensions retain the existing strip loader unchanged.
+    int eyesCropY = 0, eyesCropHeight = 0, eyesWidth = 0, eyesHeight = 0;
+    int mouthCropY = 0, mouthCropHeight = 0, mouthWidth = 0, mouthHeight = 0;
+    bool restFromBackground = false;
 };
 
 namespace ModMentatConfig {
@@ -96,6 +101,12 @@ inline bool isSafeAssetPath(const std::string& path) {
 inline bool isValid(const ModMentatInfo& info) {
     const auto validCoordinate = [](int value) { return value == -1 || (value >= 0 && value <= 4096); };
     const auto validColorKey = [](int value) { return value >= -1 && value <= 255; };
+    const auto validLayout = [](int y, int cropHeight, int width, int height) {
+        return y >= 0 && y <= 8192 && cropHeight >= 0 && cropHeight <= 8192
+            && width >= 0 && width <= 4096 && height >= 0 && height <= 4096
+            && ((cropHeight == 0 && width == 0 && height == 0)
+                || (cropHeight > 0 && width > 0 && height > 0));
+    };
 
     return info.identityHouse >= -1 && info.identityHouse < 8
         && isSafeAssetPath(info.backgroundAsset)
@@ -111,7 +122,13 @@ inline bool isValid(const ModMentatInfo& info) {
         && validCoordinate(info.eyesX)
         && validCoordinate(info.eyesY)
         && validCoordinate(info.mouthX)
-        && validCoordinate(info.mouthY);
+        && validCoordinate(info.mouthY)
+        && validLayout(info.eyesCropY, info.eyesCropHeight, info.eyesWidth, info.eyesHeight)
+        && validLayout(info.mouthCropY, info.mouthCropHeight, info.mouthWidth, info.mouthHeight)
+        && (!info.restFromBackground || (!info.backgroundAsset.empty()
+            && info.eyesX >= 0 && info.eyesY >= 0 && info.mouthX >= 0 && info.mouthY >= 0
+            && info.eyesWidth > 0 && info.mouthWidth > 0
+            && !info.doubleEyes && !info.doubleMouth));
 }
 
 } // namespace ModMentatConfig

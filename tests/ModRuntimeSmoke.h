@@ -24,6 +24,7 @@
 #include <ObjectData.h>
 #include "FactionPresentationSmoke.h"
 #include "ChaosModeSmoke.h"
+#include "WildspadeMentatSmoke.h"
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -106,6 +107,7 @@ inline void runModRuntimeSmoke() {
         verifyGeneratedSpice(output, mod);
         verifyFremenConfirmation(output, "switch");
         verifyWildspadeTechnology(output, mod);
+        verifyWildspadeMentat(output, mod);
         verifyChaosMode(output, mod);
         if(mod=="Tornie") {
             auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_FREMEN);
@@ -125,6 +127,15 @@ inline void runModRuntimeSmoke() {
             const auto name=getHouseNameByNumber(house);
             require(pTextManager->getBriefingText(0,MISSION_DESCRIPTION,h).find(name)!=std::string::npos,
                     "faction description uses another house name: "+name);
+            if(mod == "Tornie" || mod == "Jericho") {
+                INIFile plan(pFileManager->openFile("CampaignPlan.ini").get());
+                const auto first=plan.getStringValue(name,"Opponent1","");
+                require(!first.empty() && pTextManager->getBriefingText(1,MISSION_DESCRIPTION,h).find(first)!=std::string::npos,
+                        "opening briefing disagrees with campaign plan: "+name);
+                for(unsigned phase=1;phase<=9;++phase)
+                    for(unsigned type:{MISSION_DESCRIPTION,MISSION_WIN,MISSION_LOSE,MISSION_ADVICE})
+                        require(!pTextManager->getBriefingText(phase,type,h).empty(),"missing campaign briefing: "+name);
+            }
             HouseChoiceInfoMenu confirmation(h);
             for(unsigned mission:{1U,4U,7U,10U,13U,16U,19U,21U}) {
                 MapChoice choice(house,mission,0);choice.drawSpecificStuff();
@@ -217,13 +228,14 @@ inline void runModRuntimeSmoke() {
         verifyWorfinerySquad(output, mod);
         verifyBarracksSquad(output, mod);
         verifyChaosFactoryGraphics(output, mod, "switch");
-        // Load the opening and final scenarios of every bundled campaign through
+        // Load all 22 scenarios of every Tornie/Jericho campaign through
         // the actual INI loader, object factory and active-mod search path.
         const int previousScenarios = scenarios;
         const int campaignHouseCount = NUM_HOUSES;
         for(int selectedHouse = 0; selectedHouse < campaignHouseCount; ++selectedHouse) {
           if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) continue;
-          for(int mission : {1, 22}) {
+          for(int mission = 1; mission <= 22; ++mission) {
+            if(mod == "TornieLite" && mission != 1 && mission != 22) continue;
             const GameInitSettings campaign(static_cast<HOUSETYPE>(selectedHouse), mission, effectiveGameOptions);
             const std::string name = campaign.getFilename();
             auto resolvedFile = pFileManager->openCampaignFile(name);
@@ -265,8 +277,8 @@ inline void runModRuntimeSmoke() {
             pLocalPlayer = nullptr;
         }
         }
-        require(scenarios - previousScenarios == (mod == "TornieLite" ? 12 : 24),
-                mod + " opening/final campaign scenario coverage is incomplete");
+        require(scenarios - previousScenarios == (mod == "TornieLite" ? 12 : 264),
+                mod + " campaign scenario coverage is incomplete");
         // Exercise the added factory classes and stable IDs through save/load.
         std::string terrain = "[BASIC]\nVersion=2\nTechLevel=9\n[MAP]\nSizeX=32\nSizeY=32\n";
         for(int y = 0; y < 32; ++y) terrain += fmt::sprintf("%03d=", y) + std::string(32, '%') + "\n";
@@ -310,5 +322,5 @@ inline void runModRuntimeSmoke() {
         SDL_Log("MOD SMOKE PASS: %s activation, campaign loading, new objects, save/load", mod.c_str());
     }
     require(mods.setActiveMod(previousMod), "cannot restore previous mod");
-    SDL_Log("MOD SMOKE COMPLETE: %d opening/final campaign scenarios loaded", scenarios);
+    SDL_Log("MOD SMOKE COMPLETE: %d campaign scenarios loaded (all 528 rebuilt maps plus reload/legacy coverage)", scenarios);
 }

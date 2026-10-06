@@ -1,0 +1,255 @@
+{
+  "schema": 1,
+  "version": "1.0.535",
+  "roles": [
+    "firstOpponent",
+    "secondOpponent",
+    "imperialOpponent"
+  ],
+  "mods": {
+    "Tornie": [
+      {
+        "house": "Harkonnen",
+        "letter": "H",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Atreides",
+          "Sardaukar",
+          "Rebels"
+        ]
+      },
+      {
+        "house": "Atreides",
+        "letter": "A",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Ordos",
+          "Mercenary",
+          "Corruptique"
+        ]
+      },
+      {
+        "house": "Ordos",
+        "letter": "O",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Fremen",
+          "Neutral",
+          "Wildspade"
+        ]
+      },
+      {
+        "house": "Fremen",
+        "letter": "F",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Sardaukar",
+          "Rebels",
+          "Kleshmersh"
+        ]
+      },
+      {
+        "house": "Sardaukar",
+        "letter": "S",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Mercenary",
+          "Corruptique",
+          "Tharpique"
+        ]
+      },
+      {
+        "house": "Mercenary",
+        "letter": "M",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Neutral",
+          "Wildspade",
+          "Harkonnen"
+        ]
+      },
+      {
+        "house": "Neutral",
+        "letter": "N",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Rebels",
+          "Kleshmersh",
+          "Atreides"
+        ]
+      },
+      {
+        "house": "Rebels",
+        "letter": "R",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Corruptique",
+          "Tharpique",
+          "Ordos"
+        ]
+      },
+      {
+        "house": "Corruptique",
+        "letter": "C",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Wildspade",
+          "Harkonnen",
+          "Fremen"
+        ]
+      },
+      {
+        "house": "Wildspade",
+        "letter": "W",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Kleshmersh",
+          "Atreides",
+          "Sardaukar"
+        ]
+      },
+      {
+        "house": "Kleshmersh",
+        "letter": "K",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Tharpique",
+          "Ordos",
+          "Mercenary"
+        ]
+      },
+      {
+        "house": "Tharpique",
+        "letter": "T",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Harkonnen",
+          "Fremen",
+          "Neutral"
+        ]
+      }
+    ],
+    "Jericho": [
+      {
+        "house": "Harkonnen",
+        "letter": "H",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Ordos",
+          "Mercenary",
+          "Wildspade"
+        ]
+      },
+      {
+        "house": "Atreides",
+        "letter": "A",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Fremen",
+          "Neutral",
+          "Kleshmersh"
+        ]
+      },
+      {
+        "house": "Ordos",
+        "letter": "O",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Sardaukar",
+          "Rebels",
+          "Tharpique"
+        ]
+      },
+      {
+        "house": "Fremen",
+        "letter": "F",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Mercenary",
+          "Corruptique",
+          "Harkonnen"
+        ]
+      },
+      {
+        "house": "Sardaukar",
+        "letter": "S",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Neutral",
+          "Wildspade",
+          "Atreides"
+        ]
+      },
+      {
+        "house": "Mercenary",
+        "letter": "M",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Rebels",
+          "Kleshmersh",
+          "Ordos"
+        ]
+      },
+      {
+        "house": "Neutral",
+        "letter": "N",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Corruptique",
+          "Tharpique",
+          "Fremen"
+        ]
+      },
+      {
+        "house": "Rebels",
+        "letter": "R",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Wildspade",
+          "Harkonnen",
+          "Sardaukar"
+        ]
+      },
+      {
+        "house": "Corruptique",
+        "letter": "C",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Kleshmersh",
+          "Atreides",
+          "Mercenary"
+        ]
+      },
+      {
+        "house": "Wildspade",
+        "letter": "W",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Tharpique",
+          "Ordos",
+          "Neutral"
+        ]
+      },
+      {
+        "house": "Kleshmersh",
+        "letter": "K",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Harkonnen",
+          "Fremen",
+          "Rebels"
+        ]
+      },
+      {
+        "house": "Tharpique",
+        "letter": "T",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Atreides",
+          "Sardaukar",
+          "Corruptique"
+        ]
+      }
+    ]
+  }
+}

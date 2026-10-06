@@ -1,4 +1,26 @@
-# Dune Legacy Tornie 1.0.529
+# Dune Legacy Tornie 1.0.535 — preview
+
+Tornie and Jericho each have twelve rebuilt campaigns. Each campaign has three
+distinct opponents; every faction appears once in each role. The two plans use
+disjoint opponents for the same player faction. All 528 scenarios retain their
+terrain, economy, coordinates and other forces. Opening player infantry orders
+are removed; special ground vehicles use faction-specific Special Unit Spawn.
+Region owners and localized briefings follow the same plan, with safe text for
+missing legacy final-advice entries.
+
+Wildspade uses Tornie's original purple-cat mentat background, with separately
+animated eyes and mouth. Idle frames preserve the original background pixels.
+Jericho chooses mentat assets by faction identity, including its runtime aliases.
+
+Start a new campaign for the rebuilt maps. Existing saves retain their stored
+maps and remain readable. Vanilla and Tornie Lite campaign plans are preserved.
+See docs/CAMPAIGNS.md and docs/WILDSPADE-MENTAT.md in the package.
+
+Version 1.0.534's Chaos Mode and Wildspade technology gates are retained, as are
+the 46 achievements and the original advanced Windtrap portraits on the website.
+The French/English preview guide includes both campaign plans and 111 PNGs.
+
+## Earlier release: 1.0.529
 
 Generated spice fields and random blooms can now use all five supported terrain
 families: normal, green, red, purple (PaleLilac) and blue (White). This also applies

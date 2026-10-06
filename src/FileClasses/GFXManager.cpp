@@ -3756,6 +3756,40 @@ void GFXManager::invalidateAllSpriteTextures() {
     }
 }
 
+// Fit optional generated strips at render time. The source background is never
+// rewritten; idle frames use its exact pixels to avoid a seam at rest.
+static std::unique_ptr<Animation> loadFittedMentatAnimation(
+    const std::string& filename, int count, double rate, SDL_Surface* background,
+    int x, int y, int width, int height, int cropY, int cropHeight, bool eyes) {
+    if(!background || count < 2 || width <= 0 || height <= 0
+       || x < 0 || y < 0 || x + width > background->w || y + height > background->h
+       || !pFileManager->exists(filename)) return nullptr;
+    auto strip = LoadPNG_RW(pFileManager->openFile(filename).get());
+    if(!strip || strip->w < count || cropY < 0 || cropHeight <= 0
+       || cropY + cropHeight > strip->h) return nullptr;
+    auto animation = std::make_unique<Animation>();
+    for(int frame = 0; frame < count; ++frame) {
+        auto base = getSubPicture(background, x, y, width, height);
+        auto composite = sdl2::surface_ptr{SDL_ConvertSurfaceFormat(base.get(), SDL_PIXELFORMAT_RGBA32, 0)};
+        if(!composite) return nullptr;
+        // Eyes: normal frame 0. Mouth: closed frame 0 and final resting frame.
+        if(frame != 0 && (eyes || frame != count - 1)) {
+            const int sourceFrame = eyes ? frame : frame - 1;
+            const int left = sourceFrame * strip->w / count;
+            const int right = (sourceFrame + 1) * strip->w / count;
+            auto cropped = getSubPicture(strip.get(), left, cropY, right - left, cropHeight);
+            auto fitted = resizeSurfaceNearest(cropped.get(), width, height);
+            if(!fitted) return nullptr;
+            SDL_SetSurfaceBlendMode(fitted.get(), SDL_BLENDMODE_BLEND);
+            if(SDL_BlitSurface(fitted.get(), nullptr, composite.get(), nullptr) != 0) return nullptr;
+        }
+        SDL_SetSurfaceBlendMode(composite.get(), SDL_BLENDMODE_NONE);
+        animation->addFrame(std::move(composite), false, false);
+    }
+    animation->setFrameRate(rate);
+    return animation;
+}
+
 void GFXManager::loadMentatGraphics() {
     for(int house = 0; house < NUM_HOUSE_COLOR_SLOTS; house++) {
         uiGraphic[UI_MentatBackground][house].reset();
@@ -3837,7 +3871,11 @@ void GFXManager::loadMentatGraphics() {
             }
         }
         if(!info.eyesAsset.empty()) {
-            modMentatEyes[house] = loadPngStripAnimation(
+            modMentatEyes[house] = info.restFromBackground ? loadFittedMentatAnimation(
+                info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
+                uiGraphic[UI_MentatBackground][house].get(), info.eyesX, info.eyesY,
+                info.eyesWidth, info.eyesHeight, info.eyesCropY, info.eyesCropHeight, true)
+                : loadPngStripAnimation(
                 info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
                 info.doubleEyes, info.eyesTransparentColor);
             if(modMentatEyes[house] == nullptr) {
@@ -3846,7 +3884,11 @@ void GFXManager::loadMentatGraphics() {
             }
         }
         if(!info.mouthAsset.empty()) {
-            modMentatMouth[house] = loadPngStripAnimation(
+            modMentatMouth[house] = info.restFromBackground ? loadFittedMentatAnimation(
+                info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
+                uiGraphic[UI_MentatBackground][house].get(), info.mouthX, info.mouthY,
+                info.mouthWidth, info.mouthHeight, info.mouthCropY, info.mouthCropHeight, false)
+                : loadPngStripAnimation(
                 info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
                 info.doubleMouth, info.mouthTransparentColor);
             if(modMentatMouth[house] == nullptr) {
