@@ -60,7 +60,7 @@ bool AchievementManager::configure(const std::string& catalogPath,const std::str
     save();state.clear();notifications.clear();running=false;dirty=false;writable=true;lastError.clear();catalog.clear();profilePath=profile;
     auto defs=parse(defaultCatalog);
     for(auto& section:parse(read(catalogPath)))defs[section.first]=section.second;
-    const std::set<std::string> rules={"Lifetime","Match","Pacifism","TruePacifist","CapturePacifism","NoMercy","Annihilation","Roadkill","TrueColors","CampaignCount","CampaignHouse","ModCampaignCount","NoCasualties","Arsenal","HighDifficulty","VictoryHouses","SpiceTypes","SpiceCount"};
+    const std::set<std::string> rules={"Lifetime","Match","Pacifism","TruePacifist","CapturePacifism","NoMercy","Annihilation","Roadkill","TrueColors","CampaignCount","CampaignHouse","ModCampaignCount","NoCasualties","Arsenal","HighDifficulty","VictoryHouses","SpiceTypes","SpiceCount","ChaosCampaign"};
     for(auto& entry:defs) {
         auto& s=entry.second;if(!rules.count(s["Rule"]))continue;
         Achievement a;a.id=entry.first;a.name=s["Name"];a.nameFr=s["NameFr"];
@@ -198,7 +198,8 @@ void AchievementManager::evaluate(bool victory,bool enemiesRemain) {
         else if(a.rule=="SpiceTypes")earned=(active.spiceTypes&a.target)==a.target;
         else if(a.rule=="SpiceCount")earned=bits(active.spiceTypes)>=a.target;
         else if(victory) {
-            if(a.rule=="Pacifism")earned=pacifist;
+            if(a.rule=="ChaosCampaign")earned=active.info.mode==Mode::Campaign&&active.info.mission==22&&active.info.chaosCampaignEligible;
+            else if(a.rule=="Pacifism")earned=pacifist;
             else if(a.rule=="TruePacifist")earned=active.historyKnown&&!active.damagedEnemy&&!active.destroyedEnemy;
             else if(a.rule=="CapturePacifism")earned=pacifist&&active.counts["StructuresCaptured"]>0;
             else if(a.rule=="NoCasualties")earned=active.historyKnown&&active.counts["UnitsLost"]==0;
@@ -224,6 +225,7 @@ void AchievementManager::encodeMatch(Section& s) const {
     s["Mission"]=std::to_string(active.info.mission);s["Color"]=std::to_string(active.info.color);s["DefaultColor"]=std::to_string(active.info.defaultColor);
     s["SpiceBaseline"]=std::to_string(active.info.initialRefinedSpice);s["HadEnemies"]=active.info.hadEnemies?"1":"0";s["HighDifficulty"]=active.info.highDifficulty?"1":"0";
     s["HistoryKnown"]=active.historyKnown?"1":"0";s["Damaged"]=active.damagedEnemy?"1":"0";s["DestroyedEnemy"]=active.destroyedEnemy?"1":"0";
+    s["ChaosCampaignEligible"]=active.info.chaosCampaignEligible?"1":"0";
     s["Completed"]=active.completed?"1":"0";s["SpiceTypes"]=std::to_string(active.spiceTypes);s["Destroyed"]=list(active.destroyed);s["Lost"]=list(active.lost);s["Arsenal"]=list(active.arsenal);
     s["FlameSources"]=list(active.flameSources);
     for(const auto& c:active.counts)s["Count."+c.first]=std::to_string(c.second);
@@ -236,6 +238,7 @@ bool AchievementManager::decodeMatch(const Section& section,const MatchInfo& inf
     active.runID=s["RunID"];active.historyKnown=s["HistoryKnown"]=="1";active.damagedEnemy=s["Damaged"]=="1";active.destroyedEnemy=s["DestroyedEnemy"]=="1";
     active.completed=s["Completed"]=="1";active.spiceTypes=static_cast<unsigned>(number(s["SpiceTypes"])&31);
     active.info.color=static_cast<int>(number(s["Color"]));active.info.defaultColor=static_cast<int>(number(s["DefaultColor"]));active.info.initialRefinedSpice=number(s["SpiceBaseline"]);
+    active.info.chaosCampaignEligible=info.chaosCampaignEligible&&s["ChaosCampaignEligible"]=="1";
     active.info.hadEnemies=s["HadEnemies"]=="1";active.info.highDifficulty=s["HighDifficulty"]=="1";
     for(const auto& v:split(s["Destroyed"]))active.destroyed.insert(static_cast<std::uint32_t>(number(v)));
     for(const auto& v:split(s["Lost"]))active.lost.insert(static_cast<std::uint32_t>(number(v)));

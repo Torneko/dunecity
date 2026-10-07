@@ -48,6 +48,9 @@ public:
     void addPlayer(std::unique_ptr<Player> newPlayer);
 
     inline int getHouseID() const { return houseID; }
+    /// Faction supplying rules/voices; ownership keeps the independent house ID.
+    inline int getFactionID() const { return factionID; }
+    static int factionForRuntimeHouse(int runtimeHouse);
     inline int getTeamID() const { return teamID; }
 
     inline bool isAI() const { return ai; }
@@ -223,6 +226,7 @@ public:
     const std::list<std::unique_ptr<Player> >& getPlayerList() const { return players; };
 
 protected:
+    int factionID = HOUSE_INVALID; ///< Reconstructed from game metadata, not serialized.
     void decrementHarvesters();
 
     std::list<std::unique_ptr<Player> > players;        ///< List of associated players that control this house

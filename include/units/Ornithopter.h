@@ -32,6 +32,8 @@ public:
 
     void checkPos() override;
     bool canAttack(const ObjectBase* object) const override;
+    void doAttackPos(int xPos, int yPos, bool bForced) override;
+    void doAttackObject(const ObjectBase* pTargetObject, bool bForced) override;
 
     bool canPass(int xPos, int yPos) const override;
 

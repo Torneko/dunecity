@@ -19,6 +19,7 @@
 #define CUSTOMGAMEPLAYERS_H
 
 #include <GameInitSettings.h>
+#include <Campaign/CoopCampaignSession.h>
 
 #include <GUI/StaticContainer.h>
 #include <GUI/VBox.h>
@@ -59,6 +60,9 @@ public:
     void update() override;
 
 private:
+#ifdef DUNELEGACY_RUNTIME_TESTS
+    friend void verifyCoopLobby(const std::string&, const std::string&);
+#endif
     ChangeEventList getChangeEventList();
 
     void onReceiveChatMessage(const std::string& name, const std::string& message);
@@ -99,8 +103,14 @@ private:
     void addChatMessage(const std::string& name, const std::string& message);
 
     void disableAllDropDownBoxes();
+    void configureCoopLobby();
+    void enforceCoopLobby();
+    bool isCoopLobbyReady() const;
 
     GameInitSettings                gameInitSettings;
+    std::optional<coop::CoopCampaignSession> coopSession;
+    SettingsClass::GameOptionsClass coopGameOptions;
+    bool bUpdatingCoopLobby = false;
     GameInitSettings::HouseInfoList houseInfoListSetup;     ///< only used if we are loading a savegame
 
     StaticContainer windowWidget;

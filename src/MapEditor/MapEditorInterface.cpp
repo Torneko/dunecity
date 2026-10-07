@@ -17,6 +17,7 @@
 
 #include <MapEditor/MapEditorInterface.h>
 #include <mod/ModManager.h>
+#include <misc/SpiceGeneration.h>
 #include <MapEditor/MapEditor.h>
 #include <MapEditor/NewMapWindow.h>
 #include <MapEditor/LoadMapWindow.h>
@@ -41,6 +42,7 @@
 
 #include <ObjectBase.h>
 #include <mod/ModManager.h>
+#include <misc/SpiceGeneration.h>
 #include <GUI/ObjectInterfaces/ObjectInterface.h>
 #include <GUI/ObjectInterfaces/MultiUnitInterface.h>
 #include <GUI/dune/LoadSaveWindow.h>
@@ -61,7 +63,8 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     currentEditStructureID = INVALID;
     currentEditUnitID = INVALID;
 
-    tornieContentVisible_ = (ModManager::instance().isTornieContentActive());
+    tornieContentVisible_ = ModManager::instance().isTornieContentActive()
+        && ModManager::instance().getActiveContentOptions().customUnitsAndBuildings;
 
 
     setTransparentBackground(true);
@@ -291,7 +294,7 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeTerrain_SpiceBloom.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_SpiceBloom));
     editorModeTerrain_HBox2.addWidget(&editorModeTerrain_SpiceBloom);
 
-    if(tornieContentVisible_) {
+    if(ModManager::instance().getActiveContentOptions().spiceMask()) {
         editorModeTerrain_VBox.addWidget(VSpacer::create(2));
         editorModeTerrain_VBox.addWidget(&editorModeTerrain_HBox4);
 
@@ -361,6 +364,12 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
 
     editorModeTerrain_VBox.addWidget(VSpacer::create(2));
     editorModeTerrain_VBox.addWidget(&editorModeTerrain_HBox3);
+    const unsigned enabledSpice = ModManager::instance().getActiveContentOptions().spiceMask();
+    for(auto* button : {&editorModeTerrain_GreenSpice, &editorModeTerrain_ThickGreenSpice, &editorModeTerrain_GreenSpiceBloom}) button->setEnabled(enabledSpice & 1);
+    for(auto* button : {&editorModeTerrain_RedSpice, &editorModeTerrain_ThickRedSpice, &editorModeTerrain_RedSpiceBloom}) button->setEnabled(enabledSpice & 2);
+    for(auto* button : {&editorModeTerrain_PaleLilacSpice, &editorModeTerrain_ThickPaleLilacSpice, &editorModeTerrain_PaleLilacSpiceBloom}) button->setEnabled(enabledSpice & 4);
+    for(auto* button : {&editorModeTerrain_WhiteSpice, &editorModeTerrain_ThickWhiteSpice, &editorModeTerrain_WhiteSpiceBloom}) button->setEnabled(enabledSpice & 8);
+
 
     editorModeTerrain_Rock.setToggleButton(true);
     editorModeTerrain_Rock.setOnClick(std::bind(&MapEditorInterface::onTerrainButton, this, Terrain_Rock));
@@ -1232,6 +1241,7 @@ void MapEditorInterface::onModeButton(int button) {
 }
 
 void MapEditorInterface::onTerrainButton(int terrainType) {
+    terrainType = allowedSpiceTerrain(terrainType, ModManager::instance().getActiveContentOptions().spiceMask());
     currentTerrainType = terrainType;
 
     editorModeTerrain_Sand.setToggleState( (terrainType == Terrain_Sand) );
@@ -1547,7 +1557,7 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
 
     const std::string activeMod = ModManager::instance().getActiveModName();
     const bool useTornieSpice = activeMod == "Tornie" || activeMod == "TornieLite";
-    const bool useJerichoSpice = activeMod == "Jericho";
+    const bool useJerichoSpice = ModManager::instance().usesJerichoSpicePalette();
     // Hide complete rows as well as their buttons so inactive spice types do
     // not reserve vertical space and push the active choices out of the panel.
     editorModeTerrain_HBox4.setVisible(useTornieSpice);

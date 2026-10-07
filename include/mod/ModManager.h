@@ -69,12 +69,17 @@ public:
     std::string getActiveModName() const;
     bool isTornieContentActive() const {
         const std::string activeModName = getActiveModName();
-        return activeModName == "Tornie" || activeModName == "TornieLite" || activeModName == "Jericho";
+        return activeModName == "Tornie" || activeModName == "TornieLite" || activeModName == "Jericho" || activeModName == "JerichoLite";
     }
 
     bool isTornieLiteActive() const {
-        return getActiveModName() == "TornieLite";
+        return getActiveModName() == "TornieLite" || getActiveModName() == "JerichoLite";
     }
+    bool usesJerichoSpicePalette() const {
+        const std::string name = getActiveModName();
+        return name == "Jericho" || name == "JerichoLite";
+    }
+    const ModContentOptions& getActiveContentOptions() const { return activeContent; }
     const CustomHouseInfo& getActiveCustomHouseInfo() const;
     const CustomHouseInfo& getCustomHouseInfo(int house) const;
     bool isCustomHouseRegistered() const;
@@ -264,6 +269,7 @@ private:
 
     std::string modsBasePath;        ///< Base path for mods directory
     std::string activeMod;
+    ModContentOptions activeContent;
     CustomHouseInfo activeCustomHouse;           ///< Active mod's campaign custom house
     CustomHouseInfo activeGuestCustomHouse;      ///< Guest custom house used only by cross-mod custom games
     std::vector<ModMentatInfo> activeMentats;     ///< Mentat overrides owned by the active mod

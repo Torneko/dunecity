@@ -800,11 +800,12 @@ std::pair<int, int> Map::chooseGeneratedSpiceTerrain(int thinSpiceTerrain, int t
     if(currentGame == nullptr
        || thinSpiceTerrain != Terrain_Spice
        || thickSpiceTerrain != Terrain_ThickSpice
-       || !isTornieModActive()) {
+       || currentGame->getGameInitSettings().getGameOptions().content.spiceMask() == 0) {
         return std::make_pair(thinSpiceTerrain, thickSpiceTerrain);
     }
 
-    return generatedSpiceTerrainForRoll(currentGame->randomGen.rand(0, 99));
+    return generatedSpiceTerrainForRoll(currentGame->randomGen.rand(0, 99),
+        currentGame->getGameInitSettings().getGameOptions().content.spiceMask());
 }
 
 void Map::createSpiceField(Coord location, int radius, bool centerIsThickSpice, int thinSpiceTerrain, int thickSpiceTerrain) const {

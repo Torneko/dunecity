@@ -8,6 +8,19 @@ Project repository: https://github.com/Torneko/dunelegacy-tornie
 
 Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) · [English](https://torneko.github.io/dunelegacy-tornie/index-en.html). Keep both languages aligned with each game update; see [website maintenance](docs/WEBSITE.md).
 
+Version **[1.0.536](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536)** adds cooperative campaigns, Easy Mode and Jericho Lite. Windows compilation and automated checks have passed locally. A live cooperative match between two computers still needs validation; co-op is included for playtesting.
+
+The main menu now provides a [common cooperative campaign](docs/COOP-CAMPAIGN-EN.md) ([guide français](docs/COOP-CAMPAIGN.md)) over LAN or Internet. Two players each control their own base and army on the same team, and may choose the same faction. Nine shared missions have their own progress and checkpoints, independent of solo campaigns. New campaigns follow the original campaign of the host’s faction, with 405 co-op variants from 45 source campaigns. The guest starts with matching units and credits plus an MCV near the host’s Construction Yard; harvest objectives use a shared quota. Available factions: nine in Vanilla, twelve in Tornie/Jericho and six in each Lite edition. Older co-op sessions retain their previous layouts. Both computers need the **same 1.0.536 build**, using network protocol **5**.
+
+Other 1.0.536 changes:
+
+- **Jericho Lite** uses Tornie Lite's six factions and technology, with all four Jericho spice families enabled by default and the same colors and effects, including in the editor and map generator. Its six opening missions copy Tornie Lite's terrain, economy, structures and forces, with opponents remapped to Jericho Lite's distinct solo campaign plan.
+- **Easy Mode**, off by default and exclusive to solo campaigns, starts a new campaign at mission 2. Only the player's house receives 500 extra credits at this start and pays 25 fewer credits for unit/building purchases throughout the campaign, with a minimum price of 1. Opponents, custom games and co-op retain normal prices.
+- Human-issued Ornithopter attack orders continue hunting after the initial target is gone. Wildspade Ornithopters cost **550** in Tornie/Jericho.
+- Each full-mod solo intro adds five dispersed border sentries for **17 enemies**, retaining the two bonus Tanks, nine Troopers and two Special spawns; no initial Hunt rush is added.
+- Builder price contrast panels are removed. Raider Trike and Rocket Trike prices use black numbers directly on their light portraits, with no background or border; other prices retain their usual color. Long Mods-menu descriptions wrap, and Wildspade's original eye/mouth overlays are slightly darker while preserving their dimensions and alpha.
+- **Chaos Conqueror / Maître du chaos** brings the catalogue to **47** achievements. It requires completing a solo campaign started with Chaos Mode. Commander and solo campaign completion awards remain tied to solo; the separate co-op campaign does not complete a faction's solo campaign.
+
 Version **1.0.535** includes [rebuilt Tornie/Jericho campaigns](docs/CAMPAIGNS.md): twelve campaigns per mod, three balanced opponent roles, disjoint plans between mods and preserved terrain/economy. Its revised first missions give every faction **two bonus Tanks, three Troopers squads (nine infantry) and two faction-specific Special spawns**. Other original vehicles remain. Each intro has twelve enemies: the six extra enemies are removed, enemy Special markers become ordinary Tanks and initial Hunt orders become Area Guard. Regions and briefings follow the same plan. [Wildspade’s cat mentat](docs/WILDSPADE-MENTAT.md) uses Tornie’s original background, separately anchored eye/mouth animations and an overlapping shoulder foreground. Start a new campaign to receive the revised opening forces.
 
 Version **1.0.534** adds optional [Chaos Mode](docs/CHAOS-MODE.md): one same-level donor faction per production/defence building type and Palace, for campaigns, custom games and multiplayer in the Tornie mods. The draw is deterministic and saved; Vanilla keeps its normal rules. Wildspade gets IX at technology 7, Chemical Carryall at 6 after the first Hightech upgrade without IX, and Ornithopter at 7 after the second upgrade with IX. The original Fremen banner is composited in the house confirmation screen and refreshed on mod changes. The bilingual website uses the original game portraits for the 2×3 and 3×2 windtrap icons, with their sprites and editor previews in the gallery.
@@ -51,16 +64,16 @@ WOR, Starport and random factory offers cannot produce these new orders. The pur
 is appended as 74 (Troopers) and 75 (Soldiers), with save version 9825: older saves remain readable with their stored
 rules, while older executables reject new saves. Start a new game for the new purchase.
 
-Three awards bring the catalogue to 46: **Missile Barrage** (three local-player palace
+Version 1.0.533 added three awards, bringing the catalogue at that time to 46: **Missile Barrage** (three local-player palace
 missiles in one match), **Blue Harvest** and **Purple Harvest** (actual harvester collection).
 Achievement checkpoints preserve the missile count and spice awards across game saves.
 
 ## Main goals
 
-The project includes 46 internal offline achievements, cumulative local
+The local 1.0.536 project includes 47 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
-Campaign, custom and multiplayer events share a central manager. Game save formats
-remain unchanged. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
+Campaign, custom and multiplayer events share a central manager. Achievement
+profiles remain separate from mission saves. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).
 
 Version **1.0.527** corrects Chaos Factory graphics and its map-editor preview
 after switching mods, with render checks across faction colors and zoom levels.
@@ -111,7 +124,7 @@ The exact set evolves with the project, but the current source includes Tornie a
 
 - Extended house and campaign support.
 - Neutral and Rebels support.
-- Selectable Tornie, Tornie Lite and Jericho mods with complete bundled resources.
+- Selectable Tornie, Tornie Lite, Jericho and Jericho Lite mods with complete bundled resources.
 - Tornie Lite's six-house campaigns and Jericho's Wildspade, Kleshmersh and Tharpique factions.
 - Custom units including Rocket Trike, Flame Tank, Elite Launcher and Elite Siege Tank.
 - Advanced Windtrap variants, Worfinery, Tech Center, Scoutpost, Love Factory,
@@ -120,6 +133,7 @@ The exact set evolves with the project, but the current source includes Tornie a
 - Custom house palettes, portraits, voices and campaign data.
 - Updated map editor support for Tornie terrain and gameplay content.
 - Multiplayer, save/load and AI work inherited from the Dune Legacy-derived engine.
+- A separate nine-mission co-op campaign with two independent allied bases, including matching faction choices.
 
 ## What is not included
 

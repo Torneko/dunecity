@@ -64,7 +64,7 @@ void SoundPlayer::playVoice(Voice_enum id, int houseID) {
 
         Mix_Chunk* tmp;
 
-        if((tmp = pSFXManager->getVoice(id,houseID)) == nullptr) {
+        if((tmp = pSFXManager->getVoice(id, House::factionForRuntimeHouse(houseID))) == nullptr) {
             THROW(std::invalid_argument, "There is no voice with ID %d!",id);
         }
 

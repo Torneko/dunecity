@@ -140,6 +140,12 @@ MainMenu::MainMenu()
     windowWidget.addWidget(&achievementsButton,
         Point(getRendererWidth() - 200, getRendererHeight() - 72), Point(182,26));
 
+    cooperativeCampaignButton.setText(settings.general.language == "fr" ? "CAMPAGNE COOP" : "CO-OP CAMPAIGN");
+    MainMenuButtonColor::apply(cooperativeCampaignButton);
+    cooperativeCampaignButton.setOnClick(std::bind(&MainMenu::onCooperativeCampaign, this));
+    windowWidget.addWidget(&cooperativeCampaignButton,
+        Point(getRendererWidth() - 200, getRendererHeight() - 106), Point(182,26));
+
     // Identify the project, then its version and the active mod.
     {
         modVersionLabel.setTextFontSize(16);
@@ -164,6 +170,7 @@ void MainMenu::refreshModVersionLabel()
 {
     MainMenuButtonColor::apply(singlePlayerButton);
     MainMenuButtonColor::apply(multiPlayerButton);
+    MainMenuButtonColor::apply(cooperativeCampaignButton);
     MainMenuButtonColor::apply(mapEditorButton);
     MainMenuButtonColor::apply(modsButton);
     MainMenuButtonColor::apply(optionsButton);
@@ -298,6 +305,12 @@ void MainMenu::onMultiPlayer() const
 {
     MultiPlayerMenu multiPlayerMenu;
     multiPlayerMenu.showMenu();
+}
+
+void MainMenu::onCooperativeCampaign() const
+{
+    MultiPlayerMenu cooperativeCampaignMenu(true);
+    cooperativeCampaignMenu.showMenu();
 }
 
 void MainMenu::onMapEditor() const

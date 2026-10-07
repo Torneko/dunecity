@@ -39,7 +39,8 @@
 #include <fstream>
 #include <iterator>
 
-NetworkManager::NetworkManager(int port, const std::string& metaserver) {
+NetworkManager::NetworkManager(int port, const std::string& metaserver, bool diagnosticsOnly)
+    : diagnosticsOnly(diagnosticsOnly) {
 
     if(enet_initialize() != 0) {
         THROW(std::runtime_error, "NetworkManager: An error occurred while initializing ENet.");
@@ -47,6 +48,7 @@ NetworkManager::NetworkManager(int port, const std::string& metaserver) {
 
     ENetAddress address;
     address.host = ENET_HOST_ANY;
+    if(diagnosticsOnly) enet_address_set_host(&address, "127.0.0.1");
     address.port = port;
 
     host = enet_host_create(&address, 32, 2, 0, 0);
@@ -61,6 +63,7 @@ NetworkManager::NetworkManager(int port, const std::string& metaserver) {
     }
 
     try {
+        if(diagnosticsOnly) return;
         pLANGameFinderAndAnnouncer = std::make_unique<LANGameFinderAndAnnouncer>();
         pMetaServerClient = std::make_unique<MetaServerClient>(metaserver);
         pUPnPManager = std::make_unique<UPnPManager>();
@@ -330,6 +333,7 @@ void NetworkManager::connect(ENetAddress address, const std::string& playerName)
 }
 
 void NetworkManager::disconnect() {
+    clearCoopMessages();
     for(ENetPeer* pAwaitingConnectionPeer : awaitingConnectionList) {
         enet_peer_disconnect_later(pAwaitingConnectionPeer, NETWORKDISCONNECT_QUIT);
     }
@@ -501,7 +505,7 @@ void NetworkManager::update()
                         sendPacketToPeer(pCurrentPeer, packetOStream2);
 
                         // Send mod info to newly connected peer for mod sync
-                        if(ModManager::instance().isInitialized()) {
+                        if(!diagnosticsOnly && ModManager::instance().isInitialized()) {
                             std::string modName = ModManager::instance().getActiveModName();
                             std::string modChecksum = ModManager::instance().getEffectiveChecksums().combined;
                             SDL_Log("NetworkManager: Sending mod info to new peer - mod='%s', checksum=%s",
@@ -977,11 +981,6 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                     SDL_Log("ObjectData.ini hash: %s", objectDataHash.c_str());
                     SDL_Log("==========================================");
 
-                    // Get our own version and hashes (local)
-                    std::string localVersion = VERSIONSTRING;
-                    std::string localQuantBotHash = getQuantBotConfig().getConfigHash();
-                    std::string localObjectDataHash = getObjectDataHash();
-
                     const bool protocolRejected = rejectIncompatibleNetworkProtocol(
                         peerProtocolVersion,
                         [peer](int cause) {
@@ -993,6 +992,12 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                                      peerData->name.c_str(), peerProtocolVersion, NETWORK_PROTOCOL_VERSION);
                         break;
                     }
+
+                    // Reject incompatible packet layouts before consulting
+                    // local configuration or trying to synchronize a mod.
+                    std::string localVersion = VERSIONSTRING;
+                    std::string localQuantBotHash = getQuantBotConfig().getConfigHash();
+                    std::string localObjectDataHash = getObjectDataHash();
 
                     if(bIsServer) {
                         // Server: verify client matches server config
@@ -1127,7 +1132,38 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
                 }
             } break;
 
+            case NETWORKPACKET_COOP_READY: {
+                const auto* peerData = static_cast<PeerData*>(peer->data);
+                if(!bIsServer || !peerData || peerData->peerState != PeerData::PeerState::Connected) break;
+                CoopReady message;
+                message.playerName = peerData->name;
+                message.sessionId = packetStream.readString();
+                message.stage = packetStream.readSint32();
+                message.outcome = packetStream.readUint8();
+                message.epoch = packetStream.readUint32();
+                if(message.sessionId.size() > 64 || message.stage < 1 || message.stage > 9
+                    || message.outcome > 2 || coopReadyMessages.size() >= 16) break;
+                coopReadyMessages.push_back(std::move(message));
+            } break;
+
+            case NETWORKPACKET_COOP_ADVANCE: {
+                // Mesh peers cannot author a campaign transition: only the
+                // actual connection to the host may issue this packet.
+                if(bIsServer || peer != connectPeer) break;
+                CoopAdvance message;
+                message.sessionId = packetStream.readString();
+                message.stage = packetStream.readSint32();
+                message.action = packetStream.readUint8();
+                message.settingsBlob = packetStream.readString();
+                message.epoch = packetStream.readUint32();
+                if(message.sessionId.size() > 64 || message.stage < 1 || message.stage > 9
+                    || message.action > 3 || message.settingsBlob.size() > 8 * 1024 * 1024
+                    || coopAdvanceMessages.size() >= 16) break;
+                coopAdvanceMessages.push_back(std::move(message));
+            } break;
+
             case NETWORKPACKET_COMMANDLIST: {
+                if(packetStream.readUint32() != gameEpoch) break;
                 PeerData* peerData = static_cast<PeerData*>(peer->data);
                 if(!peerData) {
                     break;
@@ -1141,6 +1177,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
             } break;
 
             case NETWORKPACKET_SELECTIONLIST: {
+                if(packetStream.readUint32() != gameEpoch) break;
                 PeerData* peerData = static_cast<PeerData*>(peer->data);
                 if(!peerData) {
                     break;
@@ -1155,6 +1192,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
             } break;
 
             case NETWORKPACKET_CLIENTSTATS: {
+                if(packetStream.readUint32() != gameEpoch) break;
                 // Host receives client performance stats (including simulation timing)
                 if(!bIsServer) {
                     SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Client received CLIENTSTATS packet (should only be sent to host)");
@@ -1177,6 +1215,7 @@ void NetworkManager::handlePacket(ENetPeer* peer, ENetPacketIStream& packetStrea
             } break;
 
             case NETWORKPACKET_SETPATHBUDGET: {
+                if(packetStream.readUint32() != gameEpoch) break;
                 // Client receives budget change order from host
                 if(bIsServer) {
                     SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "NetworkManager: Host received SETPATHBUDGET packet (should only be sent to clients)");
@@ -1498,6 +1537,7 @@ void NetworkManager::sendStartGame(unsigned int timeLeft) {
 void NetworkManager::sendCommandList(const CommandList& commandList) {
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_UNSEQUENCED);
     packetStream.writeUint32(NETWORKPACKET_COMMANDLIST);
+    packetStream.writeUint32(gameEpoch);
     commandList.save(packetStream);
 
     sendPacketToAllConnectedPeers(packetStream, 1);
@@ -1506,10 +1546,159 @@ void NetworkManager::sendCommandList(const CommandList& commandList) {
 void NetworkManager::sendSelectedList(const std::set<Uint32>& selectedList, int groupListIndex) {
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
     packetStream.writeUint32(NETWORKPACKET_SELECTIONLIST);
+    packetStream.writeUint32(gameEpoch);
     packetStream.writeSint32(groupListIndex);
     packetStream.writeUint32Set(selectedList);
 
     sendPacketToAllConnectedPeers(packetStream, 0);
+}
+
+void NetworkManager::sendCoopReady(const std::string& sessionId, int stage, Uint8 outcome) {
+    if(bIsServer) return;
+    ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
+    packetStream.writeUint32(NETWORKPACKET_COOP_READY);
+    packetStream.writeString(sessionId);
+    packetStream.writeSint32(stage);
+    packetStream.writeUint8(outcome);
+    packetStream.writeUint32(gameEpoch);
+    sendPacketToHost(packetStream);
+}
+
+void NetworkManager::sendCoopAdvance(const std::string& sessionId, int stage, Uint8 action,
+    const std::string& settingsBlob) {
+    if(!bIsServer) return;
+    ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
+    packetStream.writeUint32(NETWORKPACKET_COOP_ADVANCE);
+    packetStream.writeString(sessionId);
+    packetStream.writeSint32(stage);
+    packetStream.writeUint8(action);
+    packetStream.writeString(settingsBlob);
+    packetStream.writeUint32(gameEpoch);
+    sendPacketToAllConnectedPeers(packetStream);
+}
+
+std::vector<NetworkManager::CoopReady> NetworkManager::takeCoopReady() {
+    std::vector<CoopReady> messages;
+    messages.swap(coopReadyMessages);
+    return messages;
+}
+
+std::vector<NetworkManager::CoopAdvance> NetworkManager::takeCoopAdvance() {
+    std::vector<CoopAdvance> messages;
+    messages.swap(coopAdvanceMessages);
+    return messages;
+}
+
+void NetworkManager::clearCoopMessages() {
+    coopReadyMessages.clear();
+    coopAdvanceMessages.clear();
+}
+
+void NetworkManager::verifyCoopTransport() {
+    const auto require = [](bool condition, const char* detail) {
+        if(!condition) throw std::runtime_error(std::string("Co-op loopback regression: ") + detail);
+    };
+    NetworkManager server(0, "", true);
+    NetworkManager client(0, "", true);
+    GameInitSettings lobbySettings;
+    bool connected = false;
+    server.setGetChangeEventListForNewPlayerCallback([](const std::string&) { return ChangeEventList(); });
+    client.setOnReceiveGameInfo([&](const GameInitSettings&, const ChangeEventList&) { connected = true; });
+    server.startServer(true, "Loopback verification", "Host", &lobbySettings, 1, 2);
+    client.connect("127.0.0.1", server.getHost()->address.port, "Guest");
+    const auto pump = [&] {
+        server.update();
+        client.update();
+        SDL_Delay(1);
+    };
+    const auto until = [&](const std::function<bool()>& ready) {
+        const Uint32 start = SDL_GetTicks();
+        while(!ready() && SDL_GetTicks() - start < 3000) pump();
+        require(ready(), "loopback operation timed out");
+    };
+    until([&] { return connected; });
+    require(server.getConnectedPeers() == std::list<std::string>{"Guest"}, "host did not authenticate Guest");
+    require(client.getConnectedPeers() == std::list<std::string>{"Host"}, "client did not authenticate Host");
+    server.setGameEpoch(1);
+    client.setGameEpoch(1);
+
+    // Ready/Advance remain available even when no game/menu callback exists.
+    client.sendCoopReady("loopback-session", 2, 2);
+    std::vector<CoopReady> readyMessages;
+    until([&] {
+        auto received = server.takeCoopReady();
+        readyMessages.insert(readyMessages.end(), received.begin(), received.end());
+        return !readyMessages.empty();
+    });
+    require(readyMessages.size() == 1 && readyMessages[0].playerName == "Guest"
+        && readyMessages[0].sessionId == "loopback-session" && readyMessages[0].stage == 2
+        && readyMessages[0].outcome == 2 && readyMessages[0].epoch == 1,
+        "Ready packet lost its trusted peer, result or mission epoch");
+    const std::string binarySettings("settings\0binary", 15);
+    server.sendCoopAdvance("loopback-session", 2, 2, binarySettings);
+    std::vector<CoopAdvance> advanceMessages;
+    until([&] {
+        auto received = client.takeCoopAdvance();
+        advanceMessages.insert(advanceMessages.end(), received.begin(), received.end());
+        return !advanceMessages.empty();
+    });
+    require(advanceMessages.size() == 1 && advanceMessages[0].sessionId == "loopback-session"
+        && advanceMessages[0].stage == 2 && advanceMessages[0].action == 2
+        && advanceMessages[0].settingsBlob == binarySettings && advanceMessages[0].epoch == 1,
+        "Advance packet lost the authoritative settings payload");
+
+    int commands = 0, selections = 0, clientStats = 0, pathBudgets = 0;
+    server.setOnReceiveCommandList([&](const std::string&, const CommandList&) { ++commands; });
+    server.setOnReceiveSelectionList([&](const std::string&, const std::set<Uint32>&, int) { ++selections; });
+    server.setOnReceiveClientStats([&](Uint32, Uint32, float, float, Uint32, Uint32) { ++clientStats; });
+    client.setOnReceiveSetPathBudget([&](size_t, Uint32) { ++pathBudgets; });
+    client.setGameEpoch(0);
+    client.sendCommandList(CommandList());
+    client.sendSelectedList({42});
+    client.sendClientStats(60, 1, 0, 30, 20);
+    server.setGameEpoch(0);
+    server.broadcastPathBudget(30, 20);
+    server.setGameEpoch(1);
+    client.setGameEpoch(1);
+    client.sendCommandList(CommandList());
+    client.sendSelectedList({43});
+    client.sendClientStats(60, 1, 0, 30, 21);
+    server.broadcastPathBudget(30, 21);
+    until([&] { return commands > 0 && selections > 0 && clientStats > 0 && pathBudgets > 0; });
+    const Uint32 settle = SDL_GetTicks();
+    while(SDL_GetTicks() - settle < 100) pump();
+    require(commands == 1 && selections == 1 && clientStats == 1 && pathBudgets == 1,
+        "an earlier mission's commands or performance events entered the next mission");
+
+    // Simulate the runner destroying Game: performance callbacks are removed
+    // before late packets are serviced and cannot point at the old instance.
+    server.setOnReceiveCommandList({});
+    server.setOnReceiveSelectionList({});
+    server.setOnReceiveClientStats({});
+    client.setOnReceiveSetPathBudget({});
+    client.sendCommandList(CommandList());
+    client.sendSelectedList({44});
+    client.sendClientStats(60, 1, 0, 30, 22);
+    server.broadcastPathBudget(30, 22);
+    const Uint32 afterDestroy = SDL_GetTicks();
+    while(SDL_GetTicks() - afterDestroy < 100) pump();
+    require(commands == 1 && selections == 1 && clientStats == 1 && pathBudgets == 1,
+        "an old callback survived game destruction");
+
+    bool rejectedOldProtocol = false;
+    client.setOnPeerDisconnected([&](const std::string&, bool isHost, int cause) {
+        rejectedOldProtocol = isHost && cause == NETWORKDISCONNECT_PROTOCOL_MISMATCH;
+    });
+    ENetPacketOStream oldProtocol(ENET_PACKET_FLAG_RELIABLE);
+    oldProtocol.writeUint32(NETWORKPACKET_CONFIG_HASH);
+    oldProtocol.writeUint32(NETWORK_PROTOCOL_VERSION - 1);
+    oldProtocol.writeString(VERSIONSTRING);
+    oldProtocol.writeString("");
+    oldProtocol.writeString("");
+    client.sendPacketToHost(oldProtocol);
+    until([&] { return rejectedOldProtocol; });
+    server.stopServer();
+    SDL_Log("Co-op loopback transport PASSED: authenticated handshake, Ready/Advance, mission epochs, callback cleanup, protocol mismatch");
 }
 
 int NetworkManager::getMaxPeerRoundTripTime() {
@@ -1540,6 +1729,7 @@ void NetworkManager::sendClientStats(float avgFps, float simMsAvg, Uint32 queueD
 
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
     packetStream.writeUint32(NETWORKPACKET_CLIENTSTATS);
+    packetStream.writeUint32(gameEpoch);
     packetStream.writeUint32(gameCycle);
     packetStream.writeFloat(avgFps);
     packetStream.writeFloat(simMsAvg);  // POST-VSYNC: Add simulation timing
@@ -1558,6 +1748,7 @@ void NetworkManager::broadcastPathBudget(size_t newBudget, Uint32 applyCycle) {
 
     ENetPacketOStream packetStream(ENET_PACKET_FLAG_RELIABLE);
     packetStream.writeUint32(NETWORKPACKET_SETPATHBUDGET);
+    packetStream.writeUint32(gameEpoch);
     packetStream.writeUint32(static_cast<Uint32>(newBudget));
     packetStream.writeUint32(applyCycle);
 

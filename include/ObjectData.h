@@ -72,7 +72,8 @@ public:
             InfSpawnProp = 45<br>
         \param filename the INI-File to load.
     */
-    void loadFromINIFile(const std::string& filename, bool preferUserConfig = true);
+    void loadFromINIFile(const std::string& filename, bool preferUserConfig = true, bool applyContentPolicy = true);
+    void applyNeutralVanillaRules();
 
     /**
         Saves all stored data out into a binary stream.

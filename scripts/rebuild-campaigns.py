@@ -11,6 +11,8 @@ SOLDIERS={'Soldier','Infantry','Infantry (5)','Soldiers (5)','Infantry5'}
 # All twelve factions share the corrected intro policy in both full mods.
 spec=spec_from_file_location('opening_balance',ROOT/'scripts/tune-campaign-openings.py')
 opening_balance=module_from_spec(spec);spec.loader.exec_module(opening_balance)
+clone_spec=spec_from_file_location('opening_clones',ROOT/'scripts/campaign-opening-clones.py')
+opening_clones=module_from_spec(clone_spec);clone_spec.loader.exec_module(opening_clones)
 
 def add_opening_support(text,player,mission):
  if mission!=1:return text
@@ -36,11 +38,12 @@ def rebuild():
  with tarfile.open(fileobj=io.BytesIO(raw)) as t:baseline={m.name:t.extractfile(m).read() for m in t if m.isfile()}
  vanilla=pak(ROOT/'data/SCENARIO.PAK');reports=[]
  for mod,rows in plans['mods'].items():
+  baseline_mod=mod.removesuffix('Lite')
   briefing='; Generated from config/CampaignPlans.json; runtime briefing identities.\n'
   for row in rows:
    player=row['house'];letter=row['letter'];template=row['vanillaTemplate'];roles=canonical_roles(template,player,row['opponents'])
    for mission in range(1,23):
-    rel=f'mods/{mod}/campaign/scen{letter.lower()}{mission:03}.ini';original=baseline[rel];old=read(original);reference=read(vanilla[f'SCEN{template}{mission:03}.INI'])
+    rel=f'mods/{mod}/campaign/scen{letter.lower()}{mission:03}.ini';original=baseline[rel.replace('/'+mod+'/', '/'+baseline_mod+'/')];old=read(original);reference=read(vanilla[f'SCEN{template}{mission:03}.INI'])
     assert dict(old['MAP'])==dict(reference['MAP']),(rel,'terrain template')
     mapping={player:player};evidence=collections.defaultdict(collections.Counter)
     for section in ['UNITS','STRUCTURES','TEAMS','REINFORCEMENTS']:
@@ -103,14 +106,15 @@ def rebuild():
        else:new[key]=row['opponents'][2]+' verteidigt die letzte Festung.'
     region.remove_section('GROUP'+str(group));region.add_section('GROUP'+str(group));region['GROUP'+str(group)].update(new)
    region.write(result)
-   original_region=baseline[f'mods/{mod}/campaign/REGION{letter}.INI']
+   original_region=baseline[f'mods/{baseline_mod}/campaign/REGION{letter}.INI']
    eol='\r\n' if b'\r\n' in original_region else '\n'
    data=(result.getvalue().rstrip()+eol).replace('\r\n','\n').replace('\n',eol).encode('cp850')
    for folder in ['campaign','data']:(ROOT/f'mods/{mod}/{folder}/REGION{letter}.INI').write_bytes(data)
    opening=read((ROOT/f'mods/{mod}/campaign/scen{letter.lower()}001.ini').read_bytes())
    briefing+=f'\n[{player}]\nTemplate={template}\n'+''.join(f'Opponent{i+1}={name}\n' for i,name in enumerate(row['opponents']))+f"OpeningQuota={opening[player].get('Quota','0')}\n"
   (ROOT/f'mods/{mod}/data/CampaignPlan.ini').write_bytes(briefing.encode().replace(b'\n',b'\r\n'))
- report={'version':'1.0.535','campaigns':24,'missions':len(reports),'baseline':'v1.0.534','maps':reports,'removedStartingSoldierOrders':sum(len(r['removedStartingSoldierOrders']) for r in reports),'specialSpawnOrdersConverted':sum(len(r['specialSpawnOrdersConverted']) for r in reports)}
+ intro_clones=opening_clones.clone_openings(plans,write=True)
+ report={'version':'1.0.536','campaigns':sum(len(rows) for rows in plans['mods'].values()),'missions':len(reports),'baseline':'v1.0.534','maps':reports,'introClones':intro_clones,'removedStartingSoldierOrders':sum(len(r['removedStartingSoldierOrders']) for r in reports),'specialSpawnOrdersConverted':sum(len(r['specialSpawnOrdersConverted']) for r in reports)}
  return report
 if __name__=='__main__':
  result=rebuild();print(json.dumps({k:v for k,v in result.items() if k!='maps'},indent=2))

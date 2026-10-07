@@ -24,6 +24,7 @@
 #include <misc/OutputStream.h>
 
 #include <string>
+#include <array>
 
 
 class GameInitSettings
@@ -160,7 +161,7 @@ public:
         Load the game init info from a stream
         \param  stream  the stream to load from
     */
-    explicit GameInitSettings(InputStream& stream);
+    explicit GameInitSettings(InputStream& stream, bool hasModMetadata = true);
 
     ~GameInitSettings();
 
@@ -177,13 +178,26 @@ public:
     inline Uint32 getAlreadyShownTutorialHints() const { return alreadyShownTutorialHints; };
     inline const std::string& getFilename() const { return filename; };
     inline const std::string& getFiledata() const { return filedata; };
+    // Cooperative mission context travels in the existing map payload.
+    inline void setMapData(const std::string& mapData) { filedata = mapData; coopHarvestCached_ = false; }
+    struct CoopHarvestObjective {
+        int quota = 0;
+        std::array<int, 2> houses{{-1, -1}};
+    };
+    // Derived from map metadata; no binary save or network fields are added.
+    const CoopHarvestObjective& getCoopHarvestObjective() const;
     inline const std::string& getServername() const { return servername; };
     inline Uint32 getRandomSeed() const { return randomSeed; };
+    inline void setRandomSeed(Uint32 seed) { randomSeed = seed; }
 
     inline bool isMultiplePlayersPerHouse() const { return multiplePlayersPerHouse; };
     inline void setMultiplePlayersPerHouse(bool multiplePlayersPerHouse) { this->multiplePlayersPerHouse = multiplePlayersPerHouse; };
     inline const SettingsClass::GameOptionsClass& getGameOptions() const { return gameOptions; };
     bool isChaosModeEnabled() const { return gameOptions.chaosMode && modName != "vanilla"; }
+    bool isEasyModeEnabled() const { return gameType == GameType::Campaign && gameOptions.easyMode; }
+    int campaignPurchasePrice(int price, int ownerHouse) const;
+    int campaignStartingCredits(int credits, int ownerHouse) const;
+    bool isChaosCampaignEligible() const { return chaosCampaignEligible && gameType == GameType::Campaign && isChaosModeEnabled(); }
 
     /// Mod that was active when this game was created. Persisted in
     /// savegames and shipped over the network so clients can mirror the
@@ -229,6 +243,7 @@ private:
     Uint32          randomSeed = 0;
 
     bool            multiplePlayersPerHouse = false;
+    bool            chaosCampaignEligible = false;
 
     SettingsClass::GameOptionsClass gameOptions;
 
@@ -237,6 +252,8 @@ private:
     std::string     modChecksum = "";         ///< Combined mod checksum for verification
 
     HouseInfoList   houseInfoList;
+    mutable bool coopHarvestCached_ = false;
+    mutable CoopHarvestObjective coopHarvestObjective_;
 };
 
 #endif // GAMEINITINFOCLASS_H

@@ -1,8 +1,85 @@
 #pragma once
 
 #include <MapEditor/LoadMapWindow.h>
+#include <MapEditor/NewMapWindow.h>
 #include <misc/SpiceGeneration.h>
 #include <array>
+
+inline void verifyEditorSpiceDefaults(const std::string& output, const std::string& mod) {
+    auto require = [](bool value, const std::string& message) {
+        if(!value) throw std::runtime_error("Editor spice defaults: " + message);
+    };
+    const bool jericho = mod == "Jericho" || mod == "JerichoLite";
+    const bool tornie = mod == "Tornie" || mod == "TornieLite";
+    const auto& mods = ModManager::instance();
+    require(mods.getActiveContentOptions().spiceMask() == (mod == "vanilla" ? 0u : 15u)
+            && effectiveGameOptions.content == mods.getActiveContentOptions(),
+            mod + " installed defaults or effective options dropped a spice family");
+    if(mod == "JerichoLite") {
+        const auto jerichoDefaults = mods.getModInfo("Jericho").content;
+        require(mods.getActiveContentOptions().spiceMask() == jerichoDefaults.spiceMask(),
+                "Jericho Lite defaults differ from Jericho");
+    }
+    MapEditor editor;
+    editor.setMap(MapData(32, 32, Terrain_Rock), MapInfo());
+    MapEditorInterface ui(&editor);
+    ui.onModeButton(1);
+    require(ui.editorModeTerrain_HBox4.isVisible() == tornie
+            && ui.editorModeTerrain_HBox6.isVisible() == tornie
+            && ui.editorModeTerrain_HBox5.isVisible() == jericho
+            && ui.editorModeTerrain_HBox7.isVisible() == jericho,
+            mod + " custom spice palette rows are hidden or belong to another mod");
+    if(jericho) {
+        require(ui.editorModeTerrain_RedSpice.isVisible() && ui.editorModeTerrain_RedSpice.isEnabled()
+                && ui.editorModeTerrain_WhiteSpice.isVisible() && ui.editorModeTerrain_WhiteSpice.isEnabled(),
+                "Jericho red/blue painting tools are unavailable");
+        ui.editorModeTerrain_WhiteSpice.handleMouseLeft(ui.editorModeTerrain_WhiteSpice.getSize().x / 2,
+            ui.editorModeTerrain_WhiteSpice.getSize().y / 2, true);
+        ui.editorModeTerrain_WhiteSpice.handleMouseLeft(ui.editorModeTerrain_WhiteSpice.getSize().x / 2,
+            ui.editorModeTerrain_WhiteSpice.getSize().y / 2, false);
+        require(ui.currentTerrainType == Terrain_WhiteSpice, "blue spice painting tool cannot be selected");
+    }
+    SDL_RenderSetClipRect(renderer, nullptr);
+    SDL_SetRenderDrawColor(renderer, 20, 20, 20, 255); SDL_RenderClear(renderer);
+    ui.draw(Point(0, 0));
+    SDL_Rect area{getRendererWidth() - SIDEBARWIDTH, 0, SIDEBARWIDTH, getRendererHeight()};
+    auto pixels = sdl2::surface_ptr(SDL_CreateRGBSurfaceWithFormat(0, area.w, area.h, 32, SDL_PIXELFORMAT_ARGB8888));
+    require(pixels && SDL_RenderReadPixels(renderer, &area, pixels->format->format,
+            pixels->pixels, pixels->pitch) == 0, "spice palette capture failed");
+    require(SDL_SaveBMP(pixels.get(), (std::filesystem::path(output) / (mod + "-editor-spices.bmp")).string().c_str()) == 0,
+            "spice palette preview failed");
+
+    NewMapWindow generator(HOUSE_ATREIDES);
+    generator.mapSizeXDropDownBox.setSelectedItem(0);
+    generator.mapSizeYDropDownBox.setSelectedItem(0);
+    generator.emptyMapRadioButton.setChecked(false);
+    generator.randomMapRadioButton.setChecked(true);
+    generator.seedMapRadioButton.setChecked(false);
+    generator.rngSeedTextBox.setValue(1234567);
+    generator.greenSpiceCheckbox.setChecked(true);
+    generator.redSpiceCheckbox.setChecked(true);
+    generator.greenSpiceDigitsTextBox.setValue(3);
+    generator.redSpiceDigitsTextBox.setValue(3);
+    generator.onMapTypeChanged(1);
+    int first = 0, second = 0, unexpected = 0;
+    const int firstTerrain = jericho ? Terrain_RedSpice : Terrain_GreenSpice;
+    const int secondTerrain = jericho ? Terrain_WhiteSpice : Terrain_PaleLilacSpice;
+    for(int y = 0; y < generator.mapdata.getSizeY(); ++y)
+        for(int x = 0; x < generator.mapdata.getSizeX(); ++x) {
+            int type = generator.mapdata(x, y);
+            if(type == Terrain_ThickGreenSpice || type == Terrain_GreenSpiceBloom) type = Terrain_GreenSpice;
+            else if(type == Terrain_ThickRedSpice || type == Terrain_RedSpiceBloom) type = Terrain_RedSpice;
+            else if(type == Terrain_ThickPaleLilacSpice || type == Terrain_PaleLilacSpiceBloom) type = Terrain_PaleLilacSpice;
+            else if(type == Terrain_ThickWhiteSpice || type == Terrain_WhiteSpiceBloom) type = Terrain_WhiteSpice;
+            if(type == firstTerrain) ++first;
+            else if(type == secondTerrain) ++second;
+            else if(type == Terrain_GreenSpice || type == Terrain_RedSpice
+                    || type == Terrain_PaleLilacSpice || type == Terrain_WhiteSpice) ++unexpected;
+        }
+    require(unexpected == 0 && (mod == "vanilla" ? first == 0 && second == 0 : first > 0 && second > 0),
+            mod + " random map custom fields use the wrong spice palette");
+    SDL_Log("EDITOR SPICE DEFAULTS PASS: %s effective mask, visible/selectable palette, generated custom fields and sidebar pixels", mod.c_str());
+}
 
 inline void verifyEditorMapLoading(const std::string& output, const std::string& mod) {
     auto require = [](bool value, const std::string& message) {
@@ -60,6 +137,7 @@ inline void verifyEditorMapLoading(const std::string& output, const std::string&
 }
 
 inline void verifyGeneratedSpice(const std::string& output, const std::string& mod) {
+    verifyEditorSpiceDefaults(output, mod);
     auto require = [](bool value, const std::string& message) {
         if(!value) throw std::runtime_error("Generated spice check: " + message);
     };

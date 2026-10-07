@@ -141,7 +141,7 @@ TEST_CASE_METHOD(Fixture,"A damaged or newer profile is preserved rather than ov
     std::ifstream in(path);const std::string text(std::istreambuf_iterator<char>(in),{});REQUIRE(text.find("Protected=original")!=std::string::npos);
 }
 TEST_CASE_METHOD(Fixture,"Catalog ships every proposed achievement and notifications fire once","[achievements]"){
-    REQUIRE(manager.definitions().size()==46);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
+    REQUIRE(manager.definitions().size()==47);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
     REQUIRE(manager.takeNotification()=="PACIFISM");REQUIRE(manager.takeNotification().empty());REQUIRE_FALSE(manager.unlock("UNKNOWN"));
 }
 TEST_CASE_METHOD(Fixture,"Extra factions complete a campaign without replacing the eight required houses","[achievements]"){
@@ -248,4 +248,36 @@ TEST_CASE_METHOD(Fixture,"Blue and purple harvest awards distinguish each spice 
     AchievementManager resumed;REQUIRE(resumed.configure("",(dir/"achievements.ini").u8string()));
     resumed.begin(info,"blue-harvest",true);REQUIRE(resumed.unlocked("BLUE_HARVEST"));
     resumed.harvestedType(8);REQUIRE(resumed.unlocked("PURPLE_HARVEST"));
+}
+
+TEST_CASE_METHOD(Fixture,"Chaos Conqueror requires an eligible campaign finale victory","[achievements]") {
+    info.mode=Mode::Campaign;info.mission=22;info.chaosCampaignEligible=true;
+    bool victory=true;
+    bool expected=true;
+    SECTION("campaign finale") {}
+    SECTION("earlier campaign mission") {info.mission=21;expected=false;}
+    SECTION("campaign started without Chaos Mode") {info.chaosCampaignEligible=false;expected=false;}
+    SECTION("skirmish") {info.mode=Mode::Skirmish;expected=false;}
+    SECTION("custom game") {info.mode=Mode::Custom;expected=false;}
+    SECTION("multiplayer") {info.mode=Mode::Multiplayer;expected=false;}
+    SECTION("defeat") {victory=false;expected=false;}
+    SECTION("disabled achievements") {info.enabled=false;expected=false;}
+    manager.begin(info);manager.finish(victory,false);
+    REQUIRE(manager.unlocked("CHAOS_CONQUEROR")==expected);
+}
+
+TEST_CASE_METHOD(Fixture,"Chaos campaign checkpoints preserve eligibility and cannot add it retroactively","[achievements]") {
+    info.mode=Mode::Campaign;info.mission=22;
+    bool savedEligible=true;
+    bool resumedEligible=true;
+    bool expected=true;
+    SECTION("eligible checkpoint resumes") {}
+    SECTION("checkpoint from a normal campaign stays ineligible") {savedEligible=false;expected=false;}
+    SECTION("current session disables Chaos eligibility") {resumedEligible=false;expected=false;}
+    info.chaosCampaignEligible=savedEligible;
+    manager.begin(info);manager.checkpoint("chaos-finale");
+    info.chaosCampaignEligible=resumedEligible;
+    AchievementManager resumed;REQUIRE(resumed.configure("",(dir/"achievements.ini").u8string()));
+    resumed.begin(info,"chaos-finale",true);resumed.finish(true,false);
+    REQUIRE(resumed.unlocked("CHAOS_CONQUEROR")==expected);
 }

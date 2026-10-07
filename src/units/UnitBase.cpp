@@ -149,7 +149,7 @@ UnitBase::UnitBase(InputStream& stream) : ObjectBase(stream) {
 }
 
 void UnitBase::init() {
-    productionHouseID = originalHouseID;
+    productionHouseID = House::factionForRuntimeHouse(originalHouseID);
     aUnit = true;
     canAttackStuff = true;
 
@@ -168,7 +168,10 @@ void UnitBase::init() {
 }
 
 void UnitBase::setProductionHouseID(int houseID) {
-    productionHouseID = (houseID >= 0 && houseID < NUM_HOUSES) ? houseID : originalHouseID;
+    // Explicit columns can come from captured factories or Chaos Mode. They
+    // are already factions, so never reinterpret them as simulation slots.
+    productionHouseID = (houseID >= 0 && houseID < NUM_HOUSES)
+        ? houseID : House::factionForRuntimeHouse(originalHouseID);
 }
 
 UnitBase::~UnitBase() {
@@ -460,9 +463,9 @@ void UnitBase::deviate(House* newOwner) {
     // should be... going in with a 25% of the units value unless its a devastator which we can destruct or an ornithoper
     // which is likely to get killed
     if(getItemID() == Unit_Devastator || getItemID() == Unit_Ornithopter){
-        newOwner->informHasDamaged(Unit_Deviator, currentGame->objectData.data[getItemID()][newOwner->getHouseID()].price);
+        newOwner->informHasDamaged(Unit_Deviator, currentGame->objectData.data[getItemID()][newOwner->getFactionID()].price);
     } else{
-        newOwner->informHasDamaged(Unit_Deviator, currentGame->objectData.data[getItemID()][newOwner->getHouseID()].price / 10);
+        newOwner->informHasDamaged(Unit_Deviator, currentGame->objectData.data[getItemID()][newOwner->getFactionID()].price / 10);
     }
 
 
@@ -1427,7 +1430,7 @@ void UnitBase::targeting() {
             }
 
             // Acquire new target if we don't have one
-            if(!target && !attackPos && !moving && !justStoppedMoving && !forced) {
+            if(!target && !attackPos && ((!moving && !justStoppedMoving) || getItemID() == Unit_Ornithopter) && !forced) {
                 const ObjectBase* pNewTarget = findTarget();
 
                 if(pNewTarget != nullptr) {
@@ -1454,8 +1457,8 @@ void UnitBase::targeting() {
                             doSetAttackMode(HUNT);
                         }
                     }
-                } else if(attackMode == HUNT) {
-                    // HUNT units with no targets switch back to GUARD
+                } else if(attackMode == HUNT && getItemID() != Unit_Ornithopter) {
+                    // Ground units with no targets switch back to GUARD; aircraft keep patrolling.
                     setGuardPoint(location);
                     doSetAttackMode(GUARD);
                 }

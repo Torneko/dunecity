@@ -185,6 +185,7 @@ ObjectInterface* BuilderBase::getInterfaceContainer() {
 }
 
 void BuilderBase::insertItem(std::list<BuildItem>& buildItemList, std::list<BuildItem>::iterator& iter, Uint32 itemID, int price) {
+    if(price != -1) price = currentGame->getGameInitSettings().campaignPurchasePrice(price, owner->getHouseID());
     if(iter != buildItemList.end()) {
         if(iter->itemID == itemID) {
             if(price != -1) {
@@ -196,7 +197,8 @@ void BuilderBase::insertItem(std::list<BuildItem>& buildItemList, std::list<Buil
     }
 
     if(price == -1) {
-        price = currentGame->objectData.data[itemID][getTechnologyHouseID()].price;
+        price = currentGame->getGameInitSettings().campaignPurchasePrice(
+            currentGame->objectData.data[itemID][getTechnologyHouseID()].price, owner->getHouseID());
     }
 
     buildItemList.insert(iter, BuildItem(itemID, price));
@@ -340,7 +342,7 @@ int BuilderBase::getMaxUpgradeLevel() const {
     }
     int upgradeLevel = 0;
     const int technologyHouse = ModManager::instance().isTornieContentActive()
-        ? getTechnologyHouseID() : owner->getHouseID();
+        ? getTechnologyHouseID() : owner->getFactionID();
 
     for(int i = ItemID_FirstID; i <= ItemID_LastID; i++) {
         const int dataHouseID = (i == Unit_ChemicalCarryall) ? technologyHouse : getTechnologyHouseID();
@@ -372,7 +374,7 @@ void BuilderBase::updateBuildList()
 
         const auto activeModName = ModManager::instance().getActiveModName();
         const int technologyHouse = ModManager::instance().isTornieContentActive()
-            ? getTechnologyHouseID() : owner->getHouseID();
+            ? getTechnologyHouseID() : owner->getFactionID();
         const bool specialChemicalCarryall = itemID2Add == Unit_ChemicalCarryall
             && itemID == Structure_HighTechFactory
             && owner != nullptr

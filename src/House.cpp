@@ -16,6 +16,7 @@
  */
 
 #include <House.h>
+#include <Campaign/CoopCampaignSession.h>
 #include <Achievements/AchievementEvents.h>
 
 #include <globals.h>
@@ -55,6 +56,7 @@ House::House(int newHouse, int newCredits, int maxUnits, int maxHarvesters, Uint
     House::init();
 
     houseID = ((newHouse >= 0) && (newHouse < NUM_HOUSES)) ? newHouse :  0;
+    factionID = factionForRuntimeHouse(houseID);
     this->teamID = teamID;
 
     storedCredits = 0;
@@ -93,6 +95,7 @@ House::House(InputStream& stream) : choam(this) {
     House::init();
 
     houseID = stream.readUint8();
+    factionID = factionForRuntimeHouse(houseID);
     teamID = stream.readUint8();
 
     storedCredits = stream.readFixPoint();
@@ -154,6 +157,13 @@ House::House(InputStream& stream) : choam(this) {
 
 
 
+
+int House::factionForRuntimeHouse(int runtimeHouse) {
+    if(!currentGame || runtimeHouse < 0 || runtimeHouse >= NUM_HOUSES) return runtimeHouse;
+    if(const auto context = coop::readContext(currentGame->getGameInitSettings().getFiledata()))
+        return coop::factionForHouse(*context, runtimeHouse);
+    return runtimeHouse;
+}
 
 void House::init() {
     ai = true;
@@ -258,7 +268,17 @@ void House::addCredits(FixPoint newCredits, bool wasRefined) {
         }
 
         storedCredits += newCredits;
-        if(this == pLocalHouse) {
+        const auto& sharedHarvest = currentGame->getGameInitSettings().getCoopHarvestObjective();
+        if(sharedHarvest.quota > 0) {
+            if(houseID == sharedHarvest.houses[0] || houseID == sharedHarvest.houses[1]) {
+                FixPoint teamStoredCredits = 0;
+                for(const int alliedHouse : sharedHarvest.houses) {
+                    if(const auto* ally = currentGame->getHouse(alliedHouse))
+                        teamStoredCredits += ally->getStoredCredits();
+                }
+                if(teamStoredCredits >= sharedHarvest.quota) win();
+            }
+        } else if(this == pLocalHouse) {
             if(((currentGame->winFlags & WINLOSEFLAGS_QUOTA) != 0) && (quota != 0)) {
                 if(storedCredits >= quota) {
                     win();
@@ -343,7 +363,7 @@ FixPoint House::takeCredits(FixPoint amount) {
 
 
 void House::printStat() const {
-    SDL_Log("House %s: (Number of Units: %d, Number of Structures: %d)",getHouseNameByNumber( (HOUSETYPE) getHouseID()).c_str(),numUnits,numStructures);
+    SDL_Log("House %s: (Number of Units: %d, Number of Structures: %d)",getHouseNameByNumber( (HOUSETYPE) getFactionID()).c_str(),numUnits,numStructures);
     SDL_Log("Barracks: %d\t\tWORs: %d", numItem[Structure_Barracks],numItem[Structure_WOR]);
     SDL_Log("Light Factories: %d\tHeavy Factories: %d",numItem[Structure_LightFactory],numItem[Structure_HeavyFactory]);
     SDL_Log("IXs: %d\t\t\tPalaces: %d",numItem[Structure_IX],numItem[Structure_Palace]);
@@ -428,7 +448,7 @@ void House::incrementUnits(int itemID) {
        && itemID != Unit_RebelHarvester
        && itemID != Unit_Sandworm) {
 
-            militaryValue += currentGame->objectData.data[itemID][houseID].price;
+            militaryValue += currentGame->objectData.data[itemID][getFactionID()].price;
     }
 
 }
@@ -457,7 +477,7 @@ void House::decrementUnits(int itemID) {
        && itemID != Unit_RebelHarvester
        && itemID != Unit_Sandworm) {
 
-            lossValue += currentGame->objectData.data[itemID][houseID].price;
+            lossValue += currentGame->objectData.data[itemID][getFactionID()].price;
     }
 
     if (!isAlive())
@@ -474,13 +494,13 @@ void House::incrementStructures(int itemID) {
     numItem[itemID]++;
 
     // change power requirements
-    int currentItemPower = currentGame->objectData.data[itemID][houseID].power;
+    int currentItemPower = currentGame->objectData.data[itemID][getFactionID()].power;
     if(currentItemPower >= 0) {
         powerRequirement += currentItemPower;
     }
 
     // change spice capacity
-    capacity += currentGame->objectData.data[itemID][houseID].capacity;
+    capacity += currentGame->objectData.data[itemID][getFactionID()].capacity;
 
     if(currentGame->gameState != GameState::Loading) {
         // do not check selection lists if we are loading
@@ -497,13 +517,13 @@ void House::decrementStructures(int itemID, const Coord& location) {
     numItemLosses[itemID]++;
 
     // change power requirements
-    int currentItemPower = currentGame->objectData.data[itemID][houseID].power;
+    int currentItemPower = currentGame->objectData.data[itemID][getFactionID()].power;
     if(currentItemPower >= 0) {
         powerRequirement -= currentItemPower;
     }
 
     // change spice capacity
-    capacity -= currentGame->objectData.data[itemID][houseID].capacity;
+    capacity -= currentGame->objectData.data[itemID][getFactionID()].capacity;
 
     if(currentGame->gameState != GameState::Loading) {
         // do not check selection lists if we are loading
@@ -527,8 +547,8 @@ void House::transformStructure(int oldItemID, int newItemID) {
         return;
     }
 
-    const auto& oldData = currentGame->objectData.data[oldItemID][houseID];
-    const auto& newData = currentGame->objectData.data[newItemID][houseID];
+    const auto& oldData = currentGame->objectData.data[oldItemID][getFactionID()];
+    const auto& newData = currentGame->objectData.data[newItemID][getFactionID()];
 
     numItem[oldItemID]--;
     numItem[newItemID]++;
@@ -563,10 +583,10 @@ void House::informWasBuilt(ObjectBase* pObject, bool produced) {
     if(produced) AchievementEvents::built(this, pObject);
     int itemID = pObject->getItemID();
     if(pObject->isAStructure()) {
-        structureBuiltValue += currentGame->objectData.data[itemID][houseID].price;
+        structureBuiltValue += currentGame->objectData.data[itemID][getFactionID()].price;
         numBuiltStructures++;
     } else {
-        unitBuiltValue += currentGame->objectData.data[itemID][houseID].price;
+        unitBuiltValue += currentGame->objectData.data[itemID][getFactionID()].price;
         numBuiltUnits++;
     }
 
@@ -584,7 +604,7 @@ void House::informWasBuilt(ObjectBase* pObject, bool produced) {
     \param itemID   the ID of the enemy unit or structure
 */
 void House::informHasKilled(Uint32 itemID) {
-    destroyedValue += std::max(currentGame->objectData.data[itemID][houseID].price/100, 1);
+    destroyedValue += std::max(currentGame->objectData.data[itemID][getFactionID()].price/100, 1);
     if(isStructure(itemID)) {
         numDestroyedStructures++;
     } else {
@@ -597,7 +617,7 @@ void House::informHasKilled(Uint32 itemID) {
            && itemID != Unit_Harvester
            && itemID != Unit_Sandworm) {
 
-                killValue += currentGame->objectData.data[itemID][houseID].price;
+                killValue += currentGame->objectData.data[itemID][getFactionID()].price;
 
         }
 
@@ -635,7 +655,7 @@ void House::win() {
 void House::lose(bool bSilent) {
     if(!bSilent) {
         try {
-            currentGame->addToNewsTicker(fmt::sprintf(_("House '%s' has been defeated."), getHouseDisplayNameByNumber( (HOUSETYPE) getHouseID())));
+            currentGame->addToNewsTicker(fmt::sprintf(_("House '%s' has been defeated."), getHouseDisplayNameByNumber( (HOUSETYPE) getFactionID())));
         } catch (std::exception& e) {
             SDL_Log("House::lose(): %s", e.what());
         }
@@ -759,7 +779,7 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
             // Slabs are no normal buildings
             currentGameMap->getTile(xPos, yPos)->setType(Terrain_Slab);
             currentGameMap->getTile(xPos, yPos)->setOwner(getHouseID());
-            currentGameMap->viewMap(getHouseID(), xPos, yPos, currentGame->objectData.data[Structure_Slab1][houseID].viewrange);
+            currentGameMap->viewMap(getHouseID(), xPos, yPos, currentGame->objectData.data[Structure_Slab1][getFactionID()].viewrange);
     //      currentGameMap->getTile(xPos, yPos)->clearTerrain();
 
             if(pBuilder != nullptr) {
@@ -787,7 +807,7 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
 
                     t.setType(Terrain_Slab);
                     t.setOwner(houseID);
-                    currentGameMap->viewMap(getHouseID(), t.getLocation().x, t.getLocation().y, currentGame->objectData.data[Structure_Slab4][houseID].viewrange);
+                    currentGameMap->viewMap(getHouseID(), t.getLocation().x, t.getLocation().y, currentGame->objectData.data[Structure_Slab4][getFactionID()].viewrange);
                     //pTile->clearTerrain();
                 });
 
@@ -911,9 +931,9 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
 UnitBase* House::createUnit(int itemID, bool byScenario, int productionHouseID) {
     const bool inheritTechnology = !byScenario && ModManager::instance().isTornieContentActive()
         && productionHouseID >= 0 && productionHouseID < NUM_HOUSES
-        && productionHouseID != getHouseID();
+        && productionHouseID != getFactionID();
     ObjectBase* newObject = ObjectBase::createObject(itemID, this, byScenario,
-        inheritTechnology ? productionHouseID : getHouseID());
+        inheritTechnology ? productionHouseID : getFactionID());
     UnitBase* newUnit = dynamic_cast<UnitBase*>(newObject);
 
     if(newUnit == nullptr) {
@@ -1031,7 +1051,7 @@ Coord House::getStrongestUnitPosition() const {
     Sint32 strongestUnitCost = 0;
     for(const UnitBase* pUnit : unitList) {
         if(pUnit->getOwner() == this) {
-            Sint32 currentCost = currentGame->objectData.data[pUnit->getItemID()][houseID].price;
+            Sint32 currentCost = currentGame->objectData.data[pUnit->getItemID()][getFactionID()].price;
 
             if(currentCost > strongestUnitCost) {
                 strongestUnitPosition = pUnit->getLocation();

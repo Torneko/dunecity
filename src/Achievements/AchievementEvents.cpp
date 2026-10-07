@@ -54,9 +54,10 @@ void begin(Game& game,const std::string& key,bool resumed,bool eligible){
         default:info.mode=achievements::Mode::Custom;break;
     }
     info.mod=ModManager::instance().getActiveModName();
-    info.house=pLocalHouse?houseName(static_cast<HOUSETYPE>(pLocalHouse->getHouseID())):"Unknown";
+    info.house=pLocalHouse?houseName(static_cast<HOUSETYPE>(pLocalHouse->getFactionID())):"Unknown";
+    info.chaosCampaignEligible=setup.isChaosCampaignEligible();
     info.mission=setup.getMission();info.enabled=eligible&&pLocalHouse&&!std::getenv("DUNELEGACY_SMOKE_DIR");
-    if(pLocalHouse){const auto house=static_cast<HOUSETYPE>(pLocalHouse->getHouseID());info.color=getHouseVisualHouse(house);info.defaultColor=getDefaultHouseColorSlot(house);info.initialRefinedSpice=static_cast<std::uint64_t>(std::max(0,pLocalHouse->getHarvestedSpice().floor()));}
+    if(pLocalHouse){const auto house=static_cast<HOUSETYPE>(pLocalHouse->getHouseID());info.color=getHouseVisualHouse(house);info.defaultColor=getDefaultHouseColorSlot(static_cast<HOUSETYPE>(pLocalHouse->getFactionID()));info.initialRefinedSpice=static_cast<std::uint64_t>(std::max(0,pLocalHouse->getHarvestedSpice().floor()));}
     info.hadEnemies=enemiesRemain(true);info.roadkillWindow=MILLI2CYCLES(2000);
     for(const auto& house:setup.getHouseInfoList()){
         if(!pLocalHouse||house.team==pLocalHouse->getTeamID())continue;

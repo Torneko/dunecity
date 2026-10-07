@@ -190,6 +190,26 @@ bool Ornithopter::canAttack(const ObjectBase* object) const {
         return false;
 }
 
+void Ornithopter::doAttackPos(int xPos, int yPos, bool bForced) {
+    AirUnit::doAttackPos(xPos, yPos, bForced);
+    if(bForced && isHumanControlledHouse(owner) && currentGameMap->tileExists(xPos, yPos)) {
+        // A player attack order starts a persistent hunt so the aircraft can
+        // acquire another target after the selected target or position clears.
+        setForced(false);
+        doSetAttackMode(HUNT);
+    }
+}
+
+void Ornithopter::doAttackObject(const ObjectBase* pTargetObject, bool bForced) {
+    AirUnit::doAttackObject(pTargetObject, bForced);
+    if(bForced && isHumanControlledHouse(owner) && canAttack(pTargetObject)) {
+        // Keep following the player's attack order, then hunt for a new target
+        // when it is destroyed instead of stopping for another manual order.
+        setForced(false);
+        doSetAttackMode(HUNT);
+    }
+}
+
 void Ornithopter::destroy() {
     // place wreck
     if(currentGameMap->tileExists(location)) {

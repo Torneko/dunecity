@@ -5,9 +5,14 @@ import configparser
 import hashlib
 import json
 import re
+from importlib.util import spec_from_file_location, module_from_spec
 
 ROOT = Path(__file__).resolve().parents[1]
-for name, letters in [('Tornie', 'HAOFSMNRCWKT'), ('TornieLite', 'HAOFSM'), ('Jericho', 'HAOFSMNRCWKT')]:
+coop_spec = spec_from_file_location('original_coop', ROOT / 'scripts/original-coop-campaign.py')
+original_coop = module_from_spec(coop_spec)
+coop_spec.loader.exec_module(original_coop)
+for name, letters in [('Tornie', 'HAOFSMNRCWKT'), ('TornieLite', 'HAOFSM'),
+                      ('Jericho', 'HAOFSMNRCWKT'), ('JerichoLite', 'HAOFSM')]:
     root = ROOT / 'mods' / name
     config = configparser.ConfigParser(interpolation=None, strict=False)
     config.read(root / 'mod.ini', encoding='utf-8-sig')
@@ -19,6 +24,12 @@ for name, letters in [('Tornie', 'HAOFSMNRCWKT'), ('TornieLite', 'HAOFSM'), ('Je
         assert (root / 'campaign' / ('REGION' + letter + '.INI')).is_file(), (name, letter)
         for mission in range(1, 23):
             assert (root / 'campaign' / f'scen{letter.lower()}{mission:03}.ini').is_file(), (name, letter, mission)
+    for mission in range(1, 10):
+        assert (root / 'campaign' / 'coop' / f'coop{mission:02}.ini').is_file(), (name, 'coop', mission)
+    for house, _ in original_coop.campaigns(name):
+        faction = original_coop.runtime_faction(name, house)
+        for mission in range(1, 10):
+            assert original_coop.destination(name, faction, mission).is_file(), (name, faction, mission)
     for section in config.sections():
         if section.startswith('Mentat '):
             for key in ('Background', 'Foreground', 'Eyes', 'Mouth'):
@@ -35,3 +46,6 @@ for name, letters in [('Tornie', 'HAOFSMNRCWKT'), ('TornieLite', 'HAOFSM'), ('Je
         assert hashlib.sha256(path.read_bytes()).hexdigest() == digest, (name, relative)
         checked += 1
     print(f'{name}: {len(letters)} campaigns, {checked} exact payload checksums, presentation assets verified')
+for house, _ in original_coop.campaigns('vanilla'):
+    for mission in range(1, 10):
+        assert original_coop.destination('vanilla', original_coop.runtime_faction('vanilla', house), mission).is_file(), ('vanilla', house, mission)

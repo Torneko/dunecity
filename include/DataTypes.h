@@ -19,6 +19,7 @@
 #define DATATYPES_H
 
 #include <Definitions.h>
+#include <mod/ModContentOptions.h>
 #include <misc/SDL2pp.h>
 
 // Libraries
@@ -216,7 +217,7 @@ public:
         GameOptionsClass()
          : gameSpeed(GAMESPEED_DEFAULT), concreteRequired(true), structuresDegradeOnConcrete(true), fogOfWar(false),
            startWithExploredMap(false), instantBuild(false), onlyOnePalace(false), rocketTurretsNeedPower(false),
-           sandwormsRespawn(false), killedSandwormsDropSpice(false), randomSpiceBlooms(false), chaosMode(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
+           sandwormsRespawn(false), killedSandwormsDropSpice(false), randomSpiceBlooms(false), chaosMode(false), easyMode(false), manualCarryallDrops(false), maximumNumberOfUnitsOverride(-1),
            maximumNumberOfHarvestersOverride(-1), immortalHumanPlayer(false)  {
         }
 
@@ -234,6 +235,8 @@ public:
                     && (killedSandwormsDropSpice == goc.killedSandwormsDropSpice)
                     && (randomSpiceBlooms == goc.randomSpiceBlooms)
                     && (chaosMode == goc.chaosMode)
+                    && (easyMode == goc.easyMode)
+                    && (content == goc.content)
                     && (manualCarryallDrops == goc.manualCarryallDrops)
                     && (maximumNumberOfUnitsOverride == goc.maximumNumberOfUnitsOverride)
                     && (maximumNumberOfHarvestersOverride == goc.maximumNumberOfHarvestersOverride)
@@ -268,6 +271,8 @@ public:
             // Note: immortalHumanPlayer is intentionally excluded as it's a per-player setting
 
             if(chaosMode) optStr += "|ChaosMode=1";
+            if(easyMode) optStr += "|EasyMode=1";
+            if(!content.customUnitsAndBuildings || content.spiceMask()) optStr += "|Content=" + content.signature();
 
             // FNV-1a hash
             uint64_t hash = 14695981039346656037ULL;
@@ -294,6 +299,8 @@ public:
         bool        killedSandwormsDropSpice;
         bool        randomSpiceBlooms;
         bool        chaosMode;
+        bool        easyMode;
+        ModContentOptions content;
         bool        manualCarryallDrops;
         int         maximumNumberOfUnitsOverride;
         int         maximumNumberOfHarvestersOverride;

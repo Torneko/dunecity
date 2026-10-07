@@ -25,6 +25,7 @@
 #include <GUI/TextButton.h>
 #include <GUI/TextBox.h>
 #include <GUI/Label.h>
+#include <GUI/Checkbox.h>
 #include <GUI/Spacer.h>
 
 #include <string>
@@ -64,6 +65,8 @@ private:
     HBox versionRow;
     Label versionLabel;
     TextBox versionTextBox;
+    Checkbox customContentCheckbox, greenSpiceCheckbox, redSpiceCheckbox,
+        purpleSpiceCheckbox, blueSpiceCheckbox;
     
     // Instructions
     Label instructionsLabel1;

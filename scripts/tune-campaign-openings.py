@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Apply the revised 1.0.535 opening balance without remapping later missions."""
 from pathlib import Path
+from importlib.util import spec_from_file_location, module_from_spec
 import collections,configparser,hashlib,io,json,shutil,subprocess,tarfile
 
 ROOT=Path(__file__).resolve().parents[1]
@@ -65,14 +66,38 @@ def tune_opening(text,player):
         additions[key]=f'{player},{unit},256,{candidates[index]},64,Guard'
     extra=eol.join(key+'='+value for key,value in additions.items())+eol+eol
     text=text.replace('[STRUCTURES]',extra+'[STRUCTURES]',1)
+    # Five scattered sentries occupy empty passable perimeter cells. They do
+    # not Hunt, and stay away from the player base and existing deployments.
+    terrain=json.loads((ROOT/'config/OpeningTerrain.json').read_text())['seeds'][ini['MAP']['Seed']]
+    enemy_owner=next(value.split(',')[0] for value in ini['UNITS'].values() if value.split(',')[0]!=player)
+    patrols={};selected=[]
+    for i,(ax,ay) in enumerate([(2,12),(2,52),(52,2),(61,48),(28,61)]):
+        choices=[]
+        for py in range(2,62):
+            for px in range(2,62):
+                pos=px+64*py
+                if min(px,py,63-px,63-py)>4 or terrain[pos]=='a':continue
+                if max(abs(px-x),abs(py-y))<12:continue
+                if any(max(abs(px-(p%64)),abs(py-(p//64)))<6 for p in occupied):continue
+                if any(max(abs(px-sx),abs(py-sy))<10 for sx,sy in selected):continue
+                # A vehicle must also have a neighbouring passable exit.
+                if all(terrain[pos+offset]=='a' for offset in [-1,1,-64,64]):continue
+                choices.append((abs(px-ax)+abs(py-ay),py,px))
+        assert choices,(player,'no passable patrol position')
+        _,py,px=min(choices);selected.append((px,py));occupied.add(px+64*py)
+        key=f'ID{200+i:03}';assert key not in ini['UNITS']
+        unit='Tank' if i in [0,3] else 'Trooper'
+        patrols[key]=f'{enemy_owner},{unit},256,{px+64*py},64,Area Guard'
+    text=text.replace('[STRUCTURES]',eol.join(key+'='+value for key,value in patrols.items())+eol+eol+'[STRUCTURES]',1)
+    additions.update(patrols)
     result=read(text);own=collections.Counter();enemy=collections.Counter()
     for value in result['UNITS'].values():
         owner,unit=value.split(',')[:2];(own if owner==player else enemy)[unit]+=1
     assert own['Troopers']==3 and own['Trooper']==0 and own['Special']==2
-    assert sum(enemy.values())==12,(player,enemy)
+    assert sum(enemy.values())==17,(player,enemy)
     assert enemy['Special']==0
     assert all(v.split(',')[5]!='Hunt' for v in result['UNITS'].values() if v.split(',')[0]!=player)
-    return text,{'player':dict(own),'enemies':dict(enemy),'enemyUnitOrders':12,
+    return text,{'player':dict(own),'enemies':dict(enemy),'enemyUnitOrders':17,
                  'addedOrders':additions,'removedOrders':removed,'rushOrdersChanged':passive,'enemySpecialsReplaced':regular}
 
 def write_checksums(mod):
@@ -88,8 +113,10 @@ def main():
     git=shutil.which('git') or 'C:/Program Files/Git/cmd/git.exe'
     raw=subprocess.check_output([git,'archive','--format=tar',BASELINE,'mods/Tornie/campaign','mods/Jericho/campaign'],cwd=ROOT)
     with tarfile.open(fileobj=io.BytesIO(raw)) as t:originals={m.name:t.extractfile(m).read() for m in t if m.isfile()}
-    plans=json.loads((ROOT/'config/CampaignPlans.json').read_text(encoding='utf-8'))['mods'];rows=[]
+    campaign_config=json.loads((ROOT/'config/CampaignPlans.json').read_text(encoding='utf-8'))
+    plans=campaign_config['mods'];rows=[]
     for mod,plans in plans.items():
+        if mod.endswith('Lite'):continue
         for plan in plans:
             name=f'scen{plan["letter"].lower()}001.ini';rel=f'mods/{mod}/campaign/{name}'
             original=originals[rel].decode('cp850');text,report=tune_opening(original,plan['house'])
@@ -100,8 +127,12 @@ def main():
             if mirror.exists():mirror.write_bytes(text.encode('cp850'))
             rows.append({'mod':mod,'house':plan['house'],**report})
         write_checksums(mod)
-    report={'version':'1.0.535','revision':'campaign-opening-balance','baseline':BASELINE,'intros':24,
-            'policy':{'bonusTanks':2,'troopersOrders':3,'individualTroopers':9,'specialOrders':2,'enemyOrders':12,'immediateHuntOrders':0},'campaigns':rows}
+    clone_spec=spec_from_file_location('opening_clones',ROOT/'scripts/campaign-opening-clones.py')
+    opening_clones=module_from_spec(clone_spec);clone_spec.loader.exec_module(opening_clones)
+    intro_clones=opening_clones.clone_openings(campaign_config,write=True)
+    for target_mod in campaign_config.get('openingClones', {}):write_checksums(target_mod)
+    report={'version':'1.0.536','revision':'campaign-opening-balance','baseline':BASELINE,'intros':24,'introClones':intro_clones,
+            'policy':{'bonusTanks':2,'troopersOrders':3,'individualTroopers':9,'specialOrders':2,'enemyOrders':17,'immediateHuntOrders':0},'campaigns':rows}
     import sys
     if len(sys.argv)>1:Path(sys.argv[1]).write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='campaigns'}))

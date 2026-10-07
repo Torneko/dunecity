@@ -26,6 +26,7 @@
 #include <GUI/TextBox.h>
 #include <GUI/ListBox.h>
 #include <GUI/Label.h>
+#include <GUI/TextView.h>
 #include <GUI/Spacer.h>
 
 #include <mod/ModInfo.h>
@@ -79,7 +80,7 @@ private:
     Label detailsLabel;
     Label modNameLabel;
     Label modAuthorLabel;
-    Label modDescLabel;
+    TextView modDescLabel;
     Label modModVersionLabel;
     Label modGameVersionLabel;
     Label modChecksumLabel;

@@ -16,6 +16,9 @@
  */
 
 #include <GameInitSettings.h>
+#include <Campaign/CoopCampaignSession.h>
+#include <FileClasses/INIFile.h>
+#include <misc/SDL2pp.h>
 
 #include <misc/IFileStream.h>
 #include <misc/IMemoryStream.h>
@@ -26,10 +29,12 @@
 
 #include <globals.h>
 #include <mod/ModManager.h>
+#include <sand.h>
 
 namespace {
 constexpr Uint32 GAMEINIT_MOD_MARKER = 0x4D4F4421;   // "MOD!"
 constexpr Uint32 GAMEINIT_MOD3_MARKER = 0x4D4F4433;  // "MOD3"
+constexpr Uint32 GAMEINIT_MOD5_MARKER = 0x4D4F4435;  // "MOD5": campaign options and provenance
 constexpr Uint32 GAMEINIT_MOD4_MARKER = 0x4D4F4434;  // "MOD4": Chaos Mode
 constexpr Uint32 GAMEINIT_MOD2_MARKER = 0x4D4F4432;  // "MOD2"
 }
@@ -57,19 +62,56 @@ int GameInitSettings::getFactionColorSlot(HOUSETYPE house) const {
 GameInitSettings::GameInitSettings() {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    this->gameOptions.content = ModManager::instance().isInitialized() ? ModManager::instance().getActiveContentOptions() : ModContentOptions::legacy(modName);
     if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
 GameInitSettings::GameInitSettings(HOUSETYPE newHouseID, const SettingsClass::GameOptionsClass& gameOptions)
- : gameType(GameType::Campaign), houseID(newHouseID), mission(1), alreadyShownTutorialHints(0), gameOptions(gameOptions) {
+ : gameType(GameType::Campaign), houseID(newHouseID), mission(gameOptions.easyMode ? 2 : 1), alreadyShownTutorialHints(0), gameOptions(gameOptions) {
     filename = getScenarioFilename(houseID, mission);
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    this->gameOptions.content = ModManager::instance().isInitialized() ? ModManager::instance().getActiveContentOptions() : ModContentOptions::legacy(modName);
     if(modName == "vanilla") this->gameOptions.chaosMode = false;
+    chaosCampaignEligible = gameType == GameType::Campaign && isChaosModeEnabled();
 }
 
 GameInitSettings::GameInitSettings(const GameInitSettings& prevGameInitInfoClass, int nextMission, Uint32 alreadyPlayedRegions, Uint32 alreadyShownTutorialHints) {
     *this = prevGameInitInfoClass;
+    if(gameType == GameType::Campaign) {
+        // Older campaign saves can predate added factions. Keep their player,
+        // support and chosen enemy AI, but register missing opponents for the
+        // next map so the loader can give them credits and an AI controller.
+        std::string enemyAIClass = DEFAULTAIPLAYERCLASS;
+        int enemyTeam = 2;
+        bool foundEnemyAI = false;
+        for(const HouseInfo& houseInfo : houseInfoList) {
+            if(houseInfo.houseID == houseID) continue;
+            for(const PlayerInfo& playerInfo : houseInfo.playerInfoList) {
+                if(playerInfo.playerClass == HUMANPLAYERCLASS) continue;
+                enemyAIClass = playerInfo.playerClass;
+                enemyTeam = houseInfo.team;
+                foundEnemyAI = true;
+                break;
+            }
+            if(foundEnemyAI) break;
+        }
+        for(int h = 0; h < NUM_HOUSES; ++h) {
+            const auto house = static_cast<HOUSETYPE>(h);
+            if(house == houseID || !isCampaignHouseAvailable(house)) continue;
+            bool exists = false;
+            for(const HouseInfo& houseInfo : houseInfoList) {
+                if(houseInfo.houseID == house) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(exists) continue;
+            HouseInfo opponent(house, enemyTeam);
+            opponent.addPlayerInfo(PlayerInfo(getHouseDisplayNameByNumber(house), enemyAIClass));
+            houseInfoList.push_back(std::move(opponent));
+        }
+    }
     mission = nextMission;
     this->alreadyPlayedRegions = alreadyPlayedRegions;
     this->alreadyShownTutorialHints = alreadyShownTutorialHints;
@@ -82,13 +124,16 @@ GameInitSettings::GameInitSettings(HOUSETYPE newHouseID, int newMission, const S
     filename = getScenarioFilename(houseID, mission);
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    this->gameOptions.content = ModManager::instance().isInitialized() ? ModManager::instance().getActiveContentOptions() : ModContentOptions::legacy(modName);
     if(modName == "vanilla") this->gameOptions.chaosMode = false;
+    chaosCampaignEligible = gameType == GameType::Campaign && mission == 1 && isChaosModeEnabled();
 }
 
 GameInitSettings::GameInitSettings(const std::string& mapfile, const std::string& filedata, bool multiplePlayersPerHouse, const SettingsClass::GameOptionsClass& gameOptions)
  : gameType(GameType::CustomGame), filename(mapfile), filedata(filedata), multiplePlayersPerHouse(multiplePlayersPerHouse), gameOptions(gameOptions) {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    this->gameOptions.content = ModManager::instance().isInitialized() ? ModManager::instance().getActiveContentOptions() : ModContentOptions::legacy(modName);
     if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
@@ -96,6 +141,7 @@ GameInitSettings::GameInitSettings(const std::string& mapfile, const std::string
  : gameType(GameType::CustomMultiplayer), filename(mapfile), filedata(filedata), servername(serverName), multiplePlayersPerHouse(multiplePlayersPerHouse), gameOptions(gameOptions) {
     randomSeed = getRandomInt();
     setModInfo(modName, modChecksum);
+    this->gameOptions.content = ModManager::instance().isInitialized() ? ModManager::instance().getActiveContentOptions() : ModContentOptions::legacy(modName);
     if(modName == "vanilla") this->gameOptions.chaosMode = false;
 }
 
@@ -111,7 +157,7 @@ GameInitSettings::GameInitSettings(const std::string& savegame, const std::strin
     checkSaveGame(memStream);
 }
 
-GameInitSettings::GameInitSettings(InputStream& stream) {
+GameInitSettings::GameInitSettings(InputStream& stream, bool hasModMetadata) {
     gameType = static_cast<GameType>(stream.readSint8());
     houseID = static_cast<HOUSETYPE>(stream.readSint8());
 
@@ -144,15 +190,18 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
         houseInfoList.push_back(HouseInfo(stream));
     }
 
+    // Pre-mod saves end these settings here; the next word is the outer house setup.
+    if(!hasModMetadata) return;
+
     // Read mod info (added in version with mod system)
     // Use marker to detect presence for backward compatibility
     try {
         Uint32 modMarker = stream.readUint32();
-        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
+        if (modMarker == GAMEINIT_MOD_MARKER || modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER || modMarker == GAMEINIT_MOD5_MARKER) {
             modName = stream.readString();
             modChecksum = stream.readString();
 
-            if(modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
+            if(modMarker == GAMEINIT_MOD2_MARKER || modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER || modMarker == GAMEINIT_MOD5_MARKER) {
                 Uint32 numHouseColors = stream.readUint32();
                 for(Uint32 i = 0; i < numHouseColors; i++) {
                     const int colorOfHouse = stream.readSint32();
@@ -162,10 +211,20 @@ GameInitSettings::GameInitSettings(InputStream& stream) {
                 }
             }
 
-            if(modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER) {
+            if(modMarker == GAMEINIT_MOD3_MARKER || modMarker == GAMEINIT_MOD4_MARKER || modMarker == GAMEINIT_MOD5_MARKER) {
                 gameOptions.randomSpiceBlooms = stream.readBool();
             }
-            if(modMarker == GAMEINIT_MOD4_MARKER) gameOptions.chaosMode = stream.readBool();
+            if(modMarker == GAMEINIT_MOD4_MARKER || modMarker == GAMEINIT_MOD5_MARKER) gameOptions.chaosMode = stream.readBool();
+            gameOptions.content = ModContentOptions::legacy(modName);
+            if(modMarker == GAMEINIT_MOD5_MARKER) {
+                gameOptions.easyMode = stream.readBool();
+                chaosCampaignEligible = stream.readBool();
+                gameOptions.content.customUnitsAndBuildings = stream.readBool();
+                gameOptions.content.greenSpice = stream.readBool();
+                gameOptions.content.redSpice = stream.readBool();
+                gameOptions.content.purpleSpice = stream.readBool();
+                gameOptions.content.blueSpice = stream.readBool();
+            }
             if(modName == "vanilla") gameOptions.chaosMode = false;
         }
     } catch (InputStream::eof&) {
@@ -212,7 +271,7 @@ void GameInitSettings::save(OutputStream& stream) const {
     }
 
     // Write mod info with marker for forward compatibility
-    stream.writeUint32(GAMEINIT_MOD4_MARKER);
+    stream.writeUint32(GAMEINIT_MOD5_MARKER);
     stream.writeString(modName);
     stream.writeString(modChecksum);
 
@@ -222,9 +281,41 @@ void GameInitSettings::save(OutputStream& stream) const {
     }
     stream.writeBool(gameOptions.randomSpiceBlooms);
     stream.writeBool(isChaosModeEnabled());
+    stream.writeBool(gameOptions.easyMode);
+    stream.writeBool(isChaosCampaignEligible());
+    stream.writeBool(gameOptions.content.customUnitsAndBuildings);
+    stream.writeBool(gameOptions.content.greenSpice);
+    stream.writeBool(gameOptions.content.redSpice);
+    stream.writeBool(gameOptions.content.purpleSpice);
+    stream.writeBool(gameOptions.content.blueSpice);
 }
 
 
+
+const GameInitSettings::CoopHarvestObjective& GameInitSettings::getCoopHarvestObjective() const {
+    if(!coopHarvestCached_) {
+        coopHarvestObjective_ = {};
+        if(const auto context = coop::readContext(filedata)) {
+            auto source = sdl2::RWops_ptr{SDL_RWFromConstMem(filedata.data(), static_cast<int>(filedata.size()))};
+            INIFile map(source.get());
+            const int target = map.getIntValue("COOP_TEMPLATE", "SharedQuota", 0);
+            if(target > 0 && (map.getIntValue("BASIC", "WinFlags", 3) & WINLOSEFLAGS_QUOTA)) {
+                coopHarvestObjective_.quota = target;
+                coopHarvestObjective_.houses = {{context->slots[0].house, context->slots[1].house}};
+            }
+        }
+        coopHarvestCached_ = true;
+    }
+    return coopHarvestObjective_;
+}
+
+int GameInitSettings::campaignPurchasePrice(int price, int ownerHouse) const {
+    return isEasyModeEnabled() && ownerHouse == houseID ? std::max(1, price - 25) : price;
+}
+
+int GameInitSettings::campaignStartingCredits(int credits, int ownerHouse) const {
+    return isEasyModeEnabled() && ownerHouse == houseID && mission == 2 ? credits + 500 : credits;
+}
 
 void GameInitSettings::migrateLegacyHouseColorSlots() {
     for(HouseInfo& houseInfo : houseInfoList) {

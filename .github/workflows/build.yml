@@ -230,7 +230,7 @@ jobs:
           sudo apt-get install -y \
             autoconf autoconf-archive automake libtool libltdl-dev \
             build-essential pkg-config bison flex \
-            libsystemd-dev
+            libsystemd-dev libpulse-dev libasound2-dev
 
       - name: Cache vcpkg binary packages
         uses: actions/cache@v4
@@ -434,9 +434,9 @@ jobs:
   # so creating a release here automatically flips every existing
   # install's "update available" flag the next time they launch.
   release:
-    needs: [verify-version, build-windows, build-linux, build-macos]
+    needs: [verify-version, test-linux, validate-french-locale, build-windows, build-linux, build-macos]
     # Windows is required. Linux and macOS are attached when available.
-    if: always() && startsWith(github.ref, 'refs/tags/v') && needs.verify-version.result == 'success' && needs.build-windows.result == 'success'
+    if: always() && startsWith(github.ref, 'refs/tags/v') && needs.verify-version.result == 'success' && needs.test-linux.result == 'success' && needs.validate-french-locale.result == 'success' && needs.build-windows.result == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -485,6 +485,9 @@ jobs:
             echo
             echo "Upgrading from a previous Dune Legacy Tornie install? Your built-in mod INI files are reseeded automatically on first launch."
           } > "$NOTES_FILE"
+          if [ -f "release_notes/${TAG}.md" ]; then
+            cp "release_notes/${TAG}.md" "$NOTES_FILE"
+          fi
 
           # If a release for this tag already exists (e.g. it was hand-
           # made first), upload the artifacts onto it; otherwise create

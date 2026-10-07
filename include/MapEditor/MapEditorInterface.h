@@ -41,6 +41,7 @@ class MapEditorInterface : public Window {
 public:
 #ifdef DUNELEGACY_RUNTIME_TESTS
     friend void verifyEditorUnitScrolling(const std::string&, const std::string&);
+    friend void verifyEditorSpiceDefaults(const std::string&, const std::string&);
 #endif
     /// default constructor
     explicit MapEditorInterface(MapEditor* pMapEditor);

@@ -39,8 +39,8 @@ ModEditorMenu::ModEditorMenu(const std::string& modName)
     setWindowWidget(&windowWidget);
 
     windowWidget.addWidget(&mainVBox, 
-        Point((getRendererWidth() - 500) / 2, (getRendererHeight() - 380) / 2),
-        Point(500, 380));
+        Point((getRendererWidth() - 580) / 2, (getRendererHeight() - 450) / 2),
+        Point(580, 450));
 
     // Title
     titleLabel.setText(_("EDIT MOD"));
@@ -70,6 +70,18 @@ ModEditorMenu::ModEditorMenu(const std::string& modName)
     
     mainVBox.addWidget(VSpacer::create(25));
     
+    customContentCheckbox.setText(_("Custom units and buildings"));
+    customContentCheckbox.setTooltipText(_("Disable to use Neutral vanilla units, buildings and technologies for every faction. Spice options remain independent."));
+    greenSpiceCheckbox.setText(_("Green spice"));
+    redSpiceCheckbox.setText(_("Red spice"));
+    purpleSpiceCheckbox.setText(_("Purple spice"));
+    blueSpiceCheckbox.setText(_("Blue spice"));
+    for(auto* checkbox : {&customContentCheckbox, &greenSpiceCheckbox, &redSpiceCheckbox, &purpleSpiceCheckbox, &blueSpiceCheckbox}) {
+        checkbox->setOnClick([this]() { modified = true; });
+        mainVBox.addWidget(checkbox, 20);
+    }
+    mainVBox.addWidget(VSpacer::create(8));
+
     // Instructions
     instructionsLabel1.setText(_("To customize this mod, edit these files:"));
     mainVBox.addWidget(&instructionsLabel1);
@@ -125,6 +137,11 @@ void ModEditorMenu::loadModInfo() {
     ModInfo info = ModManager::instance().getModInfo(modName);
     displayNameTextBox.setText(info.displayName);
     versionTextBox.setText(info.version);
+    customContentCheckbox.setChecked(info.content.customUnitsAndBuildings);
+    greenSpiceCheckbox.setChecked(info.content.greenSpice);
+    redSpiceCheckbox.setChecked(info.content.redSpice);
+    purpleSpiceCheckbox.setChecked(info.content.purpleSpice);
+    blueSpiceCheckbox.setChecked(info.content.blueSpice);
     modified = false;
 }
 
@@ -132,7 +149,16 @@ void ModEditorMenu::saveModInfo() {
     ModInfo info = ModManager::instance().getModInfo(modName);
     info.displayName = displayNameTextBox.getText();
     info.version = versionTextBox.getText();
+    info.content.customUnitsAndBuildings = customContentCheckbox.isChecked();
+    info.content.greenSpice = greenSpiceCheckbox.isChecked();
+    info.content.redSpice = redSpiceCheckbox.isChecked();
+    info.content.purpleSpice = purpleSpiceCheckbox.isChecked();
+    info.content.blueSpice = blueSpiceCheckbox.isChecked();
     ModManager::instance().writeModInfo(modPath, info);
+    if(ModManager::instance().getActiveModName() == modName) {
+        ModManager::instance().setActiveMod(modName);
+        effectiveGameOptions = ModManager::instance().loadEffectiveGameOptions(settings.gameOptions);
+    }
     modified = false;
 }
 

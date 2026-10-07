@@ -63,12 +63,15 @@
 #define NETWORKPACKET_MOD_COMPLETE          17  // Host -> Client: transfer complete
 #define NETWORKPACKET_MOD_ACK               18  // Client -> Host: acknowledge mod sync complete
 #define NETWORKPACKET_KEEPALIVE             19  // Periodic ping to keep NAT mappings alive
+#define NETWORKPACKET_COOP_READY            20  // Client -> host: mission result and readiness
+#define NETWORKPACKET_COOP_ADVANCE          21  // Host -> client: authoritative next mission
 
 // Network protocol version - increment when packet formats change
 // Version 2: Added simMsAvg to NETWORKPACKET_CLIENTSTATS (5 fields instead of 4)
 // Version 3: Added mod transfer packets (MOD_INFO, MOD_REQUEST, MOD_CHUNK, MOD_COMPLETE)
 // Version 4: Fixed nine-house deterministic state and versioned visibility storage
-#define NETWORK_PROTOCOL_VERSION            4
+// Version 5: Cooperative campaign result/readiness and stage transitions
+#define NETWORK_PROTOCOL_VERSION            5
 
 /**
  * Reject an incompatible config-hash handshake and dispatch its disconnect cause.
@@ -91,9 +94,13 @@ class GameInitSettings;
 
 class NetworkManager {
 public:
-    NetworkManager(int port, const std::string& metaserver);
+    NetworkManager(int port, const std::string& metaserver, bool diagnosticsOnly = false);
     NetworkManager(const NetworkManager& o) = delete;
     ~NetworkManager();
+
+    // Runtime regression check using two loopback sockets, without discovery,
+    // router port mapping, external servers or profile writes. Throws on failure.
+    static void verifyCoopTransport();
 
     bool isServer() const { return bIsServer; };
     bool isLANServer() const { return bLANServer; };
@@ -121,6 +128,29 @@ public:
     void sendCommandList(const CommandList& commandList);
 
     void sendSelectedList(const std::set<Uint32>& selectedList, int groupListIndex = -1);
+
+    struct CoopReady {
+        std::string playerName;
+        std::string sessionId;
+        int stage = 0;
+        Uint8 outcome = 0;
+        Uint32 epoch = 0;
+    };
+    struct CoopAdvance {
+        std::string sessionId;
+        int stage = 0;
+        Uint8 action = 0;
+        std::string settingsBlob;
+        Uint32 epoch = 0;
+    };
+    void sendCoopReady(const std::string& sessionId, int stage, Uint8 outcome);
+    void sendCoopAdvance(const std::string& sessionId, int stage, Uint8 action,
+        const std::string& settingsBlob = "");
+    std::vector<CoopReady> takeCoopReady();
+    std::vector<CoopAdvance> takeCoopAdvance();
+    void clearCoopMessages();
+    void setGameEpoch(Uint32 epoch) { gameEpoch = epoch; }
+    Uint32 getGameEpoch() const { return gameEpoch; }
 
     std::list<std::string> getConnectedPeers() const {
         std::list<std::string> peerNameList;
@@ -363,6 +393,7 @@ private:
 
     ENetHost* host = nullptr;
     bool bIsServer = false;
+    bool diagnosticsOnly = false;
     bool bLANServer = false;
     bool bGameInProgress = false;  // Set true when game starts - disables lobby-only features
     GameInitSettings* pGameInitSettings = nullptr;
@@ -374,6 +405,12 @@ private:
     ENetPeer*   connectPeer = nullptr;
 
     std::list<ENetPeer*> peerList;
+
+    // Mailboxes retain results while the other player is still in their game
+    // or statistics screen, without callbacks pointing at a destroyed Game.
+    std::vector<CoopReady> coopReadyMessages;
+    std::vector<CoopAdvance> coopAdvanceMessages;
+    Uint32 gameEpoch = 0; // Reject delayed commands from a previous coop mission/retry.
 
     std::list<ENetPeer*> awaitingConnectionList;
 

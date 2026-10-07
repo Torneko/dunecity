@@ -36,7 +36,8 @@
 // 9817 added House::cityCredits; 9818 introduced the all-house city layout.
 // 9825: appended five-Trooper / five-Soldier purchase IDs; older engines reject its queues.
 // 9826: Chaos Mode option and persisted per-building donor table.
-#define SAVEGAMEVERSION     9826
+// 9827: Easy Mode and complete Chaos campaign provenance in MOD5 settings.
+#define SAVEGAMEVERSION     9827
 
 // v1.0.0–v1.0.7 shipped SAVEGAMEVERSION 9810 with Num_ItemID=48.
 // v1.0.8–v1.0.10 also used 9810 but with Num_ItemID=52 (4 items added

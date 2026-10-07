@@ -17,6 +17,7 @@
 
 #include <mod/ModManager.h>
 #include <mod/CustomHouseConfig.h>
+#include <FileClasses/INIFile.h>
 #include <mod/ModMentatConfig.h>
 #include <FileClasses/GFXManager.h>
 #include <FileClasses/SFXManager.h>
@@ -48,6 +49,7 @@ static const char* VANILLA_MOD_NAME = "vanilla";
 static const char* TORNIE_MOD_NAME = "Tornie";
 static const char* TORNIE_LITE_MOD_NAME = "TornieLite";
 static const char* JERICHO_MOD_NAME = "Jericho";
+static const char* JERICHO_LITE_MOD_NAME = "JerichoLite";
 
 // Install config file names (with .default suffix)
 static const char* OBJECT_DATA_DEFAULT = "ObjectData.ini.default";
@@ -118,13 +120,14 @@ void ModManager::initialize() {
     }
 
 
-    // Keep the three Tornie distributions shipped with this build complete in
+    // Keep the four Tornie distributions shipped with this build complete in
     // the user profile. Extra user files are preserved; only bundled files are
     // restored when a payload is absent, incomplete, or from another build.
     const char* bundledTornieMods[] = {
         TORNIE_MOD_NAME,
         TORNIE_LITE_MOD_NAME,
-        JERICHO_MOD_NAME
+        JERICHO_MOD_NAME,
+        JERICHO_LITE_MOD_NAME
     };
     for(const char* modName : bundledTornieMods) {
         if(!modExists(modName) || bundledTornieModNeedsReseed(modName)) {
@@ -145,6 +148,7 @@ void ModManager::initialize() {
 
     const ModInfo activeInfo = readModIni(getModPath(activeMod));
     activeCustomHouse = activeInfo.customHouse;
+    activeContent = activeInfo.content;
     activeGuestCustomHouse = makeGuestCustomHouse(activeMod);
     activeMentats = activeInfo.mentats;
     initialized = true;
@@ -262,6 +266,7 @@ bool ModManager::setActiveMod(const std::string& name) {
     activeMod = name;
     const ModInfo activeInfo = readModIni(getModPath(activeMod));
     activeCustomHouse = activeInfo.customHouse;
+    activeContent = activeInfo.content;
     activeGuestCustomHouse = makeGuestCustomHouse(activeMod);
     activeMentats = activeInfo.mentats;
     checksumsDirty = true;
@@ -408,11 +413,12 @@ SettingsClass::GameOptionsClass ModManager::loadEffectiveGameOptions(
 
     // Start with base options
     SettingsClass::GameOptionsClass result = baseOptions;
+    result.content = activeContent;
 
     // Random spice blooms are enabled by default in the Tornie-family mods.
     // The in-game Game Options window can still override this per match.
     if(initialized && (activeMod == "Tornie" || activeMod == "TornieLite"
-                       || activeMod == "Tornie Lite" || activeMod == "Jericho")) {
+                       || activeMod == "Tornie Lite" || activeMod == "Jericho" || activeMod == "JerichoLite")) {
         result.randomSpiceBlooms = true;
     }
 
@@ -471,6 +477,7 @@ SettingsClass::GameOptionsClass ModManager::loadEffectiveGameOptions(
             else if (key == "Sandworms Respawn") result.sandwormsRespawn = parseBool(value);
             else if (key == "Killed Sandworms Drop Spice") result.killedSandwormsDropSpice = parseBool(value);
             else if (key == "Chaos Mode") result.chaosMode = parseBool(value);
+            else if (key == "Easy Mode") result.easyMode = parseBool(value);
             else if (key == "Random Spice Blooms") result.randomSpiceBlooms = parseBool(value);
             else if (key == "Manual Carryall Drops") result.manualCarryallDrops = parseBool(value);
             else if (key == "Maximum Number of Units Override") result.maximumNumberOfUnitsOverride = std::stoi(value);
@@ -699,6 +706,7 @@ bool ModManager::createMod(const std::string& name, const std::string& baseMod) 
     info.displayName = name;
     info.author = "User";
     info.description = "Custom mod based on " + baseMod;
+    info.content = getModInfo(baseMod).content;
     info.gameVersion = VERSION;
     writeModInfo(newModPath, info);
 
@@ -1130,6 +1138,7 @@ void ModManager::saveActiveMod() const {
 
 ModInfo ModManager::readModIni(const std::string& modPath) const {
     ModInfo info;
+    info.content = ModContentOptions::legacy(std::filesystem::path(modPath).filename().string());
     std::string iniPath = modPath + "/" + MOD_INI_FILE;
 
     std::ifstream file(iniPath);
@@ -1362,26 +1371,37 @@ ModInfo ModManager::readModIni(const std::string& modPath) const {
             SDL_Log("ModManager: Ignoring invalid generic custom-house registration in %s", modPath.c_str());
         }
     }
+    for(const std::string path : {iniPath, modPath + "/UserContentOptions.ini"}) {
+        if(!existsFile(path)) continue;
+        INIFile options(path);
+        auto& c = info.content;
+        c.customUnitsAndBuildings = options.getBoolValue("Content Options", "Custom Units and Buildings", c.customUnitsAndBuildings);
+        c.greenSpice = options.getBoolValue("Content Options", "Green Spice", c.greenSpice);
+        c.redSpice = options.getBoolValue("Content Options", "Red Spice", c.redSpice);
+        c.purpleSpice = options.getBoolValue("Content Options", "Purple Spice", c.purpleSpice);
+        c.blueSpice = options.getBoolValue("Content Options", "Blue Spice", c.blueSpice);
+    }
     return info;
 }
 
 void ModManager::writeModInfo(const std::string& modPath, const ModInfo& info) const {
     std::string iniPath = modPath + "/" + MOD_INI_FILE;
 
-    std::ofstream file(iniPath);
-    if (!file.is_open()) {
-        SDL_Log("ModManager: Failed to write mod.ini to %s", iniPath.c_str());
-        return;
-    }
-
-    file << "[Mod]\n";
-    file << "Display Name = " << info.displayName << "\n";
-    file << "Author = " << info.author << "\n";
-    file << "Description = " << info.description << "\n";
-    file << "Version = " << info.version << "\n";
-    file << "Game Version = " << info.gameVersion << "\n";
-
-    file.close();
+    auto file = existsFile(iniPath) ? std::make_unique<INIFile>(iniPath) : std::make_unique<INIFile>(false, std::string());
+    file->setStringValue("Mod", "Display Name", info.displayName);
+    file->setStringValue("Mod", "Author", info.author);
+    file->setStringValue("Mod", "Description", info.description);
+    file->setStringValue("Mod", "Version", info.version);
+    file->setStringValue("Mod", "Game Version", info.gameVersion);
+    if(!file->saveChangesTo(iniPath)) SDL_Log("ModManager: Failed to save %s", iniPath.c_str());
+    // User rules live outside the managed payload so updates never reset these choices.
+    INIFile options(false, std::string());
+    options.setBoolValue("Content Options", "Custom Units and Buildings", info.content.customUnitsAndBuildings);
+    options.setBoolValue("Content Options", "Green Spice", info.content.greenSpice);
+    options.setBoolValue("Content Options", "Red Spice", info.content.redSpice);
+    options.setBoolValue("Content Options", "Purple Spice", info.content.purpleSpice);
+    options.setBoolValue("Content Options", "Blue Spice", info.content.blueSpice);
+    options.saveChangesTo(modPath + "/UserContentOptions.ini");
 }
 
 std::string ModManager::getInstallConfigPath() const {

@@ -1,6 +1,9 @@
 {
   "schema": 1,
-  "version": "1.0.535",
+  "version": "1.0.536",
+  "openingClones": {
+    "JerichoLite": "TornieLite"
+  },
   "roles": [
     "firstOpponent",
     "secondOpponent",
@@ -248,6 +251,130 @@
           "Atreides",
           "Sardaukar",
           "Corruptique"
+        ]
+      }
+    ],
+    "TornieLite": [
+      {
+        "house": "Harkonnen",
+        "letter": "H",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Atreides",
+          "Ordos",
+          "Fremen"
+        ]
+      },
+      {
+        "house": "Atreides",
+        "letter": "A",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Ordos",
+          "Fremen",
+          "Sardaukar"
+        ]
+      },
+      {
+        "house": "Ordos",
+        "letter": "O",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Fremen",
+          "Sardaukar",
+          "Mercenary"
+        ]
+      },
+      {
+        "house": "Fremen",
+        "letter": "F",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Sardaukar",
+          "Mercenary",
+          "Harkonnen"
+        ]
+      },
+      {
+        "house": "Sardaukar",
+        "letter": "S",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Mercenary",
+          "Harkonnen",
+          "Atreides"
+        ]
+      },
+      {
+        "house": "Mercenary",
+        "letter": "M",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Harkonnen",
+          "Atreides",
+          "Ordos"
+        ]
+      }
+    ],
+    "JerichoLite": [
+      {
+        "house": "Harkonnen",
+        "letter": "H",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Sardaukar",
+          "Mercenary",
+          "Atreides"
+        ]
+      },
+      {
+        "house": "Atreides",
+        "letter": "A",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Mercenary",
+          "Harkonnen",
+          "Ordos"
+        ]
+      },
+      {
+        "house": "Ordos",
+        "letter": "O",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Harkonnen",
+          "Atreides",
+          "Fremen"
+        ]
+      },
+      {
+        "house": "Fremen",
+        "letter": "F",
+        "vanillaTemplate": "H",
+        "opponents": [
+          "Atreides",
+          "Ordos",
+          "Sardaukar"
+        ]
+      },
+      {
+        "house": "Sardaukar",
+        "letter": "S",
+        "vanillaTemplate": "O",
+        "opponents": [
+          "Ordos",
+          "Fremen",
+          "Mercenary"
+        ]
+      },
+      {
+        "house": "Mercenary",
+        "letter": "M",
+        "vanillaTemplate": "A",
+        "opponents": [
+          "Fremen",
+          "Sardaukar",
+          "Harkonnen"
         ]
       }
     ]

@@ -101,6 +101,7 @@ endif()
 # and compile just these files without the PCH.
 set_source_files_properties(
     Achievements/AchievementManager.cpp Achievements/AchievementEvents.cpp GUI/dune/AchievementsWindow.cpp
+    Campaign/CoopCampaignRuntime.cpp Menu/CoopCampaignMenu.cpp
     PROPERTIES
         COMPILE_OPTIONS "$<$<CXX_COMPILER_ID:MSVC>:/utf-8>"
         SKIP_PRECOMPILE_HEADERS ON)
@@ -116,6 +117,8 @@ target_sources(dunelegacy
         CursorManager.cpp
         Explosion.cpp
         Game.cpp
+        Campaign/CoopCampaignSession.cpp
+        Campaign/CoopCampaignRuntime.cpp
         Achievements/AchievementManager.cpp
         Achievements/AchievementEvents.cpp
         GUI/dune/AchievementsWindow.cpp
@@ -203,6 +206,7 @@ target_sources(dunelegacy
         Menu/SinglePlayerMenu.cpp
         Menu/SinglePlayerSkirmishMenu.cpp
         Menu/CustomGameMenu.cpp
+        Menu/CoopCampaignMenu.cpp
         Menu/CustomGamePlayers.cpp
         Menu/CustomGameStatsMenu.cpp
         Menu/OptionsMenu.cpp
