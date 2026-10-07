@@ -19,6 +19,7 @@
 #define MODINFO_H
 
 #include <mod/ModMentatConfig.h>
+#include <mod/ModContentOptions.h>
 
 #include <string>
 #include <vector>
@@ -71,6 +72,7 @@ struct ModInfo {
     std::string version;         ///< Mod version (user-defined, e.g., "1.0.0")
     std::string gameVersion;     ///< Game version this mod was created for
     ModChecksums checksums;      ///< Cached checksums
+    ModContentOptions content;
     CustomHouseInfo customHouse; ///< Optional generic ninth-house registration
     std::vector<ModMentatInfo> mentats; ///< Optional active-mod Mentat presentations by house ID
 

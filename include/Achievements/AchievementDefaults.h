@@ -1,7 +1,8 @@
 // Generated from config/Achievements.ini.
 #pragma once
 namespace achievements {
-inline constexpr const char* defaultCatalog=R"ACHIEVEMENTS(; Dune Legacy Tornie — UTF-8, local achievements. No gameplay effects.
+inline constexpr const char* defaultCatalog=R"ACHIEVEMENTS(
+; Dune Legacy Tornie — UTF-8, local achievements. No gameplay effects.
 ; Rule + Statistic + Target define extensible rules. Secret=true hides locked names.
 ; Roadkill uses a 2000 ms simulation window; spice credits count refinery deposits.
 
@@ -464,5 +465,16 @@ Rule=SpiceTypes
 Statistic=
 Target=8
 Secret=false
+
+[CHAOS_CONQUEROR]
+Name=Chaos Conqueror
+NameFr=Maître du chaos
+Description=Complete a campaign started with Chaos Mode enabled.
+DescriptionFr=Terminer une campagne commencée avec le mode Chaos activé.
+Rule=ChaosCampaign
+Statistic=
+Target=1
+Secret=false
+
 )ACHIEVEMENTS";
 }

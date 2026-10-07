@@ -34,7 +34,7 @@ def vanilla_scenarios(pak='Extra.PAK'):
         end=data.index(0,pos);name=data[pos:end].decode('ascii');pos=end+1;entries.append((name.upper(),start))
     return {name:data[start:entries[i+1][1] if i+1<len(entries) else len(data)] for i,(name,start) in enumerate(entries)}
 
-for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho','HAOFSMNRCWKT'),('vanilla','NRK')]:
+for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho','HAOFSMNRCWKT'),('JerichoLite','HAOFSM'),('vanilla','NRK')]:
     directory=ROOT/'data/campaign_vanilla' if mod=='vanilla' else ROOT/'mods'/mod/'campaign'
     files={p.name.upper():p for p in directory.iterdir() if p.is_file()}
     if mod=='vanilla':
@@ -102,7 +102,7 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
                 value=opening['UNITS'][f'ID{100+i:03}'].split(',')
                 assert value[0]==plan['house'] and value[1]==unit and value[2]=='256' and value[5]=='Guard',(mod,letter,value)
                 assert value[3] not in positions,(mod,letter,'overlapping bonus orders');positions.add(value[3])
-            assert len(enemies)==12 and all(unit!='Special' and mode!='Hunt' for unit,mode in enemies),(mod,letter,enemies)
+            assert len(enemies)==17 and all(unit!='Special' and mode!='Hunt' for unit,mode in enemies),(mod,letter,enemies)
             mirror=ROOT/'mods'/mod/'data'/f'scen{letter.lower()}001.ini'
             if mirror.exists():assert mirror.read_bytes()==files[f'SCEN{letter}001.INI'].read_bytes(),mod
             roles=helper.canonical_roles(plan['vanillaTemplate'],plan['house'],plan['opponents'])
@@ -120,4 +120,5 @@ for mod,letters in [('Tornie','HAOFSMNRCWKT'),('TornieLite','HAOFSM'),('Jericho'
                         if mission==1 and section=='UNITS' and owner.strip()==plan['house']:assert unit.strip() not in helper.SOLDIERS
         reports.append({'mod':mod,'house':LETTERS[letter],'missions':22,'routes':routes,
                         'opponents':sorted(opponents),'intentionalRepeatedTerritories':repeats})
-print(json.dumps({'regionFiles':len(reports),'campaigns':reports},ensure_ascii=True,indent=2))
+intro_clones=helper.opening_clones.clone_openings()
+print(json.dumps({'regionFiles':len(reports),'campaigns':reports,'introClones':intro_clones},ensure_ascii=True,indent=2))

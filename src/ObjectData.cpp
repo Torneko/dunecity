@@ -138,7 +138,7 @@ void ObjectData::logSettings() const {
     SDL_Log("===============================================================");
 }
 
-void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserConfig)
+void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserConfig, bool applyContentPolicy)
 {
     // Try to load from user directory first, fall back to install directory
     std::string userConfigPath = getObjectDataConfigFilepath();
@@ -316,10 +316,21 @@ void ObjectData::loadFromINIFile(const std::string& filename, bool preferUserCon
         for(int item=0; item<Num_ItemID; ++item) data[item][HOUSE_KLESHMERSH]=data[item][HOUSE_NEUTRAL];
     }
 
+    if(applyContentPolicy && ModManager::instance().isInitialized()
+       && !ModManager::instance().getActiveContentOptions().customUnitsAndBuildings) applyNeutralVanillaRules();
+
     // Clean up
     delete objectDataFile;
 
     SDL_Log("ObjectData loaded from: %s", loadedPath.c_str());
+}
+
+void ObjectData::applyNeutralVanillaRules() {
+    ObjectData vanilla;
+    vanilla.loadFromINIFile(getDuneLegacyDataDir() + "/config/ObjectData.ini.default", false, false);
+    *this = vanilla;
+    for(int item = 0; item < Num_ItemID; ++item)
+        for(int house = 0; house < NUM_HOUSES; ++house) data[item][house] = vanilla.data[item][HOUSE_NEUTRAL];
 }
 
 void ObjectData::save(OutputStream& stream) const

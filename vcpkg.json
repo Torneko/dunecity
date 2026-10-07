@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "name": "dunelegacy-tornie",
-  "version": "1.0.535",
+  "version": "1.0.536",
   "description": "Independent Dune Legacy RTS with Tornie factions, units and campaigns",
   "homepage": "https://github.com/Torneko/dunelegacy-tornie",
   "dependencies": [
@@ -12,7 +12,8 @@
         "x11",
         "wayland",
         "ibus",
-        "dbus"
+        "dbus",
+        "alsa"
       ],
       "platform": "linux"
     },

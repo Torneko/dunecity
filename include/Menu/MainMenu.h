@@ -46,6 +46,7 @@ public:
 private:
     void onSinglePlayer() const;
     void onMultiPlayer() const;
+    void onCooperativeCampaign() const;
     void onMapEditor() const;
     void onMods() const;
     void onOptions();
@@ -64,6 +65,7 @@ private:
 
     TextButton      singlePlayerButton;
     TextButton      multiPlayerButton;
+    TextButton      cooperativeCampaignButton;
     TextButton      mapEditorButton;
     TextButton      modsButton;
     TextButton      optionsButton;

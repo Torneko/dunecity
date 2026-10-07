@@ -2,6 +2,12 @@
 
 Tornie requests that every game update also update the French and English website. This applies to work from either PC.
 
+## Release 1.0.536
+
+The French/English 1.0.536 website was updated from the published `origin/gh-pages` 1.0.535 tree. It covers Easy Mode, Jericho Lite, revised intro opposition, Ornithopter behavior and Wildspade's price, darker mentat overlays, 47 achievements and the independent nine-mission cooperative campaign. Raider Trike and Rocket Trike prices use black numbers on their light portraits; added backgrounds/borders are removed for all prices and the other prices retain their usual color. Jericho Lite enables the four Jericho spice families by default with matching colors and effects; its six opening missions copy Tornie Lite except for their remapped opponents. New co-op campaigns follow the host faction's original campaign, with 405 variants from 45 sources, a nearby deployable MCV and matching starting forces for the guest, original opponents (up to five in Vanilla) and shared harvest objectives. Older sessions keep the 45 previous layouts. Guides retain identical faction choices, separate ownership/progress/checkpoints and protocol 5. Solo Commander/Chaos Conqueror awards are distinguished from faction victories that also support multiplayer.
+
+The local/offline site passed 180 desktop/mobile browser checks across both languages, source files, the ZIP extraction and HTTP preview, with no JavaScript, missing-image or overflow failures. The release package is `DuneLegacyTornie-Site-Local-1.0.536.zip`. Publication updates both language entries and download links to 1.0.536. A human co-op match between two computers remains pending; the release includes co-op for playtesting. Record the final game/site commits, CI runs and package hashes after publication.
+
 ## Current locations
 
 - Published site: https://torneko.github.io/dunelegacy-tornie/

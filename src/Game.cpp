@@ -70,6 +70,7 @@ std::mutex Game::performanceLogMutex;
 #include <AStarSearch.h>
 #include <Explosion.h>
 #include <GameInitSettings.h>
+#include <Campaign/CoopCampaignSession.h>
 #include <ScreenBorder.h>
 #include <sand.h>
 
@@ -393,7 +394,8 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
             gameType = gameInitSettings.getGameType();
             randomGen.setSeed(gameInitSettings.getRandomSeed());
 
-            objectData.loadFromINIFile(ModManager::instance().getActiveObjectDataPath(), false);
+            objectData.loadFromINIFile(ModManager::instance().getActiveObjectDataPath(), false, false);
+            if(!gameInitSettings.getGameOptions().content.customUnitsAndBuildings) objectData.applyNeutralVanillaRules();
 
             chaosMode.generate(objectData, gameInitSettings.isChaosModeEnabled(), gameInitSettings.getRandomSeed());
             objectData.logSettings();
@@ -409,6 +411,13 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
                     "Game::init: scenario load failed (gameType=%d, mission=%d): %s",
                     static_cast<int>(gameInitSettings.getGameType()),
                     gameInitSettings.getMission(), e.what());
+                if(const auto context = coop::readContext(gameInitSettings.getFiledata());
+                   context && context->followsOriginalCampaign()) {
+                    // Original co-op templates must load completely on both peers.
+                    // Continuing here would leave a rejected owner or lost unit
+                    // in a partial mission with a different effective setup.
+                    throw;
+                }
             }
 
 
@@ -3077,7 +3086,7 @@ void Game::onOptions()
 
 void Game::onMentat()
 {
-    int mentatHouse = pLocalHouse->getHouseID();
+    int mentatHouse = pLocalHouse->getFactionID();
     const HOUSETYPE selectedHouse = gameInitSettings.getHouseID();
     if(selectedHouse >= 0 && selectedHouse < NUM_HOUSE_COLOR_SLOTS
        && getHouseFactionIdentity(selectedHouse) == HOUSE_CUSTOM) {
@@ -3290,7 +3299,7 @@ bool Game::loadSaveGame(InputStream& stream) {
 
     // read gameInitSettings
     logLoadStage("game settings");
-    gameInitSettings = GameInitSettings(stream);
+    gameInitSettings = GameInitSettings(stream, savegameVersion >= 9806);
     if(savegameVersion <= 9820) {
         gameInitSettings.migrateLegacyHouseColorSlots();
     }
@@ -3792,7 +3801,7 @@ void Game::onPeerDisconnected(const std::string& name, bool bHost, int cause) {
     pInterface->getChatManager().addInfoMessage(name + " disconnected!");
 
     // If host disconnected, the game cannot continue - end it
-    if(bHost) {
+    if(bHost || coop::readContext(gameInitSettings.getFiledata())) {
         SDL_Log("Host '%s' disconnected - ending game", name.c_str());
         pInterface->getChatManager().addInfoMessage("Host disconnected! Game ending...");
 

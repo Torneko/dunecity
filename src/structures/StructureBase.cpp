@@ -69,6 +69,9 @@ const char* getTornieStructureDiagnosticName(int itemID) {
 }
 
 StructureBase::StructureBase(House* newOwner) : ObjectBase(newOwner) {
+    // Structures keep a technology column after capture, independently of the
+    // simulation slot used by their current owner. Map that column only once.
+    originalHouseID = newOwner->getFactionID();
     StructureBase::init();
 
     repairing = false;
@@ -94,6 +97,7 @@ StructureBase::StructureBase(InputStream& stream): ObjectBase(stream) {
 }
 
 int StructureBase::getTechnologyHouseID() const {
+    if(currentGame && !currentGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) return HOUSE_NEUTRAL;
     return currentGame ? currentGame->getChaosMode().getTechnologyHouse(originalHouseID, itemID) : originalHouseID;
 }
 
@@ -456,11 +460,11 @@ bool StructureBase::update() {
             degradeTimer = MILLI2CYCLES(15*1000);
 
             int damageMultiplyer = 1;
-            if(owner->getHouseID() == HOUSE_HARKONNEN || owner->getHouseID() == HOUSE_SARDAUKAR) {
+            if(owner->getFactionID() == HOUSE_HARKONNEN || owner->getFactionID() == HOUSE_SARDAUKAR) {
                 damageMultiplyer = 3;
-            } else if(owner->getHouseID() == HOUSE_ORDOS) {
+            } else if(owner->getFactionID() == HOUSE_ORDOS) {
                 damageMultiplyer = 2;
-            } else if(owner->getHouseID() == HOUSE_MERCENARY) {
+            } else if(owner->getFactionID() == HOUSE_MERCENARY) {
                 damageMultiplyer = 5;
             }
 

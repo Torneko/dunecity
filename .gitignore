@@ -28,6 +28,8 @@ docs/*
 !docs/CHAOS-MODE.md
 !docs/CAMPAIGNS.md
 !docs/WILDSPADE-MENTAT.md
+!docs/COOP-CAMPAIGN.md
+!docs/COOP-CAMPAIGN-EN.md
 missing
 aclocal.m4
 install-sh
@@ -107,3 +109,4 @@ imported_sprites/micropolis/composites_special/*.broken
 tmp/
 *.code-workspace
 /Tornie Files
+/dunelegacy-crash.log

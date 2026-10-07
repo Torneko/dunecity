@@ -58,7 +58,7 @@ int Choam::getPrice(Uint32 itemID) const {
 }
 
 bool Choam::isCheap(Uint32 itemID) const {
-    return (getPrice(itemID) < currentGame->objectData.data[itemID][house->getHouseID()].price * 1.3_fix); // A bit of logic to make starports better
+    return (getPrice(itemID) < currentGame->objectData.data[itemID][house->getFactionID()].price * 1.3_fix); // A bit of logic to make starports better
 }
 
 int Choam::getNumAvailable(Uint32 itemID) const {
@@ -129,7 +129,7 @@ void Choam::update() {
 
     if((currentGame->getGameCycleCount() % CHOAM_CHANGE_PRICETIME) == 0) {
         for(BuildItem& buildItem : availableItems) {
-            int price = currentGame->objectData.data[buildItem.itemID][house->getHouseID()].price;
+            int price = currentGame->objectData.data[buildItem.itemID][house->getFactionID()].price;
 
             const int min_mod = 2;
             const int max_mod = 8;

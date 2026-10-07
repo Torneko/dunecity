@@ -1,6 +1,6 @@
 # Local achievements
 
-Dune Legacy Tornie provides 46 offline achievements. Open **Achievements**
+Dune Legacy Tornie 1.0.536 provides 47 offline achievements. Open **Achievements**
 or **Hauts faits** from the main menu to view locked awards and cumulative stats.
 Unlocks use the existing in-game news ticker. Steam is not required.
 
@@ -10,7 +10,10 @@ Campaigns, skirmishes, custom games and multiplayer use events for the local
 player's house. Multiplayer achievements observe deterministic simulation events;
 their profile writes and notifications are local and never enter the command queue,
 simulation random generator or network checksums. Shared-house players observe that
-house's aggregate actions. Campaign achievements require campaign mode.
+house's aggregate actions. Campaign achievements require solo campaign mode.
+The independent nine-mission co-op campaign does not complete faction Commander
+awards, Conquer Arrakis or Chaos Conqueror. Other eligible multiplayer awards
+continue to observe each local player's own house.
 Replays, cheat sessions and single-player immortality do not grant progression.
 Leaving a match grants neither a victory nor a defeat.
 
@@ -67,7 +70,7 @@ totals already earned survive loading an earlier save.
 `config/Achievements.ini` defines stable IDs, English/French names and descriptions,
 rule, statistic, threshold and `Secret`. Definitions override the compiled fallback
 catalog; additional IDs using an existing rule can be added. `Secret=true` displays
-`???` and a hidden description until unlocked. The default 46 awards are visible.
+`???` and a hidden description until unlocked. The default 47 awards are visible.
 Keep the fallback in `include/Achievements/AchievementDefaults.h` synchronized when
 changing built-in definitions, so a missing external catalog keeps the same rules.
 
@@ -104,3 +107,9 @@ Version 1.0.533 adds `MISSILE_BARRAGE` (at least three actual local-player palac
 missile launches in one match), `BLUE_HARVEST` and `PURPLE_HARVEST` (actual
 harvester collection of each spice color). Match checkpoints preserve missile
 progress across saved games. Random enemy powers do not count for the player.
+
+Version 1.0.536 adds `CHAOS_CONQUEROR` (**Chaos Conqueror / Maître du chaos**).
+Start a new solo campaign with Chaos Mode enabled and complete its final mission.
+The campaign eligibility flag follows progression and game saves. Re-enabling
+Chaos after losing eligibility does not restore the award condition. Vanilla
+does not support Chaos Mode; the separate co-op campaign does not grant this award.

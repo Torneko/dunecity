@@ -151,6 +151,12 @@ GameOptionsWindow::GameOptionsWindow(SettingsClass::GameOptionsClass& initialGam
     vboxRight.addWidget(&chaosModeCheckbox);
     vboxRight.addWidget(VSpacer::create(6));
 
+    easyModeCheckbox.setText(_("Easy Mode (campaign)"));
+    easyModeCheckbox.setTooltipText(_("Campaign player only: start at mission 2 with 500 extra credits; units and buildings cost 25 credits less (minimum 1). Disabled by default."));
+    easyModeCheckbox.setChecked(gameOptions.easyMode);
+    vboxRight.addWidget(&easyModeCheckbox);
+    vboxRight.addWidget(VSpacer::create(6));
+
     gameSpeedMinus.setTextures(pGFXManager->getUIGraphic(UI_Minus), pGFXManager->getUIGraphic(UI_Minus_Pressed));
     gameSpeedMinus.setOnClick(std::bind(&GameOptionsWindow::onGameSpeedMinus, this));
     gameSpeedHBox.addWidget(HSpacer::create(4));
@@ -198,6 +204,7 @@ void GameOptionsWindow::onOK() {
     gameOptions.instantBuild = instantBuildCheckbox.isChecked();
     gameOptions.onlyOnePalace = onlyOnePalaceCheckbox.isChecked();
     gameOptions.chaosMode = chaosModeCheckbox.isEnabled() && chaosModeCheckbox.isChecked();
+    gameOptions.easyMode = easyModeCheckbox.isChecked();
     gameOptions.rocketTurretsNeedPower = rocketTurretsNeedPowerCheckbox.isChecked();
     gameOptions.sandwormsRespawn = sandwormsRespawnCheckbox.isChecked();
     gameOptions.killedSandwormsDropSpice = killedSandwormsDropSpiceCheckbox.isChecked();

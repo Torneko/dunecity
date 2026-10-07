@@ -36,6 +36,9 @@
 class  NewMapWindow : public Window
 {
 public:
+#ifdef DUNELEGACY_RUNTIME_TESTS
+    friend void verifyEditorSpiceDefaults(const std::string&, const std::string&);
+#endif
 
     explicit NewMapWindow(HOUSETYPE currentHouse);
 

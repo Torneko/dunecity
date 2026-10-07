@@ -1,5 +1,7 @@
 #include <INIMap/INIMapLoader.h>
 #include <INIMap/SpiceVariants.h>
+#include <misc/SpiceGeneration.h>
+#include <misc/ModContentPolicy.h>
 
 #include <FileClasses/FileManager.h>
 
@@ -13,6 +15,7 @@
 #include <ScreenBorder.h>
 #include <MapSeed.h>
 #include <GameInitSettings.h>
+#include <Campaign/CoopCampaignSession.h>
 #include <RadarView.h>
 
 #include <structures/StructureBase.h>
@@ -33,6 +36,7 @@
 #include <globals.h>
 
 #include <algorithm>
+#include <initializer_list>
 #include <vector>
 
 namespace {
@@ -71,40 +75,21 @@ bool isTornieMapObject(int itemID) {
 }
 
 int normalizeVanillaSpiceTerrain(int terrainType) {
-    const std::string activeMod = ModManager::instance().getActiveModName();
-    if(activeMod == "Tornie" || activeMod == "TornieLite" || activeMod == "Jericho") {
-        return terrainType;
-    }
-
-    switch(terrainType) {
-        case Terrain_GreenSpice:
-        case Terrain_RedSpice:
-        case Terrain_PaleLilacSpice:
-        case Terrain_WhiteSpice:
-            return Terrain_Spice;
-        case Terrain_ThickGreenSpice:
-        case Terrain_ThickRedSpice:
-        case Terrain_ThickPaleLilacSpice:
-        case Terrain_ThickWhiteSpice:
-            return Terrain_ThickSpice;
-        case Terrain_GreenSpiceBloom:
-        case Terrain_RedSpiceBloom:
-        case Terrain_PaleLilacSpiceBloom:
-        case Terrain_WhiteSpiceBloom:
-            return Terrain_SpiceBloom;
-        default:
-            return terrainType;
-    }
+    const auto& content = currentGame ? currentGame->getGameInitSettings().getGameOptions().content
+        : ModManager::instance().getActiveContentOptions();
+    return allowedSpiceTerrain(terrainType, content.spiceMask());
 }
 
 bool isJerichoWildspade(Game* pGame, int houseID) {
     return pGame != nullptr
-        && houseID == HOUSE_NEUTRAL
+        && House::factionForRuntimeHouse(houseID) == HOUSE_NEUTRAL
         && ModManager::instance().isInitialized()
         && ModManager::instance().getActiveModName() == "Jericho";
 }
 
 int replaceJerichoWildspadeUnit(Game* pGame, int houseID, int itemID) {
+    houseID = House::factionForRuntimeHouse(houseID);
+    if(!pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) return itemID;
     if(houseID < 0 || houseID >= NUM_HOUSES
             || !isHouseFaction(static_cast<HOUSETYPE>(houseID), HOUSE_WILDSPADE)) {
         return itemID;
@@ -121,12 +106,14 @@ int replaceJerichoWildspadeUnit(Game* pGame, int houseID, int itemID) {
 }
 
 int chooseSpecialVehicle(Game* pGame, int houseID) {
+    houseID = House::factionForRuntimeHouse(houseID);
     if(pGame == nullptr || houseID < 0 || houseID >= NUM_HOUSES) {
         return ItemID_Invalid;
     }
 
     const bool modInitialized = ModManager::instance().isInitialized();
-    const bool tornieActive = modInitialized && ModManager::instance().isTornieContentActive();
+    const bool customContent = pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings;
+    const bool tornieActive = customContent && modInitialized && ModManager::instance().isTornieContentActive();
     const bool jerichoActive = modInitialized
         && ModManager::instance().getActiveModName() == "Jericho";
     const bool corruptiqueActive = modInitialized
@@ -142,7 +129,7 @@ int chooseSpecialVehicle(Game* pGame, int houseID) {
     });
 
     const auto pool = resolveSpecialVehiclePoolForHouse(
-        houseID, tornieActive, jerichoActive, objectDataIxCandidates, corruptiqueActive);
+        customContent ? houseID : HOUSE_NEUTRAL, tornieActive, customContent && jerichoActive, objectDataIxCandidates, customContent && corruptiqueActive);
 
     std::vector<int> enabledPool;
     enabledPool.reserve(pool.size());
@@ -170,6 +157,58 @@ int chooseSpecialVehicle(Game* pGame, int houseID) {
         static_cast<Sint32>(enabledPool.size() - 1));
 
     return enabledPool[static_cast<size_t>(randomIndex)];
+}
+
+// Only guest copies in original-campaign co-op maps use this substitution.
+// ObjectData availability belongs to the chosen faction, not its control slot.
+int resolveCoopGuestUnit(Game* game, int houseID, int itemID) {
+    const int faction = House::factionForRuntimeHouse(houseID);
+    const auto available = [&](int candidate) {
+        return candidate != ItemID_Invalid && isUnit(candidate)
+            && game->objectData.data[candidate][faction].enabled;
+    };
+    if(available(itemID)) return itemID;
+    const auto firstAvailable = [&](std::initializer_list<int> candidates) {
+        for(const int candidate : candidates) if(available(candidate)) return candidate;
+        return static_cast<int>(ItemID_Invalid);
+    };
+    switch(itemID) {
+        case Unit_Trike:
+        case Unit_RaiderTrike:
+        case Unit_RocketTrike:
+        case Unit_SonicTrike:
+        case Unit_Quad:
+            return firstAvailable({Unit_Trike, Unit_RaiderTrike, Unit_RocketTrike, Unit_SonicTrike, Unit_Quad});
+        case Unit_Harvester:
+        case Unit_RebelHarvester:
+            return firstAvailable({Unit_Harvester, Unit_RebelHarvester});
+        case Unit_Soldier:
+        case Unit_Trooper:
+        case Unit_Saboteur:
+            return firstAvailable({Unit_Trooper, Unit_Soldier});
+        case Unit_Carryall:
+        case Unit_ChemicalCarryall:
+            return firstAvailable({Unit_Carryall, Unit_ChemicalCarryall});
+        case Unit_Ornithopter:
+        case Unit_Frigate:
+            return firstAvailable({Unit_Ornithopter, Unit_Carryall, Unit_ChemicalCarryall});
+        case Unit_MCV:
+            return ItemID_Invalid;
+        case Unit_Devastator:
+        case Unit_Deviator:
+        case Unit_SonicTank:
+        case Unit_FlameTank:
+        case Unit_EliteLauncher:
+        case Unit_EliteSiegeTank:
+        case Unit_ChemicalSiegeTank:
+            return chooseSpecialVehicle(game, houseID);
+        case Unit_Tank:
+        case Unit_SiegeTank:
+        case Unit_Launcher:
+            return firstAvailable({Unit_Tank, Unit_SiegeTank, Unit_Launcher});
+        default:
+            return ItemID_Invalid;
+    }
 }
 
 } // namespace
@@ -561,6 +600,24 @@ void INIMapLoader::loadMap() {
 void INIMapLoader::loadHouses()
 {
     const GameInitSettings::HouseInfoList& houseInfoList = pGame->getGameInitSettings().getHouseInfoList();
+    const auto coopContext = coop::readContext(pGame->getGameInitSettings().getFiledata());
+    originalCoopOwners = coopContext && coopContext->followsOriginalCampaign();
+    if(coopContext && houseInfoList.size() != coopContext->slots.size())
+        throw std::runtime_error("Invalid co-op campaign house setup.");
+    if(coopContext && coopContext->followsOriginalCampaign()) {
+        const auto wildlifeOwner = strToLower(inifile->getStringValue("COOP_TEMPLATE", "WildlifeOwner", ""));
+        if(!wildlifeOwner.empty()) {
+            if(wildlifeOwner != "coopwildlife") logError("Invalid co-op wildlife owner.");
+            const auto free = std::find_if(coopContext->roster.begin(), coopContext->roster.end(),
+                [&](int candidate) {
+                    return coop::mapSlotForHouse(*coopContext, candidate) < 0 && !pGame->house[candidate];
+                });
+            if(free == coopContext->roster.end()) logError("No independent house available for co-op wildlife.");
+            // getOrCreateHouse creates anonymous custom-game houses in team0.
+            // This house stays outside both the participant metadata and lobby.
+            housename2house["coopwildlife"] = static_cast<HOUSETYPE>(*free);
+        }
+    }
 
     // find "player?" sections
     std::vector<std::string> playerSectionsOnMap;
@@ -629,14 +686,22 @@ void INIMapLoader::loadHouses()
         int colorOfHouse = houseInfo.colorOfHouse;
         if(useFactionColors || pGame->getGameInitSettings().isVanillaKleshmershCampaign()
            || !isValidHouseColorSlot(colorOfHouse)) {
-            colorOfHouse = pGame->getGameInitSettings().getFactionColorSlot(houseID);
+            const int faction = coopContext ? coop::factionForHouse(*coopContext, houseID) : houseID;
+            colorOfHouse = pGame->getGameInitSettings().getFactionColorSlot(static_cast<HOUSETYPE>(faction));
         }
         resolvedHouseInfo.colorOfHouse = colorOfHouse;
 
         std::string houseName = getHouseNameByNumber(houseID);
         convertToLower(houseName);
 
-        if(inifile->hasSection(houseName) == false) {
+        if(coopContext) {
+            const int slot = coop::mapSlotForHouse(*coopContext, houseID);
+            if(slot < 1 || pGame->house[houseID]) throw std::runtime_error("Invalid or duplicate co-op house slot.");
+            houseName = "player" + std::to_string(slot);
+            const auto section = std::find(playerSectionsOnMap.begin(), playerSectionsOnMap.end(), houseName);
+            if(section == playerSectionsOnMap.end()) throw std::runtime_error("Missing co-op map player section.");
+            playerSectionsOnMap.erase(section);
+        } else if(inifile->hasSection(houseName) == false) {
             // select one of the Player sections
             if(playerSectionsOnMap.empty()) {
                 // skip this house
@@ -661,7 +726,8 @@ void INIMapLoader::loadHouses()
 
         housename2house[houseName] = houseID;
 
-        int startingCredits = inifile->getIntValue(houseName,"Credits",DEFAULT_STARTINGCREDITS);
+        int startingCredits = pGame->getGameInitSettings().campaignStartingCredits(
+            inifile->getIntValue(houseName,"Credits",DEFAULT_STARTINGCREDITS), houseID);
 
         int maxUnits = 0;
         if(currentGame->getGameInitSettings().getGameOptions().maximumNumberOfUnitsOverride >= 0) {
@@ -764,8 +830,9 @@ void INIMapLoader::loadChoam()
         }
     }
 
-    if(isJerichoWildspade(pGame, HOUSE_NEUTRAL) && pGame->house[HOUSE_NEUTRAL] != nullptr) {
-        auto& wildspadeChoam = pGame->house[HOUSE_NEUTRAL]->getChoam();
+    for(int h = 0; h < NUM_HOUSES; ++h) {
+        if(!pGame->house[h] || !isJerichoWildspade(pGame, h)) continue;
+        auto& wildspadeChoam = pGame->house[h]->getChoam();
 
         if(wildspadeChoam.getNumAvailable(Unit_RaiderTrike) == INVALID) {
             wildspadeChoam.addItem(Unit_RaiderTrike, 5);
@@ -785,12 +852,17 @@ void INIMapLoader::loadUnits()
         return;
     }
 
+    const auto coopContext = coop::readContext(pGame->getGameInitSettings().getFiledata());
     for(const INIFile::Key& key : inifile->getSection("UNITS")) {
         if(key.getKeyName().find("ID") == 0) {
             std::string HouseStr, UnitStr, health, PosStr, rotation, mode;
             splitString(key.getStringValue(), HouseStr, UnitStr, health, PosStr, rotation, mode);
 
             int houseID = getHouseID(HouseStr);
+            const bool wildlife = coopContext && coopContext->followsOriginalCampaign()
+                && strToLower(HouseStr) == "coopwildlife";
+            if(wildlife && (houseID < 0 || strToLower(UnitStr) != "sandworm"))
+                logError(key.getLineNumber(), "Invalid independent co-op wildlife unit.");
             if(houseID == HOUSE_UNUSED) {
                 // skip unit for unused house
                 continue;
@@ -798,9 +870,13 @@ void INIMapLoader::loadUnits()
                 logWarning(key.getLineNumber(), "Invalid house string for '" + UnitStr + "': '" + HouseStr + "'!");
                 continue;
             }
+            const bool guestCopy = coopContext && coopContext->followsOriginalCampaign()
+                && houseID == coopContext->slots[1].house
+                && key.getKeyName().rfind("IDCOOP", 0) == 0;
 
             int pos;
             if(!parseString(PosStr, pos) || (pos < 0)) {
+                if(guestCopy || wildlife) logError(key.getLineNumber(), "Invalid required co-op unit position.");
                 logWarning(key.getLineNumber(), "Invalid position string for '" + UnitStr + "': '" + PosStr + "'!");
                 continue;
             }
@@ -817,9 +893,12 @@ void INIMapLoader::loadUnits()
             int Num2Place = 1;
             int itemID = getItemIDByName(UnitStr);
             if((itemID == ItemID_Invalid) || !isUnit(itemID)) {
+                if(guestCopy || wildlife) logError(key.getLineNumber(), "Invalid required co-op unit type.");
                 logWarning(key.getLineNumber(), "Invalid unit string: '" + UnitStr + "'!");
                 continue;
             }
+
+            if(!pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) itemID = neutralVanillaMapItem(itemID);
 
             if(isVanillaModActive() && isTornieMapObject(itemID)) {
                 continue;
@@ -841,9 +920,12 @@ void INIMapLoader::loadUnits()
             } else if(itemID == Unit_Special) {
                 itemID = chooseSpecialVehicle(pGame, houseID);
                 if(itemID == ItemID_Invalid) {
+                    if(guestCopy) logError(key.getLineNumber(), "No enabled Special unit for the co-op guest");
                     continue;
                 }
             }
+
+            if(!pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) itemID = neutralVanillaMapItem(itemID);
 
             if(isVanillaModActive() && isTornieMapObject(itemID)) {
                 continue;
@@ -851,11 +933,18 @@ void INIMapLoader::loadUnits()
 
             itemID = replaceJerichoWildspadeUnit(pGame, houseID, itemID);
 
+            if(guestCopy) {
+                itemID = resolveCoopGuestUnit(pGame, houseID, itemID);
+                if(itemID == ItemID_Invalid)
+                    logError(key.getLineNumber(), "No compatible unit for the co-op guest: '" + UnitStr + "'");
+            }
+
             // Editor-placed Chemical Carryalls are valid for every faction;
             // production availability remains controlled separately by the builder rules.
             const bool editorPlacedChemicalCarryall =
                 itemID == Unit_ChemicalCarryall && !isVanillaModActive();
-            if(!pGame->objectData.data[itemID][houseID].enabled && !editorPlacedChemicalCarryall) {
+            if(!pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled && !editorPlacedChemicalCarryall) {
+                if(guestCopy || wildlife) logError(key.getLineNumber(), "Required co-op unit is disabled.");
                 continue;
             }
 
@@ -876,6 +965,8 @@ void INIMapLoader::loadUnits()
             for(int i = 0; i < Num2Place; i++) {
                 UnitBase* newUnit = getOrCreateHouse(houseID)->placeUnit(itemID, getXPos(pos), getYPos(pos), true);
                 if(newUnit == nullptr) {
+                    if(guestCopy || wildlife)
+                        logError(key.getLineNumber(), "Cannot place required co-op unit '" + UnitStr + "' at " + std::to_string(pos));
                     logWarning(key.getLineNumber(), "Invalid or occupied position for '" + UnitStr + "': '" + std::to_string(pos) + "'!");
                     continue;
                 } else {
@@ -930,9 +1021,9 @@ void INIMapLoader::loadStructures()
                 continue;
             }
 
-            if(BuildingStr == "Concrete" && pGame->objectData.data[Structure_Slab1][houseID].enabled) {
+            if(BuildingStr == "Concrete" && pGame->objectData.data[Structure_Slab1][House::factionForRuntimeHouse(houseID)].enabled) {
                 getOrCreateHouse(houseID)->placeStructure(NONE_ID, Structure_Slab1, getXPos(pos), getYPos(pos), true);
-            } else if(BuildingStr == "Wall" && pGame->objectData.data[Structure_Wall][houseID].enabled) {
+            } else if(BuildingStr == "Wall" && pGame->objectData.data[Structure_Wall][House::factionForRuntimeHouse(houseID)].enabled) {
                 if(getOrCreateHouse(houseID)->placeStructure(NONE_ID, Structure_Wall, getXPos(pos), getYPos(pos), true) == nullptr) {
                     logWarning(key.getLineNumber(), "Invalid or occupied position for '" + BuildingStr + "': '" + PosStr + "'!");
                     continue;
@@ -975,11 +1066,13 @@ void INIMapLoader::loadStructures()
                 continue;
             }
 
+            if(!pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) itemID = neutralVanillaMapItem(itemID);
+
             if(isVanillaModActive() && isTornieMapObject(itemID)) {
                 continue;
             }
 
-            if (itemID != 0 && pGame->objectData.data[itemID][houseID].enabled) {
+            if (itemID != 0 && pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled) {
                 ObjectBase* newStructure = getOrCreateHouse(houseID)->placeStructure(NONE_ID, itemID, getXPos(pos), getYPos(pos), true);
                 if(newStructure == nullptr) {
                     logWarning(key.getLineNumber(), "Invalid or occupied position for '" + BuildingStr + "': '" + PosStr + "'!");
@@ -1029,6 +1122,7 @@ void INIMapLoader::loadReinforcements()
 
         int Num2Drop = 1;
         Uint32 itemID = getItemIDByName(strUnitName);
+        if(!pGame->getGameInitSettings().getGameOptions().content.customUnitsAndBuildings) itemID = neutralVanillaMapItem(itemID);
         if((itemID == ItemID_Invalid) || !isUnit(itemID)) {
             logWarning(key.getLineNumber(), "Invalid unit string: '" + strUnitName + "'!");
             continue;
@@ -1056,7 +1150,7 @@ void INIMapLoader::loadReinforcements()
 
         itemID = replaceJerichoWildspadeUnit(pGame, houseID, itemID);
 
-        if(!pGame->objectData.data[itemID][houseID].enabled) {
+        if(!pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled) {
             continue;
         }
 
@@ -1274,6 +1368,14 @@ House* INIMapLoader::getOrCreateHouse(int houseID) {
 
 HOUSETYPE INIMapLoader::getHouseID(const std::string& name) {
     std::string lowerName = strToLower(name);
+
+    if(originalCoopOwners) {
+        const auto owner = housename2house.find(lowerName);
+        if(owner == housename2house.end() || owner->second < 0
+            || (lowerName != "coopwildlife" && lowerName.rfind("player", 0) != 0))
+            logError("Unmapped original co-op owner: '" + name + "'.");
+        return owner->second;
+    }
 
     if(housename2house.count(lowerName) > 0) {
         return housename2house[lowerName];

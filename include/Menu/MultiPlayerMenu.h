@@ -28,7 +28,7 @@
 
 class MultiPlayerMenu : public MenuBase {
 public:
-    MultiPlayerMenu();
+    explicit MultiPlayerMenu(bool cooperativeCampaign = false);
     ~MultiPlayerMenu();
 
     /**
@@ -65,6 +65,7 @@ private:
     void onReceiveGameInfo(const GameInitSettings& gameInitSettings, const ChangeEventList& changeEventList);
 
     std::list<GameServerInfo> LANGameList;
+    bool cooperativeCampaign;
     std::list<GameServerInfo> InternetGameList;
 
     StaticContainer windowWidget;

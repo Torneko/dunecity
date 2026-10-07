@@ -252,11 +252,6 @@ void BuilderList::draw(Point position) {
                     SDL_RenderCopy(renderer, pConcrete, &srcConcrete, &destConcrete);
                 }
 
-                // draw price
-                sdl2::texture_ptr pPriceTexture = pFontManager->createTextureWithText(fmt::sprintf("%d", buildItem.price), COLOR_WHITE, 12);
-                SDL_Rect drawLocation = calcDrawingRect(pPriceTexture.get(), dest.x + 2, dest.y + BUILDERBTN_HEIGHT - getHeight(pPriceTexture.get()) + 3);
-                SDL_RenderCopy(renderer, pPriceTexture.get(), nullptr, &drawLocation);
-
                 if(pStarport != nullptr) {
                     bool bSoldOut = (pStarport->getOwner()->getChoam().getNumAvailable(buildItem.itemID) == 0);
 
@@ -308,6 +303,14 @@ void BuilderList::draw(Point position) {
                         SDL_RenderCopy(renderer, pUnitLimitReachedTextTexture.get(), nullptr, &drawLocationUnitLimitReached);
                     }
                 }
+
+                // These Trike portraits have a bright lower-left corner.
+                const auto priceColor = (buildItem.itemID == Unit_RaiderTrike
+                    || buildItem.itemID == Unit_RocketTrike) ? COLOR_BLACK : COLOR_WHITE;
+                sdl2::texture_ptr pPriceTexture = pFontManager->createTextureWithText(fmt::sprintf("%d", buildItem.price), priceColor, 12);
+                SDL_Rect drawLocation = calcDrawingRect(pPriceTexture.get(), dest.x + 3,
+                    dest.y + BUILDERBTN_HEIGHT - getHeight(pPriceTexture.get()) - 1);
+                SDL_RenderCopy(renderer, pPriceTexture.get(), nullptr, &drawLocation);
 
                 if(buildItem.num > 0) {
                     // draw number of this in build list

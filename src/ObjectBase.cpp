@@ -892,7 +892,7 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario, 
             const bool jerichoActive = modInitialized
                 && ModManager::instance().getActiveModName() == "Jericho";
             const int houseID = productionHouseID >= 0 && productionHouseID < NUM_HOUSES
-                ? productionHouseID : Owner->getHouseID();
+                ? productionHouseID : Owner->getFactionID();
             const bool corruptiqueActive = modInitialized
                 && isHouseFaction(static_cast<HOUSETYPE>(houseID), HOUSE_CUSTOM);
             const auto objectDataIxCandidates = discoverHouseSpecialVehicleCandidates([&](int candidate) {

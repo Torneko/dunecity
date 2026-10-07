@@ -3,6 +3,8 @@
 #include <Menu/MainMenuButtonColor.h>
 #include <Menu/CustomGameMenu.h>
 #include <Menu/CustomGamePlayers.h>
+#include <Menu/CoopCampaignMenu.h>
+#include <Campaign/CoopCampaignSession.h>
 
 #include <FileClasses/GFXManager.h>
 #include <FileClasses/TextManager.h>
@@ -17,8 +19,9 @@
 #include <main.h>
 
 #include <misc/string_util.h>
+#include <misc/SaveGameLobbySetup.h>
 
-MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
+MultiPlayerMenu::MultiPlayerMenu(bool cooperativeCampaign) : MenuBase(), cooperativeCampaign(cooperativeCampaign) {
     // set up window
     SDL_Texture *pBackground = pGFXManager->getUIGraphic(UI_MenuBackground);
     setBackground(pBackground);
@@ -28,7 +31,9 @@ MultiPlayerMenu::MultiPlayerMenu() : MenuBase() {
 
     windowWidget.addWidget(&mainVBox, Point(24,23), Point(getRendererWidth() - 48, getRendererHeight() - 46));
 
-    captionLabel.setText("Multiplayer Game");
+    captionLabel.setText(cooperativeCampaign
+        ? (settings.general.language == "fr" ? "Campagne coop — deux bases alliées" : "Co-op campaign — two allied bases")
+        : _("Multiplayer Game"));
     captionLabel.setAlignment(Alignment_HCenter);
     mainVBox.addWidget(&captionLabel, 24);
     mainVBox.addWidget(VSpacer::create(24));
@@ -214,7 +219,8 @@ void MultiPlayerMenu::onCreateLANGame() {
     if (!validateAndSavePlayerName()) {
         return;
     }
-    CustomGameMenu(true, true).showMenu();
+    if(cooperativeCampaign) CoopCampaignMenu(true).showMenu();
+    else CustomGameMenu(true, true).showMenu();
 }
 
 
@@ -222,7 +228,8 @@ void MultiPlayerMenu::onCreateInternetGame() {
     if (!validateAndSavePlayerName()) {
         return;
     }
-    CustomGameMenu(true, false).showMenu();
+    if(cooperativeCampaign) CoopCampaignMenu(false).showMenu();
+    else CustomGameMenu(true, false).showMenu();
 }
 
 
@@ -562,7 +569,46 @@ void MultiPlayerMenu::onMetaServerError(int errorcause, const std::string& error
 void MultiPlayerMenu::onReceiveGameInfo(const GameInitSettings& gameInitSettings, const ChangeEventList& changeEventList) {
     closeChildWindow();
 
+    const auto rejectLobby = [this](const std::string& message) {
+        if(pNetworkManager) {
+            // The eventual disconnect notification must not replace the
+            // specific validation error with a generic connection message.
+            pNetworkManager->setOnReceiveGameInfo({});
+            pNetworkManager->setOnPeerDisconnected({});
+            pNetworkManager->disconnect();
+        }
+        openWindow(MsgBox::create(message));
+    };
+    try {
+        GameInitSettings missionSettings = gameInitSettings;
+        std::string savedMod;
+        if(gameInitSettings.getGameType() == GameType::LoadMultiplayer) {
+            const auto saved = readSaveGameLobbySetup(gameInitSettings.getFiledata());
+            missionSettings = saved.settings;
+            savedMod = saved.modName;
+        }
+        if(missionSettings.getGameType() != GameType::CustomMultiplayer)
+            throw std::runtime_error("The host did not provide a multiplayer mission.");
+        const auto context = coop::readContext(missionSettings.getFiledata());
+        if(context && (context->isComplete() || context->modName != missionSettings.getModName()
+            || (!savedMod.empty() && context->modName != savedMod)))
+            throw std::runtime_error("The cooperative mission metadata does not match its saved settings.");
+        if(cooperativeCampaign && !context) {
+            rejectLobby(settings.general.language == "fr"
+                ? "Ce salon ne contient pas de campagne coop."
+                : "This lobby does not contain a co-op campaign.");
+            return;
+        }
+    } catch(const std::exception& error) {
+        SDL_LogWarn(SDL_LOG_CATEGORY_APPLICATION, "Rejected multiplayer lobby: %s", error.what());
+        rejectLobby(settings.general.language == "fr"
+            ? "Les données de ce salon sont invalides ou incompatibles."
+            : "This lobby's data is invalid or incompatible.");
+        return;
+    }
+
     if (pNetworkManager) {
+        pNetworkManager->setOnReceiveGameInfo({});
         pNetworkManager->setOnPeerDisconnected(std::function<void (const std::string&, bool, int)>());
     }
 

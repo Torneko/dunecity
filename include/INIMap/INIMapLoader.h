@@ -53,6 +53,7 @@ private:
     HOUSETYPE getHouseID(const std::string& name);
 
     Game* pGame;
+    bool originalCoopOwners = false;
     std::map<std::string, HOUSETYPE> housename2house;
 };
 

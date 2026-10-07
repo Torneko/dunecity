@@ -20,6 +20,8 @@ target_sources(dunelegacy_tests
         PakfileConcurrentReadTestCase/PakfileConcurrentReadTestCase.cpp
         AchievementsTestCase/AchievementsTestCase.cpp
         ChaosModeTestCase/ChaosModeTestCase.cpp
+        CoopCampaignTestCase/CoopCampaignTestCase.cpp
+        ${CMAKE_SOURCE_DIR}/src/Campaign/CoopCampaignSession.cpp
         ${CMAKE_SOURCE_DIR}/src/mod/ChaosMode.cpp
         ${CMAKE_SOURCE_DIR}/src/Achievements/AchievementManager.cpp
         ${CMAKE_SOURCE_DIR}/src/FileClasses/Pakfile.cpp

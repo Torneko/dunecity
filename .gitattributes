@@ -4,3 +4,6 @@ data/maps/** whitespace=cr-at-eol
 # Mod checksums describe exact shipped bytes on every platform.
 mods/** -text
 mods/** whitespace=cr-at-eol
+# New original co-op payloads retain the bytes used by package checksums.
+data/coop/faction*/coop*.ini -text whitespace=cr-at-eol,-blank-at-eof
+mods/*/campaign/coop/faction*/coop*.ini whitespace=cr-at-eol,-blank-at-eof

@@ -76,7 +76,9 @@ ModMenu::ModMenu() : MenuBase(), selectedModIndex(-1) {
     detailsVBox.addWidget(VSpacer::create(5));
 
     modDescLabel.setText(_("Description: "));
-    detailsVBox.addWidget(&modDescLabel);
+    modDescLabel.setAlignment(static_cast<Alignment_Enum>(Alignment_Left | Alignment_Top));
+    modDescLabel.setTextFontSize(12);
+    detailsVBox.addWidget(&modDescLabel, 100);
     detailsVBox.addWidget(VSpacer::create(5));
 
     modModVersionLabel.setText(_("Mod Version: "));
@@ -284,6 +286,7 @@ void ModMenu::onCreateNew() {
     }
 
     if (ModManager::instance().createMod(newName, "vanilla")) {
+        ModEditorMenu(newName).showMenu();
         openWindow(MsgBox::create(_("Created new mod: ") + newName +
             "\n\n" + _("Edit the files in the mod folder to customize.")));
         newModNameTextBox.setText("");

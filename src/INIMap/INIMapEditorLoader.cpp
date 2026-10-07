@@ -8,6 +8,8 @@
 
 #include <MapSeed.h>
 #include <INIMap/SpiceVariants.h>
+#include <misc/SpiceGeneration.h>
+#include <mod/ModManager.h>
 #include <ScreenBorder.h>
 
 #include <misc/format.h>
@@ -34,6 +36,9 @@ void INIMapEditorLoader::load() {
     checkFeatures();
 
     loadMap();
+    for(int y = 0; y < pMapEditor->map.getSizeY(); ++y)
+        for(int x = 0; x < pMapEditor->map.getSizeX(); ++x)
+            pMapEditor->map(x,y) = static_cast<TERRAINTYPE>(allowedSpiceTerrain(pMapEditor->map(x,y), ModManager::instance().getActiveContentOptions().spiceMask()));
     loadHouses();
     loadUnits();
     loadStructures();

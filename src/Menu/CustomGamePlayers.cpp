@@ -16,6 +16,7 @@
  */
 
 #include <Menu/CustomGamePlayers.h>
+#include <Campaign/CoopCampaignRuntime.h>
 
 #include <config.h>
 
@@ -39,6 +40,7 @@
 #include <misc/draw_util.h>
 #include <misc/string_util.h>
 #include <misc/IMemoryStream.h>
+#include <misc/SaveGameLobbySetup.h>
 
 #include <INIMap/INIMapPreviewCreator.h>
 #include <INIMap/MapPlayerSectionUtils.h>
@@ -187,32 +189,23 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
     rightVBox.addWidget(&minimap);
 
     if(gameInitSettings.getGameType() == GameType::CustomGame || gameInitSettings.getGameType() == GameType::CustomMultiplayer) {
+        if(coop::readContext(gameInitSettings.getFiledata())) {
+            coopSession = coop::CoopCampaignSession::fromMapData(gameInitSettings.getFiledata());
+            coopGameOptions = gameInitSettings.getGameOptions();
+        }
         auto RWops = sdl2::RWops_ptr{ SDL_RWFromConstMem(gameInitSettings.getFiledata().c_str(), gameInitSettings.getFiledata().size()) };
 
         INIFile inimap(RWops.get());
         extractMapInfo(&inimap);
     } else if(gameInitSettings.getGameType() == GameType::LoadMultiplayer) {
-        IMemoryStream memStream(gameInitSettings.getFiledata().c_str(), gameInitSettings.getFiledata().size());
-
-        Uint32 magicNum = memStream.readUint32();
-        if(magicNum != SAVEMAGIC) {
-            SDL_Log("CustomGamePlayers: No valid savegame! Expected magic number %.8X, but got %.8X!", SAVEMAGIC, magicNum);
+        auto saved = readSaveGameLobbySetup(gameInitSettings.getFiledata());
+        const auto& tmpGameInitSettings = saved.settings;
+        if(coop::readContext(tmpGameInitSettings.getFiledata())) {
+            coopSession = coop::CoopCampaignSession::fromMapData(tmpGameInitSettings.getFiledata());
+            coopGameOptions = tmpGameInitSettings.getGameOptions();
         }
 
-        Uint32 savegameVersion = memStream.readUint32();
-        if (savegameVersion != SAVEGAMEVERSION) {
-            SDL_Log("CustomGamePlayers: No valid savegame! Expected savegame version %d, but got %d!", SAVEGAMEVERSION, savegameVersion);
-        }
-
-        memStream.readString();     // dune legacy version
-
-        // read gameInitSettings
-        GameInitSettings tmpGameInitSettings(memStream);
-
-        Uint32 numHouseInfo = memStream.readUint32();
-        for(Uint32 i=0;i<numHouseInfo;i++) {
-            houseInfoListSetup.push_back(GameInitSettings::HouseInfo(memStream));
-        }
+        houseInfoListSetup = std::move(saved.houses);
 
         auto RWops = sdl2::RWops_ptr{ SDL_RWFromConstMem(tmpGameInitSettings.getFiledata().c_str(), tmpGameInitSettings.getFiledata().size()) };
 
@@ -393,6 +386,9 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
                 if(gisHouseInfo.houseID == HOUSE_UNUSED) {
                     curHouseInfo.player1DropDown.addEntry(_("closed"), PLAYER_CLOSED);
+                    curHouseInfo.player1DropDown.setSelectedItem(0);
+                    curHouseInfo.player1DropDown.setEnabled(false);
+                    curHouseInfo.player1DropDown.setOnClickEnabled(false);
                 } else if(gisHouseInfo.playerInfoList.empty() == false) {
                     GameInitSettings::PlayerInfo playerInfo = gisHouseInfo.playerInfoList.front();
                     if(playerInfo.playerClass == HUMANPLAYERCLASS) {
@@ -462,6 +458,9 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
                 if(gisHouseInfo.houseID == HOUSE_UNUSED) {
                     curHouseInfo.player2DropDown.addEntry(_("closed"), PLAYER_CLOSED);
+                    curHouseInfo.player2DropDown.setSelectedItem(0);
+                    curHouseInfo.player2DropDown.setEnabled(false);
+                    curHouseInfo.player2DropDown.setOnClickEnabled(false);
                 } else if(gisHouseInfo.playerInfoList.size() >= 2) {
                     GameInitSettings::PlayerInfo playerInfo = *(++gisHouseInfo.playerInfoList.begin());
                     if(playerInfo.playerClass == HUMANPLAYERCLASS) {
@@ -529,6 +528,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
         }
     }
 
+    if(coopSession) configureCoopLobby();
     onChangeHousesDropDownBoxes(false);
 
     checkPlayerBoxes();
@@ -551,7 +551,7 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
 
     if(pNetworkManager != nullptr) {
         if(bServer) {
-            pNetworkManager->startServer(bLANServer, gameInitSettings.getServername(), settings.general.playerName, &gameInitSettings, 1, gameInitSettings.isMultiplePlayersPerHouse() ? numHouses*2 : numHouses);
+            pNetworkManager->startServer(bLANServer, gameInitSettings.getServername(), settings.general.playerName, &gameInitSettings, 1, coopSession ? 2 : (gameInitSettings.isMultiplePlayersPerHouse() ? numHouses*2 : numHouses));
         }
 
         pNetworkManager->setOnPeerDisconnected(std::bind(&CustomGamePlayers::onPeerDisconnected, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
@@ -577,7 +577,7 @@ void CustomGamePlayers::updateDiscordLobbyPresence() {
     if(pNetworkManager == nullptr) return;
 
     std::string mapName = getBasename(gameInitSettings.getFilename(), true);
-    int maxPlayers = gameInitSettings.isMultiplePlayersPerHouse() ? numHouses*2 : numHouses;
+    int maxPlayers = coopSession ? 2 : (gameInitSettings.isMultiplePlayersPerHouse() ? numHouses*2 : numHouses);
 
     if(bServer) {
         // Count current players from actual connected peers (not dropdown selections)
@@ -615,6 +615,16 @@ CustomGamePlayers::~CustomGamePlayers()
 
 void CustomGamePlayers::update() {
     if(startGameTime > 0) {
+        if(coopSession && !isCoopLobbyReady()) {
+            startGameTime = 0;
+            bWaitingForModAcks = false;
+            nextButton.setEnabled(bServer);
+            enforceCoopLobby();
+            addInfoMessage(settings.general.language == "fr"
+                ? "Lancement annulé : le partenaire doit être connecté."
+                : "Start cancelled: the partner must be connected.");
+            return;
+        }
         // Check if config mismatch was detected - abort game start
         if(bConfigMismatchDetected) {
             SDL_Log("Aborting game start - config mismatch detected");
@@ -654,7 +664,21 @@ void CustomGamePlayers::update() {
 
 void CustomGamePlayers::onReceiveChangeEventList(const ChangeEventList& changeEventList)
 {
+    // Once the host has committed its snapshot, late client edits cannot alter
+    // the settings used by one peer while another peer is already starting.
+    if(coopSession && (startGameTime > 0 || bWaitingForModAcks)) return;
     for(const ChangeEventList::ChangeEvent& changeEvent : changeEventList.changeEventList) {
+        const bool playerEvent = changeEvent.eventType == ChangeEventList::ChangeEvent::EventType::ChangePlayer
+            || changeEvent.eventType == ChangeEventList::ChangeEvent::EventType::SetHumanPlayer;
+        if(changeEvent.slot >= static_cast<Uint32>(playerEvent ? numHouses * 2 : numHouses)) continue;
+        if(coopSession) {
+            if(changeEvent.eventType == ChangeEventList::ChangeEvent::EventType::ChangeTeam) continue;
+            if(playerEvent) {
+                if(changeEvent.slot != 0 && changeEvent.slot != 2) continue;
+                if(changeEvent.eventType == ChangeEventList::ChangeEvent::EventType::ChangePlayer
+                   && changeEvent.newValue != PLAYER_OPEN && changeEvent.newValue != PLAYER_HUMAN) continue;
+            } else if(changeEvent.slot >= 2) continue;
+        }
 
         switch(changeEvent.eventType) {
             case ChangeEventList::ChangeEvent::EventType::ChangeHouse: {
@@ -747,6 +771,10 @@ void CustomGamePlayers::onReceiveChangeEventList(const ChangeEventList& changeEv
     }
 
     // Update Discord presence when lobby state changes (players join/leave/change slots)
+    if(coopSession) {
+        onChangeHousesDropDownBoxes(false);
+        enforceCoopLobby();
+    }
     updateDiscordLobbyPresence();
 }
 
@@ -818,7 +846,7 @@ ChangeEventList CustomGamePlayers::getChangeEventListForNewPlayer(const std::str
     }
 
     // as a fallback look for any non-human slot
-    if(newPlayerSlot == INVALID) {
+    if(newPlayerSlot == INVALID && !coopSession) {
         for(int i=0;i<numHouses;i++) {
             HouseInfo& curHouseInfo = houseInfo[i];
             int player1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
@@ -864,6 +892,11 @@ void CustomGamePlayers::onConfigMismatch(const std::string& errorMessage) {
 
     // Cancel game start countdown
     startGameTime = 0;
+    bWaitingForModAcks = false;
+    if(coopSession) {
+        nextButton.setEnabled(bServer);
+        enforceCoopLobby();
+    }
 
     // Show error dialog
     openWindow(MsgBox::create(errorMessage));
@@ -1077,6 +1110,7 @@ void CustomGamePlayers::onReceiveModAck(const std::string& playerName, bool succ
         bConfigMismatchDetected = true;
         startGameTime = 0;
         bWaitingForModAcks = false;
+        if(coopSession) { nextButton.setEnabled(bServer); enforceCoopLobby(); }
 
         openWindow(MsgBox::create(_("Client '") + playerName + _("' failed to sync mod.\nGame cannot start.")));
         return;
@@ -1093,6 +1127,7 @@ void CustomGamePlayers::onReceiveModAck(const std::string& playerName, bool succ
         bConfigMismatchDetected = true;
         startGameTime = 0;
         bWaitingForModAcks = false;
+        if(coopSession) { nextButton.setEnabled(bServer); enforceCoopLobby(); }
 
         openWindow(MsgBox::create(_("Client '") + playerName + _("' has mismatched checksums.\nGame cannot start.")));
         return;
@@ -1107,6 +1142,13 @@ void CustomGamePlayers::onReceiveModAck(const std::string& playerName, bool succ
 
 void CustomGamePlayers::checkAllClientsReady() {
     if(!bServer || !bWaitingForModAcks) {
+        return;
+    }
+    if(coopSession && !isCoopLobbyReady()) {
+        bWaitingForModAcks = false;
+        startGameTime = 0;
+        nextButton.setEnabled(bServer);
+        enforceCoopLobby();
         return;
     }
 
@@ -1140,6 +1182,9 @@ void CustomGamePlayers::checkAllClientsReady() {
         // Now actually start the game
         unsigned int timeLeft = 3000;  // 3 seconds countdown
         startGameTime = SDL_GetTicks() + timeLeft;
+        // Reliable packets deliver this final authoritative snapshot before
+        // START, replacing any client selection made during synchronization.
+        if(coopSession) pNetworkManager->sendChangeEventList(getChangeEventList());
         pNetworkManager->sendStartGame(timeLeft);
 
         disableAllDropDownBoxes();
@@ -1221,6 +1266,15 @@ void CustomGamePlayers::updateDiscordGameStarting() {
 
 void CustomGamePlayers::onNext()
 {
+    if(coopSession && (bWaitingForModAcks || startGameTime > 0)) return;
+    if(coopSession) {
+        if(!isCoopLobbyReady()) {
+            openWindow(MsgBox::create(settings.general.language == "fr"
+                ? "La campagne coop nécessite deux joueurs connectés avec des noms différents."
+                : "The co-op campaign needs two connected players with different names."));
+            return;
+        }
+    }
     // check if we have at least two houses on the map and if we have more than one team
     int numUsedHouses = 0;
     int numTeams = 0;
@@ -1294,9 +1348,9 @@ void CustomGamePlayers::onNext()
     // Archon mode intentionally allows two players to share one house and color.
     } else if(bTwoPlayersInSameHouse && !gameInitSettings.isMultiplePlayersPerHouse()) {
         openWindow(MsgBox::create(_("Each player must use a different house/color.")));
-    } else if(bDuplicateHouse) {
+    } else if(bDuplicateHouse && !coopSession) {
         openWindow(MsgBox::create(_("The same house cannot be used twice.")));
-    } else if(bDuplicateColor) {
+    } else if(bDuplicateColor && !coopSession) {
         openWindow(MsgBox::create(_("The same color cannot be used twice.")));
     } else if(numTeams < 2) {
         // No game possible with only 1 team
@@ -1337,6 +1391,7 @@ void CustomGamePlayers::onNext()
             // The actual game start will happen in checkAllClientsReady() after all ACKs
             clientsAckedMod.clear();
             bWaitingForModAcks = true;
+            if(coopSession) { nextButton.setEnabled(false); enforceCoopLobby(); }
             addInfoMessage("Waiting for clients to sync mod...");
             SDL_Log("HOST: Waiting for mod ACKs from clients before starting game");
 
@@ -1353,6 +1408,32 @@ void CustomGamePlayers::onNext()
 
 void CustomGamePlayers::addAllPlayersToGameInitSettings()
 {
+    if(coopSession && gameInitSettings.getGameType() == GameType::CustomMultiplayer) {
+        const std::array<int, 2> factions{houseInfo[0].houseDropDown.getSelectedEntryIntData(),
+            houseInfo[1].houseDropDown.getSelectedEntryIntData()};
+        const std::array<std::string, 2> names{houseInfo[0].player1DropDown.getSelectedEntry(),
+            houseInfo[1].player1DropDown.getSelectedEntry()};
+        auto mapStream = sdl2::RWops_ptr{SDL_RWFromConstMem(gameInitSettings.getFiledata().data(),
+            gameInitSettings.getFiledata().size())};
+        INIFile map(mapStream.get());
+        if(map.getBoolValue("COOP", "SourcePending", false)) {
+            const auto context = coopSession->context();
+            if(!context.followsOriginalCampaign() || context.stage != 1 || context.completedMask != 0)
+                throw std::runtime_error("Invalid pending co-op campaign source.");
+            coopSession = coop::CoopCampaignSession::create(context.sessionId, context.modName,
+                context.roster, factions, names, context.seed, context.chaosEligible);
+        } else {
+            coopSession->reconfigurePlayers(factions, names);
+        }
+        for(int i = 0; i < 2; ++i) {
+            const int color = resolveSelectedColorSlot(houseInfo[i].colorDropDown.getSelectedEntryIntData(),
+                houseInfo[i].houseDropDown.getSelectedEntryIntData());
+            coopSession->setPlayerColor(i, color);
+        }
+        gameInitSettings = coop::makeGameSettings(*coopSession, coopGameOptions, gameInitSettings.getServername());
+        coopSession = coop::CoopCampaignSession::fromMapData(gameInitSettings.getFiledata());
+        return;
+    }
     gameInitSettings.clearHouseInfo();
 
     for(int i=0;i<numHouses;i++) {
@@ -1590,6 +1671,7 @@ void CustomGamePlayers::extractMapInfo(INIFile* pMap)
 }
 
 void CustomGamePlayers::onChangeHousesDropDownBoxes(bool bInteractive, int houseInfoNum) {
+    if(coopSession && bUpdatingCoopLobby) return;
     if(bInteractive && houseInfoNum >= 0 && pNetworkManager != nullptr) {
         int selectedHouseID = houseInfo[houseInfoNum].houseDropDown.getSelectedEntryIntData();
 
@@ -1597,6 +1679,37 @@ void CustomGamePlayers::onChangeHousesDropDownBoxes(bool bInteractive, int house
         changeEventList.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeHouse, houseInfoNum, selectedHouseID);
 
         pNetworkManager->sendChangeEventList(changeEventList);
+    }
+
+    if(coopSession) {
+        bUpdatingCoopLobby = true;
+        // Factions can repeat; the session allocates distinct runtime houses.
+        if(gameInitSettings.getGameType() != GameType::LoadMultiplayer) {
+            const auto names = std::array<std::string, 2>{coopSession->context().slots[0].playerName,
+                coopSession->context().slots[1].playerName};
+            coopSession->reconfigurePlayers({houseInfo[0].houseDropDown.getSelectedEntryIntData(),
+                houseInfo[1].houseDropDown.getSelectedEntryIntData()}, names);
+            for(int i = 2; i < numHouses; ++i) {
+                const int faction = coopSession->context().slots[i].faction;
+                houseInfo[i].houseDropDown.clearAllEntries();
+                houseInfo[i].houseDropDown.addEntry(getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(faction)), faction);
+                houseInfo[i].houseDropDown.setSelectedItem(0);
+                const int ai = houseInfo[i].player1DropDown.getSelectedEntryIntData();
+                houseInfo[i].player1DropDown.clearAllEntries();
+                houseInfo[i].player1DropDown.addEntry(getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(faction)), ai);
+                houseInfo[i].player1DropDown.setSelectedItem(0);
+            }
+        }
+        for(int i = 0; i < 2; ++i) {
+            const int faction = houseInfo[i].houseDropDown.getSelectedEntryIntData();
+            const int colorSlot = resolveSelectedColorSlot(houseInfo[i].colorDropDown.getSelectedEntryIntData(), faction);
+            const auto color = getMenuColorForHouse(colorSlot);
+            houseInfo[i].houseLabel.setTextColor(color);
+            houseInfo[i].houseDropDown.setColor(color);
+            houseInfo[i].player1DropDown.setColor(color);
+        }
+        bUpdatingCoopLobby = false;
+        return;
     }
 
     int numBoundHouses = boundHousesOnMap.size();
@@ -1634,7 +1747,7 @@ void CustomGamePlayers::onChangeHousesDropDownBoxes(bool bInteractive, int house
             curHouseInfo.player2Label.setTextColor(color);
             curHouseInfo.player2DropDown.setColor(color);
 
-            if(house == HOUSE_INVALID) {
+            if(house < 0) {
                 curHouseInfo.player1ArrowLabel.setTexture(pGFXManager->getUIGraphic(UI_CustomGamePlayersArrowNeutral));
             } else {
                 curHouseInfo.player1ArrowLabel.setTexture(pGFXManager->getUIGraphic(UI_CustomGamePlayersArrow, house));
@@ -1760,6 +1873,7 @@ void CustomGamePlayers::onChangePlayerDropDownBoxes(bool bInteractive, int boxnu
 }
 
 void CustomGamePlayers::onClickPlayerDropDownBox(int boxnum) {
+    if(coopSession && boxnum != 0 && boxnum != 2) return;
     DropDownBox& dropDownBox = (boxnum % 2 == 0) ? houseInfo[boxnum / 2].player1DropDown : houseInfo[boxnum / 2].player2DropDown;
 
     if(dropDownBox.getSelectedEntryIntData() == PLAYER_CLOSED) {
@@ -1777,6 +1891,12 @@ void CustomGamePlayers::onClickPlayerDropDownBox(int boxnum) {
 }
 
 void CustomGamePlayers::onPeerDisconnected(const std::string& playername, bool bHost, int cause) {
+    if(coopSession) {
+        startGameTime = 0;
+        bWaitingForModAcks = false;
+        clientsAckedMod.clear();
+        nextButton.setEnabled(bServer);
+    }
     if(bHost) {
         quit(cause);
     } else {
@@ -1851,6 +1971,12 @@ void CustomGamePlayers::onStartGame(unsigned int timeLeft) {
         SDL_Log("Ignoring STARTGAME packet - config mismatch already detected");
         return;
     }
+    if(coopSession && !isCoopLobbyReady()) {
+        addInfoMessage(settings.general.language == "fr"
+            ? "Lancement refusé : deux joueurs connectés sont requis."
+            : "Start rejected: two connected players are required.");
+        return;
+    }
 
     startGameTime = SDL_GetTicks() + timeLeft;
     disableAllDropDownBoxes();
@@ -1860,6 +1986,7 @@ void CustomGamePlayers::onStartGame(unsigned int timeLeft) {
 }
 
 void CustomGamePlayers::setPlayer2Slot(const std::string& playername, int slot) {
+    if(coopSession && slot != 0 && slot != 2) return;
     DropDownBox& dropDownBox = (slot % 2 == 0) ? houseInfo[slot / 2].player1DropDown : houseInfo[slot / 2].player2DropDown;
 
     std::string oldPlayerName = "";
@@ -1955,11 +2082,11 @@ void CustomGamePlayers::checkPlayerBoxes() {
         int player1 = curHouseInfo.player1DropDown.getSelectedEntryIntData();
         int player2 = curHouseInfo.player2DropDown.getSelectedEntryIntData();
 
-        if(player1 != PLAYER_OPEN) {
+        if(player1 != PLAYER_OPEN && (!coopSession || i < 2)) {
             numPlayers++;
         }
 
-        if(gameInitSettings.isMultiplePlayersPerHouse() && player2 != PLAYER_OPEN) {
+        if(gameInitSettings.isMultiplePlayersPerHouse() && player2 != PLAYER_OPEN && !coopSession) {
             numPlayers++;
         }
 
@@ -1999,10 +2126,93 @@ void CustomGamePlayers::checkPlayerBoxes() {
             pNetworkManager->updateServer(numPlayers);
         }
     }
+    if(coopSession) enforceCoopLobby();
+}
+
+void CustomGamePlayers::configureCoopLobby() {
+    if(!coopSession || numHouses != static_cast<int>(coopSession->context().slots.size()))
+        throw std::runtime_error("Invalid co-op map player slots.");
+    bUpdatingCoopLobby = true;
+    const auto& context = coopSession->context();
+    const bool loading = gameInitSettings.getGameType() == GameType::LoadMultiplayer;
+    for(int i = 0; i < numHouses; ++i) {
+        auto& row = houseInfo[i];
+        const auto& slot = context.slots[i];
+        row.teamDropDown.clearAllEntries();
+        row.teamDropDown.addEntry(_("Team") + " " + std::to_string(i < 2 ? 1 : 2), i < 2 ? 1 : 2);
+        row.teamDropDown.setSelectedItem(0);
+        row.houseDropDown.clearAllEntries();
+        if(i < 2 && !loading) {
+            for(const int faction : context.roster) {
+                row.houseDropDown.addEntry(getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(faction)), faction);
+                if(faction == slot.faction) row.houseDropDown.setSelectedItem(row.houseDropDown.getNumEntries() - 1);
+            }
+        } else {
+            row.houseDropDown.addEntry(getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(slot.faction)),
+                loading ? slot.house : slot.faction);
+            row.houseDropDown.setSelectedItem(0);
+        }
+        row.player1DropDown.clearAllEntries();
+        if(i < 2) {
+            if(i == 0 && bServer) row.player1DropDown.addEntry(settings.general.playerName, PLAYER_HUMAN);
+            else row.player1DropDown.addEntry(_("open"), PLAYER_OPEN);
+        } else {
+            int aiIndex = 1;
+            for(unsigned int p = 1; p < PlayerFactory::getList().size(); ++p)
+                if(PlayerFactory::getByIndex(p)->getPlayerClass() == slot.playerClass) aiIndex = static_cast<int>(p);
+            row.player1DropDown.addEntry(getHouseDisplayNameByNumber(static_cast<HOUSETYPE>(slot.faction)), aiIndex);
+        }
+        row.player1DropDown.setSelectedItem(0);
+        row.player2DropDown.clearAllEntries();
+        row.player2DropDown.addEntry(_("closed"), PLAYER_CLOSED);
+        row.player2DropDown.setSelectedItem(0);
+    }
+    captionLabel.setText((settings.general.language == "fr" ? "Campagne coop — mission " : "Co-op campaign — mission ")
+        + std::to_string(context.stage) + " / 9");
+    addInfoMessage(settings.general.language == "fr"
+        ? "Deux bases alliées. Les factions peuvent être identiques. La progression est commune."
+        : "Separate allied bases. Both players may choose the same faction. Progress is shared.");
+    bUpdatingCoopLobby = false;
+    enforceCoopLobby();
+}
+
+void CustomGamePlayers::enforceCoopLobby() {
+    const bool loading = gameInitSettings.getGameType() == GameType::LoadMultiplayer;
+    for(int i = 0; i < numHouses; ++i) {
+        auto& row = houseInfo[i];
+        const bool own = i < 2 && row.player1DropDown.getSelectedEntryIntData() == PLAYER_HUMAN
+            && row.player1DropDown.getSelectedEntry() == settings.general.playerName;
+        row.teamDropDown.setEnabled(false);
+        row.teamDropDown.setOnClickEnabled(false);
+        row.player1DropDown.setEnabled(false);
+        row.player1DropDown.setOnClickEnabled(false);
+        row.player2DropDown.setEnabled(false);
+        row.houseDropDown.setEnabled(own && !loading && startGameTime == 0 && !bWaitingForModAcks);
+        row.bonusColorCheckbox.setEnabled(own && !loading && startGameTime == 0 && !bWaitingForModAcks);
+        row.colorDropDown.setEnabled(own && !loading && startGameTime == 0 && !bWaitingForModAcks);
+    }
+}
+
+bool CustomGamePlayers::isCoopLobbyReady() const {
+    if(!coopSession || !pNetworkManager
+       || numHouses != static_cast<int>(coopSession->context().slots.size())) return false;
+    if(houseInfo[0].player1DropDown.getSelectedEntryIntData() != PLAYER_HUMAN
+       || houseInfo[1].player1DropDown.getSelectedEntryIntData() != PLAYER_HUMAN) return false;
+    const auto& first = houseInfo[0].player1DropDown.getSelectedEntry();
+    const auto& second = houseInfo[1].player1DropDown.getSelectedEntry();
+    const auto peers = pNetworkManager->getConnectedPeers();
+    if(first == second || peers.size() != 1) return false;
+    const auto& local = settings.general.playerName;
+    return (first == local && peers.front() == second) || (second == local && peers.front() == first);
 }
 
 
 void CustomGamePlayers::addToHouseDropDown(DropDownBox& houseDropDownBox, int house, bool bSelect) {
+    if(house == HOUSE_UNUSED) {
+        houseDropDownBox.addEntry(_("closed"), HOUSE_UNUSED);
+        if(bSelect) houseDropDownBox.setSelectedItem(0);
+        return;
+    }
 
     if(houseDropDownBox.getNumEntries() == 0) {
         if(house == HOUSE_INVALID) {

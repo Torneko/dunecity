@@ -33,6 +33,7 @@
 
 #include <Game.h>
 #include <GameInitSettings.h>
+#include <Campaign/CoopCampaignRuntime.h>
 #include <data.h>
 
 #include <misc/exceptions.h>
@@ -907,31 +908,5 @@ void startSinglePlayerGame(const GameInitSettings& init)
 */
 void startMultiPlayerGame(const GameInitSettings& init)
 {
-    GameInitSettings currentGameInitInfo = init;
-
-    SDL_Log("Initializing game...");
-    try {
-        currentGame = new Game();
-        currentGame->initGame(currentGameInitInfo);
-
-        // get init settings from game as it might have changed (through loading the game)
-        currentGameInitInfo = currentGame->getGameInitSettings();
-
-        currentGame->runMainLoop();
-
-        if(currentGame->whatNext() == GAME_CUSTOM_GAME_STATS) {
-            SDL_Log("Game statistics...");
-            CustomGameStatsMenu stats;
-            stats.showMenu();
-        }
-
-        delete currentGame;
-        currentGame = nullptr;
-        resetHouseVisualHouseMapping();
-    } catch(...) {
-        delete currentGame;
-        currentGame = nullptr;
-        resetHouseVisualHouseMapping();
-        throw;
-    }
+    coop::runMultiplayerSession(init);
 }

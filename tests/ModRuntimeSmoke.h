@@ -25,6 +25,10 @@
 #include "FactionPresentationSmoke.h"
 #include "ChaosModeSmoke.h"
 #include "WildspadeMentatSmoke.h"
+#include "CampaignContinuationSmoke.h"
+#include "CoopFactionSmoke.h"
+#include "CoopLobbySmoke.h"
+#include <Network/NetworkManager.h>
 
 inline void verifyChaosFactoryGraphics(const std::string& output, const std::string& mod,
                                       const std::string& stage) {
@@ -77,6 +81,7 @@ inline void verifyChaosFactoryGraphics(const std::string& output, const std::str
 }
 
 inline void runModRuntimeSmoke() {
+    NetworkManager::verifyCoopTransport();
     auto require = [](bool value, const std::string& message) {
         if(!value) throw std::runtime_error("Mod runtime check: " + message);
     };
@@ -91,7 +96,7 @@ inline void runModRuntimeSmoke() {
     verifyFremenConfirmation(output, "startup");
     if(mods.isTornieContentActive()) verifyChaosFactoryGraphics(output, previousMod, "startup");
     int scenarios = 0;
-    for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "vanilla", "Jericho", "TornieLite"}) {
+    for(const std::string mod : {"Tornie", "TornieLite", "Jericho", "JerichoLite", "vanilla", "Jericho", "TornieLite"}) {
         require(mods.modExists(mod), "missing selectable mod " + mod);
         require(mods.setActiveMod(mod), "cannot activate " + mod);
         effectiveGameOptions = mods.loadEffectiveGameOptions(settings.gameOptions);
@@ -109,6 +114,10 @@ inline void runModRuntimeSmoke() {
         verifyWildspadeTechnology(output, mod);
         verifyWildspadeMentat(output, mod);
         verifyChaosMode(output, mod);
+        verifyCampaignContinuation(output, mod);
+        verifyCoopFactionRules(output, mod);
+        verifyCoopFactionMatrix(output, mod);
+        verifyCoopLobby(output, mod);
         if(mod=="Tornie") {
             auto* herald=pGFXManager->getUIGraphicSurface(UI_Herald_Colored,HOUSE_FREMEN);
             require(herald && herald->w==84 && herald->h==91,"attached Fremen banner dimensions");
@@ -235,7 +244,7 @@ inline void runModRuntimeSmoke() {
         for(int selectedHouse = 0; selectedHouse < campaignHouseCount; ++selectedHouse) {
           if(!isCampaignHouseAvailable(static_cast<HOUSETYPE>(selectedHouse))) continue;
           for(int mission = 1; mission <= 22; ++mission) {
-            if(mod == "TornieLite" && mission != 1 && mission != 22) continue;
+
             const GameInitSettings campaign(static_cast<HOUSETYPE>(selectedHouse), mission, effectiveGameOptions);
             const std::string name = campaign.getFilename();
             auto resolvedFile = pFileManager->openCampaignFile(name);
@@ -269,7 +278,7 @@ inline void runModRuntimeSmoke() {
                 require(currentGameMap != nullptr && pLocalHouse != nullptr,
                         mod + " scenario did not initialize: " + name);
                 require(!structureList.empty() || !unitList.empty(), "empty scenario " + name);
-                if(mission == 1 && (mod == "Tornie" || mod == "Jericho")) {
+                if(mission == 1 && mods.isTornieContentActive()) {
                     int troops = 0, enemies = 0;
                     for(auto* unit : unitList) if(unit->getOwner() == pLocalHouse) {
                         if(unit->getItemID() == Unit_Trooper) ++troops;
@@ -277,12 +286,12 @@ inline void runModRuntimeSmoke() {
                         ++enemies;
                         require(unit->getAttackMode() != HUNT, mod + " intro has an immediate enemy rush");
                     }
-                    if(troops != 9 || enemies != 12) {
+                    if(troops != 9 || enemies != 17) {
                         SDL_Log("CAMPAIGN OPENING COUNTS: %s %s troops=%d enemies=%d",mod.c_str(),name.c_str(),troops,enemies);
                         for(auto* unit : unitList)
                             SDL_Log("OPENING UNIT: item=%u owner=%d local=%d x=%d y=%d",unit->getItemID(),unit->getOwner()->getHouseID(),pLocalHouse->getHouseID(),unit->getLocation().x,unit->getLocation().y);
                     }
-                    require(troops == 9 && enemies == 12, mod + " intro troop/enemy counts did not deploy: " + name);
+                    require(troops == 9 && enemies == 17, mod + " intro troop/enemy counts did not deploy: " + name);
                     for(int order = 100; order <= 106; ++order) {
                         std::string owner, item, health, pos, angle, mode;
                         splitString(scenario.getStringValue("UNITS", fmt::sprintf("ID%03d", order)), owner, item, health, pos, angle, mode);
@@ -299,7 +308,7 @@ inline void runModRuntimeSmoke() {
                         require(count == (order >= 102 && order <= 104 ? 3 : 1), mod + " missing/overlapping intro order " + name);
                     }
                     require(pLocalHouse->getCredits() == 1000, mod + " intro starting credits changed");
-                    SDL_Log("CAMPAIGN OPENING PASS: %s %s, +2 Tanks, nine Troopers, two Special spawns, twelve enemies without an initial rush",mod.c_str(),name.c_str());
+                    SDL_Log("CAMPAIGN OPENING PASS: %s %s, +2 Tanks, nine Troopers, two Special spawns, seventeen enemies without an initial rush",mod.c_str(),name.c_str());
                 }
                 game->processObjects();
                 ++scenarios;
@@ -309,7 +318,7 @@ inline void runModRuntimeSmoke() {
             pLocalPlayer = nullptr;
         }
         }
-        require(scenarios - previousScenarios == (mod == "TornieLite" ? 12 : 264),
+        require(scenarios - previousScenarios == (mods.isTornieLiteActive() ? 132 : 264),
                 mod + " campaign scenario coverage is incomplete");
         // Exercise the added factory classes and stable IDs through save/load.
         std::string terrain = "[BASIC]\nVersion=2\nTechLevel=9\n[MAP]\nSizeX=32\nSizeY=32\n";

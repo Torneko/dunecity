@@ -75,6 +75,7 @@ private:
     Checkbox startWithExploredMapCheckbox;          ///< If checked the complete map is unhidden at the beginning of the game
     Checkbox instantBuildCheckbox;                  ///< If checked the building of structures and units does not take any time
     Checkbox chaosModeCheckbox;
+    Checkbox easyModeCheckbox;
     Checkbox onlyOnePalaceCheckbox;                 ///< If checked only one palace can be build per house
     Checkbox rocketTurretsNeedPowerCheckbox;        ///< If checked rocket turrets are dysfunctional on power shortage
     Checkbox sandwormsRespawnCheckbox;              ///< If checked killed sandworms respawn after some time

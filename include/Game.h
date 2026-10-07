@@ -180,6 +180,22 @@ public:
     */
     void setGameLost();
 
+    bool hasFinished() const { return finished && !bQuitGame; }
+    bool hasWon() const { return hasFinished() && won; }
+
+    // Multiplayer saves keep their bases and colors but the lobby can assign
+    // new human names. Persist that assignment in both cooperative metadata
+    // and the setup used by the next save without changing live ownership.
+    void updateCoopParticipants(const std::string& mapData,
+        const GameInitSettings::HouseInfoList& participants) {
+        gameInitSettings.setMapData(mapData);
+        gameInitSettings.clearHouseInfo();
+        for(const auto& participant : participants) gameInitSettings.addHouseInfo(participant);
+        for(auto& setup : houseInfoListSetup)
+            for(const auto& participant : participants)
+                if(setup.houseID == participant.houseID) setup.playerInfoList = participant.playerInfoList;
+    }
+
     /**
         Draws the cursor.
     */
