@@ -1,6 +1,10 @@
-# 46 achievements — Dune Legacy Tornie 1.0.535
+# 47 Achievements — Dune Legacy Tornie 1.0.536
 
-| Achievement | Requirement |
+Commander awards, campaign conquest and Chaos Conqueror concern solo campaigns. Finishing the common campaign does not complete the factions’ solo campaigns.
+
+Local preview; personal progression is shown in the game.
+
+| Achievement | Condition |
 |---|---|
 | Pacifism | Win without destroying enemy units or structures. Captures are allowed. |
 | True Pacifist | Win without dealing damage to an opponent. |
@@ -48,3 +52,6 @@
 | Missile Barrage | Launch at least three palace missiles in a single match. |
 | Blue Harvest | Collect blue spice with a harvester. |
 | Purple Harvest | Collect purple spice with a harvester. |
+| Chaos Conqueror | Complete a campaign started with Chaos Mode enabled. |
+
+Chaos Conqueror: Chaos Mode must be enabled from the start of the campaign and remain enabled. Easy Mode can be combined with it.

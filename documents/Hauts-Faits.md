@@ -1,4 +1,8 @@
-# 46 hauts faits — Dune Legacy Tornie 1.0.535
+# 47 Hauts faits — Dune Legacy Tornie 1.0.536
+
+Les succès Commander, la conquête des campagnes et Maître du chaos concernent les campagnes solo. Terminer la campagne commune ne valide pas les campagnes solo des factions.
+
+Aperçu local ; progression personnelle dans le jeu.
 
 | Haut fait | Condition |
 |---|---|
@@ -48,3 +52,6 @@
 | Barrage de missiles | Lancer au moins trois missiles de palais dans une même partie. |
 | Récolte bleue | Collecter de l’épice bleue avec une moissonneuse. |
 | Récolte mauve | Collecter de l’épice mauve avec une moissonneuse. |
+| Maître du chaos | Terminer une campagne commencée avec le mode Chaos activé. |
+
+Maître du chaos : le Mode Chaos doit être activé dès le début de la campagne et rester actif. Le mode facile peut être combiné.

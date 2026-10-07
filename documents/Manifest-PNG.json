@@ -1,7 +1,7 @@
 {
   "project": "Dune Legacy Tornie",
-  "version": "1.0.535",
-  "sourceCommit": "9ca89b3394a0190cf8db05c0538c771fa2e6e78c",
+  "version": "1.0.536",
+  "sourceCommit": "4c26d6cc6887ab9fd0735269366829b057a52a63",
   "pngCount": 111,
   "files": [
     {
@@ -13,12 +13,14 @@
       "sources": [
         "mods/Tornie/data/advanced_power_2x3.png",
         "mods/TornieLite/data/advanced_power_2x3.png",
-        "mods/Jericho/data/advanced_power_2x3.png"
+        "mods/Jericho/data/advanced_power_2x3.png",
+        "mods/JerichoLite/data/advanced_power_2x3.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/advanced_power_2x3.png"
     },
@@ -31,12 +33,14 @@
       "sources": [
         "mods/Tornie/data/Advanced_Power_Plant.png",
         "mods/TornieLite/data/Advanced_Power_Plant.png",
-        "mods/Jericho/data/Advanced_Power_Plant.png"
+        "mods/Jericho/data/Advanced_Power_Plant.png",
+        "mods/JerichoLite/data/Advanced_Power_Plant.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Advanced_Power_Plant.png"
     },
@@ -53,7 +57,9 @@
         "mods/TornieLite/data/Worfinery.png",
         "mods/Jericho/data/BUILDING_3x2_worfinery.png",
         "mods/Jericho/data/Worfinery.png",
-        "data/BUILDING_3x2_worfinery.png"
+        "data/BUILDING_3x2_worfinery.png",
+        "mods/JerichoLite/data/BUILDING_3x2_worfinery.png",
+        "mods/JerichoLite/data/Worfinery.png"
       ],
       "distributions": [
         "Tornie",
@@ -62,7 +68,8 @@
         "TornieLite",
         "Jericho",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/BUILDING_3x2_worfinery.png"
     },
@@ -76,13 +83,15 @@
         "mods/Tornie/data/ChaniMentat.png",
         "mods/TornieLite/data/ChaniMentat.png",
         "mods/Jericho/data/ChaniMentat.png",
-        "data/ChaniMentat.png"
+        "data/ChaniMentat.png",
+        "mods/JerichoLite/data/ChaniMentat.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/05_Portraits/ChaniMentat.png"
     },
@@ -95,12 +104,14 @@
       "sources": [
         "mods/Tornie/data/ChaosFactory.png",
         "mods/TornieLite/data/ChaosFactory.png",
-        "mods/Jericho/data/ChaosFactory.png"
+        "mods/Jericho/data/ChaosFactory.png",
+        "mods/JerichoLite/data/ChaosFactory.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/ChaosFactory.png"
     },
@@ -113,12 +124,14 @@
       "sources": [
         "mods/Tornie/data/ChaosFactoryIcon.png",
         "mods/TornieLite/data/ChaosFactoryIcon.png",
-        "mods/Jericho/data/ChaosFactoryIcon.png"
+        "mods/Jericho/data/ChaosFactoryIcon.png",
+        "mods/JerichoLite/data/ChaosFactoryIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/ChaosFactoryIcon.png"
     },
@@ -132,13 +145,15 @@
         "mods/Tornie/data/ChemicalCarryall.png",
         "mods/TornieLite/data/ChemicalCarryall.png",
         "mods/Jericho/data/ChemicalCarryall.png",
-        "data/ChemicalCarryall.png"
+        "data/ChemicalCarryall.png",
+        "mods/JerichoLite/data/ChemicalCarryall.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/ChemicalCarryall.png"
     },
@@ -152,13 +167,15 @@
         "mods/Tornie/data/ChemicalCarryallIcon.png",
         "mods/TornieLite/data/ChemicalCarryallIcon.png",
         "mods/Jericho/data/ChemicalCarryallIcon.png",
-        "data/ChemicalCarryallIcon.png"
+        "data/ChemicalCarryallIcon.png",
+        "mods/JerichoLite/data/ChemicalCarryallIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/ChemicalCarryallIcon.png"
     },
@@ -171,12 +188,14 @@
       "sources": [
         "mods/Tornie/data/ChemicalSiegeTank.png",
         "mods/TornieLite/data/ChemicalSiegeTank.png",
-        "mods/Jericho/data/ChemicalSiegeTank.png"
+        "mods/Jericho/data/ChemicalSiegeTank.png",
+        "mods/JerichoLite/data/ChemicalSiegeTank.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/ChemicalSiegeTank.png"
     },
@@ -189,12 +208,14 @@
       "sources": [
         "mods/Tornie/data/ChemicalSiegeTankIcon.png",
         "mods/TornieLite/data/ChemicalSiegeTankIcon.png",
-        "mods/Jericho/data/ChemicalSiegeTankIcon.png"
+        "mods/Jericho/data/ChemicalSiegeTankIcon.png",
+        "mods/JerichoLite/data/ChemicalSiegeTankIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/ChemicalSiegeTankIcon.png"
     },
@@ -207,12 +228,14 @@
       "sources": [
         "mods/Tornie/data/Chemipost.png",
         "mods/TornieLite/data/Chemipost.png",
-        "mods/Jericho/data/Chemipost.png"
+        "mods/Jericho/data/Chemipost.png",
+        "mods/JerichoLite/data/Chemipost.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Chemipost.png"
     },
@@ -225,12 +248,14 @@
       "sources": [
         "mods/Tornie/data/ChemipostIcon.png",
         "mods/TornieLite/data/ChemipostIcon.png",
-        "mods/Jericho/data/ChemipostIcon.png"
+        "mods/Jericho/data/ChemipostIcon.png",
+        "mods/JerichoLite/data/ChemipostIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/ChemipostIcon.png"
     },
@@ -244,13 +269,15 @@
         "mods/Tornie/data/Deviator.png",
         "mods/TornieLite/data/Deviator.png",
         "mods/Jericho/data/Deviator.png",
-        "data/Deviator.png"
+        "data/Deviator.png",
+        "mods/JerichoLite/data/Deviator.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/Deviator.png"
     },
@@ -263,12 +290,14 @@
       "sources": [
         "mods/Tornie/data/DeviatorGun.png",
         "mods/TornieLite/data/DeviatorGun.png",
-        "mods/Jericho/data/DeviatorGun.png"
+        "mods/Jericho/data/DeviatorGun.png",
+        "mods/JerichoLite/data/DeviatorGun.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/DeviatorGun.png"
     },
@@ -281,12 +310,14 @@
       "sources": [
         "mods/Tornie/data/EliteLauncherGun.png",
         "mods/TornieLite/data/EliteLauncherGun.png",
-        "mods/Jericho/data/EliteLauncherGun.png"
+        "mods/Jericho/data/EliteLauncherGun.png",
+        "mods/JerichoLite/data/EliteLauncherGun.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/EliteLauncherGun.png"
     },
@@ -300,13 +331,15 @@
         "mods/Tornie/data/EliteLauncherIcon.png",
         "mods/TornieLite/data/EliteLauncherIcon.png",
         "mods/Jericho/data/EliteLauncherIcon.png",
-        "data/EliteLauncherIcon.png"
+        "data/EliteLauncherIcon.png",
+        "mods/JerichoLite/data/EliteLauncherIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/EliteLauncherIcon.png"
     },
@@ -320,13 +353,15 @@
         "mods/Tornie/data/EliteSiegeTank.png",
         "mods/TornieLite/data/EliteSiegeTank.png",
         "mods/Jericho/data/EliteSiegeTank.png",
-        "data/EliteSiegeTank.png"
+        "data/EliteSiegeTank.png",
+        "mods/JerichoLite/data/EliteSiegeTank.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/EliteSiegeTank.png"
     },
@@ -340,13 +375,15 @@
         "mods/Tornie/data/EliteSiegeTankIcon.png",
         "mods/TornieLite/data/EliteSiegeTankIcon.png",
         "mods/Jericho/data/EliteSiegeTankIcon.png",
-        "data/EliteSiegeTankIcon.png"
+        "data/EliteSiegeTankIcon.png",
+        "mods/JerichoLite/data/EliteSiegeTankIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/EliteSiegeTankIcon.png"
     },
@@ -359,12 +396,14 @@
       "sources": [
         "mods/Tornie/data/Flamepost.png",
         "mods/TornieLite/data/Flamepost.png",
-        "mods/Jericho/data/Flamepost.png"
+        "mods/Jericho/data/Flamepost.png",
+        "mods/JerichoLite/data/Flamepost.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Flamepost.png"
     },
@@ -377,12 +416,14 @@
       "sources": [
         "mods/Tornie/data/FlamepostIcon.png",
         "mods/TornieLite/data/FlamepostIcon.png",
-        "mods/Jericho/data/FlamepostIcon.png"
+        "mods/Jericho/data/FlamepostIcon.png",
+        "mods/JerichoLite/data/FlamepostIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/FlamepostIcon.png"
     },
@@ -396,13 +437,15 @@
         "mods/Tornie/data/FlameTank.png",
         "mods/TornieLite/data/FlameTank.png",
         "mods/Jericho/data/FlameTank.png",
-        "data/FlameTank.png"
+        "data/FlameTank.png",
+        "mods/JerichoLite/data/FlameTank.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/FlameTank.png"
     },
@@ -415,12 +458,14 @@
       "sources": [
         "mods/Tornie/data/FlameTankGun.png",
         "mods/TornieLite/data/FlameTankGun.png",
-        "mods/Jericho/data/FlameTankGun.png"
+        "mods/Jericho/data/FlameTankGun.png",
+        "mods/JerichoLite/data/FlameTankGun.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/FlameTankGun.png"
     },
@@ -434,13 +479,15 @@
         "mods/Tornie/data/FlameTankIcon.png",
         "mods/TornieLite/data/FlameTankIcon.png",
         "mods/Jericho/data/FlameTankIcon.png",
-        "data/FlameTankIcon.png"
+        "data/FlameTankIcon.png",
+        "mods/JerichoLite/data/FlameTankIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/FlameTankIcon.png"
     },
@@ -453,12 +500,14 @@
       "sources": [
         "mods/Tornie/data/Green_Post.png",
         "mods/TornieLite/data/Green_Post.png",
-        "mods/Jericho/data/Green_Post.png"
+        "mods/Jericho/data/Green_Post.png",
+        "mods/JerichoLite/data/Green_Post.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Green_Post.png"
     },
@@ -471,12 +520,14 @@
       "sources": [
         "mods/Tornie/data/HarvestankGun.png",
         "mods/TornieLite/data/HarvestankGun.png",
-        "mods/Jericho/data/HarvestankGun.png"
+        "mods/Jericho/data/HarvestankGun.png",
+        "mods/JerichoLite/data/HarvestankGun.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/HarvestankGun.png"
     },
@@ -489,12 +540,14 @@
       "sources": [
         "mods/Tornie/data/HarvestankIcon.png",
         "mods/TornieLite/data/HarvestankIcon.png",
-        "mods/Jericho/data/HarvestankIcon.png"
+        "mods/Jericho/data/HarvestankIcon.png",
+        "mods/JerichoLite/data/HarvestankIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/HarvestankIcon.png"
     },
@@ -585,12 +638,14 @@
       "sources": [
         "mods/Tornie/data/HeraldTharpique.png",
         "mods/TornieLite/data/HeraldTharpique.png",
-        "mods/Jericho/data/HeraldTharpique.png"
+        "mods/Jericho/data/HeraldTharpique.png",
+        "mods/JerichoLite/data/HeraldTharpique.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/04_Emblemes_des_factions/HeraldTharpique.png"
     },
@@ -619,12 +674,14 @@
       "sources": [
         "mods/Tornie/data/LoveFactory.png",
         "mods/TornieLite/data/LoveFactory.png",
-        "mods/Jericho/data/LoveFactory.png"
+        "mods/Jericho/data/LoveFactory.png",
+        "mods/JerichoLite/data/LoveFactory.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/LoveFactory.png"
     },
@@ -637,12 +694,14 @@
       "sources": [
         "mods/Tornie/data/LoveFactoryIcon.png",
         "mods/TornieLite/data/LoveFactoryIcon.png",
-        "mods/Jericho/data/LoveFactoryIcon.png"
+        "mods/Jericho/data/LoveFactoryIcon.png",
+        "mods/JerichoLite/data/LoveFactoryIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/LoveFactoryIcon.png"
     },
@@ -674,13 +733,15 @@
         "mods/Tornie/data/PalaceRebelsIcon.png",
         "mods/TornieLite/data/PalaceRebelsIcon.png",
         "mods/Jericho/data/PalaceRebelsIcon.png",
-        "data/PalaceRebelsIcon.png"
+        "data/PalaceRebelsIcon.png",
+        "mods/JerichoLite/data/PalaceRebelsIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/PalaceRebelsIcon.png"
     },
@@ -694,13 +755,15 @@
         "mods/Tornie/data/PalaceTrikeAndQuadIcon.png",
         "mods/TornieLite/data/PalaceTrikeAndQuadIcon.png",
         "mods/Jericho/data/PalaceTrikeAndQuadIcon.png",
-        "data/PalaceTrikeAndQuadIcon.png"
+        "data/PalaceTrikeAndQuadIcon.png",
+        "mods/JerichoLite/data/PalaceTrikeAndQuadIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/PalaceTrikeAndQuadIcon.png"
     },
@@ -713,12 +776,14 @@
       "sources": [
         "mods/Tornie/data/PaulAtreidesForeground.png",
         "mods/TornieLite/data/PaulAtreidesForeground.png",
-        "mods/Jericho/data/PaulAtreidesForeground.png"
+        "mods/Jericho/data/PaulAtreidesForeground.png",
+        "mods/JerichoLite/data/PaulAtreidesForeground.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/05_Portraits/PaulAtreidesForeground.png"
     },
@@ -732,13 +797,15 @@
         "mods/Tornie/data/PaulAtreidesMentat.png",
         "mods/TornieLite/data/PaulAtreidesMentat.png",
         "mods/Jericho/data/PaulAtreidesMentat.png",
-        "data/PaulAtreidesMentat.png"
+        "data/PaulAtreidesMentat.png",
+        "mods/JerichoLite/data/PaulAtreidesMentat.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/05_Portraits/PaulAtreidesMentat.png"
     },
@@ -752,13 +819,15 @@
         "mods/Tornie/data/RocketTrike.png",
         "mods/TornieLite/data/RocketTrike.png",
         "mods/Jericho/data/RocketTrike.png",
-        "data/RocketTrike.png"
+        "data/RocketTrike.png",
+        "mods/JerichoLite/data/RocketTrike.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/RocketTrike.png"
     },
@@ -772,13 +841,15 @@
         "mods/Tornie/data/RocketTrikeIcon.png",
         "mods/TornieLite/data/RocketTrikeIcon.png",
         "mods/Jericho/data/RocketTrikeIcon.png",
-        "data/RocketTrikeIcon.png"
+        "data/RocketTrikeIcon.png",
+        "mods/JerichoLite/data/RocketTrikeIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/RocketTrikeIcon.png"
     },
@@ -791,12 +862,14 @@
       "sources": [
         "mods/Tornie/data/Scoutpost.png",
         "mods/TornieLite/data/Scoutpost.png",
-        "mods/Jericho/data/Scoutpost.png"
+        "mods/Jericho/data/Scoutpost.png",
+        "mods/JerichoLite/data/Scoutpost.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Scoutpost.png"
     },
@@ -810,13 +883,15 @@
         "mods/Tornie/data/ScoutpostIcon.png",
         "mods/TornieLite/data/ScoutpostIcon.png",
         "mods/Jericho/data/ScoutpostIcon.png",
-        "data/ScoutpostIcon.png"
+        "data/ScoutpostIcon.png",
+        "mods/JerichoLite/data/ScoutpostIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/ScoutpostIcon.png"
     },
@@ -829,12 +904,14 @@
       "sources": [
         "mods/Tornie/data/SonicTrike.png",
         "mods/TornieLite/data/SonicTrike.png",
-        "mods/Jericho/data/SonicTrike.png"
+        "mods/Jericho/data/SonicTrike.png",
+        "mods/JerichoLite/data/SonicTrike.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/SonicTrike.png"
     },
@@ -847,12 +924,14 @@
       "sources": [
         "mods/Tornie/data/SonicTrikeIcon.png",
         "mods/TornieLite/data/SonicTrikeIcon.png",
-        "mods/Jericho/data/SonicTrikeIcon.png"
+        "mods/Jericho/data/SonicTrikeIcon.png",
+        "mods/JerichoLite/data/SonicTrikeIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/SonicTrikeIcon.png"
     },
@@ -865,12 +944,14 @@
       "sources": [
         "mods/Tornie/data/TechCenter.png",
         "mods/TornieLite/data/TechCenter.png",
-        "mods/Jericho/data/TechCenter.png"
+        "mods/Jericho/data/TechCenter.png",
+        "mods/JerichoLite/data/TechCenter.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/TechCenter.png"
     },
@@ -884,13 +965,15 @@
         "mods/Tornie/data/TechCenterIcon.png",
         "mods/TornieLite/data/TechCenterIcon.png",
         "mods/Jericho/data/TechCenterIcon.png",
-        "data/TechCenterIcon.png"
+        "data/TechCenterIcon.png",
+        "mods/JerichoLite/data/TechCenterIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/TechCenterIcon.png"
     },
@@ -904,13 +987,15 @@
         "mods/Tornie/data/Tornie_AdvancedWindtrap_gfx.png",
         "mods/TornieLite/data/Tornie_AdvancedWindtrap_gfx.png",
         "mods/Jericho/data/Tornie_AdvancedWindtrap_gfx.png",
-        "data/Tornie_AdvancedWindtrap_gfx.png"
+        "data/Tornie_AdvancedWindtrap_gfx.png",
+        "mods/JerichoLite/data/Tornie_AdvancedWindtrap_gfx.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/03_Batiments/Tornie_AdvancedWindtrap_gfx.png"
     },
@@ -924,13 +1009,15 @@
         "mods/Tornie/data/Tornie_AdvancedWindtrap_icon.png",
         "mods/TornieLite/data/Tornie_AdvancedWindtrap_icon.png",
         "mods/Jericho/data/Tornie_AdvancedWindtrap_icon.png",
-        "data/Tornie_AdvancedWindtrap_icon.png"
+        "data/Tornie_AdvancedWindtrap_icon.png",
+        "mods/JerichoLite/data/Tornie_AdvancedWindtrap_icon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
     },
@@ -943,12 +1030,14 @@
       "sources": [
         "mods/Tornie/data/TornieUnits.png",
         "mods/TornieLite/data/TornieUnits.png",
-        "mods/Jericho/data/TornieUnits.png"
+        "mods/Jericho/data/TornieUnits.png",
+        "mods/JerichoLite/data/TornieUnits.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/TornieUnits.png"
     },
@@ -961,12 +1050,14 @@
       "sources": [
         "mods/Tornie/data/TornieUnits2.png",
         "mods/TornieLite/data/TornieUnits2.png",
-        "mods/Jericho/data/TornieUnits2.png"
+        "mods/Jericho/data/TornieUnits2.png",
+        "mods/JerichoLite/data/TornieUnits2.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/TornieUnits2.png"
     },
@@ -979,12 +1070,14 @@
       "sources": [
         "mods/Tornie/data/TornieUnits2Flame.png",
         "mods/TornieLite/data/TornieUnits2Flame.png",
-        "mods/Jericho/data/TornieUnits2Flame.png"
+        "mods/Jericho/data/TornieUnits2Flame.png",
+        "mods/JerichoLite/data/TornieUnits2Flame.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "url": "assets/png/02_Sprites_des_unites/TornieUnits2Flame.png"
     },
@@ -998,13 +1091,15 @@
         "mods/Tornie/data/WorfineryIcon.png",
         "mods/TornieLite/data/WorfineryIcon.png",
         "mods/Jericho/data/WorfineryIcon.png",
-        "data/WorfineryIcon.png"
+        "data/WorfineryIcon.png",
+        "mods/JerichoLite/data/WorfineryIcon.png"
       ],
       "distributions": [
         "Tornie",
         "TornieLite",
         "Jericho",
-        "Commun"
+        "Commun",
+        "JerichoLite"
       ],
       "url": "assets/png/01_Icones_pour_le_site/WorfineryIcon.png"
     },
@@ -1015,10 +1110,12 @@
       "transparent": false,
       "sha256": "8c837ff89cba81b32af8bdedc79238308289f84d5740d1a2c59cf27b30ef3dae",
       "sources": [
-        "mods/TornieLite/data/HeraldRebels.png"
+        "mods/TornieLite/data/HeraldRebels.png",
+        "mods/JerichoLite/data/HeraldRebels.png"
       ],
       "distributions": [
-        "TornieLite"
+        "TornieLite",
+        "JerichoLite"
       ],
       "url": "assets/png/04_Emblemes_des_factions/HeraldRebels__TornieLite.png"
     },
@@ -2175,7 +2272,8 @@
       "sources": [
         "mods/Tornie/data/advanced_power_2x3.png",
         "mods/TornieLite/data/advanced_power_2x3.png",
-        "mods/Jericho/data/advanced_power_2x3.png"
+        "mods/Jericho/data/advanced_power_2x3.png",
+        "mods/JerichoLite/data/advanced_power_2x3.png"
       ],
       "width": 64,
       "height": 96,
@@ -2183,7 +2281,8 @@
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "transparent": false
     },
@@ -2194,7 +2293,8 @@
       "sources": [
         "mods/Tornie/data/Advanced_Power_Plant.png",
         "mods/TornieLite/data/Advanced_Power_Plant.png",
-        "mods/Jericho/data/Advanced_Power_Plant.png"
+        "mods/Jericho/data/Advanced_Power_Plant.png",
+        "mods/JerichoLite/data/Advanced_Power_Plant.png"
       ],
       "width": 96,
       "height": 64,
@@ -2202,7 +2302,8 @@
       "distributions": [
         "Tornie",
         "TornieLite",
-        "Jericho"
+        "Jericho",
+        "JerichoLite"
       ],
       "transparent": false
     },
@@ -2229,7 +2330,7 @@
       "width": 2172,
       "height": 724,
       "transparent": true,
-      "sha256": "7586f3fabbf05869c64593086030a0c086e180c8fe3ed24f8776efcc2b4c637c",
+      "sha256": "456f8b279817e7ddfa41e7985771bd4d8334df621c44feceafbac1ad2905cbc8",
       "sources": [
         "mods/Tornie/data/MentatCat_Wildspade_Eyes.png",
         "mods/Jericho/data/MentatCat_Wildspade_Eyes.png"
@@ -2238,7 +2339,7 @@
         "Tornie",
         "Jericho"
       ],
-      "description": "Generated facial atlas; fitted at runtime by the game."
+      "description": "Five original animation states, with RGB darkened by 8%; size, crop coordinates and alpha preserved."
     },
     {
       "file": "05_Portraits/MentatCat_Wildspade_Mouth.png",
@@ -2246,7 +2347,7 @@
       "width": 1983,
       "height": 793,
       "transparent": true,
-      "sha256": "4b54df7ac5fc43a2dc070e2a0cbcd0f6dc6d63918791cb3dd0806586732121b1",
+      "sha256": "96384f7caaae5065d4e22d3b7084132e697db3510324f9a33a449dac75fb3a26",
       "sources": [
         "mods/Tornie/data/MentatCat_Wildspade_Mouth.png",
         "mods/Jericho/data/MentatCat_Wildspade_Mouth.png"
@@ -2255,7 +2356,7 @@
         "Tornie",
         "Jericho"
       ],
-      "description": "Generated facial atlas; fitted at runtime by the game."
+      "description": "Five original animation states, with RGB darkened by 8%; size, crop coordinates and alpha preserved."
     }
   ],
   "vanillaExports": {
@@ -2266,6 +2367,7 @@
     "unitEntriesIllustrated": 19,
     "buildingEntriesIllustrated": 19
   },
-  "localChanges": false,
-  "count": 111
+  "localChanges": true,
+  "count": 111,
+  "releaseStatus": "local-preview"
 }

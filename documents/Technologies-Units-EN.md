@@ -1,11 +1,13 @@
-# Dune Legacy Tornie 1.0.535 — Unit technologies
+# Dune Legacy Tornie 1.0.536 — Unit technologies
 
-Chaos Mode: OFF.
+Chaos and Easy Mode disabled; version 1.0.536.
+
+Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), in campaigns only.
 
 ## Vanilla — Harkonnen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | — | Barracks | 0 | — | — |
 | Trooper | 2 | WOR | 0 | — | — |
 | Quad | 3 | Light Factory | 0 | — | — |
@@ -20,7 +22,7 @@ Chaos Mode: OFF.
 ## Vanilla — Atreides
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | — | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -37,7 +39,7 @@ Chaos Mode: OFF.
 ## Vanilla — Ordos
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
@@ -54,7 +56,7 @@ Chaos Mode: OFF.
 ## Vanilla — Fremen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -73,7 +75,7 @@ Chaos Mode: OFF.
 ## Vanilla — Sardaukar
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 3 | Light Factory | 0 | — | — |
@@ -89,10 +91,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Vanilla — Mercenaires
+## Vanilla — Mercenary
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -108,10 +110,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Vanilla — Neutres
+## Vanilla — Neutral
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -127,10 +129,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Vanilla — Rebelles
+## Vanilla — Rebels
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -149,7 +151,7 @@ Chaos Mode: OFF.
 ## Vanilla — Kleshmersh
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Trooper | 5 | WOR | 0 | — | — |
 | Trike | 2 | Light Factory | 0 | — | — |
@@ -168,7 +170,7 @@ Chaos Mode: OFF.
 ## Tornie — Harkonnen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | — | Barracks | 0 | — | — |
 | Soldiers (5) | — | Barracks | 2 | — | 180 |
 | Trooper | 2 | WOR | 0 | — | — |
@@ -190,7 +192,7 @@ Chaos Mode: OFF.
 ## Tornie — Atreides
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -216,7 +218,7 @@ Chaos Mode: OFF.
 ## Tornie — Ordos
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -241,7 +243,7 @@ Chaos Mode: OFF.
 ## Tornie — Fremen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -267,7 +269,7 @@ Chaos Mode: OFF.
 ## Tornie — Sardaukar
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -290,10 +292,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Tornie — Mercenaires
+## Tornie — Mercenary
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -316,10 +318,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Tornie — Neutres
+## Tornie — Neutral
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -341,10 +343,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Tornie — Rebelles
+## Tornie — Rebels
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -370,7 +372,7 @@ Chaos Mode: OFF.
 ## Tornie — Corruptique
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -399,7 +401,7 @@ Chaos Mode: OFF.
 ## Tornie — Wildspade
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -420,12 +422,12 @@ Chaos Mode: OFF.
 | Elite Launcher | 7 | Heavy Factory | 0 | House IX | — |
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Chemical Carryall | 6 | Hightech Factory | 1 | — | — |
-| Ornithopter | 7 | Hightech Factory | 2 | House IX | — |
+| Ornithopter | 7 | Hightech Factory | 2 | House IX | 550 |
 
 ## Tornie — Kleshmersh
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -451,7 +453,7 @@ Chaos Mode: OFF.
 ## Tornie — Tharpique
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -476,10 +478,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## TornieLite — Harkonnen
+## Tornie Lite — Harkonnen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | — | Barracks | 0 | — | — |
 | Soldiers (5) | — | Barracks | 2 | — | 180 |
 | Trooper | 2 | WOR | 0 | — | — |
@@ -499,10 +501,10 @@ Chaos Mode: OFF.
 | Flame Tank | 7 | Heavy Factory | 0 | House IX | — |
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 
-## TornieLite — Atreides
+## Tornie Lite — Atreides
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -526,10 +528,10 @@ Chaos Mode: OFF.
 | Chemical Carryall | — | Hightech Factory | 2 | House IX | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## TornieLite — Ordos
+## Tornie Lite — Ordos
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -552,10 +554,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## TornieLite — Fremen
+## Tornie Lite — Fremen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -579,10 +581,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## TornieLite — Sardaukar
+## Tornie Lite — Sardaukar
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -605,10 +607,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## TornieLite — Mercenaires
+## Tornie Lite — Mercenary
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -636,7 +638,7 @@ Chaos Mode: OFF.
 ## Jericho — Harkonnen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | — | Barracks | 0 | — | — |
 | Soldiers (5) | — | Barracks | 2 | — | 180 |
 | Trooper | 2 | WOR | 0 | — | — |
@@ -658,7 +660,7 @@ Chaos Mode: OFF.
 ## Jericho — Atreides
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -683,7 +685,7 @@ Chaos Mode: OFF.
 ## Jericho — Ordos
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -708,7 +710,7 @@ Chaos Mode: OFF.
 ## Jericho — Fremen
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -734,7 +736,7 @@ Chaos Mode: OFF.
 ## Jericho — Sardaukar
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -757,10 +759,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Jericho — Mercenaires
+## Jericho — Mercenary
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -786,7 +788,7 @@ Chaos Mode: OFF.
 ## Jericho — Wildspade
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -807,12 +809,12 @@ Chaos Mode: OFF.
 | Elite Launcher | 7 | Heavy Factory | 0 | House IX | — |
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Chemical Carryall | 6 | Hightech Factory | 1 | — | — |
-| Ornithopter | 7 | Hightech Factory | 2 | House IX | — |
+| Ornithopter | 7 | Hightech Factory | 2 | House IX | 550 |
 
 ## Jericho — Kleshmersh
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -838,7 +840,7 @@ Chaos Mode: OFF.
 ## Jericho — Tharpique
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -863,10 +865,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Jericho — Neutres
+## Jericho — Neutral
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -888,10 +890,10 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
-## Jericho — Rebelles
+## Jericho — Rebels
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -917,7 +919,7 @@ Chaos Mode: OFF.
 ## Jericho — Corruptique
 
 | Unit | Level | Building | Upgrade | Prerequisites | Credits |
-| --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|
 | Soldier | 2 | Barracks | 0 | — | — |
 | Infantry Squad | 2 | Barracks | 1 | — | — |
 | Soldiers (5) | 4 | Barracks | 2 | — | 180 |
@@ -943,3 +945,159 @@ Chaos Mode: OFF.
 | Carryall | 5 | Hightech Factory | 0 | — | — |
 | Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
 
+## Jericho Lite — Harkonnen
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | — | Barracks | 0 | — | — |
+| Soldiers (5) | — | Barracks | 2 | — | 180 |
+| Trooper | 2 | WOR | 0 | — | — |
+| Trooper | 5 | Worfinery | 0 | — | — |
+| Trooper Squad | 4 | WOR | 1 | — | — |
+| Trooper Squad | 5 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Quad | 3 | Light Factory | 0 | — | — |
+| Rocket Trike | 3 | Light Factory | 0 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 5 | Worfinery | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 3 | — | — |
+| Devastator | 7 | Heavy Factory | 0 | House IX | — |
+| Flame Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+
+## Jericho Lite — Atreides
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | 2 | Barracks | 0 | — | — |
+| Infantry Squad | 2 | Barracks | 1 | — | — |
+| Soldiers (5) | 4 | Barracks | 2 | — | 180 |
+| Trooper | 6 | WOR | 0 | — | — |
+| Trooper | 6 | Worfinery | 0 | — | — |
+| Trooper Squad | 7 | WOR | 1 | — | — |
+| Trooper Squad | 6 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Trike | 2 | Light Factory | 0 | — | — |
+| Quad | 3 | Light Factory | 1 | — | — |
+| Sonic Trike | 2 | Light Factory | 0 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 6 | Worfinery | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 3 | — | — |
+| Sonic Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Elite Launcher | 7 | Heavy Factory | 0 | House IX | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+| Chemical Carryall | — | Hightech Factory | 2 | House IX | — |
+| Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
+
+## Jericho Lite — Ordos
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | 2 | Barracks | 0 | — | — |
+| Infantry Squad | 2 | Barracks | 1 | — | — |
+| Soldiers (5) | 4 | Barracks | 2 | — | 180 |
+| Trooper | 5 | WOR | 0 | — | — |
+| Trooper | 5 | Worfinery | 0 | — | — |
+| Trooper Squad | 5 | WOR | 1 | — | — |
+| Trooper Squad | 5 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Raider Trike | 2 | Light Factory | 0 | — | — |
+| Quad | 3 | Light Factory | 1 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 5 | Worfinery | 0 | — | — |
+| Harvestank | 4 | Heavy Factory | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 2 | — | — |
+| Deviator | 7 | Heavy Factory | 0 | House IX | — |
+| Elite Siege Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+| Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
+
+## Jericho Lite — Fremen
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | 2 | Barracks | 0 | — | — |
+| Infantry Squad | 2 | Barracks | 1 | — | — |
+| Soldiers (5) | 4 | Barracks | 2 | — | 180 |
+| Trooper | 5 | WOR | 0 | — | — |
+| Trooper | 5 | Worfinery | 0 | — | — |
+| Trooper Squad | 5 | WOR | 1 | — | — |
+| Trooper Squad | 5 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 375 |
+| Trike | 2 | Light Factory | 0 | — | — |
+| Raider Trike | 2 | Light Factory | 0 | — | — |
+| Quad | 3 | Light Factory | 1 | — | — |
+| Sonic Trike | 2 | Light Factory | 0 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 5 | Worfinery | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 3 | — | — |
+| Flame Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Elite Siege Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+| Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
+
+## Jericho Lite — Sardaukar
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | 2 | Barracks | 0 | — | — |
+| Infantry Squad | 2 | Barracks | 1 | — | — |
+| Soldiers (5) | 4 | Barracks | 2 | — | 180 |
+| Trooper | 5 | WOR | 0 | — | — |
+| Trooper | 5 | Worfinery | 0 | — | — |
+| Trooper Squad | 5 | WOR | 1 | — | — |
+| Trooper Squad | 5 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 450 |
+| Trike | 2 | Light Factory | 0 | — | — |
+| Raider Trike | 2 | Light Factory | 0 | — | — |
+| Quad | 3 | Light Factory | 1 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 5 | Worfinery | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 3 | — | — |
+| Devastator | 7 | Heavy Factory | 0 | House IX | — |
+| Sonic Tank | 7 | Heavy Factory | 0 | House IX | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+| Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
+
+## Jericho Lite — Mercenary
+
+| Unit | Level | Building | Upgrade | Prerequisites | Credits |
+|---|---|---|---|---|---|
+| Soldier | 2 | Barracks | 0 | — | — |
+| Infantry Squad | 2 | Barracks | 1 | — | — |
+| Soldiers (5) | 4 | Barracks | 2 | — | 180 |
+| Trooper | 5 | WOR | 0 | — | — |
+| Trooper | 5 | Worfinery | 0 | — | — |
+| Trooper Squad | 5 | WOR | 1 | — | — |
+| Trooper Squad | 5 | Worfinery | 0 | — | — |
+| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Trike | 2 | Light Factory | 0 | — | — |
+| Raider Trike | 2 | Light Factory | 0 | — | — |
+| Quad | 3 | Light Factory | 1 | — | — |
+| Rocket Trike | 2 | Light Factory | 0 | — | — |
+| Harvester | 4 | Heavy Factory | 0 | — | — |
+| Harvester | 5 | Worfinery | 0 | — | — |
+| MCV | 4 | Heavy Factory | 1 | — | — |
+| Tank | 4 | Heavy Factory | 0 | — | — |
+| Launcher | 5 | Heavy Factory | 2 | — | — |
+| Siege Tank | 6 | Heavy Factory | 3 | — | — |
+| Devastator | 7 | Heavy Factory | 0 | House IX | — |
+| Deviator | 7 | Heavy Factory | 0 | House IX | — |
+| Chemical Siege Tank | 9 | Heavy Factory | 4 | — | — |
+| Carryall | 5 | Hightech Factory | 0 | — | — |
+| Ornithopter | 7 | Hightech Factory | 1 | House IX | — |
