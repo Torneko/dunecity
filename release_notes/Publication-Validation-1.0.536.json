@@ -1,0 +1,219 @@
+{
+  "version": "1.0.536",
+  "status": "published",
+  "sourceCommit": "4c26d6cc6887ab9fd0735269366829b057a52a63",
+  "validatedAt": "2026-10-07T23:13:12.774984+00:00",
+  "release": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536",
+  "ci": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37697974701",
+  "website": {
+    "version": "1.0.536",
+    "passed": true,
+    "sourceCommit": "4c26d6cc6887ab9fd0735269366829b057a52a63",
+    "french": "https://torneko.github.io/dunelegacy-tornie/",
+    "english": "https://torneko.github.io/dunelegacy-tornie/index-en.html",
+    "browser": "Chrome headless",
+    "checks": [
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "factions?mod=JerichoLite"
+      },
+      {
+        "language": "fr",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "accueil"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "projet"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "guide"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "hauts-faits"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "factions?mod=JerichoLite"
+      },
+      {
+        "language": "fr",
+        "width": 390,
+        "route": "galerie"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "accueil"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "projet"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "guide"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "hauts-faits"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "factions?mod=JerichoLite"
+      },
+      {
+        "language": "en",
+        "width": 1440,
+        "route": "galerie"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "accueil"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "projet"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "guide"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "hauts-faits"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "factions?mod=JerichoLite"
+      },
+      {
+        "language": "en",
+        "width": 390,
+        "route": "galerie"
+      }
+    ],
+    "downloads": [
+      {
+        "file": "DuneLegacyTornie-1.0.536-Windows-x64.zip",
+        "status": 200,
+        "bytes": 52427294
+      },
+      {
+        "file": "documents/Notes-1.0.536.md",
+        "status": 200
+      },
+      {
+        "file": "documents/Notes-1.0.536-EN.md",
+        "status": 200
+      },
+      {
+        "file": "documents/Cooperative-Campaign-1.0.536.md",
+        "status": 200
+      },
+      {
+        "file": "documents/Cooperative-Campaign-1.0.536-EN.md",
+        "status": 200
+      },
+      {
+        "file": "documents/PNG-du-jeu.zip",
+        "status": 200
+      },
+      {
+        "file": "documents/Game-PNG-EN.zip",
+        "status": 200
+      }
+    ],
+    "errors": [],
+    "humanTwoComputerCoopTest": "pending"
+  },
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.536-Sources.zip",
+      "bytes": 51589035,
+      "sha256": "08ca39c1d45bf0c688dcfa173a9a923d2bbb6d118958aa31db1d4a1f6820f739"
+    },
+    {
+      "file": "DuneLegacyTornie-Site-Local-1.0.536.zip",
+      "bytes": 60052536,
+      "sha256": "594cd784b6bdac5c2413b7e26725632cf69223c5f9aebb701f3082de76091729"
+    }
+  ],
+  "windows": {
+    "file": "DuneLegacyTornie-1.0.536-Windows-x64.zip",
+    "bytes": 52427294,
+    "sha256": "18efee50d0de8e7817ea1ba19e1e01c2f97d959761e6694aa98a64e79f28c669"
+  },
+  "linux": [
+    {
+      "file": "DuneLegacyTornie-1.0.536-Linux-x64.deb",
+      "bytes": 41332562,
+      "sha256": "057ba501bd141422349f6a478e9281ffa6d862d7e352b9a1316f9995780c2024"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.536-Linux-x64.rpm",
+      "bytes": 41249991,
+      "sha256": "aaf094035a1d70f796ed7fbd1cd3ec9dc6f2f9eb8a5bc507496537ceb98ff9c2"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.536-Linux-x64.tar.gz",
+      "bytes": 41669179,
+      "sha256": "b3c0392e088dcb8a7bd33dc59bc9c40485e3e4a76a8d1c01854a6c6b1204cc9e"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.536-Linux-x86_64.AppImage",
+      "bytes": 33028600,
+      "sha256": "58236b4fa72e560de8061ca8a43ef9dcf9302ad84a4f51a64adfc23b07cd599c"
+    }
+  ],
+  "humanTwoComputerCoopTest": "pending",
+  "websiteCommit": "a39cecfa007131e107b184eec5092b84960599d8",
+  "pagesBuild": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37700593303",
+  "canonicalVersionCheck": "Passed locally with scripts/bump-version.sh --check and in tag run verify-version.",
+  "duplicateTagBuild": {
+    "run": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37700406702",
+    "stopped": true,
+    "reason": "The exact same source was already validated in run 37697974701. Cancelled the extra rebuild/upload to retain the tested published archives and matching website/package checksums."
+  }
+}

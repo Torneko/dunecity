@@ -70,7 +70,7 @@ Achievement checkpoints preserve the missile count and spice awards across game 
 
 ## Main goals
 
-The local 1.0.536 project includes 47 internal offline achievements, cumulative local
+The 1.0.536 project includes 47 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Achievement
 profiles remain separate from mission saves. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).

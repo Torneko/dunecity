@@ -6,7 +6,24 @@ Tornie requests that every game update also update the French and English websit
 
 The French/English 1.0.536 website was updated from the published `origin/gh-pages` 1.0.535 tree. It covers Easy Mode, Jericho Lite, revised intro opposition, Ornithopter behavior and Wildspade's price, darker mentat overlays, 47 achievements and the independent nine-mission cooperative campaign. Raider Trike and Rocket Trike prices use black numbers on their light portraits; added backgrounds/borders are removed for all prices and the other prices retain their usual color. Jericho Lite enables the four Jericho spice families by default with matching colors and effects; its six opening missions copy Tornie Lite except for their remapped opponents. New co-op campaigns follow the host faction's original campaign, with 405 variants from 45 sources, a nearby deployable MCV and matching starting forces for the guest, original opponents (up to five in Vanilla) and shared harvest objectives. Older sessions keep the 45 previous layouts. Guides retain identical faction choices, separate ownership/progress/checkpoints and protocol 5. Solo Commander/Chaos Conqueror awards are distinguished from faction victories that also support multiplayer.
 
-The local/offline site passed 180 desktop/mobile browser checks across both languages, source files, the ZIP extraction and HTTP preview, with no JavaScript, missing-image or overflow failures. The release package is `DuneLegacyTornie-Site-Local-1.0.536.zip`. Publication updates both language entries and download links to 1.0.536. A human co-op match between two computers remains pending; the release includes co-op for playtesting. Record the final game/site commits, CI runs and package hashes after publication.
+The local/offline site passed 180 desktop/mobile browser checks across both languages, source files, the ZIP extraction and HTTP preview, with no JavaScript, missing-image or overflow failures. The release package is `DuneLegacyTornie-Site-Local-1.0.536.zip`. Published French/English entries and download links now identify 1.0.536. A human co-op match between two computers remains pending; the release includes co-op for playtesting. Publication details and package hashes are recorded below and in `release_notes/Publication-Validation-1.0.536.json`.
+
+## Published 1.0.536 baseline — 2026-10-07
+
+- Release: https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536
+- Tagged/tested source: `4c26d6cc6887ab9fd0735269366829b057a52a63`; merged into `dunelegacy-tornie` through PR #8.
+- Website: `a39cecfa007131e107b184eec5092b84960599d8` on `gh-pages`.
+- Windows/Linux build, engine, installed FR/EN runtime and locale checks: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37697974701 — success.
+- GitHub Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37700593303 — success.
+- Offline/site browser verification: 180 local/file/HTTP desktop/mobile checks and 24 live FR/EN checks, plus seven live download checks.
+- Windows ZIP SHA-256: `18efee50d0de8e7817ea1ba19e1e01c2f97d959761e6694aa98a64e79f28c669`.
+- Offline website ZIP SHA-256: `594cd784b6bdac5c2413b7e26725632cf69223c5f9aebb701f3082de76091729`.
+
+The release uses the archives from the successful build above. The website and offline ZIP embed that exact Windows archive. Creating the tag started a second build of identical code; its version check passed, then the duplicate compilation/upload was cancelled to preserve these audited files. Source tags, release assets and their GitHub SHA-256 digests were checked. Reports accompany the release and are tracked under `release_notes/`.
+
+A human two-computer co-op match remains pending, as accepted by Tornie for this publication. Both players need 1.0.536 and the same mod. The release documents co-op as available for playtesting.
+
+Use this `origin/gh-pages` tree or the 1.0.536 offline package as the next website baseline on either PC.
 
 ## Current locations
 

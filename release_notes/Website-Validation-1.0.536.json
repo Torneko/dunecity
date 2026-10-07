@@ -1,0 +1,1105 @@
+{
+  "version": "1.0.536",
+  "status": "published",
+  "published": true,
+  "coOpStatus": "playtesting",
+  "networkProtocol": 5,
+  "twoComputerPlaytest": "pending",
+  "browser": "Chrome headless",
+  "checks": [
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.536/dist/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Vanilla"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Tornie"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "campaign": "Jericho"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "campaign": "TornieLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "campaign": "JerichoLite"
+    },
+    {
+      "source": "http://127.0.0.1:8768/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true
+    }
+  ],
+  "errors": [],
+  "liveValidated": true
+}
