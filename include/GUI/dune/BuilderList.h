@@ -22,6 +22,10 @@
 #include <GUI/PictureButton.h>
 #include <GUI/TextButton.h>
 #include <misc/SDL2pp.h>
+#include <map>
+#include <vector>
+
+class BuildItem;
 
 #define ARROWBTN_WIDTH 48
 #define ARROWBTN_HEIGHT 16
@@ -129,6 +133,11 @@ public:
         return tmp;
     }
 
+    SDL_Texture* getProductionPortrait(int item) const {
+        const auto found = productionPortraits.find(item);
+        return found == productionPortraits.end() ? nullptr : found->second.get();
+    }
+    int getItemIDFromIndex(int i) const;
     BuilderList(const BuilderList &) = delete;
     BuilderList(BuilderList &&) = delete;
     BuilderList& operator=(const BuilderList &) = delete;
@@ -141,7 +150,7 @@ private:
     int getNumButtons(int height);
     Point getButtonPosition(int BtnNumber);
     int getButton(int x, int y);
-    int getItemIDFromIndex(int i) const;
+    std::vector<const BuildItem*> getDisplayItems() const;
 
     void onUp();
     void onDown();
@@ -158,6 +167,7 @@ private:
     int mouseLeftButton;
     int mouseRightButton;
 
+    std::map<int, sdl2::texture_ptr> productionPortraits;
     sdl2::texture_ptr    pSoldOutTextTexture;
     sdl2::texture_ptr    pAlreadyBuiltTextTexture;
     sdl2::texture_ptr    pPlaceItTextTexture;

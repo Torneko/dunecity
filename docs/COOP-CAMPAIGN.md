@@ -1,4 +1,6 @@
-# Campagne coop commune — 1.0.537
+# Campagne coop commune — 1.0.538
+
+Tornie a confirmé le bon fonctionnement de la coop 1.0.538 sur deux PC (2026-10-09).
 
 [English guide](COOP-CAMPAIGN-EN.md)
 
@@ -18,7 +20,7 @@ Factions disponibles : 12 dans Tornie et Jericho, 6 dans Tornie Lite et Jericho 
 
 ## Créer et rejoindre une partie
 
-1. Utiliser la **même version 1.0.537** sur les deux PC. Son protocole réseau est la version **6**. La 1.0.536 utilise un autre protocole réseau et ne peut pas rejoindre ce lobby.
+1. Utiliser la **même version 1.0.538** sur les deux PC. Son protocole réseau est la version **7**. La 1.0.536 utilise un autre protocole réseau et ne peut pas rejoindre ce lobby.
 2. Activer la même édition dans le menu **Mods**. Utiliser deux noms de joueur différents.
 3. Ouvrir **Campagne coop**, puis choisir le navigateur LAN ou Internet. L’hôte crée la partie et choisit **Nouvelle campagne**. Le second joueur rejoint sa partie depuis le navigateur ou la connexion par adresse.
 4. Dans le lobby, connecter un invité ou sélectionner une IA au deuxième emplacement, puis choisir les factions. L’hôte peut régler le type et la difficulté de chaque IA adverse. Les factions peuvent être identiques. Les deux joueurs sont alliés ; les places adverses restent contrôlées par l’IA.
@@ -62,7 +64,35 @@ Au deuxième emplacement, l’hôte peut choisir une IA qBot, Mentat, SmartBot o
 
 ## Options et hauts faits
 
-Le **Mode facile** reste réservé aux campagnes solo : son départ à la mission 2, ses 500 crédits et ses réductions de coût ne s’appliquent pas à la coop. Les deux joueurs et leurs adversaires utilisent les prix normaux de l’édition.
+## Nouveautés locales 1.0.538
+
+Deux options de lobby sont désactivées par défaut : **Mode facile** et **Forces ennemies +5**.
+Le mode facile commence une nouvelle campagne à la mission 2. Chacun des deux alliés,
+humain ou IA, reçoit 500 crédits supplémentaires au départ de cette mission seulement.
+Leurs achats d’unités et de bâtiments coûtent 25 crédits de moins (minimum 1) pendant
+la campagne. Les ennemis ne reçoivent ni crédits ni réduction.
+
+Forces ennemies +5 ajoute cinq unités adaptées à la technologie par adversaire présent
+à chaque mission, près de ses bâtiments ou forces. Un adversaire arrivant uniquement
+par renforts reçoit ses unités sur une bordure opposée à la base principale. Les unités
+commencent en garde de zone. Les adversaires absents de la mission ne reçoivent rien.
+
+Les renforts destinés au premier joueur sont aussi envoyés au second allié, avec le
+même nombre, le même moment, le même lieu relatif et la même répétition. Une unité
+indisponible est adaptée à la faction alliée. Les renforts et forces déjà enregistrés
+dans un checkpoint sont restaurés, jamais ajoutés une seconde fois.
+
+**Ensemble sur Arrakis / COOP_CONQUEROR** demande de terminer toutes les étapes de la
+campagne commune, avec un humain ou une IA. Le mode facile autorise le saut de l’intro.
+Le déblocage reste local et une session terminée ne compte qu’une fois dans le cumul.
+Les succès des campagnes solo gardent leurs conditions.
+
+Les deux PC doivent utiliser **1.0.538**, protocole **7**. Les nouvelles sauvegardes
+portent la version **9829** ; les anciennes restent lisibles avec leurs forces et
+renforts enregistrés. Commencer une nouvelle campagne ou passer à la mission suivante
+pour profiter des nouveaux renforts. Cette préparation reste locale ; la version
+publique est 1.0.537. La coop sur deux PC est confirmée par Tornie. Mint 22.3 / noyau 7.0 reste à essayer.
+
 
 Le lobby propose le **Mode Chaos**, désactivé par défaut, dans les quatre mods ; Vanilla le désactive. Le tirage utilise une graine commune et les règles sont identiques sur les deux PC. Les sauvegardes conservent les règles de la mission.
 
@@ -70,7 +100,7 @@ Les hauts faits **Commander**, la conquête des campagnes et **Maître du chaos 
 
 ## État de validation et maintenance
 
-Tornie a testé la coop sur ses deux PC. La révision 1.0.537 corrige les problèmes signalés et ajoute les nouvelles options. Le chargement des sauvegardes depuis le lobby a été confirmé fonctionnel par Tornie. Les réglages et les reprises passent les tests automatisés Windows/Linux ; les essais prolongés restent utiles.
+Validation humaine précédente : Tornie a confirmé le chargement des sauvegardes du lobby en 1.0.537. Cette version 1.0.538 demande de nouveaux essais.
 
 Les templates de campagne d’origine sont dans `coop/faction<id>/coopNN.ini` sous `data/` pour Vanilla et `mods/<mod>/campaign/` pour les mods. Les 45 templates précédents à la racine sont conservés pour les anciennes sessions. `scripts/build-coop-campaign.py --check` vérifie les 405 variantes sources et les cartes précédentes ; `--write` actualise uniquement les templates coop et les checksums. Le cache `config/CoopCampaignTerrain.json` est calculé par l’algorithme `MapSeed.cpp` du jeu.
 

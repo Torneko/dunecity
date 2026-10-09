@@ -141,7 +141,7 @@ TEST_CASE_METHOD(Fixture,"A damaged or newer profile is preserved rather than ov
     std::ifstream in(path);const std::string text(std::istreambuf_iterator<char>(in),{});REQUIRE(text.find("Protected=original")!=std::string::npos);
 }
 TEST_CASE_METHOD(Fixture,"Catalog ships every proposed achievement and notifications fire once","[achievements]"){
-    REQUIRE(manager.definitions().size()==47);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
+    REQUIRE(manager.definitions().size()==67);REQUIRE(manager.unlock("PACIFISM"));REQUIRE_FALSE(manager.unlock("PACIFISM"));
     REQUIRE(manager.takeNotification()=="PACIFISM");REQUIRE(manager.takeNotification().empty());REQUIRE_FALSE(manager.unlock("UNKNOWN"));
 }
 TEST_CASE_METHOD(Fixture,"Extra factions complete a campaign without replacing the eight required houses","[achievements]"){
@@ -280,4 +280,60 @@ TEST_CASE_METHOD(Fixture,"Chaos campaign checkpoints preserve eligibility and ca
     AchievementManager resumed;REQUIRE(resumed.configure("",(dir/"achievements.ini").u8string()));
     resumed.begin(info,"chaos-finale",true);resumed.finish(true,false);
     REQUIRE(resumed.unlocked("CHAOS_CONQUEROR")==expected);
+}
+
+TEST_CASE_METHOD(Fixture,"Missile awards distinguish a missed strike and a single demolition strike","[achievements]") {
+    manager.missileResult(true, 2);
+    REQUIRE_FALSE(manager.unlocked("DEMOLITION_STRIKE"));
+    REQUIRE_FALSE(manager.unlocked("FUEL_WASTE"));
+    manager.missileResult(true, 1);
+    REQUIRE_FALSE(manager.unlocked("DEMOLITION_STRIKE")); // Different strikes cannot combine.
+    manager.missileResult(false, 0);
+    REQUIRE(manager.unlocked("FUEL_WASTE"));
+    manager.missileResult(true, 3);
+    REQUIRE(manager.unlocked("DEMOLITION_STRIKE"));
+    manager.checkpoint("missile-result");
+    manager.begin(info,"missile-result",true);
+    REQUIRE(manager.statistic("BestMissileStructures") == 3);
+    manager.finish(false,true); manager.missileResult(false,0);
+    REQUIRE(manager.statistic("EmptyMissiles") == 1);
+}
+TEST_CASE_METHOD(Fixture,"Cooperative completion requires the complete shared campaign and counts once","[achievements]") {
+    info.mode=Mode::Multiplayer; info.coopSession="common-123";
+    manager.begin(info); manager.finish(true,false);
+    REQUIRE_FALSE(manager.unlocked("COOP_CONQUEROR"));
+    info.coopCompletionEligible=true; manager.begin(info); manager.finish(false,true);
+    REQUIRE_FALSE(manager.unlocked("COOP_CONQUEROR"));
+    manager.begin(info); manager.checkpoint("final-coop"); manager.finish(true,false);
+    REQUIRE(manager.unlocked("COOP_CONQUEROR"));
+    REQUIRE(manager.statistic("CoopCampaignsCompleted")==1);
+    manager.begin(info,"final-coop",true); manager.finish(true,false);
+    REQUIRE(manager.statistic("CoopCampaignsCompleted")==1);
+    info.coopSession="common-456"; manager.begin(info); manager.finish(true,false);
+    REQUIRE(manager.statistic("CoopCampaignsCompleted")==2);
+}
+TEST_CASE_METHOD(Fixture,"Mission score tiers and score total cannot be farmed by reloading","[achievements]") {
+    info.mode=Mode::Campaign; info.mission=8; manager.begin(info); manager.checkpoint("score");
+    manager.finish(true,false); manager.campaignScore(1500);
+    REQUIRE(manager.unlocked("ELITE_SCORE")); REQUIRE_FALSE(manager.unlocked("LEGENDARY_SCORE"));
+    REQUIRE(manager.statistic("CampaignScoreTotal")==1500);
+    manager.begin(info,"score",true); manager.finish(true,false); manager.campaignScore(1500);
+    REQUIRE(manager.statistic("CampaignScoreTotal")==1500);
+    manager.campaignScore(2000); REQUIRE(manager.unlocked("LEGENDARY_SCORE"));
+    REQUIRE(manager.statistic("CampaignScoreTotal")==2000);
+    manager.begin(info); manager.finish(false,true); manager.campaignScore(9999);
+    REQUIRE(manager.statistic("CampaignScoreTotal")==2000);
+    manager.begin(info); manager.finish(true,false); manager.campaignScore(8000);
+    REQUIRE(manager.unlocked("SCORE_COLLECTOR"));
+}
+TEST_CASE_METHOD(Fixture,"New cumulative thresholds reuse stored counters and retain existing awards","[achievements]") {
+    for(unsigned i=1;i<=1000;++i) manager.enemyDestroyed(i,false,false,false);
+    for(unsigned i=1001;i<=1250;++i) manager.enemyDestroyed(i,true,false,false);
+    REQUIRE(manager.unlocked("ENEMY_ARMY")); REQUIRE(manager.unlocked("BASE_BREAKER"));
+    for(unsigned i=0;i<50;++i)manager.captured();
+    REQUIRE(manager.unlocked("INFILTRATION_EXPERT")); REQUIRE(manager.unlocked("INFILTRATION"));
+    for(unsigned i=0;i<25;++i){manager.bloom();manager.missile();}
+    REQUIRE(manager.unlocked("BLOOM_EXPLORER")); REQUIRE(manager.unlocked("MISSILE_COMMAND"));
+    manager.checkpoint("new-counters"); manager.begin(info,"new-counters",true);
+    REQUIRE(manager.statistic("EnemyUnitsDestroyed")==1000);
 }

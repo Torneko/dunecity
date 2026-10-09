@@ -1,0 +1,250 @@
+{
+  "version": "1.0.538",
+  "revision": "local538-portraits-r3",
+  "localPreparation": true,
+  "passed": true,
+  "sourceBase": "ab5272c6dafa82c0a97f2192db4f4a4c19fff6e6",
+  "sourceRevision": "working-tree-538-portraits-r3",
+  "networkProtocol": 7,
+  "saveVersion": 9829,
+  "unitTests": {
+    "windows": {
+      "passed": true,
+      "cases": 122,
+      "logSha256": "3c82cbf36e8069c18917a95879c33b670109b9f58584ced21796a8fdba774fb5"
+    },
+    "linux": {
+      "passed": true,
+      "cases": 122,
+      "logSha256": "bffee48c310578e52952b36c04602577d5776446e0d85b75202d4b8fda477ad3"
+    }
+  },
+  "runtime": [
+    {
+      "platformLanguage": "Windows-fr",
+      "passed": true,
+      "newOptionEditions": 5,
+      "worfineryModEditions": 4,
+      "barracksModEditions": 4,
+      "allHousePricesAndOrder": true,
+      "fiveTroopersProduction": true,
+      "queuedSaveLoad": true,
+      "realMissileImpacts": true,
+      "logSha256": "48ffe66b01f534f3c6cd2c12d26b939b1a5099ae494a89d9e40a35c8a254d1e4"
+    },
+    {
+      "platformLanguage": "Windows-en",
+      "passed": true,
+      "newOptionEditions": 5,
+      "worfineryModEditions": 4,
+      "barracksModEditions": 4,
+      "allHousePricesAndOrder": true,
+      "fiveTroopersProduction": true,
+      "queuedSaveLoad": true,
+      "realMissileImpacts": true,
+      "logSha256": "ad5ea463e3e86f67675bc909217292b40430ecadd89e0988da26d4bba9302f85"
+    },
+    {
+      "platformLanguage": "AppImage-fr",
+      "passed": true,
+      "newOptionEditions": 5,
+      "worfineryModEditions": 4,
+      "barracksModEditions": 4,
+      "allHousePricesAndOrder": true,
+      "fiveTroopersProduction": true,
+      "queuedSaveLoad": true,
+      "realMissileImpacts": true,
+      "logSha256": "f5665f9724a52b07604a125bf2cd65004580a0c45b5757f8f3aa5bc55c5f1962"
+    },
+    {
+      "platformLanguage": "AppImage-en",
+      "passed": true,
+      "newOptionEditions": 5,
+      "worfineryModEditions": 4,
+      "barracksModEditions": 4,
+      "allHousePricesAndOrder": true,
+      "fiveTroopersProduction": true,
+      "queuedSaveLoad": true,
+      "realMissileImpacts": true,
+      "logSha256": "0b46b7cd2f68240a39fd9351a3b33c5f0d46051833aefdba5066447779f2a7f3"
+    }
+  ],
+  "fullRuntimeBaseline": {
+    "passed": true,
+    "timing": "Before the six-icon, Worfinery display-order and Barracks portrait corrections; not rerun afterward",
+    "runs": [
+      {
+        "platformLanguage": "Windows-fr",
+        "passed": true,
+        "campaignScenarios": 1210,
+        "coopVariants": 405,
+        "savePickerCases": 7,
+        "newOptionEditions": 5,
+        "realMissileImpacts": true,
+        "fullAchievementIntegration": true,
+        "logSha256": "e14ae18360d36ef4389cd0b894a49083d7070b6ad0e248bae074e12123b26f37"
+      },
+      {
+        "platformLanguage": "Windows-en",
+        "passed": true,
+        "campaignScenarios": 1210,
+        "coopVariants": 405,
+        "savePickerCases": 7,
+        "newOptionEditions": 5,
+        "realMissileImpacts": true,
+        "fullAchievementIntegration": true,
+        "logSha256": "b41b475fa00471676999e1da8f78c3f0e9cb339f288a9ac4571f950455b8dadc"
+      },
+      {
+        "platformLanguage": "AppImage-fr",
+        "passed": true,
+        "campaignScenarios": 1210,
+        "coopVariants": 405,
+        "savePickerCases": 7,
+        "newOptionEditions": 5,
+        "realMissileImpacts": true,
+        "fullAchievementIntegration": true,
+        "logSha256": "060bdfdf78eddac3771e739e8f2bcfbc02704ea3332c275a47a0a0332d4f23f4"
+      },
+      {
+        "platformLanguage": "AppImage-en",
+        "passed": true,
+        "campaignScenarios": 1210,
+        "coopVariants": 405,
+        "savePickerCases": 7,
+        "newOptionEditions": 5,
+        "realMissileImpacts": true,
+        "fullAchievementIntegration": true,
+        "logSha256": "26ffe2e976576bd23d6bd64387b6936f894677811143ee0f005bf93dd9a5a014"
+      }
+    ]
+  },
+  "productionPortraits": {
+    "passed": true,
+    "mods": [
+      "Tornie",
+      "Jericho",
+      "TornieLite",
+      "JerichoLite"
+    ],
+    "builders": [
+      "Barracks",
+      "WOR",
+      "Worfinery"
+    ],
+    "priceText": "white",
+    "selectedUnitPortraitsUnchanged": true,
+    "assets": [
+      {
+        "unit": "soldier",
+        "file": "ProductionSoldier.png",
+        "suppliedFilename": "Vanilla_INFANTRY_Icon_single.png",
+        "squadSize": 1,
+        "sha256": "dba273335ff5d5910c11b3f4665de49e03c7d01993df8f2901e451fa7b7d07f4"
+      },
+      {
+        "unit": "infantry",
+        "file": "ProductionInfantry3.png",
+        "suppliedFilename": "Vanilla_INFANTRY_Icon_squad_3.png",
+        "squadSize": 3,
+        "sha256": "604800599bce308a937d98ab605273d10dff2e2daa8bea7d0e2c03ff269eba43"
+      },
+      {
+        "unit": "infantry5",
+        "file": "ProductionInfantry5.png",
+        "suppliedFilename": "Vanilla_INFANTRY_Icon_SQUAD_5.png",
+        "squadSize": 5,
+        "sha256": "f3b6d16b95adda4622887dcee36423f45d83d004001f56485f8c381c70ba6008"
+      },
+      {
+        "unit": "trooper",
+        "file": "ProductionTrooper.png",
+        "suppliedFilename": "Vanilla_HYINFY_Icon_Single.png",
+        "squadSize": 1,
+        "sha256": "d7fe046a758b4546327b085381b2988f8549a0eba1ee97f5b0d2a7e5375597fe"
+      },
+      {
+        "unit": "troopers",
+        "file": "ProductionTroopers3.png",
+        "suppliedFilename": "Vanilla_HYINFY_Icon_squad_3.png",
+        "squadSize": 3,
+        "sha256": "91f12906c523bb136f7f11ec2afbfc76454c2c9743d38b3c87f3c3cc794385f9"
+      },
+      {
+        "unit": "troopers5",
+        "file": "ProductionTroopers5.png",
+        "suppliedFilename": "Vanilla_HYINFY_Icon_SQUAD_5.png",
+        "squadSize": 5,
+        "sha256": "dd6d1b498190e58507fa52da6950aa6a45f0f441c65a861ef04c9ad0a75af554"
+      }
+    ]
+  },
+  "worfineryDisplayOrder": {
+    "passed": true,
+    "harvesterLast": true,
+    "afterUpgrade": true,
+    "afterSaveLoad": true,
+    "productionQueuePreserved": true,
+    "simulationBuildListUnchanged": true
+  },
+  "website": {
+    "passed": true,
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "generalBrowserChecks": 180,
+    "featureBrowserChecks": 198,
+    "browser": "Microsoft Edge",
+    "views": [
+      "mobile",
+      "desktop"
+    ],
+    "sources": [
+      "working files",
+      "local HTTP",
+      "offline package"
+    ],
+    "pngCount": 119,
+    "achievementCount": 67,
+    "errors": []
+  },
+  "audio": {
+    "passed": true,
+    "driver": "pulseaudio",
+    "vocFiles": 2,
+    "logSha256": "c0774c4ed2bbebdbc29edc90c6cc83861627ec9326f1b98810c09dbf8b24697f",
+    "host": "Ubuntu 22.04.5 / WSL, Linux 6.18.33.2"
+  },
+  "assetIntegrity": {
+    "passed": true,
+    "exactModFiles": 3163,
+    "exactPngSourceReferences": 273,
+    "derivedPreviewReferences": 8,
+    "modLogSha256": "aa610cee7bc7d750b434edd29e5f34d5ef9bb16ac6b441fb334670b2ece5d653"
+  },
+  "manualCoopPlaytest": {
+    "confirmedBy": "Tornie",
+    "date": "2026-10-09",
+    "version": "1.0.538",
+    "scope": "Two-computer co-op works"
+  },
+  "remainingManualChecks": [
+    "Mint 22.3 / kernel 7.0 on the friend computer"
+  ],
+  "packages": {
+    "Windows": {
+      "file": "DuneLegacyTornie-1.0.538-Windows-Local.zip",
+      "bytes": 52215828,
+      "sha256": "fd1cc3b79bdae656b2d70c21a41edccee9391be570aa255e7d942426a8a29c18"
+    },
+    "Mint": {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Local.AppImage",
+      "bytes": 43502072,
+      "sha256": "b7e00e4d81d932437216429a87b3b3242fb2e43fae447da1c32a4dc36cfe8f22"
+    }
+  },
+  "sourceArchive": "DuneLegacyTornie-1.0.538-Sources-Local.zip",
+  "offlineSiteArchive": "DuneLegacyTornie-Site-Local-1.0.538.zip",
+  "publication": "Not published; public version remains 1.0.537"
+}

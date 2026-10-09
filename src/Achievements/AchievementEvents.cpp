@@ -2,6 +2,7 @@
 #include <Achievements/AchievementEvents.h>
 #include <Achievements/AchievementManager.h>
 #include <Game.h>
+#include <Campaign/CoopCampaignSession.h>
 #include <House.h>
 #include <ObjectBase.h>
 #include <Tile.h>
@@ -19,6 +20,9 @@
 
 namespace AchievementEvents {
 namespace {
+bool missileImpact = false, missileHit = false;
+std::uint32_t missileShooter = 0;
+std::set<std::uint32_t> missileBuildings;
 auto& manager(){return achievements::AchievementManager::instance();}
 bool local(House* house){return house&&pLocalHouse&&house==pLocalHouse;}
 bool enemy(House* house){return house&&pLocalHouse&&house->getTeamID()!=pLocalHouse->getTeamID();}
@@ -45,6 +49,7 @@ std::string dataKey(const std::string& data){
 }
 std::string fileKey(const std::string& name){if(!existsFile(name))return {};return dataKey(readCompleteFile(name));}
 void begin(Game& game,const std::string& key,bool resumed,bool eligible){
+    missileImpact = false; missileBuildings.clear();
     initializeProfile();achievements::MatchInfo info;
     const auto& setup=game.getGameInitSettings();
     switch(setup.getGameType()){
@@ -56,6 +61,12 @@ void begin(Game& game,const std::string& key,bool resumed,bool eligible){
     info.mod=ModManager::instance().getActiveModName();
     info.house=pLocalHouse?houseName(static_cast<HOUSETYPE>(pLocalHouse->getFactionID())):"Unknown";
     info.chaosCampaignEligible=setup.isChaosCampaignEligible();
+    if(const auto context = coop::readContext(setup.getFiledata()); context && pLocalHouse) {
+        const int slot = coop::mapSlotForHouse(*context, pLocalHouse->getHouseID());
+        info.coopSession = context->sessionId;
+        info.coopCompletionEligible = slot >= 1 && slot <= 2 && context->stage == coop::StageCount
+            && context->completedMask == (1u << (coop::StageCount - 1)) - 1u;
+    }
     info.mission=setup.getMission();info.enabled=eligible&&pLocalHouse&&!std::getenv("DUNELEGACY_SMOKE_DIR");
     if(pLocalHouse){const auto house=static_cast<HOUSETYPE>(pLocalHouse->getHouseID());info.color=getHouseVisualHouse(house);info.defaultColor=getDefaultHouseColorSlot(static_cast<HOUSETYPE>(pLocalHouse->getFactionID()));info.initialRefinedSpice=static_cast<std::uint64_t>(std::max(0,pLocalHouse->getHarvestedSpice().floor()));}
     info.hadEnemies=enemiesRemain(true);info.roadkillWindow=MILLI2CYCLES(2000);
@@ -76,6 +87,11 @@ void pump(Game& game){
     lastNotification=now;
 }
 void damage(ObjectBase* victim,std::uint32_t attackerID,House* attacker,bool lethal){
+    if(missileImpact && victim && local(attacker) && attackerID == missileShooter) {
+        missileHit = true; // Friendly hits and nonlethal damage also rule out Fuel Waste.
+        if(lethal && victim->isAStructure() && victim->getItemID() != Structure_Wall && enemy(victim->getOwner()))
+            missileBuildings.insert(victim->getObjectID());
+    }
     if(victim&&lethal&&victim->isAUnit()&&victim->getItemID()!=Unit_Sandworm&&pLocalHouse
        &&(local(victim->getOwner())||victim->getOriginalHouseID()==pLocalHouse->getHouseID()))manager().unitLost(victim->getObjectID());
     const bool flame=manager().match().flameSources.count(attackerID)>0;
@@ -125,5 +141,13 @@ void spice(House* house,const Tile* tile){
 }
 void bloom(House* house){if(local(house))manager().bloom();}
 void missile(House* house){if(local(house))manager().missile();}
+void beginMissileImpact(House* house, std::uint32_t shooter) {
+    missileImpact = local(house); missileShooter = shooter;
+    missileHit = false; missileBuildings.clear();
+}
+void endMissileImpact() {
+    if(missileImpact) manager().missileResult(missileHit, missileBuildings.size());
+    missileImpact = false; missileBuildings.clear();
+}
 void palace(House* house){if(local(house))manager().palace();}
 }

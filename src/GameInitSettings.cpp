@@ -309,12 +309,42 @@ const GameInitSettings::CoopHarvestObjective& GameInitSettings::getCoopHarvestOb
     return coopHarvestObjective_;
 }
 
+void GameInitSettings::cacheCoopEasyMode() const {
+    if(coopEasyCached_) return;
+    coopEasyEnabled_ = false;
+    coopEasyHouses_ = {{HOUSE_INVALID, HOUSE_INVALID}};
+    coopEasyStage_ = 0;
+    if(gameType == GameType::CustomMultiplayer) {
+        if(const auto context = coop::readContext(filedata)) {
+            coopEasyEnabled_ = context->easyMode;
+            coopEasyHouses_ = {{context->slots[0].house, context->slots[1].house}};
+            coopEasyStage_ = context->stage;
+        }
+    }
+    coopEasyCached_ = true;
+}
+
+bool GameInitSettings::isEasyModeEnabled() const {
+    if(!gameOptions.easyMode) return false;
+    if(gameType == GameType::Campaign) return true;
+    cacheCoopEasyMode();
+    return coopEasyEnabled_;
+}
+
+bool GameInitSettings::isEasyModeHouse(int ownerHouse) const {
+    if(!isEasyModeEnabled()) return false;
+    if(gameType == GameType::Campaign) return ownerHouse == houseID;
+    return ownerHouse == coopEasyHouses_[0] || ownerHouse == coopEasyHouses_[1];
+}
+
 int GameInitSettings::campaignPurchasePrice(int price, int ownerHouse) const {
-    return isEasyModeEnabled() && ownerHouse == houseID ? std::max(1, price - 25) : price;
+    return isEasyModeHouse(ownerHouse) ? std::max(1, price - 25) : price;
 }
 
 int GameInitSettings::campaignStartingCredits(int credits, int ownerHouse) const {
-    return isEasyModeEnabled() && ownerHouse == houseID && mission == 2 ? credits + 500 : credits;
+    if(!isEasyModeHouse(ownerHouse)) return credits;
+    const bool firstEasyMission = gameType == GameType::Campaign ? mission == 2 : coopEasyStage_ == 2;
+    return firstEasyMission ? credits + 500 : credits;
 }
 
 void GameInitSettings::migrateLegacyHouseColorSlots() {

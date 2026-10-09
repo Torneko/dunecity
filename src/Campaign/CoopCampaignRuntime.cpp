@@ -110,7 +110,8 @@ bool sameParticipants(const Context& first, const Context& second) {
         || first.roster != second.roster || first.stage != second.stage
         || first.completedMask != second.completedMask
         || first.chaosEligible != second.chaosEligible
-        || first.alliedControl != second.alliedControl) return false;
+        || first.alliedControl != second.alliedControl
+        || first.easyMode != second.easyMode || first.extraEnemyForces != second.extraEnemyForces) return false;
     for(std::size_t i = 0; i < first.slots.size(); ++i) {
         const auto& a = first.slots[i];
         const auto& b = second.slots[i];
@@ -329,7 +330,7 @@ std::string readMissionTemplate(const CoopCampaignSession& session) {
 GameInitSettings makeGameSettings(const CoopCampaignSession& session,
     const SettingsClass::GameOptionsClass& requestedOptions, const std::string& serverName) {
     auto options = requestedOptions;
-    options.easyMode = false;
+    options.easyMode = session.context().easyMode;
     options.immortalHumanPlayer = false;
     const auto mapData = session.prepareMap(readMissionTemplate(session));
     const auto prepared = readContext(mapData);

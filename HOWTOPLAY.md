@@ -8,13 +8,13 @@ Build your base on rock. A Construction Yard, Wind Traps and a Refinery form the
 
 The **Mods** menu switches between Vanilla, **Tornie**, **Tornie Lite**, **Jericho** and **Jericho Lite**. Vanilla provides nine factions, Tornie/Jericho twelve, and both Lite editions six. Jericho Lite combines Tornie Lite technology with Jericho spice. The active mod and game version appear in the main menu.
 
-**Co-op campaign** follows the host faction's original campaign over nine shared stages. Join over LAN/Internet or choose an AI guest. Both allies may choose the same faction, with separate ownership and funds. The host can choose enemy AI type/difficulty and enable **Allied control** (off by default). New intros give the guest matching forces, an extra deployable MCV and a nearby WOR. Both PCs require version 1.0.537 and network protocol 6. See the [English guide](docs/COOP-CAMPAIGN-EN.md) or [guide français](docs/COOP-CAMPAIGN.md).
+**Co-op campaign** follows the host faction's original campaign over nine shared stages. Join over LAN/Internet or choose an AI guest. Both allies may choose the same faction, with separate ownership and funds. The host can choose enemy AI type/difficulty and enable **Allied control** (off by default). New intros give the guest matching forces, an extra deployable MCV and a nearby WOR. Both PCs require version 1.0.538 and network protocol 7. Easy Mode and Enemy forces +5 are off by default. Host reinforcements also reach the second ally. See the [English guide](docs/COOP-CAMPAIGN-EN.md) or [guide français](docs/COOP-CAMPAIGN.md).
 
 The former urban simulation has been removed. Its two scenario maps are retained in the original source branch; the supplied maps in this edition use RTS units and structures.
 
 User settings are stored in a separate Dune Legacy Tornie profile. Saves containing the removed urban simulation are rejected; historical RTS save-format identifiers and reserved object IDs are retained for compatibility.
 
-Open **Achievements / Hauts faits** in the main menu for 47 offline awards and
+Open **Achievements / Hauts faits** in the main menu for 67 offline awards and
 cumulative statistics. Unlock messages appear in the news ticker during play.
 Progress is stored in `achievements.ini` beside your user configuration. Keep that
 file with your profile when transferring saves. Captures are allowed for Pacifism;

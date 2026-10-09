@@ -233,6 +233,7 @@ void INIMapLoader::load() {
     loadHouses();
     loadUnits();
     loadStructures();
+    loadExtraCoopForces();
     loadReinforcements();
     loadAITeams();
     loadView();
@@ -1091,6 +1092,52 @@ void INIMapLoader::loadStructures()
 /**
     This method loads the reinforcements from the [REINFORCEMENTS] section.
 */
+void INIMapLoader::loadExtraCoopForces() {
+    const auto context = coop::readContext(pGame->getGameInitSettings().getFiledata());
+    if(!context || !context->extraEnemyForces) return;
+    for(std::size_t slot = 2; slot < context->slots.size(); ++slot) {
+        if(!context->enemyPresent[slot - 2]) continue;
+        const auto& binding = context->slots[slot];
+        auto* house = pGame->getHouse(binding.house);
+        if(!house) continue;
+        std::vector<Coord> anchors;
+        for(const auto* structure : structureList) if(structure->getOwner() == house)
+            anchors.push_back(structure->getLocation());
+        for(const auto* unit : unitList) if(unit->getOwner() == house)
+            anchors.push_back(unit->getLocation());
+        if(anchors.empty()) {
+            // Reinforcement-only opponents enter from the edge farthest from the host.
+            const auto host = pGame->getHouse(context->slots[0].house)->getCenterOfMainBase();
+            const int x = host.x < currentGameMap->getSizeX()/2 ? currentGameMap->getSizeX()-2 : 1;
+            const int y = host.y < currentGameMap->getSizeY()/2 ? currentGameMap->getSizeY()-2 : 1;
+            anchors.emplace_back(x,y);
+        }
+        std::vector<int> pool;
+        for(const int item : {Unit_Trooper, Unit_Quad, Unit_Tank, Unit_SiegeTank, Unit_Launcher, Unit_Soldier}) {
+            const auto& data = pGame->objectData.data[item][binding.faction];
+            if(data.enabled && data.techLevel <= pGame->techLevel) pool.push_back(item);
+        }
+        if(pool.empty()) throw std::runtime_error("No technology-appropriate co-op enemy unit");
+        for(int index = 0; index < 5; ++index) {
+            auto* unit = house->createUnit(pool[index % pool.size()], true);
+            if(!unit) throw std::runtime_error("Cannot create extra co-op enemy unit");
+            bool placed = false;
+            const auto origin = anchors[index % anchors.size()];
+            const int maxRadius = std::max(currentGameMap->getSizeX(), currentGameMap->getSizeY());
+            for(int radius = 1; radius < maxRadius && !placed; ++radius)
+                for(int y = origin.y-radius; y <= origin.y+radius && !placed; ++y)
+                    for(int x = origin.x-radius; x <= origin.x+radius && !placed; ++x) {
+                        if(std::max(std::abs(x-origin.x), std::abs(y-origin.y)) != radius) continue;
+                        if(!currentGameMap->tileExists(x,y)) continue;
+                        const auto* tile = currentGameMap->getTile(x,y);
+                        if(!tile || tile->hasAGroundObject() || !unit->canPass(x,y)) continue;
+                        unit->deploy(Coord(x,y)); unit->doSetAttackMode(AREAGUARD); placed = true;
+                    }
+            if(!placed) throw std::runtime_error("No free tile for extra co-op enemy unit");
+        }
+    }
+}
+
 void INIMapLoader::loadReinforcements()
 {
     if(!inifile->hasSection("REINFORCEMENTS")) {
@@ -1148,9 +1195,12 @@ void INIMapLoader::loadReinforcements()
             Num2Drop = 3;
         }
 
+        const auto context = coop::readContext(pGame->getGameInitSettings().getFiledata());
+        const bool hostDelivery = context && houseID == context->slots[0].house;
+        const Uint32 originalItem = itemID;
         itemID = replaceJerichoWildspadeUnit(pGame, houseID, itemID);
 
-        if(!pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled) {
+        if(!pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled && !hostDelivery) {
             continue;
         }
 
@@ -1169,6 +1219,7 @@ void INIMapLoader::loadReinforcements()
 
         bool bRepeat = (strTime.rfind('+') == (strTime.length() - 1)) || (strPlus == "+");
 
+        const auto addDelivery = [&](int recipient, Uint32 unit) {
         for(int i=0;i<Num2Drop;i++) {
             // check if there is a similar trigger at the same time
 
@@ -1178,21 +1229,30 @@ void INIMapLoader::loadReinforcements()
 
                 if(pReinforcementTrigger != nullptr
                     && pReinforcementTrigger->getCycleNumber() == dropCycle
-                    && pReinforcementTrigger->getHouseID() == houseID
+                    && pReinforcementTrigger->getHouseID() == recipient
                     && pReinforcementTrigger->isRepeat() == bRepeat
                     && pReinforcementTrigger->getDropLocation() == dropLocation) {
 
                     // add the new reinforcement to this reinforcement (call only one carryall)
-                    pReinforcementTrigger->addUnit(itemID);
+                    pReinforcementTrigger->addUnit(unit);
                     bInserted = true;
                     break;
                 }
             }
 
             if(bInserted == false) {
-                getOrCreateHouse(houseID);  // create house if not yet available
-                pGame->getTriggerManager().addTrigger(std::make_unique<ReinforcementTrigger>(houseID, itemID, dropLocation, bRepeat, dropCycle));
+                getOrCreateHouse(recipient);  // create house if not yet available
+                pGame->getTriggerManager().addTrigger(std::make_unique<ReinforcementTrigger>(recipient, unit, dropLocation, bRepeat, dropCycle));
             }
+        }
+        };
+        if(pGame->objectData.data[itemID][House::factionForRuntimeHouse(houseID)].enabled)
+            addDelivery(houseID, itemID);
+        if(hostDelivery) {
+            const int guest = context->slots[1].house;
+            const int adapted = resolveCoopGuestUnit(pGame, guest,
+                replaceJerichoWildspadeUnit(pGame, guest, originalItem));
+            if(adapted != ItemID_Invalid) addDelivery(guest, adapted);
         }
     }
 }

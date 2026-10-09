@@ -1930,20 +1930,18 @@ GFXManager::GFXManager() {
                     : Scaler::doubleSurfaceNN(heraldSurface);
         };
 
-        const bool jerichoIdentity = ModManager::instance().isInitialized()
-            && ModManager::instance().getActiveModName() == "Jericho";
-        loadBonusHerald(HOUSE_NEUTRAL, jerichoIdentity ? "HeraldWildspade.png" : "HeraldNeu.png",
+        loadBonusHerald(HOUSE_NEUTRAL, "HeraldNeu.png",
                         uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
-        loadBonusHerald(HOUSE_REBELS, jerichoIdentity ? "HeraldKleshmersh.png" : "HeraldRebels.png",
+        loadBonusHerald(HOUSE_REBELS, "HeraldRebels.png",
                         uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
         if(isCampaignHouseAvailable(HOUSE_WILDSPADE)) {
-            loadBonusHerald(HOUSE_WILDSPADE,jerichoIdentity ? "HeraldNeu.png" : "HeraldWildspade.png",
+            loadBonusHerald(HOUSE_WILDSPADE,"HeraldWildspade.png",
                             uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
             uiGraphic[UI_Herald_Grey][HOUSE_WILDSPADE]=PicFactory->createGreyHouseChoice(uiGraphic[UI_Herald_Colored][HOUSE_WILDSPADE].get());
         }
         if(isCampaignHouseAvailable(HOUSE_KLESHMERSH)) {
             const bool vanilla=ModManager::instance().getActiveModName()=="vanilla";
-            loadBonusHerald(HOUSE_KLESHMERSH,vanilla ? "HeraldKleshmershBrown.png" : jerichoIdentity ? "HeraldRebels.png" : "HeraldKleshmersh.png",
+            loadBonusHerald(HOUSE_KLESHMERSH,vanilla ? "HeraldKleshmershBrown.png" : "HeraldKleshmersh.png",
                             uiGraphic[UI_Herald_Colored][HOUSE_HARKONNEN].get());
             uiGraphic[UI_Herald_Grey][HOUSE_KLESHMERSH]=PicFactory->createGreyHouseChoice(uiGraphic[UI_Herald_Colored][HOUSE_KLESHMERSH].get());
         }

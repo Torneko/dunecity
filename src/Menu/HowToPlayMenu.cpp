@@ -39,6 +39,9 @@ static const char* kHowToPlayBody =
     "Choose Co-op Campaign in the main menu. Each ally owns a base.\n"
     "Connect a guest over LAN/Internet, or choose an AI ally.\n"
     "The host can choose enemy AI and optional allied control.\n"
+    "Easy Mode and Enemy forces +5 are off by default in the lobby.\n"
+    "Easy: mission 2, +500 credits and -25 per purchase for both allies.\n"
+    "Host reinforcements also reach the second ally.\n"
     "Load a save in the host lobby: Manual or Automatic.\n"
     "After loading, the guest rejoins the new lobby.\n";
 
@@ -64,6 +67,9 @@ static const char* kHowToPlayBodyFrench =
     "possède sa base. Connectez un invité en LAN/Internet ou\n"
     "choisissez une IA alliée. L'hôte règle les IA adverses et\n"
     "peut activer les contrôles alliés.\n"
+    "Mode facile et Forces ennemies +5 sont désactivés par défaut.\n"
+    "Facile : mission 2, +500 crédits et achats -25 pour les deux alliés.\n"
+    "Les renforts du joueur principal arrivent aussi au second allié.\n"
     "Dans le lobby hôte, Charger une sauvegarde donne accès aux\n"
     "sauvegardes manuelles et automatiques. L'invité rejoint\n"
     "ensuite le nouveau lobby.\n";

@@ -194,6 +194,7 @@ inline void verifyReinforcements(Game& game, const GameInitSettings& init, const
     INIFile& map, const std::string& mod) {
     using Delivery = std::tuple<int, Uint32, int, bool>;
     std::map<Delivery, std::multiset<Uint32>> expected, actual;
+    std::vector<std::pair<Delivery, ExpectedUnit>> guestDeliveries;
     if(map.hasSection("REINFORCEMENTS")) for(const auto& key : map.getSection("REINFORCEMENTS")) {
         std::string owner, name, location, time, plus;
         require(splitString(key.getStringValue(), owner, name, location, time)
@@ -208,8 +209,7 @@ inline void verifyReinforcements(Game& game, const GameInitSettings& init, const
         // Chemical Carryall exception or a scenario Special-spawn resolver.
         if(item == Unit_Special || units.items.empty()
                 || !game.objectData.data[units.items.front()][binding.faction].enabled) units.count = 0;
-        if(units.count == 0) continue;
-        require(units.items.size() == 1, "unexpected variable reinforcement type");
+        if(units.count) require(units.items.size() == 1, "unexpected variable reinforcement type");
         Uint32 minutes = 0;
         require(parseString(time, minutes), "invalid original reinforcement time");
         auto drop = getDropLocationByName(location);
@@ -217,6 +217,11 @@ inline void verifyReinforcements(Game& game, const GameInitSettings& init, const
         const bool repeat = (!time.empty() && time.back() == '+') || plus == "+";
         const Delivery delivery{binding.house, MILLI2CYCLES(minutes * 60 * 1000), static_cast<int>(drop), repeat};
         for(int unit = 0; unit < units.count; ++unit) expected[delivery].insert(units.items.front());
+        if(slot == 0 && item != Unit_Special) {
+            const auto guest = unitRules(game, init, context.slots[1].faction, item, true, mod);
+            guestDeliveries.push_back({Delivery{context.slots[1].house, MILLI2CYCLES(minutes * 60 * 1000),
+                static_cast<int>(drop), repeat}, guest});
+        }
     }
     for(const auto& trigger : game.getTriggerManager().getTriggers())
         if(const auto* reinforcement = dynamic_cast<const ReinforcementTrigger*>(trigger.get())) {
@@ -224,6 +229,18 @@ inline void verifyReinforcements(Game& game, const GameInitSettings& init, const
                 static_cast<int>(reinforcement->getDropLocation()), reinforcement->isRepeat()};
             for(const auto unit : reinforcement->getDroppedUnits()) actual[delivery].insert(unit);
         }
+    for(const auto& delivery : guestDeliveries) {
+        auto found = actual.find(delivery.first);
+        require(found != actual.end(), "guest reinforcement owner/time/location/repeat missing");
+        for(int i = 0; i < delivery.second.count; ++i) {
+            const auto unit = std::find_if(found->second.begin(), found->second.end(), [&](Uint32 item) {
+                return std::find(delivery.second.items.begin(), delivery.second.items.end(), item) != delivery.second.items.end();
+            });
+            require(unit != found->second.end(), "guest reinforcement count/faction equivalent missing");
+            found->second.erase(unit);
+        }
+        if(found->second.empty()) actual.erase(found);
+    }
     require(expected == actual, "original/deferred reinforcement owner, unit count, location, time or repeat flag was lost");
 }
 

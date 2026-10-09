@@ -71,7 +71,7 @@
 // Version 3: Added mod transfer packets (MOD_INFO, MOD_REQUEST, MOD_CHUNK, MOD_COMPLETE)
 // Version 4: Fixed nine-house deterministic state and versioned visibility storage
 // Version 5: Cooperative campaign result/readiness and stage transitions
-#define NETWORK_PROTOCOL_VERSION            6
+#define NETWORK_PROTOCOL_VERSION            7
 
 /**
  * Reject an incompatible config-hash handshake and dispatch its disconnect cause.

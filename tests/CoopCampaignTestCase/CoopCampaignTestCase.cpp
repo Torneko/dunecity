@@ -430,3 +430,24 @@ TEST_CASE("Coop loss, departure and final victory cannot advance to an invalid m
     REQUIRE_FALSE(final.accepts(coop::Advance::Retry, coop::Outcome::Won, 9));
     REQUIRE(final.accepts(coop::Advance::Aborted, coop::Outcome::Won, 9));
 }
+
+TEST_CASE("Coop options default off and persist independently of allied control","[coop][campaign]") {
+    auto value=originalSession();
+    REQUIRE_FALSE(value.context().easyMode); REQUIRE_FALSE(value.context().extraEnemyForces);
+    value.setEasyMode(true); value.setExtraEnemyForces(true); value.skipIntroForEasyMode();
+    REQUIRE(value.context().stage==2); REQUIRE(value.context().completedMask==1);
+    const auto map=value.prepareMap(originalTemplate(2,1));
+    auto restored=coop::CoopCampaignSession::fromMapData(map);
+    REQUIRE(restored.context().easyMode); REQUIRE(restored.context().extraEnemyForces);
+    restored.reconfigurePlayers({2,2},{"Host","AI Ally"}); restored.setPlayerClass(1,"qBotMedium");
+    REQUIRE(restored.context().easyMode); REQUIRE(restored.context().extraEnemyForces);
+    restored.skipIntroForEasyMode(); REQUIRE(restored.context().stage==2);
+    restored.completeMission(false); REQUIRE(restored.context().stage==2);
+    restored.completeMission(true); REQUIRE(restored.context().stage==3);
+    TemporaryDirectory directory; std::filesystem::create_directories(directory.path);
+    const auto path=(directory.path/"easy.ini").string(); restored.saveProgress(path);
+    const auto saved=coop::CoopCampaignSession::loadProgress(path);
+    REQUIRE(saved.context().easyMode); REQUIRE(saved.context().extraEnemyForces);
+    auto legacy=map; replace(legacy,"EasyMode=1\n",""); replace(legacy,"ExtraEnemyForces=1\n","");
+    const auto old=coop::readContext(legacy); REQUIRE(old); REQUIRE_FALSE(old->easyMode); REQUIRE_FALSE(old->extraEnemyForces);
+}
