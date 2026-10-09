@@ -34,7 +34,9 @@ public:
             ChangeColor,
             ChangePlayer,
             SetHumanPlayer,
-            ChangeAlliedControl
+            ChangeAlliedControl,
+            ChangeCoopEasyMode,
+            ChangeExtraEnemyForces
         };
 
 

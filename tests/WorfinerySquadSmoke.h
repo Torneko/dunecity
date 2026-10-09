@@ -1,6 +1,9 @@
 #pragma once
 #include <structures/BuilderBase.h>
 #include <structures/Worfinery.h>
+#include <GUI/dune/BuilderList.h>
+#include <GUI/StaticContainer.h>
+#include <FileClasses/LoadSavePNG.h>
 #include <Game.h>
 #include <House.h>
 #include <Map.h>
@@ -43,6 +46,18 @@ inline void verifyWorfinerySquad(const std::string& output, const std::string& m
             require(worfinery->isAvailableToBuild(Unit_Troopers),"three-Trooper order removed");
         }
         worfinery->setOriginalHouseID(HOUSE_ATREIDES);
+        {
+            StaticContainer panel;
+            auto* buttons=BuilderList::create(worfinery->getObjectID());
+            panel.addWidget(buttons,Point(10,10),Point(WIDGET_WIDTH,400));
+            const int count=worfinery->getBuildListSize();
+            require(buttons->getItemIDFromIndex(0)==Unit_Troopers5,"five-Trooper order moved from the first button");
+            require(buttons->getItemIDFromIndex(count-1)==Unit_Harvester,"Harvester is not the last displayed/clickable product");
+            require(buttons->getItemIDFromIndex(count)==ItemID_Invalid,"out-of-range product lookup");
+            SDL_RenderClear(renderer);panel.draw(Point(0,0));
+            auto pixels=renderReadSurface(renderer);
+            require(pixels && SavePNG(pixels.get(),(std::filesystem::path(output)/(mod+"-worfinery-order-538.png")).string().c_str())==0,"Worfinery order capture");
+        }
         auto* wor=dynamic_cast<BuilderBase*>(house->placeStructure(NONE_ID,Structure_WOR,21,4,true,true));
         require(wor && !wor->isAvailableToBuild(Unit_Troopers5),"squad available from WOR");
         const int before=house->getNumItems(Unit_Trooper);
@@ -61,6 +76,13 @@ inline void verifyWorfinerySquad(const std::string& output, const std::string& m
             worfinery=static_cast<Worfinery*>(structure);
         require(worfinery && worfinery->getCurrentUpgradeLevel()==1,"saved upgrade lost");
         require(worfinery->getCurrentProducedItem()==Unit_Troopers5,"saved squad order lost");
+        {
+            StaticContainer panel;
+            auto* buttons=BuilderList::create(worfinery->getObjectID());
+            panel.addWidget(buttons,Point(0,0),buttons->getMinimumSize());
+            require(buttons->getItemIDFromIndex(worfinery->getBuildListSize()-1)==Unit_Harvester,"loaded Harvester button order");
+            require(worfinery->getCurrentProducedItem()==Unit_Troopers5,"display ordering changed a saved production order");
+        }
         const int before=worfinery->getOwner()->getNumItems(Unit_Trooper);
         for(int i=0;i<100 && worfinery->getOwner()->getNumItems(Unit_Trooper)==before;++i) worfinery->update();
         require(worfinery->getOwner()->getNumItems(Unit_Trooper)==before+5,"saved squad did not finish");
@@ -101,6 +123,20 @@ inline void verifyBarracksSquad(const std::string& output,const std::string& mod
         barracks->setOriginalHouseID(HOUSE_ATREIDES);
         require(barracks->isAvailableToBuild(Unit_Infantry),"normal three Soldiers removed");
         require(!barracks->isAvailableToBuild(Unit_Troopers5),"five Troopers leaked into Barracks");
+        {
+            StaticContainer panel;
+            auto* buttons=BuilderList::create(barracks->getObjectID());
+            panel.addWidget(buttons,Point(10,10),Point(WIDGET_WIDTH,400));
+            auto* single=buttons->getProductionPortrait(Unit_Soldier);
+            auto* three=buttons->getProductionPortrait(Unit_Infantry);
+            auto* five=buttons->getProductionPortrait(Unit_Infantry5);
+            require(single && three && five,"missing Barracks production portrait variant");
+            require(single!=three && single!=five && three!=five,"Barracks variants share the same texture");
+            require(buttons->getItemIDFromIndex(0)==Unit_Infantry5,"five-Soldier button order");
+            SDL_RenderClear(renderer);panel.draw(Point(0,0));
+            auto pixels=renderReadSurface(renderer);
+            require(pixels && SavePNG(pixels.get(),(std::filesystem::path(output)/(mod+"-barracks-portraits-538.png")).string().c_str())==0,"Barracks portrait capture");
+        }
         const int before=house->getNumItems(Unit_Soldier);barracks->doProduceItem(Unit_Infantry5);
         for(int i=0;i<100 && house->getNumItems(Unit_Soldier)==before;++i)barracks->update();
         require(house->getNumItems(Unit_Soldier)==before+5,"order did not deploy exactly five Soldiers");

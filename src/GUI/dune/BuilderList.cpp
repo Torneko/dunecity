@@ -28,12 +28,16 @@
 #include <House.h>
 #include <SoundPlayer.h>
 #include <sand.h>
+#include <FileClasses/FileManager.h>
+#include <FileClasses/LoadSavePNG.h>
+#include <mod/ModManager.h>
 
 #include <structures/BuilderBase.h>
 #include <structures/StarPort.h>
 #include <structures/ChaosFactory.h>
 
 #include <sstream>
+#include <algorithm>
 
 BuilderList::BuilderList(Uint32 builderObjectID) {
     enableResizing(false,true);
@@ -60,6 +64,20 @@ BuilderList::BuilderList(Uint32 builderObjectID) {
     orderButton.setOnClick(std::bind(&BuilderList::onOrder, this));
     orderButton.setText(_("Order"));
 
+    const auto* builder = dynamic_cast<BuilderBase*>(currentGame->getObjectManager().getObject(builderObjectID));
+    const auto mod = ModManager::instance().getActiveModName();
+    if(builder && (builder->getItemID() == Structure_Barracks || builder->getItemID() == Structure_WOR
+                   || builder->getItemID() == Structure_Worfinery)
+       && (mod == "Tornie" || mod == "Jericho" || mod == "TornieLite" || mod == "JerichoLite")) {
+        const std::pair<int, const char*> icons[] = {
+            {Unit_Soldier, "ProductionSoldier.png"}, {Unit_Infantry, "ProductionInfantry3.png"},
+            {Unit_Infantry5, "ProductionInfantry5.png"}, {Unit_Trooper, "ProductionTrooper.png"},
+            {Unit_Troopers, "ProductionTroopers3.png"}, {Unit_Troopers5, "ProductionTroopers5.png"}};
+        for(const auto& icon : icons) if(pFileManager->exists(icon.second)) {
+            auto surface = LoadPNG_RW(pFileManager->openFile(icon.second).get());
+            if(surface) productionPortraits.emplace(icon.first, convertSurfaceToTexture(std::move(surface)));
+        }
+    }
     currentListPos = 0;
 
     mouseLeftButton = -1;
@@ -228,13 +246,17 @@ void BuilderList::draw(Point position) {
         }
 
         int i = 0;
-        for(const BuildItem& buildItem : pBuilder->getBuildList()) {
+        for(const auto* displayedItem : getDisplayItems()) {
+            const BuildItem& buildItem = *displayedItem;
 
             if((i >= currentListPos) && (i < currentListPos+getNumButtons(getSize().y) )) {
                 SDL_Texture* pTexture = resolveItemPicture(
                     buildItem.itemID, static_cast<HOUSETYPE>(pBuilder->getOriginalHouseID()));
 
-                const SDL_Rect dest = calcDrawingRect(pTexture, position.x + getButtonPosition(i - currentListPos).x, position.y + getButtonPosition(i - currentListPos).y);
+                const auto portrait = productionPortraits.find(buildItem.itemID);
+                if(portrait != productionPortraits.end()) pTexture = portrait->second.get();
+                const SDL_Rect dest = {position.x + getButtonPosition(i - currentListPos).x,
+                    position.y + getButtonPosition(i - currentListPos).y, BUILDERBTN_WIDTH, BUILDERBTN_HEIGHT};
 
                 if(pTexture != nullptr) {
                     SDL_Rect tmpDest = dest;
@@ -464,17 +486,20 @@ int BuilderList::getButton(int x, int y) {
 }
 
 int BuilderList::getItemIDFromIndex(int i) const {
+    const auto items = getDisplayItems();
+    return i >= 0 && static_cast<std::size_t>(i) < items.size() ? items[i]->itemID : ItemID_Invalid;
+}
 
-    if (i >= 0) {
-        const auto pBuilder = dynamic_cast<BuilderBase*>(currentGame->getObjectManager().getObject(builderObjectID));
-
-        if (pBuilder != nullptr) {
-            const auto buildItemIter = std::next(pBuilder->getBuildList().begin(), i);
-            if (buildItemIter != pBuilder->getBuildList().end()) {
-                return buildItemIter->itemID;
-            }
-        }
+std::vector<const BuildItem*> BuilderList::getDisplayItems() const {
+    std::vector<const BuildItem*> items;
+    const auto* builder = dynamic_cast<BuilderBase*>(currentGame->getObjectManager().getObject(builderObjectID));
+    if(!builder) return items;
+    for(const auto& item : builder->getBuildList()) items.push_back(&item);
+    if(builder->getItemID() == Structure_Worfinery) {
+        // Share the display order with click/tooltip lookup, while preserving
+        // the simulation's build list, queued orders and saved representation.
+        std::stable_partition(items.begin(), items.end(),
+            [](const BuildItem* item) { return item->itemID != Unit_Harvester; });
     }
-
-    return ItemID_Invalid;
+    return items;
 }

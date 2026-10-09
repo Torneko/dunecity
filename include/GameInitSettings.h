@@ -179,7 +179,7 @@ public:
     inline const std::string& getFilename() const { return filename; };
     inline const std::string& getFiledata() const { return filedata; };
     // Cooperative mission context travels in the existing map payload.
-    inline void setMapData(const std::string& mapData) { filedata = mapData; coopHarvestCached_ = false; }
+    inline void setMapData(const std::string& mapData) { filedata = mapData; coopHarvestCached_ = false; coopEasyCached_ = false; }
     struct CoopHarvestObjective {
         int quota = 0;
         std::array<int, 2> houses{{-1, -1}};
@@ -194,7 +194,8 @@ public:
     inline void setMultiplePlayersPerHouse(bool multiplePlayersPerHouse) { this->multiplePlayersPerHouse = multiplePlayersPerHouse; };
     inline const SettingsClass::GameOptionsClass& getGameOptions() const { return gameOptions; };
     bool isChaosModeEnabled() const { return gameOptions.chaosMode && modName != "vanilla"; }
-    bool isEasyModeEnabled() const { return gameType == GameType::Campaign && gameOptions.easyMode; }
+    bool isEasyModeEnabled() const;
+    bool isEasyModeHouse(int ownerHouse) const;
     int campaignPurchasePrice(int price, int ownerHouse) const;
     int campaignStartingCredits(int credits, int ownerHouse) const;
     bool isChaosCampaignEligible() const { return chaosCampaignEligible && gameType == GameType::Campaign && isChaosModeEnabled(); }
@@ -254,6 +255,10 @@ private:
     HouseInfoList   houseInfoList;
     mutable bool coopHarvestCached_ = false;
     mutable CoopHarvestObjective coopHarvestObjective_;
+    void cacheCoopEasyMode() const;
+    mutable bool coopEasyCached_ = false, coopEasyEnabled_ = false;
+    mutable std::array<int, 2> coopEasyHouses_{{HOUSE_INVALID, HOUSE_INVALID}};
+    mutable int coopEasyStage_ = 0;
 };
 
 #endif // GAMEINITINFOCLASS_H

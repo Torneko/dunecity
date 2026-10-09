@@ -37,7 +37,7 @@ struct Context {
     std::uint32_t completedMask = 0;
     std::uint32_t seed = 0;
     bool chaosEligible = false;
-    bool alliedControl = false;
+    bool alliedControl = false, easyMode = false, extraEnemyForces = false;
     std::vector<int> roster;
     std::vector<Slot> slots = std::vector<Slot>(SlotCount);
     std::vector<bool> enemyPresent = std::vector<bool>(SlotCount - 2, true);
@@ -74,6 +74,9 @@ public:
     void setPlayerColor(int playerSlot, int color);
     void setChaosEligible(bool eligible);
     void setAlliedControl(bool enabled) { context_.alliedControl = enabled; }
+    void setEasyMode(bool enabled) { context_.easyMode = enabled; }
+    void setExtraEnemyForces(bool enabled) { context_.extraEnemyForces = enabled; }
+    void skipIntroForEasyMode();
     void setPlayerClass(int slot, const std::string& playerClass);
 
     // The optional settings blob is the caller's serialized GameInitSettings.

@@ -550,6 +550,26 @@ CustomGamePlayers::CustomGamePlayers(const GameInitSettings& newGameInitSettings
             if(pNetworkManager) pNetworkManager->sendChangeEventList(events);
         });
         leftVBox.addWidget(&alliedControlCheckbox, 0.0);
+        coopEasyModeCheckbox.setText(settings.general.language == "fr" ? "Mode facile (coop)" : "Easy Mode (co-op)");
+        coopEasyModeCheckbox.setChecked(coopSession->context().easyMode);
+        coopEasyModeCheckbox.setOnClick([this] {
+            coopSession->setEasyMode(coopEasyModeCheckbox.isChecked());
+            ChangeEventList events;
+            events.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeCoopEasyMode,
+                0, coopEasyModeCheckbox.isChecked() ? 1 : 0);
+            if(pNetworkManager) pNetworkManager->sendChangeEventList(events);
+        });
+        leftVBox.addWidget(&coopEasyModeCheckbox, 0.0);
+        extraEnemyForcesCheckbox.setText(settings.general.language == "fr" ? "Forces ennemies +5" : "Enemy forces +5");
+        extraEnemyForcesCheckbox.setChecked(coopSession->context().extraEnemyForces);
+        extraEnemyForcesCheckbox.setOnClick([this] {
+            coopSession->setExtraEnemyForces(extraEnemyForcesCheckbox.isChecked());
+            ChangeEventList events;
+            events.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeExtraEnemyForces,
+                0, extraEnemyForcesCheckbox.isChecked() ? 1 : 0);
+            if(pNetworkManager) pNetworkManager->sendChangeEventList(events);
+        });
+        leftVBox.addWidget(&extraEnemyForcesCheckbox, 0.0);
         configureCoopLobby();
     }
     onChangeHousesDropDownBoxes(false);
@@ -836,6 +856,18 @@ void CustomGamePlayers::onReceiveChangeEventList(const ChangeEventList& changeEv
                 checkPlayerBoxes();
             } break;
 
+            case ChangeEventList::ChangeEvent::EventType::ChangeCoopEasyMode: {
+                if(coopSession && changeEvent.newValue <= 1) {
+                    coopSession->setEasyMode(changeEvent.newValue != 0);
+                    coopEasyModeCheckbox.setChecked(changeEvent.newValue != 0);
+                }
+            } break;
+            case ChangeEventList::ChangeEvent::EventType::ChangeExtraEnemyForces: {
+                if(coopSession && changeEvent.newValue <= 1) {
+                    coopSession->setExtraEnemyForces(changeEvent.newValue != 0);
+                    extraEnemyForcesCheckbox.setChecked(changeEvent.newValue != 0);
+                }
+            } break;
             case ChangeEventList::ChangeEvent::EventType::ChangeAlliedControl: {
                 if(coopSession && changeEvent.newValue <= 1) {
                     coopSession->setAlliedControl(changeEvent.newValue != 0);
@@ -868,6 +900,12 @@ ChangeEventList CustomGamePlayers::getChangeEventList()
         ChangeEventList::ChangeEvent::EventType::ChangeAlliedControl, 0,
         alliedControlCheckbox.isChecked() ? 1 : 0);
 
+    if(coopSession) {
+        changeEventList.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeCoopEasyMode,
+            0, coopEasyModeCheckbox.isChecked() ? 1 : 0);
+        changeEventList.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeExtraEnemyForces,
+            0, extraEnemyForcesCheckbox.isChecked() ? 1 : 0);
+    }
     for(int i=0;i<numHouses;i++) {
         HouseInfo& curHouseInfo = houseInfo[i];
 
@@ -1518,6 +1556,9 @@ void CustomGamePlayers::addAllPlayersToGameInitSettings()
             coopSession->setPlayerColor(i, color);
         }
         coopSession->setAlliedControl(alliedControlCheckbox.isChecked());
+        coopSession->setEasyMode(coopEasyModeCheckbox.isChecked());
+        coopSession->setExtraEnemyForces(extraEnemyForcesCheckbox.isChecked());
+        coopSession->skipIntroForEasyMode();
         for(int i = 1; i < numHouses; ++i) {
             const int player = houseInfo[i].player1DropDown.getSelectedEntryIntData();
             coopSession->setPlayerClass(i, player == PLAYER_HUMAN ? "HumanPlayer"
@@ -2244,6 +2285,9 @@ void CustomGamePlayers::configureCoopLobby() {
     bUpdatingCoopLobby = true;
     const auto& context = coopSession->context();
     const bool loading = gameInitSettings.getGameType() == GameType::LoadMultiplayer;
+    const bool editable = bServer && !loading && startGameTime == 0 && !bWaitingForModAcks;
+    coopEasyModeCheckbox.setEnabled(editable);
+    extraEnemyForcesCheckbox.setEnabled(editable);
     for(int i = 0; i < numHouses; ++i) {
         auto& row = houseInfo[i];
         const auto& slot = context.slots[i];

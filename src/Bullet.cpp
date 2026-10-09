@@ -23,6 +23,7 @@
 #include <SoundPlayer.h>
 #include <ObjectBase.h>
 #include <Game.h>
+#include <Achievements/AchievementEvents.h>
 #include <Map.h>
 #include <House.h>
 #include <Explosion.h>
@@ -608,6 +609,7 @@ void Bullet::destroy()
             currentGame->getExplosionList().push_back(new Explosion(Explosion_Gas, position, houseID));
         } break;
 case Bullet_LargeRocket: {
+            AchievementEvents::beginMissileImpact(owner, shooterID);
             soundPlayer->playSoundAt(Sound_ExplosionLarge, position);
 
             for(int i = 0; i < 5; i++) {
@@ -624,6 +626,7 @@ case Bullet_LargeRocket: {
                     }
                 }
             }
+            AchievementEvents::endMissileImpact();
         } break;
 
         case Bullet_Rocket:

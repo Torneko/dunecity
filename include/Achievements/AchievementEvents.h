@@ -23,5 +23,7 @@ void spice(House* house,const Tile* tile);
 void bloom(House* house);
 void palace(House* house);
 void missile(House* house);
+void beginMissileImpact(House* house, std::uint32_t shooter);
+void endMissileImpact();
 }
 #endif

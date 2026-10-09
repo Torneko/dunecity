@@ -46,6 +46,7 @@ private:
     void loadUnits();
     void loadStructures();
     void loadReinforcements();
+    void loadExtraCoopForces();
     void loadAITeams();
     void loadView();
 

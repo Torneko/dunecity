@@ -205,7 +205,9 @@ std::string serialize(const Context& context) {
         << "\nSession=" << context.sessionId << "\nMod=" << context.modName
         << "\nStage=" << context.stage << "\nCompletedMask=" << context.completedMask
         << "\nSeed=" << context.seed << "\nChaosEligible=" << (context.chaosEligible ? 1 : 0)
-        << "\nAlliedControl=" << (context.alliedControl ? 1 : 0) << "\nRoster=";
+        << "\nAlliedControl=" << (context.alliedControl ? 1 : 0)
+        << "\nEasyMode=" << (context.easyMode ? 1 : 0)
+        << "\nExtraEnemyForces=" << (context.extraEnemyForces ? 1 : 0) << "\nRoster=";
     for(std::size_t i = 0; i < context.roster.size(); ++i) {
         if(i) output << ',';
         output << context.roster[i];
@@ -311,6 +313,10 @@ std::optional<Context> readContext(const std::string& mapData) {
     context.chaosEligible = boolean(require(*section, "ChaosEligible"));
     if(const auto control = section->find("alliedcontrol"); control != section->end())
         context.alliedControl = boolean(control->second);
+    if(const auto field = section->find("easymode"); field != section->end())
+        context.easyMode = boolean(field->second);
+    if(const auto field = section->find("extraenemyforces"); field != section->end())
+        context.extraEnemyForces = boolean(field->second);
     std::istringstream roster(require(*section, "Roster"));
     std::string entry;
     while(std::getline(roster, entry, ',')) context.roster.push_back(number<int>(trim(entry)));
@@ -494,6 +500,14 @@ void CoopCampaignSession::chooseOpponents() {
     validate(context_);
 }
 
+void CoopCampaignSession::skipIntroForEasyMode() {
+    if(context_.easyMode && context_.stage == 1 && context_.completedMask == 0) {
+        context_.stage = 2;
+        context_.completedMask = 1; // Mission 1 is explicitly waived by Easy Mode.
+        if(!context_.followsOriginalCampaign()) chooseOpponents();
+    }
+}
+
 void CoopCampaignSession::completeMission(bool won) {
     if(isComplete()) throw std::logic_error("Coop campaign is already complete");
     if(!won) return;
@@ -518,6 +532,8 @@ void CoopCampaignSession::reconfigurePlayers(const std::array<int, 2>& playerFac
     revised.context_.stage = context_.stage;
     revised.context_.completedMask = context_.completedMask;
     revised.context_.alliedControl = context_.alliedControl;
+    revised.context_.easyMode = context_.easyMode;
+    revised.context_.extraEnemyForces = context_.extraEnemyForces;
     for(int i = 0; i < 2; ++i) {
         revised.context_.slots[i].color = context_.slots[i].color;
         revised.context_.slots[i].playerClass = context_.slots[i].playerClass;

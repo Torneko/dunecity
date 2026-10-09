@@ -119,6 +119,7 @@ private:
     SettingsClass::GameOptionsClass coopGameOptions;
     bool bUpdatingCoopLobby = false;
     Checkbox alliedControlCheckbox;
+    Checkbox coopEasyModeCheckbox, extraEnemyForcesCheckbox;
     TextButton loadCoopSaveButton;
     std::optional<GameInitSettings> selectedCoopSave;
     GameInitSettings::HouseInfoList houseInfoListSetup;     ///< only used if we are loading a savegame

@@ -130,6 +130,13 @@ void AchievementManager::refinedSpice(std::uint64_t total) {
 void AchievementManager::harvestedType(unsigned type){if(running&&!active.completed){active.spiceTypes|=type;evaluate();}}
 void AchievementManager::bloom(){if(running&&!active.completed){increment("SpiceBloomsTriggered");evaluate();}}
 void AchievementManager::missile(){if(running&&!active.completed){increment("PalaceMissilesLaunched");evaluate();}}
+void AchievementManager::missileResult(bool hitObject, std::uint64_t buildings) {
+    if(!running || active.completed) return;
+    if(!hitObject) increment("EmptyMissiles");
+    auto& best = state["Statistics"]["BestMissileStructures"];
+    if(buildings > number(best)) { best = std::to_string(buildings); dirty = true; }
+    evaluate();
+}
 void AchievementManager::palace(){if(running&&!active.completed){increment("PalaceAbilitiesUsed");evaluate();}}
 
 void AchievementManager::finish(bool won,bool enemiesRemain) {
@@ -137,8 +144,15 @@ void AchievementManager::finish(bool won,bool enemiesRemain) {
     const auto& record=state["Run:"+active.runID];
     const bool counted=record.count(won?"GamesWon":"GamesLost");
     if(!counted){increment(won?"GamesWon":"GamesLost");if(won)increment("Victories"+active.info.house);}
+    else active.counts[won ? "GamesWon" : "GamesLost"] = 1;
     if(won&&active.info.mode==Mode::Campaign&&active.info.mission==22) {
         state["Campaigns"][active.info.house]="1";state["CampaignsByMod"][active.info.mod+":"+active.info.house]="1";dirty=true;
+    }
+    if(won && active.info.coopCompletionEligible && !active.info.coopSession.empty()) {
+        const auto identity = active.info.mod + ":" + active.info.coopSession;
+        if(state["CoopCampaigns"].emplace(identity, "1").second) {
+            increment("CoopCampaignsCompleted"); dirty = true;
+        }
     }
     evaluate(won,enemiesRemain);active.completed=true;save();
 }
@@ -154,6 +168,14 @@ void AchievementManager::campaignScore(int score) {
     auto& best=state["Statistics"]["BestCampaignScore"];
     if(static_cast<std::uint64_t>(score)>number(best)) {
         best=std::to_string(score);dirty=true;
+    }
+    // Record only the highest score seen for this winning run, including reloads.
+    auto& recorded = state["Run:" + active.runID]["CampaignScore"];
+    const auto previous = number(recorded);
+    if(static_cast<std::uint64_t>(score) > previous) {
+        auto& total = state["Statistics"]["CampaignScoreTotal"];
+        total = std::to_string(add(number(total), static_cast<std::uint64_t>(score) - previous));
+        recorded = std::to_string(score); dirty = true;
     }
     evaluate();save();
 }

@@ -26,6 +26,7 @@ public:
     void bloom();
     void palace();
     void missile();
+    void missileResult(bool hitObject, std::uint64_t enemyBuildingsDestroyed);
     void finish(bool won, bool enemiesRemain);
     void campaignScore(int score);
     bool unlock(const std::string& id);

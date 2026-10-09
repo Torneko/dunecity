@@ -102,6 +102,10 @@ const std::array<SDL_Color, 8> wildspadeRamp{{
     {168, 20, 96, 255}, {148, 12, 84, 255}, {128, 12, 72, 255}, {108, 8, 60, 255},
     {88, 4, 48, 255}, {68, 4, 40, 255}, {48, 0, 28, 255}, {28, 0, 16, 255}
 }};
+const std::array<SDL_Color, 8> wildspadePurpleRamp{{
+    {108, 44, 148, 255}, {96, 36, 132, 255}, {84, 28, 116, 255}, {72, 20, 100, 255},
+    {60, 16, 84, 255}, {48, 12, 68, 255}, {36, 8, 52, 255}, {24, 4, 36, 255}
+}};
 const std::array<SDL_Color, 8> kleshmershOrangeRamp{{
     {255, 126, 91, 255}, {255, 96, 58, 255}, {248, 65, 24, 255}, {233, 45, 0, 255},
     {196, 35, 0, 255}, {158, 27, 0, 255}, {120, 20, 0, 255}, {82, 13, 0, 255}
@@ -229,7 +233,8 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
     if(colorSlot == HOUSECOLOR_KLESH_SARDAUKAR) return campaignFuchsia[shadeOffset];
     if(colorSlot == HOUSECOLOR_KLESH_MERCENARY) return campaignTurquoise[shadeOffset];
 
-    if(isVanillaRebelsColorSlot(colorSlot)) {
+    if(isVanillaRebelsColorSlot(colorSlot)
+       || (colorSlot == HOUSE_REBELS && ModManager::instance().getActiveModName() == "Jericho")) {
         return darkGreyRamp[shadeOffset];
     }
 
@@ -252,7 +257,8 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
        {
         if(colorSlot==HOUSECOLOR_GUEST_2 && ModManager::instance().getActiveModName()=="vanilla")
             return kleshmershBrownRamp[shadeOffset];
-        if(colorSlot == HOUSECOLOR_GUEST_1) return wildspadeRamp[shadeOffset];
+        if(colorSlot == HOUSECOLOR_GUEST_1) return ModManager::instance().getActiveModName() == "Tornie"
+            ? wildspadePurpleRamp[shadeOffset] : wildspadeRamp[shadeOffset];
         if(colorSlot == HOUSECOLOR_GUEST_2) return kleshmershOrangeRamp[shadeOffset];
         return tharpiqueRamp[shadeOffset];
     }

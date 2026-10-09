@@ -91,6 +91,8 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangePlayer, 2, ally);
         choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangePlayer, 4, enemy);
         choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeAlliedControl, 0, 1);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeCoopEasyMode, 0, 1);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeExtraEnemyForces, 0, 1);
         choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeColor, 0, HOUSECOLOR_CUSTOM_FUCHSIA);
         choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeColor, 1, HOUSECOLOR_CUSTOM_TEAL);
         lobby.onReceiveChangeEventList(choices);
@@ -98,6 +100,14 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         const auto context = coop::readContext(lobby.gameInitSettings.getFiledata());
         require(context && context->alliedControl && context->slots[1].playerClass == "qBotMedium"
             && context->slots[2].playerClass == "mentatEasy", "AI/control choices lost during lobby commit");
+        require(context->easyMode && context->extraEnemyForces && context->stage == 2 && context->completedMask == 1,
+            "lobby options or Easy Mode mission-two start lost");
+        const auto& setup = lobby.gameInitSettings;
+        for(int slot = 0; slot < static_cast<int>(context->slots.size()); ++slot) {
+            const int owner = context->slots[slot].house;
+            require(setup.campaignPurchasePrice(100, owner) == (slot < 2 ? 75 : 100), "co-op discount escaped allied slots");
+            require(setup.campaignStartingCredits(1000, owner) == (slot < 2 ? 1500 : 1000), "co-op starting funds escaped allied slots");
+        }
         require(context->slots[0].color == HOUSECOLOR_CUSTOM_FUCHSIA
             && context->slots[1].color == HOUSECOLOR_CUSTOM_TEAL, "chosen colors reverted to faction defaults");
         auto game = std::make_unique<Game>(); currentGame = game.get(); game->initGame(lobby.gameInitSettings);

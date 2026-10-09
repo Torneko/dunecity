@@ -1,4 +1,6 @@
-# Common co-op campaign — 1.0.537
+# Common co-op campaign — 1.0.538
+
+Tornie confirmed co-op 1.0.538 works on two PCs (2026-10-09).
 
 [Guide français](COOP-CAMPAIGN.md)
 
@@ -18,7 +20,7 @@ Available factions: 12 in Tornie and Jericho, 6 in Tornie Lite and Jericho Lite,
 
 ## Hosting and joining
 
-1. Run the **same 1.0.537 build** on both computers. Its network protocol is version **6**. Version 1.0.536 uses a different network protocol and cannot join this lobby.
+1. Run the **same 1.0.538 build** on both computers. Its network protocol is version **7**. Version 1.0.536 uses a different network protocol and cannot join this lobby.
 2. Activate the same edition in **Mods**. Use different player names.
 3. Open **Co-op campaign**, then choose the LAN or Internet browser. The host creates a game and selects **New campaign**. The second player joins through the browser or address connection.
 4. Connect a human guest or select an AI in the second slot, then choose factions. The host can select each enemy AI’s type and difficulty. Identical factions are allowed. Both players are allies; the opponent slots remain AI-controlled.
@@ -62,7 +64,30 @@ The host can select a qBot, Mentat, SmartBot or AI Player ally in the second slo
 
 ## Options and achievements
 
-**Easy Mode** remains exclusive to solo campaigns. Its mission-2 start, 500-credit bonus and purchase discounts do not apply to co-op. Both players and their opponents pay the edition's normal prices.
+## Local changes in 1.0.538
+
+Two lobby options are off by default: **Easy Mode** and **Enemy forces +5**.
+Easy Mode starts a new campaign at mission 2. Each ally, human or AI, gets 500 extra
+credits at that mission's start only. Their unit and building purchases cost 25 credits
+less (minimum 1) throughout the campaign. Enemies receive no bonus or discount.
+
+Enemy forces +5 adds five technology-appropriate units per present opponent in each
+mission, near its base or army. Reinforcement-only opponents start on a map edge opposite
+the main allied base. Extra units use Area Guard. Absent opponents receive no units.
+
+Host reinforcements also reach the second ally with the same number, timing, relative
+drop location and repeat rule. Unavailable units receive a faction-compatible equivalent.
+Recorded checkpoint reinforcements and forces are restored without being added twice.
+
+**Together on Arrakis / COOP_CONQUEROR** requires every common-campaign stage, with
+a human or AI ally. Easy Mode may waive the intro. Unlocks stay local; each completed
+session counts once. Solo campaign awards retain their requirements.
+
+Both PCs require **1.0.538**, protocol **7**. New saves use **9829**; older saves remain
+readable with their recorded forces and reinforcements. Start a new campaign or reach
+the next mission for the new reinforcement behavior. This preparation remains local;
+the public release is 1.0.537. Tornie confirmed two-PC co-op works. Mint 22.3 / kernel 7.0 still needs testing.
+
 
 The lobby offers **Chaos Mode**, off by default, in the four mods; Vanilla disables it. The draw uses a shared seed and both computers use the same rules. Saves preserve the mission's rules.
 
@@ -70,7 +95,7 @@ The lobby offers **Chaos Mode**, off by default, in the four mods; Vanilla disab
 
 ## Validation status and maintenance
 
-Tornie has tested co-op on two PCs. Revision 1.0.537 fixes the reported issues and adds the new options. Tornie confirmed that loading saves from the lobby works. Settings and resumes pass automated Windows/Linux checks; extended playtesting remains useful.
+Previous human validation: Tornie confirmed lobby save loading in 1.0.537. This 1.0.538 build needs fresh playtesting.
 
 Original-campaign templates live in `coop/faction<id>/coopNN.ini` under `data/` for Vanilla and `mods/<mod>/campaign/` for the mods. The 45 previous root templates remain for older sessions. `scripts/build-coop-campaign.py --check` validates the 405 source variants and previous maps; `--write` updates only co-op templates and checksums. `config/CoopCampaignTerrain.json` is generated with the game’s `MapSeed.cpp` algorithm.
 

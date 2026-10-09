@@ -1,6 +1,6 @@
 # Local achievements
 
-Dune Legacy Tornie 1.0.536 provides 47 offline achievements. Open **Achievements**
+Dune Legacy Tornie 1.0.538 provides 67 offline achievements. Open **Achievements**
 or **Hauts faits** from the main menu to view locked awards and cumulative stats.
 Unlocks use the existing in-game news ticker. Steam is not required.
 
@@ -70,7 +70,7 @@ totals already earned survive loading an earlier save.
 `config/Achievements.ini` defines stable IDs, English/French names and descriptions,
 rule, statistic, threshold and `Secret`. Definitions override the compiled fallback
 catalog; additional IDs using an existing rule can be added. `Secret=true` displays
-`???` and a hidden description until unlocked. The default 47 awards are visible.
+`???` and a hidden description until unlocked. The default 67 awards are visible.
 Keep the fallback in `include/Achievements/AchievementDefaults.h` synchronized when
 changing built-in definitions, so a missing external catalog keeps the same rules.
 
@@ -113,3 +113,24 @@ Start a new solo campaign with Chaos Mode enabled and complete its final mission
 The campaign eligibility flag follows progression and game saves. Re-enabling
 Chaos after losing eligibility does not restore the award condition. Vanilla
 does not support Chaos Mode; the separate co-op campaign does not grant this award.
+
+
+## Added in local 1.0.538
+
+Twenty awards expand the catalogue to 67, preserving all existing IDs and unlocks.
+The full FR/EN conditions and thresholds are in `config/Achievements.ini`.
+`scripts/sync-achievements.py` generates the identical fallback catalogue with MSVC-safe literal sizes.
+Co-op completion requires a winning final stage with all previous stage bits; Easy Mode explicitly
+waives the first stage. Each mod/session completion counts once per profile, including AI allies.
+Solo campaign completion awards remain separate.
+
+Palace missile outcomes aggregate the synchronous 21-impact blast. Any directly damaged unit/building,
+including an ally, excludes Fuel Waste. Enemy building deaths are deduplicated by object ID and
+must belong to that one missile; shots cannot combine. Other players' missiles do not count.
+`BestMissileStructures` keeps the maximum, `EmptyMissiles` uses ordinary run high-water tracking.
+
+Winning solo campaign results track the displayed score: 1,500 / 2,000 thresholds and a 10,000-point
+cumulative target. The same run contributes only its highest recorded score; replaying a checkpoint
+cannot repeat the points. Existing best scores remain valid; unrecorded older scores are not synthesized.
+Other new lifetime thresholds cover wins, defeats, units built/lost/destroyed, buildings built/destroyed/captured,
+spice deposits, worms, crushed infantry, blooms, palace abilities and missiles.

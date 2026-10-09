@@ -10,11 +10,13 @@ Project repository: https://github.com/Torneko/dunelegacy-tornie
 
 Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) · [English](https://torneko.github.io/dunelegacy-tornie/index-en.html). Keep both languages aligned with each game update; see [website maintenance](docs/WEBSITE.md).
 
+Version **[1.0.538](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538)** adds Barracks/WOR/Worfinery production portraits in the four mods, new Tornie Wildspade and Jericho Rebels banners/colors, optional allied Easy Mode and five extra enemy units per mission, reinforcements for both allies, and 20 new achievements (67 total). Both PCs need 1.0.538 / protocol 7. See [French notes](release_notes/1.0.538-FR.md) and [English notes](release_notes/1.0.538-EN.md). Tornie confirmed two-PC co-op works in 1.0.538. The six infantry production icons use white prices, and the Worfinery displays the Harvester last.
+
 Version **[1.0.537](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.537)** adds optional allied control, selectable enemy AI type/difficulty and an AI guest, with separate ownership and funds. New co-op intros include a nearby guest WOR. Enemy factions avoid both allied factions, colors refresh in the lobby, How to Play covers Jericho Lite in French/English, and Wildspade's eye/mouth overlays are refined. See [French notes](release_notes/1.0.537-FR.md) and [English notes](release_notes/1.0.537-EN.md). Both computers need 1.0.537 and network protocol 6. Tornie has tested co-op on two PCs and confirmed that loading saves from the lobby works. Automated Windows/Linux checks cover the new settings and saved options; extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open.
 
 Version **[1.0.536](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536)** adds cooperative campaigns, Easy Mode and Jericho Lite. Co-op has since been tried by Tornie on two computers; 1.0.537 extends its lobby and save-loading options.
 
-The main menu now provides a [common cooperative campaign](docs/COOP-CAMPAIGN-EN.md) ([guide français](docs/COOP-CAMPAIGN.md)) over LAN or Internet. Two players each control their own base and army on the same team, and may choose the same faction. Nine shared missions have their own progress and checkpoints, independent of solo campaigns. New campaigns follow the original campaign of the host’s faction, with 405 co-op variants from 45 source campaigns. The guest starts with matching units and credits plus an MCV near the host’s Construction Yard; harvest objectives use a shared quota. Available factions: nine in Vanilla, twelve in Tornie/Jericho and six in each Lite edition. Older co-op sessions retain their previous layouts. Both computers need the **same 1.0.536 build**, using network protocol **5**.
+The main menu now provides a [common cooperative campaign](docs/COOP-CAMPAIGN-EN.md) ([guide français](docs/COOP-CAMPAIGN.md)) over LAN or Internet. Two players each control their own base and army on the same team, and may choose the same faction. Nine shared missions have their own progress and checkpoints, independent of solo campaigns. New campaigns follow the original campaign of the host’s faction, with 405 co-op variants from 45 source campaigns. The guest starts with matching units and credits plus an MCV near the host’s Construction Yard; harvest objectives use a shared quota. Available factions: nine in Vanilla, twelve in Tornie/Jericho and six in each Lite edition. Older co-op sessions retain their previous layouts. Both computers need the **same 1.0.538 build**, using network protocol **7**.
 
 Other 1.0.536 changes:
 
@@ -74,7 +76,7 @@ Achievement checkpoints preserve the missile count and spice awards across game 
 
 ## Main goals
 
-The project includes 47 internal offline achievements, cumulative local
+The project includes 67 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Achievement
 profiles remain separate from mission saves. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).

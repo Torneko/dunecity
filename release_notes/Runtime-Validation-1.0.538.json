@@ -1,0 +1,73 @@
+{
+  "version": "1.0.538",
+  "localPreparation": true,
+  "passed": true,
+  "sourceBase": "ab5272c6dafa82c0a97f2192db4f4a4c19fff6e6",
+  "sourceRevision": "working-tree-538",
+  "networkProtocol": 7,
+  "saveVersion": 9829,
+  "unitTests": {
+    "Windows": true,
+    "Linux": true,
+    "cases": 122
+  },
+  "runtime": [
+    {
+      "platformLanguage": "Windows-fr",
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopVariants": 405,
+      "savePickerCases": 7,
+      "newOptionEditions": 5,
+      "realMissileImpacts": true,
+      "fullAchievementIntegration": true,
+      "logSha256": "e14ae18360d36ef4389cd0b894a49083d7070b6ad0e248bae074e12123b26f37"
+    },
+    {
+      "platformLanguage": "Windows-en",
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopVariants": 405,
+      "savePickerCases": 7,
+      "newOptionEditions": 5,
+      "realMissileImpacts": true,
+      "fullAchievementIntegration": true,
+      "logSha256": "b41b475fa00471676999e1da8f78c3f0e9cb339f288a9ac4571f950455b8dadc"
+    },
+    {
+      "platformLanguage": "AppImage-fr",
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopVariants": 405,
+      "savePickerCases": 7,
+      "newOptionEditions": 5,
+      "realMissileImpacts": true,
+      "fullAchievementIntegration": true,
+      "logSha256": "060bdfdf78eddac3771e739e8f2bcfbc02704ea3332c275a47a0a0332d4f23f4"
+    },
+    {
+      "platformLanguage": "AppImage-en",
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopVariants": 405,
+      "savePickerCases": 7,
+      "newOptionEditions": 5,
+      "realMissileImpacts": true,
+      "fullAchievementIntegration": true,
+      "logSha256": "26ffe2e976576bd23d6bd64387b6936f894677811143ee0f005bf93dd9a5a014"
+    }
+  ],
+  "audio": {
+    "passed": true,
+    "driver": "pulseaudio",
+    "vocFiles": 2,
+    "host": "Ubuntu 22.04.5 / WSL, Linux 6.18.33.2"
+  },
+  "modPayloadChecksums": true,
+  "localeChecks": true,
+  "remainingManualChecks": [
+    "Mint 22.3 / kernel 7.0 on the friend computer",
+    "Extended two-computer co-op with new 1.0.538 options"
+  ],
+  "publication": "Not published; public version remains 1.0.537"
+}

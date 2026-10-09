@@ -1,3 +1,24 @@
+## Release 1.0.538 — 2026-10-09
+
+The current French/English working site is based on published `origin/gh-pages`
+`ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6`. Game source is the local 1.0.538
+working tree based on `ab5272c6dafa82c0a97f2192db4f4a4c19fff6e6`.
+Tornie authorized publication after confirming the corrected build works. Publish the matching FR/EN site, exact audited Windows archive, Mint compatibility AppImage, sources and offline ZIP for 1.0.538. Record the final source/site commits and CI/Pages results below after deployment.
+
+Both languages describe the optional allied Easy Mode (mission 2, +500 credits
+per ally at that mission start, -25 purchase prices), optional five extra units
+per present enemy per mission, reinforcements for both allies and protocol 7.
+The catalogue contains 67 achievements. The 119-PNG gallery and manifest include
+the exact new production portraits (Barracks/WOR/Worfinery in the four mods only) and the
+Wildspade/Tornie and Rebels/Jericho banners and colors. Selected-unit portraits
+retain their existing images. Published downloads and the offline ZIP must use the audited 1.0.538 release assets.
+
+Validation results accompany the preparation in `release_notes/Validation-1.0.538.json`.
+Tornie confirmed two-PC co-op 1.0.538 works on 2026-10-09. Mint 22.3/kernel 7.0
+remains to be checked on the target PC. The six production icons distinguish single,
+three and five infantry, with white price text. The Worfinery displays Harvester last. Preserve the previous published baseline
+below when continuing from another PC. The published gh-pages branch and matching release asset become the baseline after deployment.
+
 ## Published 1.0.537 baseline — 2026-10-08
 
 Recovered the current `origin/gh-pages` baseline at `a39cecfa` before updating the local bilingual site. Document allied control (default off), selectable enemy AI, an AI guest, guest intro WOR, enemy faction/color collision handling, revised in-game help and refined Wildspade rendering. Unit technology and prices, solo campaign maps and the 47-achievement catalogue are unchanged. New co-op layouts require a new campaign or next mission; checkpoints retain existing positions. Protocol 6 requires both players to use 1.0.537. Tornie has tried co-op on two PCs and confirmed lobby save loading. Extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open. The French/English website and offline ZIP now identify 1.0.537 and embed the exact audited Windows release archive.
