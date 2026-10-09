@@ -24,6 +24,7 @@
 #include <misc/OutputStream.h>
 #include <ObjectData.h>
 #include <mod/ChaosMode.h>
+#include <Campaign/CoopCampaignSession.h>
 #include <ObjectManager.h>
 #include <CommandManager.h>
 #include <GameInterface.h>
@@ -180,6 +181,10 @@ public:
     */
     void setGameLost();
 
+    bool canPlayerControlHouse(const House* playerHouse, const House* owner) const;
+    bool canControlHouse(const House* owner) const;
+    bool isCoopCampaign() const { return coopContext.has_value(); }
+
     bool hasFinished() const { return finished && !bQuitGame; }
     bool hasWon() const { return hasFinished() && won; }
 
@@ -189,6 +194,7 @@ public:
     void updateCoopParticipants(const std::string& mapData,
         const GameInitSettings::HouseInfoList& participants) {
         gameInitSettings.setMapData(mapData);
+        coopContext = coop::readContext(mapData);
         gameInitSettings.clearHouseInfo();
         for(const auto& participant : participants) gameInitSettings.addHouseInfo(participant);
         for(auto& setup : houseInfoListSetup)
@@ -820,6 +826,7 @@ private:
 
     ////////////////////
 
+    std::optional<coop::Context> coopContext;
     GameInitSettings                    gameInitSettings;       ///< the init settings this game was started with
     GameInitSettings                    nextGameInitSettings;   ///< the init settings the next game shall be started with (restarting the mission, loading a savegame)
     GameInitSettings::HouseInfoList     houseInfoListSetup;     ///< this saves with which houses and players the game was actually set up. It is a copy of gameInitSettings::houseInfoList but without random houses

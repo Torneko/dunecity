@@ -3761,7 +3761,7 @@ void GFXManager::invalidateAllSpriteTextures() {
 static std::unique_ptr<Animation> loadFittedMentatAnimation(
     const std::string& filename, int count, double rate, SDL_Surface* background,
     int x, int y, int width, int height, int cropY, int cropHeight, bool eyes,
-    const std::vector<ModMentatPatch>& patches) {
+    const std::vector<ModMentatPatch>& patches, int brightness) {
     if(!background || count < 2 || width <= 0 || height <= 0
        || x < 0 || y < 0 || x + width > background->w || y + height > background->h
        || !pFileManager->exists(filename)) return nullptr;
@@ -3783,6 +3783,7 @@ static std::unique_ptr<Animation> loadFittedMentatAnimation(
                 auto cropped = getSubPicture(strip.get(), left + source.x, source.y, source.w, source.h);
                 auto fitted = resizeSurfaceNearest(cropped.get(), destination.w, destination.h);
                 if(!fitted) return false;
+                SDL_SetSurfaceColorMod(fitted.get(), brightness, brightness, brightness);
                 SDL_SetSurfaceBlendMode(fitted.get(), SDL_BLENDMODE_BLEND);
                 SDL_Rect target{destination.x,destination.y,destination.w,destination.h};
                 return SDL_BlitSurface(fitted.get(), nullptr, composite.get(), &target) == 0;
@@ -3913,7 +3914,7 @@ void GFXManager::loadMentatGraphics() {
             modMentatEyes[house] = info.restFromBackground ? loadFittedMentatAnimation(
                 info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
                 uiGraphic[UI_MentatBackground][house].get(), info.eyesX, info.eyesY,
-                info.eyesWidth, info.eyesHeight, info.eyesCropY, info.eyesCropHeight, true, info.eyesPatches)
+                info.eyesWidth, info.eyesHeight, info.eyesCropY, info.eyesCropHeight, true, info.eyesPatches, info.eyesBrightness)
                 : loadPngStripAnimation(
                 info.eyesAsset, info.eyesFrames, info.eyesFrameRate,
                 info.doubleEyes, info.eyesTransparentColor);
@@ -3926,7 +3927,7 @@ void GFXManager::loadMentatGraphics() {
             modMentatMouth[house] = info.restFromBackground ? loadFittedMentatAnimation(
                 info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
                 uiGraphic[UI_MentatBackground][house].get(), info.mouthX, info.mouthY,
-                info.mouthWidth, info.mouthHeight, info.mouthCropY, info.mouthCropHeight, false, info.mouthPatches)
+                info.mouthWidth, info.mouthHeight, info.mouthCropY, info.mouthCropHeight, false, info.mouthPatches, info.mouthBrightness)
                 : loadPngStripAnimation(
                 info.mouthAsset, info.mouthFrames, info.mouthFrameRate,
                 info.doubleMouth, info.mouthTransparentColor);

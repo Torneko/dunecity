@@ -263,7 +263,9 @@ inline coop::Context verifyMission(Game& game, const GameInitSettings& init,
             require(context.enemyPresent[i - 2] == present, "initial enemy presence marker was lost during binding");
             if(participating) {
                 ++participatingEnemies;
-                require(slot.faction == map.getIntValue("COOP_TEMPLATE", "EnemyFaction" + std::to_string(i - 1), -1),
+                const int originalEnemy = map.getIntValue("COOP_TEMPLATE", "EnemyFaction" + std::to_string(i - 1), -1);
+                require((slot.faction == originalEnemy || originalEnemy == context.slots[0].faction || originalEnemy == context.slots[1].faction)
+                    && slot.faction != context.slots[0].faction && slot.faction != context.slots[1].faction,
                         "original/deferred opponent was assigned another faction");
                 if(!present && deferred)
                     require(house->getNumUnits() == 0 && house->getNumStructures() == 0,
@@ -282,7 +284,7 @@ inline coop::Context verifyMission(Game& game, const GameInitSettings& init,
     }
     auto* first = game.getHouse(context.slots[0].house);
     auto* second = game.getHouse(context.slots[1].house);
-    require(first->getNumItems(Structure_ConstructionYard) > 0 && second->getNumStructures() == 0
+    require(first->getNumItems(Structure_ConstructionYard) > 0 && second->getNumStructures() == (stage == 1 ? 1 : 0) && second->getNumItems(Structure_WOR) == (stage == 1 ? 1 : 0)
             && second->getNumItems(Unit_MCV) == first->getNumItems(Unit_MCV) + 1,
             "guest must start with an extra MCV and no prebuilt base");
     std::multiset<std::string> firstForce, secondForce;

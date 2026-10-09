@@ -6,6 +6,8 @@
 #include <Menu/MainMenu.h>
 #include <FileClasses/LoadSavePNG.h>
 #include <FileClasses/INIFile.h>
+#include <GUI/dune/LoadSaveWindow.h>
+#include <misc/fnkdat.h>
 #include <misc/SaveGameLobbySetup.h>
 #include <misc/FileSystem.h>
 #include <misc/OMemoryStream.h>
@@ -45,7 +47,8 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
     for(const bool pendingSource : {true, false}) {
         auto probe = init;
         if(pendingSource) probe.setMapData(probe.getFiledata() + "\nSourcePending=1\n");
-        CustomGamePlayers lobby(probe, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(probe, false);
+        auto& lobby = *ownedLobby;
         ChangeEventList changes;
         changes.changeEventList.emplace_back(0, settings.general.playerName);
         changes.changeEventList.emplace_back(2, peer);
@@ -61,8 +64,65 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         INIFile map(stream.get());
         require(!map.hasKey("COOP", "SourcePending"), "pending source flag leaked into committed game settings");
     }
+    if(mod == "Tornie") {
+        pNetworkManager = std::make_unique<NetworkManager>(0, "", true);
+        {
+            auto ownedLobby = std::make_unique<CustomGamePlayers>(init, true, true);
+            auto& lobby = *ownedLobby;
+            ChangeEventList choice;
+            choice.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangePlayer,
+                2, PlayerFactory::getIndexByPlayerClass("qBotMedium"));
+            lobby.onReceiveChangeEventList(choice);
+            require(lobby.isCoopLobbyReady(), "AI guest lobby still requires a human network peer");
+            lobby.onNext();
+            require(lobby.startGameTime > 0 && !lobby.bWaitingForModAcks,
+                "AI guest launch waits for an absent player's acknowledgement");
+            lobby.startGameTime = 0;
+        }
+        pNetworkManager.reset();
+    }
     {
-        CustomGamePlayers lobby(init, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(init, false);
+        auto& lobby = *ownedLobby;
+        const int ally = PlayerFactory::getIndexByPlayerClass("qBotMedium");
+        const int enemy = PlayerFactory::getIndexByPlayerClass("mentatEasy");
+        ChangeEventList choices;
+        choices.changeEventList.emplace_back(0, settings.general.playerName);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangePlayer, 2, ally);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangePlayer, 4, enemy);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeAlliedControl, 0, 1);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeColor, 0, HOUSECOLOR_CUSTOM_FUCHSIA);
+        choices.changeEventList.emplace_back(ChangeEventList::ChangeEvent::EventType::ChangeColor, 1, HOUSECOLOR_CUSTOM_TEAL);
+        lobby.onReceiveChangeEventList(choices);
+        lobby.addAllPlayersToGameInitSettings();
+        const auto context = coop::readContext(lobby.gameInitSettings.getFiledata());
+        require(context && context->alliedControl && context->slots[1].playerClass == "qBotMedium"
+            && context->slots[2].playerClass == "mentatEasy", "AI/control choices lost during lobby commit");
+        require(context->slots[0].color == HOUSECOLOR_CUSTOM_FUCHSIA
+            && context->slots[1].color == HOUSECOLOR_CUSTOM_TEAL, "chosen colors reverted to faction defaults");
+        auto game = std::make_unique<Game>(); currentGame = game.get(); game->initGame(lobby.gameInitSettings);
+        auto* host = game->getHouse(context->slots[0].house);
+        auto* guest = game->getHouse(context->slots[1].house);
+        require(guest->isAI() && guest->getTeamID() == host->getTeamID(), "AI guest joined the enemy team");
+        require(game->canControlHouse(guest) && !game->canControlHouse(game->getHouse(context->slots[2].house)),
+            "allied control includes enemies or excludes ally");
+        UnitBase* target = nullptr;
+        for(auto* unit : unitList) if(unit->getOwner() == guest && unit->isRespondable()) { target = unit; break; }
+        require(target, "AI ally has no controllable starting unit");
+        Command(pLocalPlayer->getPlayerID(), CMD_UNIT_SETMODE, target->getObjectID(), HUNT).executeCommand();
+        require(target->getAttackMode() == HUNT, "host could not issue an allied unit order");
+        auto map = lobby.gameInitSettings.getFiledata();
+        const auto at = map.find("AlliedControl=1"); require(at != std::string::npos, "missing control flag");
+        map.replace(at, 15, "AlliedControl=0");
+        game->updateCoopParticipants(map, lobby.gameInitSettings.getHouseInfoList());
+        Command(pLocalPlayer->getPlayerID(), CMD_UNIT_SETMODE, target->getObjectID(), GUARD).executeCommand();
+        require(target->getAttackMode() == HUNT && !game->canControlHouse(guest), "disabled allied control still accepts orders");
+        game.reset(); currentGame = nullptr; pLocalHouse = nullptr; pLocalPlayer = nullptr;
+        capture(lobby, "ai-ally-control-colors");
+    }
+    {
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(init, false);
+        auto& lobby = *ownedLobby;
         ChangeEventList changes;
         changes.changeEventList.emplace_back(0, settings.general.playerName);
         changes.changeEventList.emplace_back(2, peer);
@@ -120,8 +180,11 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         const auto context = coop::readContext(saved.settings.getFiledata());
         require(context && saved.houses.size() == context->slots.size(), "checkpoint lost co-op setup");
         GameInitSettings load(path.filename().string(), bytes, "Coop lobby resume check");
-        CustomGamePlayers lobby(load, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(load, false);
+        auto& lobby = *ownedLobby;
         require(lobby.coopSession && lobby.numHouses == static_cast<int>(context->slots.size()), "saved co-op lobby is not recognized");
+        require(!lobby.loadCoopSaveButton.isVisible() && !lobby.loadCoopSaveButton.isEnabled(),
+            "a guest can choose a host save");
         for(int i = 0; i < lobby.numHouses; ++i) {
             require(lobby.houseInfo[i].houseDropDown.getSelectedEntryIntData() == context->slots[i].house,
                 "checkpoint ownership slots changed in the lobby");
@@ -129,6 +192,68 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
                 "checkpoint colors were not restored in the lobby");
         }
         capture(lobby, "resume-lobby");
+    }
+    {
+        const auto fixture = std::filesystem::path(output) /
+            (mod + "-same-faction-" + std::to_string(roster[0]) + ".sav");
+        char manual[FILENAME_MAX], automatic[FILENAME_MAX];
+        fnkdat("mpsave/", manual, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT);
+        fnkdat("coop/", automatic, FILENAME_MAX, FNKDAT_USER | FNKDAT_CREAT);
+        const auto name = mod + "-manual-lobby-check";
+        const auto autoName = mod + "-automatic-lobby-check";
+        std::filesystem::copy_file(fixture, std::filesystem::path(manual) / (name + ".dls"),
+            std::filesystem::copy_options::overwrite_existing);
+        std::filesystem::copy_file(fixture, std::filesystem::path(automatic) / (autoName + ".dls"),
+            std::filesystem::copy_options::overwrite_existing);
+        for(int directory = 0; directory < 2; ++directory) {
+            auto ownedLobby = std::make_unique<CustomGamePlayers>(init, true);
+            auto& lobby = *ownedLobby;
+            require(lobby.loadCoopSaveButton.isVisible() && lobby.loadCoopSaveButton.isEnabled(),
+                "host has no accessible save loader");
+            lobby.bWaitingForModAcks = true;
+            lobby.enforceCoopLobby();
+            lobby.onLoadCoopSave();
+            require(!lobby.hasChildWindow() && !lobby.loadCoopSaveButton.isEnabled(),
+                "save selection is allowed during synchronization");
+            lobby.bWaitingForModAcks = false;
+            lobby.enforceCoopLobby();
+            lobby.onLoadCoopSave();
+            auto* picker = dynamic_cast<LoadSaveWindow*>(lobby.pChildWindow);
+            require(picker, "host save button did not open the picker");
+            picker->onDirectoryChange(directory);
+            const auto expected = directory == 0 ? name : autoName;
+            int selected = -1;
+            for(int i = 0; i < picker->fileList.getNumEntries(); ++i)
+                if(picker->fileList.getEntry(i) == expected) selected = i;
+            require(selected >= 0, "manual/automatic save is absent from its directory tab");
+            picker->fileList.setSelectedItem(selected);
+            capture(lobby, directory == 0 ? "manual-save-picker" : "automatic-save-picker");
+            picker->onOK();
+            lobby.processChildWindowOpenCloses();
+            require(lobby.isQuiting() && lobby.selectedCoopSave
+                && lobby.selectedCoopSave->getGameType() == GameType::LoadMultiplayer,
+                "selected save did not request a new host lobby");
+            require(lobby.selectedCoopSave->getFiledata() == readCompleteFile(fixture.string()),
+                "save selection changed the saved mission state");
+            auto ownedResumed = std::make_unique<CustomGamePlayers>(*lobby.selectedCoopSave, true);
+            auto& resumed = *ownedResumed;
+            require(resumed.coopSession && resumed.numHouses == lobby.numHouses,
+                "manual selection did not reopen a co-op lobby");
+            capture(resumed, "manually-loaded-host-lobby");
+        }
+        auto ownedCancelled = std::make_unique<CustomGamePlayers>(init, true);
+        auto& cancelled = *ownedCancelled;
+        cancelled.onLoadCoopSave();
+        auto* picker = dynamic_cast<LoadSaveWindow*>(cancelled.pChildWindow);
+        require(picker, "cancel test has no save picker");
+        picker->onCancel();
+        cancelled.processChildWindowOpenCloses();
+        require(!cancelled.isQuiting() && !cancelled.selectedCoopSave, "cancel switched the lobby map");
+        bool wrongModRejected = false;
+        try { coop::makeSavedGameSettings(fixture.string(), "Wrong mod", "unavailable-mod"); }
+        catch(const std::exception&) { wrongModRejected = true; }
+        require(wrongModRejected, "co-op loader accepted a different mod");
+        SDL_Log("COOP SAVE PICKER PASS: %s manual/automatic tabs, frozen launch, cancel, wrong mod and lobby restoration", mod.c_str());
     }
     if(mod == "vanilla") {
         // OPENSD2 Sardaukar's real finale has five opponents. Its seven rows
@@ -141,7 +266,8 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         const auto finalContext = coop::readContext(finalInit.getFiledata());
         require(finalContext && finalContext->slots.size() == 7, "real OPENSD2 finale lost an opponent before the lobby");
         {
-            CustomGamePlayers lobby(finalInit, false);
+            auto ownedLobby = std::make_unique<CustomGamePlayers>(finalInit, false);
+            auto& lobby = *ownedLobby;
             require(lobby.coopSession && lobby.numHouses == 7, "initial finale lobby truncated participants");
             // An isolated client has no network manager. Occupy both humans
             // before probing a third join so that no network send is requested.
@@ -175,7 +301,8 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         const auto saved = readSaveGameLobbySetup(bytes);
         require(saved.houses.size() == 7, "save lobby setup omitted final-mission participants");
         GameInitSettings load(getBasename(path, true), bytes, "Seven-participant finale resume");
-        CustomGamePlayers lobby(load, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(load, false);
+        auto& lobby = *ownedLobby;
         require(lobby.coopSession && lobby.numHouses == 7, "resumed finale lobby truncated participants");
         for(int i = 0; i < 7; ++i)
             require(lobby.houseInfo[i].houseDropDown.getSelectedEntryIntData() == finalContext->slots[i].house
@@ -199,10 +326,16 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
         const auto bytes = readCompleteFile(path);
         const auto saved = readSaveGameLobbySetup(bytes);
         require(!coop::readContext(saved.settings.getFiledata()), "ordinary save became a co-op campaign");
+        bool rejected = false;
+        try { coop::makeSavedGameSettings(path, "Co-op only", mod); }
+        catch(const std::exception&) { rejected = true; }
+        require(rejected, "co-op picker accepted an ordinary multiplayer save");
         GameInitSettings load(getBasename(path, true), bytes, "Ordinary resume check");
-        CustomGamePlayers lobby(load, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(load, false);
+        auto& lobby = *ownedLobby;
         require(!lobby.coopSession && lobby.numHouses == static_cast<int>(saved.houses.size()),
             "ordinary multiplayer lobby regression");
+        require(!lobby.loadCoopSaveButton.isVisible(), "ordinary lobby gained a co-op save button");
         for(int i = 0; i < lobby.numHouses; ++i)
             require(lobby.houseInfo[i].colorDropDown.getSelectedEntryIntData() == saved.houses[i].colorOfHouse,
                 "ordinary saved color lost");
@@ -272,7 +405,8 @@ inline void verifyCoopLobby(const std::string& output, const std::string& mod) {
                 "pre-mod settings cursor changed ownership");
         require(settingsStream.readUint32() == nextField, "pre-mod settings consumed the following game field");
         GameInitSettings load("legacy-multiplayer.sav", bytes, "Legacy resume check");
-        CustomGamePlayers lobby(load, false);
+        auto ownedLobby = std::make_unique<CustomGamePlayers>(load, false);
+        auto& lobby = *ownedLobby;
         require(!lobby.coopSession && lobby.numHouses == static_cast<int>(rows.size())
             && lobby.houseInfo[1].player1DropDown.getSelectedEntryIntData() == -2,
             "legacy closed row cannot reopen in the ordinary lobby");

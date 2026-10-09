@@ -33,7 +33,8 @@ public:
             ChangeTeam,
             ChangeColor,
             ChangePlayer,
-            SetHumanPlayer
+            SetHumanPlayer,
+            ChangeAlliedControl
         };
 
 

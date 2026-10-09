@@ -52,7 +52,7 @@ void Silo::init() {
 Silo::~Silo() = default;
 
 ObjectInterface* Silo::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return RefineryAndSiloInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);

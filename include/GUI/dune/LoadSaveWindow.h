@@ -103,6 +103,9 @@ public:
     }
 
 private:
+#ifdef DUNELEGACY_RUNTIME_TESTS
+    friend void verifyCoopLobby(const std::string&, const std::string&);
+#endif
     void onOK();
     void onCancel();
 

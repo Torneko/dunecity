@@ -353,7 +353,7 @@ void UnitBase::blitToScreen() {
 }
 
 ObjectInterface* UnitBase::getInterfaceContainer() {
-    if((pLocalHouse == owner && isRespondable()) || (debug == true)) {
+    if((currentGame->canControlHouse(owner) && isRespondable()) || (debug == true)) {
         return UnitInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);
@@ -1366,7 +1366,7 @@ void UnitBase::setTarget(const ObjectBase* newTarget) {
             static_cast<RepairYard*>(pOldTarget)->unBook();
         }
         // Repair yard may have been destroyed while we were en route;
-        // clear the flag either way â€” we are no longer booked/headed there.
+        // clear the flag either way — we are no longer booked/headed there.
         goingToRepairYard = false;
     }
 

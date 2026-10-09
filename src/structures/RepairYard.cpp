@@ -79,7 +79,7 @@ void RepairYard::save(OutputStream& stream) const {
 
 
 ObjectInterface* RepairYard::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return RepairYardInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);

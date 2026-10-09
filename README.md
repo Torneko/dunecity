@@ -1,5 +1,7 @@
 # Dune Legacy Tornie
 
+The host lobby now provides **Load a save**, with manual multiplayer saves and automatic co-op checkpoints. Loading reopens the lobby; the guest rejoins. Automatic progress resume remains available.
+
 **Dune Legacy Tornie** is an independent Dune Legacy-derived real-time strategy project focused on classic Dune II gameplay plus Tornie's engine, faction, campaign, balance, graphics, audio and editor extensions.
 
 This repository is intentionally separated from **DuneCity** and **Dune2R**. The former DuneCity city-building simulation is not part of this project.
@@ -8,7 +10,9 @@ Project repository: https://github.com/Torneko/dunelegacy-tornie
 
 Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) · [English](https://torneko.github.io/dunelegacy-tornie/index-en.html). Keep both languages aligned with each game update; see [website maintenance](docs/WEBSITE.md).
 
-Version **[1.0.536](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536)** adds cooperative campaigns, Easy Mode and Jericho Lite. Windows compilation and automated checks have passed locally. A live cooperative match between two computers still needs validation; co-op is included for playtesting.
+Version **[1.0.537](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.537)** adds optional allied control, selectable enemy AI type/difficulty and an AI guest, with separate ownership and funds. New co-op intros include a nearby guest WOR. Enemy factions avoid both allied factions, colors refresh in the lobby, How to Play covers Jericho Lite in French/English, and Wildspade's eye/mouth overlays are refined. See [French notes](release_notes/1.0.537-FR.md) and [English notes](release_notes/1.0.537-EN.md). Both computers need 1.0.537 and network protocol 6. Tornie has tested co-op on two PCs and confirmed that loading saves from the lobby works. Automated Windows/Linux checks cover the new settings and saved options; extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open.
+
+Version **[1.0.536](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.536)** adds cooperative campaigns, Easy Mode and Jericho Lite. Co-op has since been tried by Tornie on two computers; 1.0.537 extends its lobby and save-loading options.
 
 The main menu now provides a [common cooperative campaign](docs/COOP-CAMPAIGN-EN.md) ([guide français](docs/COOP-CAMPAIGN.md)) over LAN or Internet. Two players each control their own base and army on the same team, and may choose the same faction. Nine shared missions have their own progress and checkpoints, independent of solo campaigns. New campaigns follow the original campaign of the host’s faction, with 405 co-op variants from 45 source campaigns. The guest starts with matching units and credits plus an MCV near the host’s Construction Yard; harvest objectives use a shared quota. Available factions: nine in Vanilla, twelve in Tornie/Jericho and six in each Lite edition. Older co-op sessions retain their previous layouts. Both computers need the **same 1.0.536 build**, using network protocol **5**.
 
@@ -70,7 +74,7 @@ Achievement checkpoints preserve the missile count and spice awards across game 
 
 ## Main goals
 
-The 1.0.536 project includes 47 internal offline achievements, cumulative local
+The project includes 47 internal offline achievements, cumulative local
 statistics, a main-menu achievement window and discreet unlock messages.
 Campaign, custom and multiplayer events share a central manager. Achievement
 profiles remain separate from mission saves. See [achievement rules and persistence](docs/ACHIEVEMENTS.md).

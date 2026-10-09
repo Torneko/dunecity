@@ -1,0 +1,182 @@
+{
+  "version": "1.0.537",
+  "localRevision": "local537-lobby-saves",
+  "status": "validated local build; release preparation",
+  "published": false,
+  "gameBaseline": "4df50ffc",
+  "websiteBaseline": "a39cecfa",
+  "networkProtocol": 6,
+  "saveVersion": 9828,
+  "previousSavesReadable": true,
+  "tests": {
+    "windows": {
+      "cases": 117,
+      "assertions": 7326,
+      "passed": true
+    },
+    "linux": {
+      "cases": 117,
+      "assertions": 7326,
+      "passed": true
+    }
+  },
+  "runtime": {
+    "windowsFrench": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\validation-537-saves-windows-fr\\Dune Legacy.log"
+    },
+    "windowsEnglish": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\validation-537-saves-windows-en\\Dune Legacy.log"
+    },
+    "linuxFrench": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\runtime-537-saves-linux-fr.log"
+    }
+  },
+  "mapGeneration": {
+    "originalMaps": 405,
+    "introGuestWor": 45,
+    "protectedSoloFilesUnchanged": 1578,
+    "maximumParticipants": 7
+  },
+  "website": {
+    "browserChecks": 24,
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "viewportWidths": [
+      390,
+      1440
+    ],
+    "offlineFilePagesPassed": true,
+    "localHttpPassed": true,
+    "javascriptErrors": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "publicReleaseKept": "1.0.536"
+  },
+  "appImage": {
+    "actualAudioClipsPassed": 2,
+    "audioDriver": "pulseaudio",
+    "exitCode": 0,
+    "defaultVideo": "X11 / software",
+    "linuxValidationEnvironment": "Ubuntu 22.04.5 under WSL",
+    "mint22_3Kernel7DirectlyTested": false
+  },
+  "mentat": {
+    "mouthShiftPixels": {
+      "x": 1,
+      "y": -1
+    },
+    "eyesBrightness": 245,
+    "mouthBrightness": 245,
+    "maximumBrightness": 255,
+    "idleBackgroundUnchanged": true,
+    "renderedPosesReviewed": 5
+  },
+  "saveLoading": {
+    "hostLobbyButton": true,
+    "directoryTabs": [
+      "mpsave",
+      "coop"
+    ],
+    "format": "dls",
+    "automaticProgressResumeKept": true,
+    "lobbyReopensAfterLoading": true,
+    "guestMustRejoin": true,
+    "countdownSelectionBlocked": true,
+    "incompatibleSaveKeepsLobby": true,
+    "sourceMissionBytesPreserved": true
+  },
+  "archives": {
+    "checks": [
+      {
+        "archive": "DuneLegacyTornie-1.0.537-Windows-Local.zip",
+        "files": 4184,
+        "crcPassed": true,
+        "mismatches": []
+      },
+      {
+        "archive": "DuneLegacyTornie-Site-Local-1.0.537.zip",
+        "files": 182,
+        "crcPassed": true,
+        "mismatches": []
+      },
+      {
+        "archive": "DuneLegacyTornie-1.0.537-Sources-Local.zip",
+        "files": 4936,
+        "crcPassed": true,
+        "mismatches": []
+      }
+    ],
+    "sourceFilesMissing": []
+  },
+  "packages": {
+    "DuneLegacyTornie-1.0.537-Windows-Local.zip": {
+      "bytes": 52026669,
+      "sha256": "508c4ea1f46e50ac9d46e908f5fac301fbde5f1f6eec0fb9ca34fad124f9d8a1"
+    },
+    "DuneLegacyTornie-Site-Local-1.0.537.zip": {
+      "bytes": 158412813,
+      "sha256": "08b6f62a0da71f5037e5e04c70a2936895c485ddddabd1d886606692e1cff6dd"
+    },
+    "DuneLegacyTornie-1.0.537-Sources-Local.zip": {
+      "bytes": 51556419,
+      "sha256": "2e664c0ebef23384160202091e4e887b27820b9a497c47c287d86fdc02770711"
+    },
+    "DuneLegacyTornie-1.0.537-Linux-Mint-Local.AppImage": {
+      "bytes": 43440632,
+      "sha256": "7d17e9226e9840cd24caa6b272ca4b9e6afad46e5328de54595ae5b8adedd406"
+    }
+  },
+  "remainingHumanValidation": [
+    "Extended playtesting of the new co-op options",
+    "Mint 22.3 / kernel 7.0 on the friend's PC"
+  ],
+  "humanValidation": {
+    "date": "2026-10-08",
+    "lobbySaveLoading": "confirmed by Tornie",
+    "feedback": "c’est validé ça fonctionne :)"
+  }
+}

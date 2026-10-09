@@ -31,8 +31,42 @@ static const char* kHowToPlayBody =
     "harvesters. Upgrade buildings to unlock more technology.\n"
     "\n"
     "4) TORNIE MOD\n"
-    "Use MODS to choose Vanilla, Tornie, Tornie Lite or Jericho.\n"
-    "The mods include custom units, structures and campaigns.\n";
+    "Use MODS to choose Vanilla, Tornie, Tornie Lite, Jericho,\n"
+    "or Jericho Lite.\n"
+    "Jericho Lite combines Tornie Lite technology with Jericho spice.\n"
+    "The mods include custom units, structures and campaigns.\n"
+    "\n5) CO-OP CAMPAIGN\n"
+    "Choose Co-op Campaign in the main menu. Each ally owns a base.\n"
+    "Connect a guest over LAN/Internet, or choose an AI ally.\n"
+    "The host can choose enemy AI and optional allied control.\n"
+    "Load a save in the host lobby: Manual or Automatic.\n"
+    "After loading, the guest rejoins the new lobby.\n";
+
+static const char* kHowToPlayBodyFrench =
+    "DUNE LEGACY TORNIE\n"
+    "Construisez une base, récoltez l'épice et dirigez votre armée.\n\n"
+    "1) CHOISIR UNE PARTIE\n"
+    "Jouez une campagne ou une partie personnalisée en solo.\n"
+    "Le multijoueur et l'éditeur de cartes sont aussi disponibles.\n\n"
+    "2) DÉVELOPPER VOTRE ÉCONOMIE\n"
+    "Construisez un chantier, des éoliennes et une raffinerie.\n"
+    "Les harvesters récoltent l'épice ; les silos la stockent.\n"
+    "Construisez sur la roche et alimentez votre base en énergie.\n\n"
+    "3) DÉFENDRE ET PROGRESSER\n"
+    "Produisez des unités, protégez vos harvesters et améliorez\n"
+    "vos bâtiments pour débloquer de nouvelles technologies.\n\n"
+    "4) MODS\n"
+    "Choisissez Vanilla, Tornie, Tornie Lite, Jericho ou Jericho Lite.\n"
+    "Jericho Lite utilise les technologies de Tornie Lite et les\n"
+    "épices de Jericho. Chaque mod possède ses campagnes.\n\n"
+    "5) CAMPAGNE COOP\n"
+    "Choisissez Campagne coop dans le menu principal. Chaque allié\n"
+    "possède sa base. Connectez un invité en LAN/Internet ou\n"
+    "choisissez une IA alliée. L'hôte règle les IA adverses et\n"
+    "peut activer les contrôles alliés.\n"
+    "Dans le lobby hôte, Charger une sauvegarde donne accès aux\n"
+    "sauvegardes manuelles et automatiques. L'invité rejoint\n"
+    "ensuite le nouveau lobby.\n";
 
 HowToPlayMenu::HowToPlayMenu() : MenuBase()
 {
@@ -63,7 +97,7 @@ HowToPlayMenu::HowToPlayMenu() : MenuBase()
                            Point(560, 30));
 
     body.setTextFontSize(14);
-    body.setText(kHowToPlayBody);
+    body.setText(settings.general.language == "fr" ? kHowToPlayBodyFrench : kHowToPlayBody);
     body.setAutohideScrollbar(false);
     windowWidget.addWidget(&body,
                            Point(getRendererWidth() / 2 - 320,

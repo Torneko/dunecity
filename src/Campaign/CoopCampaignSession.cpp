@@ -156,10 +156,11 @@ void validate(const Context& context) {
            || !houses.insert(slot.house).second || slot.color < -1 || slot.color >= NUM_HOUSE_COLOR_SLOTS)
             throw std::invalid_argument("Invalid coop slot identity");
         if(i < 2) {
-            if(slot.playerClass != "HumanPlayer" || !validPlayerName(slot.playerName))
-                throw std::invalid_argument("Coop player slots must be human");
+            if((slot.playerClass != "HumanPlayer" && (i == 0 || !isCoopAIClass(slot.playerClass)))
+               || !validPlayerName(slot.playerName))
+                throw std::invalid_argument("Invalid coop allied player");
         } else {
-            if(slot.playerClass != "CampaignAIPlayer" || !enemies.insert(slot.faction).second
+            if(!isCoopAIClass(slot.playerClass) || !enemies.insert(slot.faction).second
                || (!context.followsOriginalCampaign()
                    && (slot.faction == context.slots[0].faction || slot.faction == context.slots[1].faction)))
                 throw std::invalid_argument("Invalid coop opponent");
@@ -190,7 +191,7 @@ void bindEnemySlots(Context& context, const std::vector<int>& factions,
         }
         usedHouses.insert(slot.house);
         slot.color = -1;
-        slot.playerClass = "CampaignAIPlayer";
+        if(slot.playerClass.empty()) slot.playerClass = "CampaignAIPlayer";
         slot.playerName = "Opponent " + std::to_string(i + 1);
     }
     context.enemyPresent = present;
@@ -204,7 +205,7 @@ std::string serialize(const Context& context) {
         << "\nSession=" << context.sessionId << "\nMod=" << context.modName
         << "\nStage=" << context.stage << "\nCompletedMask=" << context.completedMask
         << "\nSeed=" << context.seed << "\nChaosEligible=" << (context.chaosEligible ? 1 : 0)
-        << "\nRoster=";
+        << "\nAlliedControl=" << (context.alliedControl ? 1 : 0) << "\nRoster=";
     for(std::size_t i = 0; i < context.roster.size(); ++i) {
         if(i) output << ',';
         output << context.roster[i];
@@ -266,6 +267,23 @@ std::string readFile(const std::filesystem::path& path) {
 }
 } // namespace
 
+bool isCoopAIClass(const std::string& playerClass) {
+    if(playerClass == "CampaignAIPlayer" || playerClass == "SmartBot") return true;
+    for(const auto* family : {"qBot", "mentat"})
+        for(const auto* difficulty : {"Defend", "Easy", "Medium", "Hard", "Brutal"})
+            if(playerClass == std::string(family) + difficulty) return true;
+    return playerClass == "AIPlayerEasy" || playerClass == "AIPlayerMedium" || playerClass == "AIPlayerHard";
+}
+
+bool canControlHouse(const Context& context, int playerHouse, int objectHouse) {
+    if(playerHouse == objectHouse) return true;
+    if(!context.alliedControl) return false;
+    const auto allied = [&](int house) {
+        return house == context.slots[0].house || house == context.slots[1].house;
+    };
+    return allied(playerHouse) && allied(objectHouse);
+}
+
 std::optional<Context> readContext(const std::string& mapData) {
     const auto section = readSection(mapData, "COOP");
     if(!section) return std::nullopt;
@@ -291,6 +309,8 @@ std::optional<Context> readContext(const std::string& mapData) {
     context.completedMask = number<std::uint32_t>(require(*section, "CompletedMask"));
     context.seed = number<std::uint32_t>(require(*section, "Seed"));
     context.chaosEligible = boolean(require(*section, "ChaosEligible"));
+    if(const auto control = section->find("alliedcontrol"); control != section->end())
+        context.alliedControl = boolean(control->second);
     std::istringstream roster(require(*section, "Roster"));
     std::string entry;
     while(std::getline(roster, entry, ',')) context.roster.push_back(number<int>(trim(entry)));
@@ -302,6 +322,7 @@ std::optional<Context> readContext(const std::string& mapData) {
         slot.color = number<int>(require(*section, key + "Color"));
         slot.playerName = unhex(require(*section, key + "NameHex"));
         slot.playerClass = require(*section, key + "Class");
+        slot.allied = i < 2;
     }
     validate(context);
     return context;
@@ -342,6 +363,7 @@ CoopCampaignSession CoopCampaignSession::create(const std::string& sessionId,
         slot.house = slot.faction;
         slot.playerName = playerNames[i];
         slot.playerClass = "HumanPlayer";
+        slot.allied = true;
         if(std::find(roster.begin(), roster.end(), slot.faction) == roster.end())
             throw std::invalid_argument("Selected coop faction is unavailable");
         if(used.count(slot.house)) {
@@ -420,6 +442,14 @@ std::string CoopCampaignSession::prepareMap(const std::string& templateData) con
             if((factions[i] == -1 && present[i]) || invalidFaction)
                 throw std::invalid_argument("Invalid original campaign opponent");
         }
+        // Keep original roles and forces, but never use either ally's faction
+        // as an opponent. Resolve collisions in roster order on every peer.
+        for(auto& faction : factions) {
+            if(faction == context_.slots[0].faction || faction == context_.slots[1].faction) {
+                usedFactions.erase(faction);
+                faction = -1;
+            }
+        }
         for(std::size_t i = 0; i < factions.size(); ++i) if(factions[i] == -1) {
             const auto free = std::find_if(context_.roster.begin(), context_.roster.end(),
                 [&](int faction) { return !usedFactions.count(faction)
@@ -487,12 +517,18 @@ void CoopCampaignSession::reconfigurePlayers(const std::array<int, 2>& playerFac
     revised.context_.sourceFaction = context_.sourceFaction;
     revised.context_.stage = context_.stage;
     revised.context_.completedMask = context_.completedMask;
-    for(int i = 0; i < 2; ++i) revised.context_.slots[i].color = context_.slots[i].color;
+    revised.context_.alliedControl = context_.alliedControl;
+    for(int i = 0; i < 2; ++i) {
+        revised.context_.slots[i].color = context_.slots[i].color;
+        revised.context_.slots[i].playerClass = context_.slots[i].playerClass;
+    }
     if(context_.followsOriginalCampaign()) {
         std::vector<int> enemies(context_.enemyPresent.size());
         for(std::size_t i = 0; i < enemies.size(); ++i) enemies[i] = context_.slots[i + 2].faction;
         bindEnemySlots(revised.context_, enemies, context_.enemyPresent);
     } else if(!revised.isComplete()) revised.chooseOpponents();
+    for(std::size_t i = 2; i < context_.slots.size(); ++i)
+        revised.context_.slots[i].playerClass = context_.slots[i].playerClass;
     context_.slots = std::move(revised.context_.slots);
 }
 
@@ -505,6 +541,14 @@ void CoopCampaignSession::setPlayerColor(int playerSlot, int color) {
 void CoopCampaignSession::setChaosEligible(bool eligible) {
     // Disabling Chaos during the campaign cannot be repaired by re-enabling it.
     context_.chaosEligible = context_.chaosEligible && eligible;
+}
+
+void CoopCampaignSession::setPlayerClass(int slot, const std::string& playerClass) {
+    if(slot < 1 || slot >= static_cast<int>(context_.slots.size())
+       || (playerClass != "HumanPlayer" && !isCoopAIClass(playerClass))
+       || (slot >= 2 && playerClass == "HumanPlayer"))
+        throw std::invalid_argument("Invalid coop player class");
+    context_.slots[slot].playerClass = playerClass;
 }
 
 void CoopCampaignSession::saveProgress(const std::string& path, const std::string& settingsBlob,

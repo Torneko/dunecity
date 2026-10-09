@@ -177,7 +177,7 @@ void BuilderBase::save(OutputStream& stream) const {
 }
 
 ObjectInterface* BuilderBase::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return BuilderInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);

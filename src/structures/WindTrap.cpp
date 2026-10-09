@@ -53,7 +53,7 @@ void WindTrap::init() {
 WindTrap::~WindTrap() = default;
 
 ObjectInterface* WindTrap::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return WindTrapInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);

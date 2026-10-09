@@ -11,6 +11,8 @@ GameInitSettings makeGameSettings(const CoopCampaignSession& session,
     const SettingsClass::GameOptionsClass& options, const std::string& serverName);
 std::string progressPath(const Context& context);
 std::string checkpointPath(const Context& context);
+GameInitSettings makeSavedGameSettings(const std::string& path,
+    const std::string& serverName, const std::string& requiredMod);
 
 // The lobby stays alive throughout this call and owns the network connection.
 // Ordinary multiplayer still runs one game; [COOP] maps retain the connection
