@@ -88,8 +88,8 @@
       "url": "https://github.com/Torneko/dunelegacy-tornie/releases/download/v1.0.538/DuneLegacyTornie-Site-Local-1.0.538.zip",
       "httpStatus": 200,
       "finalHost": "release-assets.githubusercontent.com",
-      "bytes": 153875385,
-      "sha256": "3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a",
+      "bytes": 153875360,
+      "sha256": "4ed9d75ba7a8daab2144b3363afef46127b2e0f5f3bc6bd49c49c8c02257903d",
       "githubDigestVerified": true,
       "passed": true
     },
@@ -159,7 +159,7 @@
       "httpStatus": 200,
       "finalHost": "release-assets.githubusercontent.com",
       "bytes": 716,
-      "sha256": "d2aec3477fc38a27ae76e1beaa42e951f397878781f6aeddda4989d12b3cfdbc",
+      "sha256": "09835bc1d25c38c8fce58f5ab88b1138630c539328bb84143748ad0b0c29b687",
       "githubDigestVerified": true,
       "passed": true
     },
@@ -189,7 +189,7 @@
       "httpStatus": 200,
       "finalHost": "release-assets.githubusercontent.com",
       "bytes": 3248,
-      "sha256": "6310b577c656cf83e8b94fe7e2d86e2152ae6a965d564470a01c9e7d0620c9e4",
+      "sha256": "4757e2c3d2ffb74f180de7d3231c27d79b4d7213cd256f7e3b3f26f62e93d3a8",
       "githubDigestVerified": true,
       "passed": true
     },
@@ -199,7 +199,7 @@
       "httpStatus": 200,
       "finalHost": "release-assets.githubusercontent.com",
       "bytes": 1976,
-      "sha256": "9116bd42e6215c9d45fd37f535be90782ccb27a225bfa20eb99e3b48ee24b694",
+      "sha256": "1389184d1d0fb48601c3ac8525d4765556af3d110834c9c1e02e4bec715e7a12",
       "githubDigestVerified": true,
       "passed": true
     }

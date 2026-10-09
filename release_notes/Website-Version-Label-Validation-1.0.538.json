@@ -1,0 +1,136 @@
+{
+  "version": "1.0.538",
+  "passed": true,
+  "liveVerified": true,
+  "checks": [
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "header": "1.0.538",
+      "noLocalLabel": true,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

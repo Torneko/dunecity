@@ -4,16 +4,20 @@ The French/English website was updated from published `origin/gh-pages`
 `ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6`. Tornie confirmed the latest build and
 two-PC co-op work and authorized publication. The public site, exact release
 downloads and offline ZIP now identify 1.0.538.
+The obsolete LOCAL labels in both HTML entries were removed after publication,
+including the header, sidebar and search description. The corrected public site
+and matching offline ZIP passed 16 additional desktop/mobile label checks.
+Game packages and tagged source are unchanged.
 
 - Release: https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538
 - Tagged/tested source: `c39a276e1bb4a8749b055d6283df3e067dec7e71`; merged through PR #10.
-- Website: `381929f458847f85b65fd847f440318a4fa45cbb` on `gh-pages`.
+- Website: `2f6ee0b62a5d8b4bdf6fe9ed9cd440a848dde8ff` on `gh-pages`.
 - Windows/Linux build, engine, installed FR/EN runtime and locale checks: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37981715769 — success.
-- GitHub Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38004830366 — success.
+- GitHub Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38005836548 — success.
 - Browser checks: 180 local/file/HTTP desktop/mobile checks, 198 local feature checks, 60 live route checks and 66 live feature checks, with no browser errors.
 - All twenty release downloads are publicly accessible and match GitHub SHA-256 digests. Four published guides and eight new PNGs were checked against the local site.
 - Windows ZIP SHA-256: `dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80`.
-- Offline website ZIP SHA-256: `3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a`.
+- Offline website ZIP SHA-256: `4ed9d75ba7a8daab2144b3363afef46127b2e0f5f3bc6bd49c49c8c02257903d`.
 
 Both languages cover optional allied Easy Mode (mission 2, +500 credits at that
 mission start, -25 purchase prices), five optional extra units per present enemy

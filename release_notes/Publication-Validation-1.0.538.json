@@ -3,16 +3,16 @@
   "status": "published",
   "passed": true,
   "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
-  "websiteCommit": "381929f458847f85b65fd847f440318a4fa45cbb",
+  "websiteCommit": "2f6ee0b62a5d8b4bdf6fe9ed9cd440a848dde8ff",
   "mergeCommit": "138af9e6a68431b4f571ae06b556e09b29808909",
   "pullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/10",
-  "validatedAt": "2026-10-09T23:34:10.256142+00:00",
+  "validatedAt": "2026-10-09T23:45:37.081551+00:00",
   "release": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538",
   "website": "https://torneko.github.io/dunelegacy-tornie/",
   "englishWebsite": "https://torneko.github.io/dunelegacy-tornie/index-en.html",
   "ci": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37981715769",
   "ciConclusion": "success",
-  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38004830366",
+  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38005836548",
   "pagesConclusion": "success",
   "packages": [
     {
@@ -57,8 +57,8 @@
     },
     {
       "file": "DuneLegacyTornie-Site-Local-1.0.538.zip",
-      "bytes": 153875385,
-      "sha256": "3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a"
+      "bytes": 153875360,
+      "sha256": "4ed9d75ba7a8daab2144b3363afef46127b2e0f5f3bc6bd49c49c8c02257903d"
     }
   ],
   "validatedReleaseAssets": 20,
@@ -77,7 +77,8 @@
       "desktop",
       "mobile"
     ],
-    "errors": []
+    "errors": [],
+    "versionLabels": 16
   },
   "publicDocumentsVerified": 4,
   "newPngsVerifiedExactly": 8,
@@ -112,6 +113,17 @@
     "Publication-Validation-1.0.538.json",
     "Website-Live-Validation-1.0.538.json",
     "Website-Live-Features-Validation-1.0.538.json",
-    "Live-Downloads-Validation-1.0.538.json"
-  ]
+    "Live-Downloads-Validation-1.0.538.json",
+    "Website-Version-Label-Validation-1.0.538.json"
+  ],
+  "previousWebsiteCommit": "381929f458847f85b65fd847f440318a4fa45cbb",
+  "websiteLabelCorrection": {
+    "passed": true,
+    "description": "Remove six obsolete LOCAL labels from the French/English header, sidebar and search description",
+    "websiteCommit": "2f6ee0b62a5d8b4bdf6fe9ed9cd440a848dde8ff",
+    "offlineZipUpdated": true,
+    "gamePackagesUnchanged": true,
+    "browserChecks": 16
+  },
+  "totalReleaseAssetsIncludingReports": 26
 }
