@@ -1,0 +1,1283 @@
+{
+  "version": "1.0.537",
+  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+  "passed": true,
+  "live": false,
+  "preflight": false,
+  "checks": [
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "file:///<workspace>/outputs/DuneLegacyTornie-Site-Local-1.0.537/dist/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "browser": "Microsoft Edge headless"
+}

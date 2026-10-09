@@ -1,0 +1,27 @@
+{
+  "architecture": "Windows x64",
+  "executableSHA256": "964eaf30285316118025b6406b430c8fd92dc79fb43cad4674abab47f72e74e2",
+  "exePath": "<workspace>\\work\\ci-537-windows\\extracted\\DuneLegacyTornie-1.0.537-Windows-x64\\dunelegacy.exe",
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+      "bytes": 52444876,
+      "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+    }
+  ],
+  "version": "1.0.537",
+  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+  "ciRun": 37870615482,
+  "passed": true,
+  "bundledModFiles": 3145,
+  "suppliedMapsAndVanillaScenarios": 257,
+  "coopMaps": 405,
+  "modPayloadChecksums": {
+    "Tornie": 940,
+    "TornieLite": 639,
+    "Jericho": 921,
+    "JerichoLite": 639
+  },
+  "platformTextLineEndings": [],
+  "exactModPayloads": true
+}

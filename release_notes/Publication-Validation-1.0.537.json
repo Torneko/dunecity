@@ -1,0 +1,81 @@
+{
+  "version": "1.0.537",
+  "status": "published",
+  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+  "websiteCommit": "ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6",
+  "validatedAt": "2026-10-09T02:07:36.604289+00:00",
+  "release": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.537",
+  "ci": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37870615482",
+  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37872686746",
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+      "bytes": 52444876,
+      "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.deb",
+      "bytes": 41361588,
+      "sha256": "4197f7f3f6ef1e4b49d47dd5839fa8049d09d7b15d4145d467fdbd72ccdae5d2"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.rpm",
+      "bytes": 41278460,
+      "sha256": "7c6504bab9c6dcb5142b36dc3613b09061c1c934ffeda30b2f7e30dbecc5164c"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.tar.gz",
+      "bytes": 41699652,
+      "sha256": "e78f61a550c54a62c171afab463f720f6874ca66d8e75979af50b90875f22dcb"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x86_64.AppImage",
+      "bytes": 33053176,
+      "sha256": "6aebcc6ce538347faf407fbfbb28b1f5af5e489203d012f14f3174cacd3bc0cc"
+    },
+    {
+      "file": "DuneLegacyTornie-Site-Local-1.0.537.zip",
+      "bytes": 158443454,
+      "sha256": "dbb83ec7facd1b7ce68f67e23ad38190c3db7230d18c9419975dd7657fc3049e"
+    },
+    {
+      "file": "DuneLegacyTornie-PNG-1.0.537.zip",
+      "bytes": 2791927,
+      "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Sources.zip",
+      "bytes": 51690550,
+      "sha256": "a1d4f1abfa027ad624326f6a400e982fbf381868f435f6a309905422fea44693"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+      "bytes": 43440632,
+      "sha256": "c338b3515111698ddfacf33766685b2a705519bbd115153d495dd9ee36256333"
+    }
+  ],
+  "humanValidation": {
+    "date": "2026-10-08",
+    "lobbySaveLoading": "confirmed by Tornie",
+    "feedback": "c’est validé ça fonctionne :)"
+  },
+  "remainingHumanValidation": [
+    "Extended playtesting of the new co-op options",
+    "Mint 22.3 / kernel 7.0 on the friend's PC"
+  ],
+  "duplicateBuilds": [
+    {
+      "run": 37872293807,
+      "kind": "merge push",
+      "sameSourceTreeVerified": true,
+      "cancelled": true
+    },
+    {
+      "run": 37872301939,
+      "kind": "tag push",
+      "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+      "verifyVersion": "success",
+      "cancelled": true
+    }
+  ]
+}

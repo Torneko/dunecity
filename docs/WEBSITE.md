@@ -1,6 +1,18 @@
-## Release 1.0.537 preparation — 2026-10-08
+## Published 1.0.537 baseline — 2026-10-08
 
-Recovered the current `origin/gh-pages` baseline at `a39cecfa` before updating the local bilingual site. Document allied control (default off), selectable enemy AI, an AI guest, guest intro WOR, enemy faction/color collision handling, revised in-game help and refined Wildspade rendering. Unit technology and prices, solo campaign maps and the 47-achievement catalogue are unchanged. New co-op layouts require a new campaign or next mission; checkpoints retain existing positions. Protocol 6 requires both players to use 1.0.537. Tornie has tried co-op on two PCs and confirmed lobby save loading. Extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open. Publication must update both language entries and the offline package to 1.0.537, embedding the audited release Windows archive. Record the source/site commits, CI and Pages results after publication.
+Recovered the current `origin/gh-pages` baseline at `a39cecfa` before updating the local bilingual site. Document allied control (default off), selectable enemy AI, an AI guest, guest intro WOR, enemy faction/color collision handling, revised in-game help and refined Wildspade rendering. Unit technology and prices, solo campaign maps and the 47-achievement catalogue are unchanged. New co-op layouts require a new campaign or next mission; checkpoints retain existing positions. Protocol 6 requires both players to use 1.0.537. Tornie has tried co-op on two PCs and confirmed lobby save loading. Extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open. The French/English website and offline ZIP now identify 1.0.537 and embed the exact audited Windows release archive.
+
+- Release: https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.537
+- Tagged/tested source: `2e54898202b13bd238064d6920c8bbea5253342d`; merged through PR #9.
+- Website: `ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6` on `gh-pages`, recovered from the previous `a39cecfa` baseline.
+- Windows/Linux build, engine and installed FR/EN runtime checks: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37870615482 — success.
+- GitHub Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37872686746 — success.
+- Browser checks: 180 local/file/HTTP desktop/mobile checks plus 60 live checks, including achievement search, filters and language switching.
+- Windows ZIP SHA-256: `02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9`.
+- Offline website ZIP SHA-256: `dbb83ec7facd1b7ce68f67e23ad38190c3db7230d18c9419975dd7657fc3049e`.
+- Standard Linux CI formats, a separately identified Mint compatibility AppImage, exact tagged sources, bilingual notes and 111 PNGs accompany the release.
+
+The release uses the artifacts from the successful build above. Repeated merge/tag builds of the same code were cancelled after verifying the source tree and tag version, to preserve the audited archives. Publication details are in `release_notes/Publication-Validation-1.0.537.json`. Tornie confirmed lobby save loading works. Extended co-op playtesting and the friend's Mint 22.3/kernel 7.0 check remain open. Use this `origin/gh-pages` tree or the matching 1.0.537 offline ZIP as the website baseline on either PC.
 
 # Documentation website maintenance
 

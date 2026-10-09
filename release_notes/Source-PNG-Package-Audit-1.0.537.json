@@ -1,0 +1,20 @@
+{
+  "version": "1.0.537",
+  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+  "passed": true,
+  "pngs": 111,
+  "crcPassed": true,
+  "allPixelHashesMatch": true,
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-PNG-1.0.537.zip",
+      "bytes": 2791927,
+      "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Sources.zip",
+      "bytes": 51690550,
+      "sha256": "a1d4f1abfa027ad624326f6a400e982fbf381868f435f6a309905422fea44693"
+    }
+  ]
+}

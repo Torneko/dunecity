@@ -1,0 +1,17 @@
+{
+  "version": "1.0.537",
+  "passed": true,
+  "crcPassed": true,
+  "exactSiteFiles": true,
+  "windowsEmbeddedExactly": true,
+  "windows": {
+    "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+    "bytes": 52444876,
+    "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+  },
+  "website": {
+    "file": "DuneLegacyTornie-Site-Local-1.0.537.zip",
+    "bytes": 158443454,
+    "sha256": "dbb83ec7facd1b7ce68f67e23ad38190c3db7230d18c9419975dd7657fc3049e"
+  }
+}

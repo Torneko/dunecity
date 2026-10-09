@@ -1,0 +1,548 @@
+{
+  "version": "1.0.537",
+  "localRevision": "release537-2e548982",
+  "status": "published",
+  "published": true,
+  "gameBaseline": "4df50ffc",
+  "websiteBaseline": "a39cecfa",
+  "networkProtocol": 6,
+  "saveVersion": 9828,
+  "previousSavesReadable": true,
+  "tests": {
+    "windows": {
+      "cases": 117,
+      "assertions": 7326,
+      "passed": true
+    },
+    "linux": {
+      "cases": 117,
+      "assertions": 7326,
+      "passed": true
+    }
+  },
+  "runtime": {
+    "windowsFrench": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\validation-537-saves-windows-fr\\Dune Legacy.log"
+    },
+    "windowsEnglish": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\validation-537-saves-windows-en\\Dune Legacy.log"
+    },
+    "linuxFrench": {
+      "passed": true,
+      "campaignScenarios": 1210,
+      "coopOriginalMaps": {
+        "Tornie": 108,
+        "TornieLite": 54,
+        "Jericho": 108,
+        "JerichoLite": 54,
+        "vanilla": 81
+      },
+      "aiGuestHostLaunchWithoutPeer": true,
+      "sevenParticipantCheckpoint": true,
+      "achievements": true,
+      "manualAndAutomaticSavePickerRuns": 7,
+      "savePickerCancelAndWrongModPassed": true,
+      "log": "<workspace>\\work\\runtime-537-saves-linux-fr.log"
+    }
+  },
+  "mapGeneration": {
+    "originalMaps": 405,
+    "introGuestWor": 45,
+    "protectedSoloFilesUnchanged": 1578,
+    "maximumParticipants": 7
+  },
+  "website": {
+    "french": "https://torneko.github.io/dunelegacy-tornie/",
+    "english": "https://torneko.github.io/dunelegacy-tornie/index-en.html",
+    "localOfflineAndHttpChecks": 180,
+    "liveChecks": 60,
+    "downloadChecks": {
+      "version": "1.0.537",
+      "passed": true,
+      "checks": 9,
+      "results": [
+        {
+          "file": "documents/DuneLegacyTornie-1.0.537-Windows-x64.zip",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/DuneLegacyTornie-1.0.537-Windows-x64.zip?rev=2e548982",
+          "bytes": 52444876,
+          "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9",
+          "passed": true
+        },
+        {
+          "file": "documents/PNG-du-jeu.zip",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/PNG-du-jeu.zip?rev=2e548982",
+          "bytes": 2791927,
+          "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83",
+          "passed": true
+        },
+        {
+          "file": "documents/Game-PNG-EN.zip",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Game-PNG-EN.zip?rev=2e548982",
+          "bytes": 2791927,
+          "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83",
+          "passed": true
+        },
+        {
+          "file": "documents/Notes-1.0.537.md",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Notes-1.0.537.md?rev=2e548982",
+          "bytes": 2819,
+          "sha256": "205005d2d88cddc100d30ba6a4ae4c10179c224d9ce6e849db9a867216509a4a",
+          "passed": true
+        },
+        {
+          "file": "documents/Notes-1.0.537-EN.md",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Notes-1.0.537-EN.md?rev=2e548982",
+          "bytes": 2278,
+          "sha256": "b28eb335f9bf457ffc60b3cb8fd015bdee8dbe0c5d5be92b6db387d269a1642a",
+          "passed": true
+        },
+        {
+          "file": "documents/Cooperative-Campaign-1.0.537.md",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Cooperative-Campaign-1.0.537.md?rev=2e548982",
+          "bytes": 8803,
+          "sha256": "a3c9c8f9e14f248fc5a9dd8f011f2013abdc9f8b8398107b29dc9fb57119c805",
+          "passed": true
+        },
+        {
+          "file": "documents/Cooperative-Campaign-1.0.537-EN.md",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Cooperative-Campaign-1.0.537-EN.md?rev=2e548982",
+          "bytes": 7216,
+          "sha256": "73859bd06c2bd57b12a2c8167aa219add095463e0171690221de2a370ec30f7e",
+          "passed": true
+        },
+        {
+          "file": "documents/Manifest-PNG.json",
+          "url": "https://torneko.github.io/dunelegacy-tornie/documents/Manifest-PNG.json?rev=2e548982",
+          "bytes": 69189,
+          "sha256": "9845ded637ee896e5c67568a03917397b3b65879cb8afd3e1da22db9925ff768",
+          "passed": true
+        },
+        {
+          "file": "DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+          "url": "https://github.com/Torneko/dunelegacy-tornie/releases/download/v1.0.537/DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+          "bytes": 43440632,
+          "sha256": "c338b3515111698ddfacf33766685b2a705519bbd115153d495dd9ee36256333",
+          "passed": true
+        }
+      ]
+    },
+    "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+    "websiteCommit": "ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6",
+    "javascriptErrors": 0,
+    "brokenImages": 0,
+    "horizontalOverflow": false
+  },
+  "appImage": {
+    "actualAudioClipsPassed": 2,
+    "audioDriver": "pulseaudio",
+    "exitCode": 0,
+    "defaultVideo": "X11 / software",
+    "linuxValidationEnvironment": "Ubuntu 22.04.5 under WSL",
+    "mint22_3Kernel7DirectlyTested": false,
+    "compatibilityFile": "DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+    "standardCIAppImageStartup": "video/fonts/graphics/sound initialized under SDL dummy/software; test stopped after 20 seconds",
+    "compatibilityBuildOrigin": "local Ubuntu 22.04.5 / WSL build matching release game code"
+  },
+  "mentat": {
+    "mouthShiftPixels": {
+      "x": 1,
+      "y": -1
+    },
+    "eyesBrightness": 245,
+    "mouthBrightness": 245,
+    "maximumBrightness": 255,
+    "idleBackgroundUnchanged": true,
+    "renderedPosesReviewed": 5
+  },
+  "saveLoading": {
+    "hostLobbyButton": true,
+    "directoryTabs": [
+      "mpsave",
+      "coop"
+    ],
+    "format": "dls",
+    "automaticProgressResumeKept": true,
+    "lobbyReopensAfterLoading": true,
+    "guestMustRejoin": true,
+    "countdownSelectionBlocked": true,
+    "incompatibleSaveKeepsLobby": true,
+    "sourceMissionBytesPreserved": true
+  },
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+      "bytes": 52444876,
+      "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.deb",
+      "bytes": 41361588,
+      "sha256": "4197f7f3f6ef1e4b49d47dd5839fa8049d09d7b15d4145d467fdbd72ccdae5d2"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.rpm",
+      "bytes": 41278460,
+      "sha256": "7c6504bab9c6dcb5142b36dc3613b09061c1c934ffeda30b2f7e30dbecc5164c"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x64.tar.gz",
+      "bytes": 41699652,
+      "sha256": "e78f61a550c54a62c171afab463f720f6874ca66d8e75979af50b90875f22dcb"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-x86_64.AppImage",
+      "bytes": 33053176,
+      "sha256": "6aebcc6ce538347faf407fbfbb28b1f5af5e489203d012f14f3174cacd3bc0cc"
+    },
+    {
+      "file": "DuneLegacyTornie-Site-Local-1.0.537.zip",
+      "bytes": 158443454,
+      "sha256": "dbb83ec7facd1b7ce68f67e23ad38190c3db7230d18c9419975dd7657fc3049e"
+    },
+    {
+      "file": "DuneLegacyTornie-PNG-1.0.537.zip",
+      "bytes": 2791927,
+      "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Sources.zip",
+      "bytes": 51690550,
+      "sha256": "a1d4f1abfa027ad624326f6a400e982fbf381868f435f6a309905422fea44693"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+      "bytes": 43440632,
+      "sha256": "c338b3515111698ddfacf33766685b2a705519bbd115153d495dd9ee36256333"
+    }
+  ],
+  "remainingHumanValidation": [
+    "Extended playtesting of the new co-op options",
+    "Mint 22.3 / kernel 7.0 on the friend's PC"
+  ],
+  "humanValidation": {
+    "date": "2026-10-08",
+    "lobbySaveLoading": "confirmed by Tornie",
+    "feedback": "c’est validé ça fonctionne :)"
+  },
+  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+  "websiteCommit": "ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6",
+  "releaseUrl": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.537",
+  "publishedAt": "2026-10-09T02:02:40Z",
+  "ci": {
+    "url": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37870615482",
+    "conclusion": "success"
+  },
+  "pages": {
+    "url": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37872686746",
+    "conclusion": "success"
+  },
+  "packageAudits": {
+    "windows": {
+      "architecture": "Windows x64",
+      "executableSHA256": "964eaf30285316118025b6406b430c8fd92dc79fb43cad4674abab47f72e74e2",
+      "exePath": "<workspace>\\work\\ci-537-windows\\extracted\\DuneLegacyTornie-1.0.537-Windows-x64\\dunelegacy.exe",
+      "packages": [
+        {
+          "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+          "bytes": 52444876,
+          "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+        }
+      ],
+      "version": "1.0.537",
+      "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+      "ciRun": 37870615482,
+      "passed": true,
+      "bundledModFiles": 3145,
+      "suppliedMapsAndVanillaScenarios": 257,
+      "coopMaps": 405,
+      "modPayloadChecksums": {
+        "Tornie": 940,
+        "TornieLite": 639,
+        "Jericho": 921,
+        "JerichoLite": 639
+      },
+      "platformTextLineEndings": [],
+      "exactModPayloads": true
+    },
+    "linux": {
+      "architecture": "Linux x86-64",
+      "executableSHA256": "fe5a0e7a9b62cc77cd67901626815efe19df3f603368431d5734928924cb284b",
+      "packages": [
+        {
+          "file": "DuneLegacyTornie-1.0.537-Linux-x64.deb",
+          "bytes": 41361588,
+          "sha256": "4197f7f3f6ef1e4b49d47dd5839fa8049d09d7b15d4145d467fdbd72ccdae5d2"
+        },
+        {
+          "file": "DuneLegacyTornie-1.0.537-Linux-x64.rpm",
+          "bytes": 41278460,
+          "sha256": "7c6504bab9c6dcb5142b36dc3613b09061c1c934ffeda30b2f7e30dbecc5164c"
+        },
+        {
+          "file": "DuneLegacyTornie-1.0.537-Linux-x64.tar.gz",
+          "bytes": 41699652,
+          "sha256": "e78f61a550c54a62c171afab463f720f6874ca66d8e75979af50b90875f22dcb"
+        },
+        {
+          "file": "DuneLegacyTornie-1.0.537-Linux-x86_64.AppImage",
+          "bytes": 33053176,
+          "sha256": "6aebcc6ce538347faf407fbfbb28b1f5af5e489203d012f14f3174cacd3bc0cc"
+        }
+      ],
+      "version": "1.0.537",
+      "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+      "ciRun": 37870615482,
+      "passed": true,
+      "bundledModFiles": 3145,
+      "suppliedMapsAndVanillaScenarios": 257,
+      "coopMaps": 405,
+      "modPayloadChecksums": {
+        "Tornie": 940,
+        "TornieLite": 639,
+        "Jericho": 921,
+        "JerichoLite": 639
+      },
+      "platformTextLineEndings": [
+        "data/campaign_vanilla/REGIONK.INI",
+        "data/campaign_vanilla/REGIONN.INI",
+        "data/campaign_vanilla/REGIONR.INI",
+        "data/campaign_vanilla/SCENK001.INI",
+        "data/campaign_vanilla/SCENK002.INI",
+        "data/campaign_vanilla/SCENK003.INI",
+        "data/campaign_vanilla/SCENK004.INI",
+        "data/campaign_vanilla/SCENK005.INI",
+        "data/campaign_vanilla/SCENK006.INI",
+        "data/campaign_vanilla/SCENK007.INI",
+        "data/campaign_vanilla/SCENK008.INI",
+        "data/campaign_vanilla/SCENK009.INI",
+        "data/campaign_vanilla/SCENK010.INI",
+        "data/campaign_vanilla/SCENK011.INI",
+        "data/campaign_vanilla/SCENK012.INI",
+        "data/campaign_vanilla/SCENK013.INI",
+        "data/campaign_vanilla/SCENK014.INI",
+        "data/campaign_vanilla/SCENK015.INI",
+        "data/campaign_vanilla/SCENK016.INI",
+        "data/campaign_vanilla/SCENK017.INI",
+        "data/campaign_vanilla/SCENK018.INI",
+        "data/campaign_vanilla/SCENK019.INI",
+        "data/campaign_vanilla/SCENK020.INI",
+        "data/campaign_vanilla/SCENK021.INI",
+        "data/campaign_vanilla/SCENK022.INI",
+        "data/coop/coop01.ini",
+        "data/coop/coop02.ini",
+        "data/coop/coop03.ini",
+        "data/coop/coop04.ini",
+        "data/coop/coop05.ini",
+        "data/coop/coop06.ini",
+        "data/coop/coop07.ini",
+        "data/coop/coop08.ini",
+        "data/coop/coop09.ini",
+        "data/maps/multiplayer/2P - 128x128 - 1v1 - Habbanya-Penny.ini",
+        "data/maps/multiplayer/2P - 128x128 - 1v1 - Sihaya-Chvrches.ini",
+        "data/maps/multiplayer/2P - 128x128 - 1v1 - Sihaya-Ferryman.ini",
+        "data/maps/multiplayer/2P - 128x128 - 1v1 - Tuono-Orac.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 - Habbanya-Sammy.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 - Sihaya-Lauper.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 - Sihaya-Pip.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 - Tuono-Restal.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 - Tuono-Servalan.ini",
+        "data/maps/multiplayer/2P - 128x31 - 1v1 Sihaya-Ennio.ini",
+        "data/maps/multiplayer/2P - 128x32 - 1v1 - Sihaya-Chicane.ini",
+        "data/maps/multiplayer/2P - 128x64 - 1v1 - Ergun-Sahij.ini",
+        "data/maps/multiplayer/2P - 128x64 - 1v1 - Habbanya-Marlin.ini",
+        "data/maps/multiplayer/2P - 128x64 - 1v1 - Habbanya-Ophelia.ini",
+        "data/maps/multiplayer/2P - 128x64 - 1v1 - Sihaya-O'Donnell.ini",
+        "data/maps/multiplayer/2P - 32x128 - Gatekeeper.ini",
+        "data/maps/multiplayer/2P - 32x32 - X-Factor.ini",
+        "data/maps/multiplayer/2P - 51x128 - 1v1 - Habbanya-Libby.ini",
+        "data/maps/multiplayer/2P - 51x128 - 1v1 - Sihaya-Olzen.ini",
+        "data/maps/multiplayer/2P - 51x128 - 1v1 - Tuono-Soolin.ini",
+        "data/maps/multiplayer/2P - 51x128 - 1v1 - Tuono-Stannis.ini",
+        "data/maps/multiplayer/2P - 51x128 - 1v1 - Tuono-Tarrant.ini",
+        "data/maps/multiplayer/2P - 51x128 - 2v2 - Sihaya-Adreena.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Ergsun-Poke.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Habbanya-Autumn.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Habbanya-Elva.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Habbanya-Gulch.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Habbanya-Sanjeev.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Sihaya-Benatar.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Sihaya-Winwood.ini",
+        "data/maps/multiplayer/2P - 51x31 - 1v1 - Tuono-Travis.ini",
+        "data/maps/multiplayer/2P - 51x31 - 2v2 - Sihaya-Cocker.ini",
+        "data/maps/multiplayer/2P - 64x128 - 1v1 - Habbanya-Drako.ini",
+        "data/maps/multiplayer/2P - 64x128 - 1v1 - Sihaya-Roxy.ini",
+        "data/maps/multiplayer/2P - 64x128 - 1v1 - Sihaya-Tatu.ini",
+        "data/maps/multiplayer/2P - 64x32 - Cliffs Of Rene.ini",
+        "data/maps/multiplayer/2P - 64x64 - Bottle Neck.ini",
+        "data/maps/multiplayer/2P - 64x64 - Broken Mountains.ini",
+        "data/maps/multiplayer/2P - 64x64 - David's Pass.ini",
+        "data/maps/multiplayer/2P - 64x64 - Face Off.ini",
+        "data/maps/multiplayer/2P - 64x64 - Great Divide.ini",
+        "data/maps/multiplayer/2P - 64x64 - Sanctuarys.ini",
+        "data/maps/multiplayer/3P - 128x128 - FFA - Ergsun-Fwiffo.ini",
+        "data/maps/multiplayer/3P - 128x128 - FFA - Sihaya-Lunatic.ini",
+        "data/maps/multiplayer/3P - 128x128 - FFA - Tuono-Avon.ini",
+        "data/maps/multiplayer/4P - 128x128 - Deserted.ini",
+        "data/maps/multiplayer/4P - 128x128 - Equilibrium.ini",
+        "data/maps/multiplayer/4P - 128x128 - Ergsun-Odenkirk.ini",
+        "data/maps/multiplayer/4P - 128x128 - Ergsun-Prometh.ini",
+        "data/maps/multiplayer/4P - 128x128 - FFA - Sihaya-Lunatic.ini",
+        "data/maps/multiplayer/4P - 128x128 - Four Cities.ini",
+        "data/maps/multiplayer/4P - 128x128 - Habbanya-Archer.ini",
+        "data/maps/multiplayer/4P - 128x128 - Habbanya-Froiud.ini",
+        "data/maps/multiplayer/4P - 128x128 - Hungry Hippos.ini",
+        "data/maps/multiplayer/4P - 128x128 - Moshpit with Garbages.ini",
+        "data/maps/multiplayer/4P - 128x128 - Mountain Pass.ini",
+        "data/maps/multiplayer/4P - 128x128 - Sihaya-Bowie.ini",
+        "data/maps/multiplayer/4P - 128x128 - Sihaya-Leona.ini",
+        "data/maps/multiplayer/4P - 128x128 - Silicon Valley XL.ini",
+        "data/maps/multiplayer/4P - 128x128 - Snake Pass.ini",
+        "data/maps/multiplayer/4P - 128x128 - Spicestorm.ini",
+        "data/maps/multiplayer/4P - 128x128 - The Sardaukar Outpost.ini",
+        "data/maps/multiplayer/4P - 128x128 - Worm Investation.ini",
+        "data/maps/multiplayer/4P - 128x128 - Wormhole.ini",
+        "data/maps/multiplayer/4P - 128x64 - 2v2 - Sihaya-Slade.ini",
+        "data/maps/multiplayer/4P - 128x64 - 2v2 - Sihaya-Toto.ini",
+        "data/maps/multiplayer/4P - 128x64 - Gamma Sector.ini",
+        "data/maps/multiplayer/4P - 32x128 - 2v2 - Tuono-Gan.ini",
+        "data/maps/multiplayer/4P - 51x31 - 2v2 - Sihaya-Phonics.ini",
+        "data/maps/multiplayer/4P - 64x128 - 2v2 - Ergsun-Face.ini",
+        "data/maps/multiplayer/4P - 64x128 - 2v2 - Ergsun-Grail.ini",
+        "data/maps/multiplayer/4P - 64x128 - 2v2 - Ergsun-Vandi.ini",
+        "data/maps/multiplayer/4P - 64x128 - 2v2 - Tuono-Blake.ini",
+        "data/maps/multiplayer/4P - 64x128 - 2v2 -Ergsun-Vaskel.ini",
+        "data/maps/multiplayer/4P - 64x128 - FFA - Ergsun-Vaskel.ini",
+        "data/maps/multiplayer/4P - 64x64 - Channels.ini",
+        "data/maps/multiplayer/4P - 64x64 - Clear Path.ini",
+        "data/maps/multiplayer/4P - 64x64 - Combed.ini",
+        "data/maps/multiplayer/4P - 64x64 - Four Chambers.ini",
+        "data/maps/multiplayer/4P - 64x64 - Four Courners.ini",
+        "data/maps/multiplayer/4P - 64x64 - Sietch Stefan.ini",
+        "data/maps/multiplayer/4P - 64x64 - Silicon Valley.ini",
+        "data/maps/multiplayer/4P - 64x64 - Stronghold.ini",
+        "data/maps/multiplayer/4p - 128x128 - Ergsun-Fluoxe.ini",
+        "data/maps/multiplayer/5P - 128x128 - Ergsun-Sooiny.ini",
+        "data/maps/multiplayer/5P - 128x128 - Fortress.ini",
+        "data/maps/multiplayer/5P - 128x128 - Gridlocked.ini",
+        "data/maps/multiplayer/5P - 128x128 - Hellvetika.ini",
+        "data/maps/multiplayer/5P - 128x128 - Kragetam.ini",
+        "data/maps/multiplayer/5P - 128x128 - Meadow.ini",
+        "data/maps/multiplayer/5P - 128x64 - Watch Your Track.ini",
+        "data/maps/multiplayer/6P - 128x128 - 3v3 - Habbanya-Bubbles.ini",
+        "data/maps/multiplayer/6P - 128x128 - 3v3 - Sihaya-Lenka.ini",
+        "data/maps/multiplayer/6P - 128x128 - Alkozeltser 2.ini",
+        "data/maps/multiplayer/6P - 128x128 - Enclaves.ini",
+        "data/maps/multiplayer/6P - 128x128 - Ergsun-Pizoti.ini",
+        "data/maps/multiplayer/6P - 128x128 - Gargantuan Mountains.ini",
+        "data/maps/multiplayer/6P - 128x64 - 3v3 - Habbanya-Koji.ini",
+        "data/maps/multiplayer/6P - 128x64 - 3v3 - Habbanya-Stirling.ini",
+        "data/maps/multiplayer/6P - 128x64 - 3v3 - Sihaya-Verve.ini",
+        "data/maps/multiplayer/6P - 256x256 - Alkozeltser 4.ini",
+        "data/maps/multiplayer/6P - 64x128 - 3v3 - Habbanya-Emilie.ini",
+        "data/maps/multiplayer/6P - 64x128 - Rocking Fields.ini",
+        "data/maps/multiplayer/6P - 64x64 - Fertile Basin.ini",
+        "data/maps/multiplayer/6p - 128x128 - 3v3 - Mavor Valley.ini",
+        "data/maps/singleplayer/2P - 32x128 - Canyon.ini",
+        "data/maps/singleplayer/2P - 64x64 - Duality.ini",
+        "data/maps/singleplayer/2P - 64x64 - North vs. South.ini",
+        "data/maps/singleplayer/2P - 64x64 - Twin Fists.ini",
+        "data/maps/singleplayer/3P - 64x32 - Middle Man.ini",
+        "data/maps/singleplayer/4P - 64x64 - 3 vs 1.ini",
+        "data/maps/singleplayer/5P - 128x128 - All against Atreides.ini",
+        "data/maps/singleplayer/5P - 128x128 - Sardaukar Base Easy.ini",
+        "data/maps/singleplayer/5P - 128x128 - Sardaukar Base.ini",
+        "data/maps/singleplayer/RWRK_SCENA001.INI",
+        "data/maps/singleplayer/RWRK_SCENA002.INI",
+        "data/maps/singleplayer/RWRK_SCENA003.INI",
+        "data/maps/singleplayer/RWRK_SCENA004.INI",
+        "data/maps/singleplayer/RWRK_SCENA005.INI",
+        "data/maps/singleplayer/RWRK_SCENA006.INI",
+        "data/maps/singleplayer/RWRK_SCENA007.INI",
+        "data/maps/singleplayer/RWRK_SCENA008.INI",
+        "data/maps/singleplayer/RWRK_SCENA009.INI",
+        "data/maps/singleplayer/RWRK_SCENA010.INI",
+        "data/maps/singleplayer/RWRK_SCENA011.INI",
+        "data/maps/singleplayer/RWRK_SCENA021.INI",
+        "data/maps/singleplayer/RWRK_SCENA022.INI",
+        "data/maps/singleplayer/RWRK_SCENF001.INI",
+        "data/maps/singleplayer/RWRK_SCENF011.INI",
+        "data/maps/singleplayer/RWRK_SCENG017.INI",
+        "data/maps/singleplayer/RWRK_SCENG018.INI",
+        "data/maps/singleplayer/RWRK_SCENG020.INI",
+        "data/maps/singleplayer/RWRK_SCENH001.INI",
+        "data/maps/singleplayer/RWRK_SCENH002.INI",
+        "data/maps/singleplayer/RWRK_SCENH003.INI",
+        "data/maps/singleplayer/RWRK_SCENM001.INI",
+        "data/maps/singleplayer/RWRK_SCENM022.INI",
+        "data/maps/singleplayer/RWRK_SCENO001.INI",
+        "data/maps/singleplayer/RWRK_SCENS001.INI"
+      ],
+      "exactModPayloads": true
+    },
+    "offline": {
+      "version": "1.0.537",
+      "passed": true,
+      "crcPassed": true,
+      "exactSiteFiles": true,
+      "windowsEmbeddedExactly": true,
+      "windows": {
+        "file": "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+        "bytes": 52444876,
+        "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9"
+      },
+      "website": {
+        "file": "DuneLegacyTornie-Site-Local-1.0.537.zip",
+        "bytes": 158443454,
+        "sha256": "dbb83ec7facd1b7ce68f67e23ad38190c3db7230d18c9419975dd7657fc3049e"
+      }
+    },
+    "png": {
+      "version": "1.0.537",
+      "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
+      "passed": true,
+      "pngs": 111,
+      "crcPassed": true,
+      "allPixelHashesMatch": true,
+      "packages": [
+        {
+          "file": "DuneLegacyTornie-PNG-1.0.537.zip",
+          "bytes": 2791927,
+          "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83"
+        },
+        {
+          "file": "DuneLegacyTornie-1.0.537-Sources.zip",
+          "bytes": 51690550,
+          "sha256": "a1d4f1abfa027ad624326f6a400e982fbf381868f435f6a309905422fea44693"
+        }
+      ]
+    }
+  }
+}

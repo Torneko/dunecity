@@ -1,0 +1,70 @@
+{
+  "version": "1.0.537",
+  "passed": true,
+  "checks": 9,
+  "results": [
+    {
+      "file": "documents/DuneLegacyTornie-1.0.537-Windows-x64.zip",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/DuneLegacyTornie-1.0.537-Windows-x64.zip?rev=2e548982",
+      "bytes": 52444876,
+      "sha256": "02d4c20cab6a4366773300326967240c279ece56c0526b2dc1b5268eb05ce9d9",
+      "passed": true
+    },
+    {
+      "file": "documents/PNG-du-jeu.zip",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/PNG-du-jeu.zip?rev=2e548982",
+      "bytes": 2791927,
+      "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83",
+      "passed": true
+    },
+    {
+      "file": "documents/Game-PNG-EN.zip",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Game-PNG-EN.zip?rev=2e548982",
+      "bytes": 2791927,
+      "sha256": "0066690c74d343a3514748cad59de2b16a444a78168d5302f94f8e8332a71d83",
+      "passed": true
+    },
+    {
+      "file": "documents/Notes-1.0.537.md",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Notes-1.0.537.md?rev=2e548982",
+      "bytes": 2819,
+      "sha256": "205005d2d88cddc100d30ba6a4ae4c10179c224d9ce6e849db9a867216509a4a",
+      "passed": true
+    },
+    {
+      "file": "documents/Notes-1.0.537-EN.md",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Notes-1.0.537-EN.md?rev=2e548982",
+      "bytes": 2278,
+      "sha256": "b28eb335f9bf457ffc60b3cb8fd015bdee8dbe0c5d5be92b6db387d269a1642a",
+      "passed": true
+    },
+    {
+      "file": "documents/Cooperative-Campaign-1.0.537.md",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Cooperative-Campaign-1.0.537.md?rev=2e548982",
+      "bytes": 8803,
+      "sha256": "a3c9c8f9e14f248fc5a9dd8f011f2013abdc9f8b8398107b29dc9fb57119c805",
+      "passed": true
+    },
+    {
+      "file": "documents/Cooperative-Campaign-1.0.537-EN.md",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Cooperative-Campaign-1.0.537-EN.md?rev=2e548982",
+      "bytes": 7216,
+      "sha256": "73859bd06c2bd57b12a2c8167aa219add095463e0171690221de2a370ec30f7e",
+      "passed": true
+    },
+    {
+      "file": "documents/Manifest-PNG.json",
+      "url": "https://torneko.github.io/dunelegacy-tornie/documents/Manifest-PNG.json?rev=2e548982",
+      "bytes": 69189,
+      "sha256": "9845ded637ee896e5c67568a03917397b3b65879cb8afd3e1da22db9925ff768",
+      "passed": true
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+      "url": "https://github.com/Torneko/dunelegacy-tornie/releases/download/v1.0.537/DuneLegacyTornie-1.0.537-Linux-Mint-Compatible.AppImage",
+      "bytes": 43440632,
+      "sha256": "c338b3515111698ddfacf33766685b2a705519bbd115153d495dd9ee36256333",
+      "passed": true
+    }
+  ]
+}
