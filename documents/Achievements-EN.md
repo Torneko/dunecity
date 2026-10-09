@@ -1,4 +1,4 @@
-# 47 Achievements — Dune Legacy Tornie 1.0.536
+# 47 Achievements — Dune Legacy Tornie 1.0.537
 
 Commander awards, campaign conquest and Chaos Conqueror concern solo campaigns. Finishing the common campaign does not complete the factions’ solo campaigns.
 

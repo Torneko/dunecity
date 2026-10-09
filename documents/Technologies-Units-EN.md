@@ -1,6 +1,6 @@
-# Dune Legacy Tornie 1.0.536 — Unit technologies
+# Dune Legacy Tornie 1.0.537 — Unit technologies
 
-Chaos and Easy Mode disabled; version 1.0.536.
+Chaos and Easy Mode disabled; version 1.0.537.
 
 Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), in campaigns only.
 

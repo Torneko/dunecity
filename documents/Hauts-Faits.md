@@ -1,4 +1,4 @@
-# 47 Hauts faits — Dune Legacy Tornie 1.0.536
+# 47 Hauts faits — Dune Legacy Tornie 1.0.537
 
 Les succès Commander, la conquête des campagnes et Maître du chaos concernent les campagnes solo. Terminer la campagne commune ne valide pas les campagnes solo des factions.
 

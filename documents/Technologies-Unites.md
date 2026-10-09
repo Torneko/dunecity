@@ -1,6 +1,6 @@
-# Dune Legacy Tornie 1.0.536 — Technologies des unités
+# Dune Legacy Tornie 1.0.537 — Technologies des unités
 
-Mode Chaos et mode facile désactivés ; version 1.0.536.
+Mode Chaos et mode facile désactivés ; version 1.0.537.
 
 En mode facile, les achats de la maison du joueur coûtent 25 crédits de moins (minimum 1), uniquement en campagne.
 
