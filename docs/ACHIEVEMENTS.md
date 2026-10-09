@@ -115,7 +115,7 @@ Chaos after losing eligibility does not restore the award condition. Vanilla
 does not support Chaos Mode; the separate co-op campaign does not grant this award.
 
 
-## Added in local 1.0.538
+## Added in 1.0.538
 
 Twenty awards expand the catalogue to 67, preserving all existing IDs and unlocks.
 The full FR/EN conditions and thresholds are in `config/Achievements.ini`.

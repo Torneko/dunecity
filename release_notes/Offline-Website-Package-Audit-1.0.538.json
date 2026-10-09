@@ -1,0 +1,20 @@
+{
+  "version": "1.0.538",
+  "passed": true,
+  "exactSiteFiles": 200,
+  "embeddedDownloadsMatchExactly": true,
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "omittedHistoricalGameArchives": [
+    "DuneLegacyTornie-1.0.535-Windows-x64.zip",
+    "DuneLegacyTornie-1.0.536-Windows-x64.zip",
+    "DuneLegacyTornie-1.0.537-Windows-x64.zip",
+    "DuneLegacyTornie-1.0.538-Windows-Local.zip",
+    "DuneLegacyTornie-1.0.538-Sources-Local.zip",
+    "DuneLegacyTornie-1.0.538-Linux-Mint-Local.AppImage"
+  ],
+  "package": {
+    "file": "DuneLegacyTornie-Site-Local-1.0.538.zip",
+    "bytes": 153875385,
+    "sha256": "3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a"
+  }
+}

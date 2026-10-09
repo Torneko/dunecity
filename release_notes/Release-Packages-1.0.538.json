@@ -1,0 +1,96 @@
+{
+  "version": "1.0.538",
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
+      "bytes": 52621579,
+      "sha256": "dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
+      "bytes": 41513912,
+      "sha256": "f6012912f9021d5f2049d4d20deb6dc413274db15dbd7d62232404e01e1a564d"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
+      "bytes": 41445382,
+      "sha256": "80ff4658c9c219cb612ed6322b257851c5f5826d3565e62a7dee668700aa47be"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
+      "bytes": 41876340,
+      "sha256": "46d2541f5a892c605bfc288fbbdecd02608cead560d0137c102cb3dd64dded61"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
+      "bytes": 33102328,
+      "sha256": "96fde44dbd21f093951039fa564ea35358620e47f471c45d95e0c198cc26fed2"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
+      "bytes": 43502072,
+      "sha256": "191b620d6b6c2d09db07882318c4d639caa7f63057042f6053015420e6de1d41"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Sources.zip",
+      "bytes": 51785145,
+      "sha256": "4c975126ed57baeaef87f2031f9723920d7dbbc5624a8c673f1f38279ab6f903"
+    },
+    {
+      "file": "DuneLegacyTornie-PNG-1.0.538.zip",
+      "bytes": 2835224,
+      "sha256": "2f382d2f177db19ecb04d5eb8510b0e7bedd8eb26708158d2694fb452d33e582"
+    },
+    {
+      "file": "DuneLegacyTornie-Site-Local-1.0.538.zip",
+      "bytes": 153875385,
+      "sha256": "3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a"
+    },
+    {
+      "file": "Release-Notes-1.0.538-FR.md",
+      "bytes": 3604,
+      "sha256": "f8c90f4f8b24699d04d066b55dcd73c9fdbdb982cbdcb0235e90b63857f6dd03"
+    },
+    {
+      "file": "Release-Notes-1.0.538-EN.md",
+      "bytes": 2904,
+      "sha256": "9d17ea1bc86e7b9abdd18b33ecf6259aa1569745f73f42722e61574393a3935d"
+    },
+    {
+      "file": "Validation-1.0.538.json",
+      "bytes": 5673,
+      "sha256": "2cb0061e79744706c5406c241f32ea1228d5f3e2b818b95c9de972ec4782beda"
+    },
+    {
+      "file": "Windows-Release-Package-Audit-1.0.538.json",
+      "bytes": 565,
+      "sha256": "77e10f61a7a2d92f8c390bf3ef44bfe9b9563e0cbf11650dfae2d35ae2b82323"
+    },
+    {
+      "file": "Linux-Release-Package-Audit-1.0.538.json",
+      "bytes": 1181,
+      "sha256": "1799891ffd58602e003c0e1f402c6aefd50deee704e8b870efe75af275fb6eb3"
+    },
+    {
+      "file": "Source-PNG-Package-Audit-1.0.538.json",
+      "bytes": 613,
+      "sha256": "8abd1cb1309d167e93e75abf4f416eb70b27f6cf50ab89a3889517c19d280703"
+    },
+    {
+      "file": "Offline-Website-Package-Audit-1.0.538.json",
+      "bytes": 716,
+      "sha256": "d2aec3477fc38a27ae76e1beaa42e951f397878781f6aeddda4989d12b3cfdbc"
+    },
+    {
+      "file": "Website-Validation-1.0.538.json",
+      "bytes": 35505,
+      "sha256": "11362634ba3798efaf3eac7ed2de1e4dd3a415b5e20e35489094b7c3b4b329ed"
+    },
+    {
+      "file": "Website-Features-Validation-1.0.538.json",
+      "bytes": 55338,
+      "sha256": "2dc36bb41523f2361574a755304637dcf6bfcac178b3e6b44261a96068a4ac8f"
+    }
+  ]
+}

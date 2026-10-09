@@ -1,0 +1,435 @@
+{
+  "version": "1.0.538",
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "passed": true,
+  "live": true,
+  "preflight": false,
+  "checks": [
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "fr",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 390,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "accueil",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "unites",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "batiments",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "technologies",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "factions",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "hauts-faits",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "guide",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "galerie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "route": "projet",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Vanilla",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "passed": true
+    },
+    {
+      "source": "https://torneko.github.io/dunelegacy-tornie/",
+      "language": "en",
+      "width": 1440,
+      "languageSwitch": true,
+      "ornithopter550": true,
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "browser": "Microsoft Edge headless"
+}

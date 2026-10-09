@@ -1,23 +1,39 @@
-## Release 1.0.538 — 2026-10-09
+## Published 1.0.538 baseline — 2026-10-09
 
-The current French/English working site is based on published `origin/gh-pages`
-`ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6`. Game source is the local 1.0.538
-working tree based on `ab5272c6dafa82c0a97f2192db4f4a4c19fff6e6`.
-Tornie authorized publication after confirming the corrected build works. Publish the matching FR/EN site, exact audited Windows archive, Mint compatibility AppImage, sources and offline ZIP for 1.0.538. Record the final source/site commits and CI/Pages results below after deployment.
+The French/English website was updated from published `origin/gh-pages`
+`ec822ddbb4a195c864d2658fb4dfe6b2b62b31d6`. Tornie confirmed the latest build and
+two-PC co-op work and authorized publication. The public site, exact release
+downloads and offline ZIP now identify 1.0.538.
 
-Both languages describe the optional allied Easy Mode (mission 2, +500 credits
-per ally at that mission start, -25 purchase prices), optional five extra units
-per present enemy per mission, reinforcements for both allies and protocol 7.
-The catalogue contains 67 achievements. The 119-PNG gallery and manifest include
-the exact new production portraits (Barracks/WOR/Worfinery in the four mods only) and the
-Wildspade/Tornie and Rebels/Jericho banners and colors. Selected-unit portraits
-retain their existing images. Published downloads and the offline ZIP must use the audited 1.0.538 release assets.
+- Release: https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538
+- Tagged/tested source: `c39a276e1bb4a8749b055d6283df3e067dec7e71`; merged through PR #10.
+- Website: `381929f458847f85b65fd847f440318a4fa45cbb` on `gh-pages`.
+- Windows/Linux build, engine, installed FR/EN runtime and locale checks: https://github.com/Torneko/dunelegacy-tornie/actions/runs/37981715769 — success.
+- GitHub Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38004830366 — success.
+- Browser checks: 180 local/file/HTTP desktop/mobile checks, 198 local feature checks, 60 live route checks and 66 live feature checks, with no browser errors.
+- All twenty release downloads are publicly accessible and match GitHub SHA-256 digests. Four published guides and eight new PNGs were checked against the local site.
+- Windows ZIP SHA-256: `dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80`.
+- Offline website ZIP SHA-256: `3ee3ecce8822374aee68c8ecd155dfd3e8b5d017d12ecf8acd465769df06053a`.
 
-Validation results accompany the preparation in `release_notes/Validation-1.0.538.json`.
-Tornie confirmed two-PC co-op 1.0.538 works on 2026-10-09. Mint 22.3/kernel 7.0
-remains to be checked on the target PC. The six production icons distinguish single,
-three and five infantry, with white price text. The Worfinery displays Harvester last. Preserve the previous published baseline
-below when continuing from another PC. The published gh-pages branch and matching release asset become the baseline after deployment.
+Both languages cover optional allied Easy Mode (mission 2, +500 credits at that
+mission start, -25 purchase prices), five optional extra units per present enemy
+per mission, reinforcements for both allies and protocol 7. There are 67 achievements
+and 119 gallery PNGs. Six supplied production portraits distinguish 1, 3 and 5
+infantry in Barracks/WOR/Worfinery, with white price text, in Tornie, Jericho and
+their Lite editions. Selected-unit portraits retain their existing images. The
+Worfinery displays Harvester last while preserving production queues and saves.
+Wildspade/Tornie and Rebels/Jericho use their supplied banners and updated colors.
+
+The release uses the artifacts from the successful build above. The duplicate tag
+build was cancelled after its version gate passed to preserve those audited files.
+Standard Linux formats, a separate Mint compatibility AppImage, exact tagged
+sources, bilingual notes, PNG pack and offline site accompany the release.
+The compatibility AppImage passed FR/EN runtime and PulseAudio checks under
+Ubuntu 22.04/WSL. Mint 22.3/kernel 7.0 still needs testing on the target PC.
+
+Details and publication hashes are in `release_notes/Publication-Validation-1.0.538.json`
+and the accompanying release reports. Use this published `origin/gh-pages` tree
+or the matching 1.0.538 offline ZIP as the website baseline on either PC.
 
 ## Published 1.0.537 baseline — 2026-10-08
 

@@ -1,0 +1,1969 @@
+{
+  "version": "1.0.538",
+  "passed": true,
+  "checks": [
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "fr",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "language": "en",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "fr",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "http://127.0.0.1:8767/",
+      "language": "en",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "fr",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Vanilla",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "productionScope": true,
+      "iconCount": 1,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "productionScope": true,
+      "iconCount": 3,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "productionScope": true,
+      "iconCount": 5,
+      "priceText": "white",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Tornie",
+      "house": "W",
+      "banner": "HeraldWildspade__Tornie538.png",
+      "color": "#6c2c94",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "mod": "Jericho",
+      "house": "R",
+      "banner": "HeraldRebels__Jericho538.png",
+      "color": "#525252",
+      "passed": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/outputs/DuneLegacyTornie-Site-Local-1.0.538/dist/",
+      "language": "en",
+      "achievementsAndCoopOptions": true,
+      "worfineryLastDocumented": true,
+      "barracksPortraitDocumented": true,
+      "userConfirmedCoop": true,
+      "passed": true
+    }
+  ],
+  "errors": []
+}

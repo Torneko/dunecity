@@ -1,0 +1,36 @@
+{
+  "version": "1.0.538",
+  "passed": true,
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
+      "bytes": 41513912,
+      "sha256": "f6012912f9021d5f2049d4d20deb6dc413274db15dbd7d62232404e01e1a564d"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
+      "bytes": 41445382,
+      "sha256": "80ff4658c9c219cb612ed6322b257851c5f5826d3565e62a7dee668700aa47be"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
+      "bytes": 41876340,
+      "sha256": "46d2541f5a892c605bfc288fbbdecd02608cead560d0137c102cb3dd64dded61"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
+      "bytes": 33102328,
+      "sha256": "96fde44dbd21f093951039fa564ea35358620e47f471c45d95e0c198cc26fed2"
+    }
+  ],
+  "exactPayloadVerifiedIn": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
+  "executableSha256": "8a0fc89ae6de4685a8f051c8ab38df212d0681a391a4dfdb83866881e41cd151",
+  "modPayloadChecksums": {
+    "Tornie": 946,
+    "Jericho": 927,
+    "TornieLite": 645,
+    "JerichoLite": 645
+  },
+  "coopMaps": 405
+}

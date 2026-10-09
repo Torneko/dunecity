@@ -64,7 +64,7 @@ Au deuxième emplacement, l’hôte peut choisir une IA qBot, Mentat, SmartBot o
 
 ## Options et hauts faits
 
-## Nouveautés locales 1.0.538
+## Nouveautés 1.0.538
 
 Deux options de lobby sont désactivées par défaut : **Mode facile** et **Forces ennemies +5**.
 Le mode facile commence une nouvelle campagne à la mission 2. Chacun des deux alliés,
@@ -90,8 +90,7 @@ Les succès des campagnes solo gardent leurs conditions.
 Les deux PC doivent utiliser **1.0.538**, protocole **7**. Les nouvelles sauvegardes
 portent la version **9829** ; les anciennes restent lisibles avec leurs forces et
 renforts enregistrés. Commencer une nouvelle campagne ou passer à la mission suivante
-pour profiter des nouveaux renforts. Cette préparation reste locale ; la version
-publique est 1.0.537. La coop sur deux PC est confirmée par Tornie. Mint 22.3 / noyau 7.0 reste à essayer.
+pour profiter des nouveaux renforts. La version publique est 1.0.538. La coop sur deux PC est confirmée par Tornie. Mint 22.3 / noyau 7.0 reste à essayer.
 
 
 Le lobby propose le **Mode Chaos**, désactivé par défaut, dans les quatre mods ; Vanilla le désactive. Le tirage utilise une graine commune et les règles sont identiques sur les deux PC. Les sauvegardes conservent les règles de la mission.
@@ -100,7 +99,7 @@ Les hauts faits **Commander**, la conquête des campagnes et **Maître du chaos 
 
 ## État de validation et maintenance
 
-Validation humaine précédente : Tornie a confirmé le chargement des sauvegardes du lobby en 1.0.537. Cette version 1.0.538 demande de nouveaux essais.
+Tornie a testé la coop 1.0.538 sur deux PC et confirmé son bon fonctionnement le 9 octobre 2026. Le test Mint 22.3 / noyau 7.0 reste à faire sur le PC concerné.
 
 Les templates de campagne d’origine sont dans `coop/faction<id>/coopNN.ini` sous `data/` pour Vanilla et `mods/<mod>/campaign/` pour les mods. Les 45 templates précédents à la racine sont conservés pour les anciennes sessions. `scripts/build-coop-campaign.py --check` vérifie les 405 variantes sources et les cartes précédentes ; `--write` actualise uniquement les templates coop et les checksums. Le cache `config/CoopCampaignTerrain.json` est calculé par l’algorithme `MapSeed.cpp` du jeu.
 

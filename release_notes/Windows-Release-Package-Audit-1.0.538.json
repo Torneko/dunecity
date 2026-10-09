@@ -1,0 +1,19 @@
+{
+  "version": "1.0.538",
+  "passed": true,
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "architecture": "Windows x64",
+  "package": {
+    "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
+    "bytes": 52621579,
+    "sha256": "dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80"
+  },
+  "executableSha256": "b5af82211964e1f76c8c56d991b5a8cb1e4f3f8ca8a550df68e50d44880a5412",
+  "modPayloadChecksums": {
+    "Tornie": 946,
+    "Jericho": 927,
+    "TornieLite": 645,
+    "JerichoLite": 645
+  },
+  "coopMaps": 405
+}

@@ -64,7 +64,7 @@ The host can select a qBot, Mentat, SmartBot or AI Player ally in the second slo
 
 ## Options and achievements
 
-## Local changes in 1.0.538
+## Changes in 1.0.538
 
 Two lobby options are off by default: **Easy Mode** and **Enemy forces +5**.
 Easy Mode starts a new campaign at mission 2. Each ally, human or AI, gets 500 extra
@@ -85,8 +85,7 @@ session counts once. Solo campaign awards retain their requirements.
 
 Both PCs require **1.0.538**, protocol **7**. New saves use **9829**; older saves remain
 readable with their recorded forces and reinforcements. Start a new campaign or reach
-the next mission for the new reinforcement behavior. This preparation remains local;
-the public release is 1.0.537. Tornie confirmed two-PC co-op works. Mint 22.3 / kernel 7.0 still needs testing.
+the next mission for the new reinforcement behavior. The public release is 1.0.538. Tornie confirmed two-PC co-op works. Mint 22.3 / kernel 7.0 still needs testing.
 
 
 The lobby offers **Chaos Mode**, off by default, in the four mods; Vanilla disables it. The draw uses a shared seed and both computers use the same rules. Saves preserve the mission's rules.
@@ -95,7 +94,7 @@ The lobby offers **Chaos Mode**, off by default, in the four mods; Vanilla disab
 
 ## Validation status and maintenance
 
-Previous human validation: Tornie confirmed lobby save loading in 1.0.537. This 1.0.538 build needs fresh playtesting.
+Tornie tested co-op 1.0.538 on two PCs and confirmed it works on 9 October 2026. Mint 22.3 / kernel 7.0 still needs testing on the target computer.
 
 Original-campaign templates live in `coop/faction<id>/coopNN.ini` under `data/` for Vanilla and `mods/<mod>/campaign/` for the mods. The 45 previous root templates remain for older sessions. `scripts/build-coop-campaign.py --check` validates the 405 source variants and previous maps; `--write` updates only co-op templates and checksums. `config/CoopCampaignTerrain.json` is generated with the game’s `MapSeed.cpp` algorithm.
 
