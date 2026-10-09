@@ -1,8 +1,9 @@
 {
   "project": "Dune Legacy Tornie",
-  "version": "1.0.537",
-  "sourceCommit": "2e54898202b13bd238064d6920c8bbea5253342d",
-  "pngCount": 111,
+  "version": "1.0.538",
+  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
+  "localPreparation": true,
+  "pngCount": 119,
   "files": [
     {
       "file": "02_Sprites_des_unites/advanced_power_2x3.png",
@@ -21,8 +22,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/advanced_power_2x3.png"
+      ]
     },
     {
       "file": "03_Batiments/Advanced_Power_Plant.png",
@@ -41,8 +41,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Advanced_Power_Plant.png"
+      ]
     },
     {
       "file": "03_Batiments/BUILDING_3x2_worfinery.png",
@@ -70,8 +69,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/BUILDING_3x2_worfinery.png"
+      ]
     },
     {
       "file": "05_Portraits/ChaniMentat.png",
@@ -92,8 +90,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/05_Portraits/ChaniMentat.png"
+      ]
     },
     {
       "file": "03_Batiments/ChaosFactory.png",
@@ -112,8 +109,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/ChaosFactory.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/ChaosFactoryIcon.png",
@@ -132,8 +128,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/ChaosFactoryIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/ChemicalCarryall.png",
@@ -154,8 +149,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/ChemicalCarryall.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/ChemicalCarryallIcon.png",
@@ -176,8 +170,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/ChemicalCarryallIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/ChemicalSiegeTank.png",
@@ -196,8 +189,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/ChemicalSiegeTank.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/ChemicalSiegeTankIcon.png",
@@ -216,8 +208,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/ChemicalSiegeTankIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Chemipost.png",
@@ -236,8 +227,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Chemipost.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/ChemipostIcon.png",
@@ -256,8 +246,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/ChemipostIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/Deviator.png",
@@ -278,8 +267,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/Deviator.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/DeviatorGun.png",
@@ -298,8 +286,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/DeviatorGun.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/EliteLauncherGun.png",
@@ -318,8 +305,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/EliteLauncherGun.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/EliteLauncherIcon.png",
@@ -340,8 +326,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/EliteLauncherIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/EliteSiegeTank.png",
@@ -362,8 +347,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/EliteSiegeTank.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/EliteSiegeTankIcon.png",
@@ -384,8 +368,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/EliteSiegeTankIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Flamepost.png",
@@ -404,8 +387,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Flamepost.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/FlamepostIcon.png",
@@ -424,8 +406,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/FlamepostIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/FlameTank.png",
@@ -446,8 +427,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/FlameTank.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/FlameTankGun.png",
@@ -466,8 +446,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/FlameTankGun.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/FlameTankIcon.png",
@@ -488,8 +467,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/FlameTankIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Green_Post.png",
@@ -508,8 +486,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Green_Post.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/HarvestankGun.png",
@@ -528,8 +505,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/HarvestankGun.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/HarvestankIcon.png",
@@ -548,8 +524,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/HarvestankIcon.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldCorruptique.png",
@@ -562,8 +537,7 @@
       ],
       "distributions": [
         "Tornie"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldCorruptique.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldFremen.png",
@@ -576,8 +550,7 @@
       ],
       "distributions": [
         "Tornie"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldFremen.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldKleshmersh.png",
@@ -592,8 +565,7 @@
       "distributions": [
         "Tornie",
         "Jericho"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldKleshmersh.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldNeu.png",
@@ -610,8 +582,7 @@
         "Tornie",
         "Jericho",
         "Commun"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldNeu.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldRebels.png",
@@ -620,14 +591,11 @@
       "transparent": false,
       "sha256": "731dd5a23592d797d91bd34c0739e38681d0152c0db061aa2f63f20eabb89d14",
       "sources": [
-        "mods/Tornie/data/HeraldRebels.png",
-        "mods/Jericho/data/HeraldRebels.png"
+        "mods/Tornie/data/HeraldRebels.png"
       ],
       "distributions": [
-        "Tornie",
-        "Jericho"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldRebels.png"
+        "Tornie"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldTharpique.png",
@@ -646,8 +614,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldTharpique.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldWildspade.png",
@@ -656,14 +623,11 @@
       "transparent": false,
       "sha256": "0587c57067d04724655883d61671b021eaaec0868dc55441cdaeea0b339d1bdf",
       "sources": [
-        "mods/Tornie/data/HeraldWildspade.png",
         "mods/Jericho/data/HeraldWildspade.png"
       ],
       "distributions": [
-        "Tornie",
         "Jericho"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldWildspade.png"
+      ]
     },
     {
       "file": "03_Batiments/LoveFactory.png",
@@ -682,8 +646,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/LoveFactory.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/LoveFactoryIcon.png",
@@ -702,8 +665,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/LoveFactoryIcon.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/PalaceRebelsChargingIcon.png",
@@ -720,8 +682,7 @@
         "Tornie",
         "Jericho",
         "Commun"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/PalaceRebelsChargingIcon.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/PalaceRebelsIcon.png",
@@ -742,8 +703,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/PalaceRebelsIcon.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/PalaceTrikeAndQuadIcon.png",
@@ -764,8 +724,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/PalaceTrikeAndQuadIcon.png"
+      ]
     },
     {
       "file": "05_Portraits/PaulAtreidesForeground.png",
@@ -784,8 +743,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/05_Portraits/PaulAtreidesForeground.png"
+      ]
     },
     {
       "file": "05_Portraits/PaulAtreidesMentat.png",
@@ -806,8 +764,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/05_Portraits/PaulAtreidesMentat.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/RocketTrike.png",
@@ -828,8 +785,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/RocketTrike.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/RocketTrikeIcon.png",
@@ -850,8 +806,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/RocketTrikeIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Scoutpost.png",
@@ -870,8 +825,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Scoutpost.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/ScoutpostIcon.png",
@@ -892,8 +846,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/ScoutpostIcon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/SonicTrike.png",
@@ -912,8 +865,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/SonicTrike.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/SonicTrikeIcon.png",
@@ -932,8 +884,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/SonicTrikeIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/TechCenter.png",
@@ -952,8 +903,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/TechCenter.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/TechCenterIcon.png",
@@ -974,8 +924,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/TechCenterIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Tornie_AdvancedWindtrap_gfx.png",
@@ -996,8 +945,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/03_Batiments/Tornie_AdvancedWindtrap_gfx.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png",
@@ -1018,8 +966,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/Tornie_AdvancedWindtrap_icon.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/TornieUnits.png",
@@ -1038,8 +985,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/TornieUnits.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/TornieUnits2.png",
@@ -1058,8 +1004,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/TornieUnits2.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/TornieUnits2Flame.png",
@@ -1078,8 +1023,7 @@
         "TornieLite",
         "Jericho",
         "JerichoLite"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/TornieUnits2Flame.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/WorfineryIcon.png",
@@ -1100,8 +1044,7 @@
         "Jericho",
         "Commun",
         "JerichoLite"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/WorfineryIcon.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldRebels__TornieLite.png",
@@ -1116,8 +1059,7 @@
       "distributions": [
         "TornieLite",
         "JerichoLite"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldRebels__TornieLite.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldCorruptique__Jericho.png",
@@ -1130,8 +1072,7 @@
       ],
       "distributions": [
         "Jericho"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldCorruptique__Jericho.png"
+      ]
     },
     {
       "file": "02_Sprites_des_unites/advanced_power_2x3__Commun.png",
@@ -1144,8 +1085,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/02_Sprites_des_unites/advanced_power_2x3__Commun.png"
+      ]
     },
     {
       "file": "03_Batiments/Advanced_Power_Plant__Commun.png",
@@ -1158,8 +1098,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/03_Batiments/Advanced_Power_Plant__Commun.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldKleshmershBrown.png",
@@ -1172,8 +1111,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldKleshmershBrown.png"
+      ]
     },
     {
       "file": "04_Emblemes_des_factions/HeraldRebels__Commun.png",
@@ -1186,8 +1124,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/04_Emblemes_des_factions/HeraldRebels__Commun.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/NeutralLauncherIcon.png",
@@ -1200,8 +1137,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/NeutralLauncherIcon.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/QuadIcon.png",
@@ -1214,8 +1150,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/01_Icones_pour_le_site/QuadIcon.png"
+      ]
     },
     {
       "file": "03_Batiments/Scoutpost__Commun.png",
@@ -1228,8 +1163,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/03_Batiments/Scoutpost__Commun.png"
+      ]
     },
     {
       "file": "03_Batiments/super_power_plant.png",
@@ -1242,8 +1176,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/03_Batiments/super_power_plant.png"
+      ]
     },
     {
       "file": "03_Batiments/TechCenter__Commun.png",
@@ -1256,8 +1189,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/03_Batiments/TechCenter__Commun.png"
+      ]
     },
     {
       "file": "06_Epices_et_drapeaux/Tornie_AdvHouseFlag.png",
@@ -1270,8 +1202,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/06_Epices_et_drapeaux/Tornie_AdvHouseFlag.png"
+      ]
     },
     {
       "file": "06_Epices_et_drapeaux/Tornie_CornerFlag.png",
@@ -1284,8 +1215,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/06_Epices_et_drapeaux/Tornie_CornerFlag.png"
+      ]
     },
     {
       "file": "06_Epices_et_drapeaux/Tornie_SpiceGreen.png",
@@ -1298,8 +1228,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/06_Epices_et_drapeaux/Tornie_SpiceGreen.png"
+      ]
     },
     {
       "file": "06_Epices_et_drapeaux/Tornie_SpiceRed.png",
@@ -1312,8 +1241,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/06_Epices_et_drapeaux/Tornie_SpiceRed.png"
+      ]
     },
     {
       "file": "03_Batiments/Worfinery.png",
@@ -1326,8 +1254,7 @@
       ],
       "distributions": [
         "Commun"
-      ],
-      "url": "assets/png/03_Batiments/Worfinery.png"
+      ]
     },
     {
       "file": "01_Icones_pour_le_site/Vanilla_4SLAB_Icon.png",
@@ -1345,7 +1272,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_4SLAB_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1371,7 +1297,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_BARRAC_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1397,7 +1322,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_CARRYALL_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1423,7 +1347,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_CONSTRUC_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1449,7 +1372,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_FRIGATE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1475,7 +1397,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HARKTANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1501,7 +1422,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HARVEST_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1527,7 +1447,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HEADQRTS_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1553,7 +1472,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HITCFTRY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1579,7 +1497,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HTANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1605,7 +1522,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HVYFTRY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1631,7 +1547,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_HYINFY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1657,7 +1572,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_INFANTRY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1683,7 +1597,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_IX_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1709,7 +1622,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_LITEFTRY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1735,7 +1647,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_LTANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1761,7 +1672,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_MCV_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1787,7 +1697,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_ORDRTANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1813,7 +1722,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_ORNI_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1839,7 +1747,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_OTRIKE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1865,7 +1772,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_PALACE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1891,7 +1797,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_REFINERY_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1917,7 +1822,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_REPAIR_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1943,7 +1847,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_RTANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1969,7 +1872,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_RTURRET_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -1995,7 +1897,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_SABOTURE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2021,7 +1922,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_SLAB_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2047,7 +1947,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_STANK_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2073,7 +1972,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_STARPORT_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2099,7 +1997,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_STORAGE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2125,7 +2022,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_TRIKE_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2151,7 +2047,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_TURRET_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2177,7 +2072,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_WALL_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2203,7 +2097,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_WINDTRAP_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2229,7 +2122,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_WOR_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2255,7 +2147,6 @@
         "TornieLite",
         "Jericho"
       ],
-      "url": "assets/png/01_Icones_pour_le_site/Vanilla_WORM_Icon.png",
       "export": {
         "method": "Dune Legacy small detail picture",
         "sourceSize": [
@@ -2267,7 +2158,6 @@
     },
     {
       "file": "01_Icones_pour_le_site/AdvancedWindtrap2x3.png",
-      "url": "assets/png/01_Icones_pour_le_site/AdvancedWindtrap2x3.png",
       "sha256": "003e97b217a4dec6643bbb6f1e5151ecb985660416b5079fdfcb1a7760edb31f",
       "sources": [
         "mods/Tornie/data/advanced_power_2x3.png",
@@ -2275,8 +2165,8 @@
         "mods/Jericho/data/advanced_power_2x3.png",
         "mods/JerichoLite/data/advanced_power_2x3.png"
       ],
-      "width": 64,
-      "height": 96,
+      "width": 32,
+      "height": 48,
       "description": "Original game editor preview, Atreides palette; exported by GFXManager.",
       "distributions": [
         "Tornie",
@@ -2284,11 +2174,17 @@
         "Jericho",
         "JerichoLite"
       ],
-      "transparent": false
+      "transparent": false,
+      "derivation": "Game-rendered editor preview; source reference is the sprite sheet, not an identical PNG copy.",
+      "sourceSha256": {
+        "mods/Tornie/data/advanced_power_2x3.png": "5d36d1927534c0a510dd48aaefd517fd690bc052f948b5d7a49a7524299ccbf1",
+        "mods/TornieLite/data/advanced_power_2x3.png": "5d36d1927534c0a510dd48aaefd517fd690bc052f948b5d7a49a7524299ccbf1",
+        "mods/Jericho/data/advanced_power_2x3.png": "5d36d1927534c0a510dd48aaefd517fd690bc052f948b5d7a49a7524299ccbf1",
+        "mods/JerichoLite/data/advanced_power_2x3.png": "5d36d1927534c0a510dd48aaefd517fd690bc052f948b5d7a49a7524299ccbf1"
+      }
     },
     {
       "file": "01_Icones_pour_le_site/AdvancedWindtrap3x2.png",
-      "url": "assets/png/01_Icones_pour_le_site/AdvancedWindtrap3x2.png",
       "sha256": "3ca68cf93a7a12cb9d58548efebaa5f25a1268debdaf447cc18655ebc6ecbb60",
       "sources": [
         "mods/Tornie/data/Advanced_Power_Plant.png",
@@ -2296,8 +2192,8 @@
         "mods/Jericho/data/Advanced_Power_Plant.png",
         "mods/JerichoLite/data/Advanced_Power_Plant.png"
       ],
-      "width": 96,
-      "height": 64,
+      "width": 48,
+      "height": 32,
       "description": "Original game editor preview, Atreides palette; exported by GFXManager.",
       "distributions": [
         "Tornie",
@@ -2305,11 +2201,17 @@
         "Jericho",
         "JerichoLite"
       ],
-      "transparent": false
+      "transparent": false,
+      "derivation": "Game-rendered editor preview; source reference is the sprite sheet, not an identical PNG copy.",
+      "sourceSha256": {
+        "mods/Tornie/data/Advanced_Power_Plant.png": "f076a3124beb63991ae6036d382fcb28890cb2a275fe4731a9fd661d84b91a06",
+        "mods/TornieLite/data/Advanced_Power_Plant.png": "f076a3124beb63991ae6036d382fcb28890cb2a275fe4731a9fd661d84b91a06",
+        "mods/Jericho/data/Advanced_Power_Plant.png": "f076a3124beb63991ae6036d382fcb28890cb2a275fe4731a9fd661d84b91a06",
+        "mods/JerichoLite/data/Advanced_Power_Plant.png": "f076a3124beb63991ae6036d382fcb28890cb2a275fe4731a9fd661d84b91a06"
+      }
     },
     {
       "file": "05_Portraits/MentatCat_Wildspade.png",
-      "url": "assets/png/05_Portraits/MentatCat_Wildspade.png",
       "width": 640,
       "height": 400,
       "transparent": false,
@@ -2326,7 +2228,6 @@
     },
     {
       "file": "05_Portraits/MentatCat_Wildspade_Eyes.png",
-      "url": "assets/png/05_Portraits/MentatCat_Wildspade_Eyes.png",
       "width": 2172,
       "height": 724,
       "transparent": true,
@@ -2343,7 +2244,6 @@
     },
     {
       "file": "05_Portraits/MentatCat_Wildspade_Mouth.png",
-      "url": "assets/png/05_Portraits/MentatCat_Wildspade_Mouth.png",
       "width": 1983,
       "height": 793,
       "transparent": true,
@@ -2357,17 +2257,160 @@
         "Jericho"
       ],
       "description": "Five original animation states, with RGB darkened by 8%; size, crop coordinates and alpha preserved."
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldWildspade__Tornie538.png",
+      "width": 83,
+      "height": 91,
+      "transparent": true,
+      "sha256": "516c217610118d1f3878173a0068be12a07c3207d16a3319f5ce717ad8c2ed9f",
+      "sources": [
+        "mods/Tornie/data/HeraldWildspade.png"
+      ],
+      "distributions": [
+        "Tornie"
+      ]
+    },
+    {
+      "file": "04_Emblemes_des_factions/HeraldRebels__Jericho538.png",
+      "width": 83,
+      "height": 91,
+      "transparent": false,
+      "sha256": "8c837ff89cba81b32af8bdedc79238308289f84d5740d1a2c59cf27b30ef3dae",
+      "sources": [
+        "mods/Jericho/data/HeraldRebels.png"
+      ],
+      "distributions": [
+        "Jericho"
+      ]
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionSoldier.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "dba273335ff5d5910c11b3f4665de49e03c7d01993df8f2901e451fa7b7d07f4",
+      "sources": [
+        "mods/Tornie/data/ProductionSoldier.png",
+        "mods/Jericho/data/ProductionSoldier.png",
+        "mods/TornieLite/data/ProductionSoldier.png",
+        "mods/JerichoLite/data/ProductionSoldier.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 1 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_INFANTRY_Icon_single.png"
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionInfantry3.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "604800599bce308a937d98ab605273d10dff2e2daa8bea7d0e2c03ff269eba43",
+      "sources": [
+        "mods/Tornie/data/ProductionInfantry3.png",
+        "mods/Jericho/data/ProductionInfantry3.png",
+        "mods/TornieLite/data/ProductionInfantry3.png",
+        "mods/JerichoLite/data/ProductionInfantry3.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 3 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_INFANTRY_Icon_squad_3.png"
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionInfantry5.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "f3b6d16b95adda4622887dcee36423f45d83d004001f56485f8c381c70ba6008",
+      "sources": [
+        "mods/Tornie/data/ProductionInfantry5.png",
+        "mods/Jericho/data/ProductionInfantry5.png",
+        "mods/TornieLite/data/ProductionInfantry5.png",
+        "mods/JerichoLite/data/ProductionInfantry5.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 5 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_INFANTRY_Icon_SQUAD_5.png"
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionTrooper.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "d7fe046a758b4546327b085381b2988f8549a0eba1ee97f5b0d2a7e5375597fe",
+      "sources": [
+        "mods/Tornie/data/ProductionTrooper.png",
+        "mods/Jericho/data/ProductionTrooper.png",
+        "mods/TornieLite/data/ProductionTrooper.png",
+        "mods/JerichoLite/data/ProductionTrooper.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 1 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_HYINFY_Icon_Single.png"
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionTroopers3.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "91f12906c523bb136f7f11ec2afbfc76454c2c9743d38b3c87f3c3cc794385f9",
+      "sources": [
+        "mods/Tornie/data/ProductionTroopers3.png",
+        "mods/Jericho/data/ProductionTroopers3.png",
+        "mods/TornieLite/data/ProductionTroopers3.png",
+        "mods/JerichoLite/data/ProductionTroopers3.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 3 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_HYINFY_Icon_squad_3.png"
+    },
+    {
+      "file": "01_Icones_pour_le_site/ProductionTroopers5.png",
+      "width": 91,
+      "height": 55,
+      "transparent": false,
+      "sha256": "dd6d1b498190e58507fa52da6950aa6a45f0f441c65a861ef04c9ad0a75af554",
+      "sources": [
+        "mods/Tornie/data/ProductionTroopers5.png",
+        "mods/Jericho/data/ProductionTroopers5.png",
+        "mods/TornieLite/data/ProductionTroopers5.png",
+        "mods/JerichoLite/data/ProductionTroopers5.png"
+      ],
+      "distributions": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "description": "Barracks/WOR/Worfinery production portrait, 5 infantry; white in-game price text.",
+      "suppliedFilename": "Vanilla_HYINFY_Icon_SQUAD_5.png"
     }
   ],
-  "vanillaExports": {
-    "gameVersion": "1.0.532",
-    "palette": "DUNE.PAK/IBM.PAL",
-    "method": "First WSA frame, sampled with Dune Legacy small-detail-picture coordinates; original colors and illustrated backgrounds retained.",
-    "newIconCount": 36,
-    "unitEntriesIllustrated": 19,
-    "buildingEntriesIllustrated": 19
-  },
-  "localChanges": true,
-  "count": 111,
-  "releaseStatus": "local-preview"
+  "sourceRevision": "working-tree-538",
+  "revision": "c39a276e"
 }
