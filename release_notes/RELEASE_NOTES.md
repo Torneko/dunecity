@@ -1,3 +1,13 @@
+# Dune Legacy Tornie 1.0.537
+
+In the host lobby, **Load a save** opens **Manual** (`mpsave/`, `.dls` files) and **Automatic** (`coop/`, `.dls` checkpoints) tabs. The save must be a co-op campaign for the active mod. Loading closes the old lobby and opens a new one for the saved mission; the guest must rejoin. Cancelling or selecting an incompatible file keeps the current lobby. Automatic resume through the `.ini` progress record remains available.
+
+Optional allied control (off by default), selectable enemy AI type/difficulty and an AI guest, separate bases and funds, guest intro WOR, enemy faction/color collision handling, French/English How to Play including Jericho Lite, and refined Wildspade eye/mouth rendering. See `docs/COOP-CAMPAIGN-EN.md` and `docs/COOP-CAMPAIGN.md`.
+
+Both PCs require 1.0.537 and protocol 6. Save version 9828 protects the new cooperative options from older executables; old saves remain readable. Tornie has tried co-op on two PCs and confirmed loading saves from the lobby. Automated Windows/Linux checks cover the new options; extended playtesting and the Mint 22.3/kernel 7.0 compatibility check remain open.
+
+---
+
 # Dune Legacy Tornie 1.0.536
 
 Version 1.0.536. Co-op is available for playtesting; a human match between two computers remains unconfirmed.

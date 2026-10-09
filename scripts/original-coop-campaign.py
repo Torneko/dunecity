@@ -211,7 +211,7 @@ def connected_cells(cells, blocked, origin):
     return reached
 
 
-def extra_units(ini, house):
+def extra_units(ini, house, intro=False):
     size, offset, cells = terrain(ini)
     occupied, structures = occupied_cells(ini, offset)
     yard = [value.split(",") for value in ini["STRUCTURES"].values()
@@ -231,6 +231,32 @@ def extra_units(ini, house):
     _, _, my, mx = min(candidates)
     footprint = {(mx + dx, my + dy) for dx in range(2) for dy in range(2)}
     occupied.update(footprint)
+    wor = None
+    wor_reference = origin
+    if intro:
+        host_wor = [value.split(",") for value in ini["STRUCTURES"].values()
+                    if value.split(",")[:2] == [house, "WOR"]]
+        if host_wor:
+            position = int(host_wor[0][3])
+            wor_reference = position % 64 - offset, position // 64 - offset
+        candidates = []
+        for x, y in reached:
+            area = {(x + dx, y + dy) for dx in range(2) for dy in range(2)}
+            if area.isdisjoint(occupied) and all(p in cells and cells[p] in "28" for p in area):
+                distance = max(abs(x-wor_reference[0]), abs(y-wor_reference[1]))
+                candidates.append((distance, abs(x-wor_reference[0])+abs(y-wor_reference[1]), y, x))
+        assert candidates, (house, "No free connected rock footprint for guest WOR")
+        for _, _, wy, wx in sorted(candidates):
+            area = {(wx + dx, wy + dy) for dx in range(2) for dy in range(2)}
+            remaining = connected_cells(cells, structures | footprint | area, origin)
+            if any((mx + dx, my + dy) in remaining for dx, dy in ((-1,0),(0,-1),(2,0),(0,2))):
+                break
+        else:
+            raise AssertionError((house, "Guest WOR would seal the MCV deployment spot"))
+        wor = wx, wy
+        area = {(wx + dx, wy + dy) for dx in range(2) for dy in range(2)}
+        occupied.update(area)
+        structures.update(area)
     reached = connected_cells(cells, structures | footprint, origin)
     assert any((mx + dx, my + dy) in reached for dx, dy in ((-1, 0), (0, -1), (2, 0), (0, 2))), "Sealed MCV construction spot"
     additions = {"IDCOOPMCV": f"Player2,MCV,256,{(my + offset) * 64 + mx + offset},64,Guard"}
@@ -250,7 +276,9 @@ def extra_units(ini, house):
         parts[0] = "Player2"
         parts[3] = str((y + offset) * 64 + x + offset)
         additions["IDCOOP" + key[2:]] = ",".join(parts)
-    return additions, {"constructionYard": origin, "mcv": (mx, my), "mcvDistance": max(abs(mx - origin[0]), abs(my - origin[1]))}
+    return additions, {"constructionYard": origin, "mcv": (mx, my), "mcvDistance": max(abs(mx - origin[0]), abs(my - origin[1])),
+                       "guestWor": wor, "worReference": wor_reference if intro else None,
+                       "guestWorPosition": (wor[1]+offset)*64+wor[0]+offset if wor else None}
 
 
 def destination(mod, faction, stage):
@@ -262,7 +290,7 @@ def generate(mod, house, roles, stage):
     mission = MISSIONS[stage - 1]
     source, provenance = source_bytes(mod, house, mission)
     original = read(source)
-    additions, placement = extra_units(original, house)
+    additions, placement = extra_units(original, house, stage == 1)
     owners, corrections, wildlife = normalized_owners(mod, house, roles, mission, original)
     actual, initial, future = active_opponents(original, house, owners)
     roles = stage_roles(mod, roles, actual)
@@ -293,6 +321,8 @@ def generate(mod, house, roles, stage):
             ini[section].update(Credits="0", Quota="0", MaxUnit=original[house].get("MaxUnit", "25"))
         ini[section]["Brain"] = f"Team {1 if slot <= 2 else 2}"
     ini["UNITS"].update(additions)
+    if placement["guestWorPosition"] is not None:
+        ini["STRUCTURES"]["IDCOOPWOR"] = f"Player2,WOR,256,{placement['guestWorPosition']}"
     ini.add_section("COOP_TEMPLATE")
     quota = original.getint(house, "Quota", fallback=0) if original.getint("BASIC", "WinFlags") & 4 else 0
     marker = ini["COOP_TEMPLATE"]
@@ -341,7 +371,8 @@ def validate(text, mod, house, roles, stage):
     own = [value.split(",")[1:] for key, value in ini["UNITS"].items() if value.startswith("Player1,")]
     other = [value.split(",")[1:] for key, value in ini["UNITS"].items() if value.startswith("Player2,") and key != "IDCOOPMCV"]
     assert [parts[:2] + parts[3:] for parts in own] == [parts[:2] + parts[3:] for parts in other]
-    assert not any(value.startswith("Player2,") for value in ini["STRUCTURES"].values())
+    guest_structures = [value for value in ini["STRUCTURES"].values() if value.startswith("Player2,")]
+    assert guest_structures == ([f"Player2,WOR,256,{placement['guestWorPosition']}"] if stage == 1 else [])
     assert len(other) == len(own)
     size, offset, cells = terrain(original)
     occupied, _ = occupied_cells(original, offset)

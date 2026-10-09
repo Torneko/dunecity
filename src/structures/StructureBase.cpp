@@ -290,7 +290,7 @@ void StructureBase::blitToScreen() {
 }
 
 ObjectInterface* StructureBase::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if((currentGame->canControlHouse(owner)) || (debug == true)) {
         return DefaultStructureInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);
@@ -371,7 +371,7 @@ void StructureBase::drawOtherPlayerSelectionBox() {
 }
 
 void StructureBase::drawGatheringPointLine() {
-    if(isABuilder() && (getItemID() != Structure_ConstructionYard) && destination.isValid() && (getOwner() == pLocalHouse)) {
+    if(isABuilder() && (getItemID() != Structure_ConstructionYard) && destination.isValid() && (currentGame->canControlHouse(getOwner()))) {
         Coord indicatorPosition = destination*TILESIZE + Coord(TILESIZE/2, TILESIZE/2);
         Coord structurePosition = getCenterPoint();
 

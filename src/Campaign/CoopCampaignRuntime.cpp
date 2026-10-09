@@ -12,6 +12,7 @@
 #include <misc/FileSystem.h>
 #include <misc/IMemoryStream.h>
 #include <misc/OMemoryStream.h>
+#include <misc/SaveGameLobbySetup.h>
 #include <mod/ModManager.h>
 #include <FileClasses/music/MusicPlayer.h>
 #include <globals.h>
@@ -108,7 +109,8 @@ bool sameParticipants(const Context& first, const Context& second) {
         || first.slots.size() != second.slots.size()
         || first.roster != second.roster || first.stage != second.stage
         || first.completedMask != second.completedMask
-        || first.chaosEligible != second.chaosEligible) return false;
+        || first.chaosEligible != second.chaosEligible
+        || first.alliedControl != second.alliedControl) return false;
     for(std::size_t i = 0; i < first.slots.size(); ++i) {
         const auto& a = first.slots[i];
         const auto& b = second.slots[i];
@@ -153,6 +155,12 @@ public:
         cancel_.setText(french ? "Retour au menu" : "Return to menu");
         cancel_.setOnClick([this] { quit(); });
         container_.addWidget(&cancel_, Point(getRendererWidth() / 2 - 150, 360), Point(300, 32));
+        if(partner_.empty()) {
+            barrier_.receive("", session_.context().sessionId, session_.context().stage, outcome_);
+            if(outcome_ == Outcome::Won) message_.setText(french
+                ? "Victoire de votre équipe. Continuer avec votre allié IA."
+                : "Your team won. Continue with your AI ally.");
+        }
     }
 
     void quit(int value = MENU_QUIT_DEFAULT) override {
@@ -169,7 +177,7 @@ public:
     void update() override {
         if(!pNetworkManager || isQuiting()) return;
         const auto peers = pNetworkManager->getConnectedPeers();
-        if(peers.size() != 1 || peers.front() != partner_) { quit(); return; }
+        if(partner_.empty() ? !peers.empty() : (peers.size() != 1 || peers.front() != partner_)) { quit(); return; }
         if(pNetworkManager->isServer()) {
             for(const auto& message : pNetworkManager->takeCoopReady()) {
                 if(message.epoch != pNetworkManager->getGameEpoch()) continue;
@@ -329,8 +337,9 @@ GameInitSettings makeGameSettings(const CoopCampaignSession& session,
     GameInitSettings settings(session.missionFilename(), mapData, serverName, false, options);
     settings.setRandomSeed(session.context().seed ^ (0x9e3779b9u * static_cast<Uint32>(session.context().stage)));
     std::array<bool, NUM_HOUSE_COLOR_SLOTS> usedColors{};
-    for(const auto& slot : prepared->slots) {
-        GameInitSettings::HouseInfo house(static_cast<HOUSETYPE>(slot.house), slot.team());
+    for(std::size_t i = 0; i < prepared->slots.size(); ++i) {
+        const auto& slot = prepared->slots[i];
+        GameInitSettings::HouseInfo house(static_cast<HOUSETYPE>(slot.house), i < 2 ? 1 : 2);
         int color = isValidHouseColorSlot(slot.color) ? slot.color
             : getDefaultHouseColorSlot(static_cast<HOUSETYPE>(slot.faction));
         if(!isValidHouseColorSlot(color) || usedColors[color]) {
@@ -352,6 +361,23 @@ std::string progressPath(const Context& context) {
 
 std::string checkpointPath(const Context& context) {
     return getDirname(getConfigFilepath()) + "/coop/" + context.sessionId + ".dls";
+}
+
+GameInitSettings makeSavedGameSettings(const std::string& path,
+    const std::string& serverName, const std::string& requiredMod) {
+    const auto bytes = readCompleteFile(path);
+    const auto saved = readSaveGameLobbySetup(bytes);
+    const auto context = readContext(saved.settings.getFiledata());
+    const bool french = ::settings.general.language == "fr";
+    if(!context || saved.settings.getGameType() != GameType::CustomMultiplayer)
+        throw std::runtime_error(french
+            ? "Cette sauvegarde n’est pas une campagne coop."
+            : "This save is not a co-op campaign.");
+    if(saved.modName != requiredMod || context->modName != requiredMod)
+        throw std::runtime_error(french
+            ? "Active d’abord le mod de cette sauvegarde dans le menu Mods."
+            : "First activate this save’s mod in the Mods menu.");
+    return GameInitSettings(getBasename(path, true), bytes, serverName);
 }
 
 void runMultiplayerSession(const GameInitSettings& initialSettings) {
@@ -424,8 +450,9 @@ void runMultiplayerSession(const GameInitSettings& initialSettings) {
             destroyGame();
             if(!pNetworkManager) return;
             const auto peers = pNetworkManager->getConnectedPeers();
-            if(peers.size() != 1) return;
-            TransitionMenu transition(*session, settings, outcome, peers.front());
+            const bool aiAlly = context->slots[1].playerClass != "HumanPlayer";
+            if(aiAlly ? !peers.empty() : peers.size() != 1) return;
+            TransitionMenu transition(*session, settings, outcome, aiAlly ? "" : peers.front());
             transition.showMenu();
             if(transition.complete()) {
                 CompletionMenu completion;

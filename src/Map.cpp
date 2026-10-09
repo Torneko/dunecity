@@ -615,7 +615,7 @@ void Map::selectObjects(const House* pHouse, int x1, int y1, int x2, int y2, int
             lastCheckedObject = nullptr;
         }
 
-        if((lastCheckedObject != nullptr) && (lastCheckedObject->getOwner() == pHouse)) {
+        if((lastCheckedObject != nullptr) && (currentGame->canPlayerControlHouse(pHouse, lastCheckedObject->getOwner()))) {
             if((lastCheckedObject == lastSinglySelectedObject) && ( !lastCheckedObject->isAStructure())) {
                 for(auto i = screenborder->getTopLeftTile().x; i <= screenborder->getBottomRightTile().x; i++) {
                     for(auto j = screenborder->getTopLeftTile().y; j <= screenborder->getBottomRightTile().y; j++) {

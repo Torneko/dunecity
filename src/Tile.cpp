@@ -1389,7 +1389,7 @@ void Tile::selectFilter(int houseID, ObjectBase** lastCheckedObject, ObjectBase*
     const auto selectUnit = [&](Uint32 objectID) {
                                 obj = currentGame->getObjectManager().getObject(objectID);
 
-                                if (obj->isSelected() || houseID != obj->getOwner()->getHouseID())
+                                if (obj->isSelected() || !currentGame->canPlayerControlHouse(currentGame->getHouse(houseID), obj->getOwner()))
                                     return;
 
                                 if (!predicate(obj))

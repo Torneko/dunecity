@@ -58,7 +58,7 @@ void AdvancedWindTrap::init(Uint32 newItemID) {
 AdvancedWindTrap::~AdvancedWindTrap() = default;
 
 ObjectInterface* AdvancedWindTrap::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return WindTrapInterface::create(objectID);
     }
 

@@ -74,7 +74,7 @@ void CoopCampaignMenu::onNewCampaign() {
         // This temporary lobby field is removed by prepareMap at first commit.
         // Rejoining a saved stage-1 campaign never changes its source faction.
         init.setMapData(init.getFiledata() + "SourcePending=1\n");
-        const int result = CustomGamePlayers(init, true, LANServer).showMenu();
+        const int result = CustomGamePlayers::hostLobby(init, LANServer);
         if(result != MENU_QUIT_DEFAULT) quit(result);
     } catch(const std::exception& error) {
         openWindow(MsgBox::create(error.what()));
@@ -129,7 +129,7 @@ void CoopCampaignMenu::onChildWindowClose(Window* child) {
                     settings.general.playerName + " — Co-op");
             }
         }
-        const int result = CustomGamePlayers(init, true, LANServer).showMenu();
+        const int result = CustomGamePlayers::hostLobby(init, LANServer);
         if(result != MENU_QUIT_DEFAULT) quit(result);
     } catch(const std::exception& error) {
         openWindow(MsgBox::create(error.what()));

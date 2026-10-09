@@ -115,6 +115,14 @@ void Command::save(OutputStream& stream) const {
 }
 
 void Command::executeCommand() const {
+    const bool objectCommand = (commandID >= CMD_PLACE_STRUCTURE && commandID <= CMD_TURRET_ATTACKOBJECT)
+        || (commandID >= CMD_TECHCENTER_SPAWN && commandID <= CMD_SCOUTPOST_CHEMIPOST_UPGRADE);
+    if(currentGame->isCoopCampaign() && objectCommand && !parameter.empty()) {
+        auto* object = currentGame->getObjectManager().getObject(parameter[0]);
+        auto* player = currentGame->getPlayerByID(playerID);
+        if(object && (!player || !currentGame->canPlayerControlHouse(player->getHouse(), object->getOwner())))
+            return;
+    }
     switch(commandID) {
 
         case CMD_PLACE_STRUCTURE: {

@@ -1262,6 +1262,8 @@ ModInfo ModManager::readModIni(const std::string& modPath) const {
             else if(mentatKey == "Mouth Crop Height") parseIntegerField(mentat.mouthCropHeight);
             else if(mentatKey == "Mouth Width") parseIntegerField(mentat.mouthWidth);
             else if(mentatKey == "Mouth Height") parseIntegerField(mentat.mouthHeight);
+            else if(mentatKey == "Eyes Brightness") parseIntegerField(mentat.eyesBrightness);
+            else if(mentatKey == "Mouth Brightness") parseIntegerField(mentat.mouthBrightness);
             else if(mentatKey == "Rest From Background") parseBooleanField(mentat.restFromBackground);
             else if(mentatKey == "Eyes Patch") {
                 if(!ModMentatConfig::parsePatch(mentatValue, mentat.eyesPatches)) mentatFieldsValid[mentatHouse] = false;

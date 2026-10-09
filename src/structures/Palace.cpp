@@ -90,7 +90,7 @@ void Palace::save(OutputStream& stream) const {
 }
 
 ObjectInterface* Palace::getInterfaceContainer() {
-    if((pLocalHouse == owner) || (debug == true)) {
+    if(currentGame->canControlHouse(owner) || (debug == true)) {
         return PalaceInterface::create(objectID);
     } else {
         return DefaultObjectInterface::create(objectID);

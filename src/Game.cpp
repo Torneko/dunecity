@@ -342,6 +342,15 @@ void Game::logPerformance(const char* format, ...) {
 }
 
 
+bool Game::canPlayerControlHouse(const House* playerHouse, const House* owner) const {
+    return playerHouse && owner && (playerHouse == owner || (coopContext
+        && coop::canControlHouse(*coopContext, playerHouse->getHouseID(), owner->getHouseID())));
+}
+
+bool Game::canControlHouse(const House* owner) const {
+    return canPlayerControlHouse(pLocalHouse, owner);
+}
+
 void Game::initGame(const GameInitSettings& newGameInitSettings) {
     achievements::AchievementManager::instance().end();
     achievementResumed = newGameInitSettings.getGameType() == GameType::LoadSavegame
@@ -351,6 +360,12 @@ void Game::initGame(const GameInitSettings& newGameInitSettings) {
         : newGameInitSettings.getGameType() == GameType::LoadMultiplayer
             ? AchievementEvents::dataKey(newGameInitSettings.getFiledata()) : std::string();
     gameInitSettings = newGameInitSettings;
+    // A load request carries binary save bytes until loadSaveGame restores
+    // its embedded GameInitSettings. Do not parse those bytes as an INI map.
+    coopContext.reset();
+    if(gameInitSettings.getGameType() == GameType::CustomGame
+       || gameInitSettings.getGameType() == GameType::CustomMultiplayer)
+        coopContext = coop::readContext(gameInitSettings.getFiledata());
     chaosMode.reset();
 
     applyCustomPaletteRuntimeHouseRamps();
@@ -2010,7 +2025,7 @@ case CursorMode_Heal: {
                                 //cancel special cursor mode
                                 setCursorMode(CursorMode_Normal);
                             } else if((!selectedList.empty()
-                                            && (((objectManager.getObject(*selectedList.begin()))->getOwner() == pLocalHouse))
+                                            && ((canControlHouse(objectManager.getObject(*selectedList.begin())->getOwner())))
                                             && (((objectManager.getObject(*selectedList.begin()))->isRespondable())) ) )
                             {
                                 //if user has a controlable unit selected
@@ -2078,7 +2093,7 @@ case CursorMode_Heal: {
 
                         if(selectedList.size() == 1) {
                             ObjectBase* pObject = objectManager.getObject( *selectedList.begin());
-                            if(pObject != nullptr && pObject->getOwner() == pLocalHouse && isHarvesterLikeObject(pObject)) {
+                            if(pObject != nullptr && canControlHouse(pObject->getOwner()) && isHarvesterLikeObject(pObject)) {
                                 GroundUnit* pHarvester = static_cast<GroundUnit*>(pObject);
 
                                 std::string harvesterMessage = resolveItemName(pObject->getItemID());
@@ -2185,7 +2200,7 @@ void Game::setupView()
     i = j = count = 0;
 
     for(const UnitBase* pUnit : unitList) {
-        if((pUnit->getOwner() == pLocalHouse) && (pUnit->getItemID() != Unit_Sandworm)) {
+        if((canControlHouse(pUnit->getOwner())) && (pUnit->getItemID() != Unit_Sandworm)) {
             i += pUnit->getX();
             j += pUnit->getY();
             count++;
@@ -2193,7 +2208,7 @@ void Game::setupView()
     }
 
     for(const StructureBase* pStructure : structureList) {
-        if(pStructure->getOwner() == pLocalHouse) {
+        if(canControlHouse(pStructure->getOwner())) {
             i += pStructure->getX();
             j += pStructure->getY();
             count++;
@@ -3300,6 +3315,7 @@ bool Game::loadSaveGame(InputStream& stream) {
     // read gameInitSettings
     logLoadStage("game settings");
     gameInitSettings = GameInitSettings(stream, savegameVersion >= 9806);
+    coopContext = coop::readContext(gameInitSettings.getFiledata());
     if(savegameVersion <= 9820) {
         gameInitSettings.migrateLegacyHouseColorSlots();
     }
@@ -3687,7 +3703,7 @@ void Game::selectAllOrnithopters()
     Coord summedPosition;
 
     for(UnitBase* pUnit : unitList) {
-        if((pUnit->getOwner() == pLocalHouse) &&
+        if((canControlHouse(pUnit->getOwner())) &&
            (pUnit->getItemID() == Unit_Ornithopter) &&
            pUnit->isRespondable()) {
             ornithopterIDs.insert(pUnit->getObjectID());
@@ -3723,7 +3739,7 @@ void Game::selectAllChemicalCarryalls()
     Coord summedPosition;
 
     for(UnitBase* pUnit : unitList) {
-        if((pUnit->getOwner() == pLocalHouse) &&
+        if((canControlHouse(pUnit->getOwner())) &&
            (pUnit->getItemID() == Unit_ChemicalCarryall) &&
            pUnit->isRespondable()) {
             chemicalCarryallIDs.insert(pUnit->getObjectID());
@@ -4050,7 +4066,7 @@ void Game::handleKeyInput(SDL_KeyboardEvent& keyboardEvent) {
                 // now we add the selected items
                 for(Uint32 objectID : groupList) {
                     ObjectBase* pObject = objectManager.getObject(objectID);
-                    if(pObject->getOwner() == pLocalHouse) {
+                    if(canControlHouse(pObject->getOwner())) {
                         pObject->setSelected(true);
                         selectedList.insert(pObject->getObjectID());
                         currentGame->selectionChanged();
@@ -4417,7 +4433,7 @@ bool Game::handleSelectedObjectsHealClick(int xPos, int yPos) {
     UnitBase* pResponder = nullptr;
     for(Uint32 objectID : selectedList) {
         ObjectBase* pObject = objectManager.getObject(objectID);
-        if(pObject != nullptr && pObject->isAUnit() && pObject->getOwner() == pLocalHouse
+        if(pObject != nullptr && pObject->isAUnit() && canControlHouse(pObject->getOwner())
                 && pObject->isRespondable() && pObject->canHeal()) {
             pResponder = static_cast<UnitBase*>(pObject);
             pResponder->handleHealClick(xPos, yPos);
@@ -4437,10 +4453,10 @@ bool Game::handleSelectedObjectsAttackClick(int xPos, int yPos) {
     for(Uint32 objectID : selectedList) {
         ObjectBase* pObject = objectManager.getObject(objectID);
         House* pOwner = pObject->getOwner();
-        if(pObject->isAUnit() && (pOwner == pLocalHouse) && pObject->isRespondable()) {
+        if(pObject->isAUnit() && (canControlHouse(pOwner)) && pObject->isRespondable()) {
             pResponder = static_cast<UnitBase*>(pObject);
             pResponder->handleAttackClick(xPos,yPos);
-        } else if(pObject->getItemID() == Structure_Palace && pOwner == pLocalHouse) {
+        } else if(pObject->getItemID() == Structure_Palace && canControlHouse(pOwner)) {
             Palace* pPalace = static_cast<Palace*>(pObject);
             if(pPalace->isSpecialWeaponReady() && pPalace->usesTargetedSpecialWeapon()) {
                 pPalace->handleDeathhandClick(xPos, yPos);
@@ -4462,7 +4478,7 @@ bool Game::handleSelectedObjectsMoveClick(int xPos, int yPos) {
 
     for(Uint32 objectID : selectedList) {
         ObjectBase* pObject = objectManager.getObject(objectID);
-        if (pObject->isAUnit() && (pObject->getOwner() == pLocalHouse) && pObject->isRespondable()) {
+        if (pObject->isAUnit() && (canControlHouse(pObject->getOwner())) && pObject->isRespondable()) {
             pResponder = static_cast<UnitBase*>(pObject);
             pResponder->handleMoveClick(xPos,yPos);
         }
@@ -4494,7 +4510,7 @@ bool Game::handleSelectedObjectsRequestCarryallDropClick(int xPos, int yPos) {
 
     for(Uint32 objectID : selectedList) {
         ObjectBase* pObject = objectManager.getObject(objectID);
-        if (pObject->isAGroundUnit() && (pObject->getOwner() == pLocalHouse) && pObject->isRespondable()) {
+        if (pObject->isAGroundUnit() && (canControlHouse(pObject->getOwner())) && pObject->isRespondable()) {
             pResponder = static_cast<UnitBase*>(pObject);
             pResponder->handleRequestCarryallDropClick(xPos,yPos);
         }
@@ -4524,7 +4540,7 @@ bool Game::handleSelectedObjectsCaptureClick(int xPos, int yPos) {
 
         for(Uint32 objectID : selectedList) {
             ObjectBase* pObject = objectManager.getObject(objectID);
-            if (pObject->isInfantry() && (pObject->getOwner() == pLocalHouse) && pObject->isRespondable()) {
+            if (pObject->isInfantry() && (canControlHouse(pObject->getOwner())) && pObject->isRespondable()) {
                 pResponder = static_cast<InfantryBase*>(pObject);
                 pResponder->handleCaptureClick(xPos,yPos);
             }
@@ -4547,7 +4563,7 @@ bool Game::handleSelectedObjectsActionClick(int xPos, int yPos) {
     ObjectBase  *pResponder = nullptr;
     for(Uint32 objectID : selectedList) {
         ObjectBase* pObject = objectManager.getObject(objectID);
-        if(pObject->getOwner() == pLocalHouse && pObject->isRespondable()) {
+        if(canControlHouse(pObject->getOwner()) && pObject->isRespondable()) {
             pObject->handleActionClick(xPos, yPos);
 
             //if this object obey the command
@@ -4592,7 +4608,7 @@ void Game::selectNextStructureOfType(const std::set<Uint32>& itemIDs) {
 
     for(StructureBase* pStructure : structureList) {
         if(bSelectNext) {
-            if( (itemIDs.count(pStructure->getItemID()) == 1) && (pStructure->getOwner() == pLocalHouse) ) {
+            if( (itemIDs.count(pStructure->getItemID()) == 1) && (canControlHouse(pStructure->getOwner())) ) {
                 pStructure2Select = pStructure;
                 break;
             }
@@ -4606,7 +4622,7 @@ void Game::selectNextStructureOfType(const std::set<Uint32>& itemIDs) {
     if(pStructure2Select == nullptr) {
         // start over at the beginning
         for(StructureBase* pStructure : structureList) {
-            if( (itemIDs.count(pStructure->getItemID()) == 1) && (pStructure->getOwner() == pLocalHouse) && !pStructure->isSelected() ) {
+            if( (itemIDs.count(pStructure->getItemID()) == 1) && (canControlHouse(pStructure->getOwner())) && !pStructure->isSelected() ) {
                 pStructure2Select = pStructure;
                 break;
             }

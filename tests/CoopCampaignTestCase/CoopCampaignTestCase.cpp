@@ -79,6 +79,57 @@ TEST_CASE("Coop same-faction humans keep independent runtime ownership", "[coop]
     }
 }
 
+TEST_CASE("Coop AI ally and enemy difficulty survive progression and reconfiguration", "[coop][campaign]") {
+    auto value = session();
+    value.setAlliedControl(true);
+    value.setPlayerClass(1, "qBotMedium");
+    value.setPlayerClass(2, "mentatEasy");
+    value = coop::CoopCampaignSession::fromMapData(value.prepareMap(mapTemplate(1)));
+    REQUIRE(value.context().alliedControl);
+    REQUIRE(value.context().slots[1].team() == 1);
+    REQUIRE(value.context().slots[2].team() == 2);
+    value.completeMission(true);
+    value.reconfigurePlayers({3,3}, {"Host", "AI Ally"});
+    const auto recovered = coop::readContext(value.prepareMap(mapTemplate(2)));
+    REQUIRE(recovered->slots[1].playerClass == "qBotMedium");
+    REQUIRE(recovered->slots[2].playerClass == "mentatEasy");
+    REQUIRE(recovered->alliedControl);
+    REQUIRE_THROWS(value.setPlayerClass(0, "qBotEasy"));
+    REQUIRE_THROWS(value.setPlayerClass(2, "HumanPlayer"));
+    REQUIRE_THROWS(value.setPlayerClass(1, "unknownAI"));
+}
+
+TEST_CASE("Coop allied control excludes enemies and defaults off in old metadata", "[coop][campaign]") {
+    auto value = session();
+    const auto first = value.context().slots[0].house, second = value.context().slots[1].house;
+    REQUIRE(coop::canControlHouse(value.context(), first, first));
+    REQUIRE_FALSE(coop::canControlHouse(value.context(), first, second));
+    value.setAlliedControl(true);
+    REQUIRE(coop::canControlHouse(value.context(), first, second));
+    REQUIRE(coop::canControlHouse(value.context(), second, first));
+    REQUIRE_FALSE(coop::canControlHouse(value.context(), first, value.context().slots[2].house));
+    auto old = value.prepareMap(mapTemplate(1));
+    replace(old, "AlliedControl=1\n", "");
+    REQUIRE_FALSE(coop::readContext(old)->alliedControl);
+}
+
+TEST_CASE("Original coop keeps enemy roles but replaces either allied faction", "[coop][campaign]") {
+    for(int guest = 0; guest < 6; ++guest) {
+        auto value = coop::CoopCampaignSession::create("collision", "JerichoLite", {0,1,2,3,4,5},
+            {1,guest}, {"Host","Guest"}, 123, false);
+        const auto map = originalTemplate(1,1,{2,3,4});
+        const auto first = value.prepareMap(map);
+        REQUIRE(first == value.prepareMap(map));
+        const auto context = coop::readContext(first);
+        std::set<int> enemies;
+        for(int i = 2; i < 5; ++i) {
+            REQUIRE(context->slots[i].faction != guest);
+            REQUIRE(context->slots[i].faction != 1);
+            REQUIRE(enemies.insert(context->slots[i].faction).second);
+        }
+    }
+}
+
 TEST_CASE("Coop replayed losses preserve stage and victories advance one common campaign", "[coop][campaign]") {
     auto host = session({1, 2});
     auto peer = session({1, 2});
@@ -198,7 +249,7 @@ TEST_CASE("Original co-op retains its source campaign after player reconfigurati
     REQUIRE(data.find("MapScale=1\n") != std::string::npos);
     REQUIRE(data.find("Seed=12345\nField=1300,1400\n") != std::string::npos);
     value = coop::CoopCampaignSession::fromMapData(data);
-    REQUIRE(value.context().slots[2].faction == value.context().slots[1].faction);
+    REQUIRE(value.context().slots[2].faction != value.context().slots[1].faction);
     REQUIRE(value.context().slots[2].house != value.context().slots[1].house);
     REQUIRE((value.context().enemyPresent == std::vector<bool>{true, false, false}));
     std::set<int> houses;
@@ -213,7 +264,7 @@ TEST_CASE("Original co-op retains its source campaign after player reconfigurati
     REQUIRE(value.missionFilename() == "faction1/coop02.ini");
     // Original foes belong to the source campaign even if the new host picks one.
     value = coop::CoopCampaignSession::fromMapData(value.prepareMap(originalTemplate(2, 1, {3, 4, -1})));
-    REQUIRE(value.context().slots[2].faction == 3);
+    REQUIRE(value.context().slots[2].faction != 3);
     REQUIRE((value.context().enemyPresent == std::vector<bool>{true, true, false}));
     TemporaryDirectory directory;
     const auto path = directory.path / "original.ini";
@@ -313,7 +364,7 @@ TEST_CASE("Original Vanilla co-op preserves five simultaneous enemy armies", "[c
     REQUIRE(coop::mapSlotForHouse(value.context(), value.context().slots[6].house) == 7);
     std::set<int> controlHouses;
     for(const auto& slot : value.context().slots) REQUIRE(controlHouses.insert(slot.house).second);
-    REQUIRE(value.context().slots[2].faction == value.context().slots[1].faction);
+    REQUIRE(value.context().slots[2].faction != value.context().slots[1].faction);
     REQUIRE(value.context().slots[2].house != value.context().slots[1].house);
     value.reconfigurePlayers({6, 6}, {"Rejoined host", "Rejoined guest"});
     REQUIRE(value.context().slots.size() == 7);

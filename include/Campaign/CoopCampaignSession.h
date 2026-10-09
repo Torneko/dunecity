@@ -22,7 +22,8 @@ struct Slot {
     int color = -1;
     std::string playerName;
     std::string playerClass;
-    int team() const { return playerClass == "HumanPlayer" ? 1 : 2; }
+    bool allied = false; // Derived from the numbered slot, never from AI class.
+    int team() const { return allied || playerClass == "HumanPlayer" ? 1 : 2; }
 };
 
 struct Context {
@@ -36,6 +37,7 @@ struct Context {
     std::uint32_t completedMask = 0;
     std::uint32_t seed = 0;
     bool chaosEligible = false;
+    bool alliedControl = false;
     std::vector<int> roster;
     std::vector<Slot> slots = std::vector<Slot>(SlotCount);
     std::vector<bool> enemyPresent = std::vector<bool>(SlotCount - 2, true);
@@ -48,6 +50,8 @@ struct Context {
 std::optional<Context> readContext(const std::string& mapData);
 int factionForHouse(const Context& context, int runtimeHouse);
 int mapSlotForHouse(const Context& context, int runtimeHouse);
+bool isCoopAIClass(const std::string& playerClass);
+bool canControlHouse(const Context& context, int playerHouse, int objectHouse);
 
 class CoopCampaignSession {
 public:
@@ -69,6 +73,8 @@ public:
     void setPlayerName(int playerSlot, const std::string& playerName);
     void setPlayerColor(int playerSlot, int color);
     void setChaosEligible(bool eligible);
+    void setAlliedControl(bool enabled) { context_.alliedControl = enabled; }
+    void setPlayerClass(int slot, const std::string& playerClass);
 
     // The optional settings blob is the caller's serialized GameInitSettings.
     // Keeping it opaque avoids coupling progression to the engine's save format.

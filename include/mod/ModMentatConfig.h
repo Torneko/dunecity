@@ -40,6 +40,7 @@ struct ModMentatInfo {
     int eyesCropY = 0, eyesCropHeight = 0, eyesWidth = 0, eyesHeight = 0;
     int mouthCropY = 0, mouthCropHeight = 0, mouthWidth = 0, mouthHeight = 0;
     bool restFromBackground = false;
+    int eyesBrightness = 255, mouthBrightness = 255;
     // Each facial feature has stable destination anchors and one source per
     // atlas cell. This avoids moving the nose/fur when an atlas has padding.
     std::vector<ModMentatPatch> eyesPatches, mouthPatches;
@@ -197,6 +198,8 @@ inline bool isValid(const ModMentatInfo& info) {
         && validCoordinate(info.mouthY)
         && validLayout(info.eyesCropY, info.eyesCropHeight, info.eyesWidth, info.eyesHeight)
         && validLayout(info.mouthCropY, info.mouthCropHeight, info.mouthWidth, info.mouthHeight)
+        && info.eyesBrightness >= 0 && info.eyesBrightness <= 255
+        && info.mouthBrightness >= 0 && info.mouthBrightness <= 255
         && validPatches(info.eyesPatches, info.eyesFrames, info.eyesWidth, info.eyesHeight)
         && validPatches(info.mouthPatches, info.mouthFrames, info.mouthWidth, info.mouthHeight)
         && ((info.eyesPatches.empty() && info.mouthPatches.empty()) || info.restFromBackground)

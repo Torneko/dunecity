@@ -44,6 +44,7 @@
 #include "MenuBase.h"
 
 #define MENU_QUIT_GAME_FINISHED     (-2)
+#define MENU_QUIT_RELOAD_COOP       (-3)
 
 class INIFile;
 
@@ -52,6 +53,10 @@ class CustomGamePlayers : public MenuBase
 public:
     CustomGamePlayers(const GameInitSettings& newGameInitSettings, bool server = true, bool LANServer = true);
     virtual ~CustomGamePlayers();
+
+    // A save selection closes the old server before opening its new lobby.
+    static int hostLobby(const GameInitSettings& init, bool LANServer);
+    void onChildWindowClose(Window* child) override;
 
     void onReceiveChangeEventList(const ChangeEventList& changeEventList);
 
@@ -97,6 +102,7 @@ private:
 
     void onNext();
     void onCancel();
+    void onLoadCoopSave();
 
     void onSendChatMessage();
     void addInfoMessage(const std::string& message);
@@ -106,11 +112,15 @@ private:
     void configureCoopLobby();
     void enforceCoopLobby();
     bool isCoopLobbyReady() const;
+    int loadingCoopFaction(int slot) const;
 
     GameInitSettings                gameInitSettings;
     std::optional<coop::CoopCampaignSession> coopSession;
     SettingsClass::GameOptionsClass coopGameOptions;
     bool bUpdatingCoopLobby = false;
+    Checkbox alliedControlCheckbox;
+    TextButton loadCoopSaveButton;
+    std::optional<GameInitSettings> selectedCoopSave;
     GameInitSettings::HouseInfoList houseInfoListSetup;     ///< only used if we are loading a savegame
 
     StaticContainer windowWidget;
