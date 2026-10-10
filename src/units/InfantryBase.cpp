@@ -255,6 +255,16 @@ void InfantryBase::checkPos() {
                     FixPoint capturedSpice = 0;
 
                     UnitBase* pContainedUnit = nullptr;
+                    struct CapturedCargo { int id; FixPoint health; FixPoint spice; };
+                    std::vector<CapturedCargo> additionalCargo;
+                    if(targetID == Structure_Doublefinery) {
+                        const auto cargo = static_cast<Refinery*>(pCapturedStructure)->getContainedHarvesters();
+                        for(auto* unit : cargo) additionalCargo.push_back(
+                            {unit->getItemID(), unit->getHealth(), harvesterGetAmountOfSpice(unit)});
+                        if(pOwner->getCapacity() > 0)
+                            capturedSpice = currentGame->objectData.data[targetID][origHouse].capacity
+                                * (pOwner->getStoredCredits() / pOwner->getCapacity());
+                    }
 
                     if(pCapturedStructure->getItemID() == Structure_Silo) {
                         capturedSpice = currentGame->objectData.data[Structure_Silo][getProductionHouseID()].capacity * (pOwner->getStoredCredits() / pOwner->getCapacity());
@@ -362,6 +372,19 @@ void InfantryBase::checkPos() {
                             pRepairYard->book();
                             pRepairYard->assignUnit(pNewUnit);
                         }
+                    }
+
+                    for(const auto& cargo : additionalCargo) {
+                        auto* unit = owner->createUnit(cargo.id, false, origHouse);
+                        if(!unit) continue;
+                        unit->setRespondable(false);
+                        unit->setActive(false);
+                        unit->setVisible(VIS_ALL, false);
+                        unit->setHealth(cargo.health);
+                        harvesterSetAmountOfSpice(unit, cargo.spice);
+                        auto* refinery = static_cast<Refinery*>(pNewStructure);
+                        refinery->book();
+                        refinery->assignHarvester(static_cast<TrackedUnit*>(unit));
                     }
 
                     // steal credits

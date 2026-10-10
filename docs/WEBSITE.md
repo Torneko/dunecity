@@ -1,3 +1,12 @@
+## Published 1.0.538 follow-up — 2026-10-10
+
+The existing 1.0.538 release and tag now include the Doublefinery follow-up (native
+80×224 final sprite, network protocol 9, save format 9831). French/English Pages and
+offline downloads are updated together from the recovered gh-pages baseline 2f6ee0b6.
+Both co-op PCs need the replaced packages. Prior game validation is retained as
+historical evidence; game suites were not rerun after the final sprite replacement.
+Publication/package and website validation reports accompany the release.
+
 ## Published 1.0.538 baseline — 2026-10-09
 
 The French/English website was updated from published `origin/gh-pages`
@@ -84,6 +93,13 @@ Use this `origin/gh-pages` tree or the 1.0.536 offline package as the next websi
 
 ## Current locations
 
+Local follow-up to 1.0.538: the working preview is `work/site-538-followup/dist`
+beside this source checkout. Its baseline is published `gh-pages` commit
+`2f6ee0b6`. It documents the 5×2 Doublefinery, local protocol 9/save format 9831,
+121 PNGs and the test downloads. This local patch has not been published.
+Use the follow-up preview when preparing its eventual publication, and recheck
+the public branch before merging website changes from another PC.
+
 - Published site: https://torneko.github.io/dunelegacy-tornie/
 - English entry: https://torneko.github.io/dunelegacy-tornie/index-en.html
 - GitHub Pages source: the root of the `gh-pages` branch, separate from the game source branch `dunelegacy-tornie`.
@@ -120,3 +136,5 @@ Validation: revised release CI https://github.com/Torneko/dunelegacy-tornie/acti
 The published site passed 36 desktop/mobile routes, eight campaign views and twelve Windtrap portrait cases, in addition to 54 offline/local routes, eight affected fiches and 24 portrait checks. All 111 PNG hashes, five public website downloads and nineteen release asset hashes were verified. Reports attached to the release include `Validation-1.0.535.json`, `Campaign-Opening-Balance-1.0.535.json`, `Same-Version-Profile-Update-1.0.535.json` and `Publication-Validation-1.0.535.json`. Tornie authorized publication of this replacement; the new opening balance has automated checks and still benefits from human playtesting. Extended all-faction campaign balance and a live two-PC multiplayer match remain broader playtesting work.
 
 For the next update on either PC, use this published `origin/gh-pages` tree or the matching offline ZIP as the website baseline. Fetch both source branches explicitly if the local clone has a single-branch fetch refspec; do not recover the site from an older preview generator. Historical campaign tooling intentionally uses immutable baseline commits: initial 1.0.535 source `fa2a5de3d23507f95332e243d060eeb419ce8fd5` and original 1.0.534. The published tag now points to `9ca89b33`.
+
+Local artwork revision 538-followup-r4 uses Tornie’s final 80×224 Doublefinery sheet in all four mods and the FR/EN gallery/downloads. Gameplay, network protocol and save format are unchanged; remaining game tests were not rerun at Tornie’s request.

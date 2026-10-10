@@ -86,12 +86,14 @@ Uint32 getMenuColorForHouse(int house) {
     return COLOR_RGB(20, 20, 40);
 }
 
-const char* getCustomColorName(int colorSlot) {
+std::string getCustomColorName(int colorSlot) {
     switch(colorSlot) {
-        case HOUSECOLOR_CUSTOM_DARK_VIOLET: return "Dark Violet";
+        case HOUSECOLOR_CUSTOM_DARK_VIOLET: return
+            (ModManager::instance().getActiveModName() == "Tornie" || ModManager::instance().getActiveModName() == "TornieLite") ? _("Dark Pink") : _("Dark Violet");
         case HOUSECOLOR_CUSTOM_FUCHSIA:     return "Fuchsia";
         case HOUSECOLOR_CUSTOM_TEAL:        return "Teal";
-        case HOUSECOLOR_CUSTOM_APPLE_GREEN: return "Dark Grey";
+        case HOUSECOLOR_CUSTOM_APPLE_GREEN: return
+            (ModManager::instance().getActiveModName() == "Jericho" || ModManager::instance().getActiveModName() == "JerichoLite") ? _("Dark Green") : _("Dark Grey");
         case HOUSECOLOR_CUSTOM_LIGHT_PINK:
             return ModManager::instance().getActiveModName() == "Tornie" ? "Yellow" : "Pink";
         case HOUSECOLOR_CUSTOM_BRIGHT_YELLOW: return "Brown";

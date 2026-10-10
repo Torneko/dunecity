@@ -2738,11 +2738,11 @@ msgstr "Vous ne pouvez pas déployer ici."
 #~ msgid "Double Buffering"
 #~ msgstr "Double Buffering"
 
-msgid "Troopers (5)"
-msgstr "Escouade de 5 troopers"
+msgid "Super Heavy Trooper Squad"
+msgstr "Escouade super lourde de Troopers"
 
-msgid "Soldiers (5)"
-msgstr "Escouade de 5 soldats"
+msgid "Super Infantry Squad"
+msgstr "Super escouade d’infanterie"
 
 msgid "Sabotage"
 msgstr "Sabotage"
@@ -2760,3 +2760,12 @@ msgstr "Mode Chaos"
 #: src/GUI/dune/GameOptionsWindow.cpp
 msgid "Borrow same-level production and defence buildings from other factions. Colours and voices stay with your faction. Unavailable in Vanilla."
 msgstr "Emprunte les bâtiments de production et les défenses de même niveau aux autres factions. Votre faction conserve ses couleurs et ses voix. Indisponible en Vanilla."
+
+msgid "Dark Pink"
+msgstr "Rose foncé"
+
+msgid "Dark Green"
+msgstr "Vert foncé"
+
+msgid "Doublefinery"
+msgstr "Doublefinery"

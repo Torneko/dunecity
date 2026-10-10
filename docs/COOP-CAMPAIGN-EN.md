@@ -20,7 +20,7 @@ Available factions: 12 in Tornie and Jericho, 6 in Tornie Lite and Jericho Lite,
 
 ## Hosting and joining
 
-1. Run the **same 1.0.538 build** on both computers. Its network protocol is version **7**. Version 1.0.536 uses a different network protocol and cannot join this lobby.
+1. Run the **same 1.0.538 build** on both computers. Its network protocol is version **9**. Version 1.0.536 uses a different network protocol and cannot join this lobby.
 2. Activate the same edition in **Mods**. Use different player names.
 3. Open **Co-op campaign**, then choose the LAN or Internet browser. The host creates a game and selects **New campaign**. The second player joins through the browser or address connection.
 4. Connect a human guest or select an AI in the second slot, then choose factions. The host can select each enemy AI’s type and difficulty. Identical factions are allowed. Both players are allies; the opponent slots remain AI-controlled.
@@ -83,7 +83,7 @@ Recorded checkpoint reinforcements and forces are restored without being added t
 a human or AI ally. Easy Mode may waive the intro. Unlocks stay local; each completed
 session counts once. Solo campaign awards retain their requirements.
 
-Both PCs require **1.0.538**, protocol **7**. New saves use **9829**; older saves remain
+Both PCs require **1.0.538**, protocol **9**. New saves use **9831**; older saves remain
 readable with their recorded forces and reinforcements. Start a new campaign or reach
 the next mission for the new reinforcement behavior. The public release is 1.0.538. Tornie confirmed two-PC co-op works. Mint 22.3 / kernel 7.0 still needs testing.
 

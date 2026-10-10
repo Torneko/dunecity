@@ -717,6 +717,11 @@ void House::freeHarvester(int xPos, int yPos) {
     if(isHarvesterLimitReached()) {
         return;
     }
+    // Doublefinery gifts respect the general cap independently for each bay.
+    if(currentGameMap->tileExists(xPos, yPos)) {
+        const auto* dropoff = getHarvesterDropoff(currentGameMap->getTile(xPos, yPos)->getGroundObject());
+        if(dropoff && dropoff->getItemID() == Structure_Doublefinery && isGroundUnitLimitReached()) return;
+    }
 
     if(currentGameMap->tileExists(xPos, yPos)
         && currentGameMap->getTile(xPos, yPos)->hasAGroundObject()
@@ -880,8 +885,11 @@ StructureBase* House::placeStructure(Uint32 builderID, int itemID, int xPos, int
             }
 
             // at the beginning of the game the first refinery gets a harvester for free (brought by a carryall)
-            if((itemID == Structure_Refinery) && ( ((currentGame->gameState == GameState::Start) && (numItem[Unit_Harvester] <= 0)) || (builderID != NONE_ID)) ) {
-                freeHarvester(xPos, yPos);
+            if((itemID == Structure_Refinery || itemID == Structure_Doublefinery)
+               && ((byScenario && (currentGame->gameState == GameState::Start) && numItem[Unit_Harvester] <= 0)
+                   || builderID != NONE_ID)) {
+                const int gifts = itemID == Structure_Doublefinery ? 2 : 1;
+                for(int gift = 0; gift < gifts; ++gift) freeHarvester(xPos, yPos);
             }
 
             // if this structure was built by a construction yard this construction yard must be informed

@@ -87,8 +87,8 @@ campagne commune, avec un humain ou une IA. Le mode facile autorise le saut de l
 Le déblocage reste local et une session terminée ne compte qu’une fois dans le cumul.
 Les succès des campagnes solo gardent leurs conditions.
 
-Les deux PC doivent utiliser **1.0.538**, protocole **7**. Les nouvelles sauvegardes
-portent la version **9829** ; les anciennes restent lisibles avec leurs forces et
+Les deux PC doivent utiliser **1.0.538**, protocole **9**. Les nouvelles sauvegardes
+portent la version **9831** ; les anciennes restent lisibles avec leurs forces et
 renforts enregistrés. Commencer une nouvelle campagne ou passer à la mission suivante
 pour profiter des nouveaux renforts. La version publique est 1.0.538. La coop sur deux PC est confirmée par Tornie. Mint 22.3 / noyau 7.0 reste à essayer.
 

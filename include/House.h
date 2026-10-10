@@ -61,7 +61,7 @@ public:
     inline bool hasIX() const { return (numItem[Structure_IX] > 0); }
     inline bool hasLightFactory() const { return (numItem[Structure_LightFactory] > 0); }
     inline bool hasHeavyFactory() const { return (numItem[Structure_HeavyFactory] > 0); }
-    inline bool hasRefinery() const { return (numItem[Structure_Refinery] + numItem[Structure_Worfinery] > 0); }
+    inline bool hasRefinery() const { return (numItem[Structure_Refinery] + numItem[Structure_Worfinery] + numItem[Structure_Doublefinery] > 0); }
     inline bool hasRepairYard() const { return (numItem[Structure_RepairYard] > 0); }
     inline bool hasStarPort() const { return (numItem[Structure_StarPort] > 0); }
     inline bool hasLoveFactory() const { return (numItem[Structure_LoveFactory] > 0); }

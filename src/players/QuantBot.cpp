@@ -1421,6 +1421,11 @@ void QuantBot::build(int militaryValue) {
 	for (int i = ItemID_FirstID; i <= ItemID_LastID; i++) {
 		itemCount[i] = getHouse()->getNumItems(i);
 	}
+	// Count unloading bays for economy decisions without changing the actual
+	// Refinery count used to rebuild the campaign's original structures.
+	const auto refineryBays = [&]() {
+		return itemCount[Structure_Refinery] + 2 * itemCount[Structure_Doublefinery];
+	};
 
 	int activeHeavyFactoryCount = 0;
 	int activeHighTechFactoryCount = 0;
@@ -2234,21 +2239,27 @@ void QuantBot::build(int militaryValue) {
 
 				const bool lowSpiceEconomy = (lastCalculatedSpice < 500);
 
-				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (itemCount[Structure_Refinery] == 0) && (pBuilder->isAvailableToBuild(Structure_Refinery))) {
-					itemID = Structure_Refinery;
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (refineryBays() == 0) && (pBuilder->isAvailableToBuild(Structure_Refinery))) {
+					itemID = (pBuilder->isAvailableToBuild(Structure_Doublefinery)
+                            && money >= currentGame->objectData.data[Structure_Doublefinery][pBuilder->getTechnologyHouseID()].price)
+                            ? Structure_Doublefinery : Structure_Refinery;
 					if (itemCount[Unit_Harvester] < harvesterLimit) {
 						itemCount[Unit_Harvester]++;
 					}
 				}
 
-				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (itemCount[Structure_Refinery] < itemCount[Unit_Harvester] / 3) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (!(gameMode == GameMode::Campaign && itemCount[Structure_Refinery] >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5))) {
-						itemID = Structure_Refinery;
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (refineryBays() < itemCount[Unit_Harvester] / 3) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (!(gameMode == GameMode::Campaign && refineryBays() >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5))) {
+						itemID = (pBuilder->isAvailableToBuild(Structure_Doublefinery)
+                            && money >= currentGame->objectData.data[Structure_Doublefinery][pBuilder->getTechnologyHouseID()].price)
+                            ? Structure_Doublefinery : Structure_Refinery;
 						if (itemCount[Unit_Harvester] < harvesterLimit) {
 							itemCount[Unit_Harvester]++;
 						}
 					}
-				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (gameMode != GameMode::Campaign) && (itemCount[Structure_Refinery] < 4) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (money < 2000)) {
-					itemID = Structure_Refinery;
+				if ((itemID == NONE_ID) && (!skipRemainingStructureLogic) && (!lowSpiceEconomy) && (gameMode != GameMode::Campaign) && (refineryBays() < 4) && (pBuilder->isAvailableToBuild(Structure_Refinery)) && (money < 2000)) {
+					itemID = (pBuilder->isAvailableToBuild(Structure_Doublefinery)
+                            && money >= currentGame->objectData.data[Structure_Doublefinery][pBuilder->getTechnologyHouseID()].price)
+                            ? Structure_Doublefinery : Structure_Refinery;
 					if (itemCount[Unit_Harvester] < harvesterLimit) {
 						itemCount[Unit_Harvester]++;
 					}
@@ -2449,11 +2460,13 @@ void QuantBot::build(int militaryValue) {
 				// 13. Refineries for harvester ratio — skip when no spice
 				if (itemID == NONE_ID && !skipRemainingStructureLogic
 						&& !lowSpiceEconomy
-						&& ((itemCount[Structure_Refinery] * 3.5_fix < itemCount[Unit_Harvester])
+						&& ((refineryBays() * 3.5_fix < itemCount[Unit_Harvester])
 					|| (currentGame && currentGame->techLevel < 4))
 						&& pBuilder->isAvailableToBuild(Structure_Refinery)
-						&& !(gameMode == GameMode::Campaign && itemCount[Structure_Refinery] >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5)) {
-						itemID = Structure_Refinery;
+						&& !(gameMode == GameMode::Campaign && refineryBays() >= 2 && itemCount[Structure_RepairYard] == 0 && currentGame && currentGame->techLevel >= 5)) {
+						itemID = (pBuilder->isAvailableToBuild(Structure_Doublefinery)
+                            && money >= currentGame->objectData.data[Structure_Doublefinery][pBuilder->getTechnologyHouseID()].price)
+                            ? Structure_Doublefinery : Structure_Refinery;
 						// Only increment if below limit (free harvester will only spawn if below limit)
 						if (itemCount[Unit_Harvester] < harvesterLimit) {
 							itemCount[Unit_Harvester]++;

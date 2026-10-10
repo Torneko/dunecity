@@ -242,6 +242,8 @@ private:
     HBox                editorModeStructs_HBox3;
     SymbolButton        editorModeStructs_Barracks;
     SymbolButton        editorModeStructs_WOR;
+    HBox                editorModeStructs_HBoxDoublefinery;
+    SymbolButton        editorModeStructs_Doublefinery;
     HBox                editorModeStructs_HBoxWorfinery;
     SymbolButton        editorModeStructs_Worfinery;            ///< Tornie: WOR + Refinery combo
     SymbolButton        editorModeStructs_LightFactory;

@@ -183,6 +183,7 @@ static const Coord objPicTiles[] {
     { 4, 1 },   // ObjPic_Flamepost
     { 4, 1 },   // ObjPic_Chemipost
     { 4, 1 },   // ObjPic_ChaosFactory
+    { 10, 1 },  // ObjPic_Doublefinery
 };
 static_assert(sizeof(objPicTiles) / sizeof(objPicTiles[0]) == NUM_OBJPICS,
               "objPicTiles must have one entry per ObjPic enum value");
@@ -219,6 +220,15 @@ static void normalizeTornieStructureTeamPaintToHarkonnen(SDL_Surface* surface, u
 static sdl2::surface_ptr createTintedTerrainSpiceSurface(SDL_Surface* source, SDL_Color thinTint, SDL_Color thickTint);
 static sdl2::surface_ptr createTintedMapEditorIcon(SDL_Surface* source, SDL_Surface* sand, SDL_Color tint);
 static sdl2::surface_ptr createCustomMapEditorStar(SDL_Surface* source);
+static sdl2::surface_ptr overlayEditorStar(SDL_Surface* vehicle, SDL_Surface* star) {
+    if(!vehicle) return nullptr;
+    sdl2::surface_ptr result{SDL_ConvertSurfaceFormat(vehicle, SDL_PIXELFORMAT_RGBA32, 0)};
+    if(result && star) {
+        SDL_Rect destination{vehicle->w - star->w, vehicle->h - star->h, star->w, star->h};
+        SDL_BlitSurface(star, nullptr, result.get(), &destination);
+    }
+    return result;
+}
 static sdl2::surface_ptr resizeSurfaceNearest(SDL_Surface* source, int width, int height);
 static sdl2::surface_ptr scaleSurfaceNearest(SDL_Surface* source, int factor);
 static std::unique_ptr<Animation> loadPngStripAnimation(const std::string& filename, int frameCount, double frameRate, bool bDoublePic = true, int transparentColorKey = -1);
@@ -1252,7 +1262,7 @@ GFXManager::GFXManager() {
             SDL_Surface* buildSource = buildSite ? buildSite.get() : raw.get();
             const int buildFrameCount = getTornieFrameCount(buildSource, frameWidth, frameHeight);
 
-            const int atlasFrameCount = objPicEnum == ObjPic_Worfinery ? 10 : (objPicEnum == ObjPic_LoveFactory ? 10 : 4);
+            const int atlasFrameCount = (objPicEnum == ObjPic_Worfinery || objPicEnum == ObjPic_Doublefinery) ? 10 : (objPicEnum == ObjPic_LoveFactory ? 10 : 4);
             sdl2::surface_ptr atlas{ SDL_CreateRGBSurface(0, atlasFrameCount * frameWidth, frameHeight, 8, 0, 0, 0, 0) };
             if(!atlas || !atlas->format->palette) {
                 return;
@@ -1299,7 +1309,7 @@ GFXManager::GFXManager() {
 
             blitFrame(buildSource, &buildTop, 0);
             blitFrame(buildSource, &buildBottom, 1);
-            if(objPicEnum == ObjPic_Worfinery) {
+            if(objPicEnum == ObjPic_Worfinery || objPicEnum == ObjPic_Doublefinery) {
                 // Vanilla Refinery layout: 2-7 approach/idle and 8-9 loaded.
                 // The supplied vertical sheet contains five normal frames and
                 // two loaded frames; repeat frame 0 to complete the six-frame range.
@@ -1349,6 +1359,7 @@ GFXManager::GFXManager() {
             SDL_Log("GFXManager: %s — %s sprite load failed, using vanilla fallback", e.what(), label);
         }
     };
+    loadTornieStructureSprite(ObjPic_Doublefinery, "Doublefinery.png", Coord(5,2), nullptr, "Doublefinery", true, true);
     loadTornieStructureSprite(ObjPic_Worfinery,  "BUILDING_3x2_worfinery.png",  Coord(3,2), "BUILDING_3x2_prebuild.png", "Worfinery", true, true);
     loadTornieStructureSprite(ObjPic_TechCenter, "TechCenter.png", Coord(3,2), "BUILDING_3x2_prebuild.png", "TechCenter", true);
     loadTornieStructureSprite(ObjPic_Scoutpost,  "Scoutpost.png",  Coord(1,1), "BUILDING_1x1_prebuild.png", "Scoutpost", true);
@@ -1426,6 +1437,7 @@ GFXManager::GFXManager() {
                 label, NUM_HOUSE_COLOR_SLOTS);
     };
 
+    installTornieStructureTruecolorSlots(ObjPic_Doublefinery, "Doublefinery");
     installTornieStructureTruecolorSlots(ObjPic_Worfinery,           "Worfinery");
     installTornieStructureTruecolorSlots(ObjPic_TechCenter,          "TechCenter");
     installTornieStructureTruecolorSlots(ObjPic_Scoutpost,           "Scoutpost");
@@ -1636,6 +1648,7 @@ GFXManager::GFXManager() {
         loadIcon(Picture_ChemicalSiegeTank, "ChemicalSiegeTankIcon.png", "HTANK.WSA");
         loadIcon(Picture_ChemicalCarryall, "ChemicalCarryallIcon.png", "CARRYALL.WSA");
         loadIcon(Picture_AdvancedWindTrap, "Tornie_AdvancedWindtrap_icon.png", "WINDTRAP.WSA");
+        loadIcon(Picture_Doublefinery, "DoublefineryIcon.png", "REFINERY.WSA");
         loadIcon(Picture_Worfinery,      "WorfineryIcon.png",      "WOR.WSA");
         loadIcon(Picture_TechCenter,     "TechCenterIcon.png",     "PALACE.WSA");
         loadIcon(Picture_Scoutpost,      "ScoutpostIcon.png",      "RTURRET.WSA");
@@ -2237,6 +2250,7 @@ GFXManager::GFXManager() {
         { UI_MapEditor_AdvancedWindTrap,    ObjPic_AdvancedWindTrap,    2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 3*D2_TILESIZE },
         { UI_MapEditor_AdvancedWindTrapMK2, ObjPic_AdvancedWindTrap2x3, 2*2*D2_TILESIZE, 0, 2*D2_TILESIZE, 3*D2_TILESIZE },
         { UI_MapEditor_AdvancedWindTrapMK3, ObjPic_AdvancedWindTrap3x2, 2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
+        { UI_MapEditor_Doublefinery, ObjPic_Doublefinery, 2*5*D2_TILESIZE, 0, 5*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_Worfinery,           ObjPic_Worfinery,           2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_TechCenter,          ObjPic_TechCenter,          2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_Scoutpost,           ObjPic_Scoutpost,           2*D2_TILESIZE,   0, D2_TILESIZE,   D2_TILESIZE   },
@@ -2270,11 +2284,8 @@ GFXManager::GFXManager() {
         SDL_Surface* starSurface = (customStar && customMapEditorStar) ? customMapEditorStar.get()
                                                                        : objPic[ObjPic_Star][HOUSE_HARKONNEN][1].get();
         if(uiGraphic[uiGraphicID][HOUSE_HARKONNEN] && starSurface) {
-            uiGraphic[uiGraphicID][HOUSE_HARKONNEN] = combinePictures(
-                uiGraphic[uiGraphicID][HOUSE_HARKONNEN].get(),
-                starSurface,
-                uiGraphic[uiGraphicID][HOUSE_HARKONNEN]->w - starSurface->w,
-                uiGraphic[uiGraphicID][HOUSE_HARKONNEN]->h - starSurface->h);
+            uiGraphic[uiGraphicID][HOUSE_HARKONNEN] = overlayEditorStar(
+                uiGraphic[uiGraphicID][HOUSE_HARKONNEN].get(), starSurface);
         }
     };
 
@@ -2288,9 +2299,7 @@ GFXManager::GFXManager() {
     uiGraphic[UI_MapEditor_MCV][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_MCV][HOUSE_HARKONNEN][0].get(),0,0,8,1);
     uiGraphic[UI_MapEditor_Trike][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Trike][HOUSE_HARKONNEN][0].get(),0,0,8,1);
     uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Trike][HOUSE_HARKONNEN][0].get(),0,0,8,1);
-    uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN] = combinePictures(uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN].get(), objPic[ObjPic_Star][HOUSE_HARKONNEN][1].get(),
-                                                                      uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN]->w - objPic[ObjPic_Star][HOUSE_HARKONNEN][1]->w,
-                                                                      uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN]->h - objPic[ObjPic_Star][HOUSE_HARKONNEN][1]->h);
+    uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN] = overlayEditorStar(uiGraphic[UI_MapEditor_Raider][HOUSE_HARKONNEN].get(), objPic[ObjPic_Star][HOUSE_HARKONNEN][1].get());
     uiGraphic[UI_MapEditor_Quad][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Quad][HOUSE_HARKONNEN][0].get(),0,0,8,1);
     uiGraphic[UI_MapEditor_Tank][HOUSE_HARKONNEN] = combinePictures(getSubFrame(objPic[ObjPic_Tank_Base][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), getSubFrame(objPic[ObjPic_Tank_Gun][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), 0, 0);
     uiGraphic[UI_MapEditor_SiegeTank][HOUSE_HARKONNEN] = combinePictures(getSubFrame(objPic[ObjPic_Siegetank_Base][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), getSubFrame(objPic[ObjPic_Siegetank_Gun][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), 2, -4);
@@ -2402,9 +2411,7 @@ GFXManager::GFXManager() {
         if(!vehicle || !star) {
             return vehicle;
         }
-        return combinePictures(vehicle.get(), star,
-                               vehicle->w - star->w,
-                               vehicle->h - star->h);
+        return overlayEditorStar(vehicle.get(), star);
     };
 
     for(int colorSlot = 0; colorSlot < NUM_HOUSE_COLOR_SLOTS; ++colorSlot) {
@@ -2480,9 +2487,7 @@ GFXManager::GFXManager() {
     uiGraphic[UI_MapEditor_Saboteur][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Saboteur][HOUSE_HARKONNEN][0].get(),0,0,4,3);
     uiGraphic[UI_MapEditor_Sandworm][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Sandworm][HOUSE_HARKONNEN][0].get(),0,5,1,9);
     uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN] = combinePictures(getSubFrame(objPic[ObjPic_Devastator_Base][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), getSubFrame(objPic[ObjPic_Devastator_Gun][HOUSE_HARKONNEN][0].get(),0,0,8,1).get(), 2, -4);
-    uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN] = combinePictures(uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN].get(), objPic[ObjPic_Star][HOUSE_HARKONNEN][1].get(),
-                                                                  uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN]->w - objPic[ObjPic_Star][HOUSE_HARKONNEN][1]->w,
-                                                                  uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN]->h - objPic[ObjPic_Star][HOUSE_HARKONNEN][1]->h);
+    uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN] = overlayEditorStar(uiGraphic[UI_MapEditor_SpecialUnit][HOUSE_HARKONNEN].get(), objPic[ObjPic_Star][HOUSE_HARKONNEN][1].get());
     uiGraphic[UI_MapEditor_Carryall][HOUSE_HARKONNEN] = getSubFrame(objPic[ObjPic_Carryall][HOUSE_HARKONNEN][0].get(),0,0,8,2);
     const unsigned int chemicalCarryallEditorSprite =
         objPic[ObjPic_ChemicalCarryall][HOUSE_HARKONNEN][0]
@@ -2957,6 +2962,7 @@ static bool isTornieStructureObjPic(unsigned int id) {
     return id == ObjPic_AdvancedWindTrap
         || id == ObjPic_AdvancedWindTrap2x3
         || id == ObjPic_AdvancedWindTrap3x2
+        || id == ObjPic_Doublefinery
         || id == ObjPic_Worfinery
         || id == ObjPic_TechCenter
         || id == ObjPic_Scoutpost || id == ObjPic_LoveFactory;
@@ -2967,6 +2973,7 @@ static const char* getTornieStructureObjPicName(unsigned int id) {
         case ObjPic_AdvancedWindTrap:    return "AdvancedWindTrap3x3";
         case ObjPic_AdvancedWindTrap2x3: return "AdvancedWindTrap2x3";
         case ObjPic_AdvancedWindTrap3x2: return "AdvancedWindTrap3x2";
+        case ObjPic_Doublefinery:        return "Doublefinery";
         case ObjPic_Worfinery:           return "Worfinery";
         case ObjPic_TechCenter:          return "TechCenter";
         case ObjPic_Scoutpost:           return "Scoutpost";
@@ -3666,10 +3673,25 @@ static sdl2::surface_ptr resizeSurfaceNearest(SDL_Surface* source, int width, in
 
     SDL_BlendMode blendMode;
     SDL_GetSurfaceBlendMode(source, &blendMode);
-    SDL_SetSurfaceBlendMode(source, SDL_BLENDMODE_NONE);
-    SDL_SetSurfaceBlendMode(resized.get(), SDL_BLENDMODE_NONE);
-    SDL_BlitScaled(source, nullptr, resized.get(), nullptr);
-    SDL_SetSurfaceBlendMode(source, blendMode);
+    if(source->format->BytesPerPixel == 1) {
+        // SDL_BlitScaled does not support indexed surfaces. Copy indices directly
+        // so the palette, opaque black and transparent colour remain intact.
+        sdl2::surface_lock sourceLock{source};
+        sdl2::surface_lock destinationLock{resized.get()};
+        for(int y = 0; y < height; ++y) {
+            const auto* sourceRow = static_cast<const Uint8*>(source->pixels)
+                + (static_cast<Sint64>(y) * source->h / height) * source->pitch;
+            auto* destinationRow = static_cast<Uint8*>(resized->pixels) + y * resized->pitch;
+            for(int x = 0; x < width; ++x)
+                destinationRow[x] = sourceRow[static_cast<Sint64>(x) * source->w / width];
+        }
+    } else {
+        SDL_SetSurfaceBlendMode(source, SDL_BLENDMODE_NONE);
+        SDL_SetSurfaceBlendMode(resized.get(), SDL_BLENDMODE_NONE);
+        const int result = SDL_BlitScaled(source, nullptr, resized.get(), nullptr);
+        SDL_SetSurfaceBlendMode(source, blendMode);
+        if(result != 0) THROW(std::runtime_error, "Cannot resize surface: %s", SDL_GetError());
+    }
     SDL_SetSurfaceBlendMode(resized.get(), blendMode);
 
     Uint32 colorKey = 0;
@@ -4359,6 +4381,7 @@ void GFXManager::reloadRuntimeModPortraits() {
     loadPortrait(Picture_ChemicalSiegeTank, "ChemicalSiegeTankIcon.png", "HTANK.WSA", tornieGraphicsVisible);
     loadPortrait(Picture_ChemicalCarryall, "ChemicalCarryallIcon.png", "CARRYALL.WSA", true);
     loadPortrait(Picture_AdvancedWindTrap, "Tornie_AdvancedWindtrap_icon.png", "WINDTRAP.WSA", tornieGraphicsVisible);
+    loadPortrait(Picture_Doublefinery, "DoublefineryIcon.png", "REFINERY.WSA", tornieGraphicsVisible);
     loadPortrait(Picture_Worfinery, "WorfineryIcon.png", "WOR.WSA", tornieGraphicsVisible);
     loadPortrait(Picture_TechCenter, "TechCenterIcon.png", "PALACE.WSA", tornieGraphicsVisible);
     loadPortrait(Picture_Scoutpost, "ScoutpostIcon.png", "RTURRET.WSA", tornieGraphicsVisible);
@@ -4388,6 +4411,7 @@ void GFXManager::rebuildModDependentEditorGraphics() {
         { UI_MapEditor_AdvancedWindTrap,    ObjPic_AdvancedWindTrap,    2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 3*D2_TILESIZE },
         { UI_MapEditor_AdvancedWindTrapMK2, ObjPic_AdvancedWindTrap2x3, 2*2*D2_TILESIZE, 0, 2*D2_TILESIZE, 3*D2_TILESIZE },
         { UI_MapEditor_AdvancedWindTrapMK3, ObjPic_AdvancedWindTrap3x2, 2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
+        { UI_MapEditor_Doublefinery, ObjPic_Doublefinery, 2*5*D2_TILESIZE, 0, 5*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_Worfinery,           ObjPic_Worfinery,           2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_TechCenter,          ObjPic_TechCenter,          2*3*D2_TILESIZE, 0, 3*D2_TILESIZE, 2*D2_TILESIZE },
         { UI_MapEditor_Scoutpost,           ObjPic_Scoutpost,           2*D2_TILESIZE,   0, D2_TILESIZE,   D2_TILESIZE },
@@ -4478,9 +4502,7 @@ void GFXManager::rebuildModDependentEditorGraphics() {
         if(!vehicle || !star) {
             return vehicle;
         }
-        return combinePictures(vehicle.get(), star,
-                               vehicle->w - star->w,
-                               vehicle->h - star->h);
+        return overlayEditorStar(vehicle.get(), star);
     };
 
     constexpr unsigned int customVehiclePreviews[] = {
@@ -4945,7 +4967,8 @@ SDL_Texture* GFXManager::getZoomedObjPic(unsigned int id, int house, unsigned in
         if(objPic[id][house][z]->format->BytesPerPixel != 1
            || id == ObjPic_Windtrap || id == ObjPic_AdvancedWindTrap
            || id == ObjPic_AdvancedWindTrap2x3 || id == ObjPic_AdvancedWindTrap3x2
-           || id == ObjPic_Worfinery || id == ObjPic_TechCenter || id == ObjPic_Scoutpost || id == ObjPic_LoveFactory
+           || id == ObjPic_Doublefinery
+        || id == ObjPic_Worfinery || id == ObjPic_TechCenter || id == ObjPic_Scoutpost || id == ObjPic_LoveFactory
            || id == ObjPic_Star) {
             if(objPicTex[id][house][z]) {
                 SDL_SetTextureBlendMode(objPicTex[id][house][z].get(), SDL_BLENDMODE_BLEND);
@@ -5144,6 +5167,9 @@ SDL_Surface* GFXManager::getUIGraphicSurface(unsigned int id, int house) {
                 case UI_MapEditor_AdvancedWindTrapMK2:
                 case UI_MapEditor_AdvancedWindTrapMK3:
                     fallbackID = UI_MapEditor_Windtrap;
+                    break;
+                case UI_MapEditor_Doublefinery:
+                    fallbackID = UI_MapEditor_Refinery;
                     break;
                 case UI_MapEditor_Worfinery:
                     fallbackID = UI_MapEditor_WOR;
