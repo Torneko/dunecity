@@ -1,0 +1,734 @@
+{
+  "version": "1.0.538",
+  "revision": "538-followup-r4",
+  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "passed": true,
+  "generatedAt": "2026-10-10T05:58:35.563590+00:00",
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "gameRegressionTestsRerun": false,
+  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "checks": [
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
+      "lang": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "accueil"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "unites"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "batiments"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "technologies"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "factions"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "hauts-faits"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "guide"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "galerie"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "route": "projet"
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    },
+    {
+      "source": "http://127.0.0.1:8769/",
+      "lang": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "doublefinery": true,
+      "squadNames": true,
+      "whitePrices": true
+    }
+  ],
+  "errors": []
+}

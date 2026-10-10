@@ -177,7 +177,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
 | Harvester | 5 | Worfinery | 0 | — | — |
@@ -200,7 +200,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 6 | Worfinery | 0 | — | — |
 | Trooper Squad | 7 | WOR | 1 | — | — |
 | Trooper Squad | 6 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -226,7 +226,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -251,7 +251,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 375 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 375 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -277,7 +277,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 450 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 450 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -303,7 +303,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -329,7 +329,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 4 | Light Factory | 1 | — | — |
 | Rocket Trike | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -354,7 +354,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Sonic Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -380,7 +380,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 225 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 225 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -409,7 +409,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 3 | Light Factory | 0 | — | — |
 | Rocket Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -435,7 +435,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 600 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 600 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Sonic Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -461,7 +461,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -488,7 +488,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 3 | Light Factory | 0 | — | — |
 | Rocket Trike | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -512,7 +512,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 6 | Worfinery | 0 | — | — |
 | Trooper Squad | 7 | WOR | 1 | — | — |
 | Trooper Squad | 6 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Sonic Trike | 2 | Light Factory | 0 | — | — |
@@ -539,7 +539,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -565,7 +565,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 375 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 375 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -592,7 +592,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 450 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 450 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -618,7 +618,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -645,7 +645,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
 | Harvester | 5 | Worfinery | 0 | — | — |
@@ -668,7 +668,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 6 | Worfinery | 0 | — | — |
 | Trooper Squad | 7 | WOR | 1 | — | — |
 | Trooper Squad | 6 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -693,7 +693,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -718,7 +718,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 375 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 375 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -744,7 +744,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 450 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 450 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -770,7 +770,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -796,7 +796,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 3 | Light Factory | 0 | — | — |
 | Rocket Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -822,7 +822,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 600 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 600 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Sonic Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -848,7 +848,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -876,7 +876,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 4 | Light Factory | 1 | — | — |
 | Rocket Trike | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -901,7 +901,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Sonic Trike | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -927,7 +927,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 225 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 225 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -955,7 +955,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 4 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Quad | 3 | Light Factory | 0 | — | — |
 | Rocket Trike | 3 | Light Factory | 0 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -979,7 +979,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 6 | Worfinery | 0 | — | — |
 | Trooper Squad | 7 | WOR | 1 | — | — |
 | Trooper Squad | 6 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Sonic Trike | 2 | Light Factory | 0 | — | — |
@@ -1006,7 +1006,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
 | Harvester | 4 | Heavy Factory | 0 | — | — |
@@ -1032,7 +1032,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 375 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 375 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -1059,7 +1059,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 450 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 450 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |
@@ -1085,7 +1085,7 @@ Easy Mode reduces purchases for the player’s house by 25 credits (minimum 1), 
 | Trooper | 5 | Worfinery | 0 | — | — |
 | Trooper Squad | 5 | WOR | 1 | — | — |
 | Trooper Squad | 5 | Worfinery | 0 | — | — |
-| Troopers (5) | 7 | Worfinery | 1 | House IX | 300 |
+| Super Heavy Trooper Squad | 7 | Worfinery | 1 | House IX | 300 |
 | Trike | 2 | Light Factory | 0 | — | — |
 | Raider Trike | 2 | Light Factory | 0 | — | — |
 | Quad | 3 | Light Factory | 1 | — | — |

@@ -1,0 +1,17 @@
+{
+  "version": "1.0.538",
+  "revision": "538-followup-r4",
+  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "passed": true,
+  "generatedAt": "2026-10-10T05:58:35.563590+00:00",
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "gameRegressionTestsRerun": false,
+  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "languages": [
+    "fr",
+    "en"
+  ],
+  "noLocalTestLabel": true,
+  "releaseRevision": "ed14895d"
+}

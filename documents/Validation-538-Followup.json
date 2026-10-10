@@ -1,0 +1,74 @@
+{
+  "version": "1.0.538",
+  "revision": "538-followup-r4",
+  "published": true,
+  "readyForHumanPlaytest": true,
+  "generatedAt": "2026-10-10T05:32:22.379115+00:00",
+  "change": "Final user-supplied Doublefinery artwork",
+  "sprite": {
+    "size": [
+      80,
+      224
+    ],
+    "frameSize": [
+      80,
+      32
+    ],
+    "frames": 7,
+    "footprint": [
+      5,
+      2
+    ],
+    "sha256": "5022024249207848bf9db839af8fd653be48e912cfba743253014b4d09fca68f",
+    "originalBytesPreserved": true,
+    "resized": false
+  },
+  "mods": [
+    "Tornie",
+    "Jericho",
+    "TornieLite",
+    "JerichoLite"
+  ],
+  "assetCopiesExact": true,
+  "archiveSpriteCopiesExact": true,
+  "siteGalleryUpdated": [
+    "fr",
+    "en"
+  ],
+  "pngDownloadsUpdated": [
+    "fr",
+    "en"
+  ],
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "gameplayChanged": false,
+  "regressionTestsRerun": false,
+  "regressionTestReason": "User confirmed the rest works and requested no retesting",
+  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "binariesRebuilt": true,
+  "binarySha256": {
+    "windows": "792dff6cf2070ff09d7ba9fa6a332e14f6dd0fb69941c152ca2d41b53cd60a26",
+    "linux": "fecc859d560afa883fd5a4e7ce0d3ff6adf76d9587cebe448b30b7612e948192"
+  },
+  "artifacts": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
+      "bytes": 52469211,
+      "sha256": "243ffab5fb019f91afd27c19fd2244b8e54e0be12eeb0c987c756b332fcd398e"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
+      "bytes": 43555320,
+      "sha256": "7e713f7ac67a1010b26813a7a7a8689cd6210b93ac352c8898f8864f8eb6048e"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Sources.zip",
+      "bytes": 51855105,
+      "sha256": "d97aa7c14610047fd7d4009be4cebac157e6a8687f8697e07c9a67f182d469f1"
+    }
+  ],
+  "pendingHumanChecks": [
+    "Linux Mint 22.3 / kernel 7.0 on the affected PC"
+  ],
+  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6"
+}

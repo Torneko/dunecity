@@ -1,0 +1,192 @@
+{
+  "version": "1.0.538",
+  "revision": "538-followup-r3",
+  "published": false,
+  "readyForHumanPlaytest": true,
+  "generatedAt": "2026-10-10T04:49:04.293554+00:00",
+  "sourceBranch": "codex/538-followup",
+  "sourceBaseCommit": "343333c1f7717d3da2b13d770b7a2aa148044748",
+  "sourceWorkingTreeChanges": true,
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "unitTests": {
+    "windows": {
+      "passed": true,
+      "assertions": 7412,
+      "cases": 122
+    },
+    "linux": {
+      "passed": true,
+      "assertions": 7412,
+      "cases": 122
+    }
+  },
+  "windowsRuntime": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "passed": true,
+    "logs": [
+      "validation-538-followup-fr-20261010-044311",
+      "validation-538-followup-en-20261010-044339"
+    ]
+  },
+  "doublefineryRendering": {
+    "passed": true,
+    "mods": [
+      "Tornie",
+      "Jericho",
+      "TornieLite",
+      "JerichoLite"
+    ],
+    "colorSlots": 21,
+    "zoomLevels": 3,
+    "completeNonemptyFramesPerAtlas": 10,
+    "editorPreviewExact": true,
+    "placedEditorPixelsExact": true,
+    "captureBoundsChecked": true,
+    "gameCaptureVisuallyChecked": true,
+    "sourcePngUnmodified": true,
+    "footprint": [
+      5,
+      2
+    ],
+    "framePixels": [
+      80,
+      32
+    ],
+    "nativeSpriteWidth": 72,
+    "transparentPaddingEachSide": 4
+  },
+  "prototypeSaveMigration": {
+    "format": 9830,
+    "target": 9831,
+    "passed": true,
+    "mods": [
+      "Tornie",
+      "Jericho",
+      "TornieLite",
+      "JerichoLite"
+    ],
+    "bothOccupantsPreserved": true,
+    "fifthColumnOccupied": true,
+    "obstacleRejectedAtomically": true
+  },
+  "linuxRuntime": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "passed": true,
+    "environment": "Ubuntu 22.04 / WSL2 (Linux 6.18.33.2)",
+    "priorPatchPulseAudioVoicePlayback": 2,
+    "audioLibrariesUnchanged": true
+  },
+  "scenarioCoverage": {
+    "runtimeLoadCount": 1210,
+    "source": "English full mod/achievement runtime suite"
+  },
+  "legacySave": {
+    "format": 9829,
+    "fixture": "Tornie-squad5.sav",
+    "bytesUnchanged": true,
+    "sha256": "3fce2d509c8aa47b5c9a2a462534c546634d8d0fd3df3368ea025beb41492b48",
+    "loaded": true
+  },
+  "mods": {
+    "Tornie": {
+      "exactSourceFiles": 949,
+      "doublefineryFootprint": [
+        5,
+        2
+      ],
+      "nativePlanLetters": [
+        "O",
+        "M",
+        "N",
+        "C"
+      ]
+    },
+    "Jericho": {
+      "exactSourceFiles": 930,
+      "doublefineryFootprint": [
+        5,
+        2
+      ],
+      "nativePlanLetters": [
+        "O",
+        "M",
+        "N",
+        "C"
+      ]
+    },
+    "TornieLite": {
+      "exactSourceFiles": 649,
+      "doublefineryFootprint": [
+        5,
+        2
+      ],
+      "nativePlanLetters": [
+        "O",
+        "M",
+        "N",
+        "C"
+      ]
+    },
+    "JerichoLite": {
+      "exactSourceFiles": 649,
+      "doublefineryFootprint": [
+        5,
+        2
+      ],
+      "nativePlanLetters": [
+        "O",
+        "M",
+        "N",
+        "C"
+      ]
+    }
+  },
+  "exactBundledModFiles": 3177,
+  "website": {
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "viewportWidths": [
+      1440,
+      390
+    ],
+    "checks": 104,
+    "pngs": 121,
+    "passed": true,
+    "publicTreeUnmodified": true
+  },
+  "binarySha256": {
+    "windows": "cccec6f0c06c7cb098c9a82d8f483c30cbba805323fa01be5d15491a3f2730ec",
+    "linux": "7e9d57c4523fab90b8e8adfe14266039d2fe0614f8c2db02b0c54d1c9ce313b2"
+  },
+  "artifacts": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Windows-Test.zip",
+      "bytes": 52469576,
+      "sha256": "49939df35b3786151f52121030662805b1fd6e375363d20b32196be212287dc4"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Test.AppImage",
+      "bytes": 43547128,
+      "sha256": "9f180af20db7a514ba916338ba39f9b446429dcc5ff40bce000550e341982584"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Sources-Test.zip",
+      "bytes": 52041828,
+      "sha256": "866c86d06eb5928a7b97415bd194dcc85f689ff5b5a89151349ebdf93f9e1a01"
+    }
+  ],
+  "pendingHumanChecks": [
+    "Two-PC co-op with protocol 9 and this exact patch",
+    "Linux Mint 22.3 / kernel 7.0 on the affected PC",
+    "In-game balance and visual confirmation of Doublefinery/bonus colors"
+  ]
+}
