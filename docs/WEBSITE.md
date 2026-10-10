@@ -1,11 +1,31 @@
-## Publication preparation r8 — 2026-10-10
+## Published revision r8 — 2026-10-10
 
-Publish the accepted r6 portrait fix and r7 editor arrangement together with Tornie’s
-final native Doublefinery line correction. Replace the existing 1.0.538 release
-and synchronize public FR/EN Pages, PNG packs and offline downloads. The current
-published baseline `d0901d65dd9710de37fa51f95fb2ac6ddce43972` was fetched first.
-Prior r6/r7 tests remain historical; final artwork/package integrity is checked.
-Protocol 9 and save format 9831 are unchanged.
+The existing 1.0.538 release now includes the accepted r6 painted-unit portrait
+fix, r7 advanced-building editor arrangement and Tornie’s final Doublefinery
+line correction. Native indexed PNG: 80×224 pixels, seven 80×32 frames, copied
+byte-for-byte without resizing (SHA-256 `d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b`).
+Protocol 9 and save format 9831 are unchanged. Update both co-op PCs.
+
+- Tagged package source: `40923a6d7bcbd20c9f82759b1034a8eee2af4e73`.
+- Published FR/EN Pages: `973ba9c5fdad2cf880e802e431ddbb0f2723aaaa`.
+- Linux packages: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38078571904 — success.
+- Pages deployment: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38079078502 — success.
+
+All 30 public asset SHA-256 digests match the local publication files. All nine
+package URLs returned HTTP 200. Each of the seven game/source archives contains
+the exact 3,177 mod files; both PNG packs and the live gallery contain the final
+sprite. The offline site embeds the exact published Windows, Mint and source
+archives, plus the updated native editor preview. Browser checks passed: 104
+local/file/HTTP desktop/mobile checks and 52 live checks across both languages.
+
+The accepted r6/r7 engine and rendering reports remain historical evidence:
+122 cases / 7,412 assertions per platform, separate portrait and editor captures.
+The final public Windows payload supplied a fresh four-mod palette capture;
+full game regression suites were not repeated after the final image correction.
+Mint’s published profile, X11/software rendering and PulseAudio defaults are
+retained. Native Mint 22.3/kernel 7.0 verification remains on the target PC.
+Final publication/package reports are in `release_notes/Publication-Validation-1.0.538.json`
+and the release assets. Recover this published gh-pages tree on either PC.
 
 ## Local editor arrangement r7 — 2026-10-10
 
