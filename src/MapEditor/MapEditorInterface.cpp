@@ -610,50 +610,30 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
     editorModeStructs_ChaosFactory.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_ChaosFactory));
 
     if(tornieContentVisible_) {
-        // SymbolButton needs five pixels around its native-size preview.
-        const Sint32 threeTileButtonSize = 3*D2_TILESIZE + 5;
-        const Sint32 twoTileButtonSize = 2*D2_TILESIZE + 5;
-        const Sint32 postButtonSize = D2_TILESIZE + 5;
-        const Sint32 postColumnHeight = 3*postButtonSize;
-
-        // Row 1: vertical windtrap, square windtrap, then the post column.
-        // One-pixel gaps keep this row within the 113-pixel scroll viewport.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrap, postColumnHeight);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrapMK2, twoTileButtonSize);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(HSpacer::create(1));
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_AdvancedWindTrap, threeTileButtonSize);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(HSpacer::create(1));
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(&editorModeStructs_VBoxScoutposts, postButtonSize);
-        editorModeStructs_HBoxAdvancedWindTrap.addWidget(Spacer::create());
-
-        // Green at the top, blue in the middle, orange at the bottom.
-        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Scoutpost, postButtonSize);
-        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Chemipost, postButtonSize);
-        editorModeStructs_VBoxScoutposts.addWidget(&editorModeStructs_Flamepost, postButtonSize);
-
-        // Row 2: horizontal windtrap and Worfinery.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxAdvancedWindTrapMK3, twoTileButtonSize);
-        editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(&editorModeStructs_AdvancedWindTrapMK3);
-        editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxAdvancedWindTrapMK3.addWidget(&editorModeStructs_Worfinery);
-
-        // Row 3: Tech Center and Chaos Factory.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxTechCenter, twoTileButtonSize);
-        editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_TechCenter);
-        editorModeStructs_HBoxTechCenter.addWidget(HSpacer::create(2));
-        editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_ChaosFactory);
-
         editorModeStructs_Doublefinery.setToggleButton(true);
         editorModeStructs_Doublefinery.setTooltipText(resolveItemName(Structure_Doublefinery));
         editorModeStructs_Doublefinery.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Doublefinery));
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxDoublefinery, twoTileButtonSize);
-        editorModeStructs_HBoxDoublefinery.addWidget(&editorModeStructs_Doublefinery, 5*D2_TILESIZE + 5);
-        editorModeStructs_HBoxDoublefinery.addWidget(Spacer::create());
 
-        // Row 4: Love Factory alone, aligned with the left edge.
-        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxLoveFactory, threeTileButtonSize);
-        editorModeStructs_HBoxLoveFactory.addWidget(&editorModeStructs_LoveFactory, twoTileButtonSize);
-        editorModeStructs_HBoxLoveFactory.addWidget(Spacer::create());
+        // Match Tornie's six-column reference, using native-size previews.
+        // A two-pixel cell margin keeps all six columns inside the scrollbar.
+        const Sint32 cellSize = D2_TILESIZE + 2;
+        const auto addBuilding = [&](SymbolButton& button, int x, int y, int width, int height) {
+            button.setSymbolPadding(2);
+            editorModeStructs_AdvancedLayout.addWidget(&button,
+                Point(x*cellSize, y*cellSize), Point(width*cellSize, height*cellSize));
+        };
+        addBuilding(editorModeStructs_AdvancedWindTrapMK2, 0, 0, 2, 3);
+        addBuilding(editorModeStructs_AdvancedWindTrap,    2, 0, 3, 3);
+        addBuilding(editorModeStructs_AdvancedWindTrapMK3, 0, 3, 3, 2);
+        addBuilding(editorModeStructs_LoveFactory,        3, 3, 2, 3);
+        addBuilding(editorModeStructs_Worfinery,          0, 5, 3, 2);
+        addBuilding(editorModeStructs_ChaosFactory,       3, 6, 3, 2);
+        addBuilding(editorModeStructs_TechCenter,         0, 7, 3, 2);
+        addBuilding(editorModeStructs_Scoutpost,          3, 8, 1, 1);
+        addBuilding(editorModeStructs_Chemipost,          4, 8, 1, 1);
+        addBuilding(editorModeStructs_Flamepost,          5, 8, 1, 1);
+        addBuilding(editorModeStructs_Doublefinery,       0, 9, 5, 2);
+        editorModeStructs_VBox.addWidget(&editorModeStructs_AdvancedLayout, 11*cellSize);
     }
 
     for(auto* button : {&editorModeUnits_Soldier, &editorModeUnits_Trooper, &editorModeUnits_Harvester, &editorModeUnits_RebelHarvester, &editorModeUnits_Infantry, &editorModeUnits_Troopers, &editorModeUnits_MCV, &editorModeUnits_Trike, &editorModeUnits_Raider, &editorModeUnits_Quad, &editorModeUnits_RocketTrike, &editorModeUnits_SonicTrike, &editorModeUnits_FlameTank, &editorModeUnits_EliteLauncher, &editorModeUnits_EliteSiegeTank, &editorModeUnits_ChemicalSiegeTank, &editorModeUnits_ChemicalCarryall, &editorModeUnits_Tank, &editorModeUnits_SiegeTank, &editorModeUnits_Launcher, &editorModeUnits_Devastator, &editorModeUnits_SonicTank, &editorModeUnits_Deviator, &editorModeUnits_Saboteur, &editorModeUnits_Sandworm, &editorModeUnits_SpecialUnit, &editorModeUnits_Carryall, &editorModeUnits_Ornithopter, &editorModeUnits_Infantry5, &editorModeUnits_Troopers5})

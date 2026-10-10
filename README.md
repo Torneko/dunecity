@@ -12,6 +12,8 @@ Game documentation: [Français](https://torneko.github.io/dunelegacy-tornie/) ·
 
 Version **[1.0.538](https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538)** adds Barracks/WOR/Worfinery production portraits in the four mods, new Tornie Wildspade and Jericho Rebels banners/colors, optional allied Easy Mode and five extra enemy units per mission, reinforcements for both allies, and 20 new achievements (67 total). Both PCs need 1.0.538 / protocol 9. See [French notes](release_notes/1.0.538-FR.md) and [English notes](release_notes/1.0.538-EN.md). Tornie confirmed two-PC co-op works in 1.0.538. The six infantry production icons use white prices, and the Worfinery displays the Harvester last.
 
+The replaced 1.0.538 packages also restore original illustrated selected-unit portraits for every colour, apply Tornie’s requested editor building layout in all four mods and include the final native Doublefinery line correction. Tornie validated the portraits/layout and authorized publication.
+
 The [1.0.538 follow-up](docs/ROADMAP-1.0.538.md) is included in the replaced release
 packages: **5×2 Doublefinery** with two unloading bays, random Palace missile targeting,
 bonus colors, editor alignment/star transparency, five-person squad names and

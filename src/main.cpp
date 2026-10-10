@@ -62,6 +62,7 @@
 #include "../tests/ModRuntimeSmoke.h"
 #include "../tests/AchievementRuntimeSmoke.h"
 #include "../tests/Release538Smoke.h"
+#include "../tests/SelectedPortraitSmoke.h"
 #endif
 
 #include <SDL_ttf.h>
@@ -803,6 +804,8 @@ int main(int argc, char *argv[]) {
         bool bVerifyMods = false;
         bool bVerifyAchievements = false;
         bool bVerifyRelease538 = false;
+        bool bVerifyPortraits = false;
+        bool bCaptureEditor = false;
         bool bShowDebugLog = false;
         for(int i=1; i < argc; i++) {
             //check for overiding params
@@ -812,6 +815,8 @@ int main(int argc, char *argv[]) {
             if(parameter == "--verify-mods") { bVerifyMods = true; continue; }
             if(parameter == "--verify-achievements") { bVerifyMods = true; bVerifyAchievements = true; continue; }
             if(parameter == "--verify-release-538") { bVerifyMods = true; bVerifyRelease538 = true; continue; }
+            if(parameter == "--verify-portraits") { bVerifyMods = true; bVerifyPortraits = true; continue; }
+            if(parameter == "--capture-editor") { bVerifyMods = true; bCaptureEditor = true; continue; }
 #endif
             if(parameter == "--showlog") {
                 // special parameter which does not overwrite settings
@@ -1327,7 +1332,18 @@ int main(int argc, char *argv[]) {
 
                 #ifdef DUNELEGACY_RUNTIME_TESTS
                 if(bVerifyMods) {
-                    if(bVerifyRelease538) runRelease538Smoke();
+                    if(bCaptureEditor) {
+                        const auto previousMod = ModManager::instance().getActiveModName();
+                        const char* output = std::getenv("DUNELEGACY_SMOKE_DIR");
+                        if(output == nullptr) throw std::runtime_error("Editor capture needs DUNELEGACY_SMOKE_DIR");
+                        for(const std::string mod : {"Tornie", "Jericho", "TornieLite", "JerichoLite"}) {
+                            if(!ModManager::instance().setActiveMod(mod)) throw std::runtime_error("Editor capture: mod activation failed");
+                            verifyEditorUnitScrolling(output, mod);
+                        }
+                        ModManager::instance().setActiveMod(previousMod);
+                    }
+                    else if(bVerifyPortraits) runSelectedPortraitSmoke();
+                    else if(bVerifyRelease538) runRelease538Smoke();
                     else {
                         runModRuntimeSmoke();
                         if(bVerifyAchievements) {runRelease538Smoke();runAchievementRuntimeSmoke();}

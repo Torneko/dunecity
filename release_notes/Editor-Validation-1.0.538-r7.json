@@ -1,0 +1,415 @@
+{
+  "version": "1.0.538",
+  "revision": "538-editor-r7",
+  "passed": true,
+  "local": true,
+  "published": false,
+  "sourceBase": "3cfecb67",
+  "sourceState": "working tree",
+  "sourceFiles": {
+    "src/main.cpp": "56dc24a19dbca70836f3c4dab57322d7b98ad320778e6b7cfa07515a34b1c9c8",
+    "src/FileClasses/GFXManager.cpp": "bbd6809d4fbb293ebc92c8dc9e33cf57acf72769c0fd525d1b36aea371fff0f3",
+    "include/FileClasses/GFXManager.h": "49e83f26c90378bf4f949dc4c5a936ab03c56bf854151786b95cf93ddd38e4b7",
+    "tests/SelectedPortraitSmoke.h": "b5ac4cd0674fd0b54ad854c716472e32662b453037c1ac104c485c540a213b1e",
+    "src/MapEditor/MapEditorInterface.cpp": "a163cf8bd48c4fa2359ac65e587e39c0e90e1e57215623048b576a76119e6600",
+    "include/MapEditor/MapEditorInterface.h": "9f652b52324b2c43f364608306441b279a72ffb7e9c0e32d33512f7ae6d2dbe5",
+    "tests/EditorSquadSmoke.h": "1df4029a5878759dbf3bb1c5748715086da22a718dea6bc7c903851a4b7d7c8e"
+  },
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "change": "Advanced-building editor palette arranged to match Tornie reference; all four mods; native-size previews.",
+  "retained": "Accepted r6 painted selected-unit portraits, separate infantry production variants, final Doublefinery r5 sheet.",
+  "layout": {
+    "columns": 6,
+    "rows": 11,
+    "cellPixels": 18,
+    "positions": {
+      "AdvancedWindTrapMK2": [
+        0,
+        0,
+        2,
+        3
+      ],
+      "AdvancedWindTrap": [
+        2,
+        0,
+        3,
+        3
+      ],
+      "AdvancedWindTrapMK3": [
+        0,
+        3,
+        3,
+        2
+      ],
+      "LoveFactory": [
+        3,
+        3,
+        2,
+        3
+      ],
+      "Worfinery": [
+        0,
+        5,
+        3,
+        2
+      ],
+      "ChaosFactory": [
+        3,
+        6,
+        3,
+        2
+      ],
+      "TechCenter": [
+        0,
+        7,
+        3,
+        2
+      ],
+      "Scoutpost": [
+        3,
+        8,
+        1,
+        1
+      ],
+      "Chemipost": [
+        4,
+        8,
+        1,
+        1
+      ],
+      "Flamepost": [
+        5,
+        8,
+        1,
+        1
+      ],
+      "Doublefinery": [
+        0,
+        9,
+        5,
+        2
+      ]
+    }
+  },
+  "unitTests": {
+    "Windows": {
+      "passed": true,
+      "cases": 122,
+      "assertions": 7412,
+      "logSha256": "e525dc1ec5ad27b2efb2fe99279244cf3e51b5bb3c7d17b3708852edbb8808a2"
+    },
+    "Linux": {
+      "passed": true,
+      "cases": 122,
+      "assertions": 7412,
+      "logSha256": "227c2ce53924fb8c219ea4461694e55217536363a47987d0fe50cd93a4a89833"
+    }
+  },
+  "runtime": [
+    {
+      "platform": "Windows",
+      "language": "fr",
+      "packaged": false,
+      "passed": true,
+      "mods": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "captures": {
+        "Tornie": {
+          "palette": "36e5648f17bfe1c41b38d44d705641257954db6f60478c69371aedb02971b686",
+          "sidebar": "d98a60c9e7c8a031f6f3a91af21ea72c5cd914b2bc2f9163641ab605894e844b",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "Jericho": {
+          "palette": "57256997630ebe567106c8028685caf3f0e701c4246f2f3a1140c10e17eaae30",
+          "sidebar": "946d37d4c0a65c8ba0b5eba9785f8c2079f1a8c6687e70b6208dfb662016a6c6",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "TornieLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "f64d00ab76fd0a645119593360cc9ef81493e0c6c4d828744b292e4493b14d40",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "JerichoLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "f64d00ab76fd0a645119593360cc9ef81493e0c6c4d828744b292e4493b14d40",
+          "paletteSize": [
+            124,
+            214
+          ]
+        }
+      },
+      "existingScrollChecks": "480/600/900; wheel, scrollbar, first/last unit selection",
+      "logSha256": "56ffb07801608d9f3143de5f51da15dc4f939eca3f157f4dd8f4b9edb7f0435c"
+    },
+    {
+      "platform": "Windows",
+      "language": "en",
+      "packaged": false,
+      "passed": true,
+      "mods": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "captures": {
+        "Tornie": {
+          "palette": "36e5648f17bfe1c41b38d44d705641257954db6f60478c69371aedb02971b686",
+          "sidebar": "d98a60c9e7c8a031f6f3a91af21ea72c5cd914b2bc2f9163641ab605894e844b",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "Jericho": {
+          "palette": "57256997630ebe567106c8028685caf3f0e701c4246f2f3a1140c10e17eaae30",
+          "sidebar": "b18e0ba59849aae85a09d6c878804dae410b95bf14d688bdb36c5390fadd9654",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "TornieLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "cf0a51941c7761f74df062d2a60b0b197b2433a8cb81f305f391d56e9cb8c828",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "JerichoLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "cf0a51941c7761f74df062d2a60b0b197b2433a8cb81f305f391d56e9cb8c828",
+          "paletteSize": [
+            124,
+            214
+          ]
+        }
+      },
+      "existingScrollChecks": "480/600/900; wheel, scrollbar, first/last unit selection",
+      "logSha256": "1517f85a854a82fd035315301ff840f8cc8205b30f6b9fe37ed683a889791e86"
+    },
+    {
+      "platform": "Windows",
+      "language": "fr",
+      "packaged": true,
+      "passed": true,
+      "mods": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "captures": {
+        "Tornie": {
+          "palette": "36e5648f17bfe1c41b38d44d705641257954db6f60478c69371aedb02971b686",
+          "sidebar": "d98a60c9e7c8a031f6f3a91af21ea72c5cd914b2bc2f9163641ab605894e844b",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "Jericho": {
+          "palette": "57256997630ebe567106c8028685caf3f0e701c4246f2f3a1140c10e17eaae30",
+          "sidebar": "946d37d4c0a65c8ba0b5eba9785f8c2079f1a8c6687e70b6208dfb662016a6c6",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "TornieLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "f64d00ab76fd0a645119593360cc9ef81493e0c6c4d828744b292e4493b14d40",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "JerichoLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "f64d00ab76fd0a645119593360cc9ef81493e0c6c4d828744b292e4493b14d40",
+          "paletteSize": [
+            124,
+            214
+          ]
+        }
+      },
+      "existingScrollChecks": "480/600/900; wheel, scrollbar, first/last unit selection",
+      "logSha256": "a0a501ee0f986927563f688f1b04d0cacaa85cd3476346672726c84d2d122671"
+    },
+    {
+      "platform": "AppImage",
+      "language": "fr",
+      "packaged": true,
+      "passed": true,
+      "mods": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "captures": {
+        "Tornie": {
+          "palette": "36e5648f17bfe1c41b38d44d705641257954db6f60478c69371aedb02971b686",
+          "sidebar": "ac9c01da19bdae171e6d373a09df730e18b5d9ff2ee9036035599fbc46ad0abb",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "Jericho": {
+          "palette": "57256997630ebe567106c8028685caf3f0e701c4246f2f3a1140c10e17eaae30",
+          "sidebar": "5fb55b9d2fd814fcfb910a8e8a6a51b05b1344ff69574aeec6fc4c7702a1ae68",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "TornieLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "663902f044c573d61508cbae50f4fd72e106b53572d901386463e6df678ca2a3",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "JerichoLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "663902f044c573d61508cbae50f4fd72e106b53572d901386463e6df678ca2a3",
+          "paletteSize": [
+            124,
+            214
+          ]
+        }
+      },
+      "existingScrollChecks": "480/600/900; wheel, scrollbar, first/last unit selection",
+      "logSha256": "80f208554e1677fd9795b051ec071eab0580c8f451da295d2baacb7fe776ea4d"
+    },
+    {
+      "platform": "AppImage",
+      "language": "en",
+      "packaged": true,
+      "passed": true,
+      "mods": [
+        "Tornie",
+        "Jericho",
+        "TornieLite",
+        "JerichoLite"
+      ],
+      "captures": {
+        "Tornie": {
+          "palette": "36e5648f17bfe1c41b38d44d705641257954db6f60478c69371aedb02971b686",
+          "sidebar": "ac9c01da19bdae171e6d373a09df730e18b5d9ff2ee9036035599fbc46ad0abb",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "Jericho": {
+          "palette": "57256997630ebe567106c8028685caf3f0e701c4246f2f3a1140c10e17eaae30",
+          "sidebar": "fe9dc7afb9cf5f5c69ecce18285ea78bee6f3f6ed5725e508a3cc7c89aad64de",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "TornieLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "eed53add4a626f3148cf4615febd5b0cdae9409f8a41c13a97c9803752bcdb84",
+          "paletteSize": [
+            124,
+            214
+          ]
+        },
+        "JerichoLite": {
+          "palette": "882ab0077b6a54e04326d86d4787e7298eb2e746ccb1cf471a4335afb98d00af",
+          "sidebar": "eed53add4a626f3148cf4615febd5b0cdae9409f8a41c13a97c9803752bcdb84",
+          "paletteSize": [
+            124,
+            214
+          ]
+        }
+      },
+      "existingScrollChecks": "480/600/900; wheel, scrollbar, first/last unit selection",
+      "logSha256": "1e64c91d7d0526d2a61c990d9d6176e50f7596443dd6b43e8369321911d5ea1e"
+    }
+  ],
+  "visualReview": "Native palette and full sidebar captures reviewed; matches supplied arrangement.",
+  "website": {
+    "passed": true,
+    "checks": 200,
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "browsers": [
+      "Microsoft Edge"
+    ],
+    "views": [
+      "desktop",
+      "mobile"
+    ],
+    "sources": [
+      "file",
+      "HTTP"
+    ]
+  },
+  "windowsPackage": {
+    "passed": true,
+    "exactWindowsModFiles": 3177,
+    "windowsBinarySha256": "8d667db71db517ac6e87e1399ff0f97d0531b33673f946890213486621e60a80",
+    "sourceFiles": {
+      "src/main.cpp": "56dc24a19dbca70836f3c4dab57322d7b98ad320778e6b7cfa07515a34b1c9c8",
+      "src/FileClasses/GFXManager.cpp": "bbd6809d4fbb293ebc92c8dc9e33cf57acf72769c0fd525d1b36aea371fff0f3",
+      "include/FileClasses/GFXManager.h": "49e83f26c90378bf4f949dc4c5a936ab03c56bf854151786b95cf93ddd38e4b7",
+      "tests/SelectedPortraitSmoke.h": "b5ac4cd0674fd0b54ad854c716472e32662b453037c1ac104c485c540a213b1e",
+      "src/MapEditor/MapEditorInterface.cpp": "a163cf8bd48c4fa2359ac65e587e39c0e90e1e57215623048b576a76119e6600",
+      "include/MapEditor/MapEditorInterface.h": "9f652b52324b2c43f364608306441b279a72ffb7e9c0e32d33512f7ae6d2dbe5",
+      "tests/EditorSquadSmoke.h": "1df4029a5878759dbf3bb1c5748715086da22a718dea6bc7c903851a4b7d7c8e"
+    },
+    "doublefinerySha256": "03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc"
+  },
+  "appImagePackage": {
+    "passed": true,
+    "exactAppImageModFiles": 3177,
+    "binarySha256": "adf4aa94150d7670a829aad410f3504b5a876988be5a62d31d3d3dd5177b3fad",
+    "nativeMintKernel7Tested": false
+  },
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Windows-Editor.zip",
+      "bytes": 63704726,
+      "sha256": "90d76b998e7c955eb1cf62f6cf3ebc50577d88f5429d430d82f9323ff8db373c"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Editor.AppImage",
+      "bytes": 43555320,
+      "sha256": "de75264b1a646d8785490cef86c9186a25a38d799cc9286de0b929f9520ae834"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Sources-Editor.zip",
+      "bytes": 52001979,
+      "sha256": "0f7b352dfa405ac5481ff5ccb5647abee731d44e7cc29674ef09b099d4d66af1"
+    }
+  ],
+  "limitations": [
+    "Runtime captures use headless SDL software rendering.",
+    "Linux host is Ubuntu 22.04/WSL; native Mint 22.3/kernel 7.0 not tested here.",
+    "Full gameplay/portrait suites from r6 were not rerun for this editor-only arrangement.",
+    "Public release and public website remain at r5."
+  ]
+}

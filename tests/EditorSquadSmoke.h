@@ -2,6 +2,7 @@
 #include <MapEditor/MapEditor.h>
 #include <Trigger/ReinforcementTrigger.h>
 #include <players/PlayerFactory.h>
+#include <FileClasses/LoadSavePNG.h>
 #include <fstream>
 #include <iterator>
 
@@ -56,6 +57,24 @@ inline void verifyEditorUnitScrolling(const std::string& output, const std::stri
         view.handleMouseLeft(ui.editorModeUnits_Soldier.getSize().x/2,first.y+ui.editorModeUnits_Soldier.getSize().y/2,true);
         view.handleMouseLeft(ui.editorModeUnits_Soldier.getSize().x/2,first.y+ui.editorModeUnits_Soldier.getSize().y/2,false);
         require(ui.editorModeUnits_Soldier.getToggleState(),"first unit cannot be selected after scrolling back");
+    }
+    if(ui.tornieContentVisible_) {
+        ui.onModeButton(2);
+        ui.changeHouseDropDown(mod == "Tornie" || mod == "Jericho" ? HOUSE_WILDSPADE : HOUSE_ATREIDES);
+        SDL_RenderSetClipRect(renderer,nullptr);
+        SDL_SetRenderDrawColor(renderer,176,126,16,255);SDL_RenderClear(renderer);
+        auto& layout=ui.editorModeStructs_AdvancedLayout;
+        layout.draw(Point(8,8));
+        const Point size=layout.getMinimumSize();
+        SDL_Rect area{0,0,size.x+16,size.y+16};
+        auto pixels=sdl2::surface_ptr(SDL_CreateRGBSurfaceWithFormat(0,area.w,area.h,32,SCREEN_FORMAT));
+        require(pixels && SDL_RenderReadPixels(renderer,&area,pixels->format->format,pixels->pixels,pixels->pitch)==0,"building palette capture");
+        require(SavePNG(pixels.get(),(std::filesystem::path(output)/(mod+"-editor-building-layout.png")).string().c_str())==0,"building palette preview save");
+        ui.editorModeStructs_MainVBox.resize(ui.editorModeStructs_MainVBox.getSize().x,280);
+        for(int i=0;i<50;++i)ui.editorModeStructs_ScrollView.handleMouseWheel(5,5,false);
+        SDL_RenderClear(renderer);ui.draw(Point(0,0));
+        auto scene=renderReadSurface(renderer);
+        require(scene && SavePNG(scene.get(),(std::filesystem::path(output)/(mod+"-editor-building-sidebar.png")).string().c_str())==0,"building sidebar preview save");
     }
     SDL_Log("EDITOR UNIT SCROLL PASS: %s heights 480/600/900, scrollbar/wheel and first/last unit selection",mod.c_str());
 }

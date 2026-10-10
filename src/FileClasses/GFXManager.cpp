@@ -4669,11 +4669,6 @@ void GFXManager::reloadModDependentUiGraphics() {
 
     SDL_Log("GFXManager::reloadModDependentUiGraphics(): reloading active-mod presentation");
     reloadModDependentObjectGraphics();
-    for(auto& detailByHouse : houseSmallDetailPicTex) {
-        for(auto& texture : detailByHouse) {
-            texture.reset();
-        }
-    }
 
     for(unsigned int piece = 0; piece < NUM_MAPCHOICEPIECES; ++piece) {
         for(int colorSlot = 0; colorSlot < NUM_HOUSE_COLOR_SLOTS; ++colorSlot) {
@@ -5044,80 +5039,11 @@ SDL_Texture* GFXManager::getSmallDetailPic(unsigned int id) {
 }
 
 
-SDL_Texture* GFXManager::getSmallDetailPic(unsigned int id, int house) {
-    if(id >= NUM_SMALLDETAILPICS) {
-        return nullptr;
-    }
-
-    const int visualHouse = getHouseVisualHouse(house);
-    if(!isValidHouseColorSlot(visualHouse)
-       || (visualHouse != HOUSE_CUSTOM && !isCustomHouseColorSlot(visualHouse))) {
-        return smallDetailPicTex[id].get();
-    }
-
-    unsigned int editorGraphic = NUM_UIGRAPHICS;
-    switch(id) {
-        case Picture_Flamepost:       editorGraphic = UI_MapEditor_Flamepost;        break;
-        case Picture_Carryall:         editorGraphic = UI_MapEditor_Carryall;          break;
-        case Picture_Devastator:       editorGraphic = UI_MapEditor_Devastator;        break;
-        case Picture_Deviator:         editorGraphic = UI_MapEditor_Deviator;          break;
-        case Picture_Harvester:        editorGraphic = UI_MapEditor_Harvester;         break;
-        case Picture_Harvestank:       editorGraphic = UI_MapEditor_RebelHarvester;    break;
-        case Picture_Launcher:         editorGraphic = UI_MapEditor_Launcher;          break;
-        case Picture_MCV:              editorGraphic = UI_MapEditor_MCV;               break;
-        case Picture_Ornithopter:      editorGraphic = UI_MapEditor_Ornithopter;       break;
-        case Picture_Quad:             editorGraphic = UI_MapEditor_Quad;              break;
-        case Picture_RaiderTrike:      editorGraphic = UI_MapEditor_Raider;            break;
-        case Picture_SiegeTank:        editorGraphic = UI_MapEditor_SiegeTank;         break;
-        case Picture_SonicTank:        editorGraphic = UI_MapEditor_SonicTank;         break;
-        case Picture_Tank:             editorGraphic = UI_MapEditor_Tank;              break;
-        case Picture_Trike:            editorGraphic = UI_MapEditor_Trike;             break;
-        case Picture_RocketTrike:      editorGraphic = UI_MapEditor_RocketTrike;       break;
-        case Picture_SonicTrike:       editorGraphic = UI_MapEditor_SonicTrike;        break;
-        case Picture_FlameTank:        editorGraphic = UI_MapEditor_FlameTank;         break;
-        case Picture_EliteLauncher:    editorGraphic = UI_MapEditor_EliteLauncher;     break;
-        case Picture_EliteSiegeTank:   editorGraphic = UI_MapEditor_EliteSiegeTank;    break;
-        case Picture_ChemicalSiegeTank: editorGraphic = UI_MapEditor_ChemicalSiegeTank; break;
-        default:                                                                    break;
-    }
-
-    if(editorGraphic == NUM_UIGRAPHICS) {
-        return smallDetailPicTex[id].get();
-    }
-
-    auto& cachedTexture = houseSmallDetailPicTex[id][visualHouse];
-    if(cachedTexture == nullptr) {
-        SDL_Surface* icon = getUIGraphicSurface(editorGraphic, visualHouse);
-        if(icon == nullptr || icon->w <= 0 || icon->h <= 0) {
-            return smallDetailPicTex[id].get();
-        }
-
-        sdl2::surface_ptr canvas{
-            SDL_CreateRGBSurface(0, 91, 55, SCREEN_BPP, RMASK, GMASK, BMASK, AMASK)
-        };
-        if(canvas == nullptr) {
-            return smallDetailPicTex[id].get();
-        }
-
-        SDL_SetSurfaceBlendMode(canvas.get(), SDL_BLENDMODE_BLEND);
-        SDL_FillRect(canvas.get(), nullptr, SDL_MapRGBA(canvas->format, 0, 0, 0, 0));
-
-        int width = 87;
-        int height = icon->h * width / icon->w;
-        if(height > 51) {
-            height = 51;
-            width = icon->w * height / icon->h;
-        }
-
-        SDL_Rect destination = { (91 - width) / 2, (55 - height) / 2, width, height };
-        if(SDL_BlitScaled(icon, nullptr, canvas.get(), &destination) != 0) {
-            return smallDetailPicTex[id].get();
-        }
-
-        cachedTexture = convertSurfaceToTexture(canvas.get());
-    }
-
-    return cachedTexture ? cachedTexture.get() : smallDetailPicTex[id].get();
+SDL_Texture* GFXManager::getSmallDetailPic(unsigned int id, int /*house*/) {
+    // House colours apply to map sprites, not to the painted detail portraits.
+    // Editor thumbnails (including special-unit stars) must stay in the editor.
+    // Infantry production variants are supplied separately by BuilderList.
+    return getSmallDetailPic(id);
 }
 SDL_Texture* GFXManager::getTinyPicture(unsigned int id) {
     if(id >= NUM_TINYPICTURE) {

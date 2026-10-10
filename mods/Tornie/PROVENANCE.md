@@ -26,3 +26,5 @@ were supplied by Tornie for this project. The original PNG bytes are preserved.
 The corrected 80×224 sprite strip was supplied by Tornie on 2026-10-10. Its seven 80×32 frames fill the approved 5×2 footprint without resizing or added padding.
 
 Doublefinery artwork revision r5: Tornie supplied the corrected 80x224 indexed PNG on 2026-10-10 (SHA256 03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc). Copied byte-for-byte; seven native 80x32 frames, no resizing.
+
+Doublefinery artwork revision r8: Tornie supplied the final line correction on 2026-10-10 (SHA256 d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b). Native indexed PNG, 80x224 pixels, seven 80x32 frames; copied byte-for-byte without resizing.

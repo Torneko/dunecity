@@ -230,8 +230,7 @@ private:
     HBox                editorModeStructs_HBox1;
     SymbolButton        editorModeStructs_ConstructionYard;
     SymbolButton        editorModeStructs_Windtrap;
-    HBox                editorModeStructs_HBoxAdvancedWindTrap;
-    HBox                editorModeStructs_HBoxAdvancedWindTrapMK3;
+    StaticContainer     editorModeStructs_AdvancedLayout;
     SymbolButton        editorModeStructs_AdvancedWindTrap;   ///< Tornie: 3x3 high-output power building
     SymbolButton        editorModeStructs_AdvancedWindTrapMK2; ///< Tornie: 2x3 high-output power building
     SymbolButton        editorModeStructs_AdvancedWindTrapMK3; ///< Tornie: 3x2 high-output power building
@@ -242,9 +241,7 @@ private:
     HBox                editorModeStructs_HBox3;
     SymbolButton        editorModeStructs_Barracks;
     SymbolButton        editorModeStructs_WOR;
-    HBox                editorModeStructs_HBoxDoublefinery;
     SymbolButton        editorModeStructs_Doublefinery;
-    HBox                editorModeStructs_HBoxWorfinery;
     SymbolButton        editorModeStructs_Worfinery;            ///< Tornie: WOR + Refinery combo
     SymbolButton        editorModeStructs_LightFactory;
     HBox                editorModeStructs_HBox4;
@@ -256,14 +253,11 @@ private:
     HBox                editorModeStructs_HBox6;
     SymbolButton        editorModeStructs_Starport;
     SymbolButton        editorModeStructs_Palace;
-    HBox                editorModeStructs_HBoxTechCenter;
     SymbolButton        editorModeStructs_TechCenter;   ///< Tornie: Palace-equivalent that spawns vehicles
     SymbolButton        editorModeStructs_ChaosFactory; ///< Tornie: random factory
-    VBox                editorModeStructs_VBoxScoutposts;
     SymbolButton        editorModeStructs_Scoutpost;     ///< Tornie: power/defense/recon post
     SymbolButton        editorModeStructs_Flamepost;     ///< Tornie: flame defense post
     SymbolButton        editorModeStructs_Chemipost;     ///< Tornie: healing defense post
-    HBox                editorModeStructs_HBoxLoveFactory;
     SymbolButton        editorModeStructs_LoveFactory;
     bool                tornieContentVisible_ = false;
 

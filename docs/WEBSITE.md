@@ -1,3 +1,32 @@
+## Publication preparation r8 — 2026-10-10
+
+Publish the accepted r6 portrait fix and r7 editor arrangement together with Tornie’s
+final native Doublefinery line correction. Replace the existing 1.0.538 release
+and synchronize public FR/EN Pages, PNG packs and offline downloads. The current
+published baseline `d0901d65dd9710de37fa51f95fb2ac6ddce43972` was fetched first.
+Prior r6/r7 tests remain historical; final artwork/package integrity is checked.
+Protocol 9 and save format 9831 are unchanged.
+
+## Local editor arrangement r7 — 2026-10-10
+
+The local preview `work/site-538-editor-r7/dist` extends the accepted local r6
+portrait fix, based on published `origin/gh-pages` commit
+`d0901d65dd9710de37fa51f95fb2ac6ddce43972` (fetched again before editing).
+FR/EN project notes show an actual native-size editor capture of Tornie’s
+requested advanced-building arrangement. All four mods use this layout;
+Vanilla and gameplay rules are unchanged. Public release/site remain at r5.
+New local Windows, Mint AppImage and source packages include both fixes.
+
+## Local selected-unit portrait fix r6 — 2026-10-10
+
+The local preview `work/site-538-portraits-r6/dist` is copied from the freshly
+fetched published `origin/gh-pages` tree `d0901d65dd9710de37fa51f95fb2ac6ddce43972`.
+Both languages explain restored illustrated selected-unit portraits for every
+colour and separate infantry production variants. Public r5 downloads and
+historical validation reports remain unchanged until publication.
+
+Local r6 validation: Windows/Linux engine tests pass (122 cases, 7,412 assertions each). FR/EN portrait runtime checks pass with 21 colour slots, 28 painted portraits and separate production variants, including the final Mint AppImage under Ubuntu 22.04/WSL. The local FR/EN site passes 200 checks; native Mint 22.3/kernel 7.0 remains untested.
+
 ## Doublefinery artwork revision r5 — 2026-10-10
 
 Publication verified: tagged source `d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be`, website `d0901d65dd9710de37fa51f95fb2ac6ddce43972`. The revised user-supplied sprite is byte-identical in all four mods, all game packages, both PNG archives and the live gallery. All 28 release asset digests match local files; all nine package URLs returned HTTP 200. Game regression suites were not rerun.
