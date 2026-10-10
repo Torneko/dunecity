@@ -1,17 +1,21 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r5",
-  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
-  "passed": true,
-  "generatedAt": "2026-10-10T16:42:39.266982+00:00",
+  "revision": "538-portraits-editor-r8",
+  "sourceCommit": "40923a6d7bcbd20c9f82759b1034a8eee2af4e73",
   "networkProtocol": 9,
   "saveVersion": 9831,
-  "gameRegressionTestsRerun": false,
-  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "passed": true,
+  "generatedAt": "2026-10-10T19:14:51.872380+00:00",
+  "artworkSHA256": "d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b",
+  "gameRegressionSuitesRerunAfterFinalImage": false,
+  "priorValidation": [
+    "Portraits-Validation-1.0.538-r6.json",
+    "Editor-Validation-1.0.538-r7.json"
+  ],
   "languages": [
     "fr",
     "en"
   ],
   "noLocalTestLabel": true,
-  "releaseRevision": "d29b80cb"
+  "releaseRevision": "40923a6d"
 }

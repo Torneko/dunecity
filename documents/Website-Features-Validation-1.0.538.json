@@ -1,13 +1,17 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r5",
-  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
-  "passed": true,
-  "generatedAt": "2026-10-10T16:42:39.266982+00:00",
+  "revision": "40923a6d",
+  "sourceCommit": "40923a6d7bcbd20c9f82759b1034a8eee2af4e73",
   "networkProtocol": 9,
   "saveVersion": 9831,
-  "gameRegressionTestsRerun": false,
-  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "passed": true,
+  "generatedAt": "2026-10-10T19:14:51.872380+00:00",
+  "artworkSHA256": "d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b",
+  "gameRegressionSuitesRerunAfterFinalImage": false,
+  "priorValidation": [
+    "Portraits-Validation-1.0.538-r6.json",
+    "Editor-Validation-1.0.538-r7.json"
+  ],
   "checks": [
     {
       "source": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/dunelegacy-tornie-site/",
@@ -370,61 +374,61 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "accueil"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "unites"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "batiments"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "technologies"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "factions"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "hauts-faits"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "guide"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "galerie"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "route": "projet"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "mod": "Tornie",
@@ -433,7 +437,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "mod": "Jericho",
@@ -442,7 +446,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "mod": "TornieLite",
@@ -451,7 +455,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 1440,
       "mod": "JerichoLite",
@@ -460,61 +464,61 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "accueil"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "unites"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "batiments"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "technologies"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "factions"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "hauts-faits"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "guide"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "galerie"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "route": "projet"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "mod": "Tornie",
@@ -523,7 +527,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "mod": "Jericho",
@@ -532,7 +536,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "mod": "TornieLite",
@@ -541,7 +545,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "fr",
       "width": 390,
       "mod": "JerichoLite",
@@ -550,61 +554,61 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "accueil"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "unites"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "batiments"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "technologies"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "factions"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "hauts-faits"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "guide"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "galerie"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "route": "projet"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "mod": "Tornie",
@@ -613,7 +617,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "mod": "Jericho",
@@ -622,7 +626,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "mod": "TornieLite",
@@ -631,7 +635,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 1440,
       "mod": "JerichoLite",
@@ -640,61 +644,61 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "accueil"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "unites"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "batiments"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "technologies"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "factions"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "hauts-faits"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "guide"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "galerie"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "route": "projet"
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "mod": "Tornie",
@@ -703,7 +707,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "mod": "Jericho",
@@ -712,7 +716,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "mod": "TornieLite",
@@ -721,7 +725,7 @@
       "whitePrices": true
     },
     {
-      "source": "http://127.0.0.1:8769/",
+      "source": "http://127.0.0.1:8771/",
       "lang": "en",
       "width": 390,
       "mod": "JerichoLite",

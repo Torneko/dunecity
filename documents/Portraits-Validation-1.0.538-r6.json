@@ -1,0 +1,195 @@
+{
+  "version": "1.0.538",
+  "revision": "538-portraits-r6",
+  "passed": true,
+  "local": true,
+  "published": false,
+  "sourceBase": "3cfecb67",
+  "sourceState": "working tree",
+  "sourceFiles": {
+    "src/main.cpp": "03fe105fe27aa09e50e20ce8d07cf892b1ff7953719e1a26eba51fc4aa436dd7",
+    "src/FileClasses/GFXManager.cpp": "bbd6809d4fbb293ebc92c8dc9e33cf57acf72769c0fd525d1b36aea371fff0f3",
+    "include/FileClasses/GFXManager.h": "49e83f26c90378bf4f949dc4c5a936ab03c56bf854151786b95cf93ddd38e4b7",
+    "tests/SelectedPortraitSmoke.h": "b5ac4cd0674fd0b54ad854c716472e32662b453037c1ac104c485c540a213b1e"
+  },
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "fix": "Restore original illustrated selected-unit portraits for every colour; remove editor-thumbnail fallback and cache.",
+  "retained": "Six production-only infantry PNGs in the four mods; white prices; final native Doublefinery r5 sheet.",
+  "unitTests": {
+    "Windows": {
+      "passed": true,
+      "cases": 122,
+      "assertions": 7412,
+      "logSha256": "386fd02dfe7bdbfef65745b5722bd9f64a513fd280d4ca7786d28a06cb270d75"
+    },
+    "Linux": {
+      "passed": true,
+      "cases": 122,
+      "assertions": 7412,
+      "logSha256": "09b18802dc614e6a3ca82cd922b91b98571bf6faeb193d5818ec0dad94e1347a"
+    }
+  },
+  "runtime": [
+    {
+      "platform": "Windows",
+      "language": "fr",
+      "packaged": false,
+      "passed": true,
+      "modActivations": 6,
+      "colourSlots": 21,
+      "portraitsPerColour": 28,
+      "exactPortraitComparisons": 3528,
+      "suppliedProductionPngs": 6,
+      "builders": 3,
+      "logSha256": "dc64151b9c3db2d7ad3eb4ac01a2fe252317dd00a0e06e1a6dbc202668c0347e",
+      "captures": {
+        "vanilla": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "Tornie": "0c6dd4c3db3855e9233efc58371d57b044518625873c9f5a1cd3b07064f5e44f",
+        "Jericho": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "TornieLite": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "JerichoLite": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db"
+      }
+    },
+    {
+      "platform": "Windows",
+      "language": "en",
+      "packaged": false,
+      "passed": true,
+      "modActivations": 6,
+      "colourSlots": 21,
+      "portraitsPerColour": 28,
+      "exactPortraitComparisons": 3528,
+      "suppliedProductionPngs": 6,
+      "builders": 3,
+      "logSha256": "82cd24024be4eec4fbf9e7b797714d4f95367ea96b0f471d003e823e9c6b0912",
+      "captures": {
+        "vanilla": "a85b40e0a4e95aecd2e3f3030afbd6c5a079754874502c58fc6597c2b7f6c801",
+        "Tornie": "bc318e4d0e1dbd0e467914c826b176109cb835f1476c7973c4f3f485e0001059",
+        "Jericho": "a85b40e0a4e95aecd2e3f3030afbd6c5a079754874502c58fc6597c2b7f6c801",
+        "TornieLite": "a85b40e0a4e95aecd2e3f3030afbd6c5a079754874502c58fc6597c2b7f6c801",
+        "JerichoLite": "a85b40e0a4e95aecd2e3f3030afbd6c5a079754874502c58fc6597c2b7f6c801"
+      }
+    },
+    {
+      "platform": "Windows",
+      "language": "fr",
+      "packaged": true,
+      "passed": true,
+      "modActivations": 6,
+      "colourSlots": 21,
+      "portraitsPerColour": 28,
+      "exactPortraitComparisons": 3528,
+      "suppliedProductionPngs": 6,
+      "builders": 3,
+      "logSha256": "808650eb2acb5d6b539ea1c241f0941e1cd80ef978c11770c84d5ce7647bcd3c",
+      "captures": {
+        "vanilla": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "Tornie": "0c6dd4c3db3855e9233efc58371d57b044518625873c9f5a1cd3b07064f5e44f",
+        "Jericho": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "TornieLite": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db",
+        "JerichoLite": "9fffe42b4429a816ae704b072e6ea47adc2690bd18c08c27556bd07e1e5ed8db"
+      }
+    },
+    {
+      "platform": "AppImage",
+      "language": "fr",
+      "packaged": true,
+      "passed": true,
+      "modActivations": 6,
+      "colourSlots": 21,
+      "portraitsPerColour": 28,
+      "exactPortraitComparisons": 3528,
+      "suppliedProductionPngs": 6,
+      "builders": 3,
+      "logSha256": "535a02124ccf4ae8addd69d1cb6b04a98a64eef00b761f4befea0a0976dfaf21",
+      "captures": {
+        "vanilla": "69b3966f5b1dddcf862ab333a12b6af1b53f7284234ee4bb71217f30fc0fc824",
+        "Tornie": "0b0f01f04c0bdca9be0797296ae01548669cc8f14e800b89ee5e4936d237de9a",
+        "Jericho": "69b3966f5b1dddcf862ab333a12b6af1b53f7284234ee4bb71217f30fc0fc824",
+        "TornieLite": "69b3966f5b1dddcf862ab333a12b6af1b53f7284234ee4bb71217f30fc0fc824",
+        "JerichoLite": "69b3966f5b1dddcf862ab333a12b6af1b53f7284234ee4bb71217f30fc0fc824"
+      }
+    },
+    {
+      "platform": "AppImage",
+      "language": "en",
+      "packaged": true,
+      "passed": true,
+      "modActivations": 6,
+      "colourSlots": 21,
+      "portraitsPerColour": 28,
+      "exactPortraitComparisons": 3528,
+      "suppliedProductionPngs": 6,
+      "builders": 3,
+      "logSha256": "5545bdc01eefd5b899232df560c6d29cc1247d4119f07aa3cdf9ff61126bfd51",
+      "captures": {
+        "vanilla": "95fc18f9694149d7c19bef05285871be28f1c50d3bc47a0020ac96221b0e5b38",
+        "Tornie": "5a7d324fb5751455f3adcfff2b6fa6df484a7ef933210fb0581c7d3e955b3440",
+        "Jericho": "95fc18f9694149d7c19bef05285871be28f1c50d3bc47a0020ac96221b0e5b38",
+        "TornieLite": "95fc18f9694149d7c19bef05285871be28f1c50d3bc47a0020ac96221b0e5b38",
+        "JerichoLite": "95fc18f9694149d7c19bef05285871be28f1c50d3bc47a0020ac96221b0e5b38"
+      }
+    }
+  ],
+  "website": {
+    "passed": true,
+    "checks": 200,
+    "languages": [
+      "fr",
+      "en"
+    ],
+    "browsers": [
+      "Microsoft Edge"
+    ],
+    "views": [
+      "desktop",
+      "mobile"
+    ],
+    "sources": [
+      "file",
+      "HTTP"
+    ]
+  },
+  "windowsPackage": {
+    "passed": true,
+    "exactWindowsModFiles": 3177,
+    "windowsBinarySha256": "7bdbec0d1ca665bce4628407bc64cfb657d17fdc6757d57f59b6264c6c80187c",
+    "sourceFiles": {
+      "src/main.cpp": "03fe105fe27aa09e50e20ce8d07cf892b1ff7953719e1a26eba51fc4aa436dd7",
+      "src/FileClasses/GFXManager.cpp": "bbd6809d4fbb293ebc92c8dc9e33cf57acf72769c0fd525d1b36aea371fff0f3",
+      "include/FileClasses/GFXManager.h": "49e83f26c90378bf4f949dc4c5a936ab03c56bf854151786b95cf93ddd38e4b7",
+      "tests/SelectedPortraitSmoke.h": "b5ac4cd0674fd0b54ad854c716472e32662b453037c1ac104c485c540a213b1e"
+    },
+    "doublefinerySha256": "03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc"
+  },
+  "appImagePackage": {
+    "passed": true,
+    "exactAppImageModFiles": 3177,
+    "binarySha256": "ee6d5c6ca6d9782cb86eb9e452235f7bba928f0f9ba69476e43a78d9b49a7549",
+    "nativeMintKernel7Tested": false
+  },
+  "packages": [
+    {
+      "file": "DuneLegacyTornie-1.0.538-Windows-Portraits.zip",
+      "bytes": 63740475,
+      "sha256": "59ba77d05ddc892658955164a5259d19d1ca3eee99858ad6f52c54f8f412b27f"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Portraits.AppImage",
+      "bytes": 43555320,
+      "sha256": "7655b822fbe74ec4d23180e5347d9f1ba3bdc5a4df66f69cff416eecf858c901"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Sources-Portraits.zip",
+      "bytes": 52028511,
+      "sha256": "a3faa86599f2d7ea42a7c6c8d26e63df6e79e75362f6ae7f3f659efd0ff2375d"
+    }
+  ],
+  "limitations": [
+    "Runtime validation uses headless SDL software rendering.",
+    "Linux runtime host is Ubuntu 22.04/WSL; native Mint 22.3/kernel 7.0 has not been tested.",
+    "Unrelated full gameplay integration suites were not rerun for this presentation-only fix.",
+    "Public release and public website remain at revision r5."
+  ]
+}

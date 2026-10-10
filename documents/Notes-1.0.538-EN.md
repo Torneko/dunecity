@@ -1,5 +1,47 @@
 # Dune Legacy Tornie 1.0.538
 
+## Published revision r8 — October 10, 2026
+
+This revision replaces the existing **1.0.538** packages. It restores illustrated
+unit portraits with every colour and applies Tornie’s supplied editor building
+layout in all four mods. Infantry production icons remain separate from selected
+unit portraits. The latest Doublefinery sheet, with its corrected line, is copied
+byte-for-byte: 80 × 224 pixels, seven 80 × 32 frames, without resizing.
+
+Tornie validated the portraits and layout in game and authorized publication.
+The r6/r7 checks cover Windows/Linux, French/English rendering and the bilingual
+site. Package and PNG integrity are checked after this final artwork correction;
+game suites are not repeated. The r6/r7 reports retain their previous-validation
+status. Version 1.0.538, protocol 9 and save format 9831 are unchanged.
+Update both co-op computers.
+
+## Local editor layout r7 — October 10, 2026
+
+The advanced-building palette follows Tornie’s supplied layout: Windtraps at
+the top, Love Factory on the right, Worfinery then Tech Center on the left,
+Chaos Factory on the right, green/blue/orange posts in a horizontal row and
+Doublefinery at the bottom. This applies to Tornie, Jericho and their Lite editions.
+Previews retain their native pixels. The r6 illustrated portrait fix is retained.
+Version 1.0.538, network protocol 9 and save format 9831 remain unchanged.
+
+This revision is prepared locally; public downloads remain at r5.
+
+## Local portrait fix — October 10, 2026
+
+Selected units regain their original illustrated portraits with every player
+colour. Custom colours no longer substitute a small editor thumbnail and star
+for the portrait. This covers all five editions and switching mods in one session.
+
+The six infantry icons (single, three-person and five-person squads) remain
+exclusive to the Barracks/WOR/Worfinery production lists in Tornie, Jericho and
+their Lite editions, with white prices. The Doublefinery retains Tornie’s latest
+corrected sheet. Version 1.0.538, protocol 9, save format 9831.
+
+Checks passed: 122 engine tests on Windows and Linux, portrait rendering with all 21 colours in all five editions, mod switching and separate production icons. French and English checks include the final AppImage under Ubuntu 22.04 / WSL; 200 local website checks. Mint 22.3 / kernel 7.0 still needs checking on the target computer.
+
+This fix is prepared locally. Public downloads remain at artwork revision r5
+until the next publication.
+
 Artwork revision r5: the corrected Doublefinery sheet supplied on October 10 is copied byte-for-byte into all four mods. Native dimensions: 80 × 224 pixels (seven 80 × 32 frames), without resizing. The existing 1.0.538 packages and FR/EN website are refreshed with this image.
 
 ## Follow-up included in 1.0.538 — October 10, 2026

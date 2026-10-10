@@ -1,0 +1,1783 @@
+{
+  "passed": true,
+  "revision": "538-portraits-r6",
+  "checks": [
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "portraitCorrection": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "portraitCorrection": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "portraitCorrection": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "portraitCorrection": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "file:///C:/Users/canti/Documents/Codex/2026-10-03/bon/work/site-538-portraits-r6/dist/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "portraitCorrection": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "portraitCorrection": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "fr",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "portraitCorrection": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 1440,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "portraitCorrection": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Tornie",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "Jericho",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "TornieLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "soldier",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "infantry5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "trooper",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    },
+    {
+      "base": "http://127.0.0.1:8770/",
+      "language": "en",
+      "width": 390,
+      "mod": "JerichoLite",
+      "unit": "troopers5",
+      "suppliedProductionIcon": true,
+      "whitePrices": true
+    }
+  ],
+  "errors": []
+}

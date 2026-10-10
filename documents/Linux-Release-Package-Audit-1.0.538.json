@@ -1,51 +1,45 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r5",
-  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
-  "passed": true,
-  "generatedAt": "2026-10-10T16:42:39.266982+00:00",
+  "revision": "538-portraits-editor-r8",
+  "sourceCommit": "40923a6d7bcbd20c9f82759b1034a8eee2af4e73",
   "networkProtocol": 9,
   "saveVersion": 9831,
-  "gameRegressionTestsRerun": false,
-  "priorRegressionReport": "Validation-538-Followup-r3.json",
-  "contentAudit": {
-    "version": "1.0.538",
-    "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
-    "passed": true,
-    "generatedAt": "2026-10-10T16:42:05.052028+00:00",
-    "checks": [
-      {
-        "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
-        "fourSpritesExact": true,
-        "offset": 944632,
-        "gameLaunched": false
-      },
-      {
-        "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
-        "fourSpritesExact": true,
-        "offset": 944632,
-        "gameLaunched": false
-      },
-      {
-        "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
-        "fourSpritesExact": true
-      }
-    ],
-    "gameTestsRerun": false,
-    "gameLaunched": false,
-    "mint22_3Kernel7DirectTest": false
-  },
+  "passed": true,
+  "generatedAt": "2026-10-10T19:14:51.872380+00:00",
+  "artworkSHA256": "d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b",
+  "gameRegressionSuitesRerunAfterFinalImage": false,
+  "priorValidation": [
+    "Portraits-Validation-1.0.538-r6.json",
+    "Editor-Validation-1.0.538-r7.json"
+  ],
   "checks": [
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
-      "fourSpritesExact": true
+      "allModFilesExact": 3177
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
-      "fourSpritesExact": true
+      "allModFilesExact": 3177
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
+      "allModFilesExact": 3177,
+      "offset": 944632,
+      "publicMintProfileRetained": true
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
+      "allModFilesExact": 3177,
+      "offset": 944632,
+      "publicMintProfileRetained": false
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
+      "allModFilesExact": 3177
     }
   ],
-  "packagingWorkflow": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068492379",
-  "compiledSourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
-  "codeIdenticalToReleaseCommit": true
+  "packagingWorkflow": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38078571904",
+  "compiledSourceCommit": "40923a6d7bcbd20c9f82759b1034a8eee2af4e73",
+  "mintProfileRetained": true,
+  "mintDirectTargetTestPending": true
 }

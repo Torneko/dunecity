@@ -1,20 +1,23 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r5",
-  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+  "revision": "538-portraits-editor-r8",
+  "sourceCommit": "40923a6d7bcbd20c9f82759b1034a8eee2af4e73",
   "passed": true,
-  "generatedAt": "2026-10-10T16:42:39.266982+00:00",
   "networkProtocol": 9,
   "saveVersion": 9831,
-  "gameRegressionTestsRerun": false,
-  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "generatedAt": "2026-10-10T19:11:42.647797+00:00",
+  "artworkSHA256": "d30b94393b5f0f3b9a08a47677ae934285ea8f213016d4ac74aac71d176d572b",
+  "gameRegressionSuitesRerunAfterFinalImage": false,
+  "priorValidation": [
+    "Portraits-Validation-1.0.538-r6.json",
+    "Editor-Validation-1.0.538-r7.json"
+  ],
   "checks": [
     {
       "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
+      "allModFilesExact": 3177,
       "zipCRC": true,
-      "duplicateEntries": false,
-      "fourSpritesExact": true,
-      "allModChecksums": true
+      "sourceCodeMatchesAcceptedR7": true
     }
   ]
 }
