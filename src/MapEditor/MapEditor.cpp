@@ -116,6 +116,7 @@ unsigned int getMapEditorStructureUIGraphic(int itemID) noexcept {
         case Structure_AdvancedWindTrapMK2: return UI_MapEditor_AdvancedWindTrapMK2;
         case Structure_AdvancedWindTrapMK3: return UI_MapEditor_AdvancedWindTrapMK3;
         case Structure_Worfinery:           return UI_MapEditor_Worfinery;
+        case Structure_Doublefinery:        return UI_MapEditor_Doublefinery;
         case Structure_TechCenter:          return UI_MapEditor_TechCenter;
         case Structure_Scoutpost:           return UI_MapEditor_Scoutpost;
         case Structure_Flamepost:           return UI_MapEditor_Flamepost;
@@ -1713,6 +1714,7 @@ void MapEditor::drawMap(ScreenBorder* pScreenborder, bool bCompleteMap) {
                 case Structure_Palace:              objectPic = ObjPic_Palace;              break;
                 case Structure_Radar:               objectPic = ObjPic_Radar;               break;
                 case Structure_Refinery:            objectPic = ObjPic_Refinery;            break;
+                case Structure_Doublefinery:        objectPic = ObjPic_Doublefinery;        break;
                 case Structure_RepairYard:          objectPic = ObjPic_RepairYard;          break;
                 case Structure_RocketTurret:        objectPic = ObjPic_RocketTurret;        break;
                 case Structure_Silo:                objectPic = ObjPic_Silo;                break;

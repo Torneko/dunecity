@@ -25,6 +25,14 @@ docs/*
 !docs/img/
 !docs/WEBSITE.md
 !docs/ROADMAP-1.0.534.md
+!docs/ROADMAP-1.0.538.md
+!docs/references/
+docs/references/*
+!docs/references/1.0.538/
+docs/references/1.0.538/*
+!docs/references/1.0.538/Doublefinery_icon.png
+!docs/references/1.0.538/Editor-unit-alignment.png
+!docs/references/1.0.538/Editor-special-star-background.png
 !docs/CHAOS-MODE.md
 !docs/CAMPAIGNS.md
 !docs/WILDSPADE-MENTAT.md

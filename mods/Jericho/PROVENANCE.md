@@ -22,3 +22,9 @@ This milestone does not add original Dune II PAK archives, executables, installe
 ## Isolation
 
 Tornie content is confined to mods/Tornie/**. The active-mod file search path controls loading, so switching to Vanilla, DuneCity, or Dune2R must not resolve Tornie assets. Combined mod-switch validation is required before release.
+
+## Local 1.0.538 Doublefinery addition
+
+Doublefinery.png (original sprite strip) and DoublefineryIcon.png (portrait)
+were supplied by Tornie for this project. The original PNG bytes are preserved.
+The corrected 80×224 sprite strip was supplied by Tornie on 2026-10-10. Its seven 80×32 frames fill the approved 5×2 footprint without resizing or added padding.

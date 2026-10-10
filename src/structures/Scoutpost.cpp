@@ -149,7 +149,9 @@ int Scoutpost::getProducedPower() const {
 bool Scoutpost::isFlamepostUpgradeEligible() const {
     return itemID == Structure_Scoutpost
         && owner != nullptr
-        && isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_KLESHMERSH)
+        && currentGame != nullptr
+        && currentGame->techLevel >= currentGame->objectData.data[Structure_Flamepost][getTechnologyHouseID()].techLevel
+        && isHouseFaction(static_cast<HOUSETYPE>(getTechnologyHouseID()), HOUSE_KLESHMERSH)
         && ModManager::instance().isInitialized()
         && ModManager::instance().isTornieContentActive();
 }
@@ -159,7 +161,7 @@ int Scoutpost::getFlamepostUpgradeCost() const {
         return 0;
     }
 
-    const int configuredPrice = currentGame->objectData.data[Structure_Flamepost][originalHouseID].price;
+    const int configuredPrice = currentGame->objectData.data[Structure_Flamepost][getTechnologyHouseID()].price;
     return configuredPrice > 0 ? configuredPrice : 0;
 }
 
@@ -194,7 +196,7 @@ void Scoutpost::doUpgradeToFlamepost() {
 
 bool Scoutpost::isChemipostUpgradeEligible() const {
     if(itemID != Structure_Scoutpost || owner == nullptr || currentGame == nullptr
-       || !isHouseFaction(static_cast<HOUSETYPE>(originalHouseID), HOUSE_THARPIQUE)
+       || !isHouseFaction(static_cast<HOUSETYPE>(getTechnologyHouseID()), HOUSE_THARPIQUE)
        || currentGame->techLevel < 7
        || !ModManager::instance().isInitialized()) {
         return false;
@@ -209,7 +211,7 @@ int Scoutpost::getChemipostUpgradeCost() const {
         return 0;
     }
 
-    const int configuredPrice = currentGame->objectData.data[Structure_Chemipost][originalHouseID].price;
+    const int configuredPrice = currentGame->objectData.data[Structure_Chemipost][getTechnologyHouseID()].price;
     return configuredPrice > 0 ? configuredPrice : 0;
 }
 

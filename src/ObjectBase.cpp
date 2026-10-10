@@ -842,6 +842,7 @@ ObjectBase* ObjectBase::createObject(int itemID, House* Owner, bool byScenario, 
         case Structure_Palace:              newObject = new Palace(Owner); break;
         case Structure_Radar:               newObject = new Radar(Owner); break;
         case Structure_Refinery:            newObject = new Refinery(Owner); break;
+        case Structure_Doublefinery:        newObject = new Refinery(Owner, Structure_Doublefinery); break;
         case Structure_RepairYard:          newObject = new RepairYard(Owner); break;
         case Structure_RocketTurret:        newObject = new RocketTurret(Owner); break;
         case Structure_Silo:                newObject = new Silo(Owner); break;
@@ -961,6 +962,7 @@ ObjectBase* ObjectBase::loadObject(InputStream& stream, int itemID, Uint32 objec
         case Structure_Palace:              newObject = new Palace(stream); break;
         case Structure_Radar:               newObject = new Radar(stream); break;
         case Structure_Refinery:            newObject = new Refinery(stream); break;
+        case Structure_Doublefinery:        newObject = new Refinery(stream, Structure_Doublefinery); break;
         case Structure_RepairYard:          newObject = new RepairYard(stream); break;
         case Structure_RocketTurret:        newObject = new RocketTurret(stream); break;
         case Structure_Silo:                newObject = new Silo(stream); break;

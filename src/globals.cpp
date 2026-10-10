@@ -239,7 +239,13 @@ SDL_Color getHouseColorSDL(int colorSlot, int shadeOffset) {
     }
 
     if(colorSlot == HOUSECOLOR_CUSTOM_APPLE_GREEN) {
-        return darkGreyRamp[shadeOffset];
+        const auto& mod = ModManager::instance().getActiveModName();
+        return (mod == "Jericho" || mod == "JerichoLite")
+            ? campaignGreen[shadeOffset] : darkGreyRamp[shadeOffset];
+    }
+    if(colorSlot == HOUSECOLOR_CUSTOM_DARK_VIOLET) {
+        const auto& mod = ModManager::instance().getActiveModName();
+        if(mod == "Tornie" || mod == "TornieLite") return wildspadeRamp[shadeOffset];
     }
 
     if(colorSlot == HOUSECOLOR_CUSTOM_BRIGHT_YELLOW

@@ -75,6 +75,7 @@ std::mutex Game::performanceLogMutex;
 #include <sand.h>
 
 #include <structures/StructureBase.h>
+#include <structures/Refinery.h>
 #include <structures/ConstructionYard.h>
 #include <units/UnitBase.h>
 #include <structures/BuilderBase.h>
@@ -3475,6 +3476,16 @@ bool Game::loadSaveGame(InputStream& stream) {
     //load the structures and units
     logLoadStage("objects");
     objectManager.load(stream);
+
+    if(savegameVersion == 9830) {
+        for(auto* structure : structureList) {
+            if(structure->getItemID() == Structure_Doublefinery
+                && !static_cast<Refinery*>(structure)->restoreLegacyDoublefineryFootprint()) {
+                SDL_Log("Cannot expand this prototype Doublefinery save to 5x2: the added column is occupied or outside the map. The original save is unchanged; use the 4x2 test build to move the obstruction before saving again.");
+                return false;
+            }
+        }
+    }
 
     logLoadStage("bullets");
     int numBullets = stream.readUint32();

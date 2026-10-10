@@ -77,10 +77,12 @@ public:
         resized to a size smaller than this.
         \return the minimum size of this button
     */
+    void setSymbolPadding(int value) { symbolPadding = value; resizeAll(); }
+
     Point getMinimumSize() const override
     {
         if(pSymbolSurface) {
-            return Point((Sint32) pSymbolSurface->w + 5, (Sint32) pSymbolSurface->h + 5);
+            return Point((Sint32) pSymbolSurface->w + symbolPadding, (Sint32) pSymbolSurface->h + symbolPadding);
         } else {
             return Point(0,0);
         }
@@ -138,6 +140,7 @@ protected:
     }
 
 private:
+    int symbolPadding = 5;
     sdl2::surface_unique_or_nonowning_ptr pSymbolSurface;
     sdl2::surface_unique_or_nonowning_ptr pActiveSymbolSurface;
 

@@ -59,6 +59,7 @@ bool isTornieMapObject(int itemID) {
         case Unit_ChemicalCarryall:
         case Unit_RebelHarvester:
         case Structure_AdvancedWindTrap:
+        case Structure_Doublefinery:
         case Structure_Worfinery:
         case Structure_AdvancedWindTrapMK2:
         case Structure_TechCenter:

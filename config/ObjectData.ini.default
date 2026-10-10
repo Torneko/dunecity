@@ -728,3 +728,8 @@ BuildTime = 56
 InfSpawnProp = 0
 Builder = WOR
 
+
+[Doublefinery]
+Enabled = false
+Builder = Invalid
+TechLevel = -1

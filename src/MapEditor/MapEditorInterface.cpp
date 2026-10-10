@@ -643,36 +643,46 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeStructs_HBoxTechCenter.addWidget(HSpacer::create(2));
         editorModeStructs_HBoxTechCenter.addWidget(&editorModeStructs_ChaosFactory);
 
+        editorModeStructs_Doublefinery.setToggleButton(true);
+        editorModeStructs_Doublefinery.setTooltipText(resolveItemName(Structure_Doublefinery));
+        editorModeStructs_Doublefinery.setOnClick(std::bind(&MapEditorInterface::onStructButton, this, Structure_Doublefinery));
+        editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxDoublefinery, twoTileButtonSize);
+        editorModeStructs_HBoxDoublefinery.addWidget(&editorModeStructs_Doublefinery, 5*D2_TILESIZE + 5);
+        editorModeStructs_HBoxDoublefinery.addWidget(Spacer::create());
+
         // Row 4: Love Factory alone, aligned with the left edge.
         editorModeStructs_VBox.addWidget(&editorModeStructs_HBoxLoveFactory, threeTileButtonSize);
         editorModeStructs_HBoxLoveFactory.addWidget(&editorModeStructs_LoveFactory, twoTileButtonSize);
         editorModeStructs_HBoxLoveFactory.addWidget(Spacer::create());
     }
 
+    for(auto* button : {&editorModeUnits_Soldier, &editorModeUnits_Trooper, &editorModeUnits_Harvester, &editorModeUnits_RebelHarvester, &editorModeUnits_Infantry, &editorModeUnits_Troopers, &editorModeUnits_MCV, &editorModeUnits_Trike, &editorModeUnits_Raider, &editorModeUnits_Quad, &editorModeUnits_RocketTrike, &editorModeUnits_SonicTrike, &editorModeUnits_FlameTank, &editorModeUnits_EliteLauncher, &editorModeUnits_EliteSiegeTank, &editorModeUnits_ChemicalSiegeTank, &editorModeUnits_ChemicalCarryall, &editorModeUnits_Tank, &editorModeUnits_SiegeTank, &editorModeUnits_Launcher, &editorModeUnits_Devastator, &editorModeUnits_SonicTank, &editorModeUnits_Deviator, &editorModeUnits_Saboteur, &editorModeUnits_Sandworm, &editorModeUnits_SpecialUnit, &editorModeUnits_Carryall, &editorModeUnits_Ornithopter, &editorModeUnits_Infantry5, &editorModeUnits_Troopers5})
+        button->setSymbolPadding(3);
+
     // setup units mode
     editorModeUnits_ScrollView.setContent(&editorModeUnits_VBox);
     editorModeUnits_MainVBox.addWidget(&editorModeUnits_ScrollView, 1.0);
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox1, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox1, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Soldier.setToggleButton(true);
     editorModeUnits_Soldier.setTooltipText(resolveItemName(Unit_Soldier));
     editorModeUnits_Soldier.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Soldier));
-    editorModeUnits_HBox1.addWidget(&editorModeUnits_Soldier);
+    editorModeUnits_HBox1.addWidget(&editorModeUnits_Soldier, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox1.addWidget(HSpacer::create(2));
 
     editorModeUnits_Trooper.setToggleButton(true);
     editorModeUnits_Trooper.setTooltipText(resolveItemName(Unit_Trooper));
     editorModeUnits_Trooper.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Trooper));
-    editorModeUnits_HBox1.addWidget(&editorModeUnits_Trooper);
+    editorModeUnits_HBox1.addWidget(&editorModeUnits_Trooper, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox1.addWidget(HSpacer::create(2));
 
     editorModeUnits_Harvester.setToggleButton(true);
     editorModeUnits_Harvester.setTooltipText(resolveItemName(Unit_Harvester));
     editorModeUnits_Harvester.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Harvester));
-    editorModeUnits_HBox1.addWidget(&editorModeUnits_Harvester);
+    editorModeUnits_HBox1.addWidget(&editorModeUnits_Harvester, 2*D2_TILESIZE + 4);
 
     // Tornie: Rebel Harvester (Harvester + Siege Tank gun overlay). Rebel-only.
     editorModeUnits_RebelHarvester.setToggleButton(true);
@@ -681,49 +691,49 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox2, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox2, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Infantry.setToggleButton(true);
     editorModeUnits_Infantry.setTooltipText(resolveItemName(Unit_Infantry));
     editorModeUnits_Infantry.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Infantry));
-    editorModeUnits_HBox2.addWidget(&editorModeUnits_Infantry);
+    editorModeUnits_HBox2.addWidget(&editorModeUnits_Infantry, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox2.addWidget(HSpacer::create(2));
 
     editorModeUnits_Troopers.setToggleButton(true);
     editorModeUnits_Troopers.setTooltipText(resolveItemName(Unit_Troopers));
     editorModeUnits_Troopers.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Troopers));
-    editorModeUnits_HBox2.addWidget(&editorModeUnits_Troopers);
+    editorModeUnits_HBox2.addWidget(&editorModeUnits_Troopers, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox2.addWidget(HSpacer::create(2));
 
     editorModeUnits_MCV.setToggleButton(true);
     editorModeUnits_MCV.setTooltipText(resolveItemName(Unit_MCV));
     editorModeUnits_MCV.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_MCV));
-    editorModeUnits_HBox2.addWidget(&editorModeUnits_MCV);
+    editorModeUnits_HBox2.addWidget(&editorModeUnits_MCV, 2*D2_TILESIZE + 4);
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox3, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox3, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Trike.setToggleButton(true);
     editorModeUnits_Trike.setTooltipText(resolveItemName(Unit_Trike));
     editorModeUnits_Trike.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Trike));
-    editorModeUnits_HBox3.addWidget(&editorModeUnits_Trike);
+    editorModeUnits_HBox3.addWidget(&editorModeUnits_Trike, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox3.addWidget(HSpacer::create(2));
 
     editorModeUnits_Raider.setToggleButton(true);
     editorModeUnits_Raider.setTooltipText(resolveItemName(Unit_RaiderTrike));
     editorModeUnits_Raider.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_RaiderTrike));
-    editorModeUnits_HBox3.addWidget(&editorModeUnits_Raider);
+    editorModeUnits_HBox3.addWidget(&editorModeUnits_Raider, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox3.addWidget(HSpacer::create(2));
 
     editorModeUnits_Quad.setToggleButton(true);
     editorModeUnits_Quad.setTooltipText(resolveItemName(Unit_Quad));
     editorModeUnits_Quad.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Quad));
-    editorModeUnits_HBox3.addWidget(&editorModeUnits_Quad);
+    editorModeUnits_HBox3.addWidget(&editorModeUnits_Quad, 2*D2_TILESIZE + 4);
 
     editorModeUnits_RocketTrike.setToggleButton(true);
     editorModeUnits_RocketTrike.setTooltipText(resolveItemName(Unit_RocketTrike));
@@ -753,88 +763,88 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox4, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox4, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Tank.setToggleButton(true);
     editorModeUnits_Tank.setTooltipText(resolveItemName(Unit_Tank));
     editorModeUnits_Tank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Tank));
-    editorModeUnits_HBox4.addWidget(&editorModeUnits_Tank);
+    editorModeUnits_HBox4.addWidget(&editorModeUnits_Tank, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox4.addWidget(HSpacer::create(2));
 
     editorModeUnits_SiegeTank.setToggleButton(true);
     editorModeUnits_SiegeTank.setTooltipText(resolveItemName(Unit_SiegeTank));
     editorModeUnits_SiegeTank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_SiegeTank));
-    editorModeUnits_HBox4.addWidget(&editorModeUnits_SiegeTank);
+    editorModeUnits_HBox4.addWidget(&editorModeUnits_SiegeTank, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox4.addWidget(HSpacer::create(2));
 
     editorModeUnits_Launcher.setToggleButton(true);
     editorModeUnits_Launcher.setTooltipText(resolveItemName(Unit_Launcher));
     editorModeUnits_Launcher.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Launcher));
-    editorModeUnits_HBox4.addWidget(&editorModeUnits_Launcher);
+    editorModeUnits_HBox4.addWidget(&editorModeUnits_Launcher, 2*D2_TILESIZE + 4);
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox5, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox5, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Devastator.setToggleButton(true);
     editorModeUnits_Devastator.setTooltipText(resolveItemName(Unit_Devastator));
     editorModeUnits_Devastator.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Devastator));
-    editorModeUnits_HBox5.addWidget(&editorModeUnits_Devastator);
+    editorModeUnits_HBox5.addWidget(&editorModeUnits_Devastator, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox5.addWidget(HSpacer::create(2));
 
     editorModeUnits_SonicTank.setToggleButton(true);
     editorModeUnits_SonicTank.setTooltipText(resolveItemName(Unit_SonicTank));
     editorModeUnits_SonicTank.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_SonicTank));
-    editorModeUnits_HBox5.addWidget(&editorModeUnits_SonicTank);
+    editorModeUnits_HBox5.addWidget(&editorModeUnits_SonicTank, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox5.addWidget(HSpacer::create(2));
 
     editorModeUnits_Deviator.setToggleButton(true);
     editorModeUnits_Deviator.setTooltipText(resolveItemName(Unit_Deviator));
     editorModeUnits_Deviator.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Deviator));
-    editorModeUnits_HBox5.addWidget(&editorModeUnits_Deviator);
+    editorModeUnits_HBox5.addWidget(&editorModeUnits_Deviator, 2*D2_TILESIZE + 4);
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox6, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox6, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Saboteur.setToggleButton(true);
     editorModeUnits_Saboteur.setTooltipText(resolveItemName(Unit_Saboteur));
     editorModeUnits_Saboteur.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Saboteur));
-    editorModeUnits_HBox6.addWidget(&editorModeUnits_Saboteur);
+    editorModeUnits_HBox6.addWidget(&editorModeUnits_Saboteur, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox6.addWidget(HSpacer::create(2));
 
     editorModeUnits_Sandworm.setToggleButton(true);
     editorModeUnits_Sandworm.setTooltipText(resolveItemName(Unit_Sandworm));
     editorModeUnits_Sandworm.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Sandworm));
-    editorModeUnits_HBox6.addWidget(&editorModeUnits_Sandworm);
+    editorModeUnits_HBox6.addWidget(&editorModeUnits_Sandworm, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox6.addWidget(HSpacer::create(2));
 
     editorModeUnits_SpecialUnit.setToggleButton(true);
     editorModeUnits_SpecialUnit.setTooltipText("Special");
     editorModeUnits_SpecialUnit.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Special));
-    editorModeUnits_HBox6.addWidget(&editorModeUnits_SpecialUnit);
+    editorModeUnits_HBox6.addWidget(&editorModeUnits_SpecialUnit, 2*D2_TILESIZE + 4);
 
     editorModeUnits_VBox.addWidget(VSpacer::create(2));
 
-    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox7, 2*D2_TILESIZE);
+    editorModeUnits_VBox.addWidget(&editorModeUnits_HBox7, 2*D2_TILESIZE + 4);
 
     editorModeUnits_Carryall.setToggleButton(true);
     editorModeUnits_Carryall.setTooltipText(resolveItemName(Unit_Carryall));
     editorModeUnits_Carryall.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Carryall));
-    editorModeUnits_HBox7.addWidget(&editorModeUnits_Carryall);
+    editorModeUnits_HBox7.addWidget(&editorModeUnits_Carryall, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox7.addWidget(HSpacer::create(2));
 
     editorModeUnits_Ornithopter.setToggleButton(true);
     editorModeUnits_Ornithopter.setTooltipText(resolveItemName(Unit_Ornithopter));
     editorModeUnits_Ornithopter.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Ornithopter));
-    editorModeUnits_HBox7.addWidget(&editorModeUnits_Ornithopter);
+    editorModeUnits_HBox7.addWidget(&editorModeUnits_Ornithopter, 2*D2_TILESIZE + 4);
 
     editorModeUnits_HBox7.addWidget(HSpacer::create(2));
 
@@ -849,28 +859,33 @@ MapEditorInterface::MapEditorInterface(MapEditor* pMapEditor)
         editorModeUnits_Troopers5.setToggleButton(true);
         editorModeUnits_Troopers5.setTooltipText(resolveItemName(Unit_Troopers5));
         editorModeUnits_Troopers5.setOnClick(std::bind(&MapEditorInterface::onUnitButton, this, Unit_Troopers5));
-        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxSquads, 2*D2_TILESIZE);
-        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Infantry5);
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxSquads, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Infantry5, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxSquads.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Troopers5);
+        editorModeUnits_HBoxSquads.addWidget(&editorModeUnits_Troopers5, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxSquads.addWidget(HSpacer::create(2));
         editorModeUnits_HBoxSquads.addWidget(Spacer::create());
-        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornie, 2*D2_TILESIZE);
-        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_RebelHarvester);
+        editorModeUnits_VBox.addWidget(VSpacer::create(2));
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornie, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_RebelHarvester, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxTornie.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_RocketTrike);
+        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_RocketTrike, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxTornie.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_FlameTank);
+        editorModeUnits_HBoxTornie.addWidget(&editorModeUnits_FlameTank, 2*D2_TILESIZE + 4);
 
-        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieElite, 2*D2_TILESIZE);
-        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_SonicTrike);
+        editorModeUnits_VBox.addWidget(VSpacer::create(2));
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieElite, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_SonicTrike, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxTornieElite.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteLauncher);
+        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteLauncher, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxTornieElite.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteSiegeTank);
-        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieChemical, 2*D2_TILESIZE);
-        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalSiegeTank);
+        editorModeUnits_HBoxTornieElite.addWidget(&editorModeUnits_EliteSiegeTank, 2*D2_TILESIZE + 4);
+        editorModeUnits_VBox.addWidget(VSpacer::create(2));
+        editorModeUnits_VBox.addWidget(&editorModeUnits_HBoxTornieChemical, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalSiegeTank, 2*D2_TILESIZE + 4);
         editorModeUnits_HBoxTornieChemical.addWidget(HSpacer::create(2));
-        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalCarryall);
+        editorModeUnits_HBoxTornieChemical.addWidget(&editorModeUnits_ChemicalCarryall, 2*D2_TILESIZE + 4);
+        editorModeUnits_HBoxTornieChemical.addWidget(HSpacer::create(2));
         editorModeUnits_HBoxTornieChemical.addWidget(Spacer::create());
     }
 
@@ -1306,6 +1321,7 @@ void MapEditorInterface::onStructButton(int structType) {
     editorModeStructs_IX.setToggleState( (structType == Structure_IX) );
     editorModeStructs_Barracks.setToggleState( (structType == Structure_Barracks) );
     editorModeStructs_WOR.setToggleState( (structType == Structure_WOR) );
+    editorModeStructs_Doublefinery.setToggleState(structType == Structure_Doublefinery);
     editorModeStructs_Worfinery.setToggleState( (structType == Structure_Worfinery) );
     editorModeStructs_LightFactory.setToggleState( (structType == Structure_LightFactory) );
     editorModeStructs_Refinery.setToggleState( (structType == Structure_Refinery) );
@@ -1599,6 +1615,7 @@ void MapEditorInterface::changeInterfaceColor(HOUSETYPE newHouse) {
     editorModeStructs_IX.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_IX, newHouse));
     editorModeStructs_Barracks.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Barracks, newHouse));
     editorModeStructs_WOR.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_WOR, newHouse));
+    editorModeStructs_Doublefinery.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Doublefinery, newHouse));
     editorModeStructs_Worfinery.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Worfinery, newHouse));
     editorModeStructs_LightFactory.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_LightFactory, newHouse));
     editorModeStructs_Refinery.setSymbol(pGFXManager->getUIGraphicSurface(UI_MapEditor_Refinery, newHouse));

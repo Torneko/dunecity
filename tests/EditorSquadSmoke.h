@@ -27,6 +27,8 @@ inline void verifyEditorUnitScrolling(const std::string& output, const std::stri
                 if(auto* tile=dynamic_cast<SymbolButton*>(cell)) {
                     const auto pos=row->getWidgetPosition(tile);
                     require(pos.x>=0 && pos.x+tile->getSize().x<=contentWidth,"a unit tile is horizontally clipped beside the scrollbar");
+                    require(pos.x % (2*D2_TILESIZE + 6)==0,"unit columns do not line up vertically");
+                    require(tile->getSize().x==2*D2_TILESIZE+4,"unit cells have unequal widths");
                 }
             });
         });

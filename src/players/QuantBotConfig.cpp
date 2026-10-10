@@ -196,6 +196,7 @@ QuantBotConfig::QuantBotConfig() {
     registerStructurePriority(Structure_Barracks, "Barracks", 0, 100);
     registerStructurePriority(Structure_StarPort, "StarPort", 0, 250);
     registerStructurePriority(Structure_Refinery, "Refinery", 0, 300);
+    registerStructurePriority(Structure_Doublefinery, "Doublefinery", 0, 300);
     registerStructurePriority(Structure_RepairYard, "RepairYard", 0, 600);
     registerStructurePriority(Structure_Wall, "Wall", 0, 30);
     registerStructurePriority(Structure_GunTurret, "GunTurret", 75, 150);
@@ -308,7 +309,7 @@ std::string QuantBotConfig::normalizeKey(const std::string& value) {
 void QuantBotConfig::registerStructurePriority(int structureID, const std::string& name, int build, int target) {
     structurePriorities[name] = TargetPriority{build, target};
     normalizedStructureNames[normalizeKey(name)] = name;
-    if (structureID >= Structure_FirstID && structureID <= Structure_LastID) {
+    if (isStructure(structureID)) {
         structureIdToName[structureID] = name;
     }
 }

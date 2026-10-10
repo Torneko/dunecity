@@ -35,12 +35,11 @@
 /* how fast is spice extracted */
 #define MAXIMUMHARVESTEREXTRACTSPEED (0.625_fix)
 
-Refinery::Refinery(House* newOwner) : StructureBase(newOwner) {
-    Refinery::init();
+Refinery::Refinery(House* newOwner, int newItemID) : StructureBase(newOwner) {
+    Refinery::init(newItemID);
 
     setHealth(getMaxHealth());
 
-    extractingSpice = false;
     bookings = 0;
 
     firstRun = true;
@@ -49,52 +48,72 @@ Refinery::Refinery(House* newOwner) : StructureBase(newOwner) {
     lastAnimFrame = 3;
 }
 
-Refinery::Refinery(InputStream& stream) : StructureBase(stream) {
-    Refinery::init();
+Refinery::Refinery(InputStream& stream, int newItemID) : StructureBase(stream) {
+    Refinery::init(newItemID);
 
-    extractingSpice = stream.readBool();
-    harvester.load(stream);
+    for(int index = 0; index < bayCount(); ++index) {
+        const bool occupied = stream.readBool();
+        harvesters[index].load(stream);
+        // Old classic refineries retained their last pointer after deployment.
+        if(!occupied) harvesters[index].pointTo(NONE_ID);
+    }
     bookings = stream.readUint32();
 
-    if(extractingSpice) {
-        firstAnimFrame = 8;
-        lastAnimFrame = 9;
-        curAnimFrame = 8;
-    } else if(bookings == 0) {
-        stopAnimate();
-    } else {
-        startAnimate();
-    }
+    refreshAnimation();
 
     firstRun = false;
 }
 
-void Refinery::init() {
-    itemID = Structure_Refinery;
+void Refinery::init(int newItemID) {
+    itemID = newItemID;
     owner->incrementStructures(itemID);
 
-    structureSize.x = 3;
+    structureSize.x = itemID == Structure_Doublefinery ? 5 : 3;
     structureSize.y = 2;
 
-    graphicID = ObjPic_Refinery;
+    graphicID = itemID == Structure_Doublefinery ? ObjPic_Doublefinery : ObjPic_Refinery;
     graphic = pGFXManager->getObjPic(graphicID,getOwner()->getHouseID());
     numImagesX = 10;
     numImagesY = 1;
 }
 
+bool Refinery::restoreLegacyDoublefineryFootprint() {
+    if(itemID != Structure_Doublefinery) return true;
+    // Save 9830 stored the prototype's four-column tile occupancy. Validate the
+    // entire added column before assigning it, without overwriting other objects.
+    for(int y=0;y<2;++y) {
+        const Coord pos=location+Coord(4,y);
+        if(!currentGameMap->tileExists(pos)) return false;
+        auto* tile=currentGameMap->getTile(pos);
+        if(tile->isMountain() || tile->hasInfantry()) return false;
+        if(tile->hasANonInfantryGroundObject() && tile->getNonInfantryGroundObject()!=this) return false;
+    }
+    for(int y=0;y<2;++y) {
+        auto* tile=currentGameMap->getTile(location+Coord(4,y));
+        if(!tile->hasANonInfantryGroundObject()) tile->assignNonInfantryGroundObject(getObjectID());
+        tile->setType(Terrain_Rock);
+        tile->setOwner(getOwner()->getHouseID());
+    }
+    currentGameMap->incrementPathingRevision();
+    return true;
+}
+
 Refinery::~Refinery() {
-    if(extractingSpice && harvester) {
-        if(harvester.getUnitPointer() != nullptr)
-            harvester.getUnitPointer()->destroy();
+    for(auto& harvester : harvesters) {
+        auto* unit = harvester.getUnitPointer();
         harvester.pointTo(NONE_ID);
+        if(unit) unit->destroy();
     }
 }
 
 void Refinery::save(OutputStream& stream) const {
     StructureBase::save(stream);
 
-    stream.writeBool(extractingSpice);
-    harvester.save(stream);
+    // Keep the classic refinery's exact bool/pointer/bookings byte layout.
+    for(int index = 0; index < bayCount(); ++index) {
+        stream.writeBool(harvesters[index].getUnitPointer() != nullptr);
+        harvesters[index].save(stream);
+    }
     stream.writeUint32(bookings);
 }
 
@@ -106,19 +125,62 @@ ObjectInterface* Refinery::getInterfaceContainer() {
     }
 }
 
-void Refinery::assignHarvester(TrackedUnit* newHarvester) {
-    extractingSpice = true;
-    harvester.pointTo(newHarvester);
-    drawnAngle = 1;
-    firstAnimFrame = 8;
-    lastAnimFrame = 9;
-    curAnimFrame = 8;
+bool Refinery::isFree() const {
+    for(int index = 0; index < bayCount(); ++index)
+        if(!harvesters[index].getUnitPointer()) return true;
+    return false;
 }
 
-void Refinery::deployHarvester(Carryall* pCarryall) {
+UnitBase* Refinery::getContainedHarvester() {
+    return const_cast<UnitBase*>(static_cast<const Refinery*>(this)->getContainedHarvester());
+}
+
+const UnitBase* Refinery::getContainedHarvester() const {
+    for(int index = 0; index < bayCount(); ++index)
+        if(auto* unit = harvesters[index].getUnitPointer()) return unit;
+    return nullptr;
+}
+
+std::vector<UnitBase*> Refinery::getContainedHarvesters() {
+    std::vector<UnitBase*> result;
+    for(int index = 0; index < bayCount(); ++index)
+        if(auto* unit = harvesters[index].getUnitPointer()) result.push_back(unit);
+    return result;
+}
+
+bool Refinery::assignHarvester(TrackedUnit* newHarvester) {
+    if(!newHarvester) return false;
+    for(int index = 0; index < bayCount(); ++index) {
+        if(harvesters[index].getUnitPointer() == newHarvester) return false;
+    }
+    for(int index = 0; index < bayCount(); ++index) {
+        if(!harvesters[index].getUnitPointer()) {
+            harvesters[index].pointTo(newHarvester);
+            refreshAnimation();
+            return true;
+        }
+    }
+    return false;
+}
+
+void Refinery::deployHarvester(Carryall* carryall) {
+    for(int index = 0; index < bayCount(); ++index) {
+        auto* unit = static_cast<GroundUnit*>(harvesters[index].getUnitPointer());
+        // Each carryall must collect the harvester that booked it, never the
+        // other bay's still-loaded vehicle.
+        if(unit && (!carryall || unit->getCarrier() == carryall)) {
+            deployBay(index, carryall);
+            return;
+        }
+    }
+    if(carryall) carryall->setTarget(nullptr);
+}
+
+void Refinery::deployBay(int index, Carryall* pCarryall) {
+    UnitBase* pHarvester = harvesters[index].getUnitPointer();
+    if(!pHarvester) return;
+    harvesters[index].pointTo(NONE_ID);
     unBook();
-    drawnAngle = 0;
-    extractingSpice = false;
 
     if(firstRun) {
         if(getOwner() == pLocalHouse) {
@@ -127,11 +189,6 @@ void Refinery::deployHarvester(Carryall* pCarryall) {
     }
 
     firstRun = false;
-
-    UnitBase* pHarvester = harvester.getUnitPointer();
-    if(pHarvester == nullptr) {
-        return;
-    }
 
     if((pCarryall != nullptr) && pHarvester->getGuardPoint().isValid()) {
         pCarryall->giveCargo(pHarvester);
@@ -142,34 +199,37 @@ void Refinery::deployHarvester(Carryall* pCarryall) {
         pHarvester->deploy(deployPos);
     }
 
-    if(bookings == 0) {
-        stopAnimate();
-    } else {
-        startAnimate();
-    }
+    refreshAnimation();
+}
+
+void Refinery::refreshAnimation() {
+    // During save loading the referenced units may not be registered yet.
+    // Checking IDs here must not resolve (and invalidate) their ObjectPointers.
+    const bool occupied = static_cast<bool>(harvesters[0]) || static_cast<bool>(harvesters[1]);
+    drawnAngle = occupied ? 1 : 0;
+    const int first = occupied ? 8 : 2;
+    const int last = occupied ? 9 : (bookings ? 7 : 3);
+    firstAnimFrame = first;
+    lastAnimFrame = last;
+    if(curAnimFrame < first || curAnimFrame > last) curAnimFrame = first;
 }
 
 void Refinery::startAnimate() {
-    if(extractingSpice == false) {
-        firstAnimFrame = 2;
-        lastAnimFrame = 7;
-        curAnimFrame = 2;
-        justPlacedTimer = 0;
-        animationCounter = 0;
-    }
+    refreshAnimation();
+    justPlacedTimer = 0;
+    animationCounter = 0;
 }
 
 void Refinery::stopAnimate() {
-    firstAnimFrame = 2;
-    lastAnimFrame = 3;
-    curAnimFrame = 2;
+    refreshAnimation();
 }
 
 void Refinery::updateStructureSpecificStuff() {
-    if(extractingSpice) {
-        UnitBase* pHarvester = harvester.getUnitPointer();
+    refreshAnimation();
+    for(int index = 0; index < bayCount(); ++index) {
+        UnitBase* pHarvester = harvesters[index].getUnitPointer();
         if(pHarvester == nullptr) {
-            return;
+            continue;
         }
 
         if(harvesterGetAmountOfSpice(pHarvester) > 0) {
@@ -206,10 +266,10 @@ void Refinery::updateStructureSpecificStuff() {
                 pHarvester->setTarget(nullptr);
                 pHarvester->setDestination(pHarvester->getGuardPoint());
             } else {
-                deployHarvester();
+                deployBay(index, nullptr);
             }
             } else if(!pGroundHarvester->hasBookedCarrier()) {
-                deployHarvester();
+                deployBay(index, nullptr);
             }
         }
     }

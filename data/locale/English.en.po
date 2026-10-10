@@ -37,8 +37,17 @@ msgid "LanguagePakFiles"
 msgstr "ENGLISH.PAK,HARK.PAK,ATRE.PAK,ORDOS.PAK"
 
 
-msgid "Troopers (5)"
-msgstr "Troopers (5)"
+msgid "Super Heavy Trooper Squad"
+msgstr "Super Heavy Trooper Squad"
 
-msgid "Soldiers (5)"
-msgstr "Soldiers (5)"
+msgid "Super Infantry Squad"
+msgstr "Super Infantry Squad"
+
+msgid "Dark Pink"
+msgstr "Dark Pink"
+
+msgid "Dark Green"
+msgstr "Dark Green"
+
+msgid "Doublefinery"
+msgstr "Doublefinery"

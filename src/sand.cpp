@@ -61,6 +61,7 @@ SDL_Texture* resolveItemPicture(int itemID, HOUSETYPE house) {
         case Structure_Palace:              newPicID = Picture_Palace;              break;
         case Structure_Radar:               newPicID = Picture_Radar;               break;
         case Structure_Refinery:            newPicID = Picture_Refinery;            break;
+        case Structure_Doublefinery:        newPicID = Picture_Doublefinery;        break;
         case Structure_RepairYard:          newPicID = Picture_RepairYard;          break;
         case Structure_RocketTurret:        newPicID = Picture_RocketTurret;        break;
         case Structure_Silo:                newPicID = Picture_Silo;                break;
@@ -214,6 +215,7 @@ Coord getStructureSize(int itemID) {
         case Structure_Palace:              return Coord(3,3); break;
         case Structure_Radar:               return Coord(2,2); break;
         case Structure_Refinery:            return Coord(3,2); break;
+        case Structure_Doublefinery:        return Coord(5,2); break;
         case Structure_RepairYard:          return Coord(3,2); break;
         case Structure_RocketTurret:        return Coord(1,1); break;
         case Structure_Silo:                return Coord(2,2); break;
@@ -257,6 +259,7 @@ Uint32  getItemIDByName(const std::string& name) {
     else if(lowerName == "palace")                                              return Structure_Palace;
     else if((lowerName == "outpost") || (lowerName == "radar"))                 return Structure_Radar;
     else if(lowerName == "refinery")                                            return Structure_Refinery;
+        else if(lowerName == "doublefinery")                                        return Structure_Doublefinery;
     else if((lowerName == "repair") || (lowerName == "repair yard"))            return Structure_RepairYard;
     else if((lowerName == "spice silo") || (lowerName == "silo"))               return Structure_Silo;
     else if((lowerName == "concrete") || (lowerName == "slab1"))                return Structure_Slab1;
@@ -333,6 +336,7 @@ std::string getItemNameByID(Uint32 itemID) {
         case Structure_Palace:              return "Palace";            break;
         case Structure_Radar:               return "Outpost";           break;
         case Structure_Refinery:            return "Refinery";          break;
+        case Structure_Doublefinery:        return "Doublefinery";      break;
         case Structure_RepairYard:          return "Repair";            break;
         case Structure_RocketTurret:        return "R-Turret";          break;
         case Structure_Silo:                return "Spice Silo";        break;
@@ -426,6 +430,7 @@ std::string resolveItemName(int itemID) {
         case Structure_AdvancedWindTrapMK2: return _("Advanced Windtrap");                 break;
         case Structure_AdvancedWindTrapMK3: return _("Advanced Windtrap");                 break;
         case Structure_Worfinery:           return _("Worfinery");                         break;
+        case Structure_Doublefinery:        return _("Doublefinery");                       break;
         case Structure_TechCenter:          return _("Tech Center");                       break;
         case Structure_Scoutpost:           return _("Scoutpost");                         break;
         case Structure_Flamepost:           return _("Flamepost");                         break;
@@ -457,9 +462,9 @@ std::string resolveItemName(int itemID) {
         case Unit_Soldier:                  return _("@DUNE.ENG|203#Soldier");             break;
         case Unit_Trooper:                  return _("@DUNE.ENG|205#Trooper");             break;
         case Unit_Special:                  return _("Sonic/Devast./Devia.");              break;
-        case Unit_Infantry5:                return _("Soldiers (5)");                     break;
+        case Unit_Infantry5:                return _("Super Infantry Squad");                     break;
         case Unit_Infantry:                 return _("@DUNE.ENG|199#Infantry");            break;
-        case Unit_Troopers5:                return _("Troopers (5)");                     break;
+        case Unit_Troopers5:                return _("Super Heavy Trooper Squad");                     break;
         case Unit_Troopers:                 return _("@DUNE.ENG|201#Troopers");            break;
         case Unit_RocketTrike:              return _("Rocket Trike");                      break;
         case Unit_SonicTrike:               return _("Sonic Trike");                       break;

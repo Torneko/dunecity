@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <map>
 #include "WorfinerySquadSmoke.h"
+#include "Followup538Smoke.h"
 
 inline void runRelease538Smoke() {
     const auto require = [](bool value, const std::string& message) {
@@ -21,6 +22,7 @@ inline void runRelease538Smoke() {
     auto& manager = achievements::AchievementManager::instance();
     for(const std::string mod : {"vanilla", "Tornie", "Jericho", "TornieLite", "JerichoLite"}) {
         require(ModManager::instance().setActiveMod(mod), "mod activation");
+        verifyFollowup538(output.string(), mod);
         std::vector<int> roster;
         for(int h = 0; h < NUM_HOUSES; ++h) if(isCampaignHouseAvailable(static_cast<HOUSETYPE>(h))) roster.push_back(h);
         auto session = coop::CoopCampaignSession::create("release538-" + mod, mod, roster,

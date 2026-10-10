@@ -542,6 +542,15 @@ void StructureBase::destroy() {
                                                 Destroyed2x2Structure_BottomLeft, Destroyed2x2Structure_BottomRight };
     static int DestroyedStructureTiles3x2[] = { Destroyed3x2Structure_TopLeft, Destroyed3x2Structure_TopCenter, Destroyed3x2Structure_TopRight,
                                                 Destroyed3x2Structure_BottomLeft, Destroyed3x2Structure_BottomCenter, Destroyed3x2Structure_BottomRight};
+    static int DestroyedStructureTiles4x2[] = { Destroyed3x2Structure_TopLeft, Destroyed3x2Structure_TopCenter,
+                                                Destroyed3x2Structure_TopCenter, Destroyed3x2Structure_TopRight,
+                                                Destroyed3x2Structure_BottomLeft, Destroyed3x2Structure_BottomCenter,
+                                                Destroyed3x2Structure_BottomCenter, Destroyed3x2Structure_BottomRight };
+    static int DestroyedStructureTiles5x2[] = { Destroyed3x2Structure_TopLeft, Destroyed3x2Structure_TopCenter,
+                                                Destroyed3x2Structure_TopCenter, Destroyed3x2Structure_TopCenter,
+                                                Destroyed3x2Structure_TopRight, Destroyed3x2Structure_BottomLeft,
+                                                Destroyed3x2Structure_BottomCenter, Destroyed3x2Structure_BottomCenter,
+                                                Destroyed3x2Structure_BottomCenter, Destroyed3x2Structure_BottomRight };
     static int DestroyedStructureTiles2x3[] = { Destroyed3x3Structure_TopLeft, Destroyed3x3Structure_TopCenter,
                                                 Destroyed3x3Structure_CenterLeft, Destroyed3x3Structure_CenterCenter,
                                                 Destroyed3x3Structure_BottomLeft, Destroyed3x3Structure_BottomCenter};
@@ -567,6 +576,12 @@ void StructureBase::destroy() {
                 } else if(structureSize.x == 3) {
                     pDestroyedStructureTiles = DestroyedStructureTiles3x2;
                     DestroyedStructureTilesSizeY = 3;
+                } else if(structureSize.x == 4) {
+                    pDestroyedStructureTiles = DestroyedStructureTiles4x2;
+                    DestroyedStructureTilesSizeY = 4;
+                } else if(structureSize.x == 5) {
+                    pDestroyedStructureTiles = DestroyedStructureTiles5x2;
+                    DestroyedStructureTilesSizeY = 5;
                 } else {
                     THROW(std::runtime_error, "StructureBase::destroy(): Invalid structure size");
                 }

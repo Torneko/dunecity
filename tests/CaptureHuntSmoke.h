@@ -7,6 +7,11 @@
 #include <fstream>
 
 struct CaptureHuntGameFixture {
+    static void start(Game& game) { game.initializeGameLoop(); }
+    static void chaos(Game& game, ObjectData& data, Uint32 seed) {
+        game.chaosMode.generate(data, true, seed);
+    }
+    static void resetChaos(Game& game) { game.chaosMode.reset(); }
     static void tick(Game& game) {
         game.processObjects();
         ++game.gameCycleCount;

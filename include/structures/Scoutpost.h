@@ -22,6 +22,8 @@ public:
     void init(int newItemID);
     ~Scoutpost() override;
 
+    bool canBeCaptured() const override { return false; }
+
     bool canAttack(const ObjectBase* object) const override;
     ObjectInterface* getInterfaceContainer() override;
     void setHealth(FixPoint newHealth) override;

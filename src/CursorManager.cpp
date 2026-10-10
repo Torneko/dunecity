@@ -343,10 +343,9 @@ bool CursorManager::canSetCursorMode(int mode, const std::vector<Uint32>& select
 case Game::CursorMode_Attack:
                 if (pObject->isAUnit() && (pObject->getOwner() == pLocalHouse) && pObject->isRespondable() && pObject->canAttack()) {
                     return true;
-                } else if ((pObject->getItemID() == Structure_Palace) &&
-                          ((pObject->getOwner()->getHouseID() == HOUSE_HARKONNEN) || (pObject->getOwner()->getHouseID() == HOUSE_SARDAUKAR))) {
+                } else if (pObject->getItemID() == Structure_Palace && currentGame->canControlHouse(pObject->getOwner())) {
                     Palace* pPalace = static_cast<Palace*>(pObject);
-                    if (pPalace->isSpecialWeaponReady()) {
+                    if (pPalace->isSpecialWeaponReady() && pPalace->usesTargetedSpecialWeapon()) {
                         return true;
                     }
                 }

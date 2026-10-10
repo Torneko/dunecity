@@ -152,7 +152,7 @@ jobs:
           test "${#RPM[@]}" -eq 1
           test "${#TGZ[@]}" -eq 1
           test "${#APPIMAGE[@]}" -eq 1
-          gh release upload "$RELEASE_TAG" "${DEB[@]}" "${RPM[@]}" "${TGZ[@]}" "${APPIMAGE[@]}" --repo "$GITHUB_REPOSITORY"
+          gh release upload "$RELEASE_TAG" "${DEB[@]}" "${RPM[@]}" "${TGZ[@]}" "${APPIMAGE[@]}" --repo "$GITHUB_REPOSITORY" --clobber
           {
             echo "Linux packages built from $RELEASE_TAG and attached to the existing release."
             echo

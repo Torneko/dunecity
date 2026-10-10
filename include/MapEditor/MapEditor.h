@@ -142,6 +142,7 @@ public:
     ~MapEditor();
 
     friend class INIMapEditorLoader; ///< loading INI Maps is done with a INIMapEditorLoader helper object
+    friend struct DoublefineryEditorFixture;
 
     void RunEditor();
 
