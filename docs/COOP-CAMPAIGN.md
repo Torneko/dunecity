@@ -20,7 +20,7 @@ Factions disponibles : 12 dans Tornie et Jericho, 6 dans Tornie Lite et Jericho 
 
 ## Créer et rejoindre une partie
 
-1. Utiliser la **même version 1.0.538** sur les deux PC. Son protocole réseau est la version **7**. La 1.0.536 utilise un autre protocole réseau et ne peut pas rejoindre ce lobby.
+1. Utiliser la **même version 1.0.538** sur les deux PC. Son protocole réseau est la version **9**. La 1.0.536 utilise un autre protocole réseau et ne peut pas rejoindre ce lobby.
 2. Activer la même édition dans le menu **Mods**. Utiliser deux noms de joueur différents.
 3. Ouvrir **Campagne coop**, puis choisir le navigateur LAN ou Internet. L’hôte crée la partie et choisit **Nouvelle campagne**. Le second joueur rejoint sa partie depuis le navigateur ou la connexion par adresse.
 4. Dans le lobby, connecter un invité ou sélectionner une IA au deuxième emplacement, puis choisir les factions. L’hôte peut régler le type et la difficulté de chaque IA adverse. Les factions peuvent être identiques. Les deux joueurs sont alliés ; les places adverses restent contrôlées par l’IA.
