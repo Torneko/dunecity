@@ -1,5 +1,9 @@
 ## Published 1.0.538 follow-up — 2026-10-10
 
+Publication confirmed: release tag source d14895dca2063dacb5ebcbcb98f67a81575f0c6, website 9af05f94036a1f4da958f9d291aea4c0b24514aa. All 28 release asset digests match the local publication files; all nine package download URLs returned HTTP 200. Local website checks: 104; live website checks: 52.
+
+Linux packaging: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38028622609 — success; compiled game code matches the tagged source (only the French guide changed afterward). Pages: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38029333585 — success. Both public languages and the offline ZIP include the exact final sprite.
+
 The existing 1.0.538 release and tag now include the Doublefinery follow-up (native
 80×224 final sprite, network protocol 9, save format 9831). French/English Pages and
 offline downloads are updated together from the recovered gh-pages baseline 2f6ee0b6.

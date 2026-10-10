@@ -1,129 +1,77 @@
 {
   "version": "1.0.538",
-  "status": "published",
+  "revision": "538-followup-r4",
+  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "websiteCommit": "9af05f94036a1f4da958f9d291aea4c0b24514aa",
+  "networkProtocol": 9,
+  "saveVersion": 9831,
   "passed": true,
-  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
-  "websiteCommit": "2f6ee0b62a5d8b4bdf6fe9ed9cd440a848dde8ff",
-  "mergeCommit": "138af9e6a68431b4f571ae06b556e09b29808909",
-  "pullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/10",
-  "validatedAt": "2026-10-09T23:45:37.081551+00:00",
+  "generatedAt": "2026-10-10T06:01:12.669098+00:00",
+  "gameRegressionTestsRerun": false,
+  "status": "published",
   "release": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538",
   "website": "https://torneko.github.io/dunelegacy-tornie/",
   "englishWebsite": "https://torneko.github.io/dunelegacy-tornie/index-en.html",
-  "ci": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37981715769",
-  "ciConclusion": "success",
-  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38005836548",
+  "pullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/11",
+  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38029333585",
   "pagesConclusion": "success",
+  "linuxPackaging": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38028622609",
+  "linuxPackagingConclusion": "success",
+  "localWebsiteChecks": 104,
+  "liveWebsiteChecks": 52,
+  "priorRegressionReport": "Validation-538-Followup-r3.json",
   "packages": [
     {
       "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
-      "bytes": 52621579,
-      "sha256": "dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
-      "bytes": 41513912,
-      "sha256": "f6012912f9021d5f2049d4d20deb6dc413274db15dbd7d62232404e01e1a564d"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
-      "bytes": 41445382,
-      "sha256": "80ff4658c9c219cb612ed6322b257851c5f5826d3565e62a7dee668700aa47be"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
-      "bytes": 41876340,
-      "sha256": "46d2541f5a892c605bfc288fbbdecd02608cead560d0137c102cb3dd64dded61"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
-      "bytes": 33102328,
-      "sha256": "96fde44dbd21f093951039fa564ea35358620e47f471c45d95e0c198cc26fed2"
+      "bytes": 52469211,
+      "sha256": "243ffab5fb019f91afd27c19fd2244b8e54e0be12eeb0c987c756b332fcd398e"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
-      "bytes": 43502072,
-      "sha256": "191b620d6b6c2d09db07882318c4d639caa7f63057042f6053015420e6de1d41"
+      "bytes": 43555320,
+      "sha256": "7e713f7ac67a1010b26813a7a7a8689cd6210b93ac352c8898f8864f8eb6048e"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
+      "bytes": 41554302,
+      "sha256": "ef8b5b4e380e413034f8570f4580c2897a325353f07f55aad935bd257977828c"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
+      "bytes": 41477606,
+      "sha256": "59bb9a8c05cc09404e8979f6ee853618802f00c175546c251afb8664a9536ddf"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
+      "bytes": 41907130,
+      "sha256": "6ee47108e93aa8875722044f3f60734b8765d3822da6039fb65c7066e3e5ff46"
+    },
+    {
+      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
+      "bytes": 33118712,
+      "sha256": "f834264b8dcd792f8ed735da4cce90d1eeaa61e7058c39a8a755b6cb616058a9"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Sources.zip",
-      "bytes": 51785145,
-      "sha256": "4c975126ed57baeaef87f2031f9723920d7dbbc5624a8c673f1f38279ab6f903"
+      "bytes": 51855105,
+      "sha256": "d97aa7c14610047fd7d4009be4cebac157e6a8687f8697e07c9a67f182d469f1"
     },
     {
       "file": "DuneLegacyTornie-PNG-1.0.538.zip",
-      "bytes": 2835224,
-      "sha256": "2f382d2f177db19ecb04d5eb8510b0e7bedd8eb26708158d2694fb452d33e582"
+      "bytes": 2843050,
+      "sha256": "002e1fd26b105178453d33912b3139014e4ec15a79d1db4223808d34f39a0335"
     },
     {
       "file": "DuneLegacyTornie-Site-Local-1.0.538.zip",
-      "bytes": 153875360,
-      "sha256": "4ed9d75ba7a8daab2144b3363afef46127b2e0f5f3bc6bd49c49c8c02257903d"
+      "bytes": 303691389,
+      "sha256": "61ad912979f89dd84687263614c11ce3a6c2018f3546662573c5937c2ac851ca"
     }
   ],
-  "validatedReleaseAssets": 20,
-  "githubAssetDigestsMatch": true,
-  "publicDownloadHeads": 20,
-  "browserChecks": {
-    "local": 180,
-    "localFeatures": 198,
-    "live": 60,
-    "liveFeatures": 66,
-    "languages": [
-      "fr",
-      "en"
-    ],
-    "views": [
-      "desktop",
-      "mobile"
-    ],
-    "errors": [],
-    "versionLabels": 16
-  },
-  "publicDocumentsVerified": 4,
-  "newPngsVerifiedExactly": 8,
-  "windowsRuntimeFullRuns": 3,
-  "campaignScenariosPerRun": 1210,
-  "engineTests": {
-    "cases": 122,
-    "linuxAssertions": 7376,
-    "Windows": true,
-    "Linux": true
-  },
-  "mintCompatibility": {
-    "included": true,
-    "testHost": "Ubuntu 22.04.5 / WSL, Linux 6.18.33.2",
-    "frEnRuntimePassed": true,
-    "pulseAudioPlaybackPassed": true,
-    "targetMachineStillNeedsTesting": true
-  },
-  "userConfirmedTwoComputerCoop": true,
-  "networkProtocol": 7,
-  "saveVersion": 9829,
-  "duplicateTagBuild": {
-    "run": 37984540788,
-    "versionGate": "success",
-    "conclusion": "cancelled",
-    "reason": "Preserve audited artifacts from the successful PR build of the same tagged source"
-  },
-  "remainingManualChecks": [
-    "Mint 22.3 / kernel 7.0 on the friend computer"
+  "pendingHumanChecks": [
+    "Linux Mint 22.3 / kernel 7.0 on affected PC"
   ],
-  "publicationReports": [
-    "Publication-Validation-1.0.538.json",
-    "Website-Live-Validation-1.0.538.json",
-    "Website-Live-Features-Validation-1.0.538.json",
-    "Live-Downloads-Validation-1.0.538.json",
-    "Website-Version-Label-Validation-1.0.538.json"
-  ],
-  "previousWebsiteCommit": "381929f458847f85b65fd847f440318a4fa45cbb",
-  "websiteLabelCorrection": {
-    "passed": true,
-    "description": "Remove six obsolete LOCAL labels from the French/English header, sidebar and search description",
-    "websiteCommit": "2f6ee0b62a5d8b4bdf6fe9ed9cd440a848dde8ff",
-    "offlineZipUpdated": true,
-    "gamePackagesUnchanged": true,
-    "browserChecks": 16
-  },
-  "totalReleaseAssetsIncludingReports": 26
+  "releasePackageDigestsVerified": true,
+  "liveDownloadsVerified": true,
+  "liveDownloadCount": 9,
+  "tagTargetVerified": true
 }

@@ -1,204 +1,149 @@
 {
   "version": "1.0.538",
-  "sourceCommit": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
-  "sourceRevision": "c39a276e1bb4a8749b055d6283df3e067dec7e71",
-  "localPreparation": false,
-  "passed": true,
-  "status": "Validated release packages; public availability recorded in Publication-Validation-1.0.538.json",
-  "networkProtocol": 7,
-  "saveVersion": 9829,
-  "ci": {
-    "url": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37981715769",
-    "run": 37981715769,
-    "conclusion": "success",
-    "jobs": [
-      {
-        "name": "build-windows",
-        "conclusion": "success"
-      },
-      {
-        "name": "build-linux",
-        "conclusion": "success"
-      },
-      {
-        "name": "test-linux",
-        "conclusion": "success"
-      },
-      {
-        "name": "validate-french-locale",
-        "conclusion": "success"
-      }
+  "revision": "538-followup-r4",
+  "published": true,
+  "readyForHumanPlaytest": true,
+  "generatedAt": "2026-10-10T05:32:22.379115+00:00",
+  "change": "Final user-supplied Doublefinery artwork",
+  "sprite": {
+    "size": [
+      80,
+      224
     ],
-    "tagVersionCheck": {
-      "url": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/37984540788",
-      "passed": true,
-      "duplicateCompilationCancelled": true
-    }
-  },
-  "unitTests": {
-    "cases": 122,
-    "linuxAssertions": 7376,
-    "Windows": true,
-    "Linux": true
-  },
-  "windowsRuntime": {
-    "passed": true,
-    "fullRuns": 3,
-    "campaignScenariosPerRun": 1210,
-    "installedLanguages": [
-      "fr",
-      "en"
+    "frameSize": [
+      80,
+      32
     ],
-    "achievementIntegration": true,
-    "ciLogSha256": "1e523a8bdc2d874e8fb8f87e446e9275a54f61b445d4c4e017814911b9bd718f"
+    "frames": 7,
+    "footprint": [
+      5,
+      2
+    ],
+    "sha256": "5022024249207848bf9db839af8fd653be48e912cfba743253014b4d09fca68f",
+    "originalBytesPreserved": true,
+    "resized": false
   },
-  "appImageRuntime": [
-    {
-      "platform": "Mint compatibility AppImage",
-      "language": "fr",
-      "passed": true,
-      "optionEditions": 5,
-      "barracksEditions": 4,
-      "worfineryEditions": 4,
-      "logSha256": "e720111a926c9e9bbf251ab568b96743c7da57e72aa028d6665758ce00759cff"
-    },
-    {
-      "platform": "CI standard AppImage",
-      "language": "fr",
-      "passed": true,
-      "scope": "Bounded normal headless startup; standard binary omits test-only switches",
-      "logSha256": "180a18bc7d6270f99782c11e7c8f50bf22834536b21d40b5949c3a291a8fd3f5"
-    },
-    {
-      "platform": "Mint compatibility AppImage",
-      "language": "en",
-      "passed": true,
-      "optionEditions": 5,
-      "barracksEditions": 4,
-      "worfineryEditions": 4,
-      "logSha256": "8bd1aad3d6fef7c2c29c8a0c460f5a58cd5d9a90962d1e83e44957c09a15ee61"
-    },
-    {
-      "platform": "CI standard AppImage",
-      "language": "en",
-      "passed": true,
-      "scope": "Bounded normal headless startup; standard binary omits test-only switches",
-      "logSha256": "f1ed5304bc41c8a20f915e8530d3abb364fe2a11868b31e080fba2260b1f39c9"
-    }
+  "mods": [
+    "Tornie",
+    "Jericho",
+    "TornieLite",
+    "JerichoLite"
   ],
-  "audio": {
-    "passed": true,
-    "driver": "pulseaudio",
-    "vocFiles": 2,
-    "logSha256": "e4e8964d07f341475f57652c72f77e72507f6dc1e84ce4cb657f5f6471097827",
-    "host": "Ubuntu 22.04.5 / WSL, Linux 6.18.33.2"
-  },
-  "website": {
-    "passed": true,
-    "languages": [
-      "fr",
-      "en"
-    ],
-    "generalBrowserChecks": 180,
-    "featureBrowserChecks": 198,
-    "views": [
-      "mobile",
-      "desktop"
-    ],
-    "sources": [
-      "working files",
-      "local HTTP",
-      "offline package"
-    ],
-    "pngCount": 119,
-    "achievementCount": 67,
-    "errors": []
-  },
-  "assetIntegrity": {
-    "passed": true,
-    "exactModFiles": 3163,
-    "coopMaps": 405,
-    "exactPngSourceReferences": 273,
-    "derivedPreviewReferences": 8
-  },
-  "productionPortraits": {
-    "passed": true,
-    "variants": [
-      1,
-      3,
-      5
-    ],
-    "builders": [
-      "Barracks",
-      "WOR",
-      "Worfinery"
-    ],
-    "mods": [
-      "Tornie",
-      "Jericho",
-      "TornieLite",
-      "JerichoLite"
-    ],
-    "priceText": "white",
-    "selectedUnitPortraitsUnchanged": true
-  },
-  "worfineryDisplayOrder": {
-    "passed": true,
-    "harvesterLast": true,
-    "productionQueuePreserved": true,
-    "saveLoadVerified": true
-  },
-  "userValidation": {
-    "date": "2026-10-09",
-    "confirmedBy": "Tornie",
-    "twoComputerCoop": true,
-    "publicationAuthorized": true,
-    "feedback": "c’est prêt pour la publication cela fonctionne a merveille maintenant <3"
-  },
-  "remainingManualChecks": [
-    "Mint 22.3 / kernel 7.0 on the friend computer"
+  "assetCopiesExact": true,
+  "archiveSpriteCopiesExact": true,
+  "siteGalleryUpdated": [
+    "fr",
+    "en"
   ],
-  "packages": [
+  "pngDownloadsUpdated": [
+    "fr",
+    "en"
+  ],
+  "networkProtocol": 9,
+  "saveVersion": 9831,
+  "gameplayChanged": false,
+  "regressionTestsRerun": false,
+  "regressionTestReason": "User confirmed the rest works and requested no retesting",
+  "priorRegressionReport": "Validation-538-Followup-r3.json",
+  "binariesRebuilt": true,
+  "binarySha256": {
+    "windows": "792dff6cf2070ff09d7ba9fa6a332e14f6dd0fb69941c152ca2d41b53cd60a26",
+    "linux": "fecc859d560afa883fd5a4e7ce0d3ff6adf76d9587cebe448b30b7612e948192"
+  },
+  "artifacts": [
     {
       "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
-      "bytes": 52621579,
-      "sha256": "dce9fc42e20178218d17bf46b161eac6cc7d1a4fddeabb6cdfe488478cd3fd80"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
-      "bytes": 41513912,
-      "sha256": "f6012912f9021d5f2049d4d20deb6dc413274db15dbd7d62232404e01e1a564d"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
-      "bytes": 41445382,
-      "sha256": "80ff4658c9c219cb612ed6322b257851c5f5826d3565e62a7dee668700aa47be"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
-      "bytes": 41876340,
-      "sha256": "46d2541f5a892c605bfc288fbbdecd02608cead560d0137c102cb3dd64dded61"
-    },
-    {
-      "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
-      "bytes": 33102328,
-      "sha256": "96fde44dbd21f093951039fa564ea35358620e47f471c45d95e0c198cc26fed2"
+      "bytes": 52469211,
+      "sha256": "243ffab5fb019f91afd27c19fd2244b8e54e0be12eeb0c987c756b332fcd398e"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
-      "bytes": 43502072,
-      "sha256": "191b620d6b6c2d09db07882318c4d639caa7f63057042f6053015420e6de1d41"
+      "bytes": 43555320,
+      "sha256": "7e713f7ac67a1010b26813a7a7a8689cd6210b93ac352c8898f8864f8eb6048e"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Sources.zip",
-      "bytes": 51785145,
-      "sha256": "4c975126ed57baeaef87f2031f9723920d7dbbc5624a8c673f1f38279ab6f903"
-    },
-    {
-      "file": "DuneLegacyTornie-PNG-1.0.538.zip",
-      "bytes": 2835224,
-      "sha256": "2f382d2f177db19ecb04d5eb8510b0e7bedd8eb26708158d2694fb452d33e582"
+      "bytes": 51855105,
+      "sha256": "d97aa7c14610047fd7d4009be4cebac157e6a8687f8697e07c9a67f182d469f1"
     }
   ],
-  "offlineSiteArchive": "DuneLegacyTornie-Site-Local-1.0.538.zip"
+  "pendingHumanChecks": [
+    "Linux Mint 22.3 / kernel 7.0 on the affected PC"
+  ],
+  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "packageIntegrity": {
+    "version": "1.0.538",
+    "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+    "revision": "538-followup-r4",
+    "passed": true,
+    "generatedAt": "2026-10-10T05:54:31.595492+00:00",
+    "networkProtocol": 9,
+    "saveVersion": 9831,
+    "checks": [
+      {
+        "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
+        "zipCRC": true,
+        "duplicateEntries": false,
+        "fourSpritesExact": true,
+        "allModChecksums": true
+      },
+      {
+        "file": "DuneLegacyTornie-1.0.538-Sources.zip",
+        "zipCRC": true,
+        "duplicateEntries": false,
+        "fourSpritesExact": true,
+        "allModChecksums": true
+      },
+      {
+        "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
+        "fourSpritesExact": true
+      },
+      {
+        "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
+        "fourSpritesExact": true
+      },
+      {
+        "file": "DuneLegacyTornie-PNG-1.0.538.zip",
+        "pngCount": 121,
+        "spriteExact": true
+      },
+      {
+        "linuxCICommit": "4eea41824b762c92ebe0cb869c1aa81da3967a53",
+        "releaseCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+        "onlyDocumentationDiff": [
+          "docs/COOP-CAMPAIGN.md"
+        ]
+      }
+    ],
+    "gameRegressionTestsRerun": false,
+    "priorRegressionReport": "Validation-538-Followup-r3.json",
+    "linuxPackagingRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38028622609"
+  },
+  "linuxContentIntegrity": {
+    "version": "1.0.538",
+    "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+    "passed": true,
+    "generatedAt": "2026-10-10T05:55:22.577638+00:00",
+    "checks": [
+      {
+        "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
+        "fourSpritesExact": true,
+        "offset": 944632,
+        "gameLaunched": false
+      },
+      {
+        "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
+        "fourSpritesExact": true,
+        "offset": 944632,
+        "gameLaunched": false
+      },
+      {
+        "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
+        "fourSpritesExact": true
+      }
+    ],
+    "gameTestsRerun": false,
+    "gameLaunched": false,
+    "mint22_3Kernel7DirectTest": false
+  }
 }
