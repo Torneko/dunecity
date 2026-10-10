@@ -1,21 +1,21 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r4",
-  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
-  "websiteCommit": "9af05f94036a1f4da958f9d291aea4c0b24514aa",
+  "revision": "538-followup-r5",
+  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+  "websiteCommit": "d0901d65dd9710de37fa51f95fb2ac6ddce43972",
   "networkProtocol": 9,
   "saveVersion": 9831,
   "passed": true,
-  "generatedAt": "2026-10-10T06:01:12.669098+00:00",
+  "generatedAt": "2026-10-10T16:44:11.052979+00:00",
   "gameRegressionTestsRerun": false,
   "status": "published",
   "release": "https://github.com/Torneko/dunelegacy-tornie/releases/tag/v1.0.538",
   "website": "https://torneko.github.io/dunelegacy-tornie/",
   "englishWebsite": "https://torneko.github.io/dunelegacy-tornie/index-en.html",
   "pullRequest": "https://github.com/Torneko/dunelegacy-tornie/pull/11",
-  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38029333585",
+  "pages": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068770242",
   "pagesConclusion": "success",
-  "linuxPackaging": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38028622609",
+  "linuxPackaging": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068492379",
   "linuxPackagingConclusion": "success",
   "localWebsiteChecks": 104,
   "liveWebsiteChecks": 52,
@@ -23,48 +23,48 @@
   "packages": [
     {
       "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
-      "bytes": 52469211,
-      "sha256": "243ffab5fb019f91afd27c19fd2244b8e54e0be12eeb0c987c756b332fcd398e"
+      "bytes": 52469354,
+      "sha256": "1eaa00f7b563757661f3f5b6954ac6994ceb22da08ad074ed72978d43bb87f73"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
-      "bytes": 43555320,
-      "sha256": "7e713f7ac67a1010b26813a7a7a8689cd6210b93ac352c8898f8864f8eb6048e"
+      "bytes": 43559416,
+      "sha256": "7294259be1fd776edec3121bc0d902189991c4853cb8686f3d80492b730f4eaf"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x64.deb",
-      "bytes": 41554302,
-      "sha256": "ef8b5b4e380e413034f8570f4580c2897a325353f07f55aad935bd257977828c"
+      "bytes": 41554546,
+      "sha256": "2a3caa25e1f3caf4e044111b16f54c712db6b5f4319a8f53f03d0ff7fc51a41a"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x64.rpm",
-      "bytes": 41477606,
-      "sha256": "59bb9a8c05cc09404e8979f6ee853618802f00c175546c251afb8664a9536ddf"
+      "bytes": 41477307,
+      "sha256": "ec156ca54f21633c4b2f37049f152c7ae70a546ade3a2f068e1884420c2c4dcf"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x64.tar.gz",
-      "bytes": 41907130,
-      "sha256": "6ee47108e93aa8875722044f3f60734b8765d3822da6039fb65c7066e3e5ff46"
+      "bytes": 41907445,
+      "sha256": "8931c87bc34961f61f357204fe4ac6ce63e316bf389098732df904965f0ab849"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-x86_64.AppImage",
       "bytes": 33118712,
-      "sha256": "f834264b8dcd792f8ed735da4cce90d1eeaa61e7058c39a8a755b6cb616058a9"
+      "sha256": "223b2ec46cc5eb9772be35dce5dcb2eb6ca0f77fd67747c19988554c4dc2d096"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Sources.zip",
-      "bytes": 51855105,
-      "sha256": "d97aa7c14610047fd7d4009be4cebac157e6a8687f8697e07c9a67f182d469f1"
+      "bytes": 51854159,
+      "sha256": "d35d756b0b32c6118f6dbe5347f53a268763d99adad8a238089f05867b4b2958"
     },
     {
       "file": "DuneLegacyTornie-PNG-1.0.538.zip",
-      "bytes": 2843050,
-      "sha256": "002e1fd26b105178453d33912b3139014e4ec15a79d1db4223808d34f39a0335"
+      "bytes": 2842970,
+      "sha256": "88666242b007c38c41e1ba0d3360f53085abcb77f509bc2bfdaca896df317213"
     },
     {
       "file": "DuneLegacyTornie-Site-Local-1.0.538.zip",
-      "bytes": 303691389,
-      "sha256": "61ad912979f89dd84687263614c11ce3a6c2018f3546662573c5937c2ac851ca"
+      "bytes": 303693134,
+      "sha256": "6765768c35b911e60c2ad12d6fdb460427ab6696264649f484075a6571cb46f8"
     }
   ],
   "pendingHumanChecks": [

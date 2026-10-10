@@ -1,5 +1,9 @@
 ## Doublefinery artwork revision r5 — 2026-10-10
 
+Publication verified: tagged source `d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be`, website `d0901d65dd9710de37fa51f95fb2ac6ddce43972`. The revised user-supplied sprite is byte-identical in all four mods, all game packages, both PNG archives and the live gallery. All 28 release asset digests match local files; all nine package URLs returned HTTP 200. Game regression suites were not rerun.
+
+Linux packaging: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068492379 — success. Pages: https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068770242 — success.
+
 Artwork revision r5: the corrected Doublefinery sheet supplied on October 10 is copied byte-for-byte into all four mods. Native dimensions: 80 × 224 pixels (seven 80 × 32 frames), without resizing. The existing 1.0.538 packages and FR/EN website are refreshed with this image.
 
 ## Published 1.0.538 follow-up — 2026-10-10
