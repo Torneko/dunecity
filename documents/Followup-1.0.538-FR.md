@@ -1,5 +1,7 @@
 # Dune Legacy Tornie 1.0.538
 
+Révision graphique r5 : la planche Doublefinery corrigée fournie le 10 octobre est copiée à l’identique dans les quatre mods. Dimensions natives : 80 × 224 pixels (sept images de 80 × 32), sans redimensionnement. Les paquets de la 1.0.538 et le site FR/EN sont actualisés avec cette image.
+
 ## Correctif intégré à la 1.0.538 — 10 octobre 2026
 
 La 1.0.538 publiée est remplacée par ce correctif, sans changer de numéro de version.

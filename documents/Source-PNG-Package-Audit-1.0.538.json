@@ -1,9 +1,9 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r4",
-  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "revision": "538-followup-r5",
+  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
   "passed": true,
-  "generatedAt": "2026-10-10T05:58:35.563590+00:00",
+  "generatedAt": "2026-10-10T16:42:39.266982+00:00",
   "networkProtocol": 9,
   "saveVersion": 9831,
   "gameRegressionTestsRerun": false,

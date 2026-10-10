@@ -1,7 +1,7 @@
 {
   "project": "Dune Legacy Tornie",
   "version": "1.0.538",
-  "revision": "ed14895d",
+  "revision": "d29b80cb",
   "localPreparation": false,
   "pngCount": 121,
   "files": [
@@ -2554,7 +2554,7 @@
       "width": 80,
       "height": 224,
       "transparent": false,
-      "sha256": "5022024249207848bf9db839af8fd653be48e912cfba743253014b4d09fca68f",
+      "sha256": "03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc",
       "sources": [
         "mods/Tornie/data/Doublefinery.png",
         "mods/TornieLite/data/Doublefinery.png",
@@ -2570,5 +2570,6 @@
       "url": "assets/png/03_Batiments/Doublefinery.png"
     }
   ],
-  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6"
+  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+  "artworkRevision": "538-followup-r5"
 }

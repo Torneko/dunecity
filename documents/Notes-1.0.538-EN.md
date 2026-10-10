@@ -1,5 +1,7 @@
 # Dune Legacy Tornie 1.0.538
 
+Artwork revision r5: the corrected Doublefinery sheet supplied on October 10 is copied byte-for-byte into all four mods. Native dimensions: 80 × 224 pixels (seven 80 × 32 frames), without resizing. The existing 1.0.538 packages and FR/EN website are refreshed with this image.
+
 ## Follow-up included in 1.0.538 — October 10, 2026
 
 The published 1.0.538 packages are replaced by this patch without a version bump.

@@ -1,10 +1,10 @@
 {
   "version": "1.0.538",
-  "revision": "538-followup-r4",
+  "revision": "538-followup-r5",
   "published": true,
   "readyForHumanPlaytest": true,
-  "generatedAt": "2026-10-10T05:32:22.379115+00:00",
-  "change": "Final user-supplied Doublefinery artwork",
+  "generatedAt": "2026-10-10T16:39:13.299760+00:00",
+  "change": "User supplied corrected Doublefinery artwork",
   "sprite": {
     "size": [
       80,
@@ -19,7 +19,7 @@
       5,
       2
     ],
-    "sha256": "5022024249207848bf9db839af8fd653be48e912cfba743253014b4d09fca68f",
+    "sha256": "03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc",
     "originalBytesPreserved": true,
     "resized": false
   },
@@ -45,7 +45,7 @@
   "regressionTestsRerun": false,
   "regressionTestReason": "User confirmed the rest works and requested no retesting",
   "priorRegressionReport": "Validation-538-Followup-r3.json",
-  "binariesRebuilt": true,
+  "binariesRebuilt": false,
   "binarySha256": {
     "windows": "792dff6cf2070ff09d7ba9fa6a332e14f6dd0fb69941c152ca2d41b53cd60a26",
     "linux": "fecc859d560afa883fd5a4e7ce0d3ff6adf76d9587cebe448b30b7612e948192"
@@ -53,30 +53,32 @@
   "artifacts": [
     {
       "file": "DuneLegacyTornie-1.0.538-Windows-x64.zip",
-      "bytes": 52469211,
-      "sha256": "243ffab5fb019f91afd27c19fd2244b8e54e0be12eeb0c987c756b332fcd398e"
+      "bytes": 52469354,
+      "sha256": "1eaa00f7b563757661f3f5b6954ac6994ceb22da08ad074ed72978d43bb87f73"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
-      "bytes": 43555320,
-      "sha256": "7e713f7ac67a1010b26813a7a7a8689cd6210b93ac352c8898f8864f8eb6048e"
+      "bytes": 43559416,
+      "sha256": "7294259be1fd776edec3121bc0d902189991c4853cb8686f3d80492b730f4eaf"
     },
     {
       "file": "DuneLegacyTornie-1.0.538-Sources.zip",
-      "bytes": 51855105,
-      "sha256": "d97aa7c14610047fd7d4009be4cebac157e6a8687f8697e07c9a67f182d469f1"
+      "bytes": 51854159,
+      "sha256": "d35d756b0b32c6118f6dbe5347f53a268763d99adad8a238089f05867b4b2958"
     }
   ],
   "pendingHumanChecks": [
     "Linux Mint 22.3 / kernel 7.0 on the affected PC"
   ],
-  "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+  "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+  "binaryRecompiled": false,
+  "gameRegressionTestsRerun": false,
   "packageIntegrity": {
     "version": "1.0.538",
-    "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
-    "revision": "538-followup-r4",
+    "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+    "revision": "538-followup-r5",
     "passed": true,
-    "generatedAt": "2026-10-10T05:54:31.595492+00:00",
+    "generatedAt": "2026-10-10T16:42:02.778580+00:00",
     "networkProtocol": 9,
     "saveVersion": 9831,
     "checks": [
@@ -108,22 +110,20 @@
         "spriteExact": true
       },
       {
-        "linuxCICommit": "4eea41824b762c92ebe0cb869c1aa81da3967a53",
-        "releaseCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
-        "onlyDocumentationDiff": [
-          "docs/COOP-CAMPAIGN.md"
-        ]
+        "linuxCICommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+        "releaseCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
+        "exactSourceMatch": true
       }
     ],
     "gameRegressionTestsRerun": false,
     "priorRegressionReport": "Validation-538-Followup-r3.json",
-    "linuxPackagingRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38028622609"
+    "linuxPackagingRun": "https://github.com/Torneko/dunelegacy-tornie/actions/runs/38068492379"
   },
   "linuxContentIntegrity": {
     "version": "1.0.538",
-    "sourceCommit": "ed14895dca2063dacb5ebcbcb98f67a81575f0c6",
+    "sourceCommit": "d29b80cb5579d99c9cf40eb3bf9f2a86c9fc13be",
     "passed": true,
-    "generatedAt": "2026-10-10T05:55:22.577638+00:00",
+    "generatedAt": "2026-10-10T16:42:05.052028+00:00",
     "checks": [
       {
         "file": "DuneLegacyTornie-1.0.538-Linux-Mint-Compatible.AppImage",
