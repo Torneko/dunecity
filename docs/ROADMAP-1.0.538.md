@@ -48,3 +48,6 @@ Le rapport `Validation-538-Followup.json` accompagne le paquet local et détaill
 Correction des dimensions : 5 × 2 cases, dix cases occupées, collisions, sélection, placement et ruines cohérents. La nouvelle planche de 80 × 224 remplit les frames de 80 × 32 sans redimensionnement ni marge ajoutée. Protocole 9 et nouvelles sauvegardes 9831. Les sauvegardes publiées restent lisibles. Les prototypes 9830 contenant une Doublefinery sont étendus si la cinquième colonne est libre ; sinon le chargement est refusé sans écraser les objets ni modifier le fichier original. Libérer cette colonne avec le précédent build de test permet de reprendre la sauvegarde.
 
 Révision graphique r4 : planche finale de Tornie appliquée aux quatre mods et au site local. Règles, protocole 9 et format 9831 conservés. Les tests du reste du jeu ne sont pas relancés à la demande de Tornie.
+
+
+Révision graphique r5 : la planche Doublefinery corrigée fournie le 10 octobre est copiée à l’identique dans les quatre mods. Dimensions natives : 80 × 224 pixels (sept images de 80 × 32), sans redimensionnement. Les paquets de la 1.0.538 et le site FR/EN sont actualisés avec cette image.

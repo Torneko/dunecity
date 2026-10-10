@@ -28,3 +28,5 @@ Tornie content is confined to mods/Tornie/**. The active-mod file search path co
 Doublefinery.png (original sprite strip) and DoublefineryIcon.png (portrait)
 were supplied by Tornie for this project. The original PNG bytes are preserved.
 The corrected 80×224 sprite strip was supplied by Tornie on 2026-10-10. Its seven 80×32 frames fill the approved 5×2 footprint without resizing or added padding.
+
+Doublefinery artwork revision r5: Tornie supplied the corrected 80x224 indexed PNG on 2026-10-10 (SHA256 03316ca67726b6c693e9cc4eac80256be72f5e04c8356a1008b9e724cc202cdc). Copied byte-for-byte; seven native 80x32 frames, no resizing.
